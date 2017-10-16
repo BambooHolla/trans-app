@@ -1,0 +1,57 @@
+<div class="warpper">
+  <!--<div class="customizedSlides">-->
+  <!--<div *ngFor="let cardInfo of originData">-->
+  <div class="cards">
+
+    <!--先写两层背景,之后实现了滚动效果后删-->
+    <div class="bgCard bg-2"></div>
+    <div class="bgCard bg-1"></div>
+
+    <div #backCard class="infoCard backCard">
+      <div class="infoTitle">{{backCardInfo.name}}</div>
+      <div class="infoTime">{{backCardInfo.dataTime}}</div>
+      <div class="infoKeys">
+        <div class="circle">
+          <div class="content">
+            <div class="number">{{backCardInfo.average}}</div>
+            <div class="description">均价</div>
+          </div>
+        </div>
+        <div class="circle">
+          <div class="content">
+            <div class="number">{{backCardInfo.shares}}</div>
+            <div class="description">数量</div>
+          </div>
+        </div>
+      </div>
+      <div class="infoTag">{{backCardInfo.bOs}}</div>
+    </div>
+
+    <div #frontCard class="infoCard">
+      <div class="infoTitle">{{cardInfo.name}}</div>
+      <div class="infoTime">{{cardInfo.dataTime}}</div>
+      <div class="infoKeys">
+        <div class="circle">
+          <div class="content">
+            <div class="number">{{cardInfo.average}}</div>
+            <div class="description">均价</div>
+          </div>
+        </div>
+        <div class="circle">
+          <div class="content">
+            <div class="number">{{cardInfo.shares}}</div>
+            <div class="description">数量</div>
+          </div>
+        </div>
+      </div>
+      <div class="infoTag">{{cardInfo.bOs}}</div>
+    </div>
+  </div>
+  <div (touchstart)="touchstartFun($event)" 
+       (touchmove)="touchmoveFun($event)" 
+       (touchend)="touchendFun($event)" class="mask">
+  </div>
+
+  <!--</div>-->
+  <!--</div>-->
+</div>

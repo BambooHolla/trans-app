@@ -1,0 +1,17 @@
+<ion-menu [content]="tabRef" id="menu1">
+  <ion-header>
+    <ion-toolbar color="secondary">
+      <ion-title>Menu 1</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content>
+    <ion-list>
+      <button full ion-item (click)="selectTab(0)">首页</button>
+      <button full ion-item (click)="selectTab(1)">待办事项</button>
+      <button full ion-item (click)="selectTab(2)">Contact</button>
+      <button full ion-item (click)="selectTab(3)">提示</button>
+      <button full ion-item (click)="selectTab(4)">编辑器</button>
+      <button full ion-item detail-none (click)="logout()">安全退出</button>
+    </ion-list>
+  </ion-content>
+</ion-menu>

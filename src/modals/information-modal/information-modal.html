@@ -1,0 +1,23 @@
+<ion-header>
+    <ion-navbar >
+        <ion-title>{{params.data.title}}</ion-title>
+    </ion-navbar>
+</ion-header>
+
+<ion-content padding class="bg-in" >
+    <div>
+        <!--<ion-label color="primary">{{character.nameFirst}}</ion-label>-->
+        <div [innerHTML]="params.data.agreementFirst" class="agreement"></div>
+
+    </div>
+
+        <div class="first"></div>
+        <div class="second" (click)="close()">
+            <ion-icon name="md-close-circle"  style="font-size: 4rem;"></ion-icon>
+        </div>
+        <div class="third"></div>
+</ion-content>
+
+<ion-footer>
+
+</ion-footer>

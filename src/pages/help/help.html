@@ -1,0 +1,40 @@
+<ion-header>
+  <ion-navbar>
+  </ion-navbar>
+</ion-header>
+<ion-content no-bounce class="bg-in content">
+  <form [formGroup]="HelpForm" novalidate>
+    <div class="top-banner">
+      <img class="sofaIcon" src="assets/images/test/007.jpg" />
+      <span class="help-tip">Help</span>
+    </div>
+    <ion-item>
+      <ion-textarea formControlName="helpDetail" placeholder="请详细描述您的问题和建议，我们会及时跟进与解决(可添加相关照片）" maxlength="300" required></ion-textarea>
+    </ion-item>
+    <div class="photo-container">
+
+      <div class="photo-upload" *ngFor="let imageData of images">
+        <div class="mask" [style.backgroundImage]="imageData.image">
+        </div>
+      </div>
+
+      <div *ngIf="images.length < 4 " class="photo-upload">
+        <div class="mask">
+          <div class="tab">
+          </div>
+        </div>
+        <div class="mask">
+          <div class="tab" (click)="uploadImage()">
+            <div class="cell">
+              <ion-icon name="add" class="opt" color="primary"></ion-icon>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <div class="input-container">
+      <button ion-button round full clear-dark color="important" [disabled]="HelpForm.invalid" type="submit" (click)="doSubmit()">提交</button>
+    </div>
+  </form>
+</ion-content>

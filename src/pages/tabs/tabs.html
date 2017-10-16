@@ -1,0 +1,30 @@
+<!-- <component-menu [tabRef]="maintabs" (selectTabEmitter)="selectTab($event)"></component-menu> -->
+<!-- <component-menu (updateNumberI)="selectTab($event)"></component-menu> -->
+<!-- <ion-menu [content]="maintabs" id="menu1">
+  <bn-menu (selectTabEmitter)="selectTab($event)"></bn-menu>
+</ion-menu> -->
+
+<!-- <ion-menu [content]="maintabs" side="right" id="menu2">
+  <ion-header>
+    <ion-toolbar color="secondary">
+      <ion-title>Right Menu</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content>
+    <ion-list>
+      <ion-item>Menu2</ion-item>
+      <ion-item menuClose detail-none>Close Menu</ion-item>
+    </ion-list>ionic serve
+  </ion-content>
+</ion-menu> -->
+
+<ion-tabs #maintabs class="bg-in bg-light">
+  <ion-tab [root]="optionalRoot" tabTitle="持仓" tabIcon="optional" #optionalTab></ion-tab>
+  <ion-tab [root]="quotationsPageRoot" tabTitle="行情" tabIcon="quotations"></ion-tab>
+  <ion-tab [root]="infoTabsRoot" tabTitle="资讯" tabIcon="infos"></ion-tab>
+  <!-- tabsHideOnSubPages 不会对 Tab 页面起作用，而是对于在 Tab 页面中打开的子页面起作用 -->
+  <ion-tab [root]="homeRoot" tabTitle="我的" tabIcon="mine"></ion-tab>
+
+  <!-- <ion-tab [root]="editorRoot" tabTitle="编辑器" show="false"></ion-tab> -->
+
+</ion-tabs>

@@ -1,0 +1,189 @@
+<ion-header>
+	<ion-navbar>
+		<ion-title>{{(_baseData$ | async)?.name}}</ion-title>
+		<ion-buttons end class="hdr" [navPush]="tradeInterfacePage" [navParams]="stockCodeParams">
+			<button ion-button icon-only>
+				<ion-icon name="ios-more"></ion-icon>
+			</button>
+		</ion-buttons>
+	</ion-navbar>
+</ion-header>
+
+<ion-content no-bounce class="bg-in home-contain">
+	<ion-grid class="stsvg" >
+		<ion-row >
+			<ion-col col-6>
+				<svg class="circle-svg" [ngClass]="buyCircleClass" viewBox="0,0,200,200">
+					<path class="svg-path" d='M 186 146 A 96 96 0 1 0 14 146' fill='none' stroke-width='8' stroke-linecap='round'/>
+				</svg>
+				<div class="svgcont" (click)="quickTrade('buy')" >
+					<div >买</div>
+					<p id="buysum">{{buyTotalAmount | numberUnitFormat}}</p>
+					<span>可买数量</span>
+					<label id="buynum">{{buyTotalQuantity | numberFilter}}</label>
+				</div>
+			</ion-col>
+			<ion-col col-6>
+				<svg class="circle-svg" [ngClass]="saleCircleClass" viewBox="0,0,200,200">
+					<path class="svg-path" d='M 186 146 A 96 96 0 1 0 14 146' fill='none' stroke-width='8' stroke-linecap='round'/>
+				</svg>
+				<div class="svgcont" (click)="quickTrade('sale')" >
+					<div>卖</div>
+					<p id="salesum">{{saleTotalAmount | numberUnitFormat}}</p>
+					<span>可卖数量</span>
+					<label id="salenum">{{saleTotalQuantity | numberFilter}}</label>
+				</div>
+			</ion-col>
+		</ion-row>
+	</ion-grid>
+	<div class="stnum">
+		<ion-scroll scrollX="true" class="stonums">
+			<ion-card *ngFor="let card of cards; let i = index;" (click)="buySaleActiveIndex.next(i)">
+				<ion-card-content><span [class.active]="(buySaleActiveIndex | async) === i">{{card}}</span></ion-card-content>
+			</ion-card>
+		</ion-scroll>
+	</div>
+	<div class="quotitle">
+		<h3 class="{{showData?.changeValue | riseOrFall}}">{{showData?.latestPrice | number:'.2-2' | numberFilter}}<span class="datetime-info">{{showData?.datetime}}</span></h3>
+		<ion-grid class="child-span-padding-left-1">
+			<ion-row>
+				<ion-col col-2 class="small-font">
+					<div class="{{showData?.changeValue | riseOrFall}}">{{showData?.changeValue | number:'.2-2' | positiveSign}}</div>
+					<div class="{{showData?.changeValue | riseOrFall}}">{{showData?.changeRate | percent:'.2-2' | positiveSign}}</div>
+				</ion-col>
+				<ion-col col-3>
+					<div>最高<span class="{{(showData?.maxPrice && showData?.maxPrice - showData?.yesterdayPrice) | riseOrFall}}">{{showData?.maxPrice | number:'.2-2' | numberFilter}}</span></div>
+					<div>最低<span class="{{(showData?.minPrice && showData?.minPrice - showData?.yesterdayPrice) | riseOrFall}}">{{showData?.minPrice | number:'.2-2' | numberFilter}}</span></div>
+				</ion-col>
+				<ion-col col-3>
+					<div>昨收<span>{{showData?.yesterdayPrice | number:'.2-2' | numberFilter}}</span></div>
+					<div>今开<span class="{{(showData?.startPrice - showData?.yesterdayPrice) | riseOrFall}}">{{showData?.startPrice | number:'.2-2' | numberFilter}}</span></div>
+				</ion-col>
+				<ion-col col-4>
+					<!-- <div>成交量<span>{{showData?.turnoverQuantity / (_baseData$ | async)?.handBase | numberUnitFormat}}手</span></div> -->
+					<div>成交量<span>{{showData?.turnoverQuantity | numberUnitFormat}}</span></div>
+					<div>成市额<span>{{showData?.turnoverAmount | numberUnitFormat}}</span></div>
+				</ion-col>
+			</ion-row>
+		</ion-grid>
+		<ion-grid class="stcanech">
+			<ion-row>
+				<ion-col col-3 *ngFor="let title of timeArray; let i = index;" (click)="changeTime(i)" [class.active]="activeIndex === i">{{title}}</ion-col>
+			</ion-row>
+		</ion-grid>
+	</div>
+	<div class="candle">
+		<realtime-charts-component
+			[echartsData]="_realtimeData$ | async"
+			[tradingTimeArray]="appSettings.tradingTimeArray"
+			[baseData]="_baseData$ | async"
+			[options]="realtimeOptions"
+			(tooltipEmitted) = "showRealtimeCustomTooltip($event)"
+			*ngIf="activeIndex === 0 && isPortrait">
+		</realtime-charts-component>
+		<candlestick-component [echartsData]="(_kData$ | async)[kDataUnit]" [options]="candlestickOptions"
+		 (tooltipEmitted)="showKDataCustomTooltip($event)" *ngIf="activeIndex !== 0 && isPortrait">
+		</candlestick-component>
+		<ion-icon class="sresize" (click)="switchOrientation(false)"></ion-icon>
+	</div>
+	<div class="stock-news">
+		<ion-grid>
+			<ion-row>
+				<ion-col col-4 *ngFor="let title of titleArray; let i = index;" (click)="changeActives(i)">
+					<div>
+						<ion-icon name="{{title.icon}}" ios color="important" class="vertical-center"></ion-icon>
+					</div>
+					<span [class.active-underline]="activeIndexs === i">{{title.title}}</span>
+				</ion-col>
+			</ion-row>
+		</ion-grid>
+	</div>
+	<ion-slides (ionSlideWillChange)="tabChangesd($event)" #slide>
+		<ion-slide>
+			<ion-list>
+				<ion-item *ngFor="let data of noticeListData;trackBy: data?.id">
+					<div class="newtitl">{{data.title}}</div>
+					<span class="newtime">{{data.time}}</span>
+				</ion-item>
+			</ion-list>
+		</ion-slide>
+		<ion-slide>
+			<ion-list>
+				<ion-item *ngFor="let data of newsListData;trackBy: data?.id">
+					<div class="newtitl">{{data.title}}</div>
+					<span class="newtime">{{data.time}}</span>
+				</ion-item>
+			</ion-list>
+		</ion-slide>
+		<ion-slide>
+			<ion-list>
+				<ion-item *ngFor="let data of noticeListData;trackBy: data?.id">
+					<div class="newtitl">{{data.title}}</div>
+					<span class="newtime">{{data.time}}</span>
+				</ion-item>
+			</ion-list>
+		</ion-slide>
+	</ion-slides>
+</ion-content>
+
+<div class="bg-in home-contain sim-landscape" [class.show]="!isPortrait">
+	<ion-grid class="sft child-span-padding-left-1">
+		<ion-row>
+			<ion-col col-3 no-padding>
+				<h1 class="{{showData?.changeValue | riseOrFall}}" text-center>{{showData?.latestPrice | number:'.2-2' | numberFilter}}</h1>
+				<div text-center>{{showData?.datetime}}</div>
+			</ion-col>
+			<ion-col col-2>
+				<div text-left>涨跌<span class="{{showData?.changeValue | riseOrFall}}">{{showData?.changeValue | number:'.2-2' | positiveSign}}</span></div>
+				<div text-left>幅度<span class="{{showData?.changeValue | riseOrFall}}">{{showData?.changeRate | percent:'.2-2' | positiveSign}}</span></div>
+			</ion-col>
+			<ion-col col-2>
+				<div text-left>高<span class="{{(showData?.maxPrice - showData?.yesterdayPrice) | riseOrFall}}">{{showData?.maxPrice | number:'.2-2' | numberFilter}}</span></div>
+				<div text-left>低<span class="{{(showData?.minPrice - showData?.yesterdayPrice) | riseOrFall}}">{{showData?.minPrice | number:'.2-2' | numberFilter}}</span></div>
+			</ion-col>
+			<ion-col col-2>
+				<div text-left>昨<span>{{showData?.yesterdayPrice | number:'.2-2' | numberFilter}}</span></div>
+				<div text-left>今<span class="{{(showData?.startPrice - showData?.yesterdayPrice) | riseOrFall}}">{{showData?.startPrice | number:'.2-2' | numberFilter}}</span></div>
+			</ion-col>
+			<ion-col col-2>
+				<div text-left>量<span>{{showData?.turnoverQuantity | numberUnitFormat}}</span></div>
+				<div text-left>额<span>{{showData?.turnoverAmount | numberUnitFormat}}</span></div>
+			</ion-col>
+			<ion-col col-1 tappable (click)="switchOrientation(true)">
+				<ion-icon name="close" class="vertical-center"></ion-icon>
+			</ion-col>
+		</ion-row>
+	</ion-grid>
+	<div class="sfull">
+		<div class="charts">
+			<realtime-charts-component #largeRealtimeChart
+				[echartsData]="_realtimeData$ | async"
+				[tradingTimeArray]="appSettings.tradingTimeArray"
+				[baseData]="_baseData$ | async"
+				[options]="realtimeFullOptions"
+				(tooltipEmitted) = "showRealtimeCustomTooltip($event)"
+				*ngIf="activeIndex === 0 && !isPortrait">
+			</realtime-charts-component>
+			<candlestick-component [echartsData]="(_kData$ | async)[kDataUnit]" [options]="candlestickOptions"
+			 (tooltipEmitted)="showKDataCustomTooltip($event)" *ngIf="activeIndex !== 0 && !isPortrait">
+			</candlestick-component>
+			<div class="arrow-div" tappable (click)="toggleBets()">
+				<ion-icon *ngIf="activeIndex === 0" name="{{betsHidden ? 'ios-arrow-back' : 'ios-arrow-forward'}}" class="vertical-center"></ion-icon>
+			</div>
+		</div>
+		<div class="bets item-center-center" *ngIf="!isPortrait && !betsHidden && activeIndex === 0">
+			<div class="bets-tab">
+				<div *ngFor="let data of (_baseData$ | async)?.bets; let i = index; trackBy i;" class="bets-row" [class.sep]="i === 5">
+					<span>{{appSettings.betsTitle[i]}}</span>
+					<span class="{{(data?.price && data?.price - (_baseData$ | async)?.yesterdayPrice) | riseOrFall}}">{{data?.price | number:'.2-2' | numberFilter}}</span>
+					<span class="color-important">{{data?.quantity / (_baseData$ | async)?.handBase | numberUnitFormat: false: false}}</span>
+				</div>
+			</div>
+		</div>
+	</div>
+	<ion-grid class="sfulltab">
+		<ion-row col-8>
+			<ion-col col-3 *ngFor="let title of timeArray; let i = index;" (click)="changeTime(i)" [class.active]="activeIndex === i">{{title}}</ion-col>
+		</ion-row>
+	</ion-grid>
+</div>

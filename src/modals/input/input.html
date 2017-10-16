@@ -1,0 +1,27 @@
+<ion-header no-top-line>
+  <ion-navbar (click)="close()">
+    <ion-title>
+      Add Tips
+    </ion-title>
+    <ion-buttons right>
+      <button ion-button>
+        <ion-icon name="close"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding class="bg-in">
+
+  <ion-item>
+    <ion-label color="primary">Title</ion-label>
+    <ion-input placeholder="Title Input" clearInput [(ngModel)]="newInput"></ion-input>
+  </ion-item>
+
+</ion-content>
+
+<ion-footer>
+  <ion-item no-lines>
+    <button ion-button small item-right [disabled]="!newInput" (click)="submit()">提交</button>
+  </ion-item>
+</ion-footer>

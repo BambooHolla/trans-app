@@ -1,0 +1,17 @@
+<!-- Generated template for the Article component -->
+<div class="article">
+  <div class="title-image">
+    <img src="{{dataSource?.titleImg}}" >
+    <div class="mask"></div>
+  </div>
+  <div class="title-info">
+    <div class="avatar avatar-author">
+      <img src="{{dataSource?.avatarImg}}">
+    </div>
+    <div class="article-info">
+      <div class="title">{{dataSource?.title}}</div>
+      <div class="publishTime">{{dataSource?.publishTime | timespanPipe }}</div><!-- |timespan -->
+    </div>
+  </div>
+  <div class="content">{{dataSource?.content}}</div>
+</div>

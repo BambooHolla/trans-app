@@ -1,0 +1,20 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>新闻</ion-title>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content class="bg-in">
+  <rich-text [dataSource]="news | async"></rich-text>
+  <!--<ion-item no-lines>
+    <ion-input placeholder="我来说几句"></ion-input>
+  </ion-item>-->
+  <comments #commentList [newsId]="newsId"></comments>
+</ion-content>
+
+<ion-footer #footer>
+  <ion-navbar>
+    <inputer (sendMessage)="commentList.postComment($event)"></inputer>
+  </ion-navbar>
+</ion-footer>

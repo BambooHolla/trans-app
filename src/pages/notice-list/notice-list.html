@@ -1,0 +1,55 @@
+<ion-content>
+    <ion-spinner name="ios" *ngIf="!noticeListModel.inited"></ion-spinner>
+
+    <!--下拉刷新-->
+    <ion-refresher (ionRefresh)="noticeListRefresh($event)">
+        <ion-refresher-content refreshingText="正在刷新...">
+        </ion-refresher-content>
+    </ion-refresher>
+    <!--列表内容-->
+    <ion-item class="firstNotice no-activated-bg" tappable (click)="noticeDetail((noticeListModel.listData[0] || firstNoticeNull).id)">
+        <div>
+            <div style="height:58%">&nbsp;</div>
+            <ion-row class="noticeStatic">
+                <ion-col>Lastest Announcement</ion-col>
+            </ion-row>
+            <ion-row class="noticeContent">
+                <ion-col col-8>{{(noticeListModel.listData[0] || firstNoticeNull).title}}</ion-col>
+                <ion-col col-4>
+                    <button ion-button outline small>阅读全文</button>
+                </ion-col>
+            </ion-row>
+        </div>
+    </ion-item>
+    <!--公告牌-->
+    <div class="BulletinBoard">公告</div>
+    <ion-list *ngFor="let notice of noticeListModel.listData;let i = index;">
+        <ion-item *ngIf="i > 0" class="no-activated-bg" tappable (click)="noticeDetail(notice.id)">
+            <ion-row>
+                <ion-col style="padding: 0px 5px" class="textEllipsis">{{notice.id+" "+notice.title}}</ion-col>
+            </ion-row>
+            <ion-row style="font-size:1.1rem">
+                <ion-col col-2>
+                    <ion-icon name="time-outline"></ion-icon>
+                    <font>1天前</font>
+                </ion-col>
+                <ion-col col-2>
+                    &nbsp;&nbsp;
+                    <ion-icon name="chatbubbles-outline"></ion-icon>
+                    <font>2222</font>
+                </ion-col>
+            </ion-row>
+        </ion-item>
+    </ion-list>
+    <!--加载更多-->
+    <ion-infinite-scroll [enabled]="hasMore" (ionInfinite)="doInfinite($event)">
+        <ion-infinite-scroll-content loadingText="正在加载...">
+        </ion-infinite-scroll-content>
+    </ion-infinite-scroll>
+
+    <!--高交所公告页面植入-->
+    <!-- <div id="iframeWrapper">
+        <iframe src="http://59.56.73.175:7080/cq/lmnr.jsp?GPDM=@gqdm@&CLASSID=9999" frameborder="0" width="100%" height="100%"></iframe>
+    </div> -->
+    
+</ion-content>

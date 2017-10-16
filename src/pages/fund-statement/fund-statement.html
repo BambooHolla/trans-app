@@ -1,0 +1,31 @@
+<ion-header>
+  <ion-navbar>
+      <ion-title>资金变动查询</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content no-padding>
+  <ion-grid no-padding>
+    <ion-row class="fundrow" center text-center>
+      <ion-col padding *ngFor="let title of titleArray; let i = index;" (click)="changeActive(i)"><span [class.active]="activeIndex === i">{{title}}</span></ion-col>
+    </ion-row>
+  </ion-grid>
+  <distanceline-component [echartsData]="distancelinedataList[activeIndex]" class="fundis"></distanceline-component>
+  <ion-grid no-padding>
+    <ion-row class="fundsrow" center text-center>
+      <ion-col *ngFor="let title of secondtitleArray; let i = index;" (click)="changeActives(i)"><span [class.active]="activeIndexs === i">{{title}}</span></ion-col>
+    </ion-row>
+  </ion-grid>
+  <distanceline-component [echartsData]="seconddistancelinedataList[activeIndexs]" class="fundis" ></distanceline-component>
+  <div class="fundicon" center text-center>
+    <img src="assets/images/icons/l-profit.png" class="vertical-center"/>
+    <!-- <ion-icon name="lprofit" ios color="important" class="vertical-center"></ion-icon>  -->
+  </div>
+  <bar-component [echartsData]="bardata" [barTitle]='barTitle'></bar-component>
+  <div class="pie">
+   <pie-component [echartsData]="piedata1" [pieTitle]="pieTitle1" ></pie-component>
+ </div>
+ <div class="pie">
+   <pie-component [echartsData]="piedata" [pieTitle]="pieTitle" class="pie1"></pie-component>
+ </div>
+</ion-content>

@@ -1,0 +1,73 @@
+<div class="warpper">
+  <!-- (ionSlideDidChange)="refreshData()" (ionSlidePrevEnd)="refreshPre()" (ionSlideNextEnd)="refreshNext()"-->
+  <ion-slides
+    spaceBetween="-16px" direction="vertical" class="customizedSlides">
+    <ion-slide *ngFor="let cardInfo of originData">
+      <div class="infoCard">
+        <div class="infoTitle">{{cardInfo.name}}</div>
+        <div class="infoTime">{{cardInfo.dataTime}}</div>
+        <div class="infoKeys">
+          <div class="circle">
+            <div class="content">
+              <div class="number">{{cardInfo.average}}</div>
+              <div class="description">均价</div>
+            </div>
+          </div>
+          <div class="circle">
+            <div class="content">
+              <div class="number">{{cardInfo.shares}}</div>
+              <div class="description">数量</div>
+            </div>
+          </div>
+        </div>
+        <div class="infoTag">{{cardInfo.bOs}}</div>
+      </div>
+    </ion-slide>
+    <!--<ion-slide>
+      <div class="infoCard">
+        <div class="infoTitle">云开智能</div>
+        <div class="infoTime">2017.08.08 10:10</div>
+        <div class="infoKeys">
+          <div class="circle">
+
+            <div class="content">
+              <div class="number">32.8</div>
+              <div class="description">均价</div>
+            </div>
+          </div>
+          <div class="circle">
+
+            <div class="content">
+              <div class="number">1000</div>
+              <div class="description">数量</div>
+            </div>
+          </div>
+        </div>
+        <div class="infoTag">买</div>
+      </div>
+    </ion-slide>
+    <ion-slide>
+      <div class="infoCard">
+        <div class="infoTitle">云开智能</div>
+        <div class="infoTime">2017.08.08 10:10</div>
+        <div class="infoKeys">
+          <div class="circle">
+
+            <div class="content">
+              <div class="number">32.8</div>
+              <div class="description">均价</div>
+            </div>
+          </div>
+          <div class="circle">
+
+            <div class="content">
+              <div class="number">1000</div>
+              <div class="description">数量</div>
+            </div>
+          </div>
+        </div>
+        <div class="infoTag">买</div>
+      </div>
+    </ion-slide>-->
+  </ion-slides>
+</div>

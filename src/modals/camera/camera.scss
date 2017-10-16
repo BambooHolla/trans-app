@@ -1,0 +1,36 @@
+modal-camera {
+
+	ion-icon {
+		position: absolute;
+		font-size: 3rem;
+		z-index: 1000;
+	}
+
+	.reverse-camera {
+		right: 2rem;
+		bottom: 1.5rem;
+	}
+
+	.exit-button {
+		left: 3rem;
+		bottom: 1.5rem;
+	}
+
+	.take-button {
+		position: absolute;
+		left: 50%;
+		margin-left: -1.5rem;
+		bottom: 1.5rem;
+		width: 3rem;
+		height: 3rem;
+		border: 1px solid #000;
+		background-color: #FFF;
+		border-radius: 50%;
+		box-shadow: 0 0 0 0.3rem #FFF;
+	}
+
+	.confirm {
+		float: right;
+		margin-right: 3rem;
+	}
+}

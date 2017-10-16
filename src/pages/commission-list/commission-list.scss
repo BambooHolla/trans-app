@@ -1,0 +1,165 @@
+page-commission-list{
+	.home-header{
+		.headbg{
+			background:rgba(4,110,138,1); /* 一些不支持背景渐变的浏览器 */  
+			background:-moz-linear-gradient(top, rgba(4,110,138,1), rgba(59,181,215,1));  
+			background:-webkit-gradient(linear, 0 0, 0 bottom, from(rgba(4,110,138,1)), to(rgba(59,181,215,1)));  
+			background:-o-linear-gradient(top, rgba(4,110,138,1), rgba(59,181,215,1)); 
+			background: linear-gradient(to bottom,rgba(4,110,138,1), rgba(59,181,215,1));
+			background-size: cover;
+			.time{
+			// width:160px;
+			// width:21rem;
+			// width:60%;
+			margin:0.8rem auto 0;
+			text-align: center;
+			display: flex;
+			align-items: center;
+		    justify-content: center;
+			ion-item{
+				width:unset;
+				&.item {
+					&:first-of-type{
+						padding-right:1.8rem;
+					}
+					&:last-of-type{
+						padding-left:1.8rem;
+					}
+					padding:1rem 0;
+					min-height: unset;
+					overflow: visible;
+					.datetime-text{
+						font-size: 1.5rem;
+						overflow: visible;
+					}
+					.item-inner{
+						padding:0;
+						border:none;
+						.input-wrapper{
+							font-size: 1.5rem;
+						}
+					}
+				}
+				.datetime-ios{
+					padding:0;
+				}
+			}
+			
+			ion-icon{
+				display: flex;
+				height: 1.6rem;
+				line-height: 1.6rem;
+			}
+		}
+		}
+
+		ion-grid{
+			ion-row{
+				padding:1.925rem 0;
+				margin-bottom:1.55rem;
+				ion-col{
+					font-size:1.6rem;
+					.active::before{
+						content:"";
+						position: absolute;
+						z-index: 1;
+						bottom: -0.5rem;
+						left: 20%;
+						width: 60%;
+						height: 0.1rem;
+						background-color: #e25d59;
+						box-shadow: 0 0 2rem 0 #e25d59;
+						border-radius: 0.3rem;
+						padding-bottom:0.3rem;
+					}
+				}
+			}
+		}
+		.echarts-placeholder{height:22.25rem;}
+		.comsub{
+			background: linear-gradient(rgba(59,181,215,0.2), rgba(4,110,138,0.2));
+			ion-row{
+				color:#38b3d5;
+				background:rgba(42,84,97,0.3);
+				ion-col{
+					font-size: 1.5rem;
+				    padding:1.15rem 0;
+					&:first-of-type{
+						padding-left: 4rem;
+						text-align: left;
+					}
+				}
+			}
+		}
+	}
+	ion-content{
+		.comcont{
+			background:rgba(59,181,215,0.2); /* 一些不支持背景渐变的浏览器 */  
+			background:-moz-linear-gradient(top, rgba(59,181,215,0.2), rgba(4,110,138,0.2));  
+			background:-webkit-gradient(linear, 0 0, 0 bottom, from(rgba(59,181,215,0.2)), to(rgba(4,110,138,0.2)));  
+			background:-o-linear-gradient(top, rgba(59,181,215,0.2), rgba(4,110,138,0.2)); 
+			background: linear-gradient(rgba(59,181,215,0.2), rgba(4,110,138,0.2));
+			ion-row{
+				padding:0;
+				&:first-of-type{padding-top:1.15rem;}
+				&.comlist{
+					ion-col{
+					    line-height: 1.5;
+					    font-size: 1.4rem;
+					    padding:1.5rem 0;
+					    .comicon{
+					    	display: flex;
+					    	div{
+					    		text-align: left;
+					    		flex:1;
+					    		div{
+					    			font-size: 1.4rem;
+					    			line-height: .7;
+					    		}
+					    		small{
+					    			font-size: .8rem;
+					    		}
+					    	}
+					    	.buy,.sale{
+					    		font-size:1.2rem;
+					    		width:1.8em;
+					    		height: 1.8em;
+					    		color:#fff;
+					    		margin-left: 1.5rem;
+					    		margin-right: 5px;
+					    	}
+					    	.buy{
+					    		&::before{
+					    			content: '买';
+					    		}
+					    		line-height: 1.85;
+					    		border-radius:50%;
+					    		
+					    		background:#4aadca;
+					    	}
+					    	.sale{
+					    		&::before{
+					    			content: '卖';
+					    		}
+					    		line-height: 1.66;
+					    		border-radius:50%;
+					    		border:2px solid;
+					    	}
+					    }
+					}
+					p{
+						margin:0;
+						line-height:1;
+						font-size: 1.2rem;
+					}
+				}
+			}
+		}
+	}
+}
+
+.alert-wrapper{
+	.alert-head,.alert-message,.alert-button,{
+		color: initial
+	}
+}

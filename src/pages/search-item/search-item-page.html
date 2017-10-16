@@ -1,0 +1,40 @@
+<!--
+  Generated template for the SearchItem page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+  <!--<ion-searchbar [placeholder]="''" [cancelButtonText]="'取消'" [showCancelButton]="true"></ion-searchbar>-->
+  <ion-toolbar class="searchbar">
+    <div class="searchInput">
+      <div class="icon"></div>
+      <!--<input type="text" 
+        required 
+        name="searchInput" 
+        [(ngModel)]="keyword" 
+        #searchInput="ngModel"
+        (keypress)="enter($event)">-->
+      <ion-item no-padding no-lines>
+        <ion-input type="text" 
+          clearInput 
+          #searchInput 
+          (keyup)="search(searchInput.value)">
+        </ion-input>
+      </ion-item>
+      <!--<input type="text" 
+        required      
+        #searchInput 
+        (keyup)="search(searchInput.value)">
+      <div [hidden]="!searchInput.valid" class="clearInput" (click)="clearInput()">x</div>-->
+    </div>
+    <ion-buttons right>
+      <button ion-button navPop>取消</button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="bg-in">
+  <div class="resultTitle">{{resultTitle}}</div>
+  <tri-col-list-component [listData]="fullListData | async" [showDetail]="false"></tri-col-list-component>
+</ion-content>

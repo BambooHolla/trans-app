@@ -1,0 +1,33 @@
+.bg-out{
+
+      background-color: rgba(1, 9, 17, 0.7);
+      ion-label {
+        color: #fff;
+        font-size: 1.4rem;
+        position: relative;
+        ion-icon{
+          position: absolute;
+          right: 0.2rem;
+        }
+      }
+
+}
+.select{
+  width: 95%;
+  max-width: 95%;
+}
+.round{
+  background-color:#2A9DBE;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  position: relative;
+  float: right;
+}
+.checkmark{
+  color: white;
+  position: absolute;
+  top: 0.3rem;
+  left: 0.5rem;
+  font-size: 1em;
+}

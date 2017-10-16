@@ -1,0 +1,16 @@
+<ion-content class="bg-black vertical-align-center">
+    <!-- <ion-icon name="ios-reverse-camera" class="right-top"></ion-icon> -->
+
+    <!-- <ion-icon name="ios-arrow-down" class="left-bottom" (click)="exit()"></ion-icon> -->
+    <img [src]="picture" *ngIf="picture" />
+</ion-content>
+
+<ion-footer>
+    <ion-navbar>
+        <!-- <ion-icon name="ios-reverse-camera" class="reverse-camera"></ion-icon> -->
+        <div class="take-button" (click)="takePicture()"></div>
+        <!-- <ion-icon name="ios-arrow-down" class="left-bottom" (click)="exit()"></ion-icon> -->
+        <!-- <ion-button *ngIf="pictureValid && !cameraActive">确认</ion-button> -->
+        <!-- <button ion-button *ngIf="pictureValid && !cameraActive" small class="confirm" (click)="usePicture()">确认</button> -->
+    </ion-navbar>
+</ion-footer>

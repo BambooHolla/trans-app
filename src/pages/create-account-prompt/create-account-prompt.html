@@ -1,0 +1,30 @@
+<ion-header>
+
+    <ion-navbar>
+        <ion-title>开户说明</ion-title>
+    </ion-navbar>
+
+</ion-header>
+
+
+<ion-content class="bg-out" [class.verticalAlignCenter]="verticalCenter" #contentRef>
+    <div class="fontsize">
+    <h6><ion-icon name="ios-alert">&nbsp;</ion-icon>申请人申明符合以下入会条件:</h6>
+    <p>  1、基本条件<br>
+        （1）申请人年满18周岁，具有完全民事行为能力和民事责任能力。<br>
+        （2）申请人具有股票投资基本知识和计算机操作能力。<br>
+        2、资产条件，满足以下任一条件<br>
+        （1）具有价值100万元人民币以上的房产。<br>
+        （2）具有人民币100万元及以上的银行存款。<br>
+        （3）具有价值100万元人民币以上的有价证券。<br>
+        （4）具有价值100万元人民币以上的股权。<br>
+        （5）具有10万元人民币以上的年收入。<br>
+        （6）具有年收入超过人民币10万元人民币的缴税。
+    </p>
+    </div>
+    <div class="input-container">
+        <ion-item no-lines></ion-item>
+        <button ion-button round full clear-dark color="important" type="submit" (click)="caStepFirst()" >我符合入会条件</button>
+    </div>
+</ion-content>
+

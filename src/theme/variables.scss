@@ -1,0 +1,252 @@
+// Ionic Variables and Theming. For more info, please see:
+// http://ionicframework.com/docs/v2/theming/
+$font-path: "../assets/fonts";
+
+@import "ionic.globals";
+
+
+// Shared Variables
+// --------------------------------------------------
+// To customize the look and feel of this app, you can override
+// the Sass variables found in Ionic's source scss files.
+// To view all the possible Ionic variables, see:
+// http://ionicframework.com/docs/v2/theming/overriding-ionic-variables/
+
+
+
+
+// Named Color Variables
+// --------------------------------------------------
+// Named colors makes it easy to reuse colors on various components.
+// It's highly recommended to change the default colors
+// to match your app's branding. Ionic uses a Sass map of
+// colors so you can add, rename and remove colors as needed.
+// The "primary" color is the only required color in the map.
+
+$colors: (
+  primary:    #FFF,
+  secondary:  #0E7594,
+  danger:     #DD3838,
+  light:      #C9C9C9,
+  dark:       #585858,
+  important:  #2A9DBE,
+  lightfont:  #BEC3C7,
+  rise:       #DD3838,
+  fall:       #44D63D,
+  water:      #71D1ED
+);
+
+// $content-ios-transition-background: transparent;
+
+$background-color: transparent;
+
+$background-ios-color: transparent;
+$background-md-color: transparent;
+$background-wp-color: transparent;
+
+$content-ios-transition-background: transparent;
+
+$text-ios-color: color($colors, primary);
+$text-md-color: color($colors, primary);
+$text-wp-color: color($colors, primary);
+
+// $font-size-root: 10px;
+$font-size-root: 2.666667vw;
+
+$font-size-ios-base: 1.2rem;
+$font-size-md-base: 1.2rem;
+$font-size-wp-base: 1.2rem;
+
+$menu-ios-background: color($colors, primary);
+$menu-md-background: color($colors, primary);
+$menu-wp-background: color($colors, primary);
+
+$tabs-ios-background: #000;
+$tabs-md-background: #000;
+$tabs-wp-background: #000;
+
+$tabs-ios-tab-text-color-active: color($colors, important);
+$tabs-md-tab-text-color-active: color($colors, important);
+$tabs-wp-tab-text-color-active: color($colors, important);
+
+$tabs-ios-tab-font-size: 1.2rem;
+$tabs-md-tab-font-size: 1.2rem;
+$tabs-wp-tab-font-size: 1.2rem;
+
+$tabs-ios-tab-icon-size: 3rem;
+$tabs-md-tab-icon-size: 3rem;
+$tabs-wp-tab-icon-size: 3rem;
+
+$tabs-ios-tab-min-height: 4.9rem;
+$tabs-md-tab-min-height: 4.9rem;
+$tabs-wp-tab-min-height: 4.9rem;
+
+$tabs-ios-tab-text-color: color($colors, lightfont);
+$tabs-md-tab-text-color: color($colors, lightfont);
+$tabs-wp-tab-text-color: color($colors, lightfont);
+
+$tabs-ios-tab-icon-color: color($colors, lightfont);
+$tabs-md-tab-icon-color: color($colors, lightfont);
+$tabs-wp-tab-icon-color: color($colors, lightfont);
+
+$tabs-ios-tab-icon-color-active: color($colors, important);
+$tabs-md-tab-icon-color-active: color($colors, important);
+$tabs-wp-tab-icon-color-active: color($colors, important);
+
+$toolbar-ios-background: transparent;
+$toolbar-md-background: transparent;
+$toolbar-wp-background: transparent;
+
+$toolbar-ios-height: 5.8rem;
+$toolbar-md-height: 5.8rem;
+$toolbar-wp-height: 5.8rem;
+
+$toolbar-ios-title-font-size:1.8rem;
+$toolbar-md-title-font-size:1.8rem;
+$toolbar-wp-title-font-size:1.8rem;
+
+$toolbar-ios-title-text-align:center;
+$toolbar-md-title-text-align:center;
+$toolbar-wp-title-text-align:center;
+
+$toolbar-ios-title-font-weight:300;
+$toolbar-md-title-font-weight:300;
+$toolbar-wp-title-font-weight:300;
+
+$toolbar-ios-button-color: color($colors, primary);
+$toolbar-md-button-color: color($colors, primary);
+$toolbar-wp-button-color: color($colors, primary);
+
+$toolbar-ios-padding: 0.4rem;
+$toolbar-md-padding: 0.4rem;
+$toolbar-wp-padding: 0.4rem;
+
+// $alert-ios-max-width: 90%;
+// $alert-md-max-width: 90%;
+// $alert-wp-max-width: 90%;
+
+// $alert-ios-background: rgba(0, 0, 0, .85);
+// $alert-md-background-color: rgba(0, 0, 0, .85);
+// $alert-wp-background: rgba(0, 0, 0, .85);
+
+// $alert-ios-head-padding: 10px;
+// $alert-md-head-padding: 10px;
+// $alert-wp-head-padding: 10px;
+
+// $alert-ios-title-font-size: 18px;
+// $alert-md-title-font-size: 18px;
+// $alert-wp-title-font-size: 18px;
+
+// $alert-ios-sub-title-font-size: 14px;
+// $alert-ios-sub-title-text-color: color($colors, primary);
+// $alert-ios-button-background-color-activated: transparent;
+
+// $tabs-md-tab-text-transform-active: none;
+// $tabs-md-tab-text-transition: none;
+
+
+// $item-ios-padding-right: 12px;
+
+// $alert-button-font-size: 30px;
+// $alert-ios-background: blue;
+
+// $toolbar-ios-button-color: #000;
+
+$loading-ios-background: rgba(255, 255, 255, .85);
+$loading-md-background: rgba(255, 255, 255, .85);
+$loading-wp-background: rgba(255, 255, 255, .85);
+
+$refresher-icon-color: color($colors, primary);
+
+$refresher-text-color: color($colors, primary);
+
+$refresher-text-font-size: 1.2rem;
+
+$infinite-scroll-loading-color: color($colors, primary);
+
+$infinite-scroll-loading-text-color: color($colors, primary);
+
+// $alert-ios-radio-label-text-color-checked: color($colors, rise);
+// $alert-md-radio-label-text-color-checked: color($colors, rise);
+// $alert-wp-radio-label-text-color-checked: color($colors, rise);
+
+$alert-md-button-group-justify-content: center;
+$alert-wp-button-group-justify-content: center;
+
+$list-ios-text-color: color($colors, primary);
+$list-wp-text-color: color($colors, primary);
+$list-md-text-color: color($colors, primary);
+
+$text-input-ios-input-clear-icon-color: rgba(255, 255, 255, 0.65);
+$text-input-md-input-clear-icon-color: rgba(255, 255, 255, 0.65);
+$text-input-wp-input-clear-icon-color: rgba(255, 255, 255, 0.65);
+
+$text-input-md-show-focus-highlight: false;
+
+//ionic-searchbar
+$searchbar-ios-input-border-radius:	1.6rem;
+$searchbar-md-input-border-radius:	1.6rem;
+$searchbar-wp-input-border-radius:	1.6rem;
+
+$searchbar-ios-input-background-color:	rgba(255,255,255,0.12);
+$searchbar-md-input-background-color:	rgba(255,255,255,0.12);
+$searchbar-wp-input-background-color:	rgba(255,255,255,0.12);
+
+$searchbar-ios-input-search-icon-size: 1.6rem;
+$searchbar-md-input-search-icon-size:	1.6rem;
+$searchbar-wp-input-search-icon-size: 1.6rem;
+
+$searchbar-ios-input-height:3.2rem;
+$searchbar-md-input-height:3.2rem;
+$searchbar-wp-input-height:3.2rem;
+
+$datetime-ios-placeholder-color:white;
+$datetime-md-placeholder-color:white;
+$datetime-wp-placeholder-color:white;
+
+$grid-padding-width: 1rem;
+
+// App iOS Variables
+// --------------------------------------------------
+// iOS only Sass variables can go here
+
+
+
+
+// App Material Design Variables
+// --------------------------------------------------
+// Material Design only Sass variables can go here
+
+
+
+
+// App Windows Variables
+// --------------------------------------------------
+// Windows only Sass variables can go here
+
+
+
+
+// App Theme
+// --------------------------------------------------
+// Ionic apps can have different themes applied, which can
+// then be future customized. This import comes last
+// so that the above variables are used and Ionic's
+// default are overridden.
+
+@import "ionic.theme.default";
+
+
+// Ionicons
+// --------------------------------------------------
+// The premium icon font for Ionic. For more info, please see:
+// http://ionicframework.com/docs/v2/ionicons/
+
+@import "ionic.ionicons";
+
+
+// Fonts
+// --------------------------------------------------
+
+@import "roboto";
+@import "noto-sans";

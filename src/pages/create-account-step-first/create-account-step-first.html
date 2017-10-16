@@ -1,0 +1,41 @@
+<ion-header>
+
+    <ion-navbar>
+        <ion-title>账号注册</ion-title>
+    </ion-navbar>
+
+</ion-header>
+
+
+<ion-content class="bg-out">
+    <form [formGroup]="firstForm" novalidate>
+
+    <ion-list class="dark-item">
+        <ion-item no-lines>
+            <ion-label color="primary" fixed pad required>手机号码</ion-label>
+            <ion-input formControlName="phone" type="number" required></ion-input>
+        </ion-item>
+        <ion-item no-lines>
+            <ion-label color="primary" fixed pad required>验证码</ion-label>
+            <ion-input formControlName="code" type="number" maxlength="6" required></ion-input>
+            <button ion-button outline item-end #getCode>获取验证码</button>
+        </ion-item>
+        <ion-item no-lines>
+            <ion-label color="primary" fixed pad required>登录密码</ion-label>
+            <ion-input formControlName="password" type="password" required></ion-input>
+        </ion-item>
+        <ion-item no-lines>
+            <ion-label color="primary" fixed pad required>重复密码</ion-label>
+            <ion-input formControlName="passwordConfirm" type="password" required></ion-input>
+        </ion-item>
+    </ion-list>
+
+    <div class="input-container">
+        <ion-item no-lines></ion-item>
+        <button ion-button round full clear-dark color="important" type="submit" (click)="doValidate()">
+            下一步
+        </button>
+    </div>
+
+    </form>
+</ion-content>

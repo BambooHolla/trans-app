@@ -1,0 +1,40 @@
+page-about {
+    .top-banner {
+        .banner {
+            height: 13.7rem;
+            width: 100%;
+        }
+        .htpeIcon {
+            position: absolute;
+            top: 1.2rem;
+            z-index: 12;
+            width: 30%;
+            left: 35%;
+        }
+        ion-col {
+            position: absolute;
+            top: 11.2rem;
+            z-index: 12;
+            width: 30%;
+            left: 35%;
+            text-align: center;
+            font-size: 1.3rem;
+            color: #181824;
+        }
+    }
+    ion-grid {
+        ion-row {
+            padding: 0 1.5em;
+            border-bottom: 1px solid #4a2925;
+            height: 3.75em;
+            line-height: 3.75em;
+            ion-col {
+                font-size: 1.3rem;
+                padding: 0!important;
+            }
+            ion-icon{
+                color: #fff!important;
+            }
+        }
+    }
+}

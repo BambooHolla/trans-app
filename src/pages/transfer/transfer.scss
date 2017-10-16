@@ -1,0 +1,87 @@
+page-transfer {
+  font-size: 1.5rem;
+  
+  .item-ios.item-block .item-inner{
+    border: 0;
+  }
+
+  ion-label{
+    font-size: 1.5rem;    
+  }
+
+  ion-item{
+    &.item{
+      background-color: rgba(0, 0, 0, 0.3);
+      padding-left: 2.3rem;
+    }
+    input{
+      font-size: 1.5rem;
+    }
+    button[item-end]{
+      font-size: 1.5rem;
+      color: color($colors, important);
+    }
+  }
+  
+  .carInfo{
+    margin-top: 1.2rem;
+    padding: 1.4rem 0;
+    background-color: rgba(0, 0, 0, 0.3);    
+    border-bottom: 0.05rem solid rgba(83, 83, 83, 0.3);
+    overflow: hidden;
+    img{
+      width: 4.8rem;
+      height: 4.8rem;
+      border-radius: 50%;
+      margin:0 1.6rem 0 2.3rem;
+      float: left;
+    }
+    .text{
+      float: left;
+    }
+    .bankName{
+      line-height: 1.5rem;      
+      margin: .9rem 0 0.8rem;
+    }
+    .cardNo{
+      font-size: 1.1rem;
+      line-height: 1.1rem;      
+    }
+  }
+
+  .psw{
+    margin-top: 1.2rem;    
+  }
+
+  .head{
+    height: 4.3rem;
+    text-align: center;
+    padding: 0;
+    background-color: rgba(0, 0, 0, 0.3);
+
+    ion-col{
+      padding: 0;
+    }
+
+    span{
+      display: inline-block;
+      line-height: 4rem;
+      border-bottom: 0.3rem solid transparent;
+      color: color($colors, important);
+
+      &.selected{
+        color: color($colors, primary);
+        border-bottom: 0.3rem solid color($colors, important);
+      }
+    }
+
+  }
+
+  .confirm{
+    margin: 3.8rem auto 0;
+    display: block;
+    width: 80%;
+    background-color: color($colors, important);
+    color: color($colors, primary);
+  }
+}

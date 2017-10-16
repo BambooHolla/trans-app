@@ -1,0 +1,77 @@
+search-item-page { 
+  .resultTitle{
+    padding-left: 2.6rem;
+    font-size: 1.4rem;
+    line-height: 4.2rem;
+  }
+
+  .searchbar{
+    font-size: 1.5rem;
+    
+    .searchInput{
+      position: relative;
+      margin-left: 2.6rem;
+      .icon{
+        position: absolute;
+        pointer-events: none;
+        height: 1.6rem;
+        width: 1.6rem; 
+        background-image: url("../assets/icon/search.png");
+        background-size: contain;
+        left: 1.1rem;
+        top: 50%;//.85rem;
+        transform: translateY(-50%);
+      }
+      .icon::after{
+        // font-family: "Ionicons";
+        // content:  "\f375";
+        // font-size: 1.6rem;
+        // color: white;
+      }
+
+      .clearInput{
+        position: absolute;
+        right: 1.1rem;
+        top: .85rem;
+      }
+
+      // input{
+      //   border: 0;
+      //   height: 3.2rem;
+      //   width:100%;
+      //   border-radius: 1.6rem;
+      //   background-color: rgba(255,255,255,0.12);
+      //   padding: 0 1.6rem 0 3.2rem;
+      // }
+
+      ion-input{
+        border: 0;
+        height: 3.2rem;
+        width:100%;
+        border-radius: 1.6rem;
+        background-color: rgba(255,255,255,0.12);
+        padding: 0 0 0 3.2rem;
+
+        input{
+          margin: 0;
+          line-height: 3.2rem;
+        }
+      }
+    }
+
+    span{
+      display: inline-block;
+      width: 4.6rem;
+      margin-left: .5rem;
+      text-align: center;
+      line-height: 3.2rem;
+      vertical-align: middle;
+    }
+  } 
+  
+  //去掉输入时输入框下划线效果
+  .item-md.item-input.input-has-focus .item-inner{
+    border:0;
+    box-shadow:none;
+  }
+}

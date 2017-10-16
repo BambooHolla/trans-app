@@ -1,0 +1,20 @@
+<!-- Generated template for the Inputer component -->
+  <div class="inputer">
+    <!--<textarea class="input">我来说几句</textarea>-->
+    <!-- <input class="input" type="text" placeholder="我来说几句"> -->
+    <div class="button-container">
+    	<button (click)="sendMessageReq(input.value)">发送</button>
+    </div>
+    <div class="input-container">
+    <ion-item no-lines>
+        <ion-input type="text" 
+          clearInput 
+          #input
+          [value]="inputValue"
+          (change)="inputValue=$event.target.value"
+          (keyup)="checkInput($event)"
+          placeholder="我来说几句">
+        </ion-input>
+    </ion-item>
+    </div>
+  </div>

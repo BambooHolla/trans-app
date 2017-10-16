@@ -1,0 +1,35 @@
+<ion-header class="informationHeader">
+    <ion-navbar>
+      <ion-row padding-horizontal>
+        <ion-col></ion-col>
+        <ion-col text-center (click)="changeToNotice()">
+          <span [class.active-underline]="currentPage==='notice'">公告</span>
+        </ion-col>
+        <ion-col text-center (click)="changeToNews()">
+          <span [class.active-underline]="currentPage==='news'">新闻</span>
+        </ion-col>
+        <ion-col class="fix-button-position" [navPush]="searchItemPage">
+          <ion-buttons right>
+            <ion-icon class="large-icon" name="search"></ion-icon>
+          </ion-buttons>
+        </ion-col>
+      </ion-row>
+    </ion-navbar>
+</ion-header>
+
+<ion-content no-bounce class="dark-transparent">
+    <ion-slides (ionSlideWillChange)="tabChanged($event)">
+        <ion-slide class="fixedHeight">
+            <!--公告列表-->
+            <page-notice-list></page-notice-list>
+        </ion-slide>
+        <ion-slide class="fixedHeight">
+            <!--新闻列表-->  
+            <!-- <ion-icon name="time-outline" [hidden]="currentPage!=='news'"></ion-icon> -->
+            <page-news-list></page-news-list>
+        </ion-slide>
+    </ion-slides>
+
+</ion-content>  
+
+  

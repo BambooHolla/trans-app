@@ -1,0 +1,49 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>转账</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content nopadding class="bg-in">
+  <ion-grid class="head">
+    <ion-row>
+      <ion-col tappable (click)="transferIn()"><span [class.selected]="!transferType">银行转交易所</span></ion-col>
+      <ion-col tappable (click)="transferOut()"><span [class.selected]="transferType">交易所转银行</span></ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <div class="carInfo">
+    <img src="{{bankIconURL}}" alt="">
+    <div class="text">
+      <div class="bankName">{{bankName}}</div>
+      <div class="cardNo">{{cardNo | numMask:4:4}}</div>
+    </div>
+  </div>
+
+  <ion-item no-lines>
+    <ion-label>{{ transferType === 0 ?'充值':'提现'}}金额</ion-label>
+    <ion-input [placeholder]="transferTip"
+      [(ngModel)]="transferCount"
+      ></ion-input>
+    <button *ngIf="transferType === 1"
+      ion-button clear 
+      item-end 
+      (click)="transferAllOut()">全部提现</button>
+  </ion-item>
+  <ion-item no-lines class="psw">
+    <ion-label>
+      交易密码
+    </ion-label>
+    <ion-input type="password"
+      clearInput
+      [(ngModel)]="password"></ion-input>
+  </ion-item>
+
+  <button class="confirm" ion-button round
+   [disabled]="!transferCount || !password || noBankAccount"
+   (click)="confirmTransfer()">确认</button>
+
+</ion-content>

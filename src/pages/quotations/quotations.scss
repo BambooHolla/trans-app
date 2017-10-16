@@ -1,0 +1,189 @@
+page-quotations{
+    ion-header {
+        .row{
+            position: relative;
+        }
+        .toolbar-title {
+            font-size: 1.7rem;
+        }
+        ion-icon{
+            float: right;
+            vertical-align: middle;
+        }
+    }
+    
+    .quotitle{
+        ion-scroll {
+            height: 3.8rem;
+        }
+
+        .scroll-content{
+            white-space: nowrap;
+            margin: 0 1rem;
+        }
+
+        .item {
+            display: inline-block;
+            padding: 0.7rem 2rem;
+        }
+
+        span{
+            font-size: 1.4rem;
+            line-height: 2rem;
+            color: color($colors, important);
+            position: relative;
+            z-index: 2;
+
+            &.active-underline{
+                color: #fff;
+            }
+        }
+    }
+    
+    ion-content{
+        .qhd{
+            background:rgba(13,117,147,0.6); /* 一些不支持背景渐变的浏览器 */
+            background: linear-gradient(-75deg, #0d7593, #0d7593 50%, rgba(0, 0, 0, 1));
+            height: 12rem;
+
+            .qcont{
+                position: absolute;
+                height: 12rem!important;
+                width:100%;
+                top:0;
+                background:rgba(255,255,255,0.3)!important;
+                pointer-events: none;
+                .slides{
+                    margin-top:1.8rem;
+                    margin-left: 0.8rem;
+                }
+            }
+            .echarts-placeholder{
+                height: 12rem;
+                background:#0d7593;
+            }
+        }
+
+        .quotcont{
+            height: 12rem;
+            background-color: rgba(255, 255, 255, .06);
+            padding: 1rem;
+            .echarts-placeholder,
+            .slideselem {
+                height: 10rem;
+            }
+            .slide-zoom{
+                margin-top: 0.8rem;
+                text-align: center;
+            }
+            .title{
+                width:13rem;
+                float: left;
+                padding:0.5rem 0 0 0.8rem;
+                h3, h6{margin:0;}
+            }
+            .slides{
+                width: 12rem;
+                float: left;
+                text-align: center;
+                padding: 1.5rem 1.8rem 0 1.8rem;
+                h3, h6{margin:0;}
+            }
+            .slideselem{
+                overflow: hidden;
+            }
+        }
+            
+
+
+        .bosld{
+            width:86%;
+            margin:0 auto;
+            height: unset;
+            margin-bottom:2rem;
+            .swiper-container{
+                overflow: visible;
+            }
+
+            .margin-top {
+                margin-top: 2rem;
+            }
+
+            .slide-zoom{
+                background-color: rgba(255, 255, 255, .06);
+                overflow: visible;
+                height: unset;
+                min-height: 21.5rem;
+                padding-bottom:0.3rem;
+            }
+            &.swiper-slide{
+                align-items:inherit;
+                height: unset;
+                transform: scale(0.95)
+            }
+            &.swiper-slide-active{
+                .slide-zoom{
+                    height: unset;
+                    transform: scale(1.05)
+                }
+            }
+        }
+
+        .slidhd{
+           padding: 0.6rem 1.5em!important;
+           color:#fff!important;
+           text-align: left;
+           .ion-ios-optional-outline::before{
+            margin:0;
+            background-size: 1.1em 1.1em;
+           }
+           .r{
+            float: right;
+            font-size: 2.3rem;
+            padding:0 1rem;
+           }
+        }
+        tri-col-list-component ion-row, ion-row{
+            // border-bottom:1px solid rgba(229,299,299,0.4);
+            border-bottom:1px solid rgba(83,83,83,0.4);
+            padding: 0.4em 0.3em 0.2em 0.3em;
+            h5{
+                font-size: 1.6rem;
+            }
+            h4{
+                font-size: 1.9rem;
+            }
+            h6{
+                font-size: 1.5rem;
+            }
+            &:last-of-type{
+                border:none;
+            }
+
+            &.row {
+                .col[padding] {
+                    padding: 0;
+                }
+            }
+
+            span {
+                font-size: 1.1rem;
+            }
+
+            &.light-transparent {
+                background-color: transparent;
+            }
+        }
+    }
+    
+}
+
+// @media (min-width: 37.5rem) {
+//     page-quotations{
+//         .quotitle{
+//             span {
+//                 font-size: 1.6rem;
+//             }
+//         }
+//     }
+// }

@@ -1,0 +1,47 @@
+<ion-header class="header-placeholder"></ion-header>
+
+<ion-content class="bg-out" [class.vertical-align-center]="verticalCenter">
+  <ion-grid no-padding [style.paddingTop]="gridPaddingTop">
+    <ion-row center>
+      <ion-col>
+        <div text-center><img src="assets/images/htpe.png" width="140" height="140" /></div>
+        <h3 text-center>福建高新技术产权交易所</h3>
+        <h4 text-center font-normal>值得信赖的交易市场</h4>
+        <div class="input-container">
+          <!-- <ion-item no-lines></ion-item> -->
+          <div style="height: 40px;"></div>
+          <form [formGroup]="loginForm" (ngSubmit)="login()" novalidate>
+
+            <!-- 使用 clearInput 属性让输入框出现“清除输入”图标 -->
+            <!-- 则 ion-input 必须包在 ion-item 内，否则图标不会出现 -->
+            <!-- type="number" 的输入框，设置 maxlength 是无效的 -->
+            <ion-item no-padding no-lines>
+              <ion-input formControlName="customerId" placeholder="客户号" type="string" class="round-text-input input-phone" required clearInput></ion-input>
+            </ion-item>
+
+            <ion-item no-padding no-lines>
+              <ion-input formControlName="password" placeholder="登录密码" type="password" class="round-text-input input-password" required clearInput></ion-input>
+            </ion-item>
+
+            <ion-row class="small-row">
+              <ion-col>
+                <ion-item small no-lines>
+                  <ion-label color="primary" (click)="changeStatus('savePassword')">记住密码</ion-label>
+                  <ion-checkbox formControlName="savePassword" color="primary"></ion-checkbox>
+                </ion-item>
+              </ion-col>
+              <ion-col>
+                <ion-item small no-lines item-right class="color-primary text-and-icon">
+                  <ion-label class="icon-help">忘记密码</ion-label>
+                </ion-item>
+              </ion-col>
+            </ion-row>
+
+            <button ion-button round block clear-dark color="important" type="submit" [disabled]="loginForm.invalid || !appDataService.ready || logining">登录</button>
+            <button ion-button round block outline clear-dark color="important" type="submit" navPop [disabled]="logining">返回</button>
+          </form>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

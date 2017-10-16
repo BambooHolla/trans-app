@@ -1,0 +1,39 @@
+account-center{
+  	.account-contain {
+		ion-grid {
+			ion-row {
+				padding: 0 1.5em;
+                border-bottom: 1px solid #4a2925;
+                height: 3.75em;
+                line-height: 3.75em;
+				ion-col {
+					font-size: 1.3rem;
+                    padding: 0!important;
+                    .f-right{
+                        float: right;
+                        color: #0d7593;
+					    font-size: 1.4rem;
+                    }
+				}
+			}
+
+		}
+        .account-tip{
+			padding: 0 1.5em;
+            height: 2.4rem;
+            line-height: 2.4rem;
+            span{
+                color: #bdbdbd;
+                font-size: 1rem;
+                margin-left: 0.3rem;
+            }
+        }
+        .account-exit{
+            margin-top: 3rem;
+            .exit-center{
+                text-align: center;
+				font-size: 1.5rem;
+        }
+	}
+}
+}

@@ -1,0 +1,103 @@
+<ion-header>
+	<ion-navbar>
+		<ion-title>{{(_baseData$ | async)?.name}}</ion-title>
+	</ion-navbar>
+</ion-header>
+
+<ion-content no-bounce class="bg-in home-contain">
+	<!-- FIXME ：此页面使用了弹性布局，用于调整主要几个区域元素的高度， -->
+	<!-- 以便适应不同宽高比的手机，让实时图保证显示在第一屏之内，并且内容撑满屏幕。 -->
+	<!-- 但是在软键盘弹出时，会因为页面高度被调整而造成弹性高度消失， -->
+	<!-- 页面区域因为高度变化出现跳跃感，需考虑在页面渲染完成后固定相关元素的高度！ -->
+	<!-- 可参照登录页纵向居中的处理方式。 -->
+	<ion-grid class="trtop">
+		<ion-row>
+			<ion-col col-5 class="liquid-container">
+				<liquid-component [echartsData]="liquiddata"></liquid-component>
+			</ion-col>
+			<ion-col col-7>
+				<ion-grid>
+					<ion-row>
+						<ion-col col-8>
+							<h1 class="{{(_baseData$ | async)?.changeValue | riseOrFall}}">{{(_baseData$ | async)?.latestPrice | number: '.2-2'}}</h1>
+							<span class="{{(_baseData$ | async)?.startPrice - (_baseData$ | async)?.yesterdayPrice | riseOrFall}}">开 {{(_baseData$ | async)?.startPrice | number: '.2-2'}}</span>
+						</ion-col>
+						<ion-col col-4>
+							<div class="{{(_baseData$ | async)?.maxPrice - (_baseData$ | async)?.yesterdayPrice | riseOrFall}}">
+								<ion-icon name="md-arrow-dropup" ios class="vertical-center"></ion-icon>
+								{{(_baseData$ | async)?.maxPrice | number: '.2-2'}}
+							</div>
+							<div class="{{(_baseData$ | async)?.minPrice - (_baseData$ | async)?.yesterdayPrice | riseOrFall}}">
+								<ion-icon name="md-arrow-dropdown" ios class="vertical-center"></ion-icon>
+								{{(_baseData$ | async)?.minPrice | number: '.2-2'}}
+							</div>
+						</ion-col>
+					</ion-row>
+				</ion-grid>
+			</ion-col>
+		</ion-row>
+	</ion-grid>
+	<ion-grid class="trinp"> 
+		<ion-row>
+			<ion-col col-2>
+				<ion-icon name="ios-gprice" class="vertical-center"></ion-icon>
+			</ion-col>
+			<ion-col col-3 tappable (click)="changeByStep('price',0.01,-2)">+</ion-col>
+			<ion-col col-4>
+				<ion-input type="number" placeholder="价格"
+					[(ngModel)]="price"
+					(blur)="formatNumber('price',-2)"
+					></ion-input>
+			</ion-col>
+			<ion-col col-3 tappable (click)="changeByStep('price',-0.01,-2)">-</ion-col>
+		</ion-row>
+		<ion-row>
+			<ion-col col-2>
+				<ion-icon name="ios-gamount" class="vertical-center"></ion-icon>
+			</ion-col>
+			<ion-col col-3 tappable (click)="changeByStep('amount',handBase)">+</ion-col>
+			<ion-col col-4>
+				<ion-input type="number" placeholder="数量"
+					[(ngModel)]="amount"
+					(blur)="formatNumber('amount')"
+					></ion-input>
+			</ion-col>
+			<ion-col col-3 tappable (click)="changeByStep('amount',-handBase)">-</ion-col>
+		</ion-row>
+	</ion-grid>
+	<ion-grid class="trbtn"> 
+		<ion-row>
+			<ion-col col-6>
+				<button block 
+				  [disabled]="+amount <= 0 || +price <= 0 || personalDataService.accountBalance < price * amount" 
+				  (click)="toBuy()">委托买入</button>
+			</ion-col>
+			<ion-col col-6>
+				<button block
+				  [disabled]="+amount <= 0 || +price <= 0 || (_saleableQuantity$ | async) < amount" 
+					(click)="toSale()">委托卖出</button>
+			</ion-col>
+		</ion-row>
+	</ion-grid>
+	<div class="trbom">
+		<div class="charts">
+			<realtime-charts-component
+				[echartsData]="_realtimeData$ | async"
+				[baseData]="_baseData$ | async"
+				[tradingTimeArray]="appSettings.tradingTimeArray"
+				[options]="realtimeOptions">
+			</realtime-charts-component>
+		</div>
+
+		<div class="bets item-center-center">
+			<div class="bets-tab">
+				<div *ngFor="let data of (_baseData$ | async)?.bets ; let i = index;" class="bets-row" [class.sep]="i === 5"
+						tappable (click)="price = data.price || price; formatNumber('price',-2)">
+					<span>{{appSettings.betsTitle[i]}}</span>
+					<span class="{{data?.price && data?.price - (_baseData$ | async)?.yesterdayPrice | riseOrFall}}">{{data?.price | number:'.2-2' | numberFilter}}</span>
+					<span class="color-important">{{data?.quantity / (_baseData$ | async)?.handBase | numberUnitFormat: false: false}}</span>
+				</div>
+			</div>
+		</div>
+	</div>
+</ion-content>

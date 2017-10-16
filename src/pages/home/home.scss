@@ -1,0 +1,40 @@
+page-home {
+	.home-header {
+		background: linear-gradient(to bottom, rgba(69, 178, 213, 1), rgba(129, 214, 242, 1));
+		//这里背景颜色不透明,透明了显得颜色暗淡,原因是设计稿头部下面没有一层半透明黑色蒙板,而我们的布局有
+		//TODO:更改布局然后改变样式
+				ion-row.info-row {
+					p {
+						margin-top: 0.6rem;
+						margin-bottom: 1.6rem;
+						font-size: 1.2rem;
+					}
+
+				}
+				.midline{
+					flex-grow: 0.5;
+					font-size: 2rem;
+					font-weight: 200;
+					color: color($colors, important);
+				}
+
+	}
+
+	.home-contain {
+			ion-row {
+				padding: 0 1.5em;
+				border-color: #4a2925;
+
+				ion-col span{
+					font-size: 1.3rem;
+					vertical-align: -0.1rem;
+					margin-left: 1rem;
+				}
+
+				&.bottom-space {
+					margin-bottom: 0.5em;
+				}
+			}
+	}
+
+}

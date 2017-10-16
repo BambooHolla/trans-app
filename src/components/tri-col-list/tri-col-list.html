@@ -1,0 +1,31 @@
+<ion-grid no-padding text-center class="col-center-center" [class.dark-transparent]="isOption">
+  <ion-row *ngFor="let data of listData; trackBy: (data?.baseData | async)?.stockCode;"
+       class="bottom-hr light-transparent"
+       [class.dark-transparent]="isOption"
+       tappable [navPush]="stockDetailPage" [navParams]="(data?.baseData | async)?.stockCode"
+  >
+    <ion-col padding>
+      <div class="col1">
+        <h5>{{(data?.baseData | async)?.name || '----'}}</h5>
+        <div *ngIf="isOption">
+          <span class="font-smaller">持仓</span>
+          <span class="color-important">{{data?.personalData?.restQuantity}}</span>
+        </div>
+        <span *ngIf="!isOption">{{(data?.baseData | async)?.stockCode}}</span>
+        <h6 *ngIf="showDetail">总市价：{{(data?.baseData | async)?.marketInfo?.marketValue}}</h6>
+      </div>
+    </ion-col>
+    <ion-col padding>
+      <div class="col2">
+        <h4 class="{{(data?.baseData | async)?.changeRate | riseOrFall}}" [class.showDetail]="showDetail">{{(data?.baseData | async)?.latestPrice | number:'.2-2'}}</h4>
+        <h6 *ngIf="showDetail">换手率：{{(data?.baseData | async)?.marketInfo?.turnoverRate | percent:'.2-2'}}</h6>
+      </div>
+    </ion-col>
+    <ion-col padding>
+      <div class="col3">
+        <h6 class="{{(data?.baseData | async)?.changeRate | riseOrFall}}" [class.showDetail]="showDetail">{{(data?.baseData | async)?.changeRate | percent:'.2-2' | positiveSign}}</h6>
+        <h6 *ngIf="showDetail">流通市值：{{(data?.baseData | async)?.circulationValue}}</h6>
+      </div>
+    </ion-col>
+  </ion-row>
+</ion-grid> 

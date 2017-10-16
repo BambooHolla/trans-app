@@ -1,0 +1,109 @@
+page-recommend{
+    
+    .paddingLeft{
+        padding-left: 3.2rem;
+    }
+    
+    ion-content{
+        .container{
+            height: 100%;
+            display: -webkit-box;
+            .blank{  
+                -webkit-box-flex: 1;
+            }
+            .optionalBoard{
+                background: linear-gradient(352deg, rgba(0, 0, 0, .5), rgba(0, 0, 0, .5) 190px, transparent 19rem, transparent)
+                        left bottom/100rem 100rem no-repeat;
+                height:16.5rem;
+                position: relative;
+                .circleBtn{
+                    position: absolute;
+                    transform: translateY(-20%);
+                    right: 2.8rem;
+                    top: 5.5rem;
+                    width: 4.8rem;
+                    height: 4.8rem;
+                    background: -webkit-linear-gradient(#2d9abe, #71d1ed);
+                    border-radius: 50%;
+                    text-align: center;
+                    div{
+                        line-height: 4.8rem;
+                        font-size: 3.2rem;
+                        color: white;
+                    }
+                }
+                .recommend{
+                    span{
+                        color: #2d9abe;
+                        display: block;
+                        font-size: 1.6rem;
+                        margin-top: 6.6rem;
+                        padding: 0.4rem 1rem 0.8rem;
+                        // FIXME ：使用自适应屏幕宽度的字号后，
+                        // 此处的背景定位在不同尺寸的手机上会错位！
+                        background-image:url("data:image/svg+xml;charset=utf-8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 111 30'><path d='M 1 2 L 110 2 L 87 28 L 1 28 Z' fill='none' stroke='rgb(13,115,145)' stroke-width='1' stroke-linejoin='miter'/><path d='M 0,2 L 20,2' fill='none' stroke='rgb(13,115,145)' stroke-width='4'/><path d='M 88,28 L 68,28' fill='none' stroke='rgb(13,115,145)' stroke-width='4'/></svg>");
+                        background-size: 11.1rem 3rem;
+                        background-repeat: no-repeat;
+                    }
+                }
+            }
+        }        
+    }
+    ion-footer{
+        ion-scroll{
+            height: 17rem;
+            background-color: rgba(0, 0, 0, .5);
+            .scroll-content{
+                white-space: nowrap;
+                height: 15rem;
+                padding-left: 2.8rem;
+            }
+            ion-card{
+                width: 12rem !important;
+                height: 12rem !important;
+                border-radius: 0.4rem !important;
+                display:inline-block;
+                background: white !important;
+                ion-card-header{
+                    padding-top: 0.6rem !important;
+                }
+                ion-card-content{
+                    h2{
+                        color: black;
+                    }
+                    small{
+                        color: #585858;
+                    }
+                    h1{
+                        color: red;
+                    }
+
+
+                    .price-left {
+                        background: #44d63d;
+                        border-radius: 0.2rem;
+                        float: left;
+                        margin-left: -0.5em;
+                    }
+
+                    .price-right {
+                        background: #dd3838;
+                        border-radius: 0.2rem;
+                        float: right;
+                        margin-right: -0.5em;
+                    }
+
+                    .price-left, .price-right {
+                        font-size: 1rem;
+                        line-height: 1.6rem;
+                        padding: 0;
+                        height: 1.4rem;
+                        width: 4.5rem;
+                        text-align: center;
+                    }
+                }
+            }
+        }
+    }
+    
+}

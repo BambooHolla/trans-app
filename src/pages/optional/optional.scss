@@ -1,0 +1,86 @@
+page-optional {
+  // .title-col {
+  //   h1 {
+  //     &.color-rise{
+  //       text-shadow: rgb(255, 255, 255) 0 0 1px, rgba(255, 255, 255, .5) 0 0 6px;
+  //     }
+  //     &.color-fall{
+  //       text-shadow: rgb(255, 255, 255) 0 0 1px, rgba(0, 0, 0, .5) 0 0 6px;
+  //     }
+  //   }
+  // }
+
+  // ion-header{
+  //   padding-bottom: 3.6rem;
+  // }
+  
+  .optional-header{
+    ion-scroll{    
+      height:3.6rem;
+
+      .list-header{
+        ion-col{
+          padding: 1rem 0;
+        }
+      }
+    }
+  }
+
+  ion-content{
+    .scroll-content {
+      background-color: rgba(0, 0, 0, .4);
+
+      ion-grid{
+        position: relative;
+      }
+
+      h5 {
+        font-size: 1.7rem;
+      }
+
+      h6 {
+        font-size: 1.5rem;
+      }
+
+    }
+  }
+
+}
+
+.optional-header {
+  // height: 225px;
+
+  h1 {
+    font-size: 3rem;
+  }
+
+  h5 {
+    font-size: 1.5rem;
+  }
+
+  h6 {
+    margin-top: 1.2rem;
+  }
+
+  .padding {
+    height: 1rem;
+  }
+
+  .title-col {
+    height: 12rem;
+  }
+
+  .info-row {
+    height: 5rem;
+  }
+
+  .list-header {
+    color: color($colors, light);
+  }
+
+}
+
+.echarts-test {
+  height: 30rem;
+  background-color: rgb(48, 166, 199);
+}

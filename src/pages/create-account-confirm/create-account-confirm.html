@@ -1,0 +1,36 @@
+<ion-header>
+
+    <ion-navbar>
+        <ion-title>开户信息</ion-title>
+    </ion-navbar>
+
+</ion-header>
+
+<ion-content class="bg-out" [class.verticalAlignCenter]="verticalCenter" #contentRef>
+    <form [formGroup]="ConfirmForm" novalidate>
+    <ion-list class="dark-item">
+
+        <ion-item no-lines>
+            <ion-label class="full-label" (click)="showModal('riskNote')">本人同意《风险提示书》</ion-label>
+            <ion-checkbox color="primary" formControlName="riskNote"></ion-checkbox>
+        </ion-item>
+
+        <ion-item no-lines>
+            <ion-label class="full-label" (click)="showModal('initiationAgreement')">本人同意《福建高新技术产权交易所投资人员入会协议》</ion-label>
+            <ion-checkbox color="primary" formControlName="initiationAgreement"></ion-checkbox>
+        </ion-item>
+
+        <ion-item no-lines>
+            <ion-label class="full-label" (click)="showModal('partnershipAgreement')">本人同意《____合伙企业（有限合伙）合伙协议》
+                <wbr/>《有限合伙财产份额转让协议》</ion-label>
+            <ion-checkbox color="primary" formControlName="partnershipAgreement"></ion-checkbox>
+        </ion-item>
+
+       
+    </ion-list>
+    <div class="input-container">
+         <ion-item no-lines></ion-item>
+         <button ion-button round full clear-dark color="important" type="submit" (click)="doValidate()">协议确认</button>
+    </div>
+    </form>
+</ion-content>

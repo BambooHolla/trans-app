@@ -1,0 +1,58 @@
+<ion-header class="color-primary home-header">
+	<div class="headbg header-with-bg">
+		<ion-navbar>
+		<!-- <div class="time">
+			<ion-item>
+				<ion-datetime cancelText="取消" doneText="确定" placeholder="2015-01-04" displayFormat="YYYY-MM-DD" [(ngModel)]="myDate">2015-01-04</ion-datetime>
+			</ion-item>
+			<ion-icon name="swap" ios color="#fff" class="vertical-center"></ion-icon>
+			<ion-item>
+				<ion-datetime cancelText="取消" doneText="确定" placeholder="2015-07-04" displayFormat="YYYY-MM-DD" [(ngModel)]="myDates"></ion-datetime>
+			</ion-item>
+		</div> -->
+			<ion-title>今日委托</ion-title>
+		</ion-navbar>
+		<!-- <ion-grid no-padding  class="optional-header" >
+			<ion-row center text-center>
+				<ion-col *ngFor="let title of titleArray; let i = index;" (click)="changeActive(i)"><span [class.active]="activeIndex === i">{{title}}</span></ion-col>
+			</ion-row>  
+		</ion-grid>
+		<smoothline-component [echartsData]="smoothlinedataList[activeIndex]"></smoothline-component> -->
+	</div>
+	<div class="comsub">
+		<ion-row center text-center>
+			<ion-col col-4>委托时间</ion-col>
+			<ion-col>委托/均价</ion-col>
+			<ion-col>委托/成交</ion-col>
+			<ion-col col-2>状态</ion-col>
+		</ion-row>
+	</div>
+</ion-header>
+
+<ion-content no-bounce class="bg-in home-contain">  
+	<div class="comcont">
+		<ion-row class="comlist" center text-center 
+			*ngFor="let data of optionalListData; trackBy: data?.id">
+			<ion-col col-4>
+				<div class="comicon">
+					<span [class]="data.category=='买入'?'buy':'sale'"></span>
+					<div>
+						<div>{{data.name}}</div>
+						<small>{{data.time}}</small>
+					</div>
+				</div>
+			</ion-col>
+			<ion-col>
+				<p>{{data.commit}}</p>
+				<p>{{data.average}}</p>
+			</ion-col>
+			<ion-col>
+				<p>{{data.commission}}</p>
+				<p>{{data.deal}}</p>
+			</ion-col>
+			<ion-col col-2 (click)="!data._2cancel && (data.state < 6) && confirmCancel(data.id,data.time,data.category)">
+				<div>{{dictionary.commissionResult[data.state]}}</div>
+			</ion-col>
+		</ion-row>
+	</div>
+</ion-content>

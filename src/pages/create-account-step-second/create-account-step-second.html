@@ -1,0 +1,47 @@
+<ion-header>
+
+    <ion-navbar>
+        <ion-title>开户信息</ion-title>
+    </ion-navbar>
+
+</ion-header>
+
+
+<ion-content class="bg-out">
+    <form [formGroup]="secondForm" novalidate>
+    <ion-list class="dark-item">
+        <ion-item no-lines>
+            <ion-label color="primary" fixed pad required>申请人姓名</ion-label>
+            <ion-input formControlName="name" type="text" required></ion-input>
+        </ion-item>
+        <!-- 经纪会员用处不明,暂时不存 -->
+        <!-- <ion-item no-lines>
+            <ion-label color="primary" fixed pad required>经纪会员</ion-label>
+            <ion-input formControlName="member" type="text" required></ion-input>
+        </ion-item> -->
+        <ion-item no-lines>
+            <ion-label  color="primary" fixed pad required>电子邮箱</ion-label>
+            <ion-input formControlName="email" type="text" required></ion-input>
+        </ion-item>
+        <ion-item no-lines>
+            <ion-label color="primary" fixed pad required>绑定银行</ion-label>
+            <ion-select  formControlName="bank"  interface="action-sheet"  multiple="false"  cancelText="取消" id="bank">
+                <ion-option value="1">中国建设银行</ion-option>
+                <ion-option value="3">平安银行</ion-option>
+            </ion-select>
+        </ion-item>
+        <!-- FIXME:hidden应该是临时处理的.需要去掉 -->
+        <ion-item no-lines id="bankNumber" [hidden]="secondForm.controls.bank.value === '3'">
+            <ion-label  color="primary" fixed pad required>银行卡号</ion-label>
+            <ion-input formControlName="bankNumber" type="number"></ion-input>
+        </ion-item>
+    </ion-list>
+
+    <div class="input-container">
+        <ion-item no-lines></ion-item>
+        <button ion-button round full clear-dark color="important" type="submit"   (click)="doValidate()" >
+            下一步
+        </button>
+    </div>
+    </form>
+</ion-content>

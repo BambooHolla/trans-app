@@ -1,0 +1,24 @@
+page-information {
+    .informationHeader{
+        font-size: 1.7rem;
+
+        ion-buttons{
+            margin-top: 0.3rem;
+        }
+
+        .fix-button-position {
+            padding: 0;
+            padding-top: 0.3rem;
+        }
+    }
+
+    ion-content{
+        ion-slides{
+            ion-slide{
+                .slide-zoom{
+                    height: 100% !important;
+                }
+            }
+        }
+    }
+}

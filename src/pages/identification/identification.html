@@ -1,0 +1,36 @@
+<ion-header>
+
+    <ion-navbar>
+        <ion-title>身份证照</ion-title>
+        <ion-buttons end>
+          <button ion-button (click)="cancelSubmit()">取消</button>
+        </ion-buttons>
+    </ion-navbar>
+
+</ion-header>
+
+
+<ion-content class="bg-in grid-basic-page">
+
+    <div class="photo-placeholder" *ngFor="let imageData of images">
+        <div class="mask">
+            <div class="tab">
+                <div class="cell">{{imageData.text}}</div>
+            </div>
+        </div>
+        <div class="mask item-center-center" *ngIf="imageData.image">
+            <img [src]="imageData.image" class="in-box-image" />
+        </div>
+        <div class="mask" (click)="upload(imageData.name)">
+            <div class="tab">
+                <div class="cell"><ion-icon name="add" class="opt" color="primary"></ion-icon></div>
+            </div>
+        </div>
+    </div>
+
+    <div style="margin-left: 30px;"><span class="circle"></span>&nbsp;&nbsp;&nbsp;身份证拍摄务必清晰不得模糊</div>
+
+    <div class="input-container">
+        <button ion-button round full clear-dark color="important" type="submit" (click)="submitPhoto()">提交照片</button>
+    </div>
+</ion-content>

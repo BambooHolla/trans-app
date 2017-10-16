@@ -1,0 +1,58 @@
+.info-tabs {
+  &.tabs-ios, &.tabs-md, &.tabs-wp {
+    .tabbar {
+      border-top: 0;
+      border-bottom: 0;
+      height: 7.5rem;
+      background: transparent;
+
+      .tab-button{
+        color: color($colors, primary);
+
+        .tab-button-icon {
+          position: relative;
+          left: 1.6rem;
+        }
+      }
+
+      .tab-button[aria-selected=true]{
+        color: color($colors, important);
+
+        .tab-button-text {
+          &:before {
+            content: "";
+            position: absolute;
+            z-index: 1;
+            bottom: -0.3rem;
+            width: 100%;
+            height: 0.3rem;
+            background-color: color($colors, important);
+            box-shadow: 0 0 1rem 0 color($colors, important);
+            border-radius: 0.3rem;
+          }
+        }
+      }
+
+      .tab-button-text {
+        position: relative;
+        // top: -4px;
+        overflow: visible;
+        z-index: 2;
+        font-size: 1.7rem;
+        font-weight: 400;
+      }
+
+      &:after {
+        display: none;
+      }
+    }
+  }
+
+  .scroll-content {
+    border-top: 0;
+  }
+
+  .foot-placeholder {
+    height: 5.6rem;
+  }
+}

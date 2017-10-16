@@ -1,0 +1,76 @@
+<ion-header>
+	<ion-navbar>
+	    <ion-title>互联网产权指数</ion-title>
+	</ion-navbar>
+</ion-header>
+
+<ion-content no-bounce class="bg-in home-contain">
+	<div class="quotitle">
+		<ion-grid>
+			<ion-row>
+				<ion-col col-6>
+					<ion-row>
+						<ion-col col-7>
+							<div class="{{showData?.changeValue | riseOrFall}} big" text-center>{{showData?.latestPrice | number:'.2-2' | numberFilter}}</div>
+							<div text-center>
+								<label class="{{showData?.changeValue | riseOrFall}}">{{showData?.changeValue | number:'.2-2' | positiveSign}}
+								</label>
+								<label class="{{showData?.changeValue | riseOrFall}}">{{showData?.changeRate | percent:'.2-2' | positiveSign}}</label>
+							</div>
+						</ion-col>
+						<ion-col col-5>
+							<div>最高&nbsp;&nbsp;<label class="{{(showData?.maxPrice - showData?.yesterdayPrice) | riseOrFall}}">{{showData?.maxPrice | number:'.2-2' | numberFilter}}</label></div>
+							<div>最低&nbsp;&nbsp;<label class="{{(showData?.minPrice - showData?.yesterdayPrice) | riseOrFall}}">{{showData?.minPrice | number:'.2-2' | numberFilter}}</label></div>
+						</ion-col>
+					</ion-row>
+				</ion-col>
+				<ion-col col-6>
+					<ion-row>
+						<ion-col col-5>
+							<div>昨收&nbsp;&nbsp;{{showData?.yesterdayPrice | number:'.2-2' | numberFilter}}</div>
+							<div>今开&nbsp;&nbsp;{{showData?.startPrice | number:'.2-2' | numberFilter}}</div>
+						</ion-col>
+						<ion-col col-7>
+							<div>量&nbsp;&nbsp;{{showData?.turnoverQuantity | numberUnitFormat}}</div>
+							<div>额&nbsp;&nbsp;{{showData?.turnoverAmount | numberUnitFormat}}</div>
+						</ion-col>
+					</ion-row>
+				</ion-col>
+			</ion-row>
+		</ion-grid>
+	</div>
+	<div class="candle">
+		<volumn-component [echartsData]="(_kData$ | async)?.day"  (volumnEmitted)="showVolumnTooltop($event)"></volumn-component>
+		<!-- <volumn-component  [echartsData]="volumndata" (volumnEmitted)="showVolumnTooltop($event)"></volumn-component> -->
+	</div>
+	<div class="notice-news">
+		<ion-grid>
+			<ion-row>
+				<ion-col col-6 *ngFor="let title of titleArray; let i = index;" (click)="changeActive(i)"> 
+					<div>
+						<ion-icon name="{{title.icon}}" ios color="important" class="vertical-center"></ion-icon>
+					</div>
+					<span [class.active]="activeIndex === i">{{title.title}}</span>
+				</ion-col>
+			</ion-row>
+		</ion-grid>
+	</div>
+	<ion-slides (ionSlideWillChange)="tabChanged($event)">
+		<ion-slide>
+			<ion-list>
+				<ion-item *ngFor="let data of noticeListData;trackBy: data?.id">
+					<div class="newtitl">{{data.title}}</div>
+					<span class="newtime">{{data.time}}</span>
+				</ion-item>
+			</ion-list>
+		</ion-slide>
+		<ion-slide>
+			<ion-list>
+				<ion-item *ngFor="let data of newsListData;trackBy: data?.id">
+					<div class="newtitl">{{data.title}}</div>
+					<span class="newtime">{{data.time}}</span>
+				</ion-item>
+			</ion-list>
+		</ion-slide>
+	</ion-slides>
+</ion-content>

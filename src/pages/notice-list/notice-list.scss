@@ -1,0 +1,81 @@
+page-notice-list {
+    ion-content {
+        .scroll-content {
+            margin-bottom: 0px !important;
+        }
+        .textEllipsis {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .item-block .item-inner,
+        .item { 
+            border-bottom: none!important;
+        }
+        .list:not(:first-child){
+            margin: 0!important;
+            border-bottom:1px solid rgba(83, 83, 83, 0.4);
+        }
+        
+        .firstNotice {
+            border-top: none!important;
+            &.item-ios.item-block .item-inner {
+                padding-right: 0.5rem;
+            }
+            padding: 0 0.7rem 0.7rem;
+            div {
+                border-radius: 0.8rem;
+                height: 14rem;
+                background: url(../assets/images/announce-bg.png) no-repeat;
+                background-size: 100% 100%;
+                .noticeStatic {
+                    padding-left: 1rem;
+                    font-size: 1.7rem;
+                    color: white;
+                    ion-col {
+                        padding: 0rem 0rem;
+                    }
+                }
+                .noticeContent {
+                    height: 4rem;
+                    padding-left: 1rem;
+                    padding-right: 0rem;
+                    font-size: 1.7rem;
+                    color: white;
+                    :first-child {
+                        line-height: 4rem;
+                        white-space: nowrap;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                    }
+                    :nth-child(2) {
+                        button {
+                            float: right;
+                            border-radius: 0rem;
+                        }
+                    }
+                    ion-col {
+                        padding: 0rem 0rem;
+                    }
+                }
+            }
+        }
+
+        .BulletinBoard {
+            padding: 7px 7px 7px 19px;
+            height: 4.4rem;
+            background: url(../assets/images/announce-title-bg.png) 7px 7px/65px 30px no-repeat;
+            font-size: 1.4rem;
+            line-height: 3rem;
+            text-align: left;
+        }
+
+        ion-list {
+            color: color($colors, primary);
+        }
+
+        #iframeWrapper{
+            height: 100%;
+        }
+    }
+}

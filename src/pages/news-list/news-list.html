@@ -1,0 +1,53 @@
+<!-- <ion-header>
+    <ion-grid no-padding text-center class="optional-header">
+        <ion-row padding>
+            <ion-col></ion-col>
+             <ion-col>公告</ion-col>
+             <ion-col>新闻</ion-col>
+            <ion-col>
+                <ion-buttons end>
+                    <ion-icon  name="ios-search" ></ion-icon>
+                </ion-buttons>
+
+            </ion-col>
+
+        </ion-row>
+    </ion-grid>
+</ion-header> -->
+
+<!-- <ion-content class="card-background-page bg-in"> -->
+<ion-content>
+    <ion-spinner name="ios" *ngIf="initing"></ion-spinner>
+    <!--下拉刷新-->
+    <ion-refresher (ionRefresh)="listRefresh($event)">
+        <ion-refresher-content refreshingText="正在刷新...">
+        </ion-refresher-content>
+    </ion-refresher>
+    <ion-list class="card-background-page">
+        <ion-card *ngFor="let site of newsList" ionic (click)="viewNews(site.newsId)">
+            <img src="{{site.titleImg}}" class="main-img" />
+            <div class="gradient-mask"></div>
+            <div class="infos">
+                <ion-avatar item-left >
+                    <img src="{{site.avatar}}">
+                </ion-avatar>
+                <div class="card-title">{{site.title}}</div>
+                <div class="card-subtitle font-smallest">
+                    <button ion-button icon-right clear small>
+                        <ion-icon name="ios-gcomment"></ion-icon>
+                        <div class="font-smaller">{{site.commentsNumber || ''}}</div>
+                    </button> 
+                    {{site.publishTime}}
+                </div>
+            </div>
+        </ion-card>
+    </ion-list>
+    <!--加载更多-->
+    <ion-infinite-scroll [enabled]="hasMore" (ionInfinite)="getMore($event)">
+        <ion-infinite-scroll-content loadingText="正在加载...">
+        </ion-infinite-scroll-content>
+    </ion-infinite-scroll>
+</ion-content>
+<!-- </ion-content> -->
+
+<!-- <ion-footer class="foot-placeholder"></ion-footer> -->

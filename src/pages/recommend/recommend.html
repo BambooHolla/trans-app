@@ -1,0 +1,54 @@
+<ion-header>
+    <ion-navbar>
+        <ion-title>推荐</ion-title>
+        <ion-buttons right padding-horizontal>
+            <button ion-button [navPush]="searchItemPage">
+                <ion-icon class="large-icon" name="search"></ion-icon>
+            </button>
+        </ion-buttons>
+    </ion-navbar>
+</ion-header>
+
+<ion-content no-bounce class="bg-in">
+    
+    <div class="container" style="-webkit-box-orient: vertical">
+        <div class="blank"></div>
+        <div class="optionalBoard">
+            <ion-row padding-left>
+                <ion-col style="font-size:1.6rem;">
+                    福建省高新技术产权交易所
+                </ion-col>
+            </ion-row>
+            <ion-row padding-left>
+                <ion-col style="font-size:1.2rem;">
+                    Fujian High-tech Property Exchange
+                </ion-col>
+            </ion-row>
+            <ion-row class="paddingLeft">
+                <ion-col class="recommend">
+                    <span>为你推荐</span>
+                </ion-col>
+            </ion-row>
+            <div class="circleBtn" >
+                <div tappable [navPush]="searchItemPage">+</div>
+            </div>
+        </div>
+    </div>
+</ion-content>
+
+<ion-footer>
+    <ion-scroll scrollX="true" >
+        <ion-card *ngFor="let card of cards; let i = index">
+            <ion-card-header></ion-card-header>
+            <ion-card-content>
+                <h2>顺丰控股</h2>
+                <small>002352</small>
+                <h1>62.8</h1>
+                <div class="price-left">63.18</div>
+                <div class="price-right">62.40</div>
+                <!-- <ion-badge item-left color="rise">63.18</ion-badge>
+                <ion-badge item-right color="fall">62.40</ion-badge> -->
+            </ion-card-content>
+        </ion-card>
+    </ion-scroll>
+</ion-footer>

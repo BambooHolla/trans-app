@@ -1,0 +1,60 @@
+<!-- Generated template for the Comment component -->
+<div class="comment">
+  <div class="commentHeader">
+    <div class="commentIcon"></div>
+    <span class="commentSort">{{title}}</span> 
+    <span [hidden]="!commentListLength" class="commentCount">{{commentListLength}}</span>
+    <!-- {{comments | counter }} -->
+  </div>
+
+  <div *ngIf="!commentListLength" class="noComment">
+    <!--<div class="sofaIcon"></div>-->
+    <img class="sofaIcon" src="../assets/images/sofa-zipped.png" />
+    <div class="tip">
+      还没有评论，快来抢沙发
+    </div>
+  </div>
+
+  <div *ngIf="!!likedComment.length">
+    <div *ngFor="let commentItem of likedComment" class="commentItem">
+      <div class="title-info">
+        <div class="avatar avatar-comment"></div>
+        <div class="article-info">
+          <div class="title">{{commentItem.userInfo?.userName}}</div>
+          <div class="publishTime">{{commentItem.publishTime | timespanPipe}}</div>
+        </div>
+      </div>
+      <div class="content">
+        {{commentItem.content}}
+      </div>
+      <div [liked]="isLiked(commentItem)" class="like" (click)="toggleLike(commentItem)">
+        <div class="count">{{commentItem.liker?.length}}</div>
+        <div class="thumb"></div>
+      </div>
+    </div>
+
+    <div class="blockTitle">
+      <div class="blockText">以上为{{title}}</div>
+    </div>
+
+  </div>
+
+  <div *ngFor="let commentItem of comments | async" class="commentItem">
+    <div class="title-info">
+      <div class="avatar avatar-comment"></div>
+      <div class="article-info">
+        <div class="title">{{commentItem.userInfo?.userName}}</div>
+        <div class="publishTime">{{commentItem.publishTime | timespanPipe}}</div>
+      </div>
+    </div>
+    <div class="content">
+      {{commentItem.content}}
+    </div>
+    <!--点赞要根据用户是否已点赞做效果,通过指令实现?-->
+    <!--<div class="like" liked="isLiked(commentItem) !== false">-->
+    <div [liked]="isLiked(commentItem)" class="like" (click)="toggleLike(commentItem)">
+      <div class="count">{{commentItem.liker?.length}}</div>
+      <div class="thumb"></div>
+    </div>
+  </div>
+</div>
