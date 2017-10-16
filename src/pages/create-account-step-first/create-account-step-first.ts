@@ -155,6 +155,11 @@ export class CreateAccountStepFirstPage implements AfterViewInit, OnDestroy {
         this.appService.request(RequestMethod.Post, url, body, false)
             .then(data => {
                 console.log(data)
+                //see the login-service dologin()
+                if (data.token) {
+                    this.appDataService.token = data.token
+                }
+
                 this.navCtrl.push(CreateAccountStepThirdPage, {
                     body: body,
                 });
