@@ -17,7 +17,8 @@ enum MinuteFixType {
 export class AppSettings {
   // http://192.168.16.185:40001/api/v1/bngj/news/swagger
   // public readonly SERVER_URL: string = 'http://119.23.68.40:11890';
-  public readonly SERVER_URL: string = 'http://192.168.16.185:40001';
+  public readonly SERVER_URL: string = 'http://192.168.16.14:40001'; //company server
+  // public readonly SERVER_URL: string = 'http://192.168.16.185:40001'; //zhiguang server
   public readonly SERVER_PREFIX: string ='/api/v1/bngj';
   // public readonly SOCKET_URL: string = 'http://192.168.16.230:10011';
   // public readonly SOCKET_URL: string = 'http://192.168.16.235:10011';
