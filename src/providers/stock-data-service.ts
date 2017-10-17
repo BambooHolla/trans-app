@@ -534,7 +534,7 @@ export class StockDataService {
         // //gjs
         // source$ = this.socketioService.subscribeEquity(code + suffix, eventName);
         //bngj直接通过股票代码获取socket链接, eventName用来作为链接暂存的标识.
-        source$ = this.socketioService.subscribeEquity(code, eventName);
+        source$ = this.socketioService.subscribeEquity(code, 'data');
       }
       console.log('source$: ',source$)
       const equity$ = source$
@@ -892,7 +892,7 @@ export class StockDataService {
     //   min: 0//24小时最低价
     // }
     console.log(data);
-    const price = this.numberFixed2(data.p.n);// || data.price)
+    const price = this.numberFixed2(data.price)
     // 模拟服务器数据中缺少 ta （ turnoverAmount ）字段！
     const { m: market, t: time, tq: turnoverQuantity, ta: turnoverAmount } = data;
     const transformResult: AnyObject = {

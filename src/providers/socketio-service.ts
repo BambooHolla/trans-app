@@ -91,7 +91,7 @@ export class SocketioService {
     }
     console.log(this._socketUrl)
     this.socket = SocketIOClient.connect(this._socketUrl, {
-      transports: this.transports,
+      // transports: this.transports,
       path: this.path
       // transportOptions: {
       //   polling: {
@@ -123,14 +123,15 @@ export class SocketioService {
       // new Date('2017-09-07 00:00:00'), new Date('2017-09-09 00:00:00'));
       //price:
       // socket.emit('watch', "-f52f58bd4e0e5e502890b3f8");
+      this._authenticated.next(true)
     });
 
     socket.on('data', function (data) {
-      console.log(data);
+      console.log('socket on data: ',data);
     });
 
     socket.on('error', function (err) {
-      console.log(err);
+      console.log('socket on err: ',err);
     });
 
     socket.on('authenticated', () => {
@@ -215,11 +216,11 @@ export class SocketioService {
     }
   }
 
-  private onData(eventName, data) {
+  private onData({ eventName, equityCode}, data) {
     // console.log(`socket on: `, data);
     if (this.eventSubscriberMap.has(eventName)){
       this.eventSubscriberMap.get(eventName).forEach((code, subscriber) => {
-        if (data.ec === code || data.n === code){
+        if (equityCode === code || data.ec === code || data.n === code){
           subscriber.next(data);
         }
       });
@@ -274,7 +275,7 @@ export class SocketioService {
   private addSubscriberToMap(eventName: string, equityCode: string, subscriber: Subscriber<any>) {
     if (!this.eventSubscriberMap.has(eventName)){
       this.eventSubscriberMap.set(eventName, new Map());
-      this.socket.on(eventName, this.onData.bind(this, eventName));
+      this.socket.on(eventName, this.onData.bind(this, { eventName, equityCode}));
     }
     const subscriberMap = this.eventSubscriberMap.get(eventName);
     if (!subscriberMap.has(subscriber)){

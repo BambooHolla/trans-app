@@ -26,20 +26,17 @@ export class TradeService {
     let promise: Promise<any>;
     if (!this.fakeTrade){
       // console.log('start trade')
-      const url = `${this.appSettings.SERVER_URL}/api/v1/gjs/biz/transactions/tradingCommission`
+      const url = `${this.appSettings.SERVER_URL + this.appSettings.SERVER_PREFIX}/transactions/create`
       const headers = new Headers({ 'Content-Type': 'application/json' });
       headers.append('X-AUTH-TOKEN', this.appDataService.token);
 
       const options = new RequestOptions({ headers: headers });
 
       let data = {
-        equityCode,
-        password,
-        consignmentType: consignmentType.toString(),// 1 买入申报 2 卖出申报 59 买入确认 60 卖出确认
-
-        consignmentCount: consignmentCount.toString(),// 数量
-
-        consignmentPrice: consignmentPrice.toString(),// 价格
+        productId:equityCode,
+        transactionType: '00' + consignmentType.toString(),// 1 买入申报 2 卖出申报 59 买入确认 60 卖出确认
+        amount: +consignmentCount,// 数量
+        price: consignmentPrice * 100,// 价格
       }
 
       promise = this.http
