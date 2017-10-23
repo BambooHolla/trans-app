@@ -28,6 +28,10 @@ export class LoginService {
         .filter(value => typeof value === 'boolean')
         .distinctUntilChanged();
 
+  logout$: Observable<any> = this._status
+    .asObservable()
+    .filter(value => value === false)
+    .distinctUntilChanged();
   
   constructor(
     public http: Http,

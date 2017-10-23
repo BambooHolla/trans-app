@@ -12,14 +12,53 @@ import { AppSettings } from '../providers/app-settings';
 import { AppDataService } from '../providers/app-data-service';
 import { LoginService } from './login-service';
 
+/**
+ * ToRefactor:
+ * socket.on 可以用 Observable.fromEvent 转换，转换后的 Observable 用 Map 存下来。
+ * new Observable() 内部产生的 observer 没有必要用属性保存，
+ * onData() 可以用上面产生的 Observable 配合 filter() 来分流。
+ * 同时加上 takeUntil 保证在用户退出登录时能够自动被取消订阅。
+ */
+
 @Injectable()
 export class SocketioService {
 
+  private socketAPIs = new Map([
+    ['price',{
+      target: '/price',
+      source: '/transaction',
+      socket: undefined,
+      _connected:false,
+      // _connected$: _connected.asObservable().distinctUntilChanged(),
+    }],
+    ['depth',{
+      target: '/depth',
+      source: '/transaction',
+      socket: undefined,
+      _connected: false,
+      // _connected$: _connected.asObservable().distinctUntilChanged(),
+    }],
+    ['report',{
+      target: '/report',
+      source: '/report',
+      socket: undefined,
+      _connected: false,
+      // _connected$: _connected.asObservable().distinctUntilChanged(),
+    }]
+  ])
+
   // private _socketUrl: string = `${this.appSettings.SOCKET_URL}/app/gjs`;
-  private target: string = '/price'
-  private source: string = '/transaction'
-  private path: string = this.appSettings.SOCKET_PREFIX + this.source + '/socket.io'
-  private _socketUrl: string = this.appSettings.SERVER_URL + this.target
+  // private target: string = '/report'
+  // private source: string = '/report'
+  // private path: string = this.appSettings.SOCKET_PREFIX + this.source + '/socket.io'
+  // private _socketUrl: string = this.appSettings.SERVER_URL + this.target
+
+  private path(source){
+    return this.appSettings.SOCKET_PREFIX + source + '/socket.io'
+  }
+  private _socketUrl(target): string{
+    return this.appSettings.SERVER_URL + target
+  }
 
   private socket;
   private transports = [
@@ -45,54 +84,38 @@ export class SocketioService {
   }
 
   initSubscribers() {
-    this.loginService.status$.subscribe(status => {
-      if (!status) {
-        this.disconnectSocket()
-      }
+    this.loginService.logout$.subscribe(() => {
+        //todo:断开所有socket
+        this.disconnectSocket('price')
     })
   }
 
-  private socketReady(): Promise<any> {
-    const authenticated = this._authenticated.getValue();
-    if (!this.socket || authenticated === undefined){
-      this.connectSocket();
+  private socketReady(api): Promise<any> {
+    const targetSocket = this.socketAPIs.get(api)
+    if (!targetSocket || !targetSocket.socket
+    ) { //  ||  this._authenticated.getValue() === undefined) {
+      this.connectSocket(api);
     }
 
-    if (authenticated === true){
-      return Promise.resolve();
-    }
-
-    return new Promise((resolve, reject) => {
-      this.authenticated$
-        .filter(value => typeof value === 'boolean')
-        .first()
-        .subscribe(result => {
-          if (result){
-            resolve();
-          } else {
-            reject('socket not ready: unauthentication!');
-          }
-        });
-    });
-    // return this.authenticated$
-    //   .do(value => {console.log('authenticated$ value: ', value)})
-    //   .filter(value => typeof value === 'boolean')
-    //   .toPromise()
-    //   .then(value => {
-    //     console.log('socketReady promise: ', value);
-    //     return value ? Promise.resolve() : Promise.reject('unauthenticattion')
-    //   })
+    return this.authenticated$
+      .filter(value => typeof value === 'boolean')
+      .first()
+      .toPromise()
+      .then(value => value ?
+        Promise.resolve() : Promise.reject('unauthenticattion')
+      );
   }
 
-  private connectSocket(){
-    if (this.socket && this.socket.disconnected) {
-      this.socket.connect();
+  private connectSocket(api){
+    const targetSocket = this.socketAPIs.get(api)
+    if (targetSocket.socket && targetSocket.socket.disconnected) {
+      targetSocket.socket.connect();
       return;
     }
-    console.log(this._socketUrl)
-    this.socket = SocketIOClient.connect(this._socketUrl, {
+    console.log(this._socketUrl(targetSocket.target))
+    targetSocket.socket = SocketIOClient.connect(this._socketUrl(targetSocket.target), {
       // transports: this.transports,
-      path: this.path
+      path: this.path(targetSocket.source)
       // transportOptions: {
       //   polling: {
       //     extraHeaders: {
@@ -103,7 +126,7 @@ export class SocketioService {
       // extraHeaders: {'X-AUTH-TOKEN': this.appDataService.token},
     });
 
-    const socket = this.socket;
+    const socket = targetSocket.socket;
 
     // 断线重连后，若断线时间较长，则会使用不同的 socketio 连接，
     // 这样之前的订阅就会失效！
@@ -116,39 +139,34 @@ export class SocketioService {
     // 这样原有连接与订阅依然会失效！
     socket.on('connect', () => {
       console.log('connected');
-      //gjs:
+      //gjs:认证授权
       // socket.emit('authentication', this.appDataService.token);
-      //report:
-      // socket.emit('watch', "1h", '001', "-10001", 
-      // new Date('2017-09-07 00:00:00'), new Date('2017-09-09 00:00:00'));
-      //price:
-      // socket.emit('watch', "-f52f58bd4e0e5e502890b3f8");
       this._authenticated.next(true)
     });
 
     socket.on('data', function (data) {
-      console.log('socket on data: ',data);
+      console.log(`${api}Socket on data: `,data);
     });
 
     socket.on('error', function (err) {
-      console.log('socket on err: ',err);
+      console.log(`${api}Socket on err: `,err);
     });
 
-    socket.on('authenticated', () => {
-      console.log('authenticated');
-      this._authenticated.next(true);
-      // 认证通过后重新进行订阅（有可能是断线重连）。
-      this.socketioResubscribe();
-    });
+    // socket.on('authenticated', () => {
+    //   console.log('authenticated');
+    //   // this._authenticated.next(true);
+    //   // 认证通过后重新进行订阅（有可能是断线重连）。
+    //   this.socketioResubscribe();
+    // });
 
-    socket.on('unauthorized', (result) => {
-      // 验证未通过时，断开 socketio 连接，
-      // 此后所有的订阅都不会进行，包括网络断线重连后。
-      // 必须注销并重新登录，才会重连 socketio 并重新尝试认证。
-      console.log('unauthorized: ', result && (result.message || result));
-      this._authenticated.next(false);
-      socket.disconnect();
-    });
+    // socket.on('unauthorized', (result) => {
+    //   // 验证未通过时，断开 socketio 连接，
+    //   // 此后所有的订阅都不会进行，包括网络断线重连后。
+    //   // 必须注销并重新登录，才会重连 socketio 并重新尝试认证。
+    //   console.log('unauthorized: ', result && (result.message || result));
+    //   this._authenticated.next(false);
+    //   socket.disconnect();
+    // });
 
     socket.on('connect_error', (...args) => {
       console.log('connect_error:', args);
@@ -182,9 +200,9 @@ export class SocketioService {
     // console.log(socket);
   }
 
-  disconnectSocket(){
-    if (this.socket){
-      this.socket.disconnect();
+  disconnectSocket(api){
+    if (this.socketAPIs.get(api).socket){
+      this.socketAPIs.get(api).socket.disconnect();
     }
 
     this.eventSubscriberMap.forEach(subscriberMap => {
@@ -202,7 +220,7 @@ export class SocketioService {
 
   private socketioResubscribe() {
     this._socketioSubscribeList.forEach(subscribeData => {
-      this.socket.emit('subscribe', subscribeData);
+      this.socketAPIs.get('price').socket.emit('subscribe', subscribeData);
     });
   }
 
@@ -235,7 +253,7 @@ export class SocketioService {
       // 这个函数会被重新调用一次，并传入新的 observer 。
       // 因此需要将新的 observer 加到 Map 中，
       // 以便可以在 socketio 的 on 事件中使用正确的 observer(subscriber) 去派发数据。
-      this.socketReady()
+      this.socketReady('price')
         .then(() => {
           this.addSubscriberToMap(eventName, equityCode, observer);
 
@@ -247,7 +265,7 @@ export class SocketioService {
           this._socketioSubscribeList.push(subscribeData);
           // this.socket.emit('subscribe', subscribeData);
           console.log('watch: ', `-${equityCodeWithSuffix}`)
-          this.socket.emit('watch', `-${equityCodeWithSuffix}`)
+          this.socketAPIs.get('price').socket.emit('watch', `-${equityCodeWithSuffix}`)
         })
         .catch(err => {
           console.log(err)
@@ -265,7 +283,7 @@ export class SocketioService {
           date: new Date(),
         };
         this.removeFromSocketioSubscribeList(subscribeData);
-        this.socket.emit('unsubscribe', subscribeData);
+        this.socketAPIs.get('price').socket.emit('unsubscribe', subscribeData);
       }
     });
 
@@ -275,8 +293,9 @@ export class SocketioService {
   private addSubscriberToMap(eventName: string, equityCode: string, subscriber: Subscriber<any>) {
     if (!this.eventSubscriberMap.has(eventName)){
       this.eventSubscriberMap.set(eventName, new Map());
-      this.socket.on(eventName, this.onData.bind(this, { eventName, equityCode}));
+      this.socketAPIs.get('price').socket.on(eventName, this.onData.bind(this, { eventName, equityCode}));
     }
+    Observable.fromEvent(this.socketAPIs.get('price').socket,eventName)
     const subscriberMap = this.eventSubscriberMap.get(eventName);
     if (!subscriberMap.has(subscriber)){
       // 将新的 subscriber 加到 Map 中。
