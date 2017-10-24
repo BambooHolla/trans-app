@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
-import { Http, Headers, Response, URLSearchParams } from "@angular/http";
+import { Http, Headers, Response, URLSearchParams, RequestMethod } from "@angular/http";
 
 import { Observable } from "rxjs/Observable";
 
 import { AppDataService } from "../../providers/app-data-service";
 import { AppSettings } from "../../providers/app-settings";
+import { AppService } from '../../providers/app.service';
 
 
 @Injectable()
@@ -13,6 +14,7 @@ export class NewsService {
   constructor(
     private http: Http,
     private appSettings: AppSettings,
+    private appService: AppService,
     public appDataService: AppDataService,
   ) {
 
@@ -32,53 +34,58 @@ export class NewsService {
     }
 
     console.log("getNewsService:",newsId)
-    let url = `${this.appSettings.SERVER_URL}/api/v1/gjs/news/news/${newsId}`
 
     const params = new URLSearchParams();
-    params.set('lstSearchTime', lastTime.toString());
+    params.set('newsId', newsId);
 
-    const headers = new Headers();
-    headers.append('X-AUTH-TOKEN', this.appDataService.token);
-
-    return this.http.get(url, {
-      search: params,
-      headers: headers,
-    })
-      // .do(value => console.dir("1: " + value))
-      .map(response => {
-        const resData = response.json().data
-        let data = [];
-        //后端返回异常处理
+    const path = `/news/getNewsDetailList`
+    return this.appService.request(RequestMethod.Get, path, params, true)
+      .then(resData => {
+        console.log('getnews: ', resData);
+        ////新闻返回数据结构
+        // {
+        //   "_id": "59e76ebe6fc3970c356184be",
+        //   "newsId": "1004519818",
+        //   "publisherType": "001",
+        //   "msgType": "006",
+        //   "publisherId": "1003017460",
+        //   "newsTitle": "投资课堂",
+        //   "abstract": "投资课堂",
+        //   "content": "投资课堂",
+        //   "cover": "投资课堂",
+        //   "relationType": "002",
+        //   "status": "002",
+        //   "relationId": "23432",
+        //   "crtUserId": "1003017460",
+        //   "crtDateTime": "2017-10-23T08:26:27.640Z",
+        //   "lstModUserId": "1003017460",
+        //   "lstModDateTime": "2017-10-23T08:26:27.640Z",
+        //   "__v": 0
+        // }
         if (!resData) {
-          if (response.json().error) {
-            throw (response.json())
-          } else {
-            console.dir(response.json())
-          }
-        } else {
-          //数据转换,暂时没想到优雅的解决方案.
-          resData.map((item: any, index) => {
-            data[index] = {}
-            data[index].titleImg = "assets/images/news-title.jpg"
-            data[index].title = resData[index].title
-            data[index].content = resData[index].content
-            data[index].publishTime = new Date(resData[index].crtDateTime)
-            data[index].avatarImg = "assets/images/test/004.png"
-          })
-          console.dir(response.json())
+          return Promise.reject(new Error('resData missing'));
         }
-        // console.dir("新闻数据:", data)
-        return data[0]
+        //数据转换,暂时没想到优雅的解决方案.
+        const data = {
+          titleImg: "assets/images/news-title.jpg",//resData.cover
+          title: resData.newsTitle,
+          content: resData.content,
+          publishTime: new Date(resData.crtDateTime),
+          avatarImg: "assets/images/test/004.png",
+        }
+        return data
       })
-      .catch(this.handleError)
+      .catch(err => {
+        console.log('getnews error: ', err);
+      });
   }
 
   //TODO:lastTime数据获取最后时间,数据处理
-  getNewsList(lastTime: string = '2016-01-01', msgType: string = '1000',page,isMock:boolean) {
-    let url = `${this.appSettings.SERVER_URL}/api/v1/gjs/news/news/newsType/${msgType}`
+  getNewsList(lastTime: string = '2016-01-01', msgType: string = '001',page,isMock:boolean) {
+    console.log('getnewslist start')
 
     const params = new URLSearchParams();
-    params.set('lstSearchTime', lastTime);
+    // params.set('msgType', msgType);
     params.set('page', page);
     
     console.log(page)
@@ -126,38 +133,54 @@ export class NewsService {
         ]
       )
     }
-    return this.http.get(url, {
-      search: params,
-      headers: headers,
-    })
-      // .do(value => console.dir("1: " + value))
-      .map(response => {
-        const resData = response.json().data
-        let data = [];
-        //后端返回异常处理
-        if (!resData) {
-          if (response.json().error) {
-            throw (response.json())
-          } else {
-            console.dir(response.json())
-          }
-        } else {
-          //数据转换,暂时没想到优雅的解决方案.
-          resData.map((item: any, index) => {
-            data[index] = {}
-            data[index].newsId = resData[index].newsId
-            data[index].titleImg = "assets/images/news-title.jpg"
-            data[index].title = resData[index].title
-            data[index].commentsNumber = ~~(Math.random() * 1000)
-            data[index].publishTime = new Date(resData[index].crtDateTime)
-            data[index].avatar = "assets/images/test/004.png"
-          })
-          console.dir(response.json())
+
+    const path = `/news/getNewsList`
+    return this.appService.request(RequestMethod.Get, path, params, true)
+      .then(data => {
+        console.log('getnewslist: ', data);
+          ////新闻列表返回数据结构
+          // {
+          //   "data": [
+          //     {
+          //       "_id": "59e76ebe6fc3970c356184be",
+          //       "newsId": "1004519818",
+          //       "publisherType": "001",
+          //       "msgType": "006",
+          //       "publisherId": "1003017460",
+          //       "newsTitle": "投资课堂",
+          //       "abstract": "投资课堂",
+          //       "content": "投资课堂",
+          //       "cover": "投资课堂",
+          //       "relationType": "002",
+          //       "status": "002",
+          //       "relationId": "23432",
+          //       "crtUserId": "1003017460",
+          //       "crtDateTime": "2017-10-23T08:26:27.640Z",
+          //       "lstModUserId": "1003017460",
+          //       "lstModDateTime": "2017-10-23T08:26:27.640Z",
+          //       "__v": 0
+          //     }
+          //   ]
+          // }
+        if (!data) {
+          return Promise.reject(new Error('data missing'));
         }
-        // console.dir("新闻列表:", data)
-        return data
+        //数据转换,暂时没想到优雅的解决方案.
+        let resData = [];
+        data.map((item: any, index) => {
+          resData[index] = {}
+          resData[index].newsId = data[index].newsId
+          resData[index].titleImg = "assets/images/news-title.jpg"//data[index].cover
+          resData[index].title = data[index].newsTitle
+          resData[index].publishTime = new Date(data[index].crtDateTime)
+          resData[index].avatar = "assets/images/test/004.png"
+        })
+        return resData
       })
-      .catch(this.handleError)
+      .catch(err => {
+        console.log('getnewslist error: ', err);
+        // return Promise.reject(err);
+      });
   }
 
   public handleError(error: Response | any, donotThrow) {

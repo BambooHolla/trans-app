@@ -20,7 +20,7 @@ export class NewsListPage implements OnInit,OnDestroy {
     newsListSubscriber: Subscription
     newsListObserver:Observable<any[]>
 
-    isMock:boolean = true
+    isMock:boolean = false
     reqType = 0//数据请求类型,0为初始化列表数据,1为添加
     handler:any
     hasMore: boolean = true
@@ -84,7 +84,7 @@ export class NewsListPage implements OnInit,OnDestroy {
         console.log('news-list: onInit')
         this.newsListSubscriber =this.getNewsListTermStream
             .debounceTime(300) 
-            .switchMap(page => this.newsService.getNewsList(undefined, '1000',page,this.isMock))
+            .switchMap(page => this.newsService.getNewsList(undefined, '001',page,this.isMock))
             .do((data) => {
                 console.dir(data)
             })
