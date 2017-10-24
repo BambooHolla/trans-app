@@ -193,22 +193,38 @@ export class PersonalDataService {
       return Promise.resolve();
     }
 
-    const url = `${this.appSettings.SERVER_URL}/api/v1/gjs/biz/customers/${this.appDataService.customerId}`;
-    return this.httpService.getWithToken(url)
+    // //高交所原有数据接口
+    // const url = `${this.appSettings.SERVER_URL}/api/v1/gjs/biz/customers/${this.appDataService.customerId}`;
+    // return this.httpService.getWithToken(url)
+    //   .then(data => {
+    //     // console.log('requestCustomerData: ', data);
+    //     if (!data.data || !Array.isArray(data.data) || !data.data.length){
+    //       return Promise.reject('data missing');
+    //     }
+    //     // 返回数据格式为数组，暂时只使用数组第一组元素。
+    //     this.parseCustomerData(data.data[0]);
+    //   })
+    //   .catch(err => {
+    //     console.log('requestCustomerData error: ', err.message || err);
+    //     if (err.message === 'FORBIDDEN') {
+    //       this.loginService.doLogout()
+    //     }
+    //     return Promise.reject(err);
+    //   });
+
+    const path = `/user/getCustomersData`    
+    return this.appService.request(RequestMethod.Get, path, undefined, true)
       .then(data => {
-        // console.log('requestCustomerData: ', data);
-        if (!data.data || !Array.isArray(data.data) || !data.data.length){
-          return Promise.reject('data missing');
+        console.log('getCustomersData: ', data);
+        if (!data) {
+          return Promise.reject(new Error('data missing'));
         }
         // 返回数据格式为数组，暂时只使用数组第一组元素。
-        this.parseCustomerData(data.data[0]);
+        this.parseCustomerData(data);
       })
       .catch(err => {
-        console.log('requestCustomerData error: ', err.message || err);
-        if (err.message === 'FORBIDDEN') {
-          this.loginService.doLogout()
-        }
-        return Promise.reject(err);
+        console.log('getCustomersData error: ', err);
+        // return Promise.reject(err);
       });
   }
 
@@ -226,7 +242,14 @@ export class PersonalDataService {
   // FID_KHZT     客户状态
   // FID_KHSX     客户属性
   // FID_MOBILE   手机
-
+  // var message = {
+  //   "email": customer.email,
+  //   "telephone": customer.telephone,
+  //   "gender": customer.gender,
+  //   "loginName": customer.loginName,
+  //   "recommendCode": customer.recommendCode
+  // }
+  // return res.json({ data: message })
   parseCustomerData(data){
     // 是否需要检测客户状态？
     // 状态不正常是是否要自动注销登录？
@@ -236,7 +259,7 @@ export class PersonalDataService {
     this._fullname = data.FID_KHQC;
     this._phone = data.FID_DH;
     this._idcardnumber = data.FID_ZJBH;
-    this._mobile = data.FID_MOBILE;
+    this._mobile = data.telephone || data.FID_MOBILE;
     this._address = data.FID_DZ;
     this._email = data.FID_EMAIL;
   }
