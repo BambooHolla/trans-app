@@ -30,6 +30,9 @@ export class AppDataService {
   public password;
   public savePassword;
 
+  //TODO:缓存产品信息
+  public products:Map<string,AnyObject>
+
   private _dataReady:Promise<any>;
 
   public get dataReady(){
