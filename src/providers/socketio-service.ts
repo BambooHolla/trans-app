@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 // import { Subject } from 'rxjs/Subject';
 import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { Subscriber } from 'rxjs/Subscriber';
+// import { Subscriber } from 'rxjs/Subscriber';
 import 'rxjs/Observable/timer';
 
 import * as SocketIOClient from 'socket.io-client';
@@ -47,33 +47,21 @@ export class SocketioService {
     }]
   ])
 
-  // private _socketUrl: string = `${this.appSettings.SOCKET_URL}/app/gjs`;
-  // private target: string = '/report'
-  // private source: string = '/report'
-  // private path: string = this.appSettings.SOCKET_PREFIX + this.source + '/socket.io'
-  // private _socketUrl: string = this.appSettings.SERVER_URL + this.target
-
   private path(source){
     return this.appSettings.SOCKET_PREFIX + source + '/socket.io'
   }
   private _socketUrl(target): string{
     return this.appSettings.SERVER_URL + target
   }
-
-  private socket;
-  private transports = [
-    // 'polling',
-    'websocket',
-  ];
-
+  
   private _authenticated: BehaviorSubject<boolean> = new BehaviorSubject(undefined);
   authenticated$: Observable<boolean> = this._authenticated
         .asObservable()
         .distinctUntilChanged();
 
-  private eventSubscriberMap: Map<string, Map<Subscriber<any>, string>> = new Map();
+  private apiObservableMap: Map<string, Observable<any>> = new Map();
 
-  private _socketioSubscribeList: any[] = [];
+  private _socketioSubscribeSet: Set<any> = new Set();
 
   constructor(
     private appDataService: AppDataService,
@@ -85,8 +73,10 @@ export class SocketioService {
 
   initSubscribers() {
     this.loginService.logout$.subscribe(() => {
-        //todo:断开所有socket
-        this.disconnectSocket('price')
+      this.socketAPIs.forEach((value,key,map)=>{
+        this.disconnectSocket(key)
+      })
+        // this.disconnectSocket('price')
     })
   }
 
@@ -201,71 +191,53 @@ export class SocketioService {
   }
 
   disconnectSocket(api){
-    if (this.socketAPIs.get(api).socket){
+    if (this.socketAPIs.get(api) && this.socketAPIs.get(api).socket){
       this.socketAPIs.get(api).socket.disconnect();
     }
+    //TODO:api对应的observable清出map
+    this.apiObservableMap.delete(api)
 
-    this.eventSubscriberMap.forEach(subscriberMap => {
-      subscriberMap.forEach((value, subscriber) => {
-        subscriber.unsubscribe();
-      });
-
-      subscriberMap.clear();
-    });
-    this.eventSubscriberMap.clear();
-
-    this._socketioSubscribeList.length = 0;
+    this._socketioSubscribeSet.clear();
     this._authenticated.next(undefined);
   }
 
-  private socketioResubscribe() {
-    this._socketioSubscribeList.forEach(subscribeData => {
-      this.socketAPIs.get('price').socket.emit('subscribe', subscribeData);
-    });
-  }
+  // //现在没做授权验证,故不需要使用到此方法,方法内需要修改.
+  // private socketioResubscribe() {
+  //   this._socketioSubscribeSet.forEach(subscribeData => {
+  //     this.socketAPIs.get('price').socket.emit('subscribe', subscribeData);
+  //   });
+  // }
 
-  private removeFromSocketioSubscribeList(subscribeData) {
-    const index = this._socketioSubscribeList.findIndex(
-      item => item.channel === subscribeData.channel
-    );
+  // private onData({ eventName, equityCode}, data) {
+  //   // console.log(`socket on: `, data);
+  //   if (this.eventSubscriberMap.has(eventName)){
+  //     this.eventSubscriberMap.get(eventName).forEach((code, subscriber) => {
+  //       if (equityCode === code || data.ec === code || data.n === code){
+  //         subscriber.next(data);
+  //       }
+  //     });
+  //   }
+  // }
 
-    if (index !== -1) {
-      this._socketioSubscribeList.splice(index, 1);
-    }
-  }
-
-  private onData({ eventName, equityCode}, data) {
-    // console.log(`socket on: `, data);
-    if (this.eventSubscriberMap.has(eventName)){
-      this.eventSubscriberMap.get(eventName).forEach((code, subscriber) => {
-        if (equityCode === code || data.ec === code || data.n === code){
-          subscriber.next(data);
-        }
-      });
-    }
-  }
-
-  subscribeEquity(equityCodeWithSuffix: string, eventName: string): Observable<any> {
+  subscribeEquity(equityCodeWithSuffix: string, api: string): Observable<any> {
     const equityCode = /^([^-]+)/.exec(equityCodeWithSuffix)[1];
-    console.log(equityCodeWithSuffix,' & ',eventName)
+    console.log(equityCodeWithSuffix, ' & ', api)
     const observable = new Observable(observer => {
+      const subscribeData = {
+        channel: equityCodeWithSuffix,
+        from: 'wzx',
+        date: new Date(),
+      };
       // 对于所有订阅都已取消的 refCount 重新进行订阅时，
       // 这个函数会被重新调用一次，并传入新的 observer 。
-      // 因此需要将新的 observer 加到 Map 中，
-      // 以便可以在 socketio 的 on 事件中使用正确的 observer(subscriber) 去派发数据。
-      this.socketReady('price')
+      this.socketReady(api)
         .then(() => {
-          this.addSubscriberToMap(eventName, equityCode, observer);
-
-          const subscribeData = {
-            channel: equityCodeWithSuffix,
-            from: 'wzx',
-            date: new Date(),
-          };
-          this._socketioSubscribeList.push(subscribeData);
+          this.getObservableFromMap(api, equityCode)
+            .subscribe(observer)
+          this._socketioSubscribeSet.add(subscribeData);
           // this.socket.emit('subscribe', subscribeData);
           console.log('watch: ', `-${equityCodeWithSuffix}`)
-          this.socketAPIs.get('price').socket.emit('watch', `-${equityCodeWithSuffix}`)
+          this.socketAPIs.get(api).socket.emit('watch', `-${equityCodeWithSuffix}`)
         })
         .catch(err => {
           console.log(err)
@@ -275,40 +247,31 @@ export class SocketioService {
       // 会调用此方法取消 observer 的订阅。
       return () => {
         console.log('socketio unsubscribe: ', equityCodeWithSuffix);
-        this.removeSubscriberFromMap(eventName, observer);
-
-        const subscribeData = {
-          channel: equityCodeWithSuffix,
-          from: 'wzx',
-          date: new Date(),
-        };
-        this.removeFromSocketioSubscribeList(subscribeData);
-        this.socketAPIs.get('price').socket.emit('unsubscribe', subscribeData);
+        
+        // this.removeFromSocketioSubscribeList(subscribeData);
+        this._socketioSubscribeSet.delete(subscribeData);
+        this.socketAPIs.get(api).socket.emit('unsubscribe', subscribeData);
       }
     });
 
     return observable;
   }
 
-  private addSubscriberToMap(eventName: string, equityCode: string, subscriber: Subscriber<any>) {
-    if (!this.eventSubscriberMap.has(eventName)){
-      this.eventSubscriberMap.set(eventName, new Map());
-      this.socketAPIs.get('price').socket.on(eventName, this.onData.bind(this, { eventName, equityCode}));
+  private getObservableFromMap(api: string, equityCode: string) {
+    if (!this.apiObservableMap.has(api)){
+      this.apiObservableMap.set(api, 
+        Observable.fromEvent(this.socketAPIs.get(api).socket, 'watch').takeUntil(this.loginService.logout$)
+      );
+      // this.socketAPIs.get('price').socket.on(eventName, this.onData.bind(this, { eventName, equityCode}));
     }
-    Observable.fromEvent(this.socketAPIs.get('price').socket,eventName)
-    const subscriberMap = this.eventSubscriberMap.get(eventName);
-    if (!subscriberMap.has(subscriber)){
-      // 将新的 subscriber 加到 Map 中。
-      subscriberMap.set(subscriber, equityCode);
-    }
-  }
-
-  private removeSubscriberFromMap(eventName: string, subscriber: Subscriber<any>) {
-    const subscriberMap = this.eventSubscriberMap.get(eventName);
-    // 在 Map 中删除所保存的 observer ，防止内存泄漏。
-    if (subscriberMap && subscriberMap.has(subscriber)){
-      subscriberMap.delete(subscriber);
-    }
+    // Observable.fromEvent(this.socketAPIs.get('price').socket,eventName)
+    // const subscriberMap = this.eventSubscriberMap.get(eventName);
+    // if (!subscriberMap.has(subscriber)){
+    //   // 将新的 subscriber 加到 Map 中。
+    //   subscriberMap.set(subscriber, equityCode);
+    // }
+    return this.apiObservableMap.get(api)
+      .filter(data => equityCode === data.code || data.ec === equityCode || data.n === equityCode)//ToFix:这里data.code是临时代替字段,后续根据服务端返回数据更改
   }
 
 }

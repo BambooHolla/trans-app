@@ -534,7 +534,7 @@ export class StockDataService {
         // //gjs
         // source$ = this.socketioService.subscribeEquity(code + suffix, eventName);
         //bngj直接通过股票代码获取socket链接, eventName用来作为链接暂存的标识.
-        source$ = this.socketioService.subscribeEquity(code, 'data');
+        source$ = this.socketioService.subscribeEquity(code, 'price');
       }
       console.log('source$: ',source$)
       const equity$ = source$
