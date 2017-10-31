@@ -32,7 +32,10 @@ export class RealTimeChartsComponent extends EchartsBaseComponent {
 
     createCharts() {
         const options = this.options || {};
+        //解构赋值解析options变量,使用默认值保证配置参数正常
         const {
+            showAxisBoundaryLabel = true,
+            tooltipShow = true,
             gridLeft = '2px',
             gridRight = '0px',
             gridTop = '10px',
@@ -81,6 +84,7 @@ export class RealTimeChartsComponent extends EchartsBaseComponent {
 
         const option = {
             tooltip: {
+                show: tooltipShow,
                 trigger: 'axis',
                 extraCssText: 'width: 88px',
                 position: function (pos, params, el, elRect, size) {
@@ -230,8 +234,8 @@ export class RealTimeChartsComponent extends EchartsBaseComponent {
                                 return rangeColor[1]
                         }
                     },
-                    showMinLabel: true,
-                    showMaxLabel: true,
+                    showMinLabel: showAxisBoundaryLabel,
+                    showMaxLabel: showAxisBoundaryLabel,
                     //控制X轴刻度的显示间隔
                 },
                 splitNumber: 1,

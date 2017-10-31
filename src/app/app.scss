@@ -47,14 +47,15 @@ body {
 }
 
 .bg-in {
-  background-image:url("../assets/images/bg_3.jpg");
-  background-size: cover;
-  background-position-x: center;
-  box-shadow: inset 0 0 0 100vmax rgba(0,0,0,0.8);
+  // background-image:url("../assets/images/bg_3.jpg");
+  // background-size: cover;
+  // background-position-x: center;
+  // box-shadow: inset 0 0 0 100vmax rgba(0,0,0,0.8);
 
-  &.bg-light {
-    box-shadow: inset 0 0 0 100vmax rgba(0,0,0,0.5);
-  }
+  // &.bg-light {
+  //   box-shadow: inset 0 0 0 100vmax rgba(0,0,0,0.5);
+  // }
+  background-color: #2a2b3f !important
 }
 
 .bg-black {

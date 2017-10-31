@@ -20,6 +20,8 @@ import { StockDataService } from '../../providers/stock-data-service';
 	templateUrl: 'quotations.html'
 })
 export class QuotationsPage {
+	tempArray = new Array(5)
+
 	quotationDetailPage: any = QuotationDetailPage;
 	stockDetailPage: any = StockDetailPage;
 	searchItemPage: any = SearchItemPage;
@@ -137,6 +139,8 @@ export class QuotationsPage {
 	// ];
 
 	realtimeOptions = {
+		tooltipShow:false,
+		showAxisBoundaryLabel:false,
 		customTooltip: true, 
 		xAxisShow: false, 
 		axisLabelShow: false,

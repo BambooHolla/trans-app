@@ -9,15 +9,14 @@
     </ion-navbar>
 </ion-header>
 
-<ion-content class="bg-in home-contain">
+<ion-content class="home-contain">
 
-    <div class="qhd">
+    <div *ngFor="let i of tempArray" class="qhd">
       <realtime-charts-component
         *ngIf="_thisPageActive"
        [echartsData]="_realtimeData$ | async"
        [tradingTimeArray]="appSettings.tradingTimeArray"
        [baseData]="_baseData$ | async"
-       (tooltipEmitted) = "showRealtimeQutationTooltip($event)"
        [options]="realtimeOptions">
       </realtime-charts-component>
       <div class="qcont quotcont">
@@ -33,7 +32,7 @@
      </div>
     </div>
 
-    <div class="quotitle">
+    <!-- <div class="quotitle">
         <ion-scroll scrollX="true" scrollFixX>
             <div *ngFor="let item of stockDataService.sectorList; let i = index; trackBy item?.sectorType" (click)="changeActive(i)" tappable class="item" text-center>
                 <span [class.active-underline]="activeIndex.getValue() === i">{{item.sectorName}}</span>
@@ -60,65 +59,5 @@
                  [options]="realtimeOption">
                 </realtime-charts-component>
             </div>
-    </div>
-    <!-- <ion-slides #listSlides [spaceBetween]='6' [initialSlide]='1' (ionSlideWillChange)="tabChange($event)" class="bosld"> -->
-    <div class="bosld">
-<!--         <ion-slide class="margin-top">
-            <div class="font-smaller slidhd">
-                <ion-icon name="optional-outline" ios class="vertical-center"></ion-icon>跌幅
-                <ion-icon name="ios-arrow-forward" ios class="vertical-center r"></ion-icon>
-            </div>
-            <ion-grid no-padding text-center class="col-center-center">
-                <ion-row tappable *ngFor="let data of optionalListData;" [navPush]="stockDetailPage" [navParams]="'000001'">
-                    <ion-col>
-                        <div>
-                            <h5>{{data.name}}</h5>
-                            <span class="font-smaller">{{data.sequence}}</span>
-                        </div>
-                    </ion-col>
-                    <ion-col>
-                        <h4 class="{{data.changeRate | riseOrFall}}">{{data.price | number:'.2-2'}}</h4>
-                    </ion-col>
-                    <ion-col>
-                        <h6 class="{{data.changeRate | riseOrFall}}">{{data.changeRate | percent:'.2-2' | positiveSign}}</h6>
-                    </ion-col>
-                </ion-row>
-            </ion-grid>
-        </ion-slide> -->
-
-        <!-- <ion-slide class="margin-top"> -->
-        <div class="slide-zoom margin-top">
-            <div class="font-smaller slidhd">
-                <ion-icon name="optional-outline" ios class="vertical-center"></ion-icon>板块个股
-                <ion-icon name="ios-arrow-forward" ios class="vertical-center r"></ion-icon>
-            </div>
-            <tri-col-list-component [listData]="sectorStockDetailList" [isOption]="false">
-            </tri-col-list-component>
-        </div>
-        <!-- </ion-slide> -->
-
-<!--         <ion-slide class="margin-top">
-            <div class="font-smaller slidhd">
-                <ion-icon name="optional-outline" ios class="vertical-center"></ion-icon>净值排行
-                <ion-icon name="ios-arrow-forward" ios class="vertical-center r"></ion-icon>
-            </div>
-            <ion-grid no-padding text-center class="col-center-center">
-                <ion-row tappable *ngFor="let data of optionalListData;" [navPush]="stockDetailPage" [navParams]="'000001'">
-                    <ion-col>
-                        <div>
-                            <h5>{{data.name}}</h5>
-                            <span class="font-smaller">{{data.sequence}}</span>
-                        </div>
-                    </ion-col>
-                    <ion-col>
-                        <h4 class="{{data.changeRate | riseOrFall}}">{{data.price | number:'.2-2'}}</h4>
-                    </ion-col>
-                    <ion-col>
-                        <h6 class="{{data.changeRate | riseOrFall}}">{{data.changeRate | percent:'.2-2' | positiveSign}}</h6>
-                    </ion-col>
-                </ion-row>
-            </ion-grid>
-        </ion-slide> -->
-    <!-- </ion-slides> -->
-    </div>
+    </div> -->
 </ion-content>

@@ -42,16 +42,14 @@ page-quotations{
     
     ion-content{
         .qhd{
-            background:rgba(13,117,147,0.6); /* 一些不支持背景渐变的浏览器 */
-            background: linear-gradient(-75deg, #0d7593, #0d7593 50%, rgba(0, 0, 0, 1));
-            height: 12rem;
+            position: relative;
+            height: 11rem;
 
             .qcont{
                 position: absolute;
                 height: 12rem!important;
                 width:100%;
                 top:0;
-                background:rgba(255,255,255,0.3)!important;
                 pointer-events: none;
                 .slides{
                     margin-top:1.8rem;
@@ -66,7 +64,6 @@ page-quotations{
 
         .quotcont{
             height: 12rem;
-            background-color: rgba(255, 255, 255, .06);
             padding: 1rem;
             .echarts-placeholder,
             .slideselem {
