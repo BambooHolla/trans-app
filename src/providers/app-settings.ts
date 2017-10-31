@@ -27,10 +27,10 @@ export class AppSettings {
   public readonly SOCKET_PREFIX: string = '/socket/v1/bngj';
 
   // 虚假登录开关
-  public readonly FAKE_LOGIN: boolean = false;
+  public readonly FAKE_LOGIN: boolean = true;
 
   //模拟数据开关
-  public readonly SIM_DATA: boolean = false;
+  public readonly SIM_DATA: boolean = true;
 
   // 退出某个页面后，多长时间取消对于实时数据的订阅。
   // 避免切换页面时实时数据频繁订阅/取消订阅，

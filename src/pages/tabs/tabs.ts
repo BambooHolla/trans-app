@@ -13,8 +13,10 @@ import { PersonalDataService } from '../../providers/personal-data-service';
 
 //引入资讯的首页
 import { InformationPage } from '../information/information';
+import { TradeInterfacePage } from '../trade-interface/trade-interface';
 
 @Component({
+  selector: 'component-tabs',
   templateUrl: 'tabs.html',
 })
 export class TabsPage {
@@ -26,6 +28,7 @@ export class TabsPage {
 
   homeRoot: any = HomePage;
   quotationsPageRoot: any = QuotationsPage;
+  tradeRoot: any = TradeInterfacePage;
 
   @ViewChild('optionalTab') optionalTab;
 

@@ -15,7 +15,7 @@ import { TradeService } from '../../providers/trade-service';
   templateUrl: 'trade-interface.html'
 })
 export class TradeInterfacePage {
-  stockCode = '';
+  stockCode = '000001';
 
   private _saleableQuantity$: Observable<number>;
 
@@ -82,7 +82,7 @@ export class TradeInterfacePage {
     public personalDataService: PersonalDataService,
     public tradeService: TradeService,
   ) {
-    const stockCode = this.stockCode = this.navParams.get('stockCode');
+    const stockCode = this.stockCode = this.navParams.get('stockCode') || this.stockCode;
     if (stockCode) {
       this._saleableQuantity$ = this.personalDataService.personalStockList$
         .map(arr => arr.filter(item => item.stockCode === stockCode))

@@ -18,9 +18,11 @@
   </ion-content>
 </ion-menu> -->
 
-<ion-tabs #maintabs class="bg-in bg-light">
+<ion-tabs #maintabs>
+<!-- <ion-tabs #maintabs class="bg-in bg-light"> -->
   <ion-tab [root]="optionalRoot" tabTitle="持仓" tabIcon="optional" #optionalTab></ion-tab>
   <ion-tab [root]="quotationsPageRoot" tabTitle="行情" tabIcon="quotations"></ion-tab>
+  <ion-tab [root]="tradeRoot" rootParams='000002' tabTitle="交易" tabIcon="quotations"></ion-tab>
   <ion-tab [root]="infoTabsRoot" tabTitle="资讯" tabIcon="infos"></ion-tab>
   <!-- tabsHideOnSubPages 不会对 Tab 页面起作用，而是对于在 Tab 页面中打开的子页面起作用 -->
   <ion-tab [root]="homeRoot" tabTitle="我的" tabIcon="mine"></ion-tab>
