@@ -18,25 +18,25 @@
     <div class="logo-container">
       <img src="assets/images/login/logo.png" alt="" class="logo">
     </div>
-    <div class="login-form-container">
+    <form class="login-form-container" [formGroup]="loginForm" (ngSubmit)="login()" novalidate>
       <ion-item class="login-form-item">
-        <ion-input class="account" placeholder="手机号/邮箱"></ion-input>
+        <ion-input formControlName="customerId" class="account" placeholder="手机号/邮箱"></ion-input>
       </ion-item>
       <ion-item class="login-form-item">
-        <ion-input class="password" placeholder="密码">
+        <ion-input formControlName="password" class="password" placeholder="密码">
         </ion-input>
         <div item-right class="view-pwd-wrapper">
           <ion-icon name="view-pwd"></ion-icon>
         </div>
       </ion-item>
       <a class="forget-password">忘记密码</a>
-      <button ion-button class="login-form-submit">
+      <button ion-button class="login-form-submit" type="submit" [disabled]="loginForm.invalid || !appDataService.ready || logining">
         登录
       </button>
       <div class="register-line">
         还没有账户
         <a class="go-register">马上注册</a>
       </div>
-    </div>
+    </form>
   </div>
 </ion-content>

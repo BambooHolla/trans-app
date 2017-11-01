@@ -54,7 +54,6 @@
     <feature name="StatusBar">
         <param name="ios-package" onload="true" value="CDVStatusBar" />
     </feature>
-    <engine name="android" spec="^6.2.3" />
     <plugin name="com.synconset.imagepicker" spec="git+https://github.com/darkbasic/ImagePicker.git">
         <variable name="PHOTO_LIBRARY_USAGE_DESCRIPTION" value="pick image" />
     </plugin>
@@ -71,4 +70,5 @@
     <plugin name="cordova-sqlite-storage" spec="^2.0.4" />
     <plugin name="cordova.plugins.diagnostic" spec="git+https://github.com/kyr0/cordova-diagnostic-plugin.git" />
     <plugin name="ionic-plugin-keyboard" spec="~2.2.1" />
+    <engine name="android" spec="~6.2.3" />
 </widget>
