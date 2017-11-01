@@ -27,7 +27,7 @@ import 'rxjs/add/operator/delay';
 import { GjsApp } from './app.component';
 
 import { LoadingPage } from '../pages/loading/loading';
-// import { NewsListPage } from '../pages/news-list/news-list';
+import { NewsListPage } from '../pages/news-list/news-list';
 import { TabsPage } from '../pages/tabs/tabs';
 import { InfoTabsPage } from '../pages/info-tabs/info-tabs';
 import { AboutPage } from '../pages/about/about';
@@ -242,6 +242,7 @@ import { TransferPage } from "../pages/transfer/transfer";
   ],
   bootstrap: [IonicApp],
   entryComponents: [
+    NewsListPage,
     LoopSlidesComponent,
     GjsApp,
     TransferPage,

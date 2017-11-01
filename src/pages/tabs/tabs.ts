@@ -14,6 +14,7 @@ import { PersonalDataService } from '../../providers/personal-data-service';
 //引入资讯的首页
 import { InformationPage } from '../information/information';
 import { TradeInterfacePage } from '../trade-interface/trade-interface';
+import { NewsListPage } from '../news-list/news-list';
 
 @Component({
   selector: 'component-tabs',
@@ -25,6 +26,7 @@ export class TabsPage {
   optionalRoot: any = OptionalPage;
 
   infoTabsRoot: any = InformationPage;
+  newsListPage: any = NewsListPage;
 
   homeRoot: any = HomePage;
   quotationsPageRoot: any = QuotationsPage;

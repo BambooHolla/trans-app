@@ -134,7 +134,7 @@ export class NewsService {
       )
     }
 
-    const path = `/news/getNewsList`
+    const path = `/news/news`
     return this.appService.request(RequestMethod.Get, path, params, true)
       .then(data => {
         console.log('getnewslist: ', data);
