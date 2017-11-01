@@ -221,6 +221,10 @@ import { TransferPage } from "../pages/transfer/transfer";
       // tabsPlacement: 'bottom',
       // pageTransition: 'ios-transition',
       tabsHideOnSubPages: true,
+    },{
+        links:[
+          { component: LoginPage, name: 'login' },
+        ]
     }),
     IonicStorageModule.forRoot(),
     BrowserModule,
