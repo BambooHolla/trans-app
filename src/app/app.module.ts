@@ -38,6 +38,7 @@ import { ContactPage } from '../pages/contact/contact';
 import { OptionalPage } from '../pages/optional/optional';
 import { EntrancePage } from '../pages/entrance/entrance';
 import { LoginPage } from '../pages/login/login';
+import { RegisterPage } from '../pages/register/register';
 import { CreateAccountPromptPage } from '../pages/create-account-prompt/create-account-prompt';
 import { CreateAccountStepFirstPage } from '../pages/create-account-step-first/create-account-step-first';
 import { CreateAccountStepSecondPage } from '../pages/create-account-step-second/create-account-step-second';
@@ -173,6 +174,7 @@ import { TransferPage } from "../pages/transfer/transfer";
     OptionalPage,
     // TriColListComponent,
     LoginPage,
+    RegisterPage,
     HomePage,
     QuotationDetailPage,
     FundStatementPage,
@@ -224,6 +226,7 @@ import { TransferPage } from "../pages/transfer/transfer";
     },{
         links:[
           { component: LoginPage, name: 'login' },
+          { component: RegisterPage, name: 'register' },
         ]
     }),
     IonicStorageModule.forRoot(),
@@ -277,6 +280,7 @@ import { TransferPage } from "../pages/transfer/transfer";
     OptionalPage,
     // SearchItemPage,
     LoginPage,
+    RegisterPage,
     // NoticeListPage,
     // NoticePage,
     ImagePickerPage,

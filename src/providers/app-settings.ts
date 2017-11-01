@@ -27,7 +27,7 @@ export class AppSettings {
   public readonly SOCKET_PREFIX: string = '/socket/v1/bngj';
 
   // 虚假登录开关
-  public readonly FAKE_LOGIN: boolean = false;
+  public readonly FAKE_LOGIN: boolean = true;
 
   //模拟数据开关
   public readonly SIM_DATA: boolean = true;

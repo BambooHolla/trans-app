@@ -1,0 +1,50 @@
+<!--
+  Generated template for the RegisterPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title></ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content no-bounce>
+  <div class="register-warpper">
+    <div class="logo-container">
+      <img src="assets/images/login/logo.png" alt="" class="logo">
+    </div>
+    <form class="register-form-container" [formGroup]="registerForm" (ngSubmit)="register()" novalidate>
+      <ion-item class="register-form-item">
+        <ion-input formControlName="customerId" class="account" placeholder="手机号/邮箱"></ion-input>
+      </ion-item>
+      <ion-item class="register-form-item">
+        <ion-input formControlName="vcode" class="number" placeholder="验证码">
+        </ion-input>
+        <button item-right class="send-vcode credit-submit-btn" [disabled]="resend_time_clock" (click)="register_step1()">
+          {{resend_time_clock?(resend_time_clock+'s'):'获取验证码'}}</button>
+      </ion-item>
+      <ion-item class="register-form-item">
+        <ion-input formControlName="password" class="password" placeholder="登录密码">
+        </ion-input>
+      </ion-item>
+      <ion-item class="register-form-item">
+        <ion-input formControlName="confirPassword" class="password" placeholder="确认密码">
+        </ion-input>
+      </ion-item>
+      <div class="register-agree-protocol">
+        <ion-checkbox color="dark" formControlName="protocolAgree"></ion-checkbox>
+        <p class="protocol-checkbox" (click)="toggleProtocolAgree()">
+          <a>币加所用户协议</a>
+        </p>
+      </div>
+      <button ion-button class="register-form-submit" type="submit" [disabled]="registerForm.invalid || !appDataService.ready || registering">
+        注册
+      </button>
+    </form>
+  </div>
+</ion-content>
