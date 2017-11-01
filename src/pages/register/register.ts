@@ -38,6 +38,7 @@ export class RegisterPage {
 
   constructor(
     public navCtrl: NavController,
+    public navParams: NavParams,
     public loadingCtrl: LoadingController,
     public alertCtrl: AlertController,
     public elementRef: ElementRef,
@@ -45,6 +46,13 @@ export class RegisterPage {
     public appDataService: AppDataService,
     public appSettings: AppSettings,
   ) {
+
+    const rawVal = this.registerForm.getRawValue();
+    const customerId = navParams.get("customerId");
+    if (customerId) {
+      rawVal.customerId = customerId;
+      this.registerForm.setValue(rawVal);
+    }
   }
 
   ionViewDidLoad() {

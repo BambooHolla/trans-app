@@ -156,9 +156,6 @@ export class LoginPage {
     return this.navCtrl.push(path, params, opts, done);
   }
   goToRegister() {
-    // this.routeTo('register', this.loginForm.getRawValue());
-    console.log("GGG")
-    this.routeTo('register');
-    console.log("EEE")
+    this.routeTo('register', this.loginForm.getRawValue());
   }
 }
