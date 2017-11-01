@@ -3,7 +3,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 
 import { AlertController, IonicPage, LoadingController, NavController, NavParams } from 'ionic-angular';
 
-import { LoginService } from '../../providers/login-service';
+import { RegisterService } from '../../providers/register-service';
 import { AppDataService } from '../../providers/app-data-service';
 import { AppSettings } from '../../providers/app-settings';
 /**
@@ -42,7 +42,7 @@ export class RegisterPage {
     public loadingCtrl: LoadingController,
     public alertCtrl: AlertController,
     public elementRef: ElementRef,
-    public loginService: LoginService,
+    public registerService: RegisterService,
     public appDataService: AppDataService,
     public appSettings: AppSettings,
   ) {
@@ -95,7 +95,7 @@ export class RegisterPage {
     }
   }
 
-
+  sending_vcode = false;
   resend_time_clock = 0;
   _resend_time_clock_ti: any;
   tickResendTimeClock() {
@@ -110,9 +110,22 @@ export class RegisterPage {
   }
 
   async register_step1() {
-    // await doSomeThing()
+    this.sending_vcode = true;
+    try {
+      await this.registerService.sendSMSCode(this.registerForm.get("customerId").value)
 
-    this.tickResendTimeClock(); // 开始倒计时重新发送短信的按钮
+      this.tickResendTimeClock(); // 开始倒计时重新发送短信的按钮
+    }
+    catch (err) {
+      this.alertCtrl.create({
+        title: '警告',
+        message: err instanceof Error ? err.message : String(err),
+        buttons: ['OK']
+      }).present();
+    }
+    finally {
+      this.sending_vcode = false;
+    }
   }
 
   async register() {

@@ -27,7 +27,7 @@ export class AppService {
     params: string | object,
     withToken: boolean = false,
     options: RequestOptionsArgs = {},
-  ) {
+  ): Promise<any> {
     let requestMethod = null
     const url = `${this.appSettings.SERVER_URL + this.appSettings.SERVER_PREFIX + path}`
     const token = this.appDataService.token;

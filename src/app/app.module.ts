@@ -71,6 +71,7 @@ import { HttpService } from '../providers/http-service';
 import { AppService } from '../providers/app.service.ts';
 import { SocketioService } from '../providers/socketio-service';
 import { LoginService } from '../providers/login-service';
+import { RegisterService } from '../providers/register-service';
 import { AlertService } from '../providers/alert-service';
 import { KeyboardService } from '../providers/keyboard-service';
 import { ImagePickerService } from '../providers/image-picker-service';
@@ -318,6 +319,7 @@ import { TransferPage } from "../pages/transfer/transfer";
     HttpService,
     SocketioService,
     LoginService,
+    RegisterService,
     AlertService,
     KeyboardService,
     ImagePickerService,
