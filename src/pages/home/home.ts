@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 
 import { NavController } from 'ionic-angular';
-// import { FundStatementPage } from '../fund-statement/fund-statement';
+import { FundStatementPage } from '../fund-statement/fund-statement';
 import { CommissionListPage } from '../commission-list/commission-list';
-// import { HistoryRecordPage } from '../history-record/history-record';
+import { HistoryRecordPage } from '../history-record/history-record';
 
 
 
@@ -21,31 +21,31 @@ import { PersonalDataService } from '../../providers/personal-data-service';
 })
 export class HomePage {
   commandData: any[] = [
-    {
-      icon: "gtransfer",
-      name: '银行转交易所/交易所转银行',
-      href: TransferPage,
-    },
     // {
-    //   icon: "gcard",
-    //   name: '身份认证/银行卡绑定',
+    //   icon: "gtransfer",
+    //   name: '银行转交易所/交易所转银行',
+    //   href: TransferPage,
     // },
     {
-      icon: "ghand",
-      name: '我的委托/撤销',
-      href: CommissionListPage,
+      icon: "gcard",
+      name: '身份认证/银行卡绑定',
     },
     // {
-    //   icon: "gdoc",
-    //   name: '历史成交记录',
-    //   href: HistoryRecordPage,
-    //   bottomSpace: true
+    //   icon: "ghand",
+    //   name: '我的委托/撤销',
+    //   href: CommissionListPage,
     // },
-    // {
-    //   icon: "gtrend",
-    //   name: '资金变动查询',
-    //   href: FundStatementPage,
-    // },
+    {
+      icon: "gdoc",
+      name: '历史成交记录',
+      href: HistoryRecordPage,
+      bottomSpace: true
+    },
+    {
+      icon: "gtrend",
+      name: '资金变动查询',
+      href: FundStatementPage,
+    },
     {
       icon: "gperson",
       name: '账户中心',

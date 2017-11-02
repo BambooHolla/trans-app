@@ -98,7 +98,7 @@ export class LoginPage {
 
     const customerId = controls['customerId'].value;
     const password = controls['password'].value;
-    const savePassword = controls['savePassword'].value;
+    const savePassword = true;//controls['savePassword'].value;
     const type = this.appSettings.accountType(customerId);
 
     this.logining = true;
