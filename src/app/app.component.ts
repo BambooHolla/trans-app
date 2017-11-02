@@ -12,7 +12,7 @@ import { App, LoadingController, Loading } from 'ionic-angular';
 
 // import { LoadingPage } from '../pages/loading/loading';
 import { TabsPage } from '../pages/tabs/tabs';
-// import { LoginPage } from '../pages/login/login';
+import { LoginPage } from '../pages/login/login';
 import { EntrancePage } from '../pages/entrance/entrance';
 
 import { AppSettings } from '../providers/app-settings';
@@ -78,7 +78,7 @@ export class GjsApp {
       .subscribe(status => {
         // console.log('login status changed: ', status);
 
-        const targetPage = status ? TabsPage : EntrancePage;
+        const targetPage = status ? TabsPage : LoginPage;//EntrancePage;
         if (!this.rootPage){
           this.rootPage = targetPage;
 

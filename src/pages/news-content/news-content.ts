@@ -12,7 +12,7 @@ import { AppSettings } from "../../providers/app-settings";
 })
 export class NewsContent implements OnInit{
   
-  news: Observable<object>
+  news: any//Observable<object>
   newsId:string
 
   constructor(

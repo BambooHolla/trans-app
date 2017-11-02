@@ -20,7 +20,7 @@ export class LoginService {
   // 并使用该属性构造出一个可观察对象 status$ ，
   // 在相关代码（例如 /src/app/app.component.ts ）中可以订阅这个可观察对象，
   // 从而实现对该属性的监视。
-  private _status = new BehaviorSubject<boolean>(undefined);
+  _status = new BehaviorSubject<boolean>(undefined);
   status$: Observable<boolean> = this._status
         .asObservable()
         // 在值被设置时，

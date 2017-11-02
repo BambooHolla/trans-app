@@ -42,3 +42,4 @@ Thumbs.db
 UserInterfaceState.xcuserstate
 
 .editorconfig
+package-lock.json

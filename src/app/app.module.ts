@@ -38,6 +38,7 @@ import { ContactPage } from '../pages/contact/contact';
 import { OptionalPage } from '../pages/optional/optional';
 import { EntrancePage } from '../pages/entrance/entrance';
 import { LoginPage } from '../pages/login/login';
+import { RegisterPage } from '../pages/register/register';
 import { CreateAccountPromptPage } from '../pages/create-account-prompt/create-account-prompt';
 import { CreateAccountStepFirstPage } from '../pages/create-account-step-first/create-account-step-first';
 import { CreateAccountStepSecondPage } from '../pages/create-account-step-second/create-account-step-second';
@@ -70,6 +71,7 @@ import { HttpService } from '../providers/http-service';
 import { AppService } from '../providers/app.service.ts';
 import { SocketioService } from '../providers/socketio-service';
 import { LoginService } from '../providers/login-service';
+import { RegisterService } from '../providers/register-service';
 import { AlertService } from '../providers/alert-service';
 import { KeyboardService } from '../providers/keyboard-service';
 import { ImagePickerService } from '../providers/image-picker-service';
@@ -173,6 +175,7 @@ import { TransferPage } from "../pages/transfer/transfer";
     OptionalPage,
     // TriColListComponent,
     LoginPage,
+    RegisterPage,
     HomePage,
     QuotationDetailPage,
     FundStatementPage,
@@ -221,6 +224,11 @@ import { TransferPage } from "../pages/transfer/transfer";
       // tabsPlacement: 'bottom',
       // pageTransition: 'ios-transition',
       tabsHideOnSubPages: true,
+    },{
+        links:[
+          { component: LoginPage, name: 'login' },
+          { component: RegisterPage, name: 'register' },
+        ]
     }),
     IonicStorageModule.forRoot(),
     BrowserModule,
@@ -274,6 +282,7 @@ import { TransferPage } from "../pages/transfer/transfer";
     OptionalPage,
     // SearchItemPage,
     LoginPage,
+    RegisterPage,
     // NoticeListPage,
     // NoticePage,
     ImagePickerPage,
@@ -311,6 +320,7 @@ import { TransferPage } from "../pages/transfer/transfer";
     HttpService,
     SocketioService,
     LoginService,
+    RegisterService,
     AlertService,
     KeyboardService,
     ImagePickerService,
