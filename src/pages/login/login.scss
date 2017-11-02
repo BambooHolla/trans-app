@@ -115,6 +115,15 @@ page-login {
 			}
 		}
 	}
+    // 表单校验的样式
+    ion-item{
+        &.input-has-value.ng-invalid:not(.input-has-focus){
+            background-color: rgba(255, 0, 0, 0.2)!important;
+        }
+        &.input-has-focus{
+            box-shadow: 0 0 0.2rem rgba(255,255,255,0.2);
+        }
+    }
 }
 
 ion-icon[name="view-pwd"] {

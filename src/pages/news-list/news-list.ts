@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { NavController, IonicPage } from 'ionic-angular';
 
 import { Observable } from "rxjs/Observable";
 import { Subject } from "rxjs/Subject";
@@ -8,6 +8,9 @@ import { Subscription } from "rxjs/Subscription";
 import { NewsContent } from '../news-content/news-content';
 import { NewsService } from "../news-content/news.service";
 
+// @IonicPage({
+//     name:"news-list"
+// })
 @Component({
     selector: 'page-news-list',
     templateUrl: 'news-list.html',
