@@ -1,7 +1,13 @@
 import { Component, ElementRef } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 
-import { AlertController, IonicPage, LoadingController, NavController, NavParams } from 'ionic-angular';
+import {
+  AlertController,
+  IonicPage,
+  LoadingController,
+  NavController,
+  NavParams
+} from 'ionic-angular';
 
 import { RegisterService } from '../../providers/register-service';
 import { AppDataService } from '../../providers/app-data-service';
@@ -15,10 +21,9 @@ import { AppSettings } from '../../providers/app-settings';
 @IonicPage()
 @Component({
   selector: 'page-register',
-  templateUrl: 'register.html',
+  templateUrl: 'register.html'
 })
 export class RegisterPage {
-
   registerForm: FormGroup = new FormGroup({
     // myContry: new FormControl('1002'),
     customerId: new FormControl({ value: '', disabled: false }),
@@ -44,11 +49,10 @@ export class RegisterPage {
     public elementRef: ElementRef,
     public registerService: RegisterService,
     public appDataService: AppDataService,
-    public appSettings: AppSettings,
+    public appSettings: AppSettings
   ) {
-
     const rawVal = this.registerForm.getRawValue();
-    const customerId = navParams.get("customerId");
+    const customerId = navParams.get('customerId');
     if (customerId) {
       rawVal.customerId = customerId;
       this.registerForm.setValue(rawVal);
@@ -58,7 +62,7 @@ export class RegisterPage {
   ionViewDidLoad() {
     console.log('ionViewDidLoad RegisterPage');
   }
-  registering = false
+  registering = false;
 
   errorMessages = {
     // myContry: {
@@ -112,51 +116,62 @@ export class RegisterPage {
   async register_step1() {
     this.sending_vcode = true;
     try {
-      await this.registerService.sendSMSCode(this.registerForm.get("customerId").value)
+      await this.registerService.sendSMSCode(
+        this.registerForm.get('customerId').value
+      );
 
       this.tickResendTimeClock(); // 开始倒计时重新发送短信的按钮
-    }
-    catch (err) {
-      this.alertCtrl.create({
-        title: '警告',
-        message: err instanceof Error ? err.message : String(err),
-        buttons: ['OK']
-      }).present();
-    }
-    finally {
+    } catch (err) {
+      this.alertCtrl
+        .create({
+          title: '警告',
+          message: err.message,
+          buttons: ['OK']
+        })
+        .present();
+    } finally {
       this.sending_vcode = false;
     }
   }
 
   async register() {
-    const controls = this.registerForm.controls;
-    if (this.registerForm.invalid) {
-      for (const field in controls) {
-        const fieldControl = controls[field];
-        if (fieldControl.invalid) {
-          const allMessages = [];
-          for (const key in fieldControl.errors) {
-            allMessages.push(this.errorMessages[field][key]);
+    this.registering = true;
+    try {
+      const controls = this.registerForm.getRawValue();
+      if (this.registerForm.invalid) {
+        for (const field in controls) {
+          const fieldControl = controls[field];
+          if (fieldControl.invalid) {
+            const allMessages = [];
+            for (const key in fieldControl.errors) {
+              allMessages.push(this.errorMessages[field][key]);
+            }
+            const alert = this.alertCtrl.create({
+              title: '警告',
+              message: allMessages.join('\n'),
+              buttons: ['OK']
+            });
+            alert.present();
+            return;
           }
-          const alert = this.alertCtrl.create({
-            title: '警告',
-            message: allMessages.join('\n'),
-            buttons: ['OK']
-          });
-          alert.present();
-          return;
         }
       }
+
+      const customerId = controls.customerId;
+      const password = controls.password;
+      const code = controls.code;
+
+      await this.registerService.doRegister(customerId, code, password);
+    } catch (err) {
+      this.alertCtrl
+        .create({
+          title: '警告',
+          message: err.message,
+          buttons: ['OK']
+        })
+        .present();
+    } finally {
+      this.registering = false;
     }
-
-    const customerId = controls['customerId'].value;
-    const password = controls['password'].value;
-    const savePassword = controls['savePassword'].value;
-    const type = this.appSettings.accountType(customerId);
-
-    this.registering = true;
-    // await this.registerService.doregister(customerId, password, savePassword, type);
-    this.registering = false;
   }
-
 }
