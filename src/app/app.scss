@@ -240,6 +240,11 @@ $g-icons: 'about' 'transfer' 'card' 'doc' 'hand' 'help' 'person' 'trend'
   @include gicon($icon-name);
 }
 
+$tabs-icons: "交易" "资讯" "我的" "持仓" "行情";
+@each $icon-name in $tabs-icons{
+  @include tabicon($icon-name);
+}
+
 .large-icon {
   font-size: 2rem;
 }

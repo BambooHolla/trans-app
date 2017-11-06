@@ -180,16 +180,20 @@ export class NewsListPage /* implements OnInit, OnDestroy  */ {
     //     }
     // }
 
-    // viewNews(id) {
-    //     console.log("viewNews", id);
-    //     this.navCtrl.push(this.newsContentPage, {
-    //         newsId: id
-    //     });
-    // }
+    viewNews(id) {
+        console.log("viewNews", id);
+        this.disable_init_news_list_when_enter = true;// 进入子页面返回后禁用自动刷新数据
+        this.navCtrl.push(this.newsContentPage, {
+            newsId: id
+        });
+    }
     //gaubee
-
+    disable_init_news_list_when_enter = false;
     ionViewWillEnter() {
-        this.initNewsList();
+        if(!this.disable_init_news_list_when_enter){
+            this.initNewsList();
+            this.disable_init_news_list_when_enter = false;
+        }
     }
 
     news_list: any[];

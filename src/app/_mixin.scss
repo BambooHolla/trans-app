@@ -45,3 +45,20 @@
     background: url(../assets/images/icons/input-#{$icon-name}.png) 10px center/2.4rem 2.4rem no-repeat;
   }
 }
+
+@mixin tabicon($icon-name){
+  .ion-ios-#{$icon-name}::before,.ion-ios-#{$icon-name}-outline::before {
+    content:"";
+    display: block;
+    margin: 0.2rem auto 0;
+    width: 1.7rem;
+    height: 1.7rem;
+    background-image: url(../assets/images/tabs/tabs-#{$icon-name}-icon.png);
+    background-position:center center;
+    background-size:99% 100%;
+    background-repeat:no-repeat;
+  }
+  .ion-ios-#{$icon-name}-outline::before{
+    filter: grayscale(100%) brightness(0.8);
+  }
+}
