@@ -218,6 +218,7 @@ import { TransferPage } from "../pages/transfer/transfer";
     // NewsContentModule,
     IonicModule.forRoot(GjsApp,  {
       backButtonText: '',
+      mode: 'ios',
       iconMode: 'ios', // ui 统一使用 ios platform 模式
       //modalEnter: 'modal-fade-in',
       //modalLeave: 'modal-slide-out',

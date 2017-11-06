@@ -203,7 +203,7 @@ export class NewsListPage /* implements OnInit, OnDestroy  */ {
     async _getNewsList(show_loading = false) {
         this.loading_news_list = true;
         if (show_loading) {
-            var loading = this.loadingCtrl.create();
+            var loading = this.loadingCtrl.create({showBackdrop:false});
             loading.present();
         }
         try {
