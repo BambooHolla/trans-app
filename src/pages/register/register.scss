@@ -3,6 +3,11 @@ page-register {
     .scroll-content {
         margin-top: 0!important;
     }
+    ion-navbar{
+        .button-inner{
+            color: #c1b17f;
+        }
+    }
     .register-agree-protocol {
         display: flex;
         align-items: center;
@@ -17,7 +22,7 @@ page-register {
             padding-right: 0.5em;
             background: none;
             border: none;
-            font-size: 12px;
+            font-size: 1.2px;
             color: #fff;
             transform: scale(0.6);
             .checkbox-icon {
@@ -162,9 +167,16 @@ page-register {
                     margin: 0;
                     padding: 0.5rem;
                     font-weight: lighter;
+                    font-size: 1.2rem;
                     &[disabled] {
                         opacity: .8;
                     }
+                }
+                .error-tip{
+                    display: inline-block;
+                    color: darkred;
+                    font-size: 1.2rem;
+                    text-shadow: 0 0 1rem #000;
                 }
             }
             .forget-password {
@@ -183,6 +195,15 @@ page-register {
                 transform: scale(1.02);
                 font-weight: 400;
             }
+        }
+    }
+    // 表单校验的样式
+    ion-item{
+        &.input-has-value.ng-invalid:not(.input-has-focus){
+            background-color: rgba(255, 0, 0, 0.2)!important;
+        }
+        &.input-has-focus{
+            box-shadow: 0 0 0.2rem rgba(255,255,255,0.2);
         }
     }
 }

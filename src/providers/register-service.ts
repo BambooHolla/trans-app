@@ -24,9 +24,9 @@ export class RegisterService {
     public appService: AppService,
     public loginService: LoginService,
   ) {}
-  SEND_SMS_CODE_URL = `/api/v1/bngj/user/sendSmsCode`;
-  SEND_EMAIL_CODE_URL = `/api/v1/bngj/user/sendEmailCode`;
-  CREATE_ACCOUNT = `/api/v1/bngj/user/create`;
+  SEND_SMS_CODE_URL = `/user/sendSmsToAppointed`;
+  SEND_EMAIL_CODE_URL = `/user/sendEmailCode`;
+  CREATE_ACCOUNT = `/user/register`;
 
   sendSMSCode(telephone: string, type = '201') {
     // 如果是邮箱
@@ -43,7 +43,7 @@ export class RegisterService {
     // 否则尝试当成手机号码发送
     return this.appService.request(RequestMethod.Get, this.SEND_SMS_CODE_URL, {
       telephone,
-      type
+      // type
     });
   }
   doRegister(account: string, code: string, password: string) {

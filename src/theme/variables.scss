@@ -30,6 +30,7 @@ $colors: (
   light:      #C9C9C9,
   dark:       #585858,
   important:  #2A9DBE,
+  gold:       #c1b17f,
   lightfont:  #BEC3C7,
   rise:       #DD3838,
   fall:       #44D63D,
@@ -278,3 +279,10 @@ $grid-padding-width: 1rem;
 
 @import "roboto";
 @import "noto-sans";
+
+$refresher-border-color:transparent;
+$refresher-icon-color:color($colors, gold);
+// $refresher-text-color:color($colors, gold);
+$refresher-text-color:#8b8b8b;
+$infinite-scroll-loading-color:color($colors, gold);
+$infinite-scroll-loading-text-color:#8b8b8b;

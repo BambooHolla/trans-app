@@ -74,6 +74,10 @@ body {
   background-color: rgba(0, 0, 0, .4);
 }
 
+.dark-8-transparent {
+  background-color: rgba(0, 0, 0, .08);
+}
+
 .light-transparent {
   background-color: rgba(255, 255, 255, .1);
 }
@@ -234,6 +238,11 @@ $g-icons: 'about' 'transfer' 'card' 'doc' 'hand' 'help' 'person' 'trend'
    'price' 'comment' 'review' 'news' 'announce';
 @each $icon-name in $g-icons{
   @include gicon($icon-name);
+}
+
+$tabs-icons: "交易" "资讯" "我的" "持仓" "行情";
+@each $icon-name in $tabs-icons{
+  @include tabicon($icon-name);
 }
 
 .large-icon {

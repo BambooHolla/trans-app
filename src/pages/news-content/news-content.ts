@@ -1,5 +1,5 @@
 import { Component, ElementRef, OnInit } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import { Alert, AlertController, Loading, LoadingController, NavController, NavParams } from 'ionic-angular';
 
 import { Observable } from "rxjs/Observable";
 
@@ -10,10 +10,10 @@ import { AppSettings } from "../../providers/app-settings";
   selector: 'page-news-content',
   templateUrl: 'news-content.html',
 })
-export class NewsContent implements OnInit{
-  
+export class NewsContent implements OnInit {
+
   news: any//Observable<object>
-  newsId:string
+  newsId: string
 
   constructor(
     public navCtrl: NavController,
@@ -21,6 +21,8 @@ export class NewsContent implements OnInit{
     public elementRef: ElementRef,
     public newsService: NewsService,
     public appSettings: AppSettings,
+    public alertCtrl: AlertController,
+    public loadingCtrl: LoadingController,
   ) {
   }
 
@@ -29,5 +31,4 @@ export class NewsContent implements OnInit{
     console.log('新闻id', this.newsId)
     this.news = this.newsService.getNews(undefined, this.newsId, this.appSettings.SIM_DATA)
   }
-
 }

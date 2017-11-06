@@ -1,5 +1,5 @@
 import { Component, ElementRef } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup,Validators } from '@angular/forms';
 
 import {
   AlertController,
@@ -27,11 +27,21 @@ export class RegisterPage {
   registerForm: FormGroup = new FormGroup({
     // myContry: new FormControl('1002'),
     customerId: new FormControl({ value: '', disabled: false }),
-    vcode: new FormControl({ value: '', disabled: false }),
-    password: new FormControl({ value: '', disabled: false }),
-    confirPassword: new FormControl({ value: '', disabled: false }),
+    vcode: new FormControl({ value: '', disabled: false },Validators.required),
+    password: new FormControl({ value: '', disabled: false },[Validators.minLength(3),Validators.required]),
+    confirPassword: new FormControl({ value: '', disabled: false },this.validatePWD.bind(this)),
     protocolAgree: new FormControl({ value: true, disabled: false })
   });
+  get form_password(){
+    return this.registerForm.get("password");
+  }
+  validatePWD(){
+    if(this.registerForm){
+      const password  = this.registerForm.get("password").value;
+      const confirPassword  = this.registerForm.get("confirPassword").value;
+      return password!==confirPassword?{zz:"zzz"}:null
+    }
+  }
   // protocolAgree = false;
 
   toggleProtocolAgree() {
@@ -63,22 +73,6 @@ export class RegisterPage {
     console.log('ionViewDidLoad RegisterPage');
   }
   registering = false;
-
-  errorMessages = {
-    // myContry: {
-    //   required: '请选择国家',
-    // },
-    customerId: {
-      required: '请输入客户号',
-      // minlength: '客户号不能少于 7 位数',
-      // maxlength: '客户号不能多于 11 位数',
-      disabled: true
-    },
-    password: {
-      required: '请输入用户密码',
-      disabled: true
-    }
-  };
 
   async init() {
     const appDataService = this.appDataService;
@@ -138,30 +132,12 @@ export class RegisterPage {
     this.registering = true;
     try {
       const controls = this.registerForm.getRawValue();
-      if (this.registerForm.invalid) {
-        for (const field in controls) {
-          const fieldControl = controls[field];
-          if (fieldControl.invalid) {
-            const allMessages = [];
-            for (const key in fieldControl.errors) {
-              allMessages.push(this.errorMessages[field][key]);
-            }
-            const alert = this.alertCtrl.create({
-              title: '警告',
-              message: allMessages.join('\n'),
-              buttons: ['OK']
-            });
-            alert.present();
-            return;
-          }
-        }
-      }
 
       const customerId = controls.customerId;
       const password = controls.password;
-      const code = controls.code;
+      const vcode = controls.vcode;
 
-      await this.registerService.doRegister(customerId, code, password);
+      await this.registerService.doRegister(customerId, vcode, password);
     } catch (err) {
       this.alertCtrl
         .create({

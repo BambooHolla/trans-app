@@ -1,11 +1,12 @@
 import { Component, ElementRef } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 import {
   IonicPage,
   NavController,
   AlertController,
-  LoadingController
+  LoadingController,
+  TextInput,
 } from 'ionic-angular';
 
 import { LoginService } from '../../providers/login-service';
@@ -30,26 +31,10 @@ export class LoginPage {
 
   loginForm: FormGroup = new FormGroup({
     // myContry: new FormControl('1002'),
-    customerId: new FormControl({ value: '', disabled: true }),
-    password: new FormControl({ value: '', disabled: true }),
-    savePassword: new FormControl({ value: false, disabled: true })
+    customerId: new FormControl({ value: '', disabled: true }, Validators.required),
+    password: new FormControl({ value: '', disabled: true }, Validators.required),
+    savePassword: new FormControl({ value: true, disabled: true })
   });
-
-  errorMessages = {
-    // myContry: {
-    //   required: '请选择国家',
-    // },
-    customerId: {
-      required: '请输入客户号',
-      // minlength: '客户号不能少于 7 位数',
-      // maxlength: '客户号不能多于 11 位数',
-      disabled: true
-    },
-    password: {
-      required: '请输入用户密码',
-      disabled: true
-    }
-  };
 
   constructor(
     public navCtrl: NavController,
@@ -82,6 +67,12 @@ export class LoginPage {
     // this.verticalCenter = false;
     // this.gridPaddingTop = span + 'px';
   }
+  showPassword(ele:TextInput){
+    ele.type = "text"
+  }
+  hidePassword(ele:TextInput){
+    ele.type = "password"
+  }
 
   async init() {
     const appDataService = this.appDataService;
@@ -104,28 +95,10 @@ export class LoginPage {
 
   async login() {
     const controls = this.loginForm.controls;
-    if (this.loginForm.invalid) {
-      for (const field in controls) {
-        const fieldControl = controls[field];
-        if (fieldControl.invalid) {
-          const allMessages = [];
-          for (const key in fieldControl.errors) {
-            allMessages.push(this.errorMessages[field][key]);
-          }
-          const alert = this.alertCtrl.create({
-            title: '警告',
-            message: allMessages.join('\n'),
-            buttons: ['OK']
-          });
-          alert.present();
-          return;
-        }
-      }
-    }
 
     const customerId = controls['customerId'].value;
     const password = controls['password'].value;
-    const savePassword = controls['savePassword'].value;
+    const savePassword = true;//controls['savePassword'].value;
     const type = this.appSettings.accountType(customerId);
 
     this.logining = true;

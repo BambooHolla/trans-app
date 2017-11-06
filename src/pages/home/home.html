@@ -1,11 +1,17 @@
 
 <ion-header class="color-primary home-header">
   <ion-grid no-padding text-center class="optional-header">
+    <ion-row class="row home-settings-icon bar-tops">
+      <!-- <ion-col col-11></ion-col> -->
+      <ion-col col-1 offset-11  [navPush]="settings">
+        <img src="assets/images/mine/setting-icon.png" alt="" class="home-settings-img" />
+      </ion-col>
+    </ion-row>
     <ion-row>
       <ion-col class="padding">
       </ion-col>
     </ion-row>
-    <ion-row>
+<!--     <ion-row>
       <ion-col class="title-col">
         <h1>{{personalDataService.assets || 0 | number: '.2-2'}}</h1>
         <h6>总资产</h6>
@@ -23,12 +29,18 @@
         <div no-margin-bottom>----</div>
         <p ion-text color="important">可用积分</p>
       </ion-col>
+    </ion-row> -->
+    <ion-row>
+      <ion-col class="avator-col">
+        <ion-avatar><img src="assets/images/mine/head-cover-image.png"/></ion-avatar>
+        <h6>135008800010</h6>
+      </ion-col>
     </ion-row>
   </ion-grid>
 </ion-header>
 <ion-content no-bounce class="home-contain">
   <ion-grid no-padding>
-    <ion-row *ngFor="let data of commandData" tappable [navPush]="data.href" class="dark-transparent bottom-hr" [class.bottom-space]="data.bottomSpace">
+    <ion-row *ngFor="let data of commandData" tappable [navPush]="data.href" class="dark-8-transparent bottom-hr" [class.bottom-space]="data.bottomSpace">
       <ion-col padding class="vertical-center"><ion-icon name="{{data.icon}}" ios color="important" class="vertical-center"></ion-icon><span>{{data.name}}</span></ion-col>
     </ion-row>
   </ion-grid>

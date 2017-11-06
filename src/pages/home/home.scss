@@ -1,6 +1,8 @@
 page-home {
 	.home-header {
-		background: linear-gradient(to bottom, rgba(69, 178, 213, 1), rgba(129, 214, 242, 1));
+		// background: linear-gradient(to bottom, rgba(69, 178, 213, 1), rgba(129, 214, 242, 1));
+		background: linear-gradient(to bottom, color($colors, gold), #2a2b3f);
+
 		//这里背景颜色不透明,透明了显得颜色暗淡,原因是设计稿头部下面没有一层半透明黑色蒙板,而我们的布局有
 		//TODO:更改布局然后改变样式
 				ion-row.info-row {
@@ -15,9 +17,33 @@ page-home {
 					flex-grow: 0.5;
 					font-size: 2rem;
 					font-weight: 200;
-					color: color($colors, important);
+					color: color($colors, gold);
 				}
-
+		.avator-col{
+			padding-top:2rem!important;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+			ion-avatar{
+				height: 80px;
+				width: 80px;
+				border-radius:50%;
+				overflow: hidden;
+				border:0.3rem solid rgba(255,255,255,0.3);
+				img{
+					width: 100%;
+					height: 100%;
+				}
+			}
+			h6{
+				padding-top:1rem;
+				padding-bottom:3rem;
+				font-size: 1.2rem;
+				color: color($colors, gold);
+				font-weight: lighter;
+			}
+		}
 	}
 
 	.home-contain {
@@ -37,4 +63,54 @@ page-home {
 			}
 	}
 
+	// 图标
+	.ion-ios-gcard::before{
+		background-image:url('../assets/images/mine/身份认证icon.png');
+	}
+	.ion-ios-gdoc::before{
+		background-image:url('../assets/images/mine/历史成交记录icon.png');
+	}
+	.ion-ios-gtrend::before{
+		background-image:url('../assets/images/mine/资金变动查询icon.png');
+	}
+	.ion-ios-gperson::before{
+		background-image:url('../assets/images/mine/账户中心icon.png');
+	}
+	.ion-ios-ghelp::before{
+		background-image:url('../assets/images/mine/反馈与帮助icon.png');
+	}
+	.ion-ios-gabout::before{
+		background-image:url('../assets/images/mine/关于我们icon.png');
+	}
+	.vertical-center{
+		color: rgba(255,255,255,0.9);
+		ion-icon::before{
+			background-size:contain;
+			width:1.4rem;
+			height:1.4rem;
+		}
+		span{
+		    letter-spacing: 0.1rem;
+		}
+	}
+	// 右上角的设置图标
+
+  .home-settings-icon {
+    width: 100%;
+    position: absolute;
+    top: 24px;
+    left: -10px;
+    height: 40px;
+    line-height: 40px;
+    z-index: 1;
+    font-size: 20px;
+    color: #fff;
+  }
+  .home-settings-img {
+    width: 1.6rem;
+    transition: transform 0.4s ease;
+  }
+  .home-settings-img:active {
+    transform: rotate(360deg);
+  }
 }

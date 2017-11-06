@@ -91,7 +91,7 @@ export class LoginService {
       promise = new Promise((resolve) => {
         setTimeout(() => {
           resolve({token: 'test'})
-        }, Math.round(Math.random()) * 3000);
+        }, Math.round(Math.random()) * 500);
       });
     }
 
