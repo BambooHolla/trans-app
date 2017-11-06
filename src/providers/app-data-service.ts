@@ -22,6 +22,7 @@ export class AppDataService {
     customerId: '',
     password: '',
     savePassword: false,
+    products: new Map(),
   };
 
   // 声明属性，但在之后会被更换为访问器属性。

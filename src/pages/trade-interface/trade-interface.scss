@@ -75,7 +75,7 @@ page-trade-interface {
 				font-size: 1.5rem;	
 				padding: 0;
 				
-				&[enabled]{
+				&.enabled{
 					background-color: #222333;
 					color: color($colors,special);
 				}

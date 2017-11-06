@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 // import * as echarts from 'echarts';
 import { NavParams, ToastController } from 'ionic-angular';
 
@@ -9,14 +9,19 @@ import { AppSettings } from '../../providers/app-settings';
 import { StockDataService } from '../../providers/stock-data-service';
 import { PersonalDataService } from "../../providers/personal-data-service";
 import { TradeService } from '../../providers/trade-service';
+import { AppDataService } from '../../providers/app-data-service';
+import { AlertService } from '../../providers/alert-service';
 
 @Component({
   selector: 'page-trade-interface',
   templateUrl: 'trade-interface.html'
 })
 export class TradeInterfacePage {
-  stockCode = '000001';
+  stockCode: string = this.appSettings.SIM_DATA ? 
+    '000001' : undefined;
 
+  tradeType:number = 1 //1是买,0是卖
+  
   private _saleableQuantity$: Observable<number>;
 
   private _baseData$: Observable<any>;
@@ -29,10 +34,13 @@ export class TradeInterfacePage {
             .distinctUntilChanged()
             .filter(value => value === true);
 
-  liquiddata:any;
+  // liquiddata:any;
 
   price: string = '0.00';
   amount: string = '0';
+  maxAmount: string = '100';
+  range = 0;
+  @ViewChild('quantityRange') Range:any
 
   handBase = 100;
 
@@ -47,6 +55,7 @@ export class TradeInterfacePage {
   };
 
   initData() {
+    console.log('trade-interface')
     this.stockDataService.stockBaseData$
       .map(data => data[this.stockCode])
       .filter(data => data !== undefined)
@@ -77,18 +86,26 @@ export class TradeInterfacePage {
     // public navCtrl: NavController,
     public toastCtrl: ToastController,
     public appSettings: AppSettings,
+    public appDataService: AppDataService,
     private stockDataService: StockDataService,
     private navParams: NavParams,
     public personalDataService: PersonalDataService,
     public tradeService: TradeService,
+    public alertService: AlertService,
   ) {
-    const stockCode = this.stockCode = this.navParams.get('stockCode') || this.stockCode;
+    this.stockCode = this.navParams.get('stockCode') || this.stockCode;
+    if (!this.stockCode) this.appDataService.products.forEach((value, key, map) => {
+      this.stockCode = key;
+      return;
+    })
+    const stockCode =  this.stockCode
     if (stockCode) {
       this._saleableQuantity$ = this.personalDataService.personalStockList$
         .map(arr => arr.filter(item => item.stockCode === stockCode))
         .map(arr => arr.length && +arr[0].saleableQuantity || 0)
         .distinctUntilChanged();
-      this._baseData$ = this.stockDataService.stockBaseData$.map(data => data[stockCode]);
+      this._baseData$ = this.stockDataService.stockBaseData$.map(data => data[stockCode])
+        .do(data => console.log('final data:',data));
       this._realtimeData$ = this.stockDataService.stockRealtimeData$.map(data => data[stockCode]);
 
       this.initData();
@@ -102,25 +119,45 @@ export class TradeInterfacePage {
     // 改用 602 / 100 就可以得到正确结果。
     const result = Math.max(0, Math.round((+this[target] + step) * invBase) / invBase);
     this[target] = result.toFixed(Math.max(0, -precision));
+    //TODO:价格改变时修改最大可交易数量
+    if(target === 'price'){
+      if(this.tradeType === 1){
+        //可用资金/价格
+      }else if(this.tradeType === 0){
+        //最大持仓
+      }else{
+
+      }
+    }
   }
 
   formatNumber(target: string, precision: number = 0){
     this.changeByStep(target, 0, precision);
   }
 
-  toBuy() {
-    this.doTrade(1)
+  // toBuy() {
+  //   this.doTrade(1)
+  // }
+
+  // toSale() {
+  //   this.doTrade(2)
+  // }
+
+  chooseTradeType($event: MouseEvent){
+    const dataset = ($event.target as HTMLElement).dataset
+    if (dataset && dataset.tradeType){
+      this.tradeType = Number(dataset.tradeType)
+    }
   }
 
-  toSale() {
-    this.doTrade(2)
-  }
-
-  doTrade(tradeType: number){
+  doTrade(tradeType: number = this.tradeType){
     // 界面按钮已根据是否 可买/可卖 进行了限制，
     // 此处没有再进行判断。
     const price = parseFloat(this.price);
     const amount = parseInt(this.amount, 10);
+
+    console.log(tradeType)
+    console.log(this.Range.ratio)
 
     this.tradeService
       .purchase(
@@ -147,6 +184,8 @@ export class TradeInterfacePage {
         }else{
           return Promise.reject(result);
         }
+        console.log('trade done:')
+        this.alertService.dismissLoading()
       })
       .catch(err => {
         console.log('trade err:', err);
@@ -156,6 +195,7 @@ export class TradeInterfacePage {
             duration: 3000,
             position: 'middle'
           })
+          this.alertService.dismissLoading()          
           toast.present()
         }
         console.log(err.statusText || err.message || err)
@@ -165,12 +205,14 @@ export class TradeInterfacePage {
   ionViewDidEnter(){
     this.viewDidLeave.next(false);
 
+    this.initData();
+
     this.doSubscribe();
 
-    this.liquiddata = [{
-      name: '1机',
-      value: 0.7
-    }, 0.69];
+    // this.liquiddata = [{
+    //   name: '1机',
+    //   value: 0.7
+    // }, 0.69];
   }
 
   ionViewDidLeave(){
@@ -182,6 +224,7 @@ export class TradeInterfacePage {
   // 会在 ionViewDidEnter() 事件处理函数中被自动调用。
   doSubscribe(){
     const stockCode = this.stockCode;
+    console.log('trade-interface: ',stockCode)
     if (stockCode){
       this.stockDataService.subscibeRealtimeData(stockCode, undefined, this.viewDidLeave$)
         .takeUntil(this.viewDidLeave$.delay(this.appSettings.UNSUBSCRIBE_INTERVAL))

@@ -13,8 +13,6 @@ import { AlertService } from './alert-service';
 
 @Injectable()
 export class TradeService {
-
-  private fakeTrade: boolean = false;
   
   public purchase(
     equityCode,
@@ -24,7 +22,7 @@ export class TradeService {
     consignmentPrice,
   ): Promise<string | boolean | AnyObject > {
     let promise: Promise<any>;
-    if (!this.fakeTrade){
+    if (!this.appSettings.SIM_DATA){
       // console.log('start trade')
       const url = `${this.appSettings.SERVER_URL + this.appSettings.SERVER_PREFIX}/transactions/create`
       const headers = new Headers({ 'Content-Type': 'application/json' });

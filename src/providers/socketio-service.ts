@@ -25,7 +25,7 @@ export class SocketioService {
 
   private socketAPIs = new Map([
     ['price',{
-      target: '/price',
+      target: '/prices',
       source: '/transaction',
       socket: undefined,
       _connected:false,
@@ -232,12 +232,12 @@ export class SocketioService {
       // 这个函数会被重新调用一次，并传入新的 observer 。
       this.socketReady(api)
         .then(() => {
-          this.getObservableFromMap(api, equityCode)
+          this.getObservableFromMap(api, `-${equityCodeWithSuffix}`)
             .subscribe(observer)
           this._socketioSubscribeSet.add(subscribeData);
           // this.socket.emit('subscribe', subscribeData);
           console.log('watch: ', `-${equityCodeWithSuffix}`)
-          this.socketAPIs.get(api).socket.emit('watch', `-${equityCodeWithSuffix}`)
+          this.socketAPIs.get(api).socket.emit('watch', [`-${equityCodeWithSuffix}`])
         })
         .catch(err => {
           console.log(err)
@@ -260,7 +260,7 @@ export class SocketioService {
   private getObservableFromMap(api: string, equityCode: string) {
     if (!this.apiObservableMap.has(api)){
       this.apiObservableMap.set(api, 
-        Observable.fromEvent(this.socketAPIs.get(api).socket, 'watch').takeUntil(this.loginService.logout$)
+        Observable.fromEvent(this.socketAPIs.get(api).socket, 'data').takeUntil(this.loginService.logout$)
       );
       // this.socketAPIs.get('price').socket.on(eventName, this.onData.bind(this, { eventName, equityCode}));
     }
@@ -271,7 +271,10 @@ export class SocketioService {
     //   subscriberMap.set(subscriber, equityCode);
     // }
     return this.apiObservableMap.get(api)
-      .filter(data => equityCode === data.code || data.ec === equityCode || data.n === equityCode)//ToFix:这里data.code是临时代替字段,后续根据服务端返回数据更改
-  }
+      .do(data => console.log('apiObservableMap:',data,' & ',equityCode))
+      .filter(data => equityCode === data.type || data.ec === equityCode || data.n === equityCode)//ToFix:这里data.code是临时代替字段,后续根据服务端返回数据更改
+      .do(data => console.log('apiObservableMap filter:', data))
+      .map(data => data.data || data)
+    }
 
 }

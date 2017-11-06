@@ -126,6 +126,8 @@ import { SearchItemPageModule } from "../pages/search-item/search-item-page.modu
 import { BaseSharedModule } from "../shared/base-shared.module";
 import { LoopSlidesBetaComponent } from '../components/loop-slides-beta/loop-slides-beta';
 import { TransferPage } from "../pages/transfer/transfer";
+import { LoginPageModule } from '../pages/login/login.module';
+import { RegisterPageModule } from '../pages/register/register.module';
 // import { BankCode2NamePipe } from '..\pipes\bank-code2-name/bank-code2-name';
 // import { FileService } from '../providers/file.service';
 // import { IsLoadingDirective } from '../directives/is-loading/is-loading';
@@ -174,8 +176,8 @@ import { TransferPage } from "../pages/transfer/transfer";
     ContactPage,
     OptionalPage,
     // TriColListComponent,
-    LoginPage,
-    RegisterPage,
+    // LoginPage,
+    // RegisterPage,
     HomePage,
     QuotationDetailPage,
     FundStatementPage,
@@ -231,6 +233,8 @@ import { TransferPage } from "../pages/transfer/transfer";
         ]
     }),
     IonicStorageModule.forRoot(),
+    LoginPageModule,
+    RegisterPageModule,
     BrowserModule,
     HttpModule,
     // TranslateModule.forRoot({

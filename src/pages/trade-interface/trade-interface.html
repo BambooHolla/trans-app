@@ -1,6 +1,6 @@
 <ion-header>
 	<ion-navbar>
-		<ion-title>{{(_baseData$ | async)?.name}}</ion-title>
+		<ion-title>{{(_baseData$ | async)?.name || '----'}}</ion-title>
 		<ion-buttons class="flash-trade" right>
 		</ion-buttons>
 	</ion-navbar>
@@ -38,39 +38,39 @@
 					</ion-grid>
 				</ion-col> -->	
 			<ion-col col-6>
-				<div class="{{showData?.changeValue | riseOrFall}}">{{showData?.latestPrice | number:'.2-2' | numberFilter}}
-					<span class="datetime-info">{{showData?.datetime}}</span>
+				<div class="{{(_baseData$ | async)?.changeValue | riseOrFall}}">{{(_baseData$ | async)?.latestPrice | number:'.2-2' | numberFilter}}
+					<span class="datetime-info">{{(_baseData$ | async)?.datetime}}</span>
 				</div>
 			</ion-col>
 			<!-- <ion-col col-2 class="small-font">
-					<div class="{{showData?.changeValue | riseOrFall}}">{{showData?.changeValue | number:'.2-2' | positiveSign}}</div>
-					<div class="{{showData?.changeValue | riseOrFall}}">{{showData?.changeRate | percent:'.2-2' | positiveSign}}</div>
+					<div class="{{(_baseData$ | async)?.changeValue | riseOrFall}}">{{(_baseData$ | async)?.changeValue | number:'.2-2' | positiveSign}}</div>
+					<div class="{{(_baseData$ | async)?.changeValue | riseOrFall}}">{{(_baseData$ | async)?.changeRate | percent:'.2-2' | positiveSign}}</div>
 				</ion-col> -->
 			<ion-col col-3>
 				<div>昨
-					<span>{{showData?.yesterdayPrice | number:'.2-2' | numberFilter}}</span>
+					<span>{{(_baseData$ | async)?.yesterdayPrice | number:'.2-2' | numberFilter}}</span>
 				</div>
 				<!-- <div>今开
-						<span class="{{(showData?.startPrice - showData?.yesterdayPrice) | riseOrFall}}">{{showData?.startPrice | number:'.2-2' | numberFilter}}</span>
+						<span class="{{((_baseData$ | async)?.startPrice - (_baseData$ | async)?.yesterdayPrice) | riseOrFall}}">{{(_baseData$ | async)?.startPrice | number:'.2-2' | numberFilter}}</span>
 					</div> -->
 				<div>量
-					<span>{{showData?.turnoverQuantity | numberUnitFormat}}</span>
+					<span>{{(_baseData$ | async)?.turnoverQuantity | numberUnitFormat}}</span>
 				</div>
 			</ion-col>
 			<ion-col col-3>
 				<div>高
-					<span class="{{(showData?.maxPrice && showData?.maxPrice - showData?.yesterdayPrice) | riseOrFall}}">{{showData?.maxPrice | number:'.2-2' | numberFilter}}</span>
+					<span class="{{((_baseData$ | async)?.maxPrice && (_baseData$ | async)?.maxPrice - (_baseData$ | async)?.yesterdayPrice) | riseOrFall}}">{{(_baseData$ | async)?.maxPrice | number:'.2-2' | numberFilter}}</span>
 				</div>
 				<div>低
-					<span class="{{(showData?.minPrice && showData?.minPrice - showData?.yesterdayPrice) | riseOrFall}}">{{showData?.minPrice | number:'.2-2' | numberFilter}}</span>
+					<span class="{{((_baseData$ | async)?.minPrice && (_baseData$ | async)?.minPrice - (_baseData$ | async)?.yesterdayPrice) | riseOrFall}}">{{(_baseData$ | async)?.minPrice | number:'.2-2' | numberFilter}}</span>
 				</div>
 			</ion-col>	
 		</ion-row>
 	</ion-grid>
 	<ion-grid>
-		<ion-row class="entrust-type">
-			<ion-col enabled="true">买</ion-col>
-			<ion-col>卖</ion-col>
+		<ion-row class="entrust-type" (click)="chooseTradeType($event)">
+			<ion-col data-trade-type="1" [class.enabled]="!!tradeType">买</ion-col>
+			<ion-col data-trade-type="0" [class.enabled]="!tradeType">卖</ion-col>
 		</ion-row>
 	</ion-grid>
 	
@@ -104,7 +104,7 @@
 		</ion-row>
 		<ion-row>
 			<ion-item no-lines>
-				<ion-range [(ngModel)]="singleValue" pin="true"></ion-range>
+				<ion-range #quantityRange [(ngModel)]="range" (ionChange)="amount = maxAmount * Range.ratio ;formatNumber('amount',-2)" pin="true"></ion-range>
 			</ion-item>
 		</ion-row>
 	<!-- </ion-grid>
@@ -120,7 +120,7 @@
 				  [disabled]="+amount <= 0 || +price <= 0 || (_saleableQuantity$ | async) < amount" 
 					(click)="toSale()">委托卖出</button>
 			</ion-col> -->
-			<button class="trbtn" block [disabled]="" (click)="toBuy()">委托买入</button>
+			<button class="trbtn" block [disabled]="" (click)="doTrade()">委托{{!!tradeType?'买入':'卖出'}}</button>
 		</ion-row>
 	</ion-grid>
 	<div class="trbom content-block">

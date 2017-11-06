@@ -544,10 +544,10 @@ export class StockDataService {
           const transformedData = this.transformRealtimeData(code, result);
           this.parseAndSetRealtimeData(code, [transformedData], this._stockRealtimeData.getValue()[code]);
 
-          const { time, price, turnoverQuantity, turnoverAmount, bets } = transformedData;
+          const { time, price, turnoverQuantity,turnoverAmount, bets } = transformedData;
           // minute 与 price 都进行了重复计算，应考虑优化！
           const minute = this.parseMinute(time);
-          if (typeof minute === 'number') {
+          if (true) {
             // 如果当前交易日尚未登记集合竞价的结果，
             // 则只要当前数据的时间不早于集合竞价的时刻，
             // 则将当前数据的价格作为当天的开盘价。
@@ -568,7 +568,7 @@ export class StockDataService {
             // 但是竞价结束后、开盘之前（ 9:25:01 ~ 9:29:59 ）的数据应当忽略。
             // （不满足以下判断条件的，就不设置 latestPrice 值）
             // 忽略价格变动，但接受买五卖五档的数据。
-            if (!needCheckAuctionDone || toAuctionDone || minute >= 0) {
+            if (true) {
               subData.latestPrice = this.numberFixed2(price);
               if (toAuctionDone) {
                 subData.startPrice = subData.latestPrice;
@@ -583,7 +583,7 @@ export class StockDataService {
             //             这一点需要确认！！！！
             //             如果是本分钟的完整数据，那么需要将当前传入的成交量与成交额减去
             //             本分钟已有数据的量与额，然后属性值依然使用 "<+|-><变化数值>" 的字符串形式。
-            if (minute >= 0 || toAuctionDone) {
+            if (true) {
               subData.turnoverQuantity = `+${turnoverQuantity}`;
               subData.turnoverAmount = `+${turnoverAmount}`;
             }
@@ -894,7 +894,7 @@ export class StockDataService {
     console.log(data);
     const price = this.numberFixed2(data.price)
     // 模拟服务器数据中缺少 ta （ turnoverAmount ）字段！
-    const { m: market, t: time, tq: turnoverQuantity, ta: turnoverAmount } = data;
+    const { m: market, t: time, amount: turnoverQuantity, ta: turnoverAmount } = data;
     const transformResult: AnyObject = {
       time,
       price,
@@ -1518,7 +1518,7 @@ export class StockDataService {
   // 02 高科技产权
   // 20 台资企业
   // 30 专利技术
-  public requestEquitiesOfSector(sectorType: string): Promise<any> {
+  public requestEquitiesOfSector(sectorType: string = '001'): Promise<any> {
     // const url = `${this.appSettings.SERVER_URL}/api/v1/gjs/biz/equities/info`;
     // const params = new URLSearchParams();
     // params.append('equityType', sectorType);
@@ -1558,7 +1558,7 @@ export class StockDataService {
 
     const baseData = Object.assign({}, this._stockBaseData.getValue());
     let baseDataChanged = false;
-    data.forEach(({ FID_GQDM: stockCode, FID_GQMC: name }) => {
+    data.forEach(({ FID_GQDM: stockCode, FID_GQMC: name ,productId,productName}) => {
       if (name && !baseData[stockCode]) {
         baseData[stockCode] = {
           stockCode,
@@ -1568,7 +1568,11 @@ export class StockDataService {
         };
         baseDataChanged = true;
       }
+      //获取成功更新列表缓存
+      this.appDataService.products.set(productId,{productName})
     })
+
+    console.log('storage product: ',this.appDataService.products)
 
     if (baseDataChanged) {
       this._stockBaseData.next(baseData);
@@ -1582,5 +1586,6 @@ export class StockDataService {
         stockCodeList,
       }
     });
+
   }
 }

@@ -20,6 +20,7 @@ import { KeyboardService } from '../providers/keyboard-service';
 import { LoginService } from '../providers/login-service';
 import { AppDataService } from '../providers/app-data-service';
 import { SocketioService } from '../providers/socketio-service';
+import { StockDataService } from '../providers/stock-data-service';
 
 
 @Component({
@@ -57,6 +58,7 @@ export class GjsApp {
     public keyboardService: KeyboardService,
     public screenOrientation: ScreenOrientation,
     public androidFullScreen: AndroidFullScreen,
+    public stockDataService: StockDataService,
     public socketioService: SocketioService,
     public loadingCtrl: LoadingController,
     public platform: Platform,
@@ -102,6 +104,11 @@ export class GjsApp {
         }
 
         this.setAppRootBackground(status);
+
+        //登陆成功获取股票列表
+        if(status){
+          this.stockDataService.requestEquitiesOfSector()
+        }
       });
 
     this.keyboardService.init(this.renderer2);
