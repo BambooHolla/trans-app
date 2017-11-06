@@ -279,3 +279,10 @@ $grid-padding-width: 1rem;
 
 @import "roboto";
 @import "noto-sans";
+
+$refresher-border-color:transparent;
+$refresher-icon-color:color($colors, gold);
+// $refresher-text-color:color($colors, gold);
+$refresher-text-color:#8b8b8b;
+$infinite-scroll-loading-color:color($colors, gold);
+$infinite-scroll-loading-text-color:#8b8b8b;

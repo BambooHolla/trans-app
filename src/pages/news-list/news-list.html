@@ -28,31 +28,22 @@
 <ion-content>
     <ion-spinner name="ios" *ngIf="initing"></ion-spinner>
     <!--下拉刷新-->
-    <ion-refresher (ionRefresh)="listRefresh($event)">
+    <ion-refresher (ionRefresh)="initNewsList($event)">
         <ion-refresher-content refreshingText="正在刷新...">
         </ion-refresher-content>
     </ion-refresher>
     <ion-list class="card-background-page">
-        <ion-card *ngFor="let site of newsList" ionic (click)="viewNews(site.newsId)">
-            <img src="{{site.titleImg}}" class="main-img" />
-            <div class="gradient-mask"></div>
+        <ion-item *ngFor="let site of newsList" ionic (click)="viewNews(site.newsId)" no-lines>
             <div class="infos">
-                <ion-avatar item-left >
-                    <img src="{{site.avatar}}">
-                </ion-avatar>
-                <div class="card-title">{{site.title}}</div>
-                <div class="card-subtitle font-smallest">
-                    <button ion-button icon-right clear small>
-                        <ion-icon name="ios-gcomment"></ion-icon>
-                        <div class="font-smaller">{{site.commentsNumber || ''}}</div>
-                    </button> 
-                    {{site.publishTime}}
-                </div>
+                <div class="publisher">{{site.publisherName}}</div>
+                <div class="news-title">{{site.newsTitle}}</div>
+                <div class="news-abstract">{{site.abstract}}</div>
+                <div class="news-date">{{site.crtDateTime|date:"y年M月d日 H:mm"}}</div>
             </div>
-        </ion-card>
+        </ion-item>
     </ion-list>
     <!--加载更多-->
-    <ion-infinite-scroll [enabled]="hasMore" (ionInfinite)="getMore($event)">
+    <ion-infinite-scroll [enabled]="hasMore" (ionInfinite)="loadMoreNewsList($event)">
         <ion-infinite-scroll-content loadingText="正在加载...">
         </ion-infinite-scroll-content>
     </ion-infinite-scroll>

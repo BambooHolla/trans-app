@@ -20,7 +20,7 @@ export class NewsService {
 
   }
   //TODO:lastTime数据获取最后时间
-  getNews(lastTime: Date = new Date('2016-01-01'), newsId,isMock) {
+  getNews(lastTime: Date = new Date('2016-01-01'), newsId, isMock) {
 
     if (isMock) {
       return Observable.of({
@@ -33,12 +33,12 @@ export class NewsService {
       })
     }
 
-    console.log("getNewsService:",newsId)
+    console.log("getNewsService:", newsId)
 
     const params = new URLSearchParams();
     params.set('newsId', newsId);
 
-    const path = `/news/getNewsDetailList`
+    const path = `/news/news`
     return this.appService.request(RequestMethod.Get, path, params, true)
       .then(resData => {
         console.log('getnews: ', resData);
@@ -73,7 +73,7 @@ export class NewsService {
           publishTime: new Date(resData.crtDateTime),
           avatarImg: "assets/images/test/004.png",
         }
-        return data
+        return Promise.resolve(data)
       })
       .catch(err => {
         console.log('getnews error: ', err);
@@ -81,19 +81,20 @@ export class NewsService {
   }
 
   //TODO:lastTime数据获取最后时间,数据处理
-  getNewsList(lastTime: string = '2016-01-01', msgType: string = '001',page,isMock:boolean) {
+  getNewsList(page: number, pageSize: number, msgType: string = '001', isMock?: boolean) {
     console.log('getnewslist start')
 
     const params = new URLSearchParams();
-    // params.set('msgType', msgType);
-    params.set('page', page);
-    
-    console.log(page)
+    params.set('msgType', msgType);
+    params.set('page', (page | 0).toString());
+    params.set('pageSize', (pageSize | 0).toString());
+
+    console.log(page, pageSize)
 
     const headers = new Headers();
     headers.append('X-AUTH-TOKEN', this.appDataService.token);
 
-    if(isMock){
+    if (isMock) {
       // console.log("lastTime:", lastTime)
       // console.log("msgType:", msgType)
       return Observable.of(
@@ -104,7 +105,7 @@ export class NewsService {
             "title": "关于平安易宝系统升级通知",
             "publishTime": "今天11:02",
             "commentsNumber": Math.round(Math.random() * 100),
-            id:Math.round(Math.random() * 1000),
+            id: Math.round(Math.random() * 1000),
           },
           {
             "titleImg": "assets/images/test/002.png",
@@ -112,7 +113,7 @@ export class NewsService {
             "title": "福建省知识产权局领导到高交所调研局领导到高交所调研",
             "publishTime": "今天11:00",
             "commentsNumber": Math.round(Math.random() * 100),
-            id:Math.round(Math.random() * 1000),
+            id: Math.round(Math.random() * 1000),
           },
           {
             "titleImg": "assets/images/test/003.png",
@@ -120,7 +121,7 @@ export class NewsService {
             "title": "李克强:持续加大支持实体经济力度",
             "publishTime": "03-08 20:00",
             "commentsNumber": Math.round(Math.random() * 100),
-            id:Math.round(Math.random() * 1000),
+            id: Math.round(Math.random() * 1000),
           },
           {
             "titleImg": "assets/images/test/002.png",
@@ -128,59 +129,60 @@ export class NewsService {
             "title": "李克强:持续加大支持实体经济力度",
             "publishTime": "03-08 20:00",
             "commentsNumber": Math.round(Math.random() * 100),
-            id:Math.round(Math.random() * 1000),
+            id: Math.round(Math.random() * 1000),
           },
         ]
-      )
+      ).toPromise()
     }
 
     const path = `/news/news`
     return this.appService.request(RequestMethod.Get, path, params, true)
       .then(data => {
         console.log('getnewslist: ', data);
-          ////新闻列表返回数据结构
-          // {
-          //   "data": [
-          //     {
-          //       "_id": "59e76ebe6fc3970c356184be",
-          //       "newsId": "1004519818",
-          //       "publisherType": "001",
-          //       "msgType": "006",
-          //       "publisherId": "1003017460",
-          //       "newsTitle": "投资课堂",
-          //       "abstract": "投资课堂",
-          //       "content": "投资课堂",
-          //       "cover": "投资课堂",
-          //       "relationType": "002",
-          //       "status": "002",
-          //       "relationId": "23432",
-          //       "crtUserId": "1003017460",
-          //       "crtDateTime": "2017-10-23T08:26:27.640Z",
-          //       "lstModUserId": "1003017460",
-          //       "lstModDateTime": "2017-10-23T08:26:27.640Z",
-          //       "__v": 0
-          //     }
-          //   ]
-          // }
+        ////新闻列表返回数据结构
+        // {
+        //   "data": [
+        //     {
+        //       "_id": "59e76ebe6fc3970c356184be",
+        //       "newsId": "1004519818",
+        //       "publisherType": "001",
+        //       "msgType": "006",
+        //       "publisherId": "1003017460",
+        //       "newsTitle": "投资课堂",
+        //       "abstract": "投资课堂",
+        //       "content": "投资课堂",
+        //       "cover": "投资课堂",
+        //       "relationType": "002",
+        //       "status": "002",
+        //       "relationId": "23432",
+        //       "crtUserId": "1003017460",
+        //       "crtDateTime": "2017-10-23T08:26:27.640Z",
+        //       "lstModUserId": "1003017460",
+        //       "lstModDateTime": "2017-10-23T08:26:27.640Z",
+        //       "__v": 0
+        //     }
+        //   ]
+        // }
         if (!data) {
           return Promise.reject(new Error('data missing'));
         }
-        //数据转换,暂时没想到优雅的解决方案.
-        let resData = [];
-        data.map((item: any, index) => {
-          resData[index] = {}
-          resData[index].newsId = data[index].newsId
-          resData[index].titleImg = "assets/images/news-title.jpg"//data[index].cover
-          resData[index].title = data[index].newsTitle
-          resData[index].publishTime = new Date(data[index].crtDateTime)
-          resData[index].avatar = "assets/images/test/004.png"
-        })
-        return resData
+        return data;
+        // //数据转换,暂时没想到优雅的解决方案.
+        // let resData = [];
+        // data.map((item: any, index) => {
+        //   resData[index] = {}
+        //   resData[index].newsId = data[index].newsId
+        //   resData[index].titleImg = "assets/images/news-title.jpg"//data[index].cover
+        //   resData[index].title = data[index].newsTitle
+        //   resData[index].publishTime = new Date(data[index].crtDateTime)
+        //   resData[index].avatar = "assets/images/test/004.png"
+        // })
+        // return Promise.resolve(resData)
       })
-      .catch(err => {
-        console.log('getnewslist error: ', err);
-        // return Promise.reject(err);
-      });
+    // .catch(err => {
+    //   console.log('getnewslist error: ', err);
+    //   // return Promise.reject(err);
+    // });
   }
 
   public handleError(error: Response | any, donotThrow) {
