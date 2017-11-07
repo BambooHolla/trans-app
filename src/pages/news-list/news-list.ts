@@ -192,8 +192,8 @@ export class NewsListPage /* implements OnInit, OnDestroy  */ {
     ionViewWillEnter() {
         if(!this.disable_init_news_list_when_enter){
             this.initNewsList();
-            this.disable_init_news_list_when_enter = false;
         }
+        this.disable_init_news_list_when_enter = false;
     }
 
     news_list: any[];
@@ -203,7 +203,11 @@ export class NewsListPage /* implements OnInit, OnDestroy  */ {
     async _getNewsList(show_loading = false) {
         this.loading_news_list = true;
         if (show_loading) {
-            var loading = this.loadingCtrl.create({showBackdrop:false});
+            var loading = this.loadingCtrl.create({ 
+                showBackdrop: false, 
+                cssClass: 'enableBackdropDismiss',
+                dismissOnPageChange:true,
+            });
             loading.present();
         }
         try {
