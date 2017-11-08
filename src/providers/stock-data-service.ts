@@ -1549,7 +1549,8 @@ export class StockDataService {
       .catch(err => {
         console.log('getEquityOfSector error: ', err.message || err);
         // this.parseAndSetRealtimeData(code, []);
-        return Promise.reject(err);
+        //@Gaubee 临时注释掉下面一行的代码，不然一直报错没法开发了
+        // return Promise.reject(err);
       });
   }
 

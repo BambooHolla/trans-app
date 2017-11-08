@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
 
-import { Http } from '@angular/http';
+import { Http, RequestMethod } from '@angular/http';
 
 import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 import { AppSettings } from './app-settings';
+import { AppService } from './app.service';
 import { AppDataService } from './app-data-service';
 import { AlertService } from './alert-service';
 
@@ -14,7 +15,6 @@ import { AlertService } from './alert-service';
 // 注意在 @Injectable 后面必须使用括号。
 @Injectable()
 export class LoginService {
-
   // private _status:boolean = false;
   // _status 不创建为布尔类型，而是创建为 BehaviorSubject ，
   // 并使用该属性构造出一个可观察对象 status$ ，
@@ -22,33 +22,68 @@ export class LoginService {
   // 从而实现对该属性的监视。
   _status = new BehaviorSubject<boolean>(undefined);
   status$: Observable<boolean> = this._status
-        .asObservable()
-        // 在值被设置时，
-        // 使用 distinctUntilChanged() 方法保证只处理真正变化了的值
-        .filter(value => typeof value === 'boolean')
-        .distinctUntilChanged();
+    .asObservable()
+    // 在值被设置时，
+    // 使用 distinctUntilChanged() 方法保证只处理真正变化了的值
+    .filter(value => typeof value === 'boolean')
+    .distinctUntilChanged();
 
   logout$: Observable<any> = this._status
     .asObservable()
     .filter(value => value === false)
     .distinctUntilChanged();
-  
+
+  GET_CUSTOMER_DATA = `/user/getCustomersData`;
+
   constructor(
     public http: Http,
     public appSettings: AppSettings,
     public appDataService: AppDataService,
-    public alertService: AlertService,
-  ){
+    public appService: AppService,
+    public alertService: AlertService
+  ) {
     this.appDataService.dataReady
-      .then(() => {
+      .then(async () => {
+        window['loginService'] = this;
         const token = this.appDataService.token;
-        if (token){
+        var token_use_able = false;
+        if (token) {
           // FIXME ：即使缓存中有 token ，也不应当直接使用！
           // 因为有可能是之前登录留下的，
           // 而一段时间后服务端有变更（例如服务器重启、用户更改密码等）！
           // 因此需要在启动时检测一下 token 是否可用，
           // 若不可用，则需要拿已存的用户名与密码重新进行一次登录；
           // 或者也可以考虑不检测 token 的有效性，直接进行登录尝试。
+          try {
+            //检测一下 token 是否可用，
+            const loginerInfo = await this.appService.request(
+              RequestMethod.Get,
+              this.GET_CUSTOMER_DATA,
+              void 0,
+              true
+            );
+            console.log(loginerInfo);
+            token_use_able = true;
+          } catch (err) {
+            console.warn('Token过期不可用');
+            try {
+              if (this.appDataService.password) {
+                console.log('尝试帐号密码登录更新Token');
+                const loginRes = await this._doLogin(
+                  this.appDataService.customerId,
+                  this.appDataService.password,
+                  this.appDataService.savePassword
+                );
+                console.log('loginRes', loginRes);
+                this.appDataService.token = loginRes.token;
+                token_use_able = true;
+              }
+            } catch (err) {
+              console.error('尝试帐号密码登录更新Token失败\n', err);
+            }
+          }
+        }
+        if (token_use_able) {
           this.afterLogin();
         } else {
           this._status.next(false);
@@ -58,50 +93,60 @@ export class LoginService {
         console.log(err);
         this.alertService.showAlert('警告', err.message);
         this._status.next(false);
-      })
+      });
   }
 
-  public doLogin(
+  private _doLogin(
     customerId: string,
     password: string,
     savePassword: boolean = true,
-    type: number,
-  ): Promise<string | boolean> {
-    let promise: Promise<{token}>;
+    type?: number
+  ): Promise<any> {
+    let promise: Promise<{ token }>;
+    if (type === void 0) {
+      type = this.appSettings.accountType(customerId);
+    }
 
-    if (!this.appSettings.FAKE_LOGIN){
+    if (!this.appSettings.FAKE_LOGIN) {
       promise = this.http
         .post(this.appSettings.LOGIN_URL, {
           type: type,
           account: customerId,
-          password,
+          password
         })
         .map(res => res.json())
         .toPromise()
         .then(data => {
           console.log('login:', data);
-          const err = data.error || data.err
-          if (!err){
+          const err = data.error || data.err;
+          if (!err) {
             return Promise.resolve(data.data);
           } else {
             return Promise.reject(err);
           }
         });
     } else {
-      promise = new Promise((resolve) => {
+      promise = new Promise(resolve => {
         setTimeout(() => {
-          resolve({token: 'test'})
+          resolve({ token: 'test' });
         }, Math.round(Math.random()) * 500);
       });
     }
-
-    return promise
+    return promise;
+  }
+  public doLogin(
+    customerId: string,
+    password: string,
+    savePassword: boolean = true,
+    type?: number
+  ): Promise<boolean | string> {
+    return this._doLogin(customerId, password, savePassword, type)
       .then(data => {
         Object.assign(this.appDataService, {
           token: data.token,
           customerId,
           password,
-          savePassword,
+          savePassword
         });
 
         this.afterLogin();
@@ -109,28 +154,53 @@ export class LoginService {
       })
       .catch(error => {
         //将error转为对象,
-        const body = error.json() || error
+        const body = error.json() || error;
         //提取error
-        const err = body.error || body || error
+        const err = body.error || body || error;
         console.log('login err:', err);
-        const message = err.message || err.statusText || '登录失败！'
-        this.alertService.showAlert('警告', message)
+        const message = err.message || err.statusText || '登录失败！';
+        this.alertService.showAlert('警告', message);
         return err.message || err.statusText || err;
       });
   }
 
-  public doLogout(){
-    return new Promise((resolve) => {
-      this.appDataService.token = "";
-      this.appDataService.password = "";
+  public doLogout() {
+    return new Promise(resolve => {
+      this.appDataService.token = '';
+      this.appDataService.password = '';
       this._status.next(false);
 
       resolve(true);
     });
   }
 
-  private afterLogin(){
+  private afterLogin() {
     this._status.next(true);
   }
 
+  // 重置密码
+  RESET_PASSWORD = `/user/resetPassword`;
+
+  doResetPWD(account: string, code: string, password: string) {
+    return this.appService.request(RequestMethod.Post, this.RESET_PASSWORD, {
+      type: this.appSettings.accountType(account),
+      account,
+      code,
+      password
+    });
+  }
+
+  MODIFY_PASSWORD = `/user/modifyLoginPassword`;
+  // 修改密码
+  doModifyPWD(oldPassword: string, newPassword: string) {
+    return this.appService.request(
+      RequestMethod.Post,
+      this.MODIFY_PASSWORD,
+      {
+        oldPassword,
+        newPassword
+      },
+      true
+    );
+  }
 }

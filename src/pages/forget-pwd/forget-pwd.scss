@@ -1,5 +1,5 @@
-page-register {
-    .fixed-content,
+page-forget-pwd {
+ .fixed-content,
     .scroll-content {
         margin-top: 0!important;
     }
@@ -8,7 +8,7 @@ page-register {
             color: #c1b17f;
         }
     }
-    .register-agree-protocol {
+    .forgetPWD-agree-protocol {
         display: flex;
         align-items: center;
         background-color: transparent;
@@ -105,7 +105,7 @@ page-register {
         top: 0;
         left: 0;
     }
-    .register-warpper {
+    .forgetPWD-warpper {
         display: flex;
         align-content: center;
         justify-content: center;
@@ -120,11 +120,11 @@ page-register {
                 height: 100%;
             }
         }
-        .register-form-container {
+        .forgetPWD-form-container {
             padding: 5vh 12.5vw;
             display: flex;
             flex-direction: column;
-            .register-form-item {
+            .forgetPWD-form-item {
                 background-color: rgba(0, 0, 0, 0.2);
                 border-radius: 0.4rem;
                 margin: 0.4rem 0 .4rem;
@@ -186,7 +186,7 @@ page-register {
                 color: #8b8b8b;
                 font-size: 1rem;
             }
-            .register-form-submit {
+            .forgetPWD-form-submit {
                 border: 0.13rem solid #c1b17f;
                 border-radius: 0.3rem;
                 background-color: transparent;
