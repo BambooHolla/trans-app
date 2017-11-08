@@ -95,12 +95,16 @@ export class AppService {
         }
 
       }).catch(error => {
-        console.log(error)        
-        //将error转为对象,
-        const body = error.json() || error
-        //提取error
-        const err = body.error || body || error
-        return Promise.reject(this._errorHandler(err));
+        console.log(error)    
+        let formated_error = this._errorHandler(error);
+        if(!formated_error){
+          //将error转为对象,
+          const body = error.json() || error
+          //提取error
+          const err = body.error || body || error
+          formated_error = this._errorHandler(err);
+        }
+        return Promise.reject(formated_error);
       })
   }
 
