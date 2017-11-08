@@ -36,6 +36,10 @@ export class LoginPage {
     savePassword: new FormControl({ value: true, disabled: true })
   });
 
+  get customerId(){
+    return this.loginForm.get("customerId");
+  }
+
   constructor(
     public navCtrl: NavController,
     public loadingCtrl: LoadingController,
@@ -50,6 +54,7 @@ export class LoginPage {
   }
 
   ionViewDidLoad() {
+    this.appDataService.token = "";
     // function getComputedHeight(elem: HTMLElement): number{
     //   return parseFloat(window.getComputedStyle(elem).height);
     // }

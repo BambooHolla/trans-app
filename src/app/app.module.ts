@@ -38,6 +38,8 @@ import { ContactPage } from '../pages/contact/contact';
 import { OptionalPage } from '../pages/optional/optional';
 import { EntrancePage } from '../pages/entrance/entrance';
 import { LoginPage } from '../pages/login/login';
+import { ForgetPwdPage } from '../pages/forget-pwd/forget-pwd';
+import { ModifyPwdPage } from '../pages/modify-pwd/modify-pwd';
 import { RegisterPage } from '../pages/register/register';
 import { CreateAccountPromptPage } from '../pages/create-account-prompt/create-account-prompt';
 import { CreateAccountStepFirstPage } from '../pages/create-account-step-first/create-account-step-first';
@@ -52,14 +54,12 @@ import { HomePage } from '../pages/home/home';
 // import { NoticeListPage } from '../pages/notice-list/notice-list';
 import { QuotationDetailPage } from '../pages/quotation-detail/quotation-detail';
 import { FundStatementPage } from '../pages/fund-statement/fund-statement';
-import { ImagePickerPage } from "../pages/image-picker/image-picker";
+import { ImagePickerPage } from '../pages/image-picker/image-picker';
 import { CommissionListPage } from '../pages/commission-list/commission-list';
 import { HistoryRecordPage } from '../pages/history-record/history-record';
 import { QuotationsPage } from '../pages/quotations/quotations';
 import { TradeInterfacePage } from '../pages/trade-interface/trade-interface';
 import { StockDetailPage } from '../pages/stock-detail/stock-detail';
-
-
 
 import { InputModal } from '../modals/input/input';
 import { InformationModal } from '../modals/information-modal/information-modal';
@@ -80,8 +80,10 @@ import { PersonalDataService } from '../providers/personal-data-service';
 import { TradeService } from '../providers/trade-service';
 import { NoticeListModel } from '../providers/models/notice-list-model';
 
-import { ImageTakerController, ImageTakerCmp } from '../components/image-taker-controller';
-
+import {
+    ImageTakerController,
+    ImageTakerCmp
+} from '../components/image-taker-controller';
 
 import { BnHeaderComponent } from '../components/bn-header/bn-header';
 import { BnMenuComponent } from '../components/bn-menu/bn-menu';
@@ -100,9 +102,6 @@ import { VolumnComponent } from '../components/volumn/volumn';
 import { DistancelineComponent } from '../components/distanceline/distanceline';
 import { RealTimeChartsComponent } from '../components/realtime-charts/realtime-charts';
 
-
-
-
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { Keyboard } from '@ionic-native/keyboard';
@@ -120,13 +119,15 @@ import { InformationModule } from '../pages/information/information.module';
 import { RecommendPage } from '../pages/recommend/recommend';
 // import { TriColListComponent } from "../components/tri-col-list/tri-col-list";
 // import { SearchItemPage } from "../pages/search-item/search-item-page";
-import { LoopSlidesComponent } from "../components/loop-slides/loop-slides";
-import { ListSharedModule } from "../shared/list-shared.module";
-import { SearchItemPageModule } from "../pages/search-item/search-item-page.module";
-import { BaseSharedModule } from "../shared/base-shared.module";
+import { LoopSlidesComponent } from '../components/loop-slides/loop-slides';
+import { ListSharedModule } from '../shared/list-shared.module';
+import { SearchItemPageModule } from '../pages/search-item/search-item-page.module';
+import { BaseSharedModule } from '../shared/base-shared.module';
 import { LoopSlidesBetaComponent } from '../components/loop-slides-beta/loop-slides-beta';
-import { TransferPage } from "../pages/transfer/transfer";
+import { TransferPage } from '../pages/transfer/transfer';
 import { LoginPageModule } from '../pages/login/login.module';
+import { ForgetPwdPageModule } from '../pages/forget-pwd/forget-pwd.module';
+import { ModifyPwdPageModule } from '../pages/modify-pwd/modify-pwd.module';
 import { RegisterPageModule } from '../pages/register/register.module';
 // import { BankCode2NamePipe } from '..\pipes\bank-code2-name/bank-code2-name';
 // import { FileService } from '../providers/file.service';
@@ -153,192 +154,200 @@ import { RegisterPageModule } from '../pages/register/register.module';
 
 // 使用 @NgModule 装饰器注入的 entryComponents 以及 providers 等可以在整个应用中被访问
 @NgModule({
-  declarations: [
-    LoopSlidesComponent,
-    GjsApp,
-    TransferPage,
-    // MyselfPage,
-    CreateAccountPromptPage,
-    CreateAccountStepFirstPage,
-    CreateAccountStepSecondPage,
-    CreateAccountStepThirdPage,
-    CreateAccountConfirmPage,
-    IdentificationPage,
-    AuthPendingPage,
-    EntrancePage,
-    LoadingPage,
-    TabsPage,
-    InfoTabsPage,
-    AboutPage,
-    HelpPage,
-    AccountCenterPage,
-    ChangeTradePassword,
-    ContactPage,
-    OptionalPage,
-    // TriColListComponent,
-    // LoginPage,
-    // RegisterPage,
-    HomePage,
-    QuotationDetailPage,
-    FundStatementPage,
-    CommissionListPage,
-    HistoryRecordPage,
-    QuotationsPage,
-    TradeInterfacePage,
-    StockDetailPage,
-    // NoticeListPage,
-    // NoticePage,
-    // NewsContent,
-    // SearchItemPage,
-    ImagePickerPage,
-    InformationModal,
-    InputModal,
-    CameraModal,
-    BnHeaderComponent,
-    BnMenuComponent,
-    // RiseOrFallPipe,
-    // NumReplacePipe,
-    // PositiveSignPipe,
-    RecommendPage,
-    // RichText,
-    EchartsBaseComponent,
-    SmoothlineComponent,
-    PieComponent,
-    BarComponent,
-    LiquidComponent,
-    CandlestickComponent,
-    VolumnComponent,
-    DistancelineComponent,
-    RealTimeChartsComponent,
-    // ImageTakerController,
-    ImageTakerCmp,
-    LoopSlidesBetaComponent,
-    // BankCode2NamePipe,
-    // IsLoadingDirective,
-  ],
-  imports: [
-    // NewsContentModule,
-    IonicModule.forRoot(GjsApp,  {
-      backButtonText: '',
-      mode: 'ios',
-      iconMode: 'ios', // ui 统一使用 ios platform 模式
-      //modalEnter: 'modal-fade-in',
-      //modalLeave: 'modal-slide-out',
-      // tabsPlacement: 'bottom',
-      // pageTransition: 'ios-transition',
-      tabsHideOnSubPages: true,
-    },{
-        links:[
-          { component: LoginPage, name: 'login' },
-          { component: RegisterPage, name: 'register' },
-        ]
-    }),
-    IonicStorageModule.forRoot(),
-    LoginPageModule,
-    RegisterPageModule,
-    BrowserModule,
-    HttpModule,
-    // TranslateModule.forRoot({
-    //   loader: {
-    //     provide: TranslateLoader,
-    //     useFactory: (createTranslateLoader),
-    //     deps: [Http]
-    //   }
-    // }),
-    ListSharedModule,
-    InformationModule,
-    BaseSharedModule,
+    declarations: [
+        LoopSlidesComponent,
+        GjsApp,
+        TransferPage,
+        // MyselfPage,
+        CreateAccountPromptPage,
+        CreateAccountStepFirstPage,
+        CreateAccountStepSecondPage,
+        CreateAccountStepThirdPage,
+        CreateAccountConfirmPage,
+        IdentificationPage,
+        AuthPendingPage,
+        EntrancePage,
+        LoadingPage,
+        TabsPage,
+        InfoTabsPage,
+        AboutPage,
+        HelpPage,
+        AccountCenterPage,
+        ChangeTradePassword,
+        ContactPage,
+        OptionalPage,
+        // TriColListComponent,
+        // LoginPage,
+        // RegisterPage,
+        HomePage,
+        QuotationDetailPage,
+        FundStatementPage,
+        CommissionListPage,
+        HistoryRecordPage,
+        QuotationsPage,
+        TradeInterfacePage,
+        StockDetailPage,
+        // NoticeListPage,
+        // NoticePage,
+        // NewsContent,
+        // SearchItemPage,
+        ImagePickerPage,
+        InformationModal,
+        InputModal,
+        CameraModal,
+        BnHeaderComponent,
+        BnMenuComponent,
+        // RiseOrFallPipe,
+        // NumReplacePipe,
+        // PositiveSignPipe,
+        RecommendPage,
+        // RichText,
+        EchartsBaseComponent,
+        SmoothlineComponent,
+        PieComponent,
+        BarComponent,
+        LiquidComponent,
+        CandlestickComponent,
+        VolumnComponent,
+        DistancelineComponent,
+        RealTimeChartsComponent,
+        // ImageTakerController,
+        ImageTakerCmp,
+        LoopSlidesBetaComponent
+        // BankCode2NamePipe,
+        // IsLoadingDirective,
+    ],
+    imports: [
+        // NewsContentModule,
+        IonicModule.forRoot(
+            GjsApp,
+            {
+                backButtonText: '',
+                mode: 'ios',
+                iconMode: 'ios', // ui 统一使用 ios platform 模式
+                //modalEnter: 'modal-fade-in',
+                //modalLeave: 'modal-slide-out',
+                // tabsPlacement: 'bottom',
+                // pageTransition: 'ios-transition',
+                tabsHideOnSubPages: true
+            },
+            {
+                links: [
+                    { component: LoginPage, name: 'login' },
+                    { component: ForgetPwdPage, name: 'forget-pwd' },
+                    { component: ModifyPwdPage, name: 'modify-pwd' },
+                    { component: RegisterPage, name: 'register' }
+                ]
+            }
+        ),
+        IonicStorageModule.forRoot(),
+        LoginPageModule,
+        RegisterPageModule,
+        ForgetPwdPageModule,
+        ModifyPwdPageModule,
+        BrowserModule,
+        HttpModule,
+        // TranslateModule.forRoot({
+        //   loader: {
+        //     provide: TranslateLoader,
+        //     useFactory: (createTranslateLoader),
+        //     deps: [Http]
+        //   }
+        // }),
+        ListSharedModule,
+        InformationModule,
+        BaseSharedModule,
 
-    SearchItemPageModule,
-    // InformationSlideModule,
-    // RouterModule.forChild(appRoutes),
-  ],
-  bootstrap: [IonicApp],
-  entryComponents: [
-    NewsListPage,
-    LoopSlidesComponent,
-    GjsApp,
-    TransferPage,
-    // MyselfPage,
-    CreateAccountPromptPage,
-    CreateAccountStepFirstPage,
-    CreateAccountStepSecondPage,
-    CreateAccountStepThirdPage,
-    CreateAccountConfirmPage,
-    IdentificationPage,
-    AuthPendingPage,
-    EntrancePage,
-    LoadingPage,
-    TabsPage,
-    InfoTabsPage,
-    AboutPage,
-    HelpPage,
-    AccountCenterPage,
-    ChangeTradePassword,
-    ContactPage,
-    HomePage,
-    QuotationDetailPage,
-    FundStatementPage,
-    CommissionListPage,
-    HistoryRecordPage,
-    QuotationsPage,
-    TradeInterfacePage,
-    StockDetailPage,
-    OptionalPage,
-    // SearchItemPage,
-    LoginPage,
-    RegisterPage,
-    // NoticeListPage,
-    // NoticePage,
-    ImagePickerPage,
-    InformationModal,
-    InputModal,
-    CameraModal,
-    // RichText,
-    RecommendPage,
-    BnHeaderComponent,
-    BnMenuComponent,
-    EchartsBaseComponent,
-    SmoothlineComponent,
-    PieComponent,
-    BarComponent,
-    LiquidComponent,
-    CandlestickComponent,
-    VolumnComponent,
-    DistancelineComponent,
-    ImageTakerCmp,
-    RealTimeChartsComponent,
-  ],
-  providers: [
-    AppService,
-    StatusBar,
-    SplashScreen,
-    {provide: ErrorHandler, useClass: IonicErrorHandler},
-    Keyboard,
-    CameraPreview,
-    ImagePicker,
-    AndroidPermissions,
-    ScreenOrientation,
-    AndroidFullScreen,
-    AppSettings,
-    AppDataService,
-    HttpService,
-    SocketioService,
-    LoginService,
-    RegisterService,
-    AlertService,
-    KeyboardService,
-    ImagePickerService,
-    StockDataService,
-    PersonalDataService,
-    TradeService,
-    // CameraModal,
-    ImageTakerController, 
-    // FileService,
-    // RiseOrFallPipe,
-    // NumReplacePipe,
-    // PositiveSignPipe,
-    NoticeListModel,
-  ]
+        SearchItemPageModule
+        // InformationSlideModule,
+        // RouterModule.forChild(appRoutes),
+    ],
+    bootstrap: [IonicApp],
+    entryComponents: [
+        NewsListPage,
+        LoopSlidesComponent,
+        GjsApp,
+        TransferPage,
+        // MyselfPage,
+        CreateAccountPromptPage,
+        CreateAccountStepFirstPage,
+        CreateAccountStepSecondPage,
+        CreateAccountStepThirdPage,
+        CreateAccountConfirmPage,
+        IdentificationPage,
+        AuthPendingPage,
+        EntrancePage,
+        LoadingPage,
+        TabsPage,
+        InfoTabsPage,
+        AboutPage,
+        HelpPage,
+        AccountCenterPage,
+        ChangeTradePassword,
+        ContactPage,
+        HomePage,
+        QuotationDetailPage,
+        FundStatementPage,
+        CommissionListPage,
+        HistoryRecordPage,
+        QuotationsPage,
+        TradeInterfacePage,
+        StockDetailPage,
+        OptionalPage,
+        // SearchItemPage,
+        LoginPage,
+        RegisterPage,
+        // NoticeListPage,
+        // NoticePage,
+        ImagePickerPage,
+        InformationModal,
+        InputModal,
+        CameraModal,
+        // RichText,
+        RecommendPage,
+        BnHeaderComponent,
+        BnMenuComponent,
+        EchartsBaseComponent,
+        SmoothlineComponent,
+        PieComponent,
+        BarComponent,
+        LiquidComponent,
+        CandlestickComponent,
+        VolumnComponent,
+        DistancelineComponent,
+        ImageTakerCmp,
+        RealTimeChartsComponent
+    ],
+    providers: [
+        AppService,
+        StatusBar,
+        SplashScreen,
+        { provide: ErrorHandler, useClass: IonicErrorHandler },
+        Keyboard,
+        CameraPreview,
+        ImagePicker,
+        AndroidPermissions,
+        ScreenOrientation,
+        AndroidFullScreen,
+        AppSettings,
+        AppDataService,
+        HttpService,
+        SocketioService,
+        LoginService,
+        RegisterService,
+        AlertService,
+        KeyboardService,
+        ImagePickerService,
+        StockDataService,
+        PersonalDataService,
+        TradeService,
+        // CameraModal,
+        ImageTakerController,
+        // FileService,
+        // RiseOrFallPipe,
+        // NumReplacePipe,
+        // PositiveSignPipe,
+        NoticeListModel
+    ]
 })
 export class AppModule {}

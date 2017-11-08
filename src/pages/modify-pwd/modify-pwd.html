@@ -1,0 +1,52 @@
+<!--
+  Generated template for the ModifyPwdPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>修改登录密码</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content class="account-form-page">
+  <div class="account-warpper">
+    <div class="logo-container">
+      <img src="assets/images/login/logo.png" alt="" class="logo">
+    </div>
+    <form class="account-form-container" [formGroup]="modifyForm" (ngSubmit)="modify()" novalidate>
+      <ion-item class="account-form-item">
+        <ion-input formControlName="oldPassword" class="password" type="password" placeholder="旧密码" (input)="onOldPasswordInput($event)">
+        </ion-input>
+        <div item-right class="error-tip" *ngIf="oldPassword.errors?.minlength">
+          密码至少3位
+        </div>
+      </ion-item>
+      <ion-item class="account-form-item">
+        <ion-input formControlName="newPassword" class="password" type="password" placeholder="新密码" (input)="onNewPasswordInput($event)">
+        </ion-input>
+        <div item-right class="error-tip" *ngIf="newPassword.errors?.minlength">
+          密码至少3位
+        </div>
+        <div item-right class="error-tip" *ngIf="newPassword.errors?.sameError||oldPassword.errors?.sameError">
+          不可和旧密码相同
+        </div>
+        validatePWDDiff
+      </ion-item>
+      <ion-item class="account-form-item">
+        <ion-input formControlName="confirmNewPassword" class="password" type="password" placeholder="确认新密码">
+        </ion-input>
+        <div item-right class="error-tip" *ngIf="confirmNewPassword.errors?.confirmError">
+          两次密码填写不一致
+        </div>
+      </ion-item>
+      <button ion-button class="account-form-submit" type="submit" [disabled]="modifyForm.invalid || !appDataService.ready || modifying">
+        确定修改
+      </button>
+    </form>
+  </div>
+</ion-content>
