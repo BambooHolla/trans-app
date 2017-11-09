@@ -68,7 +68,7 @@ export class TradeInterfacePage {
         const price = Number(bets && (bets[5].price || bets[4].price) ||
                         latestPrice ||
                         0
-                      );
+                      )/this.appSettings.Price_Rate
         this.price = price.toFixed(2)
         if (price > 0) {
           this.amount = (Math.floor(this.personalDataService.accountBalance / price / handBase) * handBase).toString();
@@ -135,14 +135,6 @@ export class TradeInterfacePage {
     this.changeByStep(target, 0, precision);
   }
 
-  // toBuy() {
-  //   this.doTrade(1)
-  // }
-
-  // toSale() {
-  //   this.doTrade(2)
-  // }
-
   chooseTradeType($event: MouseEvent){
     const dataset = ($event.target as HTMLElement).dataset
     if (dataset && dataset.tradeType){
@@ -156,8 +148,11 @@ export class TradeInterfacePage {
     const price = parseFloat(this.price);
     const amount = parseInt(this.amount, 10);
 
-    console.log(tradeType)
-    console.log(this.Range.ratio)
+    console.log('doTrade:',
+      this.stockCode, ' | ',
+      tradeType, ' | ',
+      amount, ' | ',
+      price, )
 
     this.tradeService
       .purchase(
@@ -168,13 +163,13 @@ export class TradeInterfacePage {
         price,
       )
       .then(resData => {
-        console.log(resData)
+        console.log('doTrade:',resData)
         // [{ "FID_CODE": "1", "FID_MESSAGE": "委托成功,您这笔委托的合同号是:201" }]
         const result = resData instanceof Array ? resData[0] : resData
         
-        if (typeof result === 'object' && result.FID_CODE) {
+        if (typeof result === 'object' && result.id) {
           let toast = this.toastCtrl.create({
-            message: `${result.FID_MESSAGE}`,
+            message: '委托单已提交',//`${result.id}`,
             duration: 3000,
             position: 'middle'
           })
@@ -184,11 +179,11 @@ export class TradeInterfacePage {
         }else{
           return Promise.reject(result);
         }
-        console.log('trade done:')
+        console.log('doTrade done:')
         this.alertService.dismissLoading()
       })
       .catch(err => {
-        console.log('trade err:', err);
+        console.log('doTrade err:', err);
         if(err && err.message){
           let toast = this.toastCtrl.create({
             message: `${err.message}`,
