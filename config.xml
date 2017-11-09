@@ -71,4 +71,5 @@
     <plugin name="cordova.plugins.diagnostic" spec="git+https://github.com/kyr0/cordova-diagnostic-plugin.git" />
     <plugin name="ionic-plugin-keyboard" spec="~2.2.1" />
     <engine name="android" spec="~6.2.3" />
+    <allow-navigation href="http://192.168.16.145:8100" />
 </widget>

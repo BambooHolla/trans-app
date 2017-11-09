@@ -29,7 +29,7 @@
           <ion-icon name="view-pwd"></ion-icon>
         </div>
       </ion-item>
-      <a class="forget-password">忘记密码</a>
+      <a class="forget-password" navPush="forget-pwd" [navParams]="{customerId:customerId?.value}">忘记密码</a>
       <button ion-button class="login-form-submit" type="submit" [disabled]="loginForm.invalid || !appDataService.ready || logining">
         登录
       </button>

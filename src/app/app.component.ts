@@ -22,12 +22,10 @@ import { AppDataService } from '../providers/app-data-service';
 import { SocketioService } from '../providers/socketio-service';
 import { StockDataService } from '../providers/stock-data-service';
 
-
 @Component({
-  templateUrl: 'app.html',
+  templateUrl: 'app.html'
 })
 export class GjsApp {
-
   rootPage: any;
 
   private loader: Loading;
@@ -37,14 +35,14 @@ export class GjsApp {
   presentLoading(val) {
     if (!this.loginChecked) {
       this.loader = this.loadingCtrl.create({
-        content: val,
+        content: val
       });
       this.loader.present();
     }
   }
 
   dismissLoading() {
-    if (this.loader){
+    if (this.loader) {
       this.loader.dismiss();
       this.loader = null;
     }
@@ -65,7 +63,7 @@ export class GjsApp {
     public statusBar: StatusBar,
     public splashScreen: SplashScreen,
     // translate: TranslateService,
-    public renderer2: Renderer2,
+    public renderer2: Renderer2
   ) {
     this.screenOrientation
       .lock(this.screenOrientation.ORIENTATIONS.PORTRAIT)
@@ -80,9 +78,13 @@ export class GjsApp {
       .subscribe(status => {
         // console.log('login status changed: ', status);
 
-        const targetPage = status ? TabsPage : LoginPage;//EntrancePage;
-        if (!this.rootPage){
-          this.rootPage = targetPage;
+        const targetPage = status ? TabsPage : LoginPage; //EntrancePage;
+        if (!this.rootPage) {
+          if (location.hash.length > 2) {
+            // 如果有hash，使用默认的deeplink来进行路由
+          } else {
+            this.rootPage = targetPage;
+          }
 
           // rootPage 为空，表示刚刚进入 app ，
           // 需要在登录状态确认后进行初始化操作。
@@ -93,13 +95,17 @@ export class GjsApp {
           const rootNav = this.appCtrl.getRootNav();
           const topPage = rootNav.last().component;
 
-          if (targetPage !== topPage){
+          if (targetPage !== topPage) {
             const direction = status ? 'forward' : 'back';
-            rootNav.setRoot(targetPage, {}, {
-              direction,
-              animation: 'ios-transition',
-              animate: true,
-            });
+            rootNav.setRoot(
+              targetPage,
+              {},
+              {
+                direction,
+                animation: 'ios-transition',
+                animate: true
+              }
+            );
           }
         }
 
@@ -114,16 +120,15 @@ export class GjsApp {
     this.keyboardService.init(this.renderer2);
   }
 
-  ionViewDidLoad() {
+  ionViewDidLoad() {}
 
-  }
-
-  afterPlatformReady(){
-    if (this.platform.is('android')){
+  afterPlatformReady() {
+    if (this.platform.is('android')) {
       // android 的全屏模式，顶部状态栏融入 APP 。
       // 不需要修改 java 文件
-      const androidFullScreen = this.androidFullScreen
-      androidFullScreen.isImmersiveModeSupported()
+      const androidFullScreen = this.androidFullScreen;
+      androidFullScreen
+        .isImmersiveModeSupported()
         .then(() => androidFullScreen.immersiveMode())
         .then(() => androidFullScreen.showSystemUI())
         .then(() => androidFullScreen.showUnderStatusBar())
@@ -161,7 +166,7 @@ export class GjsApp {
 
   // 设置根元素的背景，与当前激活页的背景保持大致相同，
   // 避免在软键盘弹出/收起时短暂闪现难看的背景。
-  setAppRootBackground(status: boolean){
+  setAppRootBackground(status: boolean) {
     const className = status ? 'bg-in' : 'bg-out';
     const oldClassName = status ? 'bg-out' : 'bg-in';
     const rootElem = this.appCtrl._appRoot._elementRef.nativeElement;
