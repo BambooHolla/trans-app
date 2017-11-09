@@ -24,17 +24,19 @@ export class TradeService {
     let promise: Promise<any>;
     if (!this.appSettings.SIM_DATA){
       // console.log('start trade')
-      const url = `${this.appSettings.SERVER_URL + this.appSettings.SERVER_PREFIX}/transactions/create`
+      const url = `${this.appSettings.SERVER_URL + this.appSettings.SERVER_PREFIX}/transaction/entrusts/create`
       const headers = new Headers({ 'Content-Type': 'application/json' });
       headers.append('X-AUTH-TOKEN', this.appDataService.token);
 
       const options = new RequestOptions({ headers: headers });
 
       let data = {
-        productId:equityCode,
-        transactionType: '00' + consignmentType.toString(),// 1 买入申报 2 卖出申报 59 买入确认 60 卖出确认
+        productId:'5827395838',//equityCode,
+        operationType: '002',//string *001现金对产品交易、002产品对产品交易
+        type: '00' + (consignmentType ? "1" : "2"),// 001买入，002卖出
         amount: +consignmentCount,// 数量
-        price: consignmentPrice * 100,// 价格
+        price: consignmentPrice * this.appSettings.Price_Rate,// 价格
+        priceProductId: '1029385000',//string,标的（标价产品id），产品对产品交易时有
       }
 
       promise = this.http
@@ -44,7 +46,7 @@ export class TradeService {
           const data = response.json()
           // console.log('response: ', response)
           // console.log('data: ', data)
-          if (!data.err){
+          if (!data.error){
             // 下单请求成功提交后，
             // 刷新个人资金账户情况与持股情况。
             this.personalDataService.requestFundData()
@@ -54,8 +56,19 @@ export class TradeService {
 
             return Promise.resolve(data.data);
           } else {
-            return Promise.reject(data.err);
+            return Promise.reject(data.error);
           }
+        }).catch(error => {
+          console.log(error);
+          let formated_error = this._errorHandler(error, true);
+          if (!formated_error) {
+            //将error转为对象,
+            const body = error.json() || error;
+            //提取error
+            const err = body.error || body || error;
+            formated_error = this._errorHandler(err);
+          }
+          return Promise.reject(formated_error);
         })
     } else {
       promise = new Promise((resolve, reject) => {
@@ -84,5 +97,16 @@ export class TradeService {
     public alertService: AlertService,
   ){
 
+  }
+
+  private _errorHandler(error, static_return = false) {
+    if (error instanceof Error) {
+      error = { code: '999', message: error.message };
+    } else if (error instanceof ProgressEvent) {
+      error = { code: '500', message: '网络连接错误,请稍后再试' };
+    } else if (static_return) {
+      error = null;
+    }
+    return error;
   }
 }
