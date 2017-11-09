@@ -27,7 +27,7 @@ export class QuotationsPage {
 	searchItemPage: any = SearchItemPage;
 	stockCode = '000001';
 	// stockCode = ['000001','000002','010001'];
-    restoreTimer = null;
+	restoreTimer = null;
 
 	useTempData: BehaviorSubject<boolean> = new BehaviorSubject(false);
 
@@ -52,7 +52,7 @@ export class QuotationsPage {
 		.asObservable()
 		.distinctUntilChanged();
 
-    showData: AnyObject = {};
+	showData: AnyObject = {};
 
 	private _baseData$: Observable<any>;
 
@@ -60,89 +60,31 @@ export class QuotationsPage {
 
 	private viewDidLeave: BehaviorSubject<boolean> = new BehaviorSubject(undefined);
 	private viewDidLeave$ = this.viewDidLeave
-            .asObservable()
-            .distinctUntilChanged()
-            .filter(value => value === true);
+		.asObservable()
+		.distinctUntilChanged()
+		.filter(value => value === true);
 
-    private lastRealtimeStockList: string[] = [];
+	private lastRealtimeStockList: string[] = [];
 	private realtimeStockList: BehaviorSubject<string[]> = new BehaviorSubject([]);
 	private realtimeStockList$ = this.realtimeStockList
-            .asObservable()
-            .distinctUntilChanged();
+		.asObservable()
+		.distinctUntilChanged();
 
-    // @ViewChild('detailSlides') detailSlides: Slides;
-	// @ViewChild(Slides) sld: Slides;
-
-    @ViewChildren(RealTimeChartsComponent) charts;
-
-	//当前的页面,默认在公告页面
-	// public currentPage: string = 'net';
-	// public currentPages: string = 'nets';
+	@ViewChildren(RealTimeChartsComponent) charts;
 
 	_thisPageActive: boolean = false;
 
 	activeIndex: BehaviorSubject<number> = new BehaviorSubject(-1);
 
-	activeSectorType: string = '';
+	// activeSectorType: string = '';
 
-	sectorStockDetailList: any[] = [];
-
-	candlestickOptions1 = {
-		gridLeft: '30px',
-		xAxisShow: false,
-		yAxisShow: false,
-		specialallTooltip:true,
-	};
-	candlestickOptions2 = {
-		gridLeft: '30px',
-		xAxisShow: false,
-		yAxisShow: true,
-		specialallTooltip:true,
-	};
-
-	// optionalListData: any[] = [
-	// 	{
-	// 		id: "001098",
-	// 		name: '皇家喜铺',
-	// 		sequence: 'SZ002851',
-	// 		price: 28.22,
-	// 		changeRate: 0.137,
-	// 	},
-	// 	{
-	// 		id: "601002",
-	// 		name: '爱迪电机',
-	// 		sequence: 'SH600212',
-	// 		price: 10.96,
-	// 		changeRate: 0.1002,
-	// 	},
-	// 	{
-	// 		id: "201002",
-	// 		name: '辉晟环保',
-	// 		sequence: 'SH603098',
-	// 		price: 27.89,
-	// 		changeRate: 0.1005,
-	// 	},
-	// 	{
-	// 		id: "001098",
-	// 		name: '正合意',
-	// 		sequence: 'SZ330340',
-	// 		price: 61.08,
-	// 		changeRate: 0.037,
-	// 	},
-	// 	{
-	// 		id: "001099",
-	// 		name: '正合意',
-	// 		sequence: 'SZ330340',
-	// 		price: 61.08,
-	// 		changeRate: 0.037,
-	// 	},
-	// ];
+	// sectorStockDetailList: any[] = [];
 
 	realtimeOptions = {
-		tooltipShow:false,
-		showAxisBoundaryLabel:false,
-		customTooltip: true, 
-		xAxisShow: false, 
+		tooltipShow: false,
+		showAxisBoundaryLabel: false,
+		customTooltip: true,
+		xAxisShow: false,
 		axisLabelShow: false,
 		yAxisStyle: {
 			color: 'rgba(255, 255, 255, 0.2)',
@@ -153,15 +95,15 @@ export class QuotationsPage {
 		gridTop: '10px',
 		gridBottom: '0px',
 		xAxisInside: true,
-		yAxisSplitLine : false,
+		yAxisSplitLine: false,
 		align: 'bottom',
 		yAxisSize: '10',
 	};
 
 	realtimeOption = {
-		customTooltip: true, 
-		xAxisShow: true, 
-    	axisLabelShow: false, 
+		customTooltip: true,
+		xAxisShow: true,
+		axisLabelShow: false,
 		yAxisStyle: {
 			color: 'rgba(255, 255, 255, 0.2)',
 			type: 'dashed',
@@ -171,7 +113,7 @@ export class QuotationsPage {
 		gridTop: '0px',
 		gridBottom: '10px',
 		xAxisInside: true,
-		yAxisSplitLine : true,
+		yAxisSplitLine: true,
 		align: 'top',
 		yAxisSize: '10',
 		// area: {
@@ -189,18 +131,18 @@ export class QuotationsPage {
 		// 			}],
 		// 		}
 		// 	}
-        // },
+		// },
 	};
 	constructor(public navCtrl: NavController,
 		public appSettings: AppSettings,
 		public socketioService: SocketioService,
 		public stockDataService: StockDataService,
 	) {
-		this.changeActive(0);
+		// this.changeActive(0);
 	}
 
-	ionViewDidEnter(){
-	    this.viewDidLeave.next(false);
+	ionViewDidEnter() {
+		this.viewDidLeave.next(false);
 
 		this.doSubscribe();
 
@@ -214,7 +156,7 @@ export class QuotationsPage {
 		}, 200);
 	}
 
-	ionViewWillLeave(){
+	ionViewWillLeave() {
 		// 将要离开当前页时，设置 _thisPageActive 为 false ，
 		// 配合视图上的 ngIf ，让 echarts 图表被销毁，
 		// 避免持续占据 cpu 资源。
@@ -237,15 +179,15 @@ export class QuotationsPage {
 		}, 1e3)
 	}
 
-	ionViewDidLeave(){
-	    this.viewDidLeave.next(true);
-	    // realtimeStockList 的设置要放在 viewDidLeave 的设置之后，
-	    // 以便先触发 takeUntil() 。
-	    // 此处将 realtimeStockList 设置为空数组，
-	    // 会立刻引发退订操作。
-	    // 可以考虑对此使用延时，但可能需要结合 ionViewWillLeave 的 takeUntil() ，
-	    // 避免反复切换页面时，订阅被延时的退订冲掉。
-	    this.realtimeStockList.next([]);
+	ionViewDidLeave() {
+		this.viewDidLeave.next(true);
+		// realtimeStockList 的设置要放在 viewDidLeave 的设置之后，
+		// 以便先触发 takeUntil() 。
+		// 此处将 realtimeStockList 设置为空数组，
+		// 会立刻引发退订操作。
+		// 可以考虑对此使用延时，但可能需要结合 ionViewWillLeave 的 takeUntil() ，
+		// 避免反复切换页面时，订阅被延时的退订冲掉。
+		this.realtimeStockList.next([]);
 	}
 
 	// ionViewCanLeave() 可以返回布尔值或 Promise ，
@@ -282,119 +224,123 @@ export class QuotationsPage {
 		// 目前使用固定的股票代码，只是用于测试，之后必须予以修正。
 		const stockCode = this.stockCode;
 		if (!this._baseData$) {
-			this._baseData$ = this.stockDataService.stockBaseData$.map(data => data[stockCode]);
+			this._baseData$ = this.stockDataService.stockBaseData$
+				.map(data => data[stockCode])
+				.do(data => console.log('_baseData$',data))
 		}
 		if (!this._realtimeData$) {
-			this._realtimeData$ = this.stockDataService.stockRealtimeData$.map(data => data[stockCode]);
+			this._realtimeData$ = this.stockDataService.stockRealtimeData$
+				.map(data => data[stockCode])
+				.do(data => console.log('_realtimeData$', data))
 		}
 		this.stockDataService.requestStockBaseData(stockCode)
-			.catch(() => {});
+			.catch(() => { });
 
 		Observable
 			.combineLatest(
-				this._baseData$,
-				this.useTempData$,
-				this.tempData$,
-			)
+			this._baseData$,
+			this.useTempData$,
+			this.tempData$,
+		)
 			.takeUntil(this.viewDidLeave$)
 			.subscribe(([baseData, useTempData, tempData]) => {
 				this.showData = useTempData ? tempData : baseData;
 			})
 
-		Observable
-			.combineLatest(
-				this.activeIndex,
-				this.stockDataService.sectorData$,
-			)
-			.takeUntil(this.viewDidLeave$)
-			.distinctUntilChanged(([oldIndex, oldSectorData], [newIndex, newSectorData]) => {
-				// distinctUntilChanged() 的比较是浅比较。
-				// 此处自定义 distinctUntilChanged 的回调函数来实现深比较（有限深度），
-				// 对于 stockCodeList ，需要逐个比较其元素。
-				// 返回值为 true ，表示数据未变化；返回 false 表示已变化。
-				if (oldIndex !== newIndex) {
-					return false;
-				} else if (oldSectorData === newSectorData) {
-					return true;
-				} else {
-					const sectorType = this.activeSectorType;
-					const oldStockList = oldSectorData[sectorType].stockCodeList;
-					const newStockList = newSectorData[sectorType].stockCodeList;
-					if (oldStockList === null || newStockList === null) {
-						return oldStockList === newStockList;
-					}
-					return oldStockList.length === newStockList.length &&
-						oldStockList.every((stockCode, index) => newStockList[index] === stockCode);
-				}
-			})
-			.subscribe(([, sectorData]) => {
-				// console.log('sectorStockList')
-				const sectorType = this.activeSectorType;
-				const { stockCodeList } = sectorData[sectorType];
-				if (stockCodeList) {
-					this.sectorStockDetailList = stockCodeList.map(stockCode => ({
-						baseData: this.stockDataService.stockBaseData$.map(data => data[stockCode]),
-					}));
+		// Observable
+		// 	.combineLatest(
+		// 	this.activeIndex,
+		// 	this.stockDataService.sectorData$,
+		// )
+		// 	.takeUntil(this.viewDidLeave$)
+		// 	.distinctUntilChanged(([oldIndex, oldSectorData], [newIndex, newSectorData]) => {
+		// 		// distinctUntilChanged() 的比较是浅比较。
+		// 		// 此处自定义 distinctUntilChanged 的回调函数来实现深比较（有限深度），
+		// 		// 对于 stockCodeList ，需要逐个比较其元素。
+		// 		// 返回值为 true ，表示数据未变化；返回 false 表示已变化。
+		// 		if (oldIndex !== newIndex) {
+		// 			return false;
+		// 		} else if (oldSectorData === newSectorData) {
+		// 			return true;
+		// 		} else {
+		// 			const sectorType = this.activeSectorType;
+		// 			const oldStockList = oldSectorData[sectorType].stockCodeList;
+		// 			const newStockList = newSectorData[sectorType].stockCodeList;
+		// 			if (oldStockList === null || newStockList === null) {
+		// 				return oldStockList === newStockList;
+		// 			}
+		// 			return oldStockList.length === newStockList.length &&
+		// 				oldStockList.every((stockCode, index) => newStockList[index] === stockCode);
+		// 		}
+		// 	})
+		// 	.subscribe(([, sectorData]) => {
+		// 		// console.log('sectorStockList')
+		// 		const sectorType = this.activeSectorType;
+		// 		const { stockCodeList } = sectorData[sectorType];
+		// 		if (stockCodeList) {
+		// 			this.sectorStockDetailList = stockCodeList.map(stockCode => ({
+		// 				baseData: this.stockDataService.stockBaseData$.map(data => data[stockCode]),
+		// 			}));
 
-					this.lastRealtimeStockList = this.realtimeStockList.getValue().concat();
-					this.realtimeStockList.next(stockCodeList.concat());
-					console.log('sectorStockList: ', stockCodeList)
-					stockCodeList.forEach(stockCode => {
-						if (this.lastRealtimeStockList.indexOf(stockCode) !== -1) {
-						  return;
-						}
+		// 			this.lastRealtimeStockList = this.realtimeStockList.getValue().concat();
+		// 			this.realtimeStockList.next(stockCodeList.concat());
+		// 			console.log('sectorStockList: ', stockCodeList)
+		// 			stockCodeList.forEach(stockCode => {
+		// 				if (this.lastRealtimeStockList.indexOf(stockCode) !== -1) {
+		// 					return;
+		// 				}
 
-						this.stockDataService.requestStockBaseData(stockCode)
-							.catch(() => {});
+		// 				this.stockDataService.requestStockBaseData(stockCode)
+		// 					.catch(() => { });
 
-						this.stockDataService
-							.subscibeRealtimeData(
-								stockCode,
-								undefined,
-								Observable.merge(
-									this.viewDidLeave$,
-									this.realtimeStockList$.filter(arr => arr.indexOf(stockCode) === -1),
-								),
-							)
-							.takeUntil(Observable.merge(
-								this.viewDidLeave$.delay(this.appSettings.UNSUBSCRIBE_INTERVAL),
-								this.realtimeStockList$.filter(arr => arr.indexOf(stockCode) === -1),
-							))
-							.subscribe();
-					})
-				}
-			})
+		// 				this.stockDataService
+		// 					.subscibeRealtimeData(
+		// 					stockCode,
+		// 					undefined,
+		// 					Observable.merge(
+		// 						this.viewDidLeave$,
+		// 						this.realtimeStockList$.filter(arr => arr.indexOf(stockCode) === -1),
+		// 					),
+		// 				)
+		// 					.takeUntil(Observable.merge(
+		// 						this.viewDidLeave$.delay(this.appSettings.UNSUBSCRIBE_INTERVAL),
+		// 						this.realtimeStockList$.filter(arr => arr.indexOf(stockCode) === -1),
+		// 					))
+		// 					.subscribe();
+		// 			})
+		// 		}
+		// 	})
 	}
-    
-    // 由于各个板块的股票数量很少，没有必要按照“涨幅”、“跌幅”等分类列出，
-    // 因此停用板块个股列表的 slides 。
-    // 
-    // Slides 控件在界面上向后切换时，若当前激活的是最后一个 silde ，
-    // 则依然会触发切换事件，并且目标索引值等于 silde 的数量，
-    // 也就是最后一个有效索引值加 1 。
-    // 当前索引值为 0 、并且向前切换时，没有这个问题。
-    // 可能是 Ionic 的一个 bug 。
-    // 此代码的功能：在向后切换越界时，强制将其调整到最后一个索引值处。
-    tabChange(slides){
-    	const destIndex = slides._snapIndex;
-    	if (slides.isEnd() && slides.getActiveIndex() === destIndex + 1) {
+
+	// 由于各个板块的股票数量很少，没有必要按照“涨幅”、“跌幅”等分类列出，
+	// 因此停用板块个股列表的 slides 。
+	// 
+	// Slides 控件在界面上向后切换时，若当前激活的是最后一个 silde ，
+	// 则依然会触发切换事件，并且目标索引值等于 silde 的数量，
+	// 也就是最后一个有效索引值加 1 。
+	// 当前索引值为 0 、并且向前切换时，没有这个问题。
+	// 可能是 Ionic 的一个 bug 。
+	// 此代码的功能：在向后切换越界时，强制将其调整到最后一个索引值处。
+	tabChange(slides) {
+		const destIndex = slides._snapIndex;
+		if (slides.isEnd() && slides.getActiveIndex() === destIndex + 1) {
 			slides.slideTo(destIndex, 0);
 		}
-    }
-
-	changeActive(index){
-		if (this.activeIndex.getValue() !== index) {
-			this.activeSectorType = this.stockDataService.sectorList[index].sectorType;
-			this.activeIndex.next(index);
-			this.stockDataService.requestEquitiesOfSector(this.activeSectorType)
-				.catch(() => {});
-		}
 	}
 
-	switchToTempData(){
+	// changeActive(index) {
+	// 	if (this.activeIndex.getValue() !== index) {
+	// 		this.activeSectorType = this.stockDataService.sectorList[index].sectorType;
+	// 		this.activeIndex.next(index);
+	// 		this.stockDataService.requestEquitiesOfSector(this.activeSectorType)
+	// 			.catch(() => { });
+	// 	}
+	// }
+
+	switchToTempData() {
 		this.useTempData.next(true);
 
-		if (this.restoreTimer){
+		if (this.restoreTimer) {
 			clearTimeout(this.restoreTimer);
 		}
 
@@ -404,7 +350,7 @@ export class QuotationsPage {
 		}, 3e3);
 	}
 
-	showRealtimeQutationTooltip(data){
+	showRealtimeQutationTooltip(data) {
 		const realtimeData = this.stockDataService.getStockRealtimeData(this.stockCode);
 		const dataItem = realtimeData[data[0].dataIndex];
 		const baseData = this.stockDataService.getStockBaseData(this.stockCode);
@@ -413,7 +359,7 @@ export class QuotationsPage {
 		}
 		const changeValue = data[0].data - (baseData ? baseData.yesterdayPrice : 0);
 		const changeRate = baseData && baseData.yesterdayPrice ?
-				changeValue / baseData.yesterdayPrice : 0;
+			changeValue / baseData.yesterdayPrice : 0;
 
 		this.tempData.next({
 			...this.tempData.getValue(),

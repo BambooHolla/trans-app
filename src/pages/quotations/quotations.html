@@ -10,7 +10,12 @@
 </ion-header>
 
 <ion-content class="home-contain">
-
+    <!-- 
+       [echartsData]="_realtimeData$ | async" 实时的price
+       [tradingTimeArray]="appSettings.tradingTimeArray" 图表时间区间
+       [baseData]="_baseData$ | async"  昨天的价格
+       [options]="realtimeOptions"  图表的设置
+    -->
     <div *ngFor="let i of tempArray" class="qhd">
       <realtime-charts-component
         *ngIf="_thisPageActive"

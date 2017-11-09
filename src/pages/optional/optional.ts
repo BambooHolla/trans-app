@@ -11,6 +11,7 @@ import { StockDetailPage } from "../../pages/stock-detail/stock-detail";
 import { AppSettings } from '../../providers/app-settings';
 import { PersonalDataService } from '../../providers/personal-data-service';
 import { StockDataService } from '../../providers/stock-data-service';
+import { AppDataService } from '../../providers/app-data-service';
 
 @Component({
   selector: 'page-optional',
@@ -37,6 +38,7 @@ export class OptionalPage implements OnDestroy,AfterViewInit{
   constructor(
     public navCtrl: NavController,
     public appSettings: AppSettings,
+    public appDataService: AppDataService,
     public personalDataService: PersonalDataService,
     public stockDataService: StockDataService,
     // public translate: TranslateService,
@@ -117,17 +119,21 @@ export class OptionalPage implements OnDestroy,AfterViewInit{
     // 当个人中心的股票持仓列表变化时，重新进行订阅
     this.personalDataService.personalStockList$
       .subscribe(data => {
-        // console.log(data);
+        console.log('initPersonalStockListSubscriber',data);
         // 个人中心的股票持仓列表变化时，才刷新当前页股票列表的数据源
         // console.log('initPersonalStockListSubscriber: ', data)
-        this.optionalStockDetailList = data.map(({ stockCode, restQuantity, cost}) => ({
-          personalData: {
-            stockCode,
-            restQuantity,
-            cost,
-          },
-          baseData: this.stockDataService.stockBaseData$.map(data => data[stockCode]),
-        }));
+        this.optionalStockDetailList = data
+          .filter(({ stockCode})=>(
+            this.appDataService.products.has(stockCode)
+          ))
+          .map(({ stockCode, restQuantity, cost}) => ({
+            personalData: {
+              stockCode,
+              restQuantity,
+              cost,
+            },
+            baseData: this.stockDataService.stockBaseData$.map(data => data[stockCode]),
+          }));
         this.lastRealtimeStockList = this.realtimeStockList.getValue().concat();
         this.realtimeStockList.next(data.map(({stockCode}) => stockCode));
         this.doSubscribe();

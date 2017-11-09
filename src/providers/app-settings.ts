@@ -26,11 +26,21 @@ export class AppSettings {
   public readonly SOCKET_URL: string = 'http://119.23.68.40:11880';//原gjs,现不用
   public readonly SOCKET_PREFIX: string = '/socket/v1/bngj';
 
+  public readonly Platform_Type: string = '002';//平台类型： 001高交所、002币加所、003本能理财
+  /**
+   * 产品/10^9
+   * 钱/100
+   * ^保留2位
+   */
+  public readonly Product_Price_Rate: number = 1e9;
+  public readonly Price_Rate: number = 1e2;
+
+
   // 虚假登录开关
   public readonly FAKE_LOGIN: boolean = false;
 
   //模拟数据开关
-  public readonly SIM_DATA: boolean = true;
+  public readonly SIM_DATA: boolean = false;
 
   // 退出某个页面后，多长时间取消对于实时数据的订阅。
   // 避免切换页面时实时数据频繁订阅/取消订阅，

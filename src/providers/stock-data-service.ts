@@ -57,25 +57,25 @@ export class StockDataService {
 
   // 板块列表。
   // 暂时使用固定数据。
-  private _sectorList: SectorSimpleData[] = [
-    // {sectorType: '00', sectorName: '股权板块'},
-    // {sectorType: '01', sectorName: '互联网产权'},
-    // {sectorType: '02', sectorName: '高科技产权'},
-    // {sectorType: '20', sectorName: '台资企业'},
-    // {sectorType: '30', sectorName: '专利技术'},
-    // 001 高交所股票、002 高交所知识产权、003 私募基金、004 本能理财
-    { sectorType: '001', sectorName: '高交所股票'},
-    { sectorType: '002', sectorName: '高交所知识产权'},
-  ];
+  // private _sectorList: SectorSimpleData[] = [
+  //   // {sectorType: '00', sectorName: '股权板块'},
+  //   // {sectorType: '01', sectorName: '互联网产权'},
+  //   // {sectorType: '02', sectorName: '高科技产权'},
+  //   // {sectorType: '20', sectorName: '台资企业'},
+  //   // {sectorType: '30', sectorName: '专利技术'},
+  //   // 001 高交所股票、002 高交所知识产权、003 私募基金、004 本能理财
+  //   { sectorType: '001', sectorName: '高交所股票'},
+  //   { sectorType: '002', sectorName: '高交所知识产权'},
+  // ];
 
-  public get sectorList(){
-    return this._sectorList;
-  }
+  // public get sectorList(){
+  //   return this._sectorList;
+  // }
 
-  private _sectorData: BehaviorSubject<SectorData> = new BehaviorSubject(undefined);
+  // private _sectorData: BehaviorSubject<SectorData> = new BehaviorSubject(undefined);
 
-  public sectorData$ = this._sectorData.asObservable()
-      .filter(data => data !== undefined);
+  // public sectorData$ = this._sectorData.asObservable()
+  //     .filter(data => data !== undefined);
 
   // 保证数值在小数点后最多只有两位有效数字。
   // js 做加减法，或乘以一个带有小数的数字，都有可能出现精度问题，
@@ -94,7 +94,7 @@ export class StockDataService {
   ){
     this.initTradeDay();
     this.startTradeDayCheckTimer();
-    this.initSectors();
+    // this.initSectors();
     this.initRefreshRealtimeDataTimer();
     this.initSubscribers()
   }
@@ -124,7 +124,7 @@ export class StockDataService {
 
     this._stockRealtimeData.next({});
     this._stockBaseData.next({});
-    this.initSectors();
+    // this.initSectors();
   }
 
   private getTradeTimeMisc() {
@@ -238,17 +238,17 @@ export class StockDataService {
     }, 180e3);
   }
 
-  private initSectors() {
-    const sectorData = {};
-    this._sectorList.forEach(({sectorType, sectorName}) => {
-      sectorData[sectorType] = {
-        sectorName,
-        stockCodeList: null,
-      };
-    });
+  // private initSectors() {
+  //   const sectorData = {};
+  //   this._sectorList.forEach(({sectorType, sectorName}) => {
+  //     sectorData[sectorType] = {
+  //       sectorName,
+  //       stockCodeList: null,
+  //     };
+  //   });
 
-    this._sectorData.next(sectorData);
-  }
+  //   this._sectorData.next(sectorData);
+  // }
 
   private _stockKData: BehaviorSubject<{ [key: string]: { [key: string]: any[] } }> =
     new BehaviorSubject({});
@@ -627,7 +627,7 @@ export class StockDataService {
     //   });
     const path = `/product/product`;
     const params = {
-      "productType": "001",
+      // "platformType": "002",
       // "productStatus": "002",
       "productIdArr": [
         code
@@ -1518,47 +1518,97 @@ export class StockDataService {
   // 02 高科技产权
   // 20 台资企业
   // 30 专利技术
-  public requestEquitiesOfSector(sectorType: string = '001'): Promise<any> {
-    // const url = `${this.appSettings.SERVER_URL}/api/v1/gjs/biz/equities/info`;
-    // const params = new URLSearchParams();
-    // params.append('equityType', sectorType);
-    // return this.httpService.getWithToken(url, {params})
-    //   .then(data => {
-    //     if (!Array.isArray(data.data)){
-    //       return Promise.reject(`get equities of equityType[${sectorType}] data missing`);
-    //     }
-    //     // console.log(data);
-    //     this.parseSectorStockListData(sectorType, data.data);
-    //   })
-    //   .catch(err => {
-    //     console.log('getEquityOfSector error: ', err.message || err);
-    //     // this.parseAndSetRealtimeData(code, []);
-    //     return Promise.reject(err);
-    //   });
+  // public requestEquitiesOfSector(sectorType: string = '001'): Promise<any> {
+  //   // const url = `${this.appSettings.SERVER_URL}/api/v1/gjs/biz/equities/info`;
+  //   // const params = new URLSearchParams();
+  //   // params.append('equityType', sectorType);
+  //   // return this.httpService.getWithToken(url, {params})
+  //   //   .then(data => {
+  //   //     if (!Array.isArray(data.data)){
+  //   //       return Promise.reject(`get equities of equityType[${sectorType}] data missing`);
+  //   //     }
+  //   //     // console.log(data);
+  //   //     this.parseSectorStockListData(sectorType, data.data);
+  //   //   })
+  //   //   .catch(err => {
+  //   //     console.log('getEquityOfSector error: ', err.message || err);
+  //   //     // this.parseAndSetRealtimeData(code, []);
+  //   //     return Promise.reject(err);
+  //   //   });
+  //   const path = `/product/product`
+  //   const params = {
+  //     //productType	string
+  //     // 001 高交所股票、002 高交所知识产权、003 私募基金、004 本能理财
+  //     productType:sectorType,
+  //   }
+  //   return this.appService.request(RequestMethod.Post, path, params, true)
+  //     .then(data => {
+  //       console.log('requestEquitiesOfSector: ',data)
+  //       this.parseSectorStockListData(sectorType, data);
+  //     })
+  //     .catch(err => {
+  //       console.log('getEquityOfSector error: ', err.message || err);
+  //       // this.parseAndSetRealtimeData(code, []);
+  //       return Promise.reject(err);
+  //     });
+  // }
+
+  // private parseSectorStockListData(sectorType: string, data: any[]) {
+  //   const stockCodeList: string[] = data.map(item => item.FID_GQDM);
+
+  //   const baseData = Object.assign({}, this._stockBaseData.getValue());
+  //   let baseDataChanged = false;
+  //   data.forEach(({ FID_GQDM: stockCode, FID_GQMC: name ,productId,productName}) => {
+  //     if (name && !baseData[stockCode]) {
+  //       baseData[stockCode] = {
+  //         stockCode,
+  //         name,
+  //         turnoverQuantity: 0,
+  //         turnoverAmount: 0,
+  //       };
+  //       baseDataChanged = true;
+  //     }
+  //     //获取成功更新列表缓存
+  //     this.appDataService.products.set(productId,{productName})
+  //   })
+
+  //   console.log('storage product: ',this.appDataService.products)
+
+  //   if (baseDataChanged) {
+  //     this._stockBaseData.next(baseData);
+  //   }
+
+  //   const sectorData = this._sectorData.getValue();
+  //   this._sectorData.next({
+  //     ...sectorData,
+  //     [sectorType]: {
+  //       ...sectorData[sectorType],
+  //       stockCodeList,
+  //     }
+  //   });
+
+  // }
+
+  public requestEquities(platformType: string = '001'): Promise<any> {
     const path = `/product/product`
     const params = {
-      //productType	string
-      // 001 高交所股票、002 高交所知识产权、003 私募基金、004 本能理财
-      productType:sectorType,
+      platformType: platformType,
     }
     return this.appService.request(RequestMethod.Post, path, params, true)
       .then(data => {
-        console.log('requestEquitiesOfSector: ',data)
-        this.parseSectorStockListData(sectorType, data);
+        console.log('requestEquities: ', data)
+        this.parseStockListData(data);
       })
       .catch(err => {
-        console.log('getEquityOfSector error: ', err.message || err);
-        // this.parseAndSetRealtimeData(code, []);
+        console.log('requestEquities error: ', err.message || err);
         return Promise.reject(err);
       });
   }
 
-  private parseSectorStockListData(sectorType: string, data: any[]) {
-    const stockCodeList: string[] = data.map(item => item.FID_GQDM);
-
+  private parseStockListData(data: any[]) {
     const baseData = Object.assign({}, this._stockBaseData.getValue());
     let baseDataChanged = false;
-    data.forEach(({ FID_GQDM: stockCode, FID_GQMC: name ,productId,productName}) => {
+    data.forEach(({ FID_GQDM: stockCode, FID_GQMC: name, productId, productName }) => {
       if (name && !baseData[stockCode]) {
         baseData[stockCode] = {
           stockCode,
@@ -1569,23 +1619,13 @@ export class StockDataService {
         baseDataChanged = true;
       }
       //获取成功更新列表缓存
-      this.appDataService.products.set(productId,{productName})
+      this.appDataService.products.set(productId, { productName })
     })
 
-    console.log('storage product: ',this.appDataService.products)
+    console.log('storage product: ', this.appDataService.products)
 
     if (baseDataChanged) {
       this._stockBaseData.next(baseData);
     }
-
-    const sectorData = this._sectorData.getValue();
-    this._sectorData.next({
-      ...sectorData,
-      [sectorType]: {
-        ...sectorData[sectorType],
-        stockCodeList,
-      }
-    });
-
   }
 }

@@ -107,7 +107,7 @@ export class GjsApp {
 
         //登陆成功获取股票列表
         if(status){
-          this.stockDataService.requestEquitiesOfSector()
+          this.stockDataService.requestEquities(this.appSettings.Platform_Type)
         }
       });
 
