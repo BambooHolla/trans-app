@@ -123,9 +123,13 @@ export class OptionalPage implements OnDestroy,AfterViewInit{
         // 个人中心的股票持仓列表变化时，才刷新当前页股票列表的数据源
         // console.log('initPersonalStockListSubscriber: ', data)
         this.optionalStockDetailList = data
-          .filter(({ stockCode})=>(
-            this.appDataService.products.has(stockCode)
-          ))
+          .filter(({ stockCode})=>{
+            if(this.appSettings.SIM_DATA){
+              return true
+            }else{
+              return this.appDataService.products.has(stockCode)
+            }
+          })
           .map(({ stockCode, restQuantity, cost}) => ({
             personalData: {
               stockCode,

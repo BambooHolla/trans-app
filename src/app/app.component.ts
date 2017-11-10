@@ -21,6 +21,7 @@ import { LoginService } from '../providers/login-service';
 import { AppDataService } from '../providers/app-data-service';
 import { SocketioService } from '../providers/socketio-service';
 import { StockDataService } from '../providers/stock-data-service';
+import { TradeService } from '../providers/trade-service';
 
 @Component({
   templateUrl: 'app.html'
@@ -58,6 +59,7 @@ export class GjsApp {
     public androidFullScreen: AndroidFullScreen,
     public stockDataService: StockDataService,
     public socketioService: SocketioService,
+    public tradeService: TradeService,
     public loadingCtrl: LoadingController,
     public platform: Platform,
     public statusBar: StatusBar,
@@ -113,7 +115,10 @@ export class GjsApp {
 
         //登陆成功获取股票列表
         if(status){
-          this.stockDataService.requestEquities(this.appSettings.Platform_Type)
+          this.stockDataService.requestProducts(this.appSettings.Platform_Type)
+            .then(()=>{
+              this.tradeService.getTradeList()
+            })
         }
       });
 
