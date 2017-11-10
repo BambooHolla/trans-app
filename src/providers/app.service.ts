@@ -21,13 +21,14 @@ export class AppService {
     private appSettings: AppSettings,
     private appDataService: AppDataService // private loginService: LoginService,
   ) {}
-
+  //{cache:true,minute:3,key:''}
   request(
     method: number,
     path: string,
     params: string | object,
     withToken: boolean = false,
-    options: RequestOptionsArgs = {}
+    options: RequestOptionsArgs = {},
+    // cache:object,
   ): Promise<any> {
     let requestMethod = null;
     const url = `${this.appSettings.SERVER_URL +
@@ -38,7 +39,11 @@ export class AppService {
       if (!token) {
         return Promise.reject(new Error('token missing!'));
       }
-      const headers = options.headers || new Headers({ 'X-AUTH-TOKEN': token });
+      const headers = options.headers ||
+        new Headers({
+          'X-AUTH-TOKEN': token,
+          'x-bnqkl-platform': this.appSettings.Platform_Type,
+        })
 
       options = {
         // 构造对象时，其中使用的对象扩展运算符也要遵循先后原则，
@@ -48,6 +53,12 @@ export class AppService {
         headers: headers
       };
     }
+    // const cacheKey=JSON.stringify({
+    //   metho: method, path: path, params: params, headers: options.headers
+    // })
+    // if(cache.cache){
+
+    // }
     switch (method) {
       case RequestMethod.Get:
         requestMethod = this.http.get(url, {

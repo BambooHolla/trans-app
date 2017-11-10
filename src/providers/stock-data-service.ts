@@ -1589,18 +1589,18 @@ export class StockDataService {
 
   // }
 
-  public requestEquities(platformType: string = '001'): Promise<any> {
+  public requestProducts(platformType: string = '001'): Promise<any> {
     const path = `/product/product`
     const params = {
       platformType: platformType,
     }
     return this.appService.request(RequestMethod.Post, path, params, true)
       .then(data => {
-        console.log('requestEquities: ', data)
-        this.parseStockListData(data);
+        console.log('requestProducts: ', data)
+        this.parseStockListData(data)
       })
       .catch(err => {
-        console.log('requestEquities error: ', err.message || err);
+        console.log('requestProducts error: ', err.message || err);
         return Promise.reject(err);
       });
   }

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { Http, Headers, RequestOptions } from '@angular/http';
+import { Http, Headers, RequestOptions, URLSearchParams, RequestMethod } from '@angular/http';
 
 // import { Observable } from 'rxjs/Observable';
 // import { BehaviorSubject } from 'rxjs/BehaviorSubject';
@@ -10,6 +10,7 @@ import { AppDataService } from './app-data-service';
 import { PersonalDataService } from './personal-data-service';
 import { SocketioService } from './socketio-service';
 import { AlertService } from './alert-service';
+import { AppService } from './app.service';
 
 @Injectable()
 export class TradeService {
@@ -91,12 +92,54 @@ export class TradeService {
   constructor(
     public http: Http,
     public appSettings: AppSettings,
+    public appService: AppService,
     public appDataService: AppDataService,
     public personalDataService: PersonalDataService,
     public socketioService: SocketioService,
     public alertService: AlertService,
   ){
 
+  }
+
+  public getTradeList() {
+    const path = `/transactionengine/traders`
+
+    this.appService.request(RequestMethod.Get, path, undefined, true)
+      .then(data => {
+        console.log('getTradeList: ', data);
+        const tradeList = this.appDataService.tradeList
+
+        if (!data) {
+          return Promise.reject(new Error('data missing'))
+        } else if (data.error) {
+          return Promise.reject(new Error(data.error))
+        } else {
+          (data as any[])
+            // .filter(item =>
+            //   item
+            // )
+            .map(({
+              priceId,
+              productId,
+              buyFee,
+              saleFee,
+            }) => {
+              const product = this.appDataService.products.get(productId)
+              const price = this.appDataService.products.get(priceId)
+
+              tradeList.set(`${priceId}-${priceId}`,{
+                traderName: `${product.productName}/${price.productName}`,
+                buyFee,
+                saleFee,
+              })
+            })
+        }
+        return Promise.resolve(tradeList) 
+      })
+      .catch(err => {
+        console.log('getTradeList error: ', err);
+        // return Promise.reject(err);
+      });
   }
 
   private _errorHandler(error, static_return = false) {
