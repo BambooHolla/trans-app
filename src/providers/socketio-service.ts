@@ -44,7 +44,14 @@ export class SocketioService {
       socket: undefined,
       _connected: false,
       // _connected$: _connected.asObservable().distinctUntilChanged(),
-    }]
+    }],
+    ['realtimeReports',{
+      target: '/reports',
+      source: '/report',
+      socket: undefined,
+      _connected: false,
+      // _connected$: _connected.asObservable().distinctUntilChanged(),
+    }],
   ])
 
   private path(source){
@@ -104,8 +111,9 @@ export class SocketioService {
     }
     console.log(this._socketUrl(targetSocket.target))
     targetSocket.socket = SocketIOClient.connect(this._socketUrl(targetSocket.target), {
-      // transports: this.transports,
-      path: this.path(targetSocket.source)
+      // transports: ['polling','websocket'],
+      forceNew: true,// will create two distinct connections
+      path: this.path(targetSocket.source),
       // transportOptions: {
       //   polling: {
       //     extraHeaders: {
@@ -128,7 +136,7 @@ export class SocketioService {
     // 依然有可能触发 reconnect 与 connect ，
     // 这样原有连接与订阅依然会失效！
     socket.on('connect', () => {
-      console.log('connected');
+      console.log(`${api}Socket connected`);
       //gjs:认证授权
       // socket.emit('authentication', this.appDataService.token);
       this._authenticated.next(true)
@@ -159,7 +167,7 @@ export class SocketioService {
     // });
 
     socket.on('connect_error', (...args) => {
-      console.log('connect_error:', args);
+      console.log(`${api}Socket connect_error:`, args);
       // 在连接出错的情况下（后期可以考虑在连续多次出错时才进行处理），
       // 使用 disconnect() 可以保证不再做无谓的连接尝试。
       // 同时将 _authenticated 设为 undefined ，
@@ -257,9 +265,47 @@ export class SocketioService {
     return observable;
   }
 
+  subscribeRealtimeReports(equityCodes: string[], api: string = 'realtimeReports'): Observable<any> {
+    const observable = new Observable(observer => {
+      const subscribeData = {
+        channel: equityCodes,
+        from: 'wzx',
+        date: new Date(),
+      };
+      // 对于所有订阅都已取消的 refCount 重新进行订阅时，
+      // 这个函数会被重新调用一次，并传入新的 observer 。
+      this.socketReady(api)
+        .then(() => {
+          this.report_getObservableFromMap(api, `${equityCodes}`)
+            .subscribe(observer)
+          this._socketioSubscribeSet.add(subscribeData);
+          console.log('watch: ', `${equityCodes}`)
+          this.socketAPIs.get(api).socket
+            .emit('watch', "1m", '001', equityCodes,
+            new Date('2017-11-07 00:00:00'),
+            new Date('2017-11-13 00:00:00'),
+          )
+        })
+        .catch(err => {
+          console.log(err)
+        });
+
+      // 在 multicast refCount 上的所有订阅都取消时，
+      // 会调用此方法取消 observer 的订阅。
+      return () => {
+        console.log('socketio unsubscribe: ', equityCodes);
+
+        this._socketioSubscribeSet.delete(subscribeData);
+        this.socketAPIs.get(api).socket.emit('unsubscribe', subscribeData);
+      }
+    });
+
+    return observable;
+  }
+
   private getObservableFromMap(api: string, equityCode: string) {
-    if (!this.apiObservableMap.has(api)){
-      this.apiObservableMap.set(api, 
+    if (!this.apiObservableMap.has(api)) {
+      this.apiObservableMap.set(api,
         Observable.fromEvent(this.socketAPIs.get(api).socket, 'data').takeUntil(this.loginService.logout$)
       );
       // this.socketAPIs.get('price').socket.on(eventName, this.onData.bind(this, { eventName, equityCode}));
@@ -271,10 +317,21 @@ export class SocketioService {
     //   subscriberMap.set(subscriber, equityCode);
     // }
     return this.apiObservableMap.get(api)
-      .do(data => console.log('apiObservableMap:',data,' & ',equityCode))
-      .filter(data => equityCode === data.type || data.ec === equityCode || data.n === equityCode)//ToFix:这里data.code是临时代替字段,后续根据服务端返回数据更改
+      .do(data => console.log('apiObservableMap:', data, ' & ', equityCode))
+      //将数据筛选移到具体业务上
+      .filter(data => equityCode === data.type || data.ec === equityCode || data.n === equityCode)
       .do(data => console.log('apiObservableMap filter:', data))
       .map(data => data.data || data)
-    }
+  }
 
+  private report_getObservableFromMap(api: string, equityCode: string) {
+    if (!this.apiObservableMap.has(api)) {
+      this.apiObservableMap.set(api,
+        Observable.fromEvent(this.socketAPIs.get(api).socket, 'data').takeUntil(this.loginService.logout$)
+      );
+    }
+    return this.apiObservableMap.get(api)
+      .do(data => console.log('apiObservableMap:', data, ' & ', equityCode))
+      .do(data => console.log('apiObservableMap filter:', data))
+  }
 }

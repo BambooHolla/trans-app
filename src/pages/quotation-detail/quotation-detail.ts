@@ -151,7 +151,7 @@ export class QuotationDetailPage {
     this.stockDataService.requestKData(stockCode, 'day')
       .catch(() => {})
 
-    this.stockDataService.subscibeRealtimeData(stockCode, undefined, this.viewDidLeave$)
+    this.stockDataService.subscibeRealtimeData(stockCode, 'price', this.viewDidLeave$)
       .takeUntil(this.viewDidLeave$.delay(this.appSettings.UNSUBSCRIBE_INTERVAL))
       // 必须订阅，数据才会流动，即使订阅函数内部没有做任何操作。
       .subscribe();

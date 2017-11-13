@@ -100,7 +100,7 @@ export class OptionalPage implements OnDestroy,AfterViewInit{
       if (this.lastRealtimeStockList.indexOf(stockCode) !== -1) {
         return;
       }
-      this.stockDataService.subscibeRealtimeData(stockCode, undefined, this.viewDidLeave$)
+      this.stockDataService.subscibeRealtimeData(stockCode, 'price', this.viewDidLeave$)
         // 终止实时数据订阅的条件：
         // 1. 离开当前视图，并且超过预设定时器的延时；
         // 2. 个人持股列表发生了变更。
