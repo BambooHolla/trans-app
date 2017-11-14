@@ -11,6 +11,10 @@ import { PersonalDataService } from './personal-data-service';
 import { SocketioService } from './socketio-service';
 import { AlertService } from './alert-service';
 import { AppService } from './app.service';
+import { Subject } from 'rxjs/Subject';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { ReplaySubject } from 'rxjs/ReplaySubject';
+import { Observable } from 'rxjs/Observable';
 
 @Injectable()
 export class TradeService {
@@ -107,7 +111,7 @@ export class TradeService {
     this.appService.request(RequestMethod.Get, path, undefined, true)
       .then(data => {
         console.log('getTradeList: ', data);
-        const tradeList = this.appDataService.tradeList
+        const traderList = this.appDataService.traderList
 
         if (!data) {
           return Promise.reject(new Error('data missing'))
@@ -127,14 +131,16 @@ export class TradeService {
               const product = this.appDataService.products.get(productId)
               const price = this.appDataService.products.get(priceId)
 
-              tradeList.set(`${priceId}-${priceId}`,{
+              traderList.set(`${priceId}-${productId}`,{
+                traderId: `${priceId}-${productId}`,
                 traderName: `${product.productName}/${price.productName}`,
+                refCount: new Observable(),//用来存放数据中间管道
                 buyFee,
                 saleFee,
               })
             })
         }
-        return Promise.resolve(tradeList) 
+        return Promise.resolve(traderList) 
       })
       .catch(err => {
         console.log('getTradeList error: ', err);

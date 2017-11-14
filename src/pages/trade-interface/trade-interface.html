@@ -1,6 +1,13 @@
 <ion-header>
 	<ion-navbar>
-		<ion-title>{{(_baseData$ | async)?.name || '----'}}</ion-title>
+		<!-- <ion-title>{{(_baseData$ | async)?.name || '----'}}</ion-title> -->
+		<ion-item>
+			<ion-select [(ngModel)]="trader" placeholder="---/---" interface="popover" style="width:initial">
+				<ion-option *ngFor="let trader of traderList" [value]="trader.traderId">
+					{{trader.traderName}}
+				</ion-option>
+			</ion-select>
+		</ion-item>
 		<ion-buttons class="flash-trade" right>
 		</ion-buttons>
 	</ion-navbar>

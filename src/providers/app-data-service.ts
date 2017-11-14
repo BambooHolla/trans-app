@@ -23,7 +23,7 @@ export class AppDataService {
     password: '',
     savePassword: false,
     products: new Map(),
-    tradeList: new Map(),
+    traderList: new Map(),
   };
 
   // 声明属性，但在之后会被更换为访问器属性。
@@ -34,7 +34,7 @@ export class AppDataService {
 
   //缓存产品信息
   public products:Map<string,AnyObject>
-  public tradeList:Map<string,AnyObject>
+  public traderList:Map<string,AnyObject>
 
   private _dataReady:Promise<any>;
 

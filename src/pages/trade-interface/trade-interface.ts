@@ -21,7 +21,10 @@ export class TradeInterfacePage {
     '000001' : undefined;
 
   tradeType:number = 1 //1是买,0是卖
-  
+
+  traderList = []
+  trader
+
   private _saleableQuantity$: Observable<number>;
 
   private _baseData$: Observable<any>;
@@ -56,6 +59,14 @@ export class TradeInterfacePage {
 
   initData() {
     console.log('trade-interface')
+
+    const traderList = []
+    this.appDataService.traderList.forEach((value, key, map) => {
+      traderList.push(value)
+    })
+    this.traderList = traderList
+    this.trader = traderList[0] ? traderList[0].traderId:undefined
+
     this.stockDataService.stockBaseData$
       .map(data => data[this.stockCode])
       .filter(data => data !== undefined)
