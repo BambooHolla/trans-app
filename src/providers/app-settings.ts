@@ -485,6 +485,8 @@ export class AppSettings {
 
     this._tradingTimeArray = timeArray;
     this._tradingMinutePeriods = minutePeriods;
+
+    console.log('inittradetime:',timeArray)
   }
 
   private initBetsTitle(){

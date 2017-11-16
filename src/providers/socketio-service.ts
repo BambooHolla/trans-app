@@ -240,12 +240,15 @@ export class SocketioService {
       // 这个函数会被重新调用一次，并传入新的 observer 。
       this.socketReady(api)
         .then(() => {
-          this.getObservableFromMap(api, `-${equityCodeWithSuffix}`)
+          if (equityCodeWithSuffix.indexOf('-') === -1){
+            equityCodeWithSuffix = '-'+equityCodeWithSuffix
+          }
+          this.getObservableFromMap(api, `${equityCodeWithSuffix}`)
             .subscribe(observer)
           this._socketioSubscribeSet.add(subscribeData);
           // this.socket.emit('subscribe', subscribeData);
-          console.log('watch: ', `-${equityCodeWithSuffix}`)
-          this.socketAPIs.get(api).socket.emit('watch', [`-${equityCodeWithSuffix}`])
+          console.log('watch: ', `${equityCodeWithSuffix}`)
+          this.socketAPIs.get(api).socket.emit('watch', [`${equityCodeWithSuffix}`])
         })
         .catch(err => {
           console.log(err)
@@ -282,6 +285,7 @@ export class SocketioService {
           console.log('watch: ', `${equityCodes}`)
           this.socketAPIs.get(api).socket
             .emit('watch', "1m", '001', equityCodes,
+            //todo:默认以当前时间倒退24小时获取数据.(24小时数据量可能过多.4小时?)
             new Date('2017-11-07 00:00:00'),
             new Date('2017-11-13 00:00:00'),
           )

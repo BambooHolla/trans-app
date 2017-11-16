@@ -14,13 +14,17 @@ import { RealTimeChartsComponent } from '../../components/realtime-charts/realti
 import { AppSettings } from '../../providers/app-settings';
 import { SocketioService } from '../../providers/socketio-service';
 import { StockDataService } from '../../providers/stock-data-service';
+import { AppDataService } from '../../providers/app-data-service';
+import { Subject } from 'rxjs/Subject';
 
 @Component({
 	selector: 'page-quotations',
 	templateUrl: 'quotations.html'
 })
 export class QuotationsPage {
+	traderList: object[] = new Array()
 	tempArray = new Array(5)
+	realtimeReports$: Observable<any>
 
 	quotationDetailPage: any = QuotationDetailPage;
 	stockDetailPage: any = StockDetailPage;
@@ -94,7 +98,7 @@ export class QuotationsPage {
 		gridLeft: '0',
 		gridTop: '10px',
 		gridBottom: '0px',
-		xAxisInside: true,
+		xAxisInside: false,
 		yAxisSplitLine: false,
 		align: 'bottom',
 		yAxisSize: '10',
@@ -133,8 +137,10 @@ export class QuotationsPage {
 		// 	}
 		// },
 	};
-	constructor(public navCtrl: NavController,
+	constructor(
+		public navCtrl: NavController,
 		public appSettings: AppSettings,
+		public appDataService: AppDataService,
 		public socketioService: SocketioService,
 		public stockDataService: StockDataService,
 	) {
@@ -145,7 +151,7 @@ export class QuotationsPage {
 		this.viewDidLeave.next(false);
 
 		this.doSubscribe();
-
+		this.subscribeRealtimeReports()
 		// 延时后再设置 _thisPageActive 的值，是为了配合下面强制销毁 echarts 元素的操作。
 		// 对于 echarts 元素的强制销毁，实际上并没有销毁元素本身，
 		// 因此需要在 ionViewDidEnter() 触发后渲染视图时，根据 _thisPageActive = false 的条件，
@@ -310,6 +316,43 @@ export class QuotationsPage {
 		// 			})
 		// 		}
 		// 	})
+	}
+
+	/**
+	 * 获取多支行情数据
+	 * TODO:迁移到数据中心处理
+	 */
+	subscribeRealtimeReports(){
+		// const traderList = [...this.appDataService.traderList.keys()]
+		const srcTraderList = this.appDataService.traderList
+		const traderIdList = []
+		const traderList = []
+		srcTraderList.forEach((value,key,map)=>{
+			traderList.push(value)
+			return traderIdList.push(key)
+		})
+		this.traderList = traderList
+		console.log('teee', this.viewDidLeave.getValue())
+		this.realtimeReports$ = this.socketioService.subscribeRealtimeReports(traderIdList)
+			.do(() => console.log('realtimeReports$ success'))
+			.takeUntil(this.viewDidLeave$)
+		
+		console.log('teee', this.realtimeReports$)
+		
+		const refCount = this.realtimeReports$.multicast(new Subject()).refCount()		
+
+		srcTraderList.forEach((value, key, map) => {
+			value.reportRef = refCount
+				.takeUntil(this.viewDidLeave$)
+				.filter(({ type})=>{
+					console.log('subscribeRealtimeReports success!')
+					return type === value.traderId
+				})
+				.map(data=>data.data)
+			value.marketRef = this.stockDataService
+				.subscibeRealtimeData(value.traderId, 'price', this.viewDidLeave$)
+				.do(data=>console.log('marketData:',data))
+		})
 	}
 
 	// 由于各个板块的股票数量很少，没有必要按照“涨幅”、“跌幅”等分类列出，

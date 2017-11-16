@@ -77,7 +77,16 @@ page-quotations{
                 width:13rem;
                 float: left;
                 padding:0.5rem 0 0 0.8rem;
-                h3, h6{margin:0;}
+                span{
+                    display: block;
+                }
+                label{
+                    color:color($colors, lightdark); 
+                }
+                h6{
+                    color:color($colors, special);
+                    margin:0;
+                }
             }
             .slides{
                 width: 12rem;

@@ -16,7 +16,7 @@
        [baseData]="_baseData$ | async"  昨天的价格
        [options]="realtimeOptions"  图表的设置
     -->
-    <div *ngFor="let i of tempArray" class="qhd">
+    <!-- <div *ngFor="let i of tempArray" class="qhd">
       <realtime-charts-component
         *ngIf="_thisPageActive"
        [echartsData]="_realtimeData$ | async"
@@ -35,6 +35,32 @@
          </span>
        </div>
      </div>
+    </div> -->
+
+    <div *ngFor="let trader of traderList" class="qhd">
+        <realtime-report *ngIf="_thisPageActive" 
+            [echartsData]="trader?.reportRef | async" 
+            [options]="realtimeOptions" >
+        </realtime-report>
+        <div class="qcont quotcont">
+            <div class="title">
+                <h6>{{trader.traderName}}</h6>
+                <!-- <h3 class="{{showData?.changeValue | riseOrFall}} big">{{showData?.latestPrice | number:'.2-2' | numberFilter}}</h3>
+                <span class="font-smaller">
+                    <label class="{{showData?.changeValue | riseOrFall}}">{{showData?.changeValue | number:'.2-2' | positiveSign}}
+                    </label>
+                    <label class="{{showData?.changeValue | riseOrFall}}">{{showData?.changeRate | percent:'.2-2' | positiveSign}}</label>
+                </span> -->
+                <span class="font-smaller">
+                    <label class="{{showData?.changeValue | riseOrFall}}">最新价 </label>
+                    {{(trader?.marketRef | async)?.price/100 | number:'.2-5'}}
+                </span>
+                <span class="font-smaller">                
+                    <label class="{{showData?.changeValue | riseOrFall}}">成交量 </label>
+                    {{(trader?.marketRef | async)?.amount | number:'.2-5'}}                
+                </span>
+            </div>
+        </div>
     </div>
 
     <!-- <div class="quotitle">

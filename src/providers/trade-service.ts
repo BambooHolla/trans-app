@@ -133,8 +133,9 @@ export class TradeService {
 
               traderList.set(`${priceId}-${productId}`,{
                 traderId: `${priceId}-${productId}`,
-                traderName: `${product.productName}/${price.productName}`,
-                refCount: new Observable(),//用来存放数据中间管道
+                traderName: `${product.productName} / ${price.productName}`,
+                reportRef: new Observable(),//用来存放报表中间管道
+                marketRef: new Observable(),//用来存放交易中间管道
                 buyFee,
                 saleFee,
               })
