@@ -349,6 +349,16 @@ export class QuotationsPage {
 					return type === value.traderId
 				})
 				.map(data=>data.data)
+				.map(data => {
+					//处理增量更新
+					const srcArr = value.reportArr
+					srcArr.push(...data)//使用push+解构赋值,预期echarts动画实现
+					const length = srcArr.length
+					if( length > this.appSettings.Charts_Array_Length){
+						srcArr.splice(0, length - this.appSettings.Charts_Array_Length)
+					}
+					return srcArr
+				})
 			value.marketRef = this.stockDataService
 				.subscibeRealtimeData(value.traderId, 'price', this.viewDidLeave$)
 				.do(data=>console.log('marketData:',data))

@@ -78,8 +78,8 @@ export class RealtimeReportComponent extends EchartsBaseComponent {
     } = options;
 
     window['temp_price'] = 50
-//item.value.avg || 
-    const priceData = this.echartsData.map(item => 
+    //item.value.avg || 
+    const priceData = this.echartsData.map(item => item.value.avg || 
       (window['temp_price'] = Math.random() > 0.5 ? 
         window['temp_price'] + Number((Math.random() * 5).toFixed(2)) : 
         window['temp_price'] - Number((Math.random() * 5).toFixed(2))
@@ -253,7 +253,7 @@ export class RealtimeReportComponent extends EchartsBaseComponent {
         filterMode: 'filter',
         zoomLock: true,
         preventDefaultMouseMove:false,
-        startValue: tradingTimeArray.length - 1 - 60*24,//一分钟一条数据,取24小时的数据
+        startValue: tradingTimeArray.length - 1 - 60*8,//一分钟一条数据,取8小时的数据
         endValue: tradingTimeArray.length - 1
       }],
       series: [
