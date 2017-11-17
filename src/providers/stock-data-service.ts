@@ -529,12 +529,12 @@ export class StockDataService {
       console.log('subscribeEquity', code);
       let source$: Observable<any>;
       if (this.appSettings.SIM_DATA) {
-        source$ = this.simSubscribeEquity(code, eventName);
+        source$ = this.simSubscribeEquity(code, this.SOCKETIO_SUBSCRIBE_STOCK_EVENT);
       } else {
         // //gjs
         // source$ = this.socketioService.subscribeEquity(code + suffix, eventName);
         //bngj直接通过股票代码获取socket链接, eventName用来作为链接暂存的标识.
-        source$ = this.socketioService.subscribeEquity(code, 'price');
+        source$ = this.socketioService.subscribeEquity(code, eventName)//'price');          
       }
       console.log('source$: ',source$)
       const equity$ = source$

@@ -29,22 +29,24 @@ $colors: (
   danger:     #DD3838,
   light:      #C9C9C9,
   dark:       #585858,
+  lightdark:  #8b8b8b,
   important:  #2A9DBE,
   gold:       #c1b17f,
   lightfont:  #BEC3C7,
   rise:       #DD3838,
   fall:       #44D63D,
   water:      #71D1ED,
-  special:    #c1b17f
+  special:    #c1b17f,
+  background:#2a2b3f,
 );
 
 // $content-ios-transition-background: transparent;
 
-$background-color: transparent;
+$background-color: color($colors, background);
 
-$background-ios-color: transparent;
-$background-md-color: transparent;
-$background-wp-color: transparent;
+$background-ios-color: color($colors, background);
+$background-md-color: color($colors, background);
+$background-wp-color: color($colors, background);
 
 $content-ios-transition-background: transparent;
 
@@ -180,6 +182,18 @@ $range-wp-hit-width:22px;
 // $alert-ios-background: blue;
 
 // $toolbar-ios-button-color: #000;
+
+$popover-ios-width:100%;
+
+$select-popover-list-margin-right:0px;
+$select-popover-list-margin-left:0px;
+
+$select-ios-padding-right:0px;
+$select-ios-padding-left:0px;
+$select-md-padding-right:0px;
+$select-md-padding-left:0px;
+$select-wp-padding-right:0px;
+$select-wp-padding-left:0px;
 
 $loading-ios-background: rgba(255, 255, 255, .85);
 $loading-md-background: rgba(255, 255, 255, .85);

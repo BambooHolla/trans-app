@@ -21,7 +21,10 @@ export class TradeInterfacePage {
     '000001' : undefined;
 
   tradeType:number = 1 //1是买,0是卖
-  
+
+  traderList = []
+  trader
+
   private _saleableQuantity$: Observable<number>;
 
   private _baseData$: Observable<any>;
@@ -56,6 +59,14 @@ export class TradeInterfacePage {
 
   initData() {
     console.log('trade-interface')
+
+    const traderList = []
+    this.appDataService.traderList.forEach((value, key, map) => {
+      traderList.push(value)
+    })
+    this.traderList = traderList
+    this.trader = traderList[0] ? traderList[0].traderId:undefined
+
     this.stockDataService.stockBaseData$
       .map(data => data[this.stockCode])
       .filter(data => data !== undefined)
@@ -221,7 +232,7 @@ export class TradeInterfacePage {
     const stockCode = this.stockCode;
     console.log('trade-interface: ',stockCode)
     if (stockCode){
-      this.stockDataService.subscibeRealtimeData(stockCode, undefined, this.viewDidLeave$)
+      this.stockDataService.subscibeRealtimeData(stockCode, 'price', this.viewDidLeave$)
         .takeUntil(this.viewDidLeave$.delay(this.appSettings.UNSUBSCRIBE_INTERVAL))
         // 必须订阅，数据才会流动，即使订阅函数内部没有做任何操作。
         .subscribe();

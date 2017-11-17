@@ -35,6 +35,8 @@ export class AppSettings {
   public readonly Product_Price_Rate: number = 1e9;
   public readonly Price_Rate: number = 1e2;
 
+  public readonly Charts_Array_Length: number = 60*24;
+
 
   // 虚假登录开关
   public readonly FAKE_LOGIN: boolean = false;
@@ -485,6 +487,8 @@ export class AppSettings {
 
     this._tradingTimeArray = timeArray;
     this._tradingMinutePeriods = minutePeriods;
+
+    console.log('inittradetime:',timeArray)
   }
 
   private initBetsTitle(){
