@@ -55,6 +55,7 @@ export class LoginPage {
 
   ionViewDidLoad() {
     this.appDataService.token = "";
+    this.loginService._status.next(false)
     // function getComputedHeight(elem: HTMLElement): number{
     //   return parseFloat(window.getComputedStyle(elem).height);
     // }

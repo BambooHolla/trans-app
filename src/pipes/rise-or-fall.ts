@@ -14,7 +14,8 @@ export class RiseOrFallPipe implements PipeTransform {
    * Takes a value and makes it lowercase.
    */
   transform(value: number): string {
-    if (isNaN(value) || Math.abs(value) < 1e-8){
+    console.log('RiseOrFallPipe:',value)
+    if (isNaN(value) || Math.abs(value) < 1e-8 || Number(value) === 0){
       return '';
     }
 

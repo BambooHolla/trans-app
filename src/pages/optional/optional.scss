@@ -13,6 +13,19 @@ page-optional {
   // ion-header{
   //   padding-bottom: 3.6rem;
   // }
+  .color-primary{
+    background: color($colors,special);
+  }
+  .darker-transparent{
+    background: color($colors,background);
+  }
+  .light-transparent{
+    color: color($colors,special);
+    background: color($colors,background);
+  }
+  .hold{
+    color:color($colors,lightdark)
+  }
   
   .optional-header{
     ion-scroll{    
