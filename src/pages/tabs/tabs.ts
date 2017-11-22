@@ -32,6 +32,8 @@ export class TabsPage {
   quotationsPageRoot: any = QuotationsPage;
   tradeRoot: any = TradeInterfacePage;
 
+  stockCode:string
+
   @ViewChild('optionalTab') optionalTab;
 
   constructor(

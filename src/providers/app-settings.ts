@@ -20,6 +20,7 @@ export class AppSettings {
   public readonly SERVER_URL: string = 'http://192.168.16.148:40001'; //company mac server
   // public readonly SERVER_URL: string = 'http://192.168.16.14:40001'; //company server
   // public readonly SERVER_URL: string = 'http://192.168.16.185:40001'; //zhiguang server
+  // public readonly SERVER_URL: string = 'http://110.86.32.3:40001'; //company ip
   public readonly SERVER_PREFIX: string ='/api/v1/bngj';
   // public readonly SOCKET_URL: string = 'http://192.168.16.230:10011';
   // public readonly SOCKET_URL: string = 'http://192.168.16.235:10011';

@@ -11,6 +11,7 @@ import { PersonalDataService } from "../../providers/personal-data-service";
 import { TradeService } from '../../providers/trade-service';
 import { AppDataService } from '../../providers/app-data-service';
 import { AlertService } from '../../providers/alert-service';
+import { SocketioService } from "../../providers/socketio-service";
 
 @Component({
   selector: 'page-trade-interface',
@@ -22,12 +23,18 @@ export class TradeInterfacePage {
 
   tradeType:number = 1 //1是买,0是卖
 
+  private _tradeType$: BehaviorSubject<number> = new BehaviorSubject(1);
+  tradeType$: Observable<number> = this._tradeType$
+    .asObservable()
+    .distinctUntilChanged()
+
   traderList = []
   trader
 
   private _saleableQuantity$: Observable<number>;
 
   private _baseData$: Observable<any>;
+  private _depth$: Observable<any>;
 
   private _realtimeData$: Observable<any>;
 
@@ -39,11 +46,19 @@ export class TradeInterfacePage {
 
   // liquiddata:any;
 
-  price: string = '0.00';
+  _price: BehaviorSubject<string> = new BehaviorSubject(undefined)
+  set price(str){
+    this._price.next(str)
+  }
+  get price(){
+    return this._price.getValue()
+  }
   amount: string = '0';
   maxAmount: string = '100';
   range = 0;
-  @ViewChild('quantityRange') Range:any
+  @ViewChild('quantityRange') Range: any
+  @ViewChild('priceInputer') PriceInputer: any
+  @ViewChild('amountInputer') AmountInputer: any
 
   handBase = 100;
 
@@ -57,6 +72,7 @@ export class TradeInterfacePage {
     textColor: 'rgba(255, 255, 255, 1)'
   };
 
+  //初始化数据,尽量保证不包含异步操作
   initData() {
     console.log('trade-interface')
 
@@ -66,25 +82,25 @@ export class TradeInterfacePage {
     })
     this.traderList = traderList
     this.trader = traderList[0] ? traderList[0].traderId:undefined
-
-    this.stockDataService.stockBaseData$
-      .map(data => data[this.stockCode])
-      .filter(data => data !== undefined)
-      // 使用 first() 以确保只订阅第一次有效数据。
-      .first()
-      .subscribe(baseData => {
-        // console.log(baseData.bets, baseData.latestPrice);
-        const { handBase = 100, bets, latestPrice } = baseData;
-        this.handBase = handBase;
-        const price = Number(bets && (bets[5].price || bets[4].price) ||
-                        latestPrice ||
-                        0
-                      )/this.appSettings.Price_Rate
-        this.price = price.toFixed(2)
-        if (price > 0) {
-          this.amount = (Math.floor(this.personalDataService.accountBalance / price / handBase) * handBase).toString();
-        }
-      })
+    this.stockCode = this.trader || this.stockCode
+    // this.stockDataService.stockBaseData$
+    //   .map(data => data[this.stockCode])
+    //   .filter(data => data !== undefined)
+    //   // 使用 first() 以确保只订阅第一次有效数据。
+    //   .first()
+    //   .subscribe(baseData => {
+    //     // console.log(baseData.bets, baseData.latestPrice);
+    //     const { handBase = 100, bets, latestPrice } = baseData;
+    //     this.handBase = handBase;
+    //     const price = Number(bets && (bets[5].price || bets[4].price) ||
+    //                     latestPrice ||
+    //                     0
+    //                   )/this.appSettings.Price_Rate
+    //     this.price = price.toFixed(2)
+    //     if (price > 0) {
+    //       this.amount = (Math.floor(this.personalDataService.accountBalance / price / handBase) * handBase).toString();
+    //     }
+    //   })
   }
   
   backInOut(k) {
@@ -98,6 +114,7 @@ export class TradeInterfacePage {
     public toastCtrl: ToastController,
     public appSettings: AppSettings,
     public appDataService: AppDataService,
+    private socketioService: SocketioService,
     private stockDataService: StockDataService,
     private navParams: NavParams,
     public personalDataService: PersonalDataService,
@@ -111,15 +128,14 @@ export class TradeInterfacePage {
     })
     const stockCode =  this.stockCode
     if (stockCode) {
+      console.log('trade-interface:(constructor)',stockCode)
       this._saleableQuantity$ = this.personalDataService.personalStockList$
         .map(arr => arr.filter(item => item.stockCode === stockCode))
         .map(arr => arr.length && +arr[0].saleableQuantity || 0)
         .distinctUntilChanged();
-      this._baseData$ = this.stockDataService.stockBaseData$.map(data => data[stockCode])
-        .do(data => console.log('final data:',data));
-      this._realtimeData$ = this.stockDataService.stockRealtimeData$.map(data => data[stockCode]);
 
-      this.initData();
+      this.initData()
+      this.doSubscribe()
     }
   }
 
@@ -132,9 +148,9 @@ export class TradeInterfacePage {
     this[target] = result.toFixed(Math.max(0, -precision));
     //TODO:价格改变时修改最大可交易数量
     if(target === 'price'){
-      if(this.tradeType === 1){
+      if(this._tradeType$.getValue() === 1){
         //可用资金/价格
-      }else if(this.tradeType === 0){
+      } else if (this._tradeType$.getValue() === 0){
         //最大持仓
       }else{
 
@@ -149,11 +165,11 @@ export class TradeInterfacePage {
   chooseTradeType($event: MouseEvent){
     const dataset = ($event.target as HTMLElement).dataset
     if (dataset && dataset.tradeType){
-      this.tradeType = Number(dataset.tradeType)
+      this._tradeType$.next(Number(dataset.tradeType))
     }
   }
 
-  doTrade(tradeType: number = this.tradeType){
+  doTrade(tradeType: number = this._tradeType$.getValue()){
     // 界面按钮已根据是否 可买/可卖 进行了限制，
     // 此处没有再进行判断。
     const price = parseFloat(this.price);
@@ -210,11 +226,14 @@ export class TradeInterfacePage {
 
   ionViewDidEnter(){
     this.viewDidLeave.next(false);
+    console.log('pricetarget', this.PriceInputer)
+    console.log('pricetarget', this.PriceInputer.getElementRef())
+    console.log('pricetarget', this.PriceInputer.getNativeElement())
+    this.subscribeTradeData()
 
     this.initData();
 
     this.doSubscribe();
-
     // this.liquiddata = [{
     //   name: '1机',
     //   value: 0.7
@@ -225,17 +244,59 @@ export class TradeInterfacePage {
     this.viewDidLeave.next(true);
   }
 
+  subscribeTradeData() {
+    Observable.combineLatest(
+      this._tradeType$,
+      this._price,
+      // Observable.fromEvent(this.Price.getNativeElement(),'input') ,
+    )
+      .distinctUntilChanged()
+      .debounceTime(300)
+      .subscribe(([tradeType, price]) => {
+        // console.log('pricetarget result ', tradeType,
+        //   ' | ', price
+        // )
+        //TODO:交易类型,价格 变动触发 最大可交易量变动
+        if(tradeType === 1){
+          
+          this.maxAmount 
+          this.amount 
+        }else if(tradeType === 0){
+
+        }
+      })
+  }
+
   // 订阅实时数据。
   // 由于 DataSubscriber 装饰器的作用，
   // 会在 ionViewDidEnter() 事件处理函数中被自动调用。
   doSubscribe(){
     const stockCode = this.stockCode;
-    console.log('trade-interface: ',stockCode)
+    console.log('trade-interface:(doSubscribe) ',stockCode)
     if (stockCode){
-      this.stockDataService.subscibeRealtimeData(stockCode, 'price', this.viewDidLeave$)
-        .takeUntil(this.viewDidLeave$.delay(this.appSettings.UNSUBSCRIBE_INTERVAL))
-        // 必须订阅，数据才会流动，即使订阅函数内部没有做任何操作。
-        .subscribe();
+      this._baseData$ = this.stockDataService.subscibeRealtimeData(stockCode, 'price', this.viewDidLeave$)
+        .do(data => console.log('trade-interface:1', data))
+        //初始化买卖价格
+        .do(data => {
+          console.log('doSubscribe do')
+          this.price = String(data.price / this.appSettings.Price_Rate)
+        })
+      // this.stockDataService.stockBaseData$.map(data => data[stockCode])
+      //   .do(data => console.log('final data:', stockCode, data))
+      //   .do(data=>{
+      //     //若无数据,则订阅.
+      //     if(!data){
+      //       this.stockDataService.subscibeRealtimeData(stockCode, 'price', this.viewDidLeave$)
+      //         .takeUntil(this.viewDidLeave$.delay(this.appSettings.UNSUBSCRIBE_INTERVAL))
+      //         // 必须订阅，数据才会流动，即使订阅函数内部没有做任何操作。
+      //         .subscribe();
+      //     }
+      //   })
+      this._depth$ = this.socketioService.subscribeEquity(stockCode,'depth')
+        .do(data => console.log('trade-interface:depth:', data))
+      this._depth$.subscribe()
+
+      this._realtimeData$ = this.stockDataService.stockRealtimeData$.map(data => data[stockCode]);
     }
   }
 

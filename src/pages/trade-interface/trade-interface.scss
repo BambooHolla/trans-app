@@ -46,6 +46,18 @@ page-trade-interface {
 	}
 
 	ion-content{
+
+		.price{
+			font-size: 2.3rem;
+			padding-left: .5rem;
+			overflow: hidden;
+		}
+
+		label{
+			color:color($colors, middark); 
+			margin-right: 1.5rem;
+		}
+
 		.trtop{
 			// flex-grow: 1;
 			// flex-shrink: 0;
