@@ -59,7 +59,7 @@ export class HomePage {
     },
     {
       icon: "gabout",
-      name: '关于我们',
+      name: '关于币加所',
       href: AboutPage,
     },
   ];
