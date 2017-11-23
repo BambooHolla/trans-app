@@ -29,7 +29,8 @@ export class TradeInterfacePage {
     .distinctUntilChanged()
 
   traderList = []
-  trader
+  traderId
+  reportArr = []
 
   private _saleableQuantity$: Observable<number>;
 
@@ -81,8 +82,8 @@ export class TradeInterfacePage {
       traderList.push(value)
     })
     this.traderList = traderList
-    this.trader = traderList[0] ? traderList[0].traderId:undefined
-    this.stockCode = this.trader || this.stockCode
+    this.traderId = traderList[0] ? traderList[0].traderId:undefined
+    this.stockCode = this.traderId || this.stockCode
     // this.stockDataService.stockBaseData$
     //   .map(data => data[this.stockCode])
     //   .filter(data => data !== undefined)
@@ -292,11 +293,43 @@ export class TradeInterfacePage {
       //         .subscribe();
       //     }
       //   })
-      this._depth$ = this.socketioService.subscribeEquity(stockCode,'depth')
-        .do(data => console.log('trade-interface:depth:', data))
-      this._depth$.subscribe()
+      if(!this._depth$){
+        this._depth$ = this.socketioService.subscribeEquity(stockCode, 'depth')
+          .do(data => console.log('trade-interface:depth:', data))
+          .map(data => {
+            let arr = []
+            const length = 5
+            //todo:买五卖五档数据处理,需要知道后端返回顺序.
+            //{buy: Array(0), sale: Array(0)}
+            if(!data.sale || !data.buy){
+              return arr = Array.from({length:length*2})
+            }
 
-      this._realtimeData$ = this.stockDataService.stockRealtimeData$.map(data => data[stockCode]);
+            for (let i = 0; i < length; i++) {
+              arr[i] = data.sale[length - 1 - i]
+              arr[i + length] = data.buy[i]
+            }
+            return arr
+          })
+        // this._depth$.subscribe()
+      }
+
+      // this._realtimeData$ = this.stockDataService.stockRealtimeData$.map(data => data[stockCode]);
+      
+      this._realtimeData$ = this.socketioService.subscribeRealtimeReports([this.traderId])
+        .do(data => console.log('trade-interface_realtimeData: ',data))
+        .takeUntil(this.viewDidLeave$)
+        .map(data => data.data)
+        .map(data => {
+          //处理增量更新
+          const srcArr = this.reportArr
+          srcArr.push(...data)//使用push+解构赋值,预期echarts动画实现
+          const length = srcArr.length
+          if (length > this.appSettings.Charts_Array_Length) {
+            srcArr.splice(0, length - this.appSettings.Charts_Array_Length)
+          }
+          return srcArr
+        })
     }
   }
 
