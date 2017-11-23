@@ -16,12 +16,15 @@ import { SocketioService } from '../../providers/socketio-service';
 import { StockDataService } from '../../providers/stock-data-service';
 import { AppDataService } from '../../providers/app-data-service';
 import { Subject } from 'rxjs/Subject';
+import { TradeInterfacePage } from "../trade-interface/trade-interface";
 
 @Component({
 	selector: 'page-quotations',
 	templateUrl: 'quotations.html'
 })
 export class QuotationsPage {
+	tradeInterface: any = TradeInterfacePage;
+
 	traderList: object[] = new Array()
 	tempArray = new Array(5)
 	realtimeReports$: Observable<any>
@@ -374,12 +377,12 @@ export class QuotationsPage {
 	// 当前索引值为 0 、并且向前切换时，没有这个问题。
 	// 可能是 Ionic 的一个 bug 。
 	// 此代码的功能：在向后切换越界时，强制将其调整到最后一个索引值处。
-	tabChange(slides) {
-		const destIndex = slides._snapIndex;
-		if (slides.isEnd() && slides.getActiveIndex() === destIndex + 1) {
-			slides.slideTo(destIndex, 0);
-		}
-	}
+	// tabChange(slides) {
+	// 	const destIndex = slides._snapIndex;
+	// 	if (slides.isEnd() && slides.getActiveIndex() === destIndex + 1) {
+	// 		slides.slideTo(destIndex, 0);
+	// 	}
+	// }
 
 	// changeActive(index) {
 	// 	if (this.activeIndex.getValue() !== index) {

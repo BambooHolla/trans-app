@@ -122,7 +122,7 @@ export class TradeInterfacePage {
     public tradeService: TradeService,
     public alertService: AlertService,
   ) {
-    this.stockCode = this.navParams.get('stockCode') || this.stockCode;
+    this.stockCode = this.navParams.get('stockCode') || this.navParams.data || this.stockCode;
     if (!this.stockCode) this.appDataService.products.forEach((value, key, map) => {
       this.stockCode = key;
       return;

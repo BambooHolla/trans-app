@@ -13,7 +13,7 @@ import { PersonalDataService } from '../../providers/personal-data-service';
 
 //引入资讯的首页
 import { InformationPage } from '../information/information';
-import { TradeInterfacePage } from '../trade-interface/trade-interface';
+// import { TradeInterfacePage } from '../trade-interface/trade-interface';
 import { NewsListPage } from '../news-list/news-list';
 
 @Component({
@@ -30,7 +30,7 @@ export class TabsPage {
 
   homeRoot: any = HomePage;
   quotationsPageRoot: any = QuotationsPage;
-  tradeRoot: any = TradeInterfacePage;
+  // tradeRoot: any = TradeInterfacePage;
 
   stockCode:string
 
