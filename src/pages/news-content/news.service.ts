@@ -36,9 +36,8 @@ export class NewsService {
     console.log("getNewsService:", newsId)
 
     const params = new URLSearchParams();
-    params.set('newsId', newsId);
 
-    const path = `/news/news`
+    const path = `/news/news/${newsId}`
     return this.appService.request(RequestMethod.Get, path, params, true)
       .then(resData => {
         console.log('getnews: ', resData);
@@ -67,7 +66,7 @@ export class NewsService {
         }
         //数据转换,暂时没想到优雅的解决方案.
         const data = {
-          titleImg: "assets/images/news-title.jpg",//resData.cover
+          titleImg: resData.cover,// "assets/images/news-title.jpg",
           title: resData.newsTitle,
           content: resData.content,
           publishTime: new Date(resData.crtDateTime),

@@ -190,25 +190,30 @@ export class NewsListPage /* implements OnInit, OnDestroy  */ {
     //gaubee
     disable_init_news_list_when_enter = false;
     ionViewWillEnter() {
-        if(!this.disable_init_news_list_when_enter){
-            this.initNewsList();
+        if (!this.disable_init_news_list_when_enter) {
+            if (!this.newsList.length && !this.loading_news_list) {
+                this.initNewsList();
+            }
         }
         this.disable_init_news_list_when_enter = false;
     }
 
-    news_list: any[];
+    // news_list: any[];
     loading_news_list = false;
 
     @ViewChild(InfiniteScroll) infiniteScroll: InfiniteScroll;
     async _getNewsList(show_loading = false) {
         this.loading_news_list = true;
         if (show_loading) {
-            var loading = this.loadingCtrl.create({ 
-                showBackdrop: false, 
+            var loading = this.loadingCtrl.create({
+                showBackdrop: false,
                 cssClass: 'enableBackdropDismiss',
-                dismissOnPageChange:true,
+                dismissOnPageChange: true,
             });
-            loading.present();
+            loading.present({
+                minClickBlockDuration:-1,
+                disableApp:false// 使得tabs依然可以点击
+            });
         }
         try {
             const res = await this.newsService.getNewsList(

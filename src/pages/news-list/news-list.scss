@@ -7,21 +7,18 @@ page-news-list {
   .toolbar-ios {
     min-height: 3.8rem;
   }
-
   .scroll-content {
     // margin-bottom: 0 !important;
-  }
-
-  // .list-ios {
+  } // .list-ios {
   //     margin-bottom: 0;
   // }
 }
+
 .card-background-page {
   // .main-img {
   //   width: 100%;
   //   height: 100%;
   // }
-
   // .gradient-mask{
   //   @extend %absolute-full-size;
   //   background: linear-gradient(rgba(255,255,255,0),rgba(0,0,0,0.88));
@@ -32,7 +29,6 @@ page-news-list {
   //   width: 100%;
   //   height: 20rem;
   // }
-
   // .infos {
   //   position: absolute;
   //   width: 100%;
@@ -41,29 +37,24 @@ page-news-list {
   //   bottom: 0;
   //   color: color($colors, primary);
   //   text-align: left;
-
   //   ion-avatar{
   //     float: left;
   //     padding: 0 1rem 1rem;
-
   //     img {
   //       border-radius: 50%;
   //       width: 4.5rem;
   //       height: 4.5rem;
   //     }
   //   }
-
   //   .card-title {
   //     overflow: hidden;
   //     font-size: 1.7rem;
   //     height: 2.2rem;
   //     line-height: 2.2rem;
   //   }
-
   //   .card-subtitle {
   //     overflow: hidden;
   //     line-height: 2.8rem;
-
   //     > button {
   //       float: right;
   //       margin-top: 0;
@@ -123,6 +114,10 @@ page-news-list {
   }
 }
 
-.enableBackdropDismiss{
+.enableBackdropDismiss {
   pointer-events: none;
+  bottom: 60px!important;
+}
+.click-block-disabled{
+  display: none!important;
 }
