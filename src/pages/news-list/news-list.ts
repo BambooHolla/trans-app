@@ -4,6 +4,7 @@ import {
     InfiniteScroll,
     IonicPage,
     LoadingController,
+    Loading,
     NavController,
     Refresher
 } from 'ionic-angular';
@@ -191,7 +192,7 @@ export class NewsListPage /* implements OnInit, OnDestroy  */ {
     disable_init_news_list_when_enter = false;
     ionViewWillEnter() {
         if (!this.disable_init_news_list_when_enter) {
-            if (!this.newsList.length && !this.loading_news_list) {
+            if (!this.newsList.length && !this.is_loading_news_list) {
                 this.initNewsList();
             }
         }
@@ -199,21 +200,39 @@ export class NewsListPage /* implements OnInit, OnDestroy  */ {
     }
 
     // news_list: any[];
-    loading_news_list = false;
-
-    @ViewChild(InfiniteScroll) infiniteScroll: InfiniteScroll;
-    async _getNewsList(show_loading = false) {
-        this.loading_news_list = true;
-        if (show_loading) {
-            var loading = this.loadingCtrl.create({
+    is_loading_news_list = false;
+    news_list_loading: Loading
+    private _presentNewsListLoading() {
+        if (this.is_loading_news_list && !this.news_list_loading) {
+            this.news_list_loading = this.loadingCtrl.create({
                 showBackdrop: false,
                 cssClass: 'enableBackdropDismiss',
                 dismissOnPageChange: true,
             });
-            loading.present({
-                minClickBlockDuration:-1,
-                disableApp:false// 使得tabs依然可以点击
+            this.news_list_loading.present({
+                minClickBlockDuration: -1,
+                disableApp: false// 使得tabs依然可以点击
             });
+        }
+    }
+    private _dismissNewsListLoading() {
+        if (this.news_list_loading) {
+            this.news_list_loading.dismiss();
+            this.news_list_loading = null;
+        }
+    }
+    ionViewDidLeave() {
+        this._dismissNewsListLoading();
+    }
+    ionViewDidEnter() {
+        this._presentNewsListLoading();
+    }
+
+    @ViewChild(InfiniteScroll) infiniteScroll: InfiniteScroll;
+    async _getNewsList(show_loading = false) {
+        this.is_loading_news_list = true;
+        if (show_loading) {
+            this._presentNewsListLoading();
         }
         try {
             const res = await this.newsService.getNewsList(
@@ -233,8 +252,8 @@ export class NewsListPage /* implements OnInit, OnDestroy  */ {
                 })
                 .present();
         } finally {
-            this.loading_news_list = false;
-            loading && loading.dismiss();
+            this.is_loading_news_list = false;
+            this._dismissNewsListLoading();
         }
     }
 
