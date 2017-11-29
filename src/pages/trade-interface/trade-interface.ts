@@ -51,18 +51,19 @@ export class TradeInterfacePage {
   _price: BehaviorSubject<string> = new BehaviorSubject(undefined)
   set price(str){
     this._price.next(str)
+    this.checkMax(str)
   }
   get price(){
     return this._price.getValue()
   }
   amount: string = '0';
-  maxAmount: string = '100';
+  maxAmount: string | number = '100';
   range = 0;
   @ViewChild('quantityRange') Range: any
   @ViewChild('priceInputer') PriceInputer: any
   @ViewChild('amountInputer') AmountInputer: any
 
-  handBase = 100;
+  handBase = 0.01;
 
   realtimeOptions = {
     xAxisShow: true, 
@@ -142,22 +143,39 @@ export class TradeInterfacePage {
     }
   }
 
-  changeByStep(target: string, step: number, precision: number = 0) {
+  changeByStep(target: string, step: number, precision: number = -2) {
     const invBase = Math.pow(10, -precision);
     // 最后必须使用除法，如果用乘法会出现浮点数表示的问题。
     // 例如 602 * 0.01 = 6.0200000000000005 ，
     // 改用 602 / 100 就可以得到正确结果。
     const result = Math.max(0, Math.round((+this[target] + step) * invBase) / invBase);
     this[target] = result.toFixed(Math.max(0, -precision));
-    //TODO:价格改变时修改最大可交易数量
-    if(target === 'price'){
-      if(this._tradeType$.getValue() === 1){
-        //可用资金/价格
-      } else if (this._tradeType$.getValue() === 0){
-        //最大持仓
-      }else{
+    // //TODO:价格改变时修改最大可交易数量
+    // if(target === 'price'){
+    //   this.checkMax(result)
+    // }
+  }
 
-      }
+  checkMax(price = this.price){
+    const traders = this.traderId.split('-')
+    console.log('checkMax', this.personalDataService.personalStockList, ' & ', traders)
+    const personalStockList = this.personalDataService.personalStockList
+    if (this._tradeType$.getValue() === 1) {
+      //可用资金/价格
+      const target = personalStockList
+        .filter(({ stockCode }) => stockCode === traders[0])
+      let saleableQuantity = (target && target.length != 0 ? target : [{ saleableQuantity:0}])[0]
+        .saleableQuantity / this.appSettings.Product_Price_Rate
+      this.maxAmount = saleableQuantity / Number(price)
+    } else if (this._tradeType$.getValue() === 0) {
+      //最大持仓
+      const target = personalStockList
+        .filter(({ stockCode }) => stockCode === traders[1])
+        console.log(target)
+      this.maxAmount = (target && target.length != 0 ? target : [{ saleableQuantity: 0 }])[0]
+        .saleableQuantity / this.appSettings.Product_Price_Rate
+    } else {
+
     }
   }
 
@@ -165,10 +183,16 @@ export class TradeInterfacePage {
     this.changeByStep(target, 0, precision);
   }
 
+  setPrice(price = this.price) {
+    this.price = price
+    this.formatNumber('price', -2)
+  }
+
   chooseTradeType($event: MouseEvent){
     const dataset = ($event.target as HTMLElement).dataset
     if (dataset && dataset.tradeType){
       this._tradeType$.next(Number(dataset.tradeType))
+      this.checkMax()
     }
   }
 
@@ -176,7 +200,27 @@ export class TradeInterfacePage {
     // 界面按钮已根据是否 可买/可卖 进行了限制，
     // 此处没有再进行判断。
     const price = parseFloat(this.price);
-    const amount = parseInt(this.amount, 10);
+    const amount = parseFloat(this.amount);
+
+    let show_warning = true
+    let toast = this.toastCtrl.create({
+      duration: 3000,
+      position: 'middle'
+    })
+    if(price <= 0){
+      toast.setMessage('请输入正确的购买价格')
+    }else if(amount <= 0){
+      toast.setMessage('请输入正确的购买数量')      
+    }else if(amount > Number(this.maxAmount)){
+      toast.setMessage('购买数量超过可购买上限')      
+    }else{
+      show_warning = false
+    }
+
+    if(show_warning){
+      toast.present()
+      return false      
+    }
 
     console.log('doTrade:',
       this.traderId, ' | ',
@@ -209,7 +253,7 @@ export class TradeInterfacePage {
         }else{
           return Promise.reject(result);
         }
-        console.log('doTrade done:')
+        console.log('doTrade done:', result.id)
         this.alertService.dismissLoading()
       })
       .catch(err => {

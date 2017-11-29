@@ -80,6 +80,8 @@ export class RealtimeReportComponent extends EchartsBaseComponent {
 
     window['temp_price'] = 50
     //item.value.avg || 
+    //tofix:传入的数据有可能是null 需要检查 现在临时处理
+    this.echartsData = this.echartsData || []
     const priceData = this.echartsData.map(item => item.value.avg || 
       //弥补模拟数据不完整的问题,正式版需注释掉
       (window['temp_price'] = Math.random() > 0.5 ? 

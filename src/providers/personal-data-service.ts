@@ -475,13 +475,14 @@ export class PersonalDataService {
 
   parseEquityDeposit(data) {
     this._personalStockListIsNull.next(data.length === 0);
-    console.log(data)
+    console.log('parseEquityDeposit raw',data)
     // 严格处理的话，需要过滤数据，查看是否为当前用户的持仓。
+    // tofix:先用总持仓当可卖持仓
     this._personalStockList.next(data.map(item => ({
       stockCode: item.FID_GQDM || item.productId,
       restQuantity: item.FID_GQSL || item.totalAmount,
       freezeQuantity: item.FID_DJSL,
-      saleableQuantity: item.FID_KMCSL,
+      saleableQuantity: item.FID_KMCSL || item.totalAmount,
       cost: item.FID_CCJJ || ((item.totalCost / item.totalAmount) || 0).toFixed(4),
       PNL: item.FID_LJYK,
     })));

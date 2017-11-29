@@ -55,10 +55,10 @@ export class TradeService {
       let data = {
         type: '00' + (consignmentType ? "1" : "2"),// 001买入，002卖出
         operationType: '002',//string *001现金对产品交易、002产品对产品交易
-        productId:'5827395838',//equityCode,
-        priceProductId: '1029385000',//string,标的（标价产品id），产品对产品交易时有
+        productId: equityCode.split('-')[1],//equityCode,
+        priceProductId: equityCode.split('-')[0],//string,标的（标价产品id），产品对产品交易时有
         price: consignmentPrice * this.appSettings.Price_Rate,// 价格
-        amount: +consignmentCount,// 数量
+        amount: +consignmentCount *this.appSettings.Product_Price_Rate,// 数量
       }
 
       promise = this.http

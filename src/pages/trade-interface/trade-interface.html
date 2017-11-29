@@ -177,7 +177,7 @@
 		<div class="bets item-center-center">
 			<div class="bets-tab">
 				<div *ngFor="let data of _depth$ | async ; let i = index;" class="bets-row" [class.sep]="i === 5"
-						tappable (click)="price = data.price || price; formatNumber('price',-2)">
+						tappable (click)="setPrice(data?.price/appSettings.Price_Rate)">
 					<span>{{appSettings.betsTitle[i]}}</span>
 					<span class="{{data?.price && data?.price - (_baseData$ | async)?.yesterdayPrice | riseOrFall}}">{{data?.price | priceConversion | numberFilter}}</span>
 					<span class="color-important">{{data?.amount | quantityConversion | numberUnitFormat}}</span>
