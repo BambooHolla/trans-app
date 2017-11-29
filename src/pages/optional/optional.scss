@@ -13,6 +13,9 @@ page-optional {
   // ion-header{
   //   padding-bottom: 3.6rem;
   // }
+  .option-header{
+    background: url(../assets/images/option_header.jpg) center center/cover no-repeat;
+  }
   .color-primary{
     background: color($colors,special);
   }
