@@ -38,7 +38,8 @@
     </div> -->
 
     <div *ngFor="let trader of traderList" class="qhd">
-        <realtime-report *ngIf="_thisPageActive" 
+        <realtime-report
+            tappable [navPush]="tradeInterface" [navParams]="trader.traderId"
             [echartsData]="trader?.reportRef | async" 
             [options]="realtimeOptions" >
         </realtime-report>

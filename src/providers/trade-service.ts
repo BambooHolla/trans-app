@@ -35,19 +35,43 @@ export class TradeService {
 
       const options = new RequestOptions({ headers: headers });
 
+      // type: string *
+      // 001买入，002卖出
+      // operationType: string *
+      // 001现金对产品交易、002产品对产品交易
+      // productId: string *
+      // 交易产品id
+      // priceProductId: string
+      // 标的（标价产品id），产品对产品交易时有
+      // price: number
+      // 交易价格
+      // amount: number
+      // 交易数量
+      // total: integer
+      // 交易的总价格，如果是市价买单有值，如果是市价卖单为0
+      // isMarketOrder: boolean
+      // 标示：是否为市价单(true), 限价单false
+
       let data = {
-        productId:'5827395838',//equityCode,
-        operationType: '002',//string *001现金对产品交易、002产品对产品交易
         type: '00' + (consignmentType ? "1" : "2"),// 001买入，002卖出
-        amount: +consignmentCount,// 数量
+        operationType: '002',//string *001现金对产品交易、002产品对产品交易
+        productId: equityCode.split('-')[1],//equityCode,
+        priceProductId: equityCode.split('-')[0],//string,标的（标价产品id），产品对产品交易时有
         price: consignmentPrice * this.appSettings.Price_Rate,// 价格
-        priceProductId: '1029385000',//string,标的（标价产品id），产品对产品交易时有
+        amount: +consignmentCount *this.appSettings.Product_Price_Rate,// 数量
       }
 
       promise = this.http
         .post(url, data, options)
         .toPromise()
         .then(response => {
+          // CreateEntrustResponse {
+          //   data:
+          //   CreateEntrustResponseData {
+          //     id: number *
+          //     委托id
+          //   }
+          // }
           const data = response.json()
           // console.log('response: ', response)
           // console.log('data: ', data)
@@ -136,7 +160,7 @@ export class TradeService {
                 traderName: `${product.productName} / ${price.productName}`,
                 reportRef: new Observable(),//用来存放报表中间管道
                 reportArr: [],
-                marketRef: new Observable(),//用来存放交易中间管道
+                marketRef: new BehaviorSubject(undefined),//用来存放交易中间管道
                 buyFee,
                 saleFee,
               })

@@ -16,12 +16,15 @@ import { SocketioService } from '../../providers/socketio-service';
 import { StockDataService } from '../../providers/stock-data-service';
 import { AppDataService } from '../../providers/app-data-service';
 import { Subject } from 'rxjs/Subject';
+import { TradeInterfacePage } from "../trade-interface/trade-interface";
 
 @Component({
 	selector: 'page-quotations',
 	templateUrl: 'quotations.html'
 })
 export class QuotationsPage {
+	tradeInterface: any = TradeInterfacePage;
+
 	traderList: object[] = new Array()
 	tempArray = new Array(5)
 	realtimeReports$: Observable<any>
@@ -148,6 +151,7 @@ export class QuotationsPage {
 	}
 
 	ionViewDidEnter() {
+		console.log('quotations did enter')
 		this.viewDidLeave.next(false);
 
 		this.doSubscribe();
@@ -335,7 +339,7 @@ export class QuotationsPage {
 		console.log('teee', this.viewDidLeave.getValue())
 		this.realtimeReports$ = this.socketioService.subscribeRealtimeReports(traderIdList)
 			.do(() => console.log('realtimeReports$ success'))
-			.takeUntil(this.viewDidLeave$)
+			// .takeUntil(this.viewDidLeave$)
 		
 		console.log('teee', this.realtimeReports$)
 		
@@ -343,7 +347,7 @@ export class QuotationsPage {
 
 		srcTraderList.forEach((value, key, map) => {
 			value.reportRef = refCount
-				.takeUntil(this.viewDidLeave$)
+				// .takeUntil(this.viewDidLeave$)
 				.filter(({ type})=>{
 					console.log('subscribeRealtimeReports success!')
 					return type === value.traderId
@@ -357,11 +361,25 @@ export class QuotationsPage {
 					if( length > this.appSettings.Charts_Array_Length){
 						srcArr.splice(0, length - this.appSettings.Charts_Array_Length)
 					}
-					return srcArr
+					return srcArr.concat()
 				})
-			value.marketRef = this.stockDataService
-				.subscibeRealtimeData(value.traderId, 'price', this.viewDidLeave$)
-				.do(data=>console.log('marketData:',data))
+			// value.marketRef = this.stockDataService
+			// 	.subscibeRealtimeData(value.traderId, 'price')//, this.viewDidLeave$)
+			// 	.map(data=>{
+			// 		console.log('quotations ma')
+			// 		if(data){
+			// 			if (data.amout) value.marketData = data //有交易量的时候其他参数才会变化
+			// 			else if (!value.marketData) value.marketData = data //若本来没数据,则先赋上初始值.
+			// 		} 
+					
+			// 		return value.marketData
+			// 	})
+			// // (value.marketRef as BehaviorSubject<object>).from(this.stockDataService
+			// // 	.subscibeRealtimeData(value.traderId, 'price'))
+			// 	.do(data=>console.log('marketData:',data))
+			this.stockDataService
+				.subscibeRealtimeData(value.traderId, 'price')
+				.subscribe(value.marketRef)//, this.viewDidLeave$)
 		})
 	}
 
@@ -374,12 +392,12 @@ export class QuotationsPage {
 	// 当前索引值为 0 、并且向前切换时，没有这个问题。
 	// 可能是 Ionic 的一个 bug 。
 	// 此代码的功能：在向后切换越界时，强制将其调整到最后一个索引值处。
-	tabChange(slides) {
-		const destIndex = slides._snapIndex;
-		if (slides.isEnd() && slides.getActiveIndex() === destIndex + 1) {
-			slides.slideTo(destIndex, 0);
-		}
-	}
+	// tabChange(slides) {
+	// 	const destIndex = slides._snapIndex;
+	// 	if (slides.isEnd() && slides.getActiveIndex() === destIndex + 1) {
+	// 		slides.slideTo(destIndex, 0);
+	// 	}
+	// }
 
 	// changeActive(index) {
 	// 	if (this.activeIndex.getValue() !== index) {

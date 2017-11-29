@@ -166,8 +166,8 @@ export class LoginService {
 
   public doLogout() {
     return new Promise(resolve => {
-      this.appDataService.token = '';
-      this.appDataService.password = '';
+      this.appDataService.resetCustomization();
+
       this._status.next(false);
 
       resolve(true);

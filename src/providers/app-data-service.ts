@@ -22,6 +22,8 @@ export class AppDataService {
     customerId: '',
     password: '',
     savePassword: false,
+    show_onestep_trade: false,
+    show_onestep_warning:true,
     products: new Map(),
     traderList: new Map(),
   };
@@ -31,6 +33,8 @@ export class AppDataService {
   public customerId;
   public password;
   public savePassword;
+  public show_onestep_trade;
+  public show_onestep_warning;
 
   //缓存产品信息
   public products:Map<string,AnyObject>
@@ -40,6 +44,15 @@ export class AppDataService {
 
   public get dataReady(){
     return this._dataReady;
+  }
+
+  public resetCustomization() {
+    this.token = '';
+    this.customerId = '';
+    this.password = '';
+    this.savePassword = false;
+    this.show_onestep_trade = false;
+    this.show_onestep_warning = true;
   }
 
   private getDataFromStorage(){

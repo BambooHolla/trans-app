@@ -27,6 +27,7 @@ export class EchartsBaseComponent implements OnChanges, OnDestroy {
 
     ngOnChanges(changes) {
         // console.log('chart ngOnChanges', Object.keys(changes));
+        // console.log('charts changed:ngOnChanges', changes)
         this.callEchartsCreator();
     }
 

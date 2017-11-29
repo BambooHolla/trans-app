@@ -32,7 +32,7 @@ export class SocketioService {
       // _connected$: _connected.asObservable().distinctUntilChanged(),
     }],
     ['depth',{
-      target: '/depth',
+      target: '/depths',
       source: '/transaction',
       socket: undefined,
       _connected: false,
@@ -88,12 +88,14 @@ export class SocketioService {
   }
 
   private socketReady(api): Promise<any> {
+    console.log('equityCode socket api2:', api)
+    
     const targetSocket = this.socketAPIs.get(api)
     if (!targetSocket || !targetSocket.socket
     ) { //  ||  this._authenticated.getValue() === undefined) {
       this.connectSocket(api);
     }
-
+    console.log('socket api2 auth:',this._authenticated.getValue())
     return this.authenticated$
       .filter(value => typeof value === 'boolean')
       .first()
@@ -150,6 +152,9 @@ export class SocketioService {
       console.log(`${api}Socket on err: `,err);
     });
 
+    socket.on('failed', function (err) {
+      console.log(`${api}Socket on failed: `, err);
+    });
     // socket.on('authenticated', () => {
     //   console.log('authenticated');
     //   // this._authenticated.next(true);
@@ -238,6 +243,7 @@ export class SocketioService {
       };
       // 对于所有订阅都已取消的 refCount 重新进行订阅时，
       // 这个函数会被重新调用一次，并传入新的 observer 。
+      console.log('equityCode socket api:',api)
       this.socketReady(api)
         .then(() => {
           if (equityCodeWithSuffix.indexOf('-') === -1){
@@ -247,8 +253,12 @@ export class SocketioService {
             .subscribe(observer)
           this._socketioSubscribeSet.add(subscribeData);
           // this.socket.emit('subscribe', subscribeData);
-          console.log('watch: ', `${equityCodeWithSuffix}`)
-          this.socketAPIs.get(api).socket.emit('watch', [`${equityCodeWithSuffix}`])
+          if(api == 'price' || api == 'depth'){
+            console.log(`watch:${api} `, `${equityCodeWithSuffix}`)
+            this.socketAPIs.get(api).socket.emit('watch', [`${equityCodeWithSuffix}`])            
+          }else{
+            this.socketAPIs.get(api).socket.emit('watch', `${equityCodeWithSuffix}`)
+          }          
         })
         .catch(err => {
           console.log(err)
@@ -262,6 +272,7 @@ export class SocketioService {
         // this.removeFromSocketioSubscribeList(subscribeData);
         this._socketioSubscribeSet.delete(subscribeData);
         this.socketAPIs.get(api).socket.emit('unsubscribe', subscribeData);
+        // this.socketAPIs.get(api).socket.emit(`unwatch:${api}:`, [`${equityCodeWithSuffix}`])
       }
     });
 
@@ -287,9 +298,13 @@ export class SocketioService {
           this.socketAPIs.get(api).socket
             .emit('watch', "1m", '001', equityCodes,
             //todo:默认以当前时间倒退24小时获取数据.(24小时数据量可能过多.4小时?)
+            // new Date('2017-11-13 00:00:00'),
+            // new Date('2017-11-14 00:00:00'),
             theDate.setDate(theDate.getDate()-1),
             new Date(),
+            true
           )
+          console.log(theDate)
         })
         .catch(err => {
           console.log(err)
@@ -324,7 +339,8 @@ export class SocketioService {
     return this.apiObservableMap.get(api)
       .do(data => console.log('apiObservableMap:', data, ' & ', equityCode))
       //将数据筛选移到具体业务上
-      .filter(data => equityCode === data.type || data.ec === equityCode || data.n === equityCode)
+      //tofix:深度的都是单支交易获得,故不做筛选
+      .filter(data => api == 'depth'|| equityCode === data.type || data.ec === equityCode || data.n === equityCode)
       .do(data => console.log('apiObservableMap filter:', data))
       .map(data => data.data || data)
   }

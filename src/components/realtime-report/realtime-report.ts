@@ -37,6 +37,7 @@ export class RealtimeReportComponent extends EchartsBaseComponent {
   private lastTooltipDataIndex = -1;
 
   createCharts() {
+    // console.log('charts changed:',this.echartsData)
     const options = this.options || {};
     //解构赋值解析options变量,使用默认值保证配置参数正常
     const {
@@ -79,6 +80,8 @@ export class RealtimeReportComponent extends EchartsBaseComponent {
 
     window['temp_price'] = 50
     //item.value.avg || 
+    //tofix:传入的数据有可能是null 需要检查 现在临时处理
+    this.echartsData = this.echartsData || []
     const priceData = this.echartsData.map(item => item.value.avg || 
       //弥补模拟数据不完整的问题,正式版需注释掉
       (window['temp_price'] = Math.random() > 0.5 ? 
@@ -91,8 +94,8 @@ export class RealtimeReportComponent extends EchartsBaseComponent {
       const time = `${timestamp.getHours()}:${timestamp.getMinutes()}`
       return time
     });
-    console.log('priceData:', priceData)
-    console.log('tradingTimeArray:', tradingTimeArray)
+    // console.log('priceData:', priceData)
+    // console.log('tradingTimeArray:', tradingTimeArray)
     // const turnoverQuantity = this.echartsData.map(item => item.turnoverQuantity);
 
     // let mid = this.baseData.yesterdayPrice;
@@ -122,8 +125,8 @@ export class RealtimeReportComponent extends EchartsBaseComponent {
         } :
           (params) => {
             return `${params[0].name} <br/>
-                        价格:  ${params[0].data} <br/>
-                        均价:  ${params[1].data} <br/>`
+                    价格:  ${params[0].data} <br/>
+                   `//均价:  ${params[1].data} <br/>
           },
       },
       grid: {
