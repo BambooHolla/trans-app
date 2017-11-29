@@ -1,6 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 // import * as echarts from 'echarts';
-import { NavParams, ToastController } from 'ionic-angular';
+import { NavParams, ToastController, AlertController } from 'ionic-angular';
 
 import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
@@ -18,26 +18,27 @@ import { SocketioService } from "../../providers/socketio-service";
   templateUrl: 'trade-interface.html'
 })
 export class TradeInterfacePage {
-  stockCode: string = this.appSettings.SIM_DATA ? 
-    '000001' : undefined;
-
-  tradeType:number = 1 //1是买,0是卖
-
+  // tradeType:number = 1 //1是买,0是卖
   private _tradeType$: BehaviorSubject<number> = new BehaviorSubject(1);
-  tradeType$: Observable<number> = this._tradeType$
+  public tradeType$: Observable<number> = this._tradeType$
     .asObservable()
     .distinctUntilChanged()
 
-  traderList = []
-  traderId
-  reportArr = []
+  private traderList = []
+  //traderId可以做成subject, 用setter 和getter改变 作为源头触发其他改动.
+  private traderId: string = this.appSettings.SIM_DATA ?
+    '000001' : undefined;
+  private reportArr = []
+
+  private cards: string[] = ['满仓', '1/2仓', '1/3仓', '1/4仓', '1手', '5手', '10手'];
+  private buySaleActiveIndex: BehaviorSubject<number> = new BehaviorSubject(0);
 
   private _saleableQuantity$: Observable<number>;
 
   private _baseData$: Observable<any>;
   private _depth$: Observable<any>;
 
-  private _realtimeData$: Observable<any>;
+  private _realtimeData$: Observable<any> = Observable.of([])
 
   private viewDidLeave: BehaviorSubject<boolean> = new BehaviorSubject(false);
   private viewDidLeave$ = this.viewDidLeave
@@ -82,8 +83,7 @@ export class TradeInterfacePage {
       traderList.push(value)
     })
     this.traderList = traderList
-    this.traderId = traderList[0] ? traderList[0].traderId:undefined
-    this.stockCode = this.traderId || this.stockCode
+    // this.traderId = traderList[0] ? traderList[0].traderId:undefined //从一级界面进来可能需要对traderId进行初始化
     // this.stockDataService.stockBaseData$
     //   .map(data => data[this.stockCode])
     //   .filter(data => data !== undefined)
@@ -112,6 +112,7 @@ export class TradeInterfacePage {
 
   constructor(
     // public navCtrl: NavController,
+    private alertCtrl: AlertController,
     public toastCtrl: ToastController,
     public appSettings: AppSettings,
     public appDataService: AppDataService,
@@ -121,17 +122,18 @@ export class TradeInterfacePage {
     public personalDataService: PersonalDataService,
     public tradeService: TradeService,
     public alertService: AlertService,
-  ) {
-    this.stockCode = this.navParams.get('stockCode') || this.navParams.data || this.stockCode;
-    if (!this.stockCode) this.appDataService.products.forEach((value, key, map) => {
-      this.stockCode = key;
-      return;
-    })
-    const stockCode =  this.stockCode
-    if (stockCode) {
-      console.log('trade-interface:(constructor)',stockCode)
+  ) {    
+    this.traderId = this.navParams.get('stockCode') || this.navParams.data || this.traderId;
+
+    // if (!this.traderId) this.appDataService.products.forEach((value, key, map) => {
+    //   this.traderId = key;
+    //   return;
+    // })
+    const traderId = this.traderId
+    if (traderId) {
+      console.log('trade-interface:(constructor)', traderId)
       this._saleableQuantity$ = this.personalDataService.personalStockList$
-        .map(arr => arr.filter(item => item.stockCode === stockCode))
+        .map(arr => arr.filter(item => item.stockCode === traderId))
         .map(arr => arr.length && +arr[0].saleableQuantity || 0)
         .distinctUntilChanged();
 
@@ -177,14 +179,14 @@ export class TradeInterfacePage {
     const amount = parseInt(this.amount, 10);
 
     console.log('doTrade:',
-      this.stockCode, ' | ',
+      this.traderId, ' | ',
       tradeType, ' | ',
       amount, ' | ',
       price, )
 
     this.tradeService
       .purchase(
-        this.stockCode,
+        this.traderId,
         '',
         tradeType,
         amount,
@@ -226,6 +228,7 @@ export class TradeInterfacePage {
   }
 
   ionViewDidEnter(){
+    window["confirmChangeTradingMode"] = this.confirmChangeTradingMode
     this.viewDidLeave.next(false);
     console.log('pricetarget', this.PriceInputer)
     console.log('pricetarget', this.PriceInputer.getElementRef())
@@ -272,15 +275,19 @@ export class TradeInterfacePage {
   // 由于 DataSubscriber 装饰器的作用，
   // 会在 ionViewDidEnter() 事件处理函数中被自动调用。
   doSubscribe(){
-    const stockCode = this.stockCode;
-    console.log('trade-interface:(doSubscribe) ',stockCode)
-    if (stockCode){
-      this._baseData$ = this.stockDataService.subscibeRealtimeData(stockCode, 'price', this.viewDidLeave$)
+    // window['temp_traderId'] = this.traderId
+    const traderId = this.traderId;
+    console.log('trade-interface:(doSubscribe) ', traderId)
+    if (traderId){
+      const trader = this.appDataService.traderList.get(traderId)
+      // this._baseData$ = this.stockDataService.subscibeRealtimeData(traderId, 'price', this.viewDidLeave$)
+      this._baseData$ = trader.marketRef
         .do(data => console.log('trade-interface:1', data))
         //初始化买卖价格
         .do(data => {
           console.log('doSubscribe do')
-          this.price = String(data.price / this.appSettings.Price_Rate)
+          if(!data) return false
+          if(!this.price) this.price = String(data.price / this.appSettings.Price_Rate)
         })
       // this.stockDataService.stockBaseData$.map(data => data[stockCode])
       //   .do(data => console.log('final data:', stockCode, data))
@@ -293,9 +300,11 @@ export class TradeInterfacePage {
       //         .subscribe();
       //     }
       //   })
-      if(!this._depth$){
-        this._depth$ = this.socketioService.subscribeEquity(stockCode, 'depth')
+      console.log('trade-interface:(doSubscribe):depth ', this._depth$)      
+      // if(!this._depth$){
+        this._depth$ = this.socketioService.subscribeEquity(traderId, 'depth')
           .do(data => console.log('trade-interface:depth:', data))
+          // .map(data =>data.data)
           .map(data => {
             let arr = []
             const length = 5
@@ -312,13 +321,14 @@ export class TradeInterfacePage {
             return arr
           })
         // this._depth$.subscribe()
-      }
+      // }
 
       // this._realtimeData$ = this.stockDataService.stockRealtimeData$.map(data => data[stockCode]);
-      
+      console.log('trade-interface_realtimeData:reportArr: ', this.reportArr)
       this._realtimeData$ = this.socketioService.subscribeRealtimeReports([this.traderId])
         .do(data => console.log('trade-interface_realtimeData: ',data))
         .takeUntil(this.viewDidLeave$)
+        .filter(({ type }) => type === this.traderId)
         .map(data => data.data)
         .map(data => {
           //处理增量更新
@@ -328,9 +338,62 @@ export class TradeInterfacePage {
           if (length > this.appSettings.Charts_Array_Length) {
             srcArr.splice(0, length - this.appSettings.Charts_Array_Length)
           }
-          return srcArr
+          console.log('trade- interface_realtimeData:srcArr:', srcArr)
+          return srcArr.concat()
         })
     }
   }
 
+  changeTrader($event){
+    console.log('traderChanged', this.traderId)
+    this.reportArr = []
+    this.doSubscribe()
+  }
+  confirmChangeTradingMode(){
+    console.log('confirmChangeTradingMode')
+    if(this.appDataService.show_onestep_trade){
+      this.appDataService.show_onestep_trade = false;
+    }else{
+      if (this.appDataService.show_onestep_warning){
+        const alert = this.alertCtrl.create({
+          title: '风险提示',
+          message: `
+            快捷交易会优先以当前您见到的市场上最优价格买入或卖出，但可能因为网络延迟或他人优先下单的情况导致实际成交价格与看到的价格有所差别，可能会出现更高价买入或更低价卖出的情况，为了您的资金安全，请谨慎使用快捷交易。
+            <a>查看交易规则</a><br/>
+          `,
+          inputs: [
+            {
+              name: 'nowarning',
+              type: 'checkbox',
+              label: '不再提醒',
+              value: 'nowarning',
+            },
+          ],
+          buttons: [
+            {
+              text: '取消',
+              role: 'cancel',
+              handler: () => {
+                // console.log('Cancel clicked')
+              }
+            },
+            {
+              text: '同意',
+              handler: data => {
+                this.appDataService.show_onestep_trade = true;
+                if (data.indexOf("nowarning") >= 0) {
+                  this.appDataService.show_onestep_warning = false;
+                }
+              }
+            }
+          ]
+        })
+        alert.present()
+      }else{
+        this.appDataService.show_onestep_trade = true;        
+      }
+      
+      
+    }
+  }
 }

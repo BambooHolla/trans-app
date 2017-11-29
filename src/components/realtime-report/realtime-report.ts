@@ -37,6 +37,7 @@ export class RealtimeReportComponent extends EchartsBaseComponent {
   private lastTooltipDataIndex = -1;
 
   createCharts() {
+    // console.log('charts changed:',this.echartsData)
     const options = this.options || {};
     //解构赋值解析options变量,使用默认值保证配置参数正常
     const {
@@ -91,8 +92,8 @@ export class RealtimeReportComponent extends EchartsBaseComponent {
       const time = `${timestamp.getHours()}:${timestamp.getMinutes()}`
       return time
     });
-    console.log('priceData:', priceData)
-    console.log('tradingTimeArray:', tradingTimeArray)
+    // console.log('priceData:', priceData)
+    // console.log('tradingTimeArray:', tradingTimeArray)
     // const turnoverQuantity = this.echartsData.map(item => item.turnoverQuantity);
 
     // let mid = this.baseData.yesterdayPrice;
@@ -122,8 +123,8 @@ export class RealtimeReportComponent extends EchartsBaseComponent {
         } :
           (params) => {
             return `${params[0].name} <br/>
-                        价格:  ${params[0].data} <br/>
-                        均价:  ${params[1].data} <br/>`
+                    价格:  ${params[0].data} <br/>
+                   `//均价:  ${params[1].data} <br/>
           },
       },
       grid: {

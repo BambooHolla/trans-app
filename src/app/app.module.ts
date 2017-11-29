@@ -91,6 +91,8 @@ import { BnMenuComponent } from '../components/bn-menu/bn-menu';
 // import { RiseOrFallPipe } from '../pipes/rise-or-fall';
 // import { NumReplacePipe } from '../pipes/num-replace';
 // import { PositiveSignPipe } from '../pipes/positive-sign';
+import { QuantityConversionPipe } from '../pipes/quantity-conversion';
+import { PriceConversionPipe } from '../pipes/price-conversion';
 
 import { EchartsBaseComponent } from '../components/echarts-base/echarts-base';
 import { SmoothlineComponent } from '../components/smoothline/smoothline';
@@ -216,6 +218,8 @@ import { RealtimeReportComponent } from '../components/realtime-report/realtime-
         ImageTakerCmp,
         LoopSlidesBetaComponent,
         RealtimeReportComponent,
+    QuantityConversionPipe,
+    PriceConversionPipe,
         // BankCode2NamePipe,
         // IsLoadingDirective,
     ],

@@ -6,7 +6,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class NumberUnitFormatPipe implements PipeTransform {
   unitArray = ['', '万', '亿', '万亿', '亿亿'];
 
-  transform(value: any, retainZero: boolean = false, retainTailZeroAfterDigit: boolean = true): string {
+  transform(value: any, retainZero: boolean = false, retainTailZeroAfterDigit: boolean = true, retainLength: number = 4): string {
     if (isNaN(value)) {
       return '--';
     }
@@ -30,7 +30,7 @@ export class NumberUnitFormatPipe implements PipeTransform {
     // 然后再用 replace 方法去掉尾部可能多余的小数点
     // （或小数点后尾部多余的 0 ）。
     const result = value.toFixed(4)
-      .slice(0, 4)
+      .slice(0, retainLength - this.unitArray[count].length)
       .replace(replacer, '');
 
     return prefix + result + this.unitArray[count];

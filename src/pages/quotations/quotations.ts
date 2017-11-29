@@ -151,6 +151,7 @@ export class QuotationsPage {
 	}
 
 	ionViewDidEnter() {
+		console.log('quotations did enter')
 		this.viewDidLeave.next(false);
 
 		this.doSubscribe();
@@ -338,7 +339,7 @@ export class QuotationsPage {
 		console.log('teee', this.viewDidLeave.getValue())
 		this.realtimeReports$ = this.socketioService.subscribeRealtimeReports(traderIdList)
 			.do(() => console.log('realtimeReports$ success'))
-			.takeUntil(this.viewDidLeave$)
+			// .takeUntil(this.viewDidLeave$)
 		
 		console.log('teee', this.realtimeReports$)
 		
@@ -346,7 +347,7 @@ export class QuotationsPage {
 
 		srcTraderList.forEach((value, key, map) => {
 			value.reportRef = refCount
-				.takeUntil(this.viewDidLeave$)
+				// .takeUntil(this.viewDidLeave$)
 				.filter(({ type})=>{
 					console.log('subscribeRealtimeReports success!')
 					return type === value.traderId
@@ -360,11 +361,25 @@ export class QuotationsPage {
 					if( length > this.appSettings.Charts_Array_Length){
 						srcArr.splice(0, length - this.appSettings.Charts_Array_Length)
 					}
-					return srcArr
+					return srcArr.concat()
 				})
-			value.marketRef = this.stockDataService
-				.subscibeRealtimeData(value.traderId, 'price', this.viewDidLeave$)
-				.do(data=>console.log('marketData:',data))
+			// value.marketRef = this.stockDataService
+			// 	.subscibeRealtimeData(value.traderId, 'price')//, this.viewDidLeave$)
+			// 	.map(data=>{
+			// 		console.log('quotations ma')
+			// 		if(data){
+			// 			if (data.amout) value.marketData = data //有交易量的时候其他参数才会变化
+			// 			else if (!value.marketData) value.marketData = data //若本来没数据,则先赋上初始值.
+			// 		} 
+					
+			// 		return value.marketData
+			// 	})
+			// // (value.marketRef as BehaviorSubject<object>).from(this.stockDataService
+			// // 	.subscibeRealtimeData(value.traderId, 'price'))
+			// 	.do(data=>console.log('marketData:',data))
+			this.stockDataService
+				.subscibeRealtimeData(value.traderId, 'price')
+				.subscribe(value.marketRef)//, this.viewDidLeave$)
 		})
 	}
 

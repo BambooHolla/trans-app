@@ -1,4 +1,5 @@
 page-trade-interface {
+
 	.scroll-content {
 		// display: flex;
 		// flex-direction: column;
@@ -21,10 +22,10 @@ page-trade-interface {
 			border-bottom: 0 !important;
 		}
 		.input-wrapper{
-			padding-left: 30px;
+			padding-right: 1.3rem;
 			justify-content: center;
 			.select-icon{
-				width: 18px;
+				width: 1.8rem;
 			}
 		}
 	}
@@ -188,6 +189,114 @@ page-trade-interface {
 			}		
 		}
 
+		//快捷交易
+		.stsvg{
+			margin:0 0 .5rem;
+			height: 13.3rem;
+			background-color: color($colors, background-darker);
+			ion-col{
+				overflow: hidden;
+				height: 12rem;
+				text-align: center;
+				.circle-svg {
+					width:13.8rem;
+					height:13.8rem;
+					margin: 0 auto;
+
+					path {
+						stroke: #EBEFF4;
+					}
+
+					&.rise path {
+						stroke: #DD3838;
+					}
+
+					&.fall path {
+						stroke: #0D7593;
+					}
+				}
+				.svgcont{
+					position:absolute;
+					top:3.66rem;
+					left: 0;
+					right: 0;
+					width: 11rem;
+					margin: auto;
+					div{
+						font-size: 1.3rem;
+					}
+					p{
+						font-size: 1.8rem;
+						margin: 0.3rem 0 .5rem 0;
+						height: 2.2rem;
+						line-height: 2.2rem;
+					}
+					span{
+						font-size: 1.2rem;
+					}
+				}
+			}
+		}
+		ion-slides{
+			height: unset;
+			ion-slide{
+				height: unset;
+			}
+		}
+		.stnum{
+			margin-bottom: 0.85rem;
+			background-color: color($colors, background-darker);
+			.stonums{
+				// background:rgba(255,255,255,0.1);
+				font-size: 1.5rem;
+				color:#627485;
+				text-align: center;
+				padding:0.5rem 0.5rem 0 0.5rem;
+				height: 3.8rem;
+				.scroll-content{
+					white-space: nowrap;
+					height: 3.8rem;
+					margin-left: 1rem;
+					margin-right: 2rem;
+				}
+				ion-card{
+					background-color: color($colors, background-darker);
+					width:unset!important;
+					padding:0 0.6em;
+					display:inline-block;
+					box-shadow:unset;
+					margin:0;
+					position:relative;
+					// &.wid{
+					// 	width:72px!important;
+					// }
+					ion-card-content{
+						font-size: 1.5rem;
+						line-height: .8;
+						padding-left:0;
+						padding-right:0;
+						text-align:center;
+					}
+				}
+				.active{
+					color:#fff;
+					// font-size: 2.25rem;
+					&:before{
+						content:"";
+						position: absolute;
+						z-index: 1;
+						bottom: 0.5rem;
+						width: 100%;
+						height: 0.3rem;
+						border-radius: 0.3rem;
+					    background-color: #0d7391;
+						box-shadow:0 0 1.5rem 0 #0d7391;
+						left:0;
+					}
+				}
+			}
+		}
+
 		.trbom{
 			display: flex;
 			flex-grow: 0;
@@ -268,4 +377,22 @@ ion-popover{
 		margin-left: 52px !important;
 		text-align: center;
 	}
+}
+	
+ion-popover .item.item-block .item-inner{
+	border-bottom: 0.5px solid rgba(193, 177, 127, .6);
+}
+.item.item-block.item-radio-checked .item-inner .radio-inner{
+	border-color: color($colors,special);
+}
+
+.item.item-block.item-radio-checked .item-inner .label{
+	color:color($colors,special);
+}
+
+.alert-message a{
+	color: unset;
+}
+.alert-wrapper .alert-checkbox-icon{
+	background-color: unset;
 }

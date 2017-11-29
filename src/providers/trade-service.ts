@@ -160,7 +160,7 @@ export class TradeService {
                 traderName: `${product.productName} / ${price.productName}`,
                 reportRef: new Observable(),//用来存放报表中间管道
                 reportArr: [],
-                marketRef: new Observable(),//用来存放交易中间管道
+                marketRef: new BehaviorSubject(undefined),//用来存放交易中间管道
                 buyFee,
                 saleFee,
               })

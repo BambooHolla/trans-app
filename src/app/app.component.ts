@@ -119,6 +119,9 @@ export class GjsApp {
             .then(()=>{
               this.tradeService.getTradeList()
             })
+            .catch(err => {
+              console.log('loginService requestProducts error: ', err.message || err);
+            });
         }
       });
 
