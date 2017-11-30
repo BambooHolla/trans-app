@@ -22,6 +22,7 @@ export class AppDataService {
     customerId: '',
     password: '',
     savePassword: false,
+    productId:'',
     show_onestep_trade: false,
     show_onestep_warning:true,
     products: new Map(),
@@ -33,6 +34,7 @@ export class AppDataService {
   public customerId;
   public password;
   public savePassword;
+  public productId;
   public show_onestep_trade;
   public show_onestep_warning;
 

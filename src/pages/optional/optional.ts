@@ -1,6 +1,6 @@
 import { Component, ViewChild, OnDestroy, AfterViewInit } from '@angular/core';
 
-import { NavController } from 'ionic-angular';
+import { NavController, Refresher } from 'ionic-angular';
 
 import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
@@ -20,6 +20,7 @@ import { AppDataService } from '../../providers/app-data-service';
 export class OptionalPage implements OnDestroy,AfterViewInit{
 
   optionalStockDetailList: any[] = [];
+  personalAssets:object = {};
   scrollEventRemover:any
   stockDetailPage: any = StockDetailPage;
 
@@ -52,15 +53,15 @@ export class OptionalPage implements OnDestroy,AfterViewInit{
 
   ngAfterViewInit() {
     //TODO:把时间监听转为Observable
-    this.scrollEventRemover = this.ionScroll.addScrollEventListener(($event) => {
-      // inside the scroll event
-      // console.dir($event)
-      // this.printLog()
-      this.listScroll($event.target)
-    })
+    // this.scrollEventRemover = this.ionScroll.addScrollEventListener(($event) => {
+    //   // inside the scroll event
+    //   // console.dir($event)
+    //   // this.printLog()
+    //   this.listScroll($event.target)
+    // })
   }
   ngOnDestroy() {
-    this.scrollEventRemover()
+    // this.scrollEventRemover()
   }
   printLog(){
     console.log('printlog')
@@ -69,8 +70,20 @@ export class OptionalPage implements OnDestroy,AfterViewInit{
     this.list.nativeElement.style.left = `-${scrollController.scrollLeft}px`
   }
 
+  initData(refresher?: Refresher){
+    if (refresher) {
+      // this.newsList = await this._getNewsList();
+      // console.log(this.newsList);
+      setTimeout(() => {        
+        refresher.complete();
+      }, 1e3);
+    }
+  }
+
   ionViewDidEnter() {
     this.viewDidLeave.next(false);
+
+    this.requestAssets();
 
     this.personalDataService.requestFundData();
 
@@ -137,6 +150,19 @@ export class OptionalPage implements OnDestroy,AfterViewInit{
               cost,
             },
             baseData: this.stockDataService.stockBaseData$.map(data => data[stockCode]),
+            realtimePrice: this.stockDataService.subscibeRealtimeData(
+              `${this.appDataService.productId}-${stockCode}`
+              ,'price')
+              .map(item=>{
+                if (this.appDataService.productId == stockCode){
+                  return {
+                    ...item,
+                    price:100,
+                  }
+                }else{
+                  return item
+                }
+              })
           }));
         this.lastRealtimeStockList = this.realtimeStockList.getValue().concat();
         this.realtimeStockList.next(data.map(({stockCode}) => stockCode));
@@ -151,6 +177,24 @@ export class OptionalPage implements OnDestroy,AfterViewInit{
       this.stockDataService.requestStockBaseData(stockCode)
         .catch(() => {});
     });
+  }
+
+  requestAssets(){
+    this.personalDataService.personalAssets()
+      .then(data=>{
+        console.log('requestAssets:',data)
+        for (let key in data ) {
+          const item = data[key]
+          let priceName = ''
+          const product = this.appDataService.products.get(item.priceId)
+          if (product) priceName = `(${product.productName})`
+          item.priceName = priceName
+          console.log('requestAssets in', data)
+        }
+        console.log('requestAssets',data)
+        this.personalAssets = data
+      })
+      .catch(err => console.log('requestAssets:',err))
   }
 
 }

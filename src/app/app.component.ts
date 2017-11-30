@@ -22,6 +22,7 @@ import { AppDataService } from '../providers/app-data-service';
 import { SocketioService } from '../providers/socketio-service';
 import { StockDataService } from '../providers/stock-data-service';
 import { TradeService } from '../providers/trade-service';
+import { PersonalDataService } from "../providers/personal-data-service";
 
 @Component({
   templateUrl: 'app.html'
@@ -57,6 +58,7 @@ export class GjsApp {
     public keyboardService: KeyboardService,
     public screenOrientation: ScreenOrientation,
     public androidFullScreen: AndroidFullScreen,
+    public personalDataService:PersonalDataService,
     public stockDataService: StockDataService,
     public socketioService: SocketioService,
     public tradeService: TradeService,
@@ -121,6 +123,13 @@ export class GjsApp {
             })
             .catch(err => {
               console.log('loginService requestProducts error: ', err.message || err);
+            });
+          this.personalDataService.personalPriceId()
+            .then(data=>{
+              this.appDataService.productId = data.value || ''
+            })
+            .catch(err => {
+              console.log('loginService personalPriceId error: ', err.message || err);
             });
         }
       });
