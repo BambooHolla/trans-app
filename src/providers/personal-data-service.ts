@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { Http, RequestMethod } from '@angular/http';
+import { Http, RequestMethod, URLSearchParams } from '@angular/http';
 
 import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
@@ -556,6 +556,46 @@ export class PersonalDataService {
     this._relatedBankAccount.bankName = this.bankList[data.FID_YHDM] || '未知银行'
     this._relatedBankAccount.bankIconURL = this.bankIconList[data.FID_YHDM] || ''
     this._relatedBankAccount.cardNo = data.FID_YHZH
+  }
+
+  personalAssets(){
+    const path = `/account/accounts/assets`
+
+    let params = new URLSearchParams()
+    params.set('accountType', '003')
+
+    return this.appService.request(RequestMethod.Get, path, params, true)
+      .then(data => {
+        if (!data) {
+          return Promise.reject(new Error('data missing'));
+        }
+        
+        return Promise.resolve(data)
+      })
+      .catch(err => {
+        return Promise.reject(err);
+      });
+  }
+
+  personalPriceId(){
+    const path = `/platform/parameters`
+
+    let params = new URLSearchParams()
+    params.set('type', '002')
+    params.set('instId', '8545236f-0e18-4102-8705-fa5ee777b270')
+    params.set('code', 'PRICE_PRODUCT_ID')
+
+    return this.appService.request(RequestMethod.Get, path, params, true)
+      .then(data => {
+        if (!data || !data[0]) {
+          return Promise.reject(new Error('data missing'));
+        }
+
+        return Promise.resolve(data[0])
+      })
+      .catch(err => {
+        return Promise.reject(err);
+      });
   }
 
 

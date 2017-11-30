@@ -233,7 +233,7 @@ export class SocketioService {
   // }
 
   subscribeEquity(equityCodeWithSuffix: string, api: string): Observable<any> {
-    const equityCode = /^([^-]+)/.exec(equityCodeWithSuffix)[1];
+    // const equityCode = /^([^-]+)/.exec(equityCodeWithSuffix)[1];
     console.log(equityCodeWithSuffix, ' & ', api)
     const observable = new Observable(observer => {
       const subscribeData = {
