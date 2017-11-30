@@ -17,7 +17,8 @@ enum MinuteFixType {
 export class AppSettings {
   // http://192.168.16.185:40001/api/v1/bngj/news/swagger
   // public readonly SERVER_URL: string = 'http://119.23.68.40:11890';
-  public readonly SERVER_URL: string = 'http://192.168.16.101:40001'; //company mac server
+  // public readonly SERVER_URL: string = 'http://192.168.16.101:40001'; //company mac server
+  public readonly SERVER_URL: string = 'http://bjs.bnqkl.cn'; //test server
   // public readonly SERVER_URL: string = 'http://192.168.16.14:40001'; //company server
   // public readonly SERVER_URL: string = 'http://192.168.16.185:40001'; //zhiguang server
   // public readonly SERVER_URL: string = 'http://110.86.32.3:40001'; //company ip
@@ -110,7 +111,7 @@ export class AppSettings {
   public agreementData = {
     riskNote: {
       title:'风险提示书',
-      agreementFirst: '<div class="xy_cont_title">福建省高新技术产权交易所风险提示书</div>' +
+      agreementFirst: '<div class="xy_cont_title">币加所风险提示书</div>' +
       '<span class="fwb">尊敬的会员：</span>' +
       '<p class="ti">由于股权交易过程中，可能会面临各种风险因素，<span class="fwb">币加所</span>郑重提示：</p>' +
       '股权交易是非保本的交易，在进行交易时存在盈利的可能，也存在亏损的风险。在您选择股权进行交易前，请注意及审慎评估投资风险，仔细阅读交易规则、本风险提示书，了解产品的具体情况，慎重考虑自身情况是否适合进行此类交易，自行审慎决定购买与自身风险承受能力和资产管理需求匹配的产品。在您购买相关产品后，您也应随时关注产品的相关信息和风险。若您选择参与本中心股权交易，则视为您已仔细阅读前述规定以及本风险提示书并自愿自行承担股权交易带来的风险。请客观理性地认识到股权交易的风险包括但不限于：'+
@@ -150,7 +151,7 @@ export class AppSettings {
       '<br>会员名称：____________' +
       '<br>会员账号：____________' +
       '<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;填表说明' +
-      '<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;一、在签署文件和填表前，申请人应当充分阅读并完全理解福建省高新技术产权交易所有关规章和制度，并确知享有的权利和承担的义务。本协议须提交以下文件和资料：' +
+      '<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;一、在签署文件和填表前，申请人应当充分阅读并完全理解币加所有关规章和制度，并确知享有的权利和承担的义务。本协议须提交以下文件和资料：' +
       '<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1、申请人身份证复印件（正反面）；' +
       '<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2、申请人银行卡号' +
       '<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3、投资人会员入会申请表；' +
@@ -158,10 +159,10 @@ export class AppSettings {
       '<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;二、本文件须用黑色墨水笔逐项填写或签字，字迹工整、清晰，不得涂改。' +
       '<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;三、本文件一式两份，经批准后，双方各执一份。'+
       '<br>甲方：____________' +
-      '<br>乙方：福建省高新技术产权交易所' +
-      '<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;根据《中华人民共和国合同法》、《中华人民共和国电子签名法》《计算机系统安全保护条例》及《第三方电子商务交易平台服务规范》等有关国家相关法律法规，为明确甲乙双方的责任，维护有关各方的合法权益，控制市场风险，甲乙双方根据福建省高新技术产权交易所相关文件和规定，遵循平等、自愿、互惠的原则，达成如下协议：' +
+      '<br>乙方：币加所' +
+      '<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;根据《中华人民共和国合同法》、《中华人民共和国电子签名法》《计算机系统安全保护条例》及《第三方电子商务交易平台服务规范》等有关国家相关法律法规，为明确甲乙双方的责任，维护有关各方的合法权益，控制市场风险，甲乙双方根据币加所相关文件和规定，遵循平等、自愿、互惠的原则，达成如下协议：' +
       '<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1、服务内容：' +
-      '<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1.1 甲方根据福建省高新技术产权交易所相关规定，在乙方网络平台按照规定申请成为乙方投资人会员（“合格投资者会员”），享有乙方为投资人会员提供的所有服务，并可在乙方的交易平台上进行品种的投资、交易。' +
+      '<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1.1 甲方根据币加所相关规定，在乙方网络平台按照规定申请成为乙方投资人会员（“合格投资者会员”），享有乙方为投资人会员提供的所有服务，并可在乙方的交易平台上进行品种的投资、交易。' +
       '<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1.2 甲方所能享受的服务参照乙方交易规则、会员管理制度等相关文件确定。' +
       '<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1.3 乙方有权根据业务发展需要，单方面调整对投资人会员的服务专案及内容且无须事先通知甲方，甲方对此无异议。'+
       '<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2.甲方权利与义务：' +
@@ -171,8 +172,8 @@ export class AppSettings {
       '<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;（3）甲方如对乙方服务有疑问、建议或意见，可以拨打乙方服务电话、登录乙方官方网站或到乙方营业场所进行咨询。' +
       '<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;（4）对乙方作出的不同意甲方投资人会员及其他申请的决定，甲方可以向乙方咨询，并可以在条件符合时重新提出申请。' +
       '<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2.2甲方义务' +
-      '<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;（1）甲方保证符合福建省高新技术产权交易所要求，其自身不存在任何法律、法规、乙方交易规则、管理制度所规定的禁止或限制其成为乙方会员及禁止或限制其从事投资、交易的情形。' +
-      '<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;（2）甲方保证已阅读乙方的管理制度及其他相关文件，知晓交易方法并同意遵守该等文件。甲方已阅读并理解《福建省高新技术产权交易所交易风险提示书》，知晓交易风险并自愿承担交易风险。' +
+      '<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;（1）甲方保证符合币加所要求，其自身不存在任何法律、法规、乙方交易规则、管理制度所规定的禁止或限制其成为乙方会员及禁止或限制其从事投资、交易的情形。' +
+      '<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;（2）甲方保证已阅读乙方的管理制度及其他相关文件，知晓交易方法并同意遵守该等文件。甲方已阅读并理解《币加所交易风险提示书》，知晓交易风险并自愿承担交易风险。' +
       '<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;（3）甲方保证提交给乙方的所有资料均真实、合法、完整。因所提交资料的瑕疵而产生的一切法律责任，由甲方承担。' +
       '<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;（4）甲方保证其在乙方平台上投资资金的来源合法。' +
       '<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;（5）甲方必须妥善保管其在乙方交易平台上的帐号、密码、手机号码、邮箱、证件号码等个人资讯，因泄露、保管不善使上述个人资讯泄露而导致的风险及损失由甲方承担。' +
@@ -227,7 +228,7 @@ export class AppSettings {
       '<br>甲方（签章）：' +
       '<br>代表人（签字）：' +
       '<br>签署日期：年  月  日' +
-      '<br><br>乙方（签章）：福建省高新技术产权交易所'+
+      '<br><br>乙方（签章）：币加所'+
       '<br>代表人（签字）：' +
       '<br>签署日期：年  月  日',
     },

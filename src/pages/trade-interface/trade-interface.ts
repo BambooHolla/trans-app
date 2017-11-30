@@ -185,7 +185,7 @@ export class TradeInterfacePage {
 
   setPrice(price = this.price) {
     this.price = price
-    this.formatNumber('price', -2)
+    this.formatNumber('price', -4)
   }
 
   chooseTradeType($event: MouseEvent){

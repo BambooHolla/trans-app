@@ -44,7 +44,6 @@ export class OptionalPage implements OnDestroy,AfterViewInit{
     public stockDataService: StockDataService,
     // public translate: TranslateService,
   ) {
-    this.initPersonalStockListSubscriber();
   }
 
   //标题栏滚动监听
@@ -71,12 +70,12 @@ export class OptionalPage implements OnDestroy,AfterViewInit{
   }
 
   initData(refresher?: Refresher){
+    //tofix:刷新页面数据初始化流程问题
     if (refresher) {
-      // this.newsList = await this._getNewsList();
-      // console.log(this.newsList);
-      setTimeout(() => {        
-        refresher.complete();
-      }, 1e3);
+      this.requestAssets()
+        .then(()=>refresher.complete())
+        .catch(() => refresher.complete())
+      this.initPersonalStockListSubscriber();
     }
   }
 
@@ -84,10 +83,11 @@ export class OptionalPage implements OnDestroy,AfterViewInit{
     this.viewDidLeave.next(false);
 
     this.requestAssets();
+    this.initPersonalStockListSubscriber();
 
-    this.personalDataService.requestFundData();
+    // this.personalDataService.requestFundData();
 
-    this.doSubscribe();
+    // this.doSubscribe();
 
     // 如果不使用 refresh 方法，则进入本页面时，显示的股价未必是最新的。
     // 原因：从当前页面切换到其他页面（或退出APP）一段时间后，
@@ -100,7 +100,7 @@ export class OptionalPage implements OnDestroy,AfterViewInit{
     // （其他页面应当做类似的处理）。
     // 目前主要问题是需要真实有效数据配合才能测试，否则看起来结果会比较奇怪
     // （总是会先跳回到起始价格）。
-    this.refreshOptionalStockDetailList();
+    // this.refreshOptionalStockDetailList();
   }
 
   ionViewDidLeave(){
@@ -180,7 +180,7 @@ export class OptionalPage implements OnDestroy,AfterViewInit{
   }
 
   requestAssets(){
-    this.personalDataService.personalAssets()
+    return this.personalDataService.personalAssets()
       .then(data=>{
         console.log('requestAssets:',data)
         for (let key in data ) {
@@ -193,8 +193,12 @@ export class OptionalPage implements OnDestroy,AfterViewInit{
         }
         console.log('requestAssets',data)
         this.personalAssets = data
+        return Promise.resolve()
       })
-      .catch(err => console.log('requestAssets:',err))
+      .catch(err => {
+        console.log('requestAssets:',err)
+        return Promise.reject(err)
+      })
   }
 
 }
