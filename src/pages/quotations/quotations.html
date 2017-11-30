@@ -54,7 +54,7 @@
                 </span> -->
                 <span class="font-smaller">
                     <label class="{{showData?.changeValue | riseOrFall}}">最新价 </label>
-                    {{(trader?.marketRef | async)?.price/100 | number:'.2-5'}}
+                    {{(trader?.marketRef | async)?.price | number:'.2-5'}}
                 </span>
                 <span class="font-smaller">                
                     <label class="{{showData?.changeValue | riseOrFall}}">成交量 </label>

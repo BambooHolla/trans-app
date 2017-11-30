@@ -595,7 +595,7 @@ export class StockDataService {
           }
         });
 
-      const subject =  new Subject();
+      const subject =  new BehaviorSubject(undefined);
       const refCounted = equity$.multicast(subject).refCount();
       observableMap.set(code, { refCounted, subject });
     }
