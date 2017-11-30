@@ -62,7 +62,7 @@ export class TransferPage {
     const transferTarget = 
       this.transferType === 0 ? 'tradBankToExchange':
       this.transferType === 1 ? 'tradExchangeToBank' : ''
-    const url = `${this.appSettings.SERVER_URL}/api/v1/gjs/biz/accounts/${transferTarget}`
+    const url = ``//${this.appSettings.SERVER_URL}/api/v1/gjs/biz/accounts/${transferTarget}`
     const headers = new Headers({ 'Content-Type': 'application/json' });
     headers.append('X-AUTH-TOKEN', this.appDataService.token);
 

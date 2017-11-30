@@ -377,6 +377,7 @@ export class QuotationsPage {
 			// // (value.marketRef as BehaviorSubject<object>).from(this.stockDataService
 			// // 	.subscibeRealtimeData(value.traderId, 'price'))
 			// 	.do(data=>console.log('marketData:',data))
+			console.log('value.traderId',value.traderId)
 			this.stockDataService
 				.subscibeRealtimeData(value.traderId, 'price')
 				.subscribe(value.marketRef)//, this.viewDidLeave$)

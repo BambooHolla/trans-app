@@ -109,7 +109,7 @@ export class NewsService {
           {
             "titleImg": "assets/images/test/002.png",
             "avatar": "assets/images/test/005.png",
-            "title": "福建省知识产权局领导到高交所调研局领导到高交所调研",
+            "title": "福建省知识产权局领导到币加所调研局领导到币加所调研",
             "publishTime": "今天11:00",
             "commentsNumber": Math.round(Math.random() * 100),
             id: Math.round(Math.random() * 1000),

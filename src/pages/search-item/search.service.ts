@@ -18,7 +18,7 @@ export class SearchService {
     }
 
     search(term: string) {
-        let serverUrl = `${this.AppSettings.SERVER_URL}/api/v1/gjs/biz/equities/info`
+        let serverUrl = ``//${this.AppSettings.SERVER_URL}/api/v1/gjs/biz/equities/info`
         
         let params = new URLSearchParams();
         params.set('equityCode', term);

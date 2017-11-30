@@ -17,6 +17,7 @@ export class PriceConversionPipe implements PipeTransform {
   ) {}
 
   transform(value: any, ...args) {
-    return Number((value / this.appSettings.Price_Rate).toFixed(2));
+    // / this.appSettings.Price_Rate
+    return Number((+value).toFixed(2));
   }
 }

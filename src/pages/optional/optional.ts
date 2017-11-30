@@ -157,7 +157,7 @@ export class OptionalPage implements OnDestroy,AfterViewInit{
                 if (this.appDataService.productId == stockCode){
                   return {
                     ...item,
-                    price:100,
+                    price:1,
                   }
                 }else{
                   return item

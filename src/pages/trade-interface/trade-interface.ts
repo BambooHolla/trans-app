@@ -97,7 +97,7 @@ export class TradeInterfacePage {
     //     const price = Number(bets && (bets[5].price || bets[4].price) ||
     //                     latestPrice ||
     //                     0
-    //                   )/this.appSettings.Price_Rate
+    //                   )
     //     this.price = price.toFixed(2)
     //     if (price > 0) {
     //       this.amount = (Math.floor(this.personalDataService.accountBalance / price / handBase) * handBase).toString();
@@ -331,7 +331,7 @@ export class TradeInterfacePage {
         .do(data => {
           console.log('doSubscribe do')
           if(!data) return false
-          if(!this.price) this.price = String(data.price / this.appSettings.Price_Rate)
+          if(!this.price) this.price = String(data.price)
         })
       // this.stockDataService.stockBaseData$.map(data => data[stockCode])
       //   .do(data => console.log('final data:', stockCode, data))

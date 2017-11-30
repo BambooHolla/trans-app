@@ -37,7 +37,7 @@
 				<div>
 					<label>幅</label>
 					<!-- <span>+23%</span> -->
-					<span>{{(_baseData$ | async)?.range | percent}}</span>
+					<span>{{(_baseData$ | async)?.range | percent:'1.0-2'}}</span>
 				</div>
 				<!-- <div>今开
 						<span class="{{((_baseData$ | async)?.startPrice - (_baseData$ | async)?.yesterdayPrice) | riseOrFall}}">{{(_baseData$ | async)?.startPrice | number:'.2-2' | numberFilter}}</span>
@@ -177,7 +177,7 @@
 		<div class="bets item-center-center">
 			<div class="bets-tab">
 				<div *ngFor="let data of _depth$ | async ; let i = index;" class="bets-row" [class.sep]="i === 5"
-						tappable (click)="setPrice(data?.price/appSettings.Price_Rate)">
+						tappable (click)="setPrice(data?.price)">
 					<span>{{appSettings.betsTitle[i]}}</span>
 					<span class="{{data?.price && data?.price - (_baseData$ | async)?.yesterdayPrice | riseOrFall}}">{{data?.price | priceConversion | numberFilter}}</span>
 					<span class="color-important">{{data?.amount | quantityConversion | numberUnitFormat}}</span>

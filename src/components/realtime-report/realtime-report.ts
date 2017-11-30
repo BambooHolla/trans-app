@@ -125,7 +125,7 @@ export class RealtimeReportComponent extends EchartsBaseComponent {
         } :
           (params) => {
             return `${params[0].name} <br/>
-                    价格:  ${params[0].data} <br/>
+                    价格:  ${Number(params[0].data).toFixed(2)} <br/>
                    `//均价:  ${params[1].data} <br/>
           },
       },

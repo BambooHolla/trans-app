@@ -487,7 +487,7 @@ export class StockDataService {
       return Promise.resolve();
     }
 
-    const url = `${this.appSettings.SERVER_URL}/api/v1/gjs/biz/equities/kline/startDate/${startDate}/endDate/${endDate}/equityCode/${code}`;
+    const url = ``//${this.appSettings.SERVER_URL}/api/v1/gjs/biz/equities/kline/startDate/${startDate}/endDate/${endDate}/equityCode/${code}`;
     return this.httpService.getWithToken(url)
         .then(data => {
           console.log('requestKData: ', code, unit, data);
@@ -595,7 +595,7 @@ export class StockDataService {
           }
         });
 
-      const subject =  new Subject();
+      const subject =  new BehaviorSubject(undefined);
       const refCounted = equity$.multicast(subject).refCount();
       observableMap.set(code, { refCounted, subject });
     }
