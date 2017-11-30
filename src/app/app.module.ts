@@ -24,7 +24,7 @@ import 'rxjs/add/operator/delay';
 // import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 // import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
-import { GjsApp } from './app.component';
+import { PicassoApp } from './app.component';
 
 import { LoadingPage } from '../pages/loading/loading';
 import { NewsListPage } from '../pages/news-list/news-list';
@@ -159,7 +159,7 @@ import { RealtimeReportComponent } from '../components/realtime-report/realtime-
 @NgModule({
     declarations: [
         LoopSlidesComponent,
-        GjsApp,
+        PicassoApp,
         TransferPage,
         // MyselfPage,
         CreateAccountPromptPage,
@@ -226,7 +226,7 @@ import { RealtimeReportComponent } from '../components/realtime-report/realtime-
     imports: [
         // NewsContentModule,
         IonicModule.forRoot(
-            GjsApp,
+            PicassoApp,
             {
                 backButtonText: '',
                 mode: 'ios',
@@ -272,7 +272,7 @@ import { RealtimeReportComponent } from '../components/realtime-report/realtime-
     entryComponents: [
         NewsListPage,
         LoopSlidesComponent,
-        GjsApp,
+        PicassoApp,
         TransferPage,
         // MyselfPage,
         CreateAccountPromptPage,

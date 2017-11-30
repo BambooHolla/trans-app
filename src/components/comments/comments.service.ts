@@ -100,7 +100,7 @@ export class CommentService {
 
   getComments(newsId:string){
     //ebd9215c694f1663948db52d 有数据
-    let url = `${this.appSettings.SERVER_URL}/api/v1/gjs/news/newsComments/${newsId}`
+    let url = ``//${this.appSettings.SERVER_URL}/api/v1/gjs/news/newsComments/${newsId}`
     let params = new URLSearchParams();
     params.set('page', '0');
     const headers = new Headers();
@@ -149,7 +149,7 @@ export class CommentService {
 
   postComments(newsId: string, content:string) {
     console.log('postComments')
-    const url = `${this.appSettings.SERVER_URL}/api/v1/gjs/news/newsComments/create`
+    const url = ``//${this.appSettings.SERVER_URL}/api/v1/gjs/news/newsComments/create`
     const headers = new Headers({ 'Content-Type': 'application/json' });
     headers.append('X-AUTH-TOKEN', this.appDataService.token);
 

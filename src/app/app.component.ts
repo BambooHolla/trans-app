@@ -27,7 +27,7 @@ import { PersonalDataService } from "../providers/personal-data-service";
 @Component({
   templateUrl: 'app.html'
 })
-export class GjsApp {
+export class PicassoApp {
   rootPage: any;
 
   private loader: Loading;

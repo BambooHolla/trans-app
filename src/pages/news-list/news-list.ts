@@ -67,14 +67,6 @@ export class NewsListPage /* implements OnInit, OnDestroy  */ {
     //         id: Math.random() * 1000,
     //     },
     //     {
-    //         "titleImg": "assets/images/test/002.png",
-    //         "avatar": "assets/images/test/005.png",
-    //         "title": "福建省知识产权局领导到高交所调研局领导到高交所调研",
-    //         "publishTime": "今天11:00",
-    //         "readNumber": "180",
-    //         id: Math.random() * 1000,
-    //     },
-    //     {
     //         "titleImg": "assets/images/test/003.png",
     //         "avatar": "assets/images/test/006.png",
     //         "title": "李克强:持续加大支持实体经济力度",

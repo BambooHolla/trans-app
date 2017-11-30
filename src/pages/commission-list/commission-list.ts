@@ -177,7 +177,7 @@ export class CommissionListPage implements OnInit {
   }
 
   getCommissionList() {
-    let serverUrl = `${this.AppSettings.SERVER_URL}/api/v1/gjs/biz/transactions/equityCommission`
+    let serverUrl = ``//${this.AppSettings.SERVER_URL}/api/v1/gjs/biz/transactions/equityCommission`
 
     let params = new URLSearchParams();
     params.set('startDate', '20170101');
