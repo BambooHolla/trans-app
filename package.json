@@ -41,9 +41,10 @@
         "cordova-plugin-device": "^1.1.4",
         "cordova-plugin-file": "^4.3.3",
         "cordova-plugin-fullscreen": "^1.2.0",
+        "cordova-plugin-ionic-webview": "^1.1.16",
         "cordova-plugin-screen-orientation": "^2.0.1",
         "cordova-plugin-splashscreen": "^4.0.3",
-        "cordova-plugin-statusbar": "^2.2.1",
+        "cordova-plugin-statusbar": "git+https://github.com/apache/cordova-plugin-statusbar.git",
         "cordova-plugin-telerik-imagepicker": "git+https://github.com/sagittarius-rev/ImagePicker.git",
         "cordova-plugin-whitelist": "^1.3.1",
         "cordova-sqlite-storage": "^2.0.4",
@@ -93,7 +94,6 @@
             "cordova-plugin-console": {},
             "cordova-plugin-device": {},
             "cordova-plugin-splashscreen": {},
-            "cordova-plugin-statusbar": {},
             "cordova-plugin-whitelist": {},
             "cordova-sqlite-storage": {},
             "ionic-plugin-keyboard": {},
@@ -105,7 +105,9 @@
             "com.synconset.imagepicker": {
                 "PHOTO_LIBRARY_USAGE_DESCRIPTION": "pick image"
             },
-            "cordova.plugins.diagnostic": {}
+            "cordova.plugins.diagnostic": {},
+            "cordova-plugin-statusbar": {},
+            "cordova-plugin-ionic-webview": {}
         },
         "dependencies": {
             "@angular/common": "4.1.0",
