@@ -57,7 +57,7 @@ export class TradeService {
         operationType: '002',//string *001现金对产品交易、002产品对产品交易
         productId: equityCode.split('-')[1],//equityCode,
         priceProductId: equityCode.split('-')[0],//string,标的（标价产品id），产品对产品交易时有
-        price: consignmentPrice * this.appSettings.Price_Rate,// 价格
+        price: consignmentPrice,// 价格
         amount: +consignmentCount *this.appSettings.Product_Price_Rate,// 数量
       }
 
