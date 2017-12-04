@@ -1,3 +1,217 @@
 page-account-center-v2 {
-
+	.contain {
+		.base-info {
+			margin-top: 1px;
+			background-color: color($colors, 'alpha-dark');
+			display: flex;
+			flex-direction: row;
+			padding: 1rem;
+			justify-content: flex-start;
+			align-items: center;
+			.name {
+				font-size: 1.7rem;
+			}
+			.vip-level {
+				display: flex;
+				flex-direction: row;
+				align-items: baseline;
+				margin-left: 0.4rem;
+				ion-icon[name='VIP'] {
+					&::before {
+						display: block;
+						content: '';
+						width: 1.2rem;
+						height: 1.2rem;
+						background-image: url('../assets/icon/VIP.png');
+						background-repeat: no-repeat;
+						background-size: contain;
+						background-position: center;
+					}
+				}
+				.level-value {
+					color: color($colors, 'special');
+					text-shadow: 1px 0 0 color($colors, 'special');
+					font-size: 1.2rem;
+					transform: translateX(-0.4rem) scale(0.8);
+					transform-origin: 100% 100%;
+				}
+			}
+			.account-id {
+				color: color($colors, 'lightdark');
+				font-size: 1.4rem;
+				margin-left: 0.6rem;
+				font-weight: 600;
+			}
+		}
+		.assets-info {
+			margin-top: 1px;
+			background-color: color($colors, 'alpha-dark');
+			display: flex;
+			padding: 1.4rem 0.2rem 2rem 0.2rem;
+			.left,
+			.right {
+				flex-basis: 50%;
+				flex-grow: 0;
+				flex-shrink: 0;
+				padding: 0.2rem 0.8rem 1rem 0.8rem;
+				.title {
+					color: color($colors, 'lightdark');
+					font-size: 1.4rem;
+				}
+				.amount {
+					color: color($colors, 'special');
+					font-size: 2.1rem;
+				}
+				.tip {
+					display: flex;
+					flex-direction: row;
+					align-items: center;
+					ion-icon[name='RMB-outline'] {
+						&::before {
+							display: block;
+							content: '';
+							width: 1.5rem;
+							height: 1.5rem;
+							background-image: url('../assets/icon/RMB-outline.png');
+							background-size: contain;
+							background-position: center;
+							background-repeat: no-repeat;
+							margin-right: 0.5rem;
+						}
+					}
+					font-size: 1.2rem;
+					font-weight: lighter;
+				}
+			}
+			.left {
+				position: relative;
+				&::after {
+					right: 0;
+					top: 0;
+					position: absolute;
+					content: '';
+					display: block;
+					height: 100%;
+					width: 1px;
+					background-color: rgba(#535353, 0.3);
+				}
+			}
+		}
+		.notify {
+			display: flex;
+			flex-direction: row;
+			align-items: center;
+			justify-content: space-between;
+			padding: 1rem;
+			ion-icon[name='notify-red'] {
+				display: block;
+				content: '';
+				width: 1.2rem;
+				height: 1.2rem;
+				background-image: url('../assets/icon/通知.png');
+				background-repeat: no-repeat;
+				background-size: contain;
+				background-position: center;
+				position: relative;
+				&::after {
+					position: absolute;
+					right: -1rem;
+					top: -0.1rem;
+					content: '';
+					display: block;
+					width: 1px;
+					height: 1.4rem;
+					background-color: rgba(#535353, 0.3);
+				}
+				margin-right: 2.3rem;
+			}
+			.pre-view-content {
+				flex-grow: 1;
+				font-size: 1.2rem;
+				white-space: nowrap;
+				text-overflow: ellipsis;
+				overflow: hidden;
+			}
+			.unread {
+				flex-shrink: 0;
+				width: 0.65rem;
+				height: 0.65rem;
+				margin-left: 0.4rem;
+				border-radius: 50%;
+				background-color: #d81e06;
+				font-size: 0;
+			}
+			ion-icon[name='arrow-forward'] {
+				justify-self: flex-end;
+				flex-shrink: 0;
+				margin-left: 1rem;
+			}
+		}
+		.toolbar {
+			margin-top: 1px;
+			background-color: color($colors, 'alpha-dark');
+			display: flex;
+			justify-content: flex-start;
+			flex-wrap: wrap;
+			/* ntd-child() */
+			.tool-item {
+				flex-grow: 0;
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				justify-content: center;
+				width: 25vw;
+				height: 25vw;
+				position: relative;
+				&::after {
+					right: 0px;
+					top: 0;
+					position: absolute;
+					content: '';
+					display: block;
+					height: 100%;
+					width: 1px;
+					background-color: rgba(#535353, 0.3);
+				}
+				font-size: 1.5rem;
+				&:nth-child(4n) {
+					&::after {
+						width: 0px;
+					}
+				}
+				&::before {
+					left: 0px;
+					bottom: 0;
+					position: absolute;
+					content: '';
+					display: block;
+					height: 1px;
+					width: 100%;
+					background-color: rgba(#535353, 0.3);
+				}
+			}
+			ion-icon[name*='tool-'] {
+				&::before {
+					display: block;
+					content: '';
+					width: 1.8rem;
+					height: 1.8rem;
+					background-repeat: no-repeat;
+					background-size: contain;
+					background-position: center;
+				}
+				margin-bottom: 1.1rem;
+			}
+			ion-icon[name='tool-充值'] {
+				&::before {
+					background-image: url('../assets/icon/充值.png');
+				}
+			}
+			ion-icon[name='tool-提现'] {
+				&::before {
+					background-image: url('../assets/icon/提现.png');
+				}
+			}
+		}
+	}
 }
