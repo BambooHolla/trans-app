@@ -1,0 +1,17 @@
+page-recharge-gateway {
+	ion-list {
+		margin-top: 1rem !important;
+		ion-item-divider.item-divider {
+			min-height: 1rem;
+			ion-label {
+				display: none;
+			}
+		}
+		ion-item.item-block {
+			margin-top: 0.55px;
+			ion-label {
+				color: color($colors, 'special');
+			}
+		}
+	}
+}

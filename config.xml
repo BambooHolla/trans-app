@@ -73,4 +73,5 @@
     <plugin name="ionic-plugin-keyboard" spec="^2.2.1" />
     <plugin name="cordova-plugin-statusbar" spec="https://github.com/apache/cordova-plugin-statusbar.git" />
     <plugin name="cordova-plugin-ionic-webview" spec="~1.1.16" />
+    <allow-navigation href="http://192.168.16.179:8100" />
 </widget>

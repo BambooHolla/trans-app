@@ -30,6 +30,7 @@ $colors: (
   light:      #C9C9C9,
   dark:       #585858,
   middark:  #6b6b6b,
+  alpha-dark: rgba(#222333,0.8),
   lightdark:  #8b8b8b,
   important:  #2A9DBE,
   gold:       #c1b17f,
@@ -38,8 +39,8 @@ $colors: (
   fall:       #44D63D,
   water:      #71D1ED,
   special:    #c1b17f,
-  background:#2a2b3f,
-  background-darker:#262739,
+  background: #2a2b3f,
+  background-darker: #262739,
 );
 
 // $content-ios-transition-background: transparent;
@@ -221,6 +222,11 @@ $alert-wp-button-group-justify-content: center;
 $list-ios-text-color: color($colors, primary);
 $list-wp-text-color: color($colors, primary);
 $list-md-text-color: color($colors, primary);
+$list-ios-background-color: color($colors, alpha-dark);
+$list-ios-border-color: transparent;
+$item-ios-divider-background: transparent;
+$item-ios-divider-color: color($colors, primary);
+$item-ios-paragraph-margin-end:1px;
 
 $text-input-ios-input-clear-icon-color: rgba(255, 255, 255, 0.65);
 $text-input-md-input-clear-icon-color: rgba(255, 255, 255, 0.65);

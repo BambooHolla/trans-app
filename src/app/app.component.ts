@@ -1,4 +1,4 @@
-import { Component, Renderer2 } from '@angular/core';
+import { Component, Renderer2, Inject } from '@angular/core';
 import { Platform } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -6,7 +6,14 @@ import { ScreenOrientation } from '@ionic-native/screen-orientation';
 import { AndroidFullScreen } from '@ionic-native/android-full-screen';
 
 // import { App, NavController, LoadingController, Loading } from 'ionic-angular';
-import { App, LoadingController, Loading } from 'ionic-angular';
+import {
+  App,
+  LoadingController,
+  Loading,
+  AlertController,
+  ToastController,
+  ModalController
+} from 'ionic-angular';
 
 // import { TranslateService } from '@ngx-translate/core';
 
@@ -22,7 +29,7 @@ import { AppDataService } from '../providers/app-data-service';
 import { SocketioService } from '../providers/socketio-service';
 import { StockDataService } from '../providers/stock-data-service';
 import { TradeService } from '../providers/trade-service';
-import { PersonalDataService } from "../providers/personal-data-service";
+import { PersonalDataService } from '../providers/personal-data-service';
 
 @Component({
   templateUrl: 'app.html'
@@ -58,17 +65,25 @@ export class PicassoApp {
     public keyboardService: KeyboardService,
     public screenOrientation: ScreenOrientation,
     public androidFullScreen: AndroidFullScreen,
-    public personalDataService:PersonalDataService,
+    public personalDataService: PersonalDataService,
     public stockDataService: StockDataService,
     public socketioService: SocketioService,
     public tradeService: TradeService,
-    public loadingCtrl: LoadingController,
     public platform: Platform,
     public statusBar: StatusBar,
     public splashScreen: SplashScreen,
+    public alertCtrl: AlertController,
+    public loadingCtrl: LoadingController,
+    public toastCtrl: ToastController,
+    public modalController: ModalController,
     // translate: TranslateService,
     public renderer2: Renderer2
   ) {
+    window['platform'] = platform;
+    window['alertCtrl'] = alertCtrl;
+    window['loadingCtrl'] = loadingCtrl;
+    window['toastCtrl'] = toastCtrl;
+    window['modalCtrl'] = modalController;
     this.screenOrientation
       .lock(this.screenOrientation.ORIENTATIONS.PORTRAIT)
       .catch(err => {
@@ -116,20 +131,28 @@ export class PicassoApp {
         this.setAppRootBackground(status);
 
         //登陆成功获取股票列表
-        if(status){
-          this.stockDataService.requestProducts(this.appSettings.Platform_Type)
-            .then(()=>{
-              this.tradeService.getTradeList()
+        if (status) {
+          this.stockDataService
+            .requestProducts(this.appSettings.Platform_Type)
+            .then(() => {
+              this.tradeService.getTradeList();
             })
             .catch(err => {
-              console.log('loginService requestProducts error: ', err.message || err);
+              console.log(
+                'loginService requestProducts error: ',
+                err.message || err
+              );
             });
-          this.personalDataService.personalPriceId()
-            .then(data=>{
-              this.appDataService.productId = data.value || ''
+          this.personalDataService
+            .personalPriceId()
+            .then(data => {
+              this.appDataService.productId = data.value || '';
             })
             .catch(err => {
-              console.log('loginService personalPriceId error: ', err.message || err);
+              console.log(
+                'loginService personalPriceId error: ',
+                err.message || err
+              );
             });
         }
       });

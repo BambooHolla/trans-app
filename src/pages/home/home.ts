@@ -62,6 +62,16 @@ export class HomePage {
       name: '关于币加所',
       href: AboutPage,
     },
+    {
+      icon: "gabout",
+      name: '充值',
+      href: 'recharge-gateway',
+    },
+    {
+      icon: "gabout",
+      name: '提现',
+      href: 'withdraw-gateway',
+    },
   ];
 
   constructor(

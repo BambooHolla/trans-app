@@ -139,6 +139,9 @@ body {
     .header-with-bg {
       margin-top: -$cordova-ios-statusbar-padding;
       padding-top: $cordova-ios-statusbar-padding;
+      &.bg-color-dark-alpha{
+        background-color: color($colors, 'alpha-dark');
+      }
     }
   }
 }
@@ -243,6 +246,19 @@ $g-icons: 'about' 'transfer' 'card' 'doc' 'hand' 'help' 'person' 'trend'
 $tabs-icons: "交易" "资讯" "我的" "持仓" "行情";
 @each $icon-name in $tabs-icons{
   @include tabicon($icon-name);
+}
+ion-icon[name="arrow-forward"]{
+  display:flex;
+  align-items:center;
+  &::before{
+    display: block;
+    height: 1rem;
+    width:1rem;
+    content: '';
+    background-image: url('../assets/icon/forward.png');
+    background-size: contain;
+    background-repeat:no-repeat;
+  }
 }
 
 .large-icon {

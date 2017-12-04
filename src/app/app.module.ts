@@ -49,6 +49,13 @@ import { CreateAccountConfirmPage } from '../pages/create-account-confirm/create
 import { IdentificationPage } from '../pages/identification/identification';
 import { AuthPendingPage } from '../pages/auth-pending/auth-pending';
 import { HomePage } from '../pages/home/home';
+import { RechargeGatewayPage } from '../pages/recharge-gateway/recharge-gateway';
+import { RechargeDetailPage } from '../pages/recharge-detail/recharge-detail';
+import { WithdrawGatewayPage } from '../pages/withdraw-gateway/withdraw-gateway';
+import { WithdrawDetailPage } from '../pages/withdraw-detail/withdraw-detail';
+import { AccountCenterV2Page } from '../pages/account-center-v2/account-center-v2';
+import { AddAddressPage } from '../pages/add-address/add-address';
+
 // import { NewsContentModule } from '../pages/news-content/news-content.module';
 // import { NoticePage } from '../pages/notice/notice';
 // import { NoticeListPage } from '../pages/notice-list/notice-list';
@@ -132,6 +139,7 @@ import { ForgetPwdPageModule } from '../pages/forget-pwd/forget-pwd.module';
 import { ModifyPwdPageModule } from '../pages/modify-pwd/modify-pwd.module';
 import { RegisterPageModule } from '../pages/register/register.module';
 import { RealtimeReportComponent } from '../components/realtime-report/realtime-report';
+import { AccountServiceProvider } from '../providers/account-service/account-service';
 // import { BankCode2NamePipe } from '..\pipes\bank-code2-name/bank-code2-name';
 // import { FileService } from '../providers/file.service';
 // import { IsLoadingDirective } from '../directives/is-loading/is-loading';
@@ -158,6 +166,12 @@ import { RealtimeReportComponent } from '../components/realtime-report/realtime-
 // 使用 @NgModule 装饰器注入的 entryComponents 以及 providers 等可以在整个应用中被访问
 @NgModule({
     declarations: [
+        RechargeGatewayPage,
+        RechargeDetailPage,
+        WithdrawGatewayPage,
+        WithdrawDetailPage,
+        AccountCenterV2Page,
+        AddAddressPage,
         LoopSlidesComponent,
         PicassoApp,
         TransferPage,
@@ -218,8 +232,8 @@ import { RealtimeReportComponent } from '../components/realtime-report/realtime-
         ImageTakerCmp,
         LoopSlidesBetaComponent,
         RealtimeReportComponent,
-    QuantityConversionPipe,
-    PriceConversionPipe,
+        QuantityConversionPipe,
+        PriceConversionPipe
         // BankCode2NamePipe,
         // IsLoadingDirective,
     ],
@@ -239,6 +253,22 @@ import { RealtimeReportComponent } from '../components/realtime-report/realtime-
             },
             {
                 links: [
+                    {
+                        component: RechargeGatewayPage,
+                        name: 'recharge-gateway'
+                    },
+                    { component: RechargeDetailPage, name: 'recharge-detail' },
+                    {
+                        component: WithdrawGatewayPage,
+                        name: 'withdraw-gateway'
+                    },
+                    { component: WithdrawDetailPage, name: 'withdraw-detail' },
+                    {
+                        component: AccountCenterV2Page,
+                        name: 'account-center-v2'
+                    },
+                    { component: AddAddressPage, name: 'add-address' },
+
                     { component: LoginPage, name: 'login' },
                     { component: ForgetPwdPage, name: 'forget-pwd' },
                     { component: ModifyPwdPage, name: 'modify-pwd' },
@@ -270,6 +300,12 @@ import { RealtimeReportComponent } from '../components/realtime-report/realtime-
     ],
     bootstrap: [IonicApp],
     entryComponents: [
+        RechargeGatewayPage,
+        RechargeDetailPage,
+        WithdrawGatewayPage,
+        WithdrawDetailPage,
+        AccountCenterV2Page,
+        AddAddressPage,
         NewsListPage,
         LoopSlidesComponent,
         PicassoApp,
@@ -353,7 +389,8 @@ import { RealtimeReportComponent } from '../components/realtime-report/realtime-
         // RiseOrFallPipe,
         // NumReplacePipe,
         // PositiveSignPipe,
-        NoticeListModel
+        NoticeListModel,
+        AccountServiceProvider
     ]
 })
 export class AppModule {}
