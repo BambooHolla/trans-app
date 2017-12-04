@@ -1,4 +1,18 @@
 page-account-center-v2 {
+	ion-buttons {
+		ion-icon[name='settings'] {
+			&:before {
+				content: '';
+				display: block;
+				width: 1.8rem;
+				height: 1.8rem;
+				background-image: url('../assets/images/mine/setting-icon.png');
+				background-size: contain;
+				background-position: center;
+				background-repeat: no-repeat;
+			}
+		}
+	}
 	.contain {
 		.base-info {
 			margin-top: 1px;
@@ -105,7 +119,6 @@ page-account-center-v2 {
 			padding: 1rem;
 			ion-icon[name='notify-red'] {
 				display: block;
-				content: '';
 				width: 1.2rem;
 				height: 1.2rem;
 				background-image: url('../assets/icon/通知.png');
@@ -113,6 +126,16 @@ page-account-center-v2 {
 				background-size: contain;
 				background-position: center;
 				position: relative;
+				&::before {
+					content: '';
+					display: block;
+					width: 1.2rem;
+					height: 1.2rem;
+					background-image: url('../assets/icon/通知.png');
+					background-repeat: no-repeat;
+					background-size: contain;
+					background-position: center;
+				}
 				&::after {
 					position: absolute;
 					right: -1rem;
