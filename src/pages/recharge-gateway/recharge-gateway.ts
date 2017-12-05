@@ -28,8 +28,9 @@ export class RechargeGatewayPage extends SecondLevelPage {
 	product_list: any[];
 
 	@RechargeGatewayPage.willEnter
+	@asyncCtrlGenerator.loading()
 	@asyncCtrlGenerator.error('产品列表加载出错')
 	async getProducts() {
-		this.product_list = await this.accountService.getProducts(0, 30);
+		this.product_list = await this.accountService.productList.getPromise();
 	}
 }
