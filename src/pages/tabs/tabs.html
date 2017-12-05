@@ -20,13 +20,13 @@
 
 <ion-tabs #maintabs>
 <!-- <ion-tabs #maintabs class="bg-in bg-light"> -->
-  <ion-tab [root]="optionalRoot" tabTitle="持仓" tabIcon="持仓" #optionalTab></ion-tab>
-  <ion-tab [root]="quotationsPageRoot" tabTitle="行情" tabIcon="行情"></ion-tab>
-  <!-- <ion-tab [root]="tradeRoot" rootParams='stockCode' tabTitle="交易" tabIcon="交易"></ion-tab> -->
-  <ion-tab [root]="newsListPage" tabTitle="资讯" tabIcon="资讯"></ion-tab>
+  <ion-tab #optionalTab tabUrlPath="optional" tabTitle="持仓" tabIcon="持仓"></ion-tab>
+  <ion-tab #quotationsTab tabUrlPath="quotations" tabTitle="行情" tabIcon="行情"></ion-tab>
+  <ion-tab #newsTab tabUrlPath="news" tabTitle="资讯" tabIcon="资讯"></ion-tab>
   <!-- tabsHideOnSubPages 不会对 Tab 页面起作用，而是对于在 Tab 页面中打开的子页面起作用 -->
-  <ion-tab [root]="homeRoot" tabTitle="我的" tabIcon="我的"></ion-tab>
+  <ion-tab #homeTab tabUrlPath="home" tabTitle="我的" tabIcon="我的"></ion-tab>
 
+  <!-- <ion-tab tabUrlPath="trade" rootParams='stockCode' tabTitle="交易" tabIcon="交易"></ion-tab> -->
   <!-- <ion-tab [root]="editorRoot" tabTitle="编辑器" show="false"></ion-tab> -->
 
 </ion-tabs>

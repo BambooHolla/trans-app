@@ -49,12 +49,17 @@ import { CreateAccountConfirmPage } from '../pages/create-account-confirm/create
 import { IdentificationPage } from '../pages/identification/identification';
 import { AuthPendingPage } from '../pages/auth-pending/auth-pending';
 import { HomePage } from '../pages/home/home';
+/**+ from BNLC framework*/
 import { RechargeGatewayPage } from '../pages/recharge-gateway/recharge-gateway';
 import { RechargeDetailPage } from '../pages/recharge-detail/recharge-detail';
 import { WithdrawGatewayPage } from '../pages/withdraw-gateway/withdraw-gateway';
 import { WithdrawDetailPage } from '../pages/withdraw-detail/withdraw-detail';
 import { AccountCenterV2Page } from '../pages/account-center-v2/account-center-v2';
 import { AddAddressPage } from '../pages/add-address/add-address';
+import { AppSettingProvider } from '../bnlc-framework/providers/app-setting/app-setting';
+import { AppFetchProvider } from '../bnlc-framework/providers/app-fetch/app-fetch';
+
+/**- from BNLC framework*/
 
 // import { NewsContentModule } from '../pages/news-content/news-content.module';
 // import { NoticePage } from '../pages/notice/notice';
@@ -253,6 +258,28 @@ import { AccountServiceProvider } from '../providers/account-service/account-ser
             },
             {
                 links: [
+                    //+ from BNLC framwork
+                    { component: TabsPage, name: 'tabs' },
+                    {
+                        component: OptionalPage,
+                        name: 'optional',
+                        defaultHistory: [TabsPage]
+                    },
+                    {
+                        component: QuotationsPage,
+                        name: 'quotations',
+                        defaultHistory: [TabsPage]
+                    },
+                    {
+                        component: NewsListPage,
+                        name: 'news',
+                        defaultHistory: [TabsPage]
+                    },
+                    {
+                        component: HomePage,
+                        name: 'home',
+                        defaultHistory: [TabsPage]
+                    },
                     {
                         component: RechargeGatewayPage,
                         name: 'recharge-gateway'
@@ -268,6 +295,7 @@ import { AccountServiceProvider } from '../providers/account-service/account-ser
                         name: 'account-center-v2'
                     },
                     { component: AddAddressPage, name: 'add-address' },
+                    //- from BNLC framwork
 
                     { component: LoginPage, name: 'login' },
                     { component: ForgetPwdPage, name: 'forget-pwd' },
@@ -390,7 +418,10 @@ import { AccountServiceProvider } from '../providers/account-service/account-ser
         // NumReplacePipe,
         // PositiveSignPipe,
         NoticeListModel,
-        AccountServiceProvider
+        AccountServiceProvider,
+        /*from BNLC framework*/
+        AppSettingProvider,
+        AppFetchProvider
     ]
 })
 export class AppModule {}

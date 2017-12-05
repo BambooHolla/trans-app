@@ -10,6 +10,9 @@ import { AppService } from './app.service';
 import { AppDataService } from './app-data-service';
 import { AlertService } from './alert-service';
 
+/*from BNLC framework*/
+import { AppSettingProvider } from '../bnlc-framework/providers/app-setting/app-setting';
+
 // 使用 @Injectable 才能让所声明的类用于依赖注入，
 // 而 @Component 是 @Injectable 的派生类型，不需要重复使用 @Injectable 。
 // 注意在 @Injectable 后面必须使用括号。
@@ -40,7 +43,8 @@ export class LoginService {
     public appSettings: AppSettings,
     public appDataService: AppDataService,
     public appService: AppService,
-    public alertService: AlertService
+    public alertService: AlertService,
+    public bnlcAppSetting: AppSettingProvider
   ) {
     this.appDataService.dataReady
       .then(async () => {
@@ -142,6 +146,7 @@ export class LoginService {
   ): Promise<boolean | string> {
     return this._doLogin(customerId, password, savePassword, type)
       .then(data => {
+        this.bnlcAppSetting.setUserToken(data);
         Object.assign(this.appDataService, {
           token: data.token,
           customerId,
@@ -165,6 +170,7 @@ export class LoginService {
   }
 
   public doLogout() {
+    this.bnlcAppSetting.clearUserToken();
     return new Promise(resolve => {
       this.appDataService.resetCustomization();
 

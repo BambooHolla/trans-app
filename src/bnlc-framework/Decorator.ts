@@ -214,7 +214,9 @@ export function asyncLoadingWrapGenerator(
           loading.dismiss();
         }
       };
+      let before_dismiss = null;
       const loading_dismiss = (...args) => {
+        before_dismiss && before_dismiss();
         if (id_info) {
           if (id_info.promises.has(res)) {
             // 从集合中移除
@@ -230,19 +232,31 @@ export function asyncLoadingWrapGenerator(
       };
       if ('PAGE_STATUS' in this) {
         // 还没进入页面
+        const run_loading_present = () => {
+          before_dismiss = null;
+          loading_present();
+          this.event.once('didLeave', loading_dismiss);
+        };
         if (this.PAGE_STATUS === PAGE_STATUS.WILL_ENTER) {
           // 等到进入页面后再开始调用
-          this.event.once('didEnter', loading_present);
+          this.event.once('didEnter', run_loading_present);
+          before_dismiss = () => {
+            this.event.off('didEnter', run_loading_present);
+          };
+        } else if (this.PAGE_STATUS === PAGE_STATUS.DID_ENTER) {
+          run_loading_present();
         } else {
-          loading_present();
+          debugger;
         }
-        this.event.once('didLeave', loading_dismiss);
       } else {
+        console.warn('loading修饰器请与FirstLevelPage或者其子类搭配使用最佳');
         loading_present();
       }
 
       return res
         .then(data => {
+          // 这里的触发可能会比didEnter的触发更早
+          // 所以应该在执行的时候移除掉present的显示
           loading_dismiss();
           return data;
         })

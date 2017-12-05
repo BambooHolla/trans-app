@@ -99,11 +99,12 @@ export class PicassoApp {
 
         const targetPage = status ? TabsPage : LoginPage; //EntrancePage;
         if (!this.rootPage) {
-          if (location.hash.length > 2) {
-            // 如果有hash，使用默认的deeplink来进行路由
-          } else {
-            this.rootPage = targetPage;
-          }
+          // if (location.hash.length > 2) {
+          //   // 如果有hash，使用默认的deeplink来进行路由
+          // } else {
+          //   this.rootPage = targetPage;
+          // }
+          this.rootPage = targetPage;
 
           // rootPage 为空，表示刚刚进入 app ，
           // 需要在登录状态确认后进行初始化操作。

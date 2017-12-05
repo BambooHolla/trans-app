@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 import 'rxjs/add/operator/map';
+import { AppSettingProvider } from '../../bnlc-framework/providers/app-setting/app-setting';
+import { AppFetchProvider } from '../../bnlc-framework/providers/app-fetch/app-fetch';
 
 /*
   Generated class for the AccountServiceProvider provider.
@@ -10,9 +12,11 @@ import 'rxjs/add/operator/map';
 */
 @Injectable()
 export class AccountServiceProvider {
-
-  constructor(public http: Http) {
-    console.log('Hello AccountServiceProvider Provider');
-  }
-
+	constructor(
+		public http: Http,
+		public appSeting: AppSettingProvider,
+		public fetch: AppFetchProvider
+	) {
+	}
+	readonly GET_ACCOUNT_ASSETS = this.appSeting.APP_URL('/account/accounts/assets')
 }
