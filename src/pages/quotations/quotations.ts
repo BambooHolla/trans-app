@@ -326,9 +326,9 @@ export class QuotationsPage {
 	 * 获取多支行情数据
 	 * TODO:迁移到数据中心处理
 	 */
-	subscribeRealtimeReports(){
+	async subscribeRealtimeReports(){
+		const srcTraderList = await this.appDataService.traderListPromise;
 		// const traderList = [...this.appDataService.traderList.keys()]
-		const srcTraderList = this.appDataService.traderList
 		const traderIdList = []
 		const traderList = []
 		srcTraderList.forEach((value,key,map)=>{

@@ -76,11 +76,11 @@ export class TradeInterfacePage {
   };
 
   //初始化数据,尽量保证不包含异步操作
-  initData() {
+  async initData() {
     console.log('trade-interface')
 
-    const traderList = []
-    this.appDataService.traderList.forEach((value, key, map) => {
+    const traderList = [];
+    (await this.appDataService.traderListPromise).forEach((value, key, map) => {
       traderList.push(value)
     })
     this.traderList = traderList
@@ -318,11 +318,12 @@ export class TradeInterfacePage {
   // 订阅实时数据。
   // 由于 DataSubscriber 装饰器的作用，
   // 会在 ionViewDidEnter() 事件处理函数中被自动调用。
-  doSubscribe(){
+  async doSubscribe(){
     // window['temp_traderId'] = this.traderId
     const traderId = this.traderId;
     console.log('trade-interface:(doSubscribe) ', traderId)
     if (traderId){
+      const traderList = await this.appDataService.traderListPromise;
       const trader = this.appDataService.traderList.get(traderId)
       // this._baseData$ = this.stockDataService.subscibeRealtimeData(traderId, 'price', this.viewDidLeave$)
       this._baseData$ = trader.marketRef

@@ -1,6 +1,12 @@
 import { Injectable } from '@angular/core';
 
-import { Http, Headers, RequestOptions, URLSearchParams, RequestMethod } from '@angular/http';
+import {
+  Http,
+  Headers,
+  RequestOptions,
+  URLSearchParams,
+  RequestMethod
+} from '@angular/http';
 
 // import { Observable } from 'rxjs/Observable';
 // import { BehaviorSubject } from 'rxjs/BehaviorSubject';
@@ -18,18 +24,18 @@ import { Observable } from 'rxjs/Observable';
 
 @Injectable()
 export class TradeService {
-  
   public purchase(
     equityCode,
     password,
     consignmentType,
     consignmentCount,
-    consignmentPrice,
-  ): Promise<string | boolean | AnyObject > {
+    consignmentPrice
+  ): Promise<string | boolean | AnyObject> {
     let promise: Promise<any>;
-    if (!this.appSettings.SIM_DATA){
+    if (!this.appSettings.SIM_DATA) {
       // console.log('start trade')
-      const url = `${this.appSettings.SERVER_URL + this.appSettings.SERVER_PREFIX}/transaction/entrusts/create`
+      const url = `${this.appSettings.SERVER_URL +
+        this.appSettings.SERVER_PREFIX}/transaction/entrusts/create`;
       const headers = new Headers({ 'Content-Type': 'application/json' });
       headers.append('X-AUTH-TOKEN', this.appDataService.token);
 
@@ -53,13 +59,13 @@ export class TradeService {
       // 标示：是否为市价单(true), 限价单false
 
       let data = {
-        type: '00' + (consignmentType ? "1" : "2"),// 001买入，002卖出
-        operationType: '002',//string *001现金对产品交易、002产品对产品交易
-        productId: equityCode.split('-')[1],//equityCode,
-        priceProductId: equityCode.split('-')[0],//string,标的（标价产品id），产品对产品交易时有
-        price: consignmentPrice,// 价格
-        amount: +consignmentCount *this.appSettings.Product_Price_Rate,// 数量
-      }
+        type: '00' + (consignmentType ? '1' : '2'), // 001买入，002卖出
+        operationType: '002', //string *001现金对产品交易、002产品对产品交易
+        productId: equityCode.split('-')[1], //equityCode,
+        priceProductId: equityCode.split('-')[0], //string,标的（标价产品id），产品对产品交易时有
+        price: consignmentPrice, // 价格
+        amount: +consignmentCount * this.appSettings.Product_Price_Rate // 数量
+      };
 
       promise = this.http
         .post(url, data, options)
@@ -72,22 +78,21 @@ export class TradeService {
           //     委托id
           //   }
           // }
-          const data = response.json()
+          const data = response.json();
           // console.log('response: ', response)
           // console.log('data: ', data)
-          if (!data.error){
+          if (!data.error) {
             // 下单请求成功提交后，
             // 刷新个人资金账户情况与持股情况。
-            this.personalDataService.requestFundData()
-              .catch(() => {});
-            this.personalDataService.requestEquityDeposit()
-              .catch(() => {});
+            this.personalDataService.requestFundData().catch(() => {});
+            this.personalDataService.requestEquityDeposit().catch(() => {});
 
             return Promise.resolve(data.data);
           } else {
             return Promise.reject(data.error);
           }
-        }).catch(error => {
+        })
+        .catch(error => {
           console.log(error);
           let formated_error = this._errorHandler(error, true);
           if (!formated_error) {
@@ -98,23 +103,23 @@ export class TradeService {
             formated_error = this._errorHandler(err);
           }
           return Promise.reject(formated_error);
-        })
+        });
     } else {
       promise = new Promise((resolve, reject) => {
         this.alertService.presentLoading('处理中...');
         const failed = Math.random() >= 0.5;
         const interval = failed ? 5e3 : 1e3;
         setTimeout(() => {
-          if (failed){
+          if (failed) {
             reject('随机失败');
           } else {
-            resolve({token: 'test'})
+            resolve({ token: 'test' });
           }
         }, interval);
       });
     }
 
-    return promise
+    return promise;
   }
 
   constructor(
@@ -124,49 +129,44 @@ export class TradeService {
     public appDataService: AppDataService,
     public personalDataService: PersonalDataService,
     public socketioService: SocketioService,
-    public alertService: AlertService,
-  ){
-
-  }
+    public alertService: AlertService
+  ) {}
 
   public getTradeList() {
-    const path = `/transactionengine/traders`
+    const path = `/transactionengine/traders`;
 
-    this.appService.request(RequestMethod.Get, path, undefined, true)
-      .then(data => {
+    this.appService
+      .request(RequestMethod.Get, path, undefined, true)
+      .then(async data => {
         console.log('getTradeList: ', data);
-        const traderList = this.appDataService.traderList
+        const traderList = await this.appDataService.traderList;
 
         if (!data) {
-          return Promise.reject(new Error('data missing'))
+          return Promise.reject(new Error('data missing'));
         } else if (data.error) {
-          return Promise.reject(new Error(data.error))
+          return Promise.reject(new Error(data.error));
         } else {
           (data as any[])
             // .filter(item =>
             //   item
             // )
-            .map(({
-              priceId,
-              productId,
-              buyFee,
-              saleFee,
-            }) => {
-              const product = this.appDataService.products.get(productId)
-              const price = this.appDataService.products.get(priceId)
+            .map(async ({ priceId, productId, buyFee, saleFee }) => {
+              const products = await this.appDataService.productsPromise;
+              const product = products.get(productId);
+              const price = products.get(priceId);
 
-              traderList.set(`${priceId}-${productId}`,{
+              traderList.set(`${priceId}-${productId}`, {
                 traderId: `${priceId}-${productId}`,
                 traderName: `${product.productName} / ${price.productName}`,
-                reportRef: new Observable(),//用来存放报表中间管道
+                reportRef: new Observable(), //用来存放报表中间管道
                 reportArr: [],
-                marketRef: new BehaviorSubject(undefined),//用来存放交易中间管道
+                marketRef: new BehaviorSubject(undefined), //用来存放交易中间管道
                 buyFee,
-                saleFee,
-              })
-            })
+                saleFee
+              });
+            });
         }
-        return Promise.resolve(traderList) 
+        return Promise.resolve(traderList);
       })
       .catch(err => {
         console.log('getTradeList error: ', err);
