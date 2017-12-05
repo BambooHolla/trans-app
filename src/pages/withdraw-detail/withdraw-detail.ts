@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { SecondLevelPage } from '../../bnlc-framework/SecondLevelPage';
 
 /**
  * Generated class for the WithdrawDetailPage page.
@@ -8,16 +9,11 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
  * on Ionic pages and navigation.
  */
 @Component({
-  selector: 'page-withdraw-detail',
-  templateUrl: 'withdraw-detail.html',
+	selector: 'page-withdraw-detail',
+	templateUrl: 'withdraw-detail.html'
 })
-export class WithdrawDetailPage {
-
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
-  }
-
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad WithdrawDetailPage');
-  }
-
+export class WithdrawDetailPage extends SecondLevelPage {
+	constructor(public navCtrl: NavController, public navParams: NavParams) {
+		super(navCtrl, navParams);
+	}
 }

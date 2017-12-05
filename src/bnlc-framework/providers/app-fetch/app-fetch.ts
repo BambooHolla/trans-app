@@ -144,6 +144,7 @@ export class AppFetchProvider {
     if (!without_token) {
       const headers = options.headers || (options.headers = new Headers());
       headers.append('X-AUTH-TOKEN', this._user_token);
+      headers.append('x-bnqkl-platform', '002');
     }
     const params = options.params as { [key: string]: any };
     if (params && params.constructor === Object) {

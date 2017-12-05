@@ -145,6 +145,7 @@ import { ModifyPwdPageModule } from '../pages/modify-pwd/modify-pwd.module';
 import { RegisterPageModule } from '../pages/register/register.module';
 import { RealtimeReportComponent } from '../components/realtime-report/realtime-report';
 import { AccountServiceProvider } from '../providers/account-service/account-service';
+import { KjuaQrcodeComponent } from '../components/kjua-qrcode/kjua-qrcode';
 // import { BankCode2NamePipe } from '..\pipes\bank-code2-name/bank-code2-name';
 // import { FileService } from '../providers/file.service';
 // import { IsLoadingDirective } from '../directives/is-loading/is-loading';
@@ -238,7 +239,8 @@ import { AccountServiceProvider } from '../providers/account-service/account-ser
         LoopSlidesBetaComponent,
         RealtimeReportComponent,
         QuantityConversionPipe,
-        PriceConversionPipe
+        PriceConversionPipe,
+        KjuaQrcodeComponent
         // BankCode2NamePipe,
         // IsLoadingDirective,
     ],
