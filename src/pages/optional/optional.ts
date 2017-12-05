@@ -1,6 +1,6 @@
 import { Component, ViewChild, OnDestroy, AfterViewInit } from '@angular/core';
 
-import { NavController, Refresher } from 'ionic-angular';
+import { NavController, NavParams, Refresher } from 'ionic-angular';
 
 import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
@@ -12,12 +12,14 @@ import { AppSettings } from '../../providers/app-settings';
 import { PersonalDataService } from '../../providers/personal-data-service';
 import { StockDataService } from '../../providers/stock-data-service';
 import { AppDataService } from '../../providers/app-data-service';
+import { SecondLevelPage } from '../../bnlc-framework/SecondLevelPage';
 
 @Component({
   selector: 'page-optional',
   templateUrl: 'optional.html'
 })
-export class OptionalPage implements OnDestroy, AfterViewInit {
+export class OptionalPage extends SecondLevelPage
+  implements OnDestroy, AfterViewInit {
   optionalStockDetailList: any[] = [];
   personalAssets: object = {};
   scrollEventRemover: any;
@@ -39,12 +41,13 @@ export class OptionalPage implements OnDestroy, AfterViewInit {
 
   constructor(
     public navCtrl: NavController,
+    public navParams: NavParams,
     public appSettings: AppSettings,
     public appDataService: AppDataService,
     public personalDataService: PersonalDataService,
-    public stockDataService: StockDataService
-  ) // public translate: TranslateService,
-  {
+    public stockDataService: StockDataService // public translate: TranslateService,
+  ) {
+    super(navCtrl, navParams);
   }
 
   //标题栏滚动监听
@@ -79,8 +82,8 @@ export class OptionalPage implements OnDestroy, AfterViewInit {
       this.initPersonalStockListSubscriber();
     }
   }
-
-  ionViewDidEnter() {
+  @OptionalPage.didEnter
+  onIonViewDidEnter() {
     this.viewDidLeave.next(false);
 
     this.requestAssets();
@@ -104,7 +107,8 @@ export class OptionalPage implements OnDestroy, AfterViewInit {
     // this.refreshOptionalStockDetailList();
   }
 
-  ionViewDidLeave() {
+  @OptionalPage.didLeave
+  onIonViewDidLeave() {
     this.viewDidLeave.next(true);
     this.lastRealtimeStockList = [];
   }
