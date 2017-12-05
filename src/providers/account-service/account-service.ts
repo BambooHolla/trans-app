@@ -64,7 +64,7 @@ export class AccountServiceProvider {
 		});
 	}
 
-	productList: AsyncBehaviorSubject<any[]>;
+	productList: AsyncBehaviorSubject<ProductModel[]>;
 	@TB_AB_Generator('productList')
 	productList_Executor(promise_pro) {
 		return promise_pro.follow(this.getProducts(0, 30));
@@ -78,7 +78,7 @@ export class AccountServiceProvider {
 		productName?: string,
 		productIdArr?: string
 	) {
-		return this.fetch.post<any[]>(this.GET_PRODUCTS, {
+		return this.fetch.post<ProductModel[]>(this.GET_PRODUCTS, {
 			page,
 			pageSize,
 			productType,
@@ -318,3 +318,31 @@ export enum DealResult {
      */
 	Other = '999'
 }
+export type ProductModel = {
+	_id: string;
+	productId: string;
+	productHouseId: string;
+	platformType: string;
+	productName: string;
+	productCover: string;
+	productDetail: string;
+	priceId: string;
+	limitedPriceId: string;
+	bonusId: string;
+	commissionId: string;
+	rateId: string;
+	interestId: string;
+	issuePrice: number;
+	issueQuantity: number;
+	remainQuantity: number;
+	participants: number;
+	issueDate: string;
+	productStatus: string;
+	crtUserId: string;
+	lstModUserId: string;
+	lstModDateTime: string;
+	crtDateTime: string;
+	transactionObjectId: string[];
+	agreementId: string[];
+	cryptoCurrencyCode: string;
+};

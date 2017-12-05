@@ -17,6 +17,7 @@ import { LoginService } from './login-service';
 import { SocketioService } from './socketio-service';
 import { HttpService } from './http-service';
 import { AppService } from './app.service';
+import { AccountServiceProvider } from '../providers/account-service/account-service';
 
 @Injectable()
 export class StockDataService {
@@ -91,6 +92,7 @@ export class StockDataService {
     public socketioService: SocketioService,
     public httpService: HttpService,
     public loginService: LoginService,
+    public accountService:AccountServiceProvider
   ){
     this.initTradeDay();
     this.startTradeDayCheckTimer();
@@ -603,7 +605,7 @@ export class StockDataService {
     return observableMap.get(code).refCounted;
   }
 
-  requestStockBaseData(code: string): Promise<any> {
+  async requestStockBaseData(code: string): Promise<any> {
     // console.log('requestStockBaseData', code);
 
     if (this.appSettings.SIM_DATA){
@@ -625,29 +627,32 @@ export class StockDataService {
     //     console.log('requestStockBaseData error: ', err.message || err);
     //     return Promise.reject(err);
     //   });
-    const path = `/product/product`;
-    const params = {
-      // "platformType": "002",
-      // "productStatus": "002",
-      "productIdArr": [
-        code
-      ],
-    }
-    console.log('requestStockBaseData: ', code)
+    const productList = await this.accountService.productList.getPromise();
+    const product = productList.find(product => product.productId === code);
+    this.parseStockBaseData(code, product);
+    // const path = `/product/product`;
+    // const params = {
+    //   // "platformType": "002",
+    //   // "productStatus": "002",
+    //   "productIdArr": [
+    //     code
+    //   ],
+    // }
+    // console.log('requestStockBaseData: ', code)
     
-    return this.appService.request(RequestMethod.Post, path, params, true)
-      .then(data => {
-        console.log('requestStockBaseData: ', data)
-        if (!Array.isArray(data) || !data.length) {
-          return Promise.reject(new Error('requestStockBaseData: data missing!'))
-        }
+    // return this.appService.request(RequestMethod.Post, path, params, true)
+    //   .then(data => {
+    //     console.log('requestStockBaseData: ', data)
+    //     if (!Array.isArray(data) || !data.length) {
+    //       return Promise.reject(new Error('requestStockBaseData: data missing!'))
+    //     }
 
-        this.parseStockBaseData(code, data[0])
-      })
-      .catch(err => {
-        console.log('requestStockBaseData error: ', err)
-        return Promise.reject(err)
-      })
+    //     this.parseStockBaseData(code, data[0])
+    //   })
+    //   .catch(err => {
+    //     console.log('requestStockBaseData error: ', err)
+    //     return Promise.reject(err)
+    //   })
   }
 
   // FID_GQDM  股权代码  C  　  股权代码

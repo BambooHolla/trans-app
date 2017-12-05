@@ -12,9 +12,15 @@ import { AsyncBehaviorSubject, Executor } from '../RxExtends';
 */
 @Injectable()
 export class AppSettingProvider {
-  static SERVER_URL = 'http://bjs.bnqkl.cn/api/v1/bngj/';
+  static SERVER_URL = 'http://bjs.bnqkl.cn';
+  static SERVER_PREFIX = '/api/v1/bngj';
   APP_URL(path: string) {
-    return AppSettingProvider.SERVER_URL + path;
+    return (
+      AppSettingProvider.SERVER_URL +
+      AppSettingProvider.SERVER_PREFIX +
+      '/' +
+      path
+    );
   }
   constructor(public http: Http) {
     console.log('Hello AppSettingProvider Provider');
@@ -74,15 +80,15 @@ function getQueryVariable(variable) {
 const server_host =
   getQueryVariable('SERVER_HOST') || localStorage.getItem('SERVER_HOST') || '';
 if (location.hostname === 'dev-bnlc.bnqkl.cn') {
-  AppSettingProvider.SERVER_URL = 'http://dev-bnlc.bnqkl.cn:40001/api/v1/bngj/';
+  AppSettingProvider.SERVER_URL = 'http://dev-bnlc.bnqkl.cn:40001';
 } else if (server_host.startsWith('HOME')) {
   let home_ip = location.hostname;
   if (server_host.startsWith('HOME:')) {
     home_ip = server_host.replace('HOME:', '').trim();
   }
-  AppSettingProvider.SERVER_URL = `http://${home_ip}:40001/api/v1/bngj/`;
+  AppSettingProvider.SERVER_URL = `http://${home_ip}:40001`;
 } else if (location.hostname === 'wzx-bnlc.bnqkl.cn' || server_host === 'WZX') {
-  AppSettingProvider.SERVER_URL = 'http://192.168.16.216:40001/api/v1/bngj/';
+  AppSettingProvider.SERVER_URL = 'http://192.168.16.216:40001';
 }
 console.log(
   '%cSERVER_URL:',
