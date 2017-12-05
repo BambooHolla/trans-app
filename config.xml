@@ -3,7 +3,7 @@
     <name>Picasso</name>
     <description>Picasso APP</description>
     <author email="team@bnqkl.cn" href="http://www.bnqkl.cn/">本能管家</author>
-    <content src="index.html" />
+    <content original-src="index.html" src="http://192.168.16.196:8100" />
     <access origin="*" />
     <allow-navigation href="http://ionic.local/*" />
     <allow-navigation href="http://*/*" />
