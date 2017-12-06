@@ -10,6 +10,7 @@ log.txt
 *.sublime-project
 *.sublime-workspace
 .vscode/
+.sourcemaps/
 npm-debug.log*
 
 #vscode cordova debug插件生成的文件夹
