@@ -12,6 +12,7 @@ import { TradeService } from '../../providers/trade-service';
 import { AppDataService } from '../../providers/app-data-service';
 import { AlertService } from '../../providers/alert-service';
 import { SocketioService } from "../../providers/socketio-service";
+import { EntrustServiceProvider } from "../../providers/entrust-service";
 
 @Component({
   selector: 'page-trade-interface',
@@ -29,6 +30,7 @@ export class TradeInterfacePage {
   private traderId: string = this.appSettings.SIM_DATA ?
     '000001' : undefined;
   private reportArr = []
+  private entrusts = []
 
   private cards: string[] = ['满仓', '1/2仓', '1/3仓', '1/4仓', '1手', '5手', '10手'];
   private buySaleActiveIndex: BehaviorSubject<number> = new BehaviorSubject(0);
@@ -123,6 +125,7 @@ export class TradeInterfacePage {
     public personalDataService: PersonalDataService,
     public tradeService: TradeService,
     public alertService: AlertService,
+    public entrustServiceProvider: EntrustServiceProvider,
   ) {    
     this.traderId = this.navParams.get('stockCode') || this.navParams.data || this.traderId;
 
@@ -280,7 +283,7 @@ export class TradeInterfacePage {
     this.subscribeTradeData()
 
     this.initData();
-
+    this.getProcessEntrusts();
     this.doSubscribe();
     // this.liquiddata = [{
     //   name: '1机',
@@ -389,10 +392,52 @@ export class TradeInterfacePage {
     }
   }
 
+  cancelEntrust(entrustId){
+    //todo:提示是否撤单
+    this.entrustServiceProvider.cancelEntrust(entrustId)
+      .then(data => {
+        console.log('cancelEntrust data', data)
+
+        if (data && data.status) {
+          let toast = this.toastCtrl.create({
+            message: `${data.message}`,
+            duration: 3000,
+            position: 'middle'
+          })
+          toast.present()
+        } else {
+          return Promise.reject(data);
+        }
+      })
+      .catch(err => {
+        console.log('cancelEntrust err',err)
+        if (err && err.message) {
+          let toast = this.toastCtrl.create({
+            message: `${err.message}`,
+            duration: 3000,
+            position: 'middle'
+          })
+          toast.present()
+        } else {
+          console.log('cancelEntrust err:', err)
+        }
+      });
+  }
+
+  getProcessEntrusts(){
+    this.entrustServiceProvider.getEntrustsByTraderId(this.traderId,'001,002')
+      .then(data=>{
+        console.log('getProcessEntrusts data:',data)
+        this.entrusts = data
+      })
+      .catch(() => console.log('getProcessEntrusts err'))
+  }
+
   changeTrader($event){
     console.log('traderChanged', this.traderId)
     this.reportArr = []
     this.doSubscribe()
+    this.getProcessEntrusts()
   }
   confirmChangeTradingMode(){
     console.log('confirmChangeTradingMode')
