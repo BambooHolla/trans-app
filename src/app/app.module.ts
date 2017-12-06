@@ -146,6 +146,7 @@ import { RegisterPageModule } from '../pages/register/register.module';
 import { RealtimeReportComponent } from '../components/realtime-report/realtime-report';
 import { AccountServiceProvider } from '../providers/account-service/account-service';
 import { KjuaQrcodeComponent } from '../components/kjua-qrcode/kjua-qrcode';
+import { EntrustServiceProvider } from '../providers/entrust-service';
 // import { BankCode2NamePipe } from '..\pipes\bank-code2-name/bank-code2-name';
 // import { FileService } from '../providers/file.service';
 // import { IsLoadingDirective } from '../directives/is-loading/is-loading';
@@ -419,11 +420,12 @@ import { KjuaQrcodeComponent } from '../components/kjua-qrcode/kjua-qrcode';
         // RiseOrFallPipe,
         // NumReplacePipe,
         // PositiveSignPipe,
-        NoticeListModel,
-        AccountServiceProvider,
         /*from BNLC framework*/
         AppSettingProvider,
-        AppFetchProvider
+        AppFetchProvider,
+        NoticeListModel,
+        EntrustServiceProvider,
+        AccountServiceProvider, 
     ]
 })
 export class AppModule {}

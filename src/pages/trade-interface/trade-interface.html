@@ -185,4 +185,42 @@
 			</div>
 		</div>
 	</div>
+
+	<div *ngFor="let item of entrusts" class="entrusts">
+		<div class="header">
+			<span class="title">委托单</span>
+			<span class="goto-history">
+				<ion-icon name=""></ion-icon>
+				<font>历史记录</font>
+			</span>		
+		</div>
+		<div class="entrust">
+			<div class="header">
+				<div class="type" 
+					[class.buy]="item.operationType == '001'"
+					[class.sale]="item.operationType == '002'"
+					>
+					{{item.operationType == '001'? '买':
+						item.operationType == '002'? '卖':''
+					}}
+				</div>
+				<div class="date">{{item.entrustTime | date:'yyyy-mm-dd'}}</div>
+				<button (click)="cancelEntrust(item.id)">撤单</button>
+			</div>
+			<div class="params">
+				<div class="col">
+					<span class="name">委托价格</span>
+					<span class="value">{{item.commitPrice}}</span>
+				</div>
+				<div class="col">
+					<span class="name">委托量</span>
+					<span class="value">{{item.commitAmount |quantityConversion}}</span>
+				</div>
+				<div class="col">
+					<span class="name">剩余量</span>
+					<span class="value">{{item.surplusAmount |quantityConversion}}</span>
+				</div>
+			</div>
+		</div>
+	</div>
 </ion-content>

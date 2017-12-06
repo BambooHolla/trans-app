@@ -369,6 +369,107 @@ page-trade-interface {
 		}
 	}
 
+	.entrusts{
+		background-color: color($colors,background-darker);
+		margin-top: 1rem;
+		padding-bottom: 1.6rem;
+		&>.header{
+			*{
+			 line-height: 4rem;
+			}
+			height: 4rem;
+			padding: 0 2.4rem 0 1.8rem;
+			border-bottom: 1px dashed color($colors,middark);
+			.title{
+				font-weight: 600;
+				font-size: 1.5rem;
+				color: color($colors,special);
+			}
+			.goto-history{
+				height: 1.4rem;
+				color: color($colors,middark);
+				float: right;
+				ion-icon{
+					width: 1.3rem;
+				}
+				font{
+					font-size: 1.3rem;
+				}
+			}
+		}
+		.entrust{
+			padding: 1.2rem 2.6rem 0 2.3rem;
+			&:last-child{
+				.params{
+					border-bottom: 0;
+				}
+			}
+			.header{
+				*{
+					display: inline-block;
+				}
+				.type{
+					width: 3.4rem;
+					height: 3.4rem;
+					line-height: 3.4rem;
+					border: 1px solid color($colors,special);
+					border-radius: 50%;
+					font-size: 1.4rem;
+					text-align: center;
+					&.buy{
+						color:white;
+						background-color: color($colors,special);
+					}
+					&.sale{
+						color: color($colors,special);	
+					}
+				}
+				.date{
+					color: color($colors,middark);
+					margin-left: .8rem;
+					height: .9rem;
+					font-size: .9rem;
+					line-height: .9rem;
+				}
+				button{
+					float: right;
+					height: 2.5rem;
+					width: 5.2rem;
+					background-color: transparent;
+					border: 1px solid color($colors,special);
+					border-radius: .5rem;
+					vertical-align: middle;
+					color: color($colors,special);
+					font-size: 1.25rem;
+				}
+			}
+			.params{				
+				display: flex;
+				justify-content: space-between;
+				margin-top: 1.4rem;
+				padding-bottom: .6rem;
+				border-bottom: .5px solid color($colors,background);
+				.col{
+					padding: 0;
+					.name{
+						display: block;
+						font-size: 1.2rem;
+						color: color($colors,middark);
+						padding-bottom: .4rem;
+					}
+					.value{
+						font-size: .9rem;
+						color: color($colors,special);
+					}
+					&:last-child{
+						min-width: fit-content;
+						flex-grow: 0;
+					}
+				}
+			}
+		}
+	}
+
 }
 	// .popover-content{
 	// 	// width: 100% !important;
