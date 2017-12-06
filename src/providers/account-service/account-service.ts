@@ -59,7 +59,7 @@ export class AccountServiceProvider {
 	}
 
 	getRechargeAddress(productId: string) {
-		return this.fetch.get<any[]>(this.GET_RECHARGE_ADDRESS, {
+		return this.fetch.get<RechargeAddressModel>(this.GET_RECHARGE_ADDRESS, {
 			search: { productId }
 		});
 	}
@@ -125,17 +125,47 @@ export class AccountServiceProvider {
 			paymentAccountRemark
 		});
 	}
+	withdrawAddressTypeList: AsyncBehaviorSubject<
+		{ name: string; type: string }[]
+	>;
+	@TB_AB_Generator('withdrawAddressTypeList')
+	withdrawAddressTypeList_Executor(promise_pro) {
+		return promise_pro.follow(this.getWithdrawAddressTypeList());
+	}
 	getWithdrawAddressTypeList() {
-		return this.fetch.get<any[]>(this.GET_WITHDRAW_ADDRESS_TYPE_LIST);
+		return this.fetch
+			.get<any>(this.GET_WITHDRAW_ADDRESS_TYPE_LIST)
+			.then(dict => {
+				const res = [];
+				for (let name in dict) {
+					res.push({
+						name,
+						type: dict[name]
+					});
+				}
+				return res;
+			});
+	}
+	withdrawAddressList: AsyncBehaviorSubject<
+		any[]
+	>;
+	@TB_AB_Generator('withdrawAddressList')
+	withdrawAddressList_Executor(promise_pro) {
+		return promise_pro.follow(this.getWithdrawAddressList());
 	}
 	getWithdrawAddressList() {
-		return this.fetch
-			.get<any[]>(this.GET_WITHDRAW_ADDRESS_TYPE_LIST)
-			.then(type_list =>
-				Promise.all(
-					type_list.map(type => this.getWithdrawAddressDetail(type))
-				)
+		return this.getWithdrawAddressTypeList().then(type_list => {
+			return Promise.all(
+				type_list.map(type => this.getWithdrawAddressDetail(type))
 			);
+		});
+		// return this.fetch
+		// 	.get<any[]>(this.GET_WITHDRAW_ADDRESS_TYPE_LIST)
+		// 	.then(type_list =>
+		// 		Promise.all(
+		// 			type_list.map(type => this.getWithdrawAddressDetail(type))
+		// 		)
+		// 	);
 	}
 	getWithdrawAddressDetail(type: string) {
 		return this.fetch.get(this.GET_WITHDRAW_ADDRESS_DETAIL, {
@@ -144,6 +174,16 @@ export class AccountServiceProvider {
 	}
 	submitWithdrawAppply() {
 		return this.fetch.post(this.SUBMIT_WITHDRAW_APPPLY);
+	}
+
+	static getDealResultDetail(dealResult: DealResult) {
+		if (dealResult == DealResult.Preparing) return '准备中';
+		if (dealResult == DealResult.InAudit) return '审核中';
+		if (dealResult == DealResult.InConfirmation) return '确认中';
+		if (dealResult == DealResult.Finish) return '完成';
+		if (dealResult == DealResult.Failed) return '失败';
+		if (dealResult == DealResult.Expired) return '过期';
+		if (dealResult == DealResult.Other) return '其他';
 	}
 }
 
@@ -345,4 +385,20 @@ export type ProductModel = {
 	transactionObjectId: string[];
 	agreementId: string[];
 	cryptoCurrencyCode: string;
+};
+export type RechargeAddressModel = {
+	id: number;
+	customerId: string;
+	realname: any;
+	paymentCategory: string;
+	paymentType: string;
+	paymentBelong: string;
+	paymentOrganization: string;
+	paymentAccountNumber: string;
+	paymentAccountRemark: string;
+	bindAt: string;
+	bindStatus: string;
+	unbindAt: any;
+	createdAt: string;
+	updatedAt: string;
 };

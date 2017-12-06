@@ -32,7 +32,7 @@ export class WithdrawDetailPage extends SecondLevelPage {
 	@asyncCtrlGenerator.error('获取账户信息出错')
 	async getAccountsInfo() {
 		this.productInfo = this.navParams.get('productInfo');
-		this.withdraw_address_list = await this.accountService.getWithdrawAddressList();
+		this.withdraw_address_list = await this.accountService.withdrawAddressList.getPromise();
 		return this.withdraw_address_list;
 	}
 }

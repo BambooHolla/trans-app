@@ -33,12 +33,18 @@
 				<ion-icon name="arrow-forward" ></ion-icon>
 			</button>
 		</ion-item>
-		<ion-item-divider class="right-link" navPush="add-address">添加新地址</ion-item-divider>
+		<ion-item-divider class="left-link" (click)="routeTo('add-address')">
+			<ion-icon name="添加"></ion-icon>
+			添加新地址
+		</ion-item-divider>
 		<ion-item>
 			<ion-label color="primary">提币数额</ion-label>
 			<ion-input placeholder="请填写提币数额" type="number"></ion-input>
 		</ion-item>
-		<ion-item-divider class="right-link">限额说明</ion-item-divider>
+		<ion-item-divider class="left-link">
+			<ion-icon name="￥✏"></ion-icon>
+			限额说明
+		</ion-item-divider>
 		<ion-item>
 			网络转账费用
 			<span item-end class="transfer-expenses">{{0.01|number:'1.4-4'}}ETH</span>
@@ -48,7 +54,7 @@
 		<!-- </ion-item> -->
 		<ion-item>
 			<ion-label color="primary">资金密码</ion-label>
-			<ion-input placeholder="请输入资金密码"></ion-input>
+			<ion-input placeholder="请输入资金密码" type="password"></ion-input>
 		</ion-item>
 		<ion-item class="follow-pre-item">
 			<button class="submit-btn" ion-button color="special">确认提现</button>

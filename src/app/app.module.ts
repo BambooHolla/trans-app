@@ -147,6 +147,7 @@ import { RealtimeReportComponent } from '../components/realtime-report/realtime-
 import { AccountServiceProvider } from '../providers/account-service/account-service';
 import { KjuaQrcodeComponent } from '../components/kjua-qrcode/kjua-qrcode';
 import { EntrustServiceProvider } from '../providers/entrust-service';
+import { FsProvider } from '../providers/fs/fs';
 // import { BankCode2NamePipe } from '..\pipes\bank-code2-name/bank-code2-name';
 // import { FileService } from '../providers/file.service';
 // import { IsLoadingDirective } from '../directives/is-loading/is-loading';
@@ -422,10 +423,14 @@ import { EntrustServiceProvider } from '../providers/entrust-service';
         // PositiveSignPipe,
         /*from BNLC framework*/
         AppSettingProvider,
+<<<<<<< HEAD
         AppFetchProvider,
         NoticeListModel,
         EntrustServiceProvider,
         AccountServiceProvider, 
+=======
+        AppFetchProvider, FsProvider
+>>>>>>> 更新recharge-detal和Withdraw-detail，与设计图对齐
     ]
 })
 export class AppModule {}

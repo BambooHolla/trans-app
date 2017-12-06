@@ -154,6 +154,7 @@ export class TradeService {
               const products = await this.appDataService.productsPromise;
               const product = products.get(productId);
               const price = products.get(priceId);
+              console.log('%cGGGG','color:red',productId,priceId,product,price)
 
               traderList.set(`${priceId}-${productId}`, {
                 traderId: `${priceId}-${productId}`,
