@@ -80,7 +80,7 @@ import { CameraModal } from '../modals/camera/camera';
 import { AppSettings } from '../providers/app-settings';
 import { AppDataService } from '../providers/app-data-service';
 import { HttpService } from '../providers/http-service';
-import { AppService } from '../providers/app.service.ts';
+import { AppService } from '../providers/app.service';
 import { SocketioService } from '../providers/socketio-service';
 import { LoginService } from '../providers/login-service';
 import { RegisterService } from '../providers/register-service';

@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
-import 'rxjs/add/operator/map';
-import { BehaviorSubject, AsyncSubject } from 'rxjs';
+// import 'rxjs/add/operator/map';
 import { AsyncBehaviorSubject, Executor } from '../RxExtends';
+import { BehaviorSubject } from "rxjs/BehaviorSubject";
 
 /*
   Generated class for the AppSettingProvider provider.

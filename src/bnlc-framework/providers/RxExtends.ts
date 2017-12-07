@@ -1,6 +1,6 @@
-import { combineAll } from 'rxjs/operator/combineAll';
-import { Observable, BehaviorSubject } from 'rxjs';
+// import { combineAll } from 'rxjs/operator/combineAll';
 import { PromisePro, DelayPromise } from './PromiseExtends';
+import { BehaviorSubject } from "rxjs/Rx";
 export type Executor<T> = (
   // resolve: (value?: T | PromiseLike<T>) => void,
   // reject: (reason?: any) => void,
