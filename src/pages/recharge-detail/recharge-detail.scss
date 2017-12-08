@@ -43,57 +43,167 @@ page-recharge-detail {
 			}
 		}
 	}
+	.scroll-content > .account-assets {
+		display: flex;
+		flex-direction: row;
+		width: 100%;
+		justify-content: space-between;
+		background-color: color($colors, 'alpha-dark');
+		> .assets-item {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			flex-direction: column;
+			flex: 1;
+			padding: 1.5rem;
+			ion-icon {
+				width: 2.8rem;
+				height: 2.8rem;
+				background-size: contain;
+				margin-bottom: 0.8rem;
+				background-repeat: no-repeat;
+				background-position: center;
+			}
+			ion-icon[name='可用余额'] {
+				background-image: url('../assets/icon/可用余额.png');
+			}
+			ion-icon[name='冻结余额'] {
+				background-image: url('../assets/icon/冻结余额.png');
+			}
+			.sub-title {
+				font-size: 1.4rem;
+				color: color($colors, 'lightdark');
+			}
+			.amount {
+				font-size: 1.6rem;
+				color: color($colors, 'special');
+			}
+		}
+	}
 	.scroll-content > .recharge-address {
+		margin-top: 1rem;
 		display: flex;
 		flex-direction: column;
 		padding: 1rem;
 		background-color: color($colors, 'alpha-dark');
-		> .title {
-			align-items: flex-start;
-			font-size: 1.6rem;
-			padding-bottom: 0.4rem;
+		> .title-bar {
+			width: 100%;
+			display: flex;
+			flex-direction: row;
+			justify-content: space-between;
+			align-items: center;
+			.title {
+				display: flex;
+				font-size: 1.6rem;
+				padding-bottom: 0.4rem;
+				flex-direction: row;
+				align-items: center;
+				ion-icon[name='￥+'] {
+					width: 1.8rem;
+					height: 1.8rem;
+					background-size: contain;
+					background-repeat: no-repeat;
+					background-position: center;
+					background-image: url('../assets/icon/￥+.png');
+					margin-right: 0.5rem;
+				}
+			}
+			.copy-button {
+				padding: 0.4rem;
+				border-radius: 2rem;
+				height: auto;
+				background-color: color($colors, 'special');
+				font-size: 1.3rem;
+				color: #fff;
+				ion-icon[name='复制'] {
+					width: 1.2rem;
+					height: 1.2rem;
+					background-size: contain;
+					background-repeat: no-repeat;
+					background-position: center;
+					background-image: url('../assets/icon/复制.png');
+					margin-right: 0.3rem;
+				}
+			}
 		}
 		.address-detail {
+			margin-top: 1rem;
 			align-items: center;
 			display: flex;
 			flex-direction: column;
 			justify-content: center;
 			.qrcode-image {
+				border: 0.4rem solid color($colors, 'special');
+				background-color: #fff;
+				border-radius: 50%;
+				width: 12rem;
+				height: 12rem;
+				display: flex;
+				justify-content: center;
+				align-items: center;
 				.qrcode {
+					width: 66%;
+					height: 66%;
 					display: block;
-					width: 12rem;
-					height: 12rem;
 					background: #fff;
 				}
 			}
-			.hash-code,
-			.tip {
-				padding-top: 0.4rem;
+			.hash-code{
+				padding-top: 0.8rem;
 				color: rgba(white, 0.5);
 				padding-bottom: 0.4rem;
-				font-size: 1.5rem;
-				font-weight: lighter;
+				font-size: 1.4rem;
+				/* font-weight: lighter; */
 			}
-			.tip {
-				padding-bottom: 0rem;
-			}
+			/* .hash-code-info {
+				text-align: center;
+				.hash-code,
+				.tip {
+					padding-top: 0.4rem;
+					color: rgba(white, 0.5);
+					padding-bottom: 0.4rem;
+					font-size: 1.5rem;
+					font-weight: lighter;
+				}
+				.tip {
+					padding-bottom: 0rem;
+				}
+			} */
 		}
 	}
 	.scroll-content > .prompt {
+		background-color: color($colors, 'alpha-dark');
+		margin-top: 1rem;
 		padding: 1rem;
-		> .title {
+		/* > .title {
 			font-size: 1.4rem;
 			padding-bottom: 0.4rem;
+		} */
+
+		ion-icon[name='警告'] {
+			width: 1.2rem;
+			height: 1.2rem;
+			background-size: contain;
+			background-repeat: no-repeat;
+			background-position: center;
+			background-image: url('../assets/icon/警告.png');
+			margin-right: 0.3rem;
+			line-height: 1.2rem;
+			display: inline-block;
 		}
 		.content {
 			color: color($colors, 'lightdark');
 			font-size: 1.3rem;
+			line-height: 1.45rem;
 		}
 	}
 	.scroll-content > .recharge-logs {
+		margin-top: 1rem;
 		> .title {
+			background-color: color($colors, 'alpha-dark');
 			padding: 1rem;
 			font-size: 1.3rem;
+			margin-bottom: 1px;
 		}
 		.recharge-log {
 			.base-info {
@@ -106,12 +216,15 @@ page-recharge-detail {
 				.type-name {
 					font-size: 1.5rem;
 					color: color($colors, 'special');
+					width: 28vw;
 				}
 				.time-at {
 					flex: 1;
-					text-align: center;
+					text-align: left;
+					text-indent: 1rem;
 					font-size: 1.2rem;
 					color: #6d6d6d;
+					width: 50vw;
 				}
 				.status {
 					font-size: 1.5rem;
@@ -123,15 +236,34 @@ page-recharge-detail {
 				flex-direction: row;
 				justify-content: space-between;
 				align-items: center;
+				> *:nth-child(n) {
+					position: relative;
+					&::after {
+						right: 0;
+						content: '';
+						display: block;
+						width: 1px;
+						height: 80%;
+						top: 10%;
+						position: absolute;
+						background-color: #222333;
+					}
+				}
+				> *:last-child {
+					&::after {
+						width: 0;
+					}
+				}
 				.recharge-amount,
 				.recharge-to,
 				.recharge-address {
-					box-sizing: border-size;
+					box-sizing: box-sizing;
 					margin: 0.6rem 0;
 					padding: 0 1rem;
-					width: 33vw;
-					flex-grow: 0;
-					flex-shrink: 1;
+					/* min-width: 33vw; */
+					flex-basis: 33vw;
+					flex-grow: 1;
+					flex-shrink: 0;
 					display: flex;
 					flex-direction: column;
 					justify-content: center;
@@ -151,27 +283,10 @@ page-recharge-detail {
 						max-width: 100%;
 					}
 				}
-				.recharge-to {
-					position: relative;
-					padding: 0;
-					&::before,
-					&::after {
-						content: '';
-						display: block;
-						width: 1px;
-						height: 80%;
-						top: 10%;
-						position: absolute;
-						background-color: #222333;
-					}
-					&::before {
-						left: 0;
-					}
-					&::after {
-						right: 0;
-					}
-					// border-left: 1px solid #222333;
-					// border-right: 1px solid #222333;
+				/* .recharge-amount, */
+				.recharge-address {
+					flex-basis: 50vw;
+					flex-shrink: 1;
 				}
 			}
 		}

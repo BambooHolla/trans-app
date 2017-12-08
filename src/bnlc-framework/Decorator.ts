@@ -33,6 +33,7 @@ export function asyncErrorWrapGenerator(
             // 获取隐藏的异常将其抛出
             return Promise.reject(data.__source_err__);
           }
+          return data;
         })
         .catch(err => {
           var err_msg;
