@@ -5,6 +5,7 @@ import {
     ActionSheetController,
     ModalController,
     NavController,
+    NavParams,
     ViewController
 } from 'ionic-angular';
 import { SecondLevelPage } from '../../bnlc-framework/SecondLevelPage'
@@ -19,7 +20,6 @@ import { ImageTakerController } from '../../components/image-taker-controller';
 // import { ImageTaker } from "../../components/image-taker-controller";
 import { FsProvider, FileType } from '../../providers/fs/fs';
 import { AccountServiceProvider } from '../../providers/account-service/account-service';
-import { NavParams } from '../../../node_modules/_ionic-angular@3.9.2@ionic-angular/navigation/nav-params';
 
 @Component({
     selector: 'page-identification',
