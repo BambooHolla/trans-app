@@ -20,7 +20,7 @@ export class AccountServiceProvider {
 		public http: Http,
 		public appSetting: AppSettingProvider,
 		public fetch: AppFetchProvider
-	) {}
+	) { }
 	readonly GET_ACCOUNT_ASSETS = this.appSetting.APP_URL(
 		'account/accounts/assets'
 	);
@@ -43,6 +43,10 @@ export class AccountServiceProvider {
 	readonly SUBMIT_WITHDRAW_APPPLY = this.appSetting.APP_URL(
 		'transaction/externaltransactions/withdraw'
 	);
+
+	readonly SUBMIT_CERTIFICATION = this.appSetting.APP_URL(
+		'user/addCertification'
+	)
 
 	getAcountAssets(
 		accountId?: string,
@@ -127,7 +131,7 @@ export class AccountServiceProvider {
 	}
 	withdrawAddressTypeList: AsyncBehaviorSubject<
 		{ name: string; type: string }[]
-	>;
+		>;
 	@TB_AB_Generator('withdrawAddressTypeList')
 	withdrawAddressTypeList_Executor(promise_pro) {
 		return promise_pro.follow(this.getWithdrawAddressTypeList());
@@ -148,7 +152,7 @@ export class AccountServiceProvider {
 	}
 	withdrawAddressList: AsyncBehaviorSubject<
 		any[]
-	>;
+		>;
 	@TB_AB_Generator('withdrawAddressList')
 	withdrawAddressList_Executor(promise_pro) {
 		return promise_pro.follow(this.getWithdrawAddressList());
@@ -184,6 +188,13 @@ export class AccountServiceProvider {
 		if (dealResult == DealResult.Failed) return '失败';
 		if (dealResult == DealResult.Expired) return '过期';
 		if (dealResult == DealResult.Other) return '其他';
+	}
+
+	submitCertification(certificateNo: string, certificateType: CertificateType, mediaMessage?: string[], realName?: string) {
+		this.fetch.post(this.SUBMIT_CERTIFICATION, {
+			certificateNo,
+			certificateType
+		})
 	}
 }
 
@@ -357,6 +368,10 @@ export enum DealResult {
      * 其他
      */
 	Other = '999'
+}
+export enum CertificateType {
+	二代身份证 = '101',
+	护照 = '102',
 }
 export type ProductModel = {
 	_id: string;
