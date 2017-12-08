@@ -423,14 +423,11 @@ import { FsProvider } from '../providers/fs/fs';
         // PositiveSignPipe,
         /*from BNLC framework*/
         AppSettingProvider,
-<<<<<<< HEAD
         AppFetchProvider,
         NoticeListModel,
         EntrustServiceProvider,
-        AccountServiceProvider, 
-=======
-        AppFetchProvider, FsProvider
->>>>>>> 更新recharge-detal和Withdraw-detail，与设计图对齐
+        AccountServiceProvider,
+        FsProvider
     ]
 })
-export class AppModule {}
+export class AppModule { }
