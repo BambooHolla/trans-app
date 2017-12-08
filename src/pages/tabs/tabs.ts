@@ -93,14 +93,17 @@ export class TabsPage implements OnInit, AfterViewInit, AfterContentInit {
     }
 
     const tab = this[tab_name + 'Tab'] as Tab;
-    // debugger
-    tab.root = tab_name;
-    // const page_name = route_paths.shift() || tab_name;
-    if (route_paths[0] === tab_name) {
-      route_paths.shift();
-    }
+    // // debugger
+    // tab.root = tab_name;
+    // // const page_name = route_paths.shift() || tab_name;
+    // if (route_paths[0] === tab_name) {
+    //   route_paths.shift();
+    // }
 
-    this.tabs.select(tab).then(gotoPage);
+    this.tabs.selectedIndex = this.tab_names.indexOf(tab_name);
+    this.tabs.initTabs().then(gotoPage);
+
+    // this.tabs.select(tab).then(gotoPage);
     function gotoPage() {
       while (route_paths.length) {
         const page_name = route_paths.shift();
