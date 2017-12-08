@@ -84,7 +84,8 @@ export class TabsPage implements OnInit, AfterViewInit, AfterContentInit {
       paths = ['tabs', this.index_tab_name];
       start_index = 0;
     }
-    const route_paths = paths.slice(start_index + 1);
+
+    const route_paths = [...new Set(paths.slice(start_index + 1)).values()]
     let tab_name = route_paths.shift();
     if (this.tab_names.indexOf(tab_name) === -1) {
       // 跳转到默认页
