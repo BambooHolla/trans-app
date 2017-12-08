@@ -99,20 +99,19 @@ export class TabsPage implements OnInit, AfterViewInit, AfterContentInit {
       route_paths.shift();
     }
 
-    this.tabs.select(tab); //.then();
+    this.tabs.select(tab).then(gotoPage);
     function gotoPage() {
       while (route_paths.length) {
         const page_name = route_paths.shift();
         tab.push(page_name).then(gotoPage);
       }
     }
-    gotoPage();
     console.groupEnd();
   }
   ngOnInit() {
     this.initTabs();
   }
-  ngAfterViewInit() {}
+  ngAfterViewInit() { }
   ngAfterContentInit() {
     console.log('TABS ngAfterContentInit');
     if (!this._disable_route_handle) {
@@ -163,7 +162,7 @@ export class TabsPage implements OnInit, AfterViewInit, AfterContentInit {
   }
   //-from BNLC framework
 
-  ionViewDidLoad() {}
+  ionViewDidLoad() { }
 
   checkPersonalStockListIsNull() {
     if (this.personalDataService.personalStockListIsNull === true) {
@@ -181,13 +180,13 @@ export class TabsPage implements OnInit, AfterViewInit, AfterContentInit {
               .getActive()
               .getNav()
               .setRoot(
-                targetPage,
-                {},
-                {
-                  direction,
-                  animation: 'ios-transition',
-                  animate: true
-                }
+              targetPage,
+              {},
+              {
+                direction,
+                animation: 'ios-transition',
+                animate: true
+              }
               );
           } catch (e) {
             console.log(e.message || e);

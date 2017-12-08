@@ -90,7 +90,7 @@ export class FundStatementPage {
     var value1 = ["40","36.88", "20"];
     this.pieTitle1='亏损Top3';
     const piedata1 = new Array();
-    for (var a = 0; a < name1.length; a++) {
+    for (let a = 0; a < name1.length; a++) {
         piedata1[a] = [name1[a], value1[a]];
     }
     this.piedata1 = piedata1;
