@@ -7,6 +7,8 @@ import {
     NavController,
     ViewController
 } from 'ionic-angular';
+import { SecondLevelPage } from '../../bnlc-framework/SecondLevelPage'
+import { asyncCtrlGenerator } from '../../bnlc-framework/Decorator'
 
 // import { CreateAccountConfirmPage } from '../create-account-confirm/create-account-confirm';
 // import { CreateAccountStepThirdPage } from '../create-account-step-third/create-account-step-third';
@@ -16,37 +18,48 @@ import {
 import { ImageTakerController } from '../../components/image-taker-controller';
 // import { ImageTaker } from "../../components/image-taker-controller";
 import { FsProvider, FileType } from '../../providers/fs/fs';
+import { AccountServiceProvider } from '../../providers/account-service/account-service';
+import { NavParams } from '../../../node_modules/_ionic-angular@3.9.2@ionic-angular/navigation/nav-params';
 
 @Component({
     selector: 'page-identification',
     templateUrl: 'identification.html'
     // template: '<ion-nav [root]="rootPage"></ion-nav>'
 })
-export class IdentificationPage {
+export class IdentificationPage extends SecondLevelPage {
     private images = [
-        { name: 'front', text: '正　面', image: null, fid: '' },
-        { name: 'back', text: '反　面', image: null, fid: '' }
+        { name: 'front', text: '正　面', image: null, fid: '', uploading: false },
+        { name: 'back', text: '反　面', image: null, fid: '', uploading: false }
     ];
 
     constructor(
         public platform: Platform,
         public actionsheetCtrl: ActionSheetController,
         public navCtrl: NavController,
+        public navParams: NavParams,
         public viewCtrl: ViewController,
         public modalCtrl: ModalController,
         public imageTakerCtrl: ImageTakerController,
-        public fs: FsProvider
-    ) {}
+        public fs: FsProvider,
+        public accountService: AccountServiceProvider
+    ) {
+        super(navCtrl, navParams);
+    }
 
-    submitPhoto() {
-        const valid = this.images.every(item => item.image);
-        if (valid) {
-            const result = {};
-            this.images.forEach(({ name, image, fid }) => {
-                result[name] = fid;
-            });
-            this.viewCtrl.dismiss(result);
-        }
+    get canSubmit() {
+        return this.images.every(img => {
+            return !img.uploading && !!img.fid
+        });
+    }
+    @asyncCtrlGenerator.loading()
+    @asyncCtrlGenerator.error("身份证提交失败")
+    async submitPhoto() {
+        // await this.accountService.submitCertification()
+        const result = {};
+        this.images.forEach(({ name, image, fid }) => {
+            result[name] = fid;
+        });
+        this.viewCtrl.dismiss(result);
     }
     // caConfirm(){
     //     this.navCtrl.push(CreateAccountConfirmPage);
@@ -67,21 +80,8 @@ export class IdentificationPage {
                 );
                 // console.log('index: ', index, result);
                 if (result.data) {
-                    // console.log(result.data);
-                    image.image = result.data;
-                    alert(result.data.substr(0, 10));
                     // 开始上传
-                    (async () => {
-                        const fid = await fid_promise;
-                        const upload_res = await this.fs.uploadImage(
-                            fid,
-                            this.dataURItoBlob(result.data)
-                        );
-                        console.log('upload_res', upload_res);
-                        if (image.image === result.data) {
-                            image.fid = fid;
-                        }
-                    })();
+                    this.updateImage(fid_promise, image, result);
                 } else {
                     image.image = 'assets/images/no-record.png';
                 }
@@ -89,6 +89,28 @@ export class IdentificationPage {
             }
         });
         imageTaker.present();
+    }
+
+    @asyncCtrlGenerator.error("图片上传失败")
+    async updateImage(fid_promise: Promise<any>, image: typeof IdentificationPage.prototype.images[0], result: any) {
+        image.uploading = true;
+        try {
+            const fid = await fid_promise;
+            const result_data = result.data;
+            const blob = this.dataURItoBlob(result_data);
+            const blob_url = URL.createObjectURL(blob);
+            image.image = result_data;
+            const upload_res = await this.fs.uploadImage(
+                fid,
+                blob
+            );
+            console.log('upload_res', upload_res);
+            if (image.image === result_data) {
+                image.fid = fid;
+            }
+        } finally {
+            image.uploading = false;
+        }
     }
 
     dataURItoBlob(dataURI) {

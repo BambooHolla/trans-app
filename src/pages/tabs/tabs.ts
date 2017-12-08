@@ -84,7 +84,8 @@ export class TabsPage implements OnInit, AfterViewInit, AfterContentInit {
       paths = ['tabs', this.index_tab_name];
       start_index = 0;
     }
-    const route_paths = paths.slice(start_index + 1);
+
+    const route_paths = [...new Set(paths.slice(start_index + 1)).values()]
     let tab_name = route_paths.shift();
     if (this.tab_names.indexOf(tab_name) === -1) {
       // 跳转到默认页
@@ -92,27 +93,29 @@ export class TabsPage implements OnInit, AfterViewInit, AfterContentInit {
     }
 
     const tab = this[tab_name + 'Tab'] as Tab;
-    // debugger
-    tab.root = tab_name;
-    // const page_name = route_paths.shift() || tab_name;
-    if (route_paths[0] === tab_name) {
-      route_paths.shift();
-    }
+    // // debugger
+    // tab.root = tab_name;
+    // // const page_name = route_paths.shift() || tab_name;
+    // if (route_paths[0] === tab_name) {
+    //   route_paths.shift();
+    // }
 
-    this.tabs.select(tab); //.then();
+    this.tabs.selectedIndex = this.tab_names.indexOf(tab_name);
+    this.tabs.initTabs().then(gotoPage);
+
+    // this.tabs.select(tab).then(gotoPage);
     function gotoPage() {
       while (route_paths.length) {
         const page_name = route_paths.shift();
         tab.push(page_name).then(gotoPage);
       }
     }
-    gotoPage();
     console.groupEnd();
   }
   ngOnInit() {
     this.initTabs();
   }
-  ngAfterViewInit() {}
+  ngAfterViewInit() { }
   ngAfterContentInit() {
     console.log('TABS ngAfterContentInit');
     if (!this._disable_route_handle) {
@@ -163,7 +166,7 @@ export class TabsPage implements OnInit, AfterViewInit, AfterContentInit {
   }
   //-from BNLC framework
 
-  ionViewDidLoad() {}
+  ionViewDidLoad() { }
 
   checkPersonalStockListIsNull() {
     if (this.personalDataService.personalStockListIsNull === true) {
@@ -181,13 +184,13 @@ export class TabsPage implements OnInit, AfterViewInit, AfterContentInit {
               .getActive()
               .getNav()
               .setRoot(
-                targetPage,
-                {},
-                {
-                  direction,
-                  animation: 'ios-transition',
-                  animate: true
-                }
+              targetPage,
+              {},
+              {
+                direction,
+                animation: 'ios-transition',
+                animate: true
+              }
               );
           } catch (e) {
             console.log(e.message || e);

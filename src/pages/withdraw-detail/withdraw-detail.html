@@ -63,25 +63,25 @@
 
 	<div class="withdraw-logs">
 		<div class="title">充值记录</div>
-		<div class="withdraw-log">
+		<div class="withdraw-log" *ngFor="let tlog of transaction_logs">
 			<div class="base-info">
-				<div class="type-name">比特币</div>
+				<div class="type-name">{{tlog.productDetail}}</div>
 				<div class="time-at">
 					<ion-icon name="ios-time-outline"></ion-icon>
-					2017-08-24 66:66:66
+					{{tlog.createdAt|date:'y-M-d H:mm:ss'}}
 				</div>
-				<div class="status">完成</div>
+				<div class="status">{{tlog.dealResultDetail}}</div>
 			</div>
 			<div class="detail-info">
 				<div class="withdraw-amount">
 					<div class="sub-title">
 						充值数量
 					</div>
-					<div class="value">{{0.2|number:'1.4-4'}}</div>
+					<div class="value">{{tlog.amount|number:'1.4-4'}}</div>
 				</div>
 				<div class="withdraw-to">
 					<div class="sub-title">
-						充值到
+						提现到
 					</div>
 					<div class="value">IBT</div>
 				</div>
@@ -89,7 +89,7 @@
 					<div class="sub-title">
 						充值地址
 					</div>
-					<div class="value">13d2UKREWv2V0CR2KBXPWez2FKJto2Ys8</div>
+					<div class="value">{{tlog.externalSerialNumber}}</div>
 				</div>
 			</div>
 		</div>

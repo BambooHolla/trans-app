@@ -60,7 +60,9 @@ export class AppFetchProvider {
     const err = data.error || data.err;
     if (!err) {
       if (typeof data.data !== 'object') {
-        return Promise.reject(new TypeError('服务器响应的数据有误'));
+        data.data = data;
+        console.warn(new TypeError('服务器响应的数据有误'));
+        // return Promise.reject(new TypeError('服务器响应的数据有误'));
       }
       // 传递来自缓存功能的隐藏异常
       data.__source_err__ && (data.data.__source_err__ = data.__source_err__);

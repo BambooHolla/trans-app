@@ -98,7 +98,7 @@ export class PieComponent extends EchartsBaseComponent {
     //series里面data数组
     var sedata = new Array();
     var sebot,setop={};
-    for(var x=0;x<echartsData.length;x++){ 
+    for(let x=0;x<echartsData.length;x++){ 
         sebot={name:echartsData[x][0],value:echartsData[x][1],itemStyle:labelBottom}; 
          var dd=50-echartsData[x][1];
         setop={name:'',value:dd,itemStyle:labelTop};
@@ -107,7 +107,7 @@ export class PieComponent extends EchartsBaseComponent {
      
     //series数组
     var series = [];
-    for(var x=0;x<echartsData.length;x++){
+    for(let x=0;x<echartsData.length;x++){
         series.push(
         {
             type:'pie',
