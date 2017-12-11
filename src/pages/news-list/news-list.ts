@@ -1,5 +1,8 @@
 import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import {
+    Slides,
+    Content,
+    NavParams,
     AlertController,
     InfiniteScroll,
     IonicPage,
@@ -15,6 +18,7 @@ import { Subscription } from 'rxjs/Subscription';
 
 import { NewsContent } from '../news-content/news-content';
 import { NewsService } from '../news-content/news.service';
+import { SecondLevelPage } from '../../bnlc-framework/SecondLevelPage';
 
 // @IonicPage({
 //     name:"news-list"
@@ -23,7 +27,7 @@ import { NewsService } from '../news-content/news.service';
     selector: 'page-news-list',
     templateUrl: 'news-list.html'
 })
-export class NewsListPage /* implements OnInit, OnDestroy  */ {
+export class NewsListPage /* implements OnInit, OnDestroy  */ extends SecondLevelPage {
     private newsContentPage: any = NewsContent;
 
     newsList = [];
@@ -45,10 +49,12 @@ export class NewsListPage /* implements OnInit, OnDestroy  */ {
 
     constructor(
         public navCtrl: NavController,
+        public navParams: NavParams,
         public newsService: NewsService,
         public alertCtrl: AlertController,
         public loadingCtrl: LoadingController
     ) {
+        super(navCtrl, navParams);
         // this.newsList = this.getNewsListTermStream
         //     .debounceTime(300)
         //     .switchMap(() => this.newsService.getNewsList(undefined, undefined, this.isMock))
@@ -56,133 +62,53 @@ export class NewsListPage /* implements OnInit, OnDestroy  */ {
         //     })
         //     .catch((err) => this.newsService.handleError(err, true))
     }
+    slideHeight = 0;
+    tabIndex = 0;
+    @ViewChild('content', {
+        read: Content
+    })
+    content: Content;
+    @ViewChild(Slides) slides: Slides;
+    ngAfterViewInit() {
+        // this.tradeListElement.
+        this.slides.loop = false;
+        this.slides.effect = 'slide';
+        this.slides.speed = 500;
+    }
 
-    // sites_old = [
-    //     {
-    //         "titleImg": "assets/images/test/01.jpg",
-    //         "avatar": "assets/images/test/004.png",
-    //         "title": "关于平安易宝系统升级通知",
-    //         "publishTime": "今天11:02",
-    //         "readNumber": "120",
-    //         id: Math.random() * 1000,
-    //     },
-    //     {
-    //         "titleImg": "assets/images/test/003.png",
-    //         "avatar": "assets/images/test/006.png",
-    //         "title": "李克强:持续加大支持实体经济力度",
-    //         "publishTime": "03-08 20:00",
-    //         "readNumber": "820",
-    //         id: Math.random() * 1000,
-    //     },
-    //     {
-    //         "titleImg": "assets/images/test/002.png",
-    //         "avatar": "assets/images/test/004.png",
-    //         "title": "李克强:持续加大支持实体经济力度",
-    //         "publishTime": "03-08 20:00",
-    //         "readNumber": "820",
-    //         id: Math.random() * 1000,
-    //     },
-    // ];
+    @NewsListPage.didEnter
+    initSlideHeight() {
+        this.slideHeight = this.slides.height =
+            this.content.contentHeight ;
+        this.slides.update();
+    }
 
-    // ngOnInit() {
-    //     console.log('news-list: onInit')
-    //     this.newsListSubscriber = this.getNewsListTermStream
-    //         .debounceTime(300)
-    //         .switchMap(page => this.newsService.getNewsList(undefined, '001', page, this.isMock))
-    //         .do((data) => {
-    //             console.dir(data)
-    //         })
-    //         .catch((err) => this.newsService.handleError(err, true))
-    //         // .subscribe(data=>{
-    //         //     if(data instanceof Array){
-    //         //         this.newsList.push(...data)
-    //         //         this.page++
-    //         //     }
-    //         // })
-    //         .subscribe(data => this.dataHandle(data, this.reqType))
-    //     // 加入异步队列,保证订阅启动后才去获取
-    //     setTimeout(() => this.getNewsList(this.page), 0);
-    // }
+    tabClick(index) {
+        console.log(this.tabIndex, index);
+        if (this.tabIndex == index) {
+            return;
+        } else {
+            this.tabIndex = index;
+        }
 
-    // ngOnDestroy() {
-    //     console.log('news-list: onDestroy')
-    // }
-    // ionViewDidLoad() {
-    //     console.log('news-list: ionViewDidLoad')
-    //     // this.newsListSubscriber = this.newsList.subscribe()
-    // }
-    // ionViewDidLeave() {
-    //     console.log('news-list: ionViewDidLeave')
-    //     // this.newsListSubscriber.unsubscribe()
-    // }
+        this.slides.slideTo(index);
+    }
 
-    // // 下拉刷新
-    // listRefresh(refresher) {
-    //     // //需要设置第一个公告的对象
-    //     // this.appDataService.noticeListModel.loadList()
-    //     //     .then(err => {
-    //     //         if (err) {
-    //     //             // this.toastAlert('加载列表错误:' + (err as any).message, 5000);
-    //     //         } else {
-    //     //             this.hasMore = true;
-    //     //         }
-    //     //         refresher.complete();
-    //     //     });
-
-    //     this.page = 0
-    //     this.reqType = 0
-    //     this.handler = refresher
-    //     this.getNewsList(this.page)
-    //     setTimeout(() => { refresher.complete() }, 1000)
-    // }
-
-    // //上拉加载更多
-    // getMore(infiniteScroll) {
-    //     // this.appDataService.noticeListModel.loadMore()
-    //     //     .then(result => {
-    //     //         if (result instanceof Error) {
-    //     //             // this.toastAlert((result as Error).message, 5000);
-    //     //         } else {
-    //     //             this.hasMore = result;
-    //     //             if (!result) {
-    //     //                 // this.toastAlert('没有更多公告了！', 3000, 'bottom');
-    //     //             }
-    //     //         }
-    //     //         infiniteScroll.complete();
-    //     //     });
-    //     this.reqType = 1;
-    //     this.handler = infiniteScroll
-    //     this.getNewsList(this.page)
-    // }
-
-    // dataHandle(data, type) {
-    //     if (data instanceof Array && data.length > 0) {
-    //         if (type === 0) {
-    //             this.newsList.length = 0
-    //         }
-
-    //         this.hasMore = true
-    //         this.newsList.push(...data)
-    //         this.page++
-    //     } else {
-    //         this.hasMore = false
-    //     }
-    //     if (this.handler) {
-    //         this.handler.complete()
-    //         this.handler = undefined
-    //     }
-    // }
+    slideChanged() {
+        this.tabIndex = this.slides.realIndex;
+    }
 
     viewNews(id) {
-        console.log("viewNews", id);
-        this.disable_init_news_list_when_enter = true;// 进入子页面返回后禁用自动刷新数据
+        console.log('viewNews', id);
+        this.disable_init_news_list_when_enter = true; // 进入子页面返回后禁用自动刷新数据
         this.navCtrl.push(this.newsContentPage, {
             newsId: id
         });
     }
     //gaubee
     disable_init_news_list_when_enter = false;
-    ionViewWillEnter() {
+    @NewsListPage.willEnter
+    tryGetNewsList() {
         if (!this.disable_init_news_list_when_enter) {
             if (!this.newsList.length && !this.is_loading_news_list) {
                 this.initNewsList();
@@ -193,33 +119,28 @@ export class NewsListPage /* implements OnInit, OnDestroy  */ {
 
     // news_list: any[];
     is_loading_news_list = false;
-    news_list_loading: Loading
+    news_list_loading: Loading;
+    @NewsListPage.didEnter
     private _presentNewsListLoading() {
         if (this.is_loading_news_list && !this.news_list_loading) {
             this.news_list_loading = this.loadingCtrl.create({
                 showBackdrop: false,
                 cssClass: 'enableBackdropDismiss',
-                dismissOnPageChange: true,
+                dismissOnPageChange: true
             });
             this.news_list_loading.present({
                 minClickBlockDuration: -1,
-                disableApp: false// 使得tabs依然可以点击
+                disableApp: false // 使得tabs依然可以点击
             });
         }
     }
+    @NewsListPage.didLeave
     private _dismissNewsListLoading() {
         if (this.news_list_loading) {
             this.news_list_loading.dismiss();
             this.news_list_loading = null;
         }
     }
-    ionViewDidLeave() {
-        this._dismissNewsListLoading();
-    }
-    ionViewDidEnter() {
-        this._presentNewsListLoading();
-    }
-
     @ViewChild(InfiniteScroll) infiniteScroll: InfiniteScroll;
     async _getNewsList(show_loading = false) {
         this.is_loading_news_list = true;

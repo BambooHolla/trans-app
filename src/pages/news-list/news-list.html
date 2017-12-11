@@ -1,53 +1,49 @@
-<!-- <ion-header>
-    <ion-grid no-padding text-center class="optional-header">
-        <ion-row padding>
-            <ion-col></ion-col>
-             <ion-col>公告</ion-col>
-             <ion-col>新闻</ion-col>
-            <ion-col>
-                <ion-buttons end>
-                    <ion-icon  name="ios-search" ></ion-icon>
-                </ion-buttons>
-
-            </ion-col>
-
-        </ion-row>
-    </ion-grid>
-</ion-header> -->
-
 <ion-header>
     <ion-navbar>
-        <ion-title>资讯</ion-title>
+        <ion-title>
+            <div class="tab-list">
+                <h2 class="tab-item" (click)="tabClick(0)">公告</h2>
+                <h2 class="tab-item" (click)="tabClick(1)">新闻</h2>
+                <div class="tab-tale" [ngClass]="'tab-pos-'+(tabIndex+1)"></div>
+            </div>
+        </ion-title>
         <ion-buttons right>
             <ion-icon class="large-icon" name="search"></ion-icon>
         </ion-buttons>
     </ion-navbar>
 </ion-header>
-
 <!-- <ion-content class="card-background-page bg-in"> -->
-<ion-content>
-    <ion-spinner name="ios" *ngIf="initing"></ion-spinner>
-    <!--下拉刷新-->
-    <ion-refresher (ionRefresh)="initNewsList($event)">
-        <ion-refresher-content refreshingText="正在刷新...">
-        </ion-refresher-content>
-    </ion-refresher>
-    <ion-list class="card-background-page">
-        <ion-item *ngFor="let site of newsList" ionic (click)="viewNews(site.newsId)" no-lines>
-            <div class="infos">
-                <div class="publisher">{{site.publisherName}}</div>
-                <div class="news-title">{{site.newsTitle}}</div>
-                <div class="news-abstract">{{site.abstract}}</div>
-                <div class="news-date">{{site.crtDateTime|date:"y年M月d日 H:mm"}}</div>
-            </div>
-        </ion-item>
-    </ion-list>
-    <!--加载更多-->
-    <ion-infinite-scroll [enabled]="hasMore" (ionInfinite)="loadMoreNewsList($event)">
-        <ion-infinite-scroll-content loadingText="正在加载...">
-        </ion-infinite-scroll-content>
-    </ion-infinite-scroll>
+<ion-content #content>
+    <ion-slides (ionSlideDidChange)="slideChanged()">
+        <ion-slide>
+            <ion-content class="child-content" [style.height.px]="slideHeight">
+                <ion-spinner name="ios" *ngIf="initing"></ion-spinner>
+                <!--下拉刷新-->
+                <ion-refresher (ionRefresh)="initNewsList($event)">
+                    <ion-refresher-content refreshingText="正在刷新...">
+                    </ion-refresher-content>
+                </ion-refresher>
+                <ion-list class="card-background-page">
+                    <ion-item *ngFor="let site of newsList" ionic (click)="viewNews(site.newsId)" no-lines>
+                        <div class="infos">
+                            <div class="publisher">{{site.publisherName}}</div>
+                            <div class="news-title">{{site.newsTitle}}</div>
+                            <div class="news-abstract">{{site.abstract}}</div>
+                            <div class="news-date">{{site.crtDateTime|date:"y年M月d日 H:mm"}}</div>
+                        </div>
+                    </ion-item>
+                </ion-list>
+                <!--加载更多-->
+                <ion-infinite-scroll [enabled]="hasMore" (ionInfinite)="loadMoreNewsList($event)">
+                    <ion-infinite-scroll-content loadingText="正在加载...">
+                    </ion-infinite-scroll-content>
+                </ion-infinite-scroll>
+            </ion-content>
+        </ion-slide>
+        <ion-slide>
+            新闻？？
+        </ion-slide>
+    </ion-slides>
 </ion-content>
 <!-- </ion-content> -->
-
 <!-- <ion-footer class="foot-placeholder"></ion-footer> -->
