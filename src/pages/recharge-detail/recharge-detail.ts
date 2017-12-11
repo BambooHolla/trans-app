@@ -35,6 +35,7 @@ export class RechargeDetailPage extends SecondLevelPage {
 		this.productInfo = this.navParams.get('productInfo');
 	}
 	productInfo: ProductModel = {} as any;
+	access_info: any = {} as any;
 	recharge_address: RechargeAddressModel = {} as any;
 	@RechargeDetailPage.willEnter
 	@asyncCtrlGenerator.loading(
@@ -47,12 +48,19 @@ export class RechargeDetailPage extends SecondLevelPage {
 	async getAccountsInfo() {
 		this.productInfo = this.navParams.get('productInfo');
 		if (this.productInfo) {
-			this.recharge_address = await this.accountService.getRechargeAddress(
+			const tasks = [];
+			// 获取地址信息
+			tasks[tasks.length] = this.accountService.getRechargeAddress(
 				this.productInfo.productId
-			);
-			return this.recharge_address;
+			).then(data => this.recharge_address = data);
+
+			// 获取账户资产
+			tasks[tasks.length] = this.accountService.getAccountProduct({ productId: this.productInfo.productId }).then(data => this.access_info = data)
+			const tasks_res = await Promise.all(tasks);
+			return tasks_res.reduce((p, c) => ({ ...p, ...c }), {})
 		}
 	}
+
 	@RechargeDetailPage.willEnter
 	@asyncCtrlGenerator.loading(
 		undefined,

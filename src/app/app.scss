@@ -600,3 +600,8 @@ ion-label[pad] {
     padding-left: 1em;
   }
 }
+.disable-scroll .ion-page {
+  pointer-events: all !important;
+  -ms-touch-action: all !important;
+  touch-action: all !important;
+}

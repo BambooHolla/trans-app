@@ -24,6 +24,9 @@ export class AccountServiceProvider {
 	readonly GET_ACCOUNT_ASSETS = this.appSetting.APP_URL(
 		'account/accounts/assets'
 	);
+	readonly GET_ACCOUNT_PRODUCT = this.appSetting.APP_URL(
+		'account/accounts/products'
+	);
 	readonly GET_RECHARGE_ADDRESS = this.appSetting.APP_URL(
 		'account/payment/cryptocurrency'
 	);
@@ -61,9 +64,19 @@ export class AccountServiceProvider {
 			}
 		});
 	}
+	getAccountProduct(search: {
+		accountId?: string,
+		accountType?: string,
+		productId?: string,
+		customerId?: string,
+	}) {
+		return this.fetch.get(this.GET_ACCOUNT_PRODUCT, {
+			search
+		})
+	}
 
 	getRechargeAddress(productId: string) {
-		return this.fetch.get<RechargeAddressModel>(this.GET_RECHARGE_ADDRESS, {
+		return this.fetch.autoCache(true).get<RechargeAddressModel>(this.GET_RECHARGE_ADDRESS, {
 			search: { productId }
 		});
 	}
