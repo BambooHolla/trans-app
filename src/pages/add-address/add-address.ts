@@ -7,6 +7,7 @@ import {
 	PaymentCategory,
 	PaymenType
 } from '../../providers/account-service/account-service';
+import { AppDataService } from '../../providers/app-data-service';
 
 @Component({
 	selector: 'page-add-address',
@@ -16,9 +17,20 @@ export class AddAddressPage extends SecondLevelPage {
 	constructor(
 		public navCtrl: NavController,
 		public navParams: NavParams,
+		public appdata: AppDataService,
 		public accountService: AccountServiceProvider
 	) {
 		super(navCtrl, navParams);
+	}
+	checkMethod: string;
+	@AddAddressPage.willEnter
+	@asyncCtrlGenerator.loading()
+	@asyncCtrlGenerator.error('加载用户信息出错')
+	async getCheckMethodOptions() {
+		const account_info = await this.accountService.getAcountAssets(
+			this.appdata.customerId
+		);
+		console.log(account_info);
 	}
 
 	protocolAgree = true;

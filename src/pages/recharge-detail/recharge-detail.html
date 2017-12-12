@@ -18,12 +18,12 @@
 		<div class="assets-item balance">
 			<ion-icon name="可用余额"></ion-icon>
 			<div class="sub-title">可用余额</div>
-			<div class="amount">{{66|number:'1.2-2'}}</div>
+			<div class="amount">{{access_info.balance|number:'1.2-2'}}</div>
 		</div>
 		<div class="assets-item frozen">
 			<ion-icon name="冻结余额"></ion-icon>
 			<div class="sub-title">冻结余额</div>
-			<div class="amount">{{88|number:'1.2-2'}}</div>
+			<div class="amount">{{access_info.freezeBalance|number:'1.2-2'}}</div>
 		</div>
 	</div>
 	<div class="recharge-address">

@@ -20,14 +20,15 @@ export class AccountServiceProvider {
 		public http: Http,
 		public appSetting: AppSettingProvider,
 		public fetch: AppFetchProvider
-	) { }
+	) {}
+	// readonly GET_ACCOUNT_INFO = this.appSetting.APP_URL('aco')
 	readonly GET_ACCOUNT_ASSETS = this.appSetting.APP_URL(
-		'account/accounts/assets'
+		'account/accounts/:id'
 	);
 	readonly GET_ACCOUNT_PRODUCT = this.appSetting.APP_URL(
 		'account/accounts/products'
 	);
-	readonly GET_RECHARGE_ADDRESS = this.appSetting.APP_URL(
+	readonly GET_CRYPTO_CURRENCY = this.appSetting.APP_URL(
 		'account/payment/cryptocurrency'
 	);
 	readonly GET_PRODUCTS = this.appSetting.APP_URL('product/product');
@@ -49,7 +50,7 @@ export class AccountServiceProvider {
 
 	readonly SUBMIT_CERTIFICATION = this.appSetting.APP_URL(
 		'user/addCertification'
-	)
+	);
 
 	getAcountAssets(
 		accountId?: string,
@@ -57,28 +58,43 @@ export class AccountServiceProvider {
 		customerId?: string
 	) {
 		return this.fetch.get(this.GET_ACCOUNT_ASSETS, {
+			params: {
+				id: accountId
+			},
 			search: {
-				accountId,
 				accountType,
 				customerId
 			}
 		});
 	}
 	getAccountProduct(search: {
-		accountId?: string,
-		accountType?: string,
-		productId?: string,
-		customerId?: string,
+		accountId?: string;
+		accountType?: AccountType;
+		productId?: string;
+		customerId?: string;
 	}) {
 		return this.fetch.get(this.GET_ACCOUNT_PRODUCT, {
 			search
-		})
+		});
 	}
 
 	getRechargeAddress(productId: string) {
-		return this.fetch.autoCache(true).get<RechargeAddressModel>(this.GET_RECHARGE_ADDRESS, {
-			search: { productId }
-		});
+		return this.fetch
+			.autoCache(true)
+			.get<CryptoCurrencyModel>(this.GET_CRYPTO_CURRENCY, {
+				search: { productId }
+			});
+	}
+
+	getWithdrawAddress(productId: string) {
+		return this.fetch
+			.autoCache(true)
+			.get<CryptoCurrencyModel[]>(this.GET_CRYPTO_CURRENCY, {
+				search: {
+					productId,
+					paymentCategory: PaymentCategory.Withdraw
+				}
+			});
 	}
 
 	productList: AsyncBehaviorSubject<ProductModel[]>;
@@ -144,7 +160,7 @@ export class AccountServiceProvider {
 	}
 	withdrawAddressTypeList: AsyncBehaviorSubject<
 		{ name: string; type: string }[]
-		>;
+	>;
 	@TB_AB_Generator('withdrawAddressTypeList')
 	withdrawAddressTypeList_Executor(promise_pro) {
 		return promise_pro.follow(this.getWithdrawAddressTypeList());
@@ -163,9 +179,7 @@ export class AccountServiceProvider {
 				return res;
 			});
 	}
-	withdrawAddressList: AsyncBehaviorSubject<
-		any[]
-		>;
+	withdrawAddressList: AsyncBehaviorSubject<any[]>;
 	@TB_AB_Generator('withdrawAddressList')
 	withdrawAddressList_Executor(promise_pro) {
 		return promise_pro.follow(this.getWithdrawAddressList());
@@ -203,11 +217,16 @@ export class AccountServiceProvider {
 		if (dealResult == DealResult.Other) return '其他';
 	}
 
-	submitCertification(certificateNo: string, certificateType: CertificateType, mediaMessage?: string[], realName?: string) {
+	submitCertification(
+		certificateNo: string,
+		certificateType: CertificateType,
+		mediaMessage?: string[],
+		realName?: string
+	) {
 		this.fetch.post(this.SUBMIT_CERTIFICATION, {
 			certificateNo,
 			certificateType
-		})
+		});
 	}
 }
 
@@ -382,9 +401,52 @@ export enum DealResult {
      */
 	Other = '999'
 }
+export enum AccountType {
+	/**
+     * 现金账
+     */
+	Cash = '001',
+	/**
+     * 存管账
+     */
+	Deposit = '002',
+	/**
+     * 产品账
+     */
+	Product = '003',
+	/**
+     * 保证金
+     */
+	Bail = '004',
+	/**
+     * 佣金账
+     */
+	Commission = '005',
+	/**
+     * 积分账
+     */
+	Integral = '006',
+	/**
+     * 利息账
+     */
+	Interest = '007',
+	/**
+     * 体验金账户
+     */
+	Experience = '008',
+	/**
+     * 数字货币账户
+     */
+	CryptoCurrency = '009',
+
+	/**
+     * 其他
+     */
+	Other = '999'
+}
 export enum CertificateType {
 	二代身份证 = '101',
-	护照 = '102',
+	护照 = '102'
 }
 export type ProductModel = {
 	_id: string;
@@ -414,7 +476,7 @@ export type ProductModel = {
 	agreementId: string[];
 	cryptoCurrencyCode: string;
 };
-export type RechargeAddressModel = {
+export type CryptoCurrencyModel = {
 	id: number;
 	customerId: string;
 	realname: any;

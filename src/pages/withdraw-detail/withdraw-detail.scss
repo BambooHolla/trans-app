@@ -1,4 +1,10 @@
 page-withdraw-detail {
+	ion-icon[name='添加'] {
+		background-image: url('../assets/icon/添加.png');
+	}
+	ion-icon[name='￥✏'] {
+		background-image: url('../assets/icon/￥✏.png');
+	}
 	ion-list {
 		margin-top: 1rem !important;
 		margin-bottom: 0 !important;
@@ -34,12 +40,6 @@ page-withdraw-detail {
 				background-repeat: no-repeat;
 				background-position: center;
 				margin-right: 0.3rem;
-			}
-			ion-icon[name='添加'] {
-				background-image: url('../assets/icon/添加.png');
-			}
-			ion-icon[name='￥✏'] {
-				background-image: url('../assets/icon/￥✏.png');
 			}
 		}
 		ion-item.item-block {

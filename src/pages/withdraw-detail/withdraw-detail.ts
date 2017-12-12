@@ -8,10 +8,11 @@ import {
 import { SecondLevelPage } from '../../bnlc-framework/SecondLevelPage';
 import { asyncCtrlGenerator } from '../../bnlc-framework/Decorator';
 import {
+	AccountType,
 	AccountServiceProvider,
 	PaymentCategory,
 	ProductModel,
-	RechargeAddressModel,
+	CryptoCurrencyModel,
 	DealResult
 } from '../../providers/account-service/account-service';
 
@@ -35,16 +36,25 @@ export class WithdrawDetailPage extends SecondLevelPage {
 		this.productInfo = this.navParams.get('productInfo');
 	}
 	productInfo: any;
-	withdraw_address_list: any[];
+	withdraw_address_list: CryptoCurrencyModel[];
+	selected_withdraw_address: CryptoCurrencyModel;
+	access_info:any
 	@WithdrawDetailPage.willEnter
 	@asyncCtrlGenerator.loading()
 	@asyncCtrlGenerator.error('获取账户信息出错')
 	async getAccountsInfo() {
 		this.productInfo = this.navParams.get('productInfo');
-		this.withdraw_address_list = await this.accountService.withdrawAddressList.getPromise();
-		return this.withdraw_address_list;
+		if (this.productInfo) {
+			const tasks = [];
+			tasks[tasks.length] = this.accountService
+				.getWithdrawAddress(this.productInfo.productId)
+				.then(data => {
+					this.withdraw_address_list = data;
+				});
+			tasks[tasks.length] = this.accountService.getAccountProduct({ productId: this.productInfo.productId,
+			accountType:AccountType.Product }).then(data => this.access_info = data)
+		}
 	}
-
 
 	transaction_logs: any[];
 	@WithdrawDetailPage.willEnter
