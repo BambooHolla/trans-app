@@ -28,23 +28,31 @@ export class EntrustServiceProvider {
    * @param traderId {priceId-productId}
    * @param entrustStatus //委托状态（001挂单中、002部分成交、003已成交、004已撤单）
    */
-  getEntrustsByTraderId(traderId, entrustStatus?) {
+  getEntrusts(traderId?, entrustStatus?,page?,pageSize = 10) {
     const path = `/transaction/entrusts`
 
     let params = new URLSearchParams();
-    
-    const productId= traderId.split('-')[1]
-    const priceId= traderId.split('-')[0]
 
-    // params.set('customerId', this.appDataService.customerId);
+    if(traderId){
+      const productId = traderId.split('-')[1]
+      const priceId = traderId.split('-')[0]
+
+      params.set('productId', productId);
+      params.set('priceId', priceId);
+    }
     
-    params.set('productId', productId);
-    params.set('priceId', priceId);
-    params.set('entrustStatus', entrustStatus);
+    if (entrustStatus){
+      params.set('entrustStatus', entrustStatus);
+    }
+
+    if(page){
+      params.set('page', page);
+      params.set('pageSize', pageSize.toString());
+    }
 
     return this.appService.request(RequestMethod.Get, path, params, true)
       .then(data => {
-        console.log('getEntrustsByTraderId: ', data);
+        console.log('getEntrusts: ', data);
 
         if (!data) {
           return Promise.reject(new Error('data missing'))
@@ -71,6 +79,8 @@ export class EntrustServiceProvider {
             //surplusAmount	number 剩余成交数量            
             .map(item => ({
               id: item.id,
+              productId: item.productId,
+              priceId: item.priceId,
               entrustTime: item.entrustAt,
               updatedTime: item.updatedAt,
               commitPrice: item.entrustPrice,
@@ -85,7 +95,7 @@ export class EntrustServiceProvider {
         }
       })
       .catch(err => {
-        console.log('getEntrustsByTraderId error: ', err);
+        console.log('getEntrusts error: ', err);
         // return Promise.reject(err);
       });
   }

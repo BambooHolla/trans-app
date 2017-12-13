@@ -1,19 +1,22 @@
 page-history-record{
+
+	ion-col:first-child{
+		text-align: left;
+	}
+
+	.comsub{
+		height: 4.4rem;
+		line-height: 4.4rem;
+		color: color($colors,middark);
+		background-color:#242535;
+		padding: 0 12px;
+		ion-col{
+			padding: 0;
+		}
+	}
 	.home-header{
 		// padding-top:0;
 		.hdbg{
-			background:rgba(4,110,138,1); /* 一些不支持背景渐变的浏览器 */  
-			background:-moz-linear-gradient(top, rgba(4,110,138,1), rgba(59,181,215,1));  
-			background:-webkit-gradient(linear, 0 0, 0 bottom, from(rgba(4,110,138,1)), to(rgba(59,181,215,1)));  
-			background:-o-linear-gradient(top, rgba(4,110,138,1), rgba(59,181,215,1)); 
-			background: linear-gradient(rgba(4,110,138,1), rgba(59,181,215,1));
-			// padding-top: 0;
-			component-header{
-				font-size: 1.75rem;
-			// div{
-			// 	border-width: 0!important;
-			// }
-		}
 		.histime{
 			margin:0 auto;
 			text-align: center;
@@ -76,6 +79,50 @@ page-history-record{
 			height: 100%;
 			background-color: rgba(57, 179, 214, 0.2)
 		}
+		&.bg-darker .scroll-content{
+			background-color: color($colors,background-darker);
+		}
+		.no-entrust {
+			text-align: center;
+			height: 10rem;
+			line-height: 10rem;
+			font-size: 2rem;
+			color: color($colors, middark);
+		}
+
+		.list-item{
+			height: 5.8rem;
+			border-bottom: 1px solid color($colors,background);
+			// background-color: color($colors,background-darker);
+			color: color($colors,special);
+			font-size: 1.3rem;
+			text-align: center;
+			padding: 0 12px;
+			ion-col {
+				padding: 0;
+			}
+		}
+
+		.type {
+			width: 2.4rem;
+			height: 2.4rem;
+			line-height: 2.4rem;
+			border: 1px solid color($colors, special);
+			border-radius: 50%;
+			font-size: 1.4rem;
+			text-align: center;
+			margin: 0 auto;
+			&.buy {
+				color: white;
+				background-color: color($colors, special);
+			}
+
+			&.sale {
+				color: color($colors, special);
+			}
+		}
+
+
 		.spanfixed{
 			padding-top: 2.1rem;
 		}

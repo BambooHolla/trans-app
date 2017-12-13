@@ -1,5 +1,8 @@
 <ion-header class="color-primary home-header">
-	<div class="hdbg header-with-bg">
+	<ion-navbar>
+		<ion-title>历史成交记录</ion-title>
+	</ion-navbar>
+	<!-- <div class="hdbg header-with-bg">
 		<ion-navbar>
 			<ion-title>历史成交记录</ion-title>
 		</ion-navbar>
@@ -13,12 +16,60 @@
 			</ion-item>
 		</div>
 		<smoothline-component [echartsData]="smoothlinedata"></smoothline-component>
+	</div> -->
+	<div class="comsub">
+		<ion-row center text-center>
+			<ion-col>成交时间</ion-col>
+			<ion-col>成交价</ion-col>
+			<ion-col>成交量</ion-col>
+			<ion-col>成交额</ion-col>
+		</ion-row>
 	</div>
 </ion-header>
-<ion-content no-bounce class="bg-in">
-	<div class="bg-blue"></div>
+<ion-content no-bounce class="bg-darker">
+	<!-- <div class="bg-blue"></div> -->
 	<!--<loop-slides-component></loop-slides-component>-->
-	<div class="spanfixed"></div>
-	<loop-slides-beta></loop-slides-beta>
-	<div class="footer-data">04/12</div>
+	<!-- <div class="spanfixed"></div> -->
+	<!-- <loop-slides-beta></loop-slides-beta> -->
+	<!-- <div class="footer-data">03/12</div> -->
+
+	<ion-spinner name="ios" *ngIf="initing"></ion-spinner>
+	<!--下拉刷新-->
+	<ion-refresher (ionRefresh)="initData($event)">
+		<ion-refresher-content refreshingText="正在刷新...">
+		</ion-refresher-content>
+	</ion-refresher>
+
+	<div class="no-entrust" *ngIf="!entrusts || entrusts.length == 0">没有成交的委托单</div>
+	<ion-row *ngFor="let item of entrusts" align-items-center class="list-item">
+		<ion-col>
+			<div class="name">{{item.productId | productId2name}}/{{item.priceId | productId2name}}</div>
+			<span>{{item.updatedTime | date:'yyyy-MM-dd'}}</span>
+		</ion-col>
+		<ion-col>
+			{{item.completePrice | number:'1.0-4'}}
+		</ion-col>
+		<ion-col>
+			{{item.completeAmount |quantityConversion}}
+		</ion-col>
+		<ion-col>
+			<div class="type" 
+				[class.buy]="item.operationType == '001'" 
+				[class.sale]="item.operationType == '002'"
+			>
+				{{
+					item.operationType == '001'? '买': 
+					item.operationType == '002'? '卖':''
+				}}
+			</div>
+			{{item.completeTotalPrice |quantityConversion}}
+		</ion-col>
+	</ion-row>
+
+	<!--加载更多-->
+	<ion-infinite-scroll [enabled]="hasMore" (ionInfinite)="loadMoreHistory($event)">
+		<ion-infinite-scroll-content loadingText="正在加载...">
+		</ion-infinite-scroll-content>
+	</ion-infinite-scroll>
+
 </ion-content>

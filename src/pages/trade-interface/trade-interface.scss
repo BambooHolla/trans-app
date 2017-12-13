@@ -397,6 +397,13 @@ page-trade-interface {
 				}
 			}
 		}
+		.no-entrust{
+			text-align: center;
+			height: 10rem;
+			line-height: 10rem;
+			font-size: 2rem;
+			color: color($colors,middark);			
+		}
 		.entrust{
 			padding: 1.2rem 2.6rem 0 2.3rem;
 			&:last-child{
