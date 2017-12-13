@@ -1,6 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 // import * as echarts from 'echarts';
-import { NavParams, ToastController, AlertController, NavController } from 'ionic-angular';
+import { NavParams, ToastController, AlertController, NavController, InfiniteScroll } from 'ionic-angular';
 
 import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
@@ -32,6 +32,10 @@ export class TradeInterfacePage {
     '000001' : undefined;
   private reportArr = []
   private entrusts = []
+
+  page = 1
+  pageSize = 10
+  hasMore: boolean = false
 
   private cards: string[] = ['满仓', '1/2仓', '1/3仓', '1/4仓', '1手', '5手', '10手'];
   private buySaleActiveIndex: BehaviorSubject<number> = new BehaviorSubject(0);
@@ -399,15 +403,44 @@ export class TradeInterfacePage {
     })
   }
 
+  confirmCancel(entrustId, entrustTime, entrustCategory) {
+    entrustCategory =  entrustCategory == '001' ? '买入' : entrustCategory == '002' ? '卖出' : '' 
+    entrustTime = new Date(entrustTime)
+    entrustTime = `${entrustTime.getFullYear()}-${entrustTime.getMonth()+1}-${entrustTime.getDate()}`
+    let alert = this.alertCtrl.create({
+      title: '撤回委托',
+      message: `确定要撤回${entrustTime}的${entrustCategory}委托单?`,
+      buttons: [
+        {
+          text: '取消',
+          role: 'cancel',
+          handler: () => {
+            // console.log('Cancel clicked')
+          }
+        },
+        {
+          text: '确认',
+          handler: () => {
+            this.cancelEntrust(entrustId)
+          }
+        }
+      ]
+    })
+    alert.present()
+  }
+
   cancelEntrust(entrustId){
     //todo:提示是否撤单
     this.entrustServiceProvider.cancelEntrust(entrustId)
       .then(data => {
         console.log('cancelEntrust data', data)
 
+        this.page = 1
+        this.getProcessEntrusts()
+
         if (data && data.status) {
           let toast = this.toastCtrl.create({
-            message: `${data.message}`,
+            message: `撤单成功`,
             duration: 3000,
             position: 'middle'
           })
@@ -418,6 +451,10 @@ export class TradeInterfacePage {
       })
       .catch(err => {
         console.log('cancelEntrust err',err)
+
+        this.page = 1
+        this.getProcessEntrusts()
+        
         if (err && err.message) {
           let toast = this.toastCtrl.create({
             message: `${err.message}`,
@@ -431,13 +468,27 @@ export class TradeInterfacePage {
       });
   }
 
-  getProcessEntrusts(){
+  getProcessEntrusts(infiniteScroll?: InfiniteScroll){
     this.entrustServiceProvider.getEntrusts(this.traderId,'001,002')
       .then(data=>{
         console.log('getProcessEntrusts data:',data)
-        this.entrusts = data
+
+        if(this.page == 1){
+          this.entrusts = data
+        }else{
+          this.entrusts.push(...data)          
+        }
+        this.hasMore = !(data.length < this.pageSize)
+        if (infiniteScroll){
+          infiniteScroll.complete()
+          infiniteScroll.enable(this.hasMore)
+        }
       })
-      .catch(() => console.log('getProcessEntrusts err'))
+      .catch(() => {
+        console.log('getProcessEntrusts err')
+        this.hasMore = false
+        if (infiniteScroll) infiniteScroll.enable(this.hasMore)
+      })
   }
 
   changeTrader($event){
@@ -493,4 +544,10 @@ export class TradeInterfacePage {
       
     }
   }
+
+  async loadMoreHistory(infiniteScroll: InfiniteScroll) {
+    this.page += 1
+    this.getProcessEntrusts(infiniteScroll)
+  }
+
 }

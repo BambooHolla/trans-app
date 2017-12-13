@@ -11,6 +11,12 @@ page-trade-interface {
 		height: 2rem;
 		width: 2rem;
 	}
+	.history-icon{		
+		background-image: url('../assets/icon/history-list.png');
+		background-size: contain;
+		height: 1.4rem;
+		width: 1.3rem;
+	}
 	// //tofix:由于ionic代码bug导致不能传入类,后续改正,先用.popover-content设置样式
 	// .trader-list-pop{
 	// 	width: 100%;
@@ -391,9 +397,11 @@ page-trade-interface {
 				float: right;
 				ion-icon{
 					width: 1.3rem;
+					vertical-align: middle;
 				}
 				font{
 					font-size: 1.3rem;
+					vertical-align: middle;
 				}
 			}
 		}
