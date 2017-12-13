@@ -545,7 +545,7 @@ export class TradeInterfacePage {
     }
   }
 
-  async loadMoreHistory(infiniteScroll: InfiniteScroll) {
+  loadMoreHistory(infiniteScroll: InfiniteScroll) {
     this.page += 1
     this.getProcessEntrusts(infiniteScroll)
   }
