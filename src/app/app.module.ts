@@ -148,6 +148,7 @@ import { AccountServiceProvider } from '../providers/account-service/account-ser
 import { KjuaQrcodeComponent } from '../components/kjua-qrcode/kjua-qrcode';
 import { EntrustServiceProvider } from '../providers/entrust-service';
 import { FsProvider } from '../providers/fs/fs';
+import { ProductId2namePipe } from '../pipes/product-id2name';
 // import { BankCode2NamePipe } from '..\pipes\bank-code2-name/bank-code2-name';
 // import { FileService } from '../providers/file.service';
 // import { IsLoadingDirective } from '../directives/is-loading/is-loading';
@@ -242,6 +243,7 @@ import { FsProvider } from '../providers/fs/fs';
         RealtimeReportComponent,
         QuantityConversionPipe,
         PriceConversionPipe,
+        ProductId2namePipe,
         KjuaQrcodeComponent
         // BankCode2NamePipe,
         // IsLoadingDirective,

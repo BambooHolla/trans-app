@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { EntrustServiceProvider } from '../../providers/entrust-service';
+import { NavParams, Refresher, InfiniteScroll, AlertController } from 'ionic-angular';
 // import * as echarts from 'echarts';
 // import { NavController } from 'ionic-angular';
 
@@ -8,8 +10,13 @@ import { Component } from '@angular/core';
 })
 export class HistoryRecordPage {
   smoothlinedata:any;
+  entrusts:any[];
 
-  initData() {
+  page = 1;
+  pageSize = 10;
+  hasMore: boolean = true;
+
+  initData(refresher?: Refresher) {
     const smoothlinedata = [];
     const N_POINT = 30;
     for (let i = 0; i <= N_POINT; i++) {
@@ -23,11 +30,56 @@ export class HistoryRecordPage {
     return 0.5 * ((k -= 2) * k * ((s + 1) * k + s) + 2);
     }
     this.smoothlinedata=smoothlinedata;
+
+    this.page = 1;
+    this.getTradeHistory()
+      .then(data=>{
+        this.entrusts = data
+        if (refresher) refresher.complete()
+        this.hasMore = !(data.length < this.pageSize)
+      })
+      .catch(()=>{
+        if (refresher) refresher.complete()
+        this.hasMore = false
+      })
   }
 
+  getTradeHistory(){
+    const traderId = this.navParams.data ? this.navParams.data.traderId : undefined
 
-  constructor(/*public navCtrl: NavController*/) {
+    return this.entrustServiceProvider.getEntrusts(traderId,'003,004',this.page,this.pageSize)
+      .then(data => {
+        console.log('getTradeHistory data:', data)
+        return data
+      })
+      .catch(err => {
+        console.log('getTradeHistory err')
+        this.alertCtrl
+          .create({
+            title: '获取咨询出错',
+            subTitle: err? err.message||'':err,
+          })
+          .present();
+        return []
+      })
+  }
+
+  constructor(
+    /*public navCtrl: NavController*/
+    public navParams: NavParams,
+    public alertCtrl: AlertController,
+    public entrustServiceProvider: EntrustServiceProvider
+  ) {
     this.initData();
+  }
+
+  async loadMoreHistory(infiniteScroll: InfiniteScroll) {
+    this.page += 1;
+    const tradeHistory = await this.getTradeHistory();
+    this.hasMore = !(tradeHistory.length < this.pageSize)    
+    this.entrusts.push(...tradeHistory);
+    infiniteScroll.complete();
+    infiniteScroll.enable(this.hasMore);
   }
 
 }

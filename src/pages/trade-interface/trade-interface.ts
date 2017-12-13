@@ -1,6 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 // import * as echarts from 'echarts';
-import { NavParams, ToastController, AlertController } from 'ionic-angular';
+import { NavParams, ToastController, AlertController, NavController } from 'ionic-angular';
 
 import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
@@ -13,6 +13,7 @@ import { AppDataService } from '../../providers/app-data-service';
 import { AlertService } from '../../providers/alert-service';
 import { SocketioService } from "../../providers/socketio-service";
 import { EntrustServiceProvider } from "../../providers/entrust-service";
+import { HistoryRecordPage } from '../history-record/history-record';
 
 @Component({
   selector: 'page-trade-interface',
@@ -114,7 +115,7 @@ export class TradeInterfacePage {
   }
 
   constructor(
-    // public navCtrl: NavController,
+    public navCtrl: NavController,
     private alertCtrl: AlertController,
     public toastCtrl: ToastController,
     public appSettings: AppSettings,
@@ -392,6 +393,12 @@ export class TradeInterfacePage {
     }
   }
 
+  gotoHistory($event){
+    this.navCtrl.push(HistoryRecordPage, {
+      traderId: this.traderId,
+    })
+  }
+
   cancelEntrust(entrustId){
     //todo:提示是否撤单
     this.entrustServiceProvider.cancelEntrust(entrustId)
@@ -425,7 +432,7 @@ export class TradeInterfacePage {
   }
 
   getProcessEntrusts(){
-    this.entrustServiceProvider.getEntrustsByTraderId(this.traderId,'001,002')
+    this.entrustServiceProvider.getEntrusts(this.traderId,'001,002')
       .then(data=>{
         console.log('getProcessEntrusts data:',data)
         this.entrusts = data
