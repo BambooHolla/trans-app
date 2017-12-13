@@ -190,7 +190,7 @@
 		<div class="header">
 			<span class="title">委托单</span>
 			<span (click)="gotoHistory($event)" class="goto-history">
-				<ion-icon name=""></ion-icon>
+				<ion-icon class="history-icon"></ion-icon>
 				<font>历史记录</font>
 			</span>
 		</div>
@@ -201,8 +201,8 @@
 					<div class="type" [class.buy]="item.operationType == '001'" [class.sale]="item.operationType == '002'">
 						{{item.operationType == '001'? '买': item.operationType == '002'? '卖':'' }}
 					</div>
-					<div class="date">{{item.entrustTime | date:'yyyy-mm-dd'}}</div>
-					<button (click)="cancelEntrust(item.id)">撤单</button>
+					<div class="date">{{item.entrustTime | date:'yyyy-MM-dd'}}</div>
+					<button (click)="confirmCancel(item.id,item.entrustTime,item.operationType)">撤单</button>
 				</div>
 				<div class="params">
 					<div class="col">
@@ -220,5 +220,12 @@
 				</div>
 			</div>
 		</div>
+		
+		<!--加载更多-->
+		<ion-infinite-scroll [enabled]="hasMore" (ionInfinite)="loadMoreEntrusts($event)">
+			<ion-infinite-scroll-content loadingText="正在加载...">
+			</ion-infinite-scroll-content>
+		</ion-infinite-scroll>
+
 	</div>
 </ion-content>
