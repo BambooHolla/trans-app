@@ -424,9 +424,10 @@ page-trade-interface {
 					display: inline-block;
 				}
 				.type{
-					width: 3.4rem;
-					height: 3.4rem;
-					line-height: 3.4rem;
+					box-sizing: content-box;
+					width: 3.2rem;
+					height: 3.2rem;
+					line-height: 3.2rem;
 					border: 1px solid color($colors,special);
 					border-radius: 50%;
 					font-size: 1.4rem;
@@ -447,6 +448,7 @@ page-trade-interface {
 					line-height: .9rem;
 				}
 				button{
+					padding: 0;
 					float: right;
 					height: 2.5rem;
 					width: 5.2rem;
