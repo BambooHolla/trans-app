@@ -3,7 +3,9 @@ import {
 	IonicPage,
 	NavController,
 	NavParams,
-	InfiniteScroll
+	InfiniteScroll,
+	ViewController,
+	ModalController
 } from 'ionic-angular';
 import { SecondLevelPage } from '../../bnlc-framework/SecondLevelPage';
 import { asyncCtrlGenerator } from '../../bnlc-framework/Decorator';
@@ -15,6 +17,7 @@ import {
 	CryptoCurrencyModel,
 	DealResult
 } from '../../providers/account-service/account-service';
+import { WithdrawAddressListPage } from '../withdraw-address-list/withdraw-address-list';
 
 /**
  * Generated class for the WithdrawDetailPage page.
@@ -29,8 +32,10 @@ import {
 export class WithdrawDetailPage extends SecondLevelPage {
 	constructor(
 		public navCtrl: NavController,
+		public viewCtrl: ViewController,
 		public navParams: NavParams,
-		public accountService: AccountServiceProvider
+		public accountService: AccountServiceProvider,
+		public modalCtrl: ModalController
 	) {
 		super(navCtrl, navParams);
 		this.productInfo = this.navParams.get('productInfo');
@@ -39,7 +44,25 @@ export class WithdrawDetailPage extends SecondLevelPage {
 	withdraw_address_list: CryptoCurrencyModel[];
 	selected_withdraw_address: CryptoCurrencyModel;
 	access_info: any;
-
+	openWithdrawAddressSelector() {
+		const { withdraw_address_list, productInfo } = this;
+		const selector = this.modalCtrl.create(WithdrawAddressListPage, {
+			title: '请选择提现地址',
+			productInfo,
+			selected_data:
+				this.selected_withdraw_address &&
+				this.selected_withdraw_address.id,
+			withdraw_address_list
+		});
+		selector.onWillDismiss(data => {
+			console.log('selected result:', data);
+			this.selected_withdraw_address = data.selected_data;
+			if (data.withdraw_address_list) {
+				this.withdraw_address_list = data.withdraw_address_list;
+			}
+		});
+		selector.present();
+	}
 	toAddWithdrawAddress() {
 		return this.routeTo('add-address', {
 			productInfo: this.productInfo
@@ -64,6 +87,8 @@ export class WithdrawDetailPage extends SecondLevelPage {
 					accountType: AccountType.Product
 				})
 				.then(data => (this.access_info = data));
+		} else {
+			this.navCtrl.removeView(this.viewCtrl);
 		}
 	}
 

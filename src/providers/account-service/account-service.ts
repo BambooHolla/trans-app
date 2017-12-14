@@ -35,12 +35,16 @@ export class AccountServiceProvider {
 	readonly GET_TRANSACTION_LOGS = this.appSetting.APP_URL(
 		'transaction/externaltransactions'
 	);
+	readonly GET_WITHDRAW_ADDRESS = this.appSetting.APP_URL('account/payments');
 	readonly ADD_WITHDRAW_ADDRESS = this.appSetting.APP_URL(
 		'account/payment/create'
 	);
 	/** 同ADD_WITHDRAW_ADDRESS，但是这个是提交验证信息的*/
 	readonly CREATE_VALIDATE = this.appSetting.APP_URL(
 		'account/payment/createvalidate'
+	);
+	readonly DELETE_PAYMENT = this.appSetting.APP_URL(
+		'account/payment/delete/:id'
 	);
 	readonly GET_WITHDRAW_ADDRESS_TYPE_LIST = this.appSetting.APP_URL(
 		'account/paymenttypelist'
@@ -100,12 +104,20 @@ export class AccountServiceProvider {
 	getWithdrawAddress(productId: string) {
 		return this.fetch
 			.autoCache(true)
-			.get<CryptoCurrencyModel[]>(this.GET_CRYPTO_CURRENCY, {
+			.get<CryptoCurrencyModel[]>(this.GET_WITHDRAW_ADDRESS, {
 				search: {
-					productId,
+					pageSize: 50,
+					paymentOrganization: productId,
 					paymentCategory: PaymentCategory.Withdraw
 				}
 			});
+	}
+	deleteWithdrawAddress(id: number) {
+		return this.fetch.delete(this.DELETE_PAYMENT, {
+			params: {
+				id
+			}
+		});
 	}
 
 	productList: AsyncBehaviorSubject<ProductModel[]>;

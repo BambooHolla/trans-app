@@ -56,10 +56,14 @@ page-withdraw-detail {
 			}
 			.withdraw-to {
 				font-size: 1.4rem;
-				i {
+				position: relative;
+				flex-shrink: 0;
+				flex-grow: 1;
+				> i {
 					color: rgba(#fff, 0.8);
 					display: flex;
 					align-items: center;
+					justify-content: center;
 					ion-icon {
 						width: 1.3rem;
 						height: 1.3rem;
@@ -67,6 +71,10 @@ page-withdraw-detail {
 						background-repeat: no-repeat;
 						background-position: center;
 					}
+				}
+
+				.button-inner {
+					justify-content: flex-end;
 				}
 			}
 			.account-selector {

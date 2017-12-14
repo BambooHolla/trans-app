@@ -51,6 +51,7 @@ import { AuthPendingPage } from '../pages/auth-pending/auth-pending';
 import { HomePage } from '../pages/home/home';
 
 import { SubmitRealInfoPage } from '../pages/submit-real-info/submit-real-info';
+import { WithdrawAddressListPage } from '../pages/withdraw-address-list/withdraw-address-list';
 /**+ from BNLC framework*/
 import { RechargeGatewayPage } from '../pages/recharge-gateway/recharge-gateway';
 import { RechargeDetailPage } from '../pages/recharge-detail/recharge-detail';
@@ -207,6 +208,7 @@ import { IdentificationNumberCheckerProvider } from '../providers/identification
         // LoginPage,
         // RegisterPage,
         SubmitRealInfoPage,
+        WithdrawAddressListPage,
         HomePage,
         QuotationDetailPage,
         FundStatementPage,
@@ -307,6 +309,10 @@ import { IdentificationNumberCheckerProvider } from '../providers/identification
                         name: 'account-center-old'
                     },
                     { component: SubmitRealInfoPage, name: 'submit-real-info' },
+                    {
+                        component: WithdrawAddressListPage,
+                        name: 'withdraw-address-list'
+                    },
                     //- from BNLC framwork
 
                     { component: LoginPage, name: 'login' },
@@ -341,6 +347,7 @@ import { IdentificationNumberCheckerProvider } from '../providers/identification
     bootstrap: [IonicApp],
     entryComponents: [
         SubmitRealInfoPage,
+        WithdrawAddressListPage,
 
         RechargeGatewayPage,
         RechargeDetailPage,
@@ -438,7 +445,7 @@ import { IdentificationNumberCheckerProvider } from '../providers/identification
         EntrustServiceProvider,
         AccountServiceProvider,
         FsProvider,
-    IdentificationNumberCheckerProvider
+        IdentificationNumberCheckerProvider
     ]
 })
 export class AppModule {}

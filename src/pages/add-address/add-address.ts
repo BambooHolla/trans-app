@@ -1,5 +1,10 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import {
+	IonicPage,
+	NavController,
+	NavParams,
+	ViewController
+} from 'ionic-angular';
 import { SecondLevelPage } from '../../bnlc-framework/SecondLevelPage';
 import { asyncCtrlGenerator } from '../../bnlc-framework/Decorator';
 import {
@@ -22,15 +27,19 @@ export class AddAddressPage extends SecondLevelPage {
 		public navCtrl: NavController,
 		public navParams: NavParams,
 		public appdata: AppDataService,
+		public viewCtrl: ViewController,
 		public accountService: AccountServiceProvider
 	) {
 		super(navCtrl, navParams);
 	}
+	// PS:这里不能用FormGroup, 因为ion-radio不支持formControl
 	formData: {
+		name: string;
 		address: string;
 		check_method: AuthenticationModel;
 		vcode: string;
 	} = {
+		name: '',
 		address: '',
 		check_method: null,
 		vcode: ''
@@ -44,6 +53,9 @@ export class AddAddressPage extends SecondLevelPage {
 	@asyncCtrlGenerator.error('加载用户信息出错')
 	async getCheckMethodOptions() {
 		this.productInfo = this.navParams.get('productInfo');
+		if (!this.productInfo) {
+			this.navCtrl.removeView(this.viewCtrl);
+		}
 
 		return (this.check_method_options = await this.accountService.getAuthenticateDetail(
 			{
@@ -71,17 +83,20 @@ export class AddAddressPage extends SecondLevelPage {
 	@asyncCtrlGenerator.success('地址添加成功')
 	async submitAddAddress() {
 		const { productInfo } = this;
-		const { address, check_method, vcode } = this.formData;
-		return this.accountService.createValidate({
-			paymentCategory: PaymentCategory.Withdraw,
-			paymentType: PaymenType.Other,
-			paymentBelong: PaymentBelong.Customer,
-			paymentOrganization: productInfo.productId,
-			paymentAccountNumber: address,
-			code: vcode,
-			category: check_method.category
-		}).then(()=>{
-			this.finishJob(true);
-		})
+		const { name, address, check_method, vcode } = this.formData;
+		return this.accountService
+			.createValidate({
+				paymentCategory: PaymentCategory.Withdraw,
+				paymentType: PaymenType.Other,
+				paymentBelong: PaymentBelong.Customer,
+				paymentOrganization: productInfo.productId,
+				paymentAccountRemark: name,
+				paymentAccountNumber: address,
+				code: vcode,
+				category: check_method.category
+			})
+			.then(() => {
+				this.finishJob(true);
+			});
 	}
 }

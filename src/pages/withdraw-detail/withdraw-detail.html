@@ -32,14 +32,21 @@
             </button> -->
             <div class="withdraw-to" item-end>
                 <ng-container *ngIf="withdraw_address_list?.length;else no_selectable_withdraw_address_list">
-                    <ion-select [(ngModel)]="selected_withdraw_address" cancelText="取消" okText="确定">
+                    <!-- <ion-select [(ngModel)]="selected_withdraw_address" interface="action-sheet" placeholder="请选择" multiple="false" cancelText="取消">
                         <ion-option class="account-selector" *ngFor="let withdraw_address of withdraw_address_list" [value]="withdraw_address">
                             <div class="account-info">
                                 <div class="account-name">{{withdraw_address.paymentAccountNumber}}</div>
                                 <div class="account-code">{{withdraw_address.paymentAccountRemark}}</div>
                             </div>
                         </ion-option>
-                    </ion-select>
+                    </ion-select> -->
+                    <button ion-button clear full (click)="openWithdrawAddressSelector()" icon-right>
+                        <i *ngIf="!selected_withdraw_address;else selectedWithdrawAddressInfo">请选择</i>
+                        <ng-template #selectedWithdrawAddressInfo>
+                            {{selected_withdraw_address.paymentAccountNumber}} - {{selected_withdraw_address.paymentAccountRemark}}
+                        </ng-template>
+                        <ion-icon name="md-arrow-dropdown"></ion-icon>
+                    </button>
                 </ng-container>
                 <ng-template #no_selectable_withdraw_address_list>
                     <i (click)="toAddWithdrawAddress()">无可用地址，点击<ion-icon name="添加"></ion-icon>添加</i>
