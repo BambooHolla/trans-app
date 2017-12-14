@@ -49,6 +49,8 @@ import { CreateAccountConfirmPage } from '../pages/create-account-confirm/create
 import { IdentificationPage } from '../pages/identification/identification';
 import { AuthPendingPage } from '../pages/auth-pending/auth-pending';
 import { HomePage } from '../pages/home/home';
+
+import { SubmitRealInfoPage } from '../pages/submit-real-info/submit-real-info';
 /**+ from BNLC framework*/
 import { RechargeGatewayPage } from '../pages/recharge-gateway/recharge-gateway';
 import { RechargeDetailPage } from '../pages/recharge-detail/recharge-detail';
@@ -58,7 +60,6 @@ import { AccountCenterV2Page } from '../pages/account-center-v2/account-center-v
 import { AddAddressPage } from '../pages/add-address/add-address';
 import { AppSettingProvider } from '../bnlc-framework/providers/app-setting/app-setting';
 import { AppFetchProvider } from '../bnlc-framework/providers/app-fetch/app-fetch';
-
 /**- from BNLC framework*/
 
 // import { NewsContentModule } from '../pages/news-content/news-content.module';
@@ -148,6 +149,7 @@ import { AccountServiceProvider } from '../providers/account-service/account-ser
 import { KjuaQrcodeComponent } from '../components/kjua-qrcode/kjua-qrcode';
 import { EntrustServiceProvider } from '../providers/entrust-service';
 import { FsProvider } from '../providers/fs/fs';
+import { IdentificationNumberCheckerProvider } from '../providers/identification-number-checker/identification-number-checker';
 // import { BankCode2NamePipe } from '..\pipes\bank-code2-name/bank-code2-name';
 // import { FileService } from '../providers/file.service';
 // import { IsLoadingDirective } from '../directives/is-loading/is-loading';
@@ -204,6 +206,7 @@ import { FsProvider } from '../providers/fs/fs';
         // TriColListComponent,
         // LoginPage,
         // RegisterPage,
+        SubmitRealInfoPage,
         HomePage,
         QuotationDetailPage,
         FundStatementPage,
@@ -299,6 +302,11 @@ import { FsProvider } from '../providers/fs/fs';
                         name: 'account-center-v2'
                     },
                     { component: AddAddressPage, name: 'add-address' },
+                    {
+                        component: AccountCenterPage,
+                        name: 'account-center-old'
+                    },
+                    { component: SubmitRealInfoPage, name: 'submit-real-info' },
                     //- from BNLC framwork
 
                     { component: LoginPage, name: 'login' },
@@ -332,6 +340,8 @@ import { FsProvider } from '../providers/fs/fs';
     ],
     bootstrap: [IonicApp],
     entryComponents: [
+        SubmitRealInfoPage,
+
         RechargeGatewayPage,
         RechargeDetailPage,
         WithdrawGatewayPage,
@@ -427,7 +437,8 @@ import { FsProvider } from '../providers/fs/fs';
         NoticeListModel,
         EntrustServiceProvider,
         AccountServiceProvider,
-        FsProvider
+        FsProvider,
+    IdentificationNumberCheckerProvider
     ]
 })
-export class AppModule { }
+export class AppModule {}

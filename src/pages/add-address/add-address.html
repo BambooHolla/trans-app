@@ -15,7 +15,7 @@
     <ion-list class="common-form">
         <ion-item>
             <ion-label class="form-label with-left-baseline" color="primary">地址名称</ion-label>
-            <ion-input placeholder="请填写地址名称"></ion-input>
+            <ion-input [(ngModel)]="formData.address" placeholder="请填写地址名称"></ion-input>
         </ion-item>
         <ion-item>
             <ion-label class="form-label with-left-baseline" color="primary">地址</ion-label>
@@ -23,21 +23,17 @@
         </ion-item>
         <ion-item>
             <ion-label class="form-label with-left-baseline" color="primary">验证</ion-label>
-            <ion-list item-end class="radio-list" radio-group [(ngModel)]="checkMethod">
-                <ion-item>
-                    <ion-label>156***4549</ion-label>
-                    <ion-radio checked="true" value="phone"></ion-radio>
-                </ion-item>
-                <ion-item>
-                    <ion-label>gaub***@126.com</ion-label>
-                    <ion-radio checked="true" value="email"></ion-radio>
+            <ion-list item-end *ngIf="check_method_options" class="radio-list" radio-group [(ngModel)]="formData.check_method">
+                <ion-item *ngFor="let check_method_opt of check_method_options">
+                    <ion-label>{{check_method_opt.value}}</ion-label>
+                    <ion-radio checked="true" [value]="check_method_opt"></ion-radio>
                 </ion-item>
             </ion-list>
         </ion-item>
         <ion-item>
             <ion-label class="form-label with-left-baseline" color="primary">验证</ion-label>
-            <ion-input placeholder="请填写验证码"></ion-input>
-            <button ion-button item-end color="special">获取验证码</button>
+            <ion-input [(ngModel)]="formData.vcode" placeholder="请填写验证码"></ion-input>
+            <button (click)="sendValidate()" [disabled]="!formData.check_method" ion-button item-end color="special">获取验证码</button>
         </ion-item>
     </ion-list>
     <div class="submit-wrapper">

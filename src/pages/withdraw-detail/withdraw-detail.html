@@ -30,21 +30,23 @@
                 </div>
                 <ion-icon name="arrow-forward"></ion-icon>
             </button> -->
-            <ng-container *ngIf="withdraw_address_list?.length;else no_selectable_withdraw_address_list">
-                <ion-select item-end [(ngModel)]="selected_withdraw_address" cancelText="取消" okText="确定">
-                    <ion-option class="account-selector" *ngFor="let withdraw_address of withdraw_address_list" [value]="withdraw_address">
-                        <div class="account-info">
-                            <div class="account-name">{{withdraw_address.paymentAccountNumber}}</div>
-                            <div class="account-code">{{withdraw_address.paymentAccountRemark}}</div>
-                        </div>
-                    </ion-option>
-                </ion-select>
-            </ng-container>
-            <ng-template #no_selectable_withdraw_address_list>
-                <i item-end>无可用地址，点击添加<ion-icon name="添加"></ion-icon></i>
-            </ng-template>
+            <div class="withdraw-to" item-end>
+                <ng-container *ngIf="withdraw_address_list?.length;else no_selectable_withdraw_address_list">
+                    <ion-select [(ngModel)]="selected_withdraw_address" cancelText="取消" okText="确定">
+                        <ion-option class="account-selector" *ngFor="let withdraw_address of withdraw_address_list" [value]="withdraw_address">
+                            <div class="account-info">
+                                <div class="account-name">{{withdraw_address.paymentAccountNumber}}</div>
+                                <div class="account-code">{{withdraw_address.paymentAccountRemark}}</div>
+                            </div>
+                        </ion-option>
+                    </ion-select>
+                </ng-container>
+                <ng-template #no_selectable_withdraw_address_list>
+                    <i (click)="toAddWithdrawAddress()">无可用地址，点击<ion-icon name="添加"></ion-icon>添加</i>
+                </ng-template>
+            </div>
         </ion-item>
-        <ion-item-divider class="left-link" (click)="routeTo('add-address')">
+        <ion-item-divider class="left-link" (click)="toAddWithdrawAddress()">
             <ion-icon name="添加"></ion-icon>
             添加新地址
         </ion-item-divider>

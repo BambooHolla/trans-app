@@ -35,10 +35,17 @@ export class WithdrawDetailPage extends SecondLevelPage {
 		super(navCtrl, navParams);
 		this.productInfo = this.navParams.get('productInfo');
 	}
-	productInfo: any;
+	productInfo: ProductModel;
 	withdraw_address_list: CryptoCurrencyModel[];
 	selected_withdraw_address: CryptoCurrencyModel;
-	access_info:any
+	access_info: any;
+
+	toAddWithdrawAddress() {
+		return this.routeTo('add-address', {
+			productInfo: this.productInfo
+		});
+	}
+
 	@WithdrawDetailPage.willEnter
 	@asyncCtrlGenerator.loading()
 	@asyncCtrlGenerator.error('获取账户信息出错')
@@ -51,8 +58,12 @@ export class WithdrawDetailPage extends SecondLevelPage {
 				.then(data => {
 					this.withdraw_address_list = data;
 				});
-			tasks[tasks.length] = this.accountService.getAccountProduct({ productId: this.productInfo.productId,
-			accountType:AccountType.Product }).then(data => this.access_info = data)
+			tasks[tasks.length] = this.accountService
+				.getAccountProduct({
+					productId: this.productInfo.productId,
+					accountType: AccountType.Product
+				})
+				.then(data => (this.access_info = data));
 		}
 	}
 
