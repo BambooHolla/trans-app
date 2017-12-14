@@ -156,6 +156,7 @@ import { FsProvider } from '../providers/fs/fs';
 import { ProductId2namePipe } from '../pipes/product-id2name';
 import { IdentificationNumberCheckerProvider } from '../providers/identification-number-checker/identification-number-checker';
 import { WorkOrderProvider } from '../providers/work-order/work-order';
+import { NewsServiceProvider } from '../providers/news-service/news-service';
 // import { BankCode2NamePipe } from '..\pipes\bank-code2-name/bank-code2-name';
 // import { FileService } from '../providers/file.service';
 // import { IsLoadingDirective } from '../directives/is-loading/is-loading';
@@ -464,7 +465,8 @@ import { WorkOrderProvider } from '../providers/work-order/work-order';
         AccountServiceProvider,
         FsProvider,
         IdentificationNumberCheckerProvider,
-    WorkOrderProvider
+    WorkOrderProvider,
+    NewsServiceProvider
     ]
 })
 export class AppModule {}

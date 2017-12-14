@@ -73,7 +73,10 @@ export class AddAddressPage extends SecondLevelPage {
 			check_method.id
 		);
 	}
-
+	get canSubmit() {
+		// 表单中所有的值都不能为空
+		return Object.keys(this.formData).every(k => this.formData[k]);
+	}
 	protocolAgree = true;
 	toggleProtocolAgree() {
 		this.protocolAgree = !this.protocolAgree;
@@ -90,7 +93,7 @@ export class AddAddressPage extends SecondLevelPage {
 				paymentType: PaymenType.Other,
 				paymentBelong: PaymentBelong.Customer,
 				paymentOrganization: productInfo.productId,
-				paymentAccountRemark: name,
+				realname: name,
 				paymentAccountNumber: address,
 				code: vcode,
 				category: check_method.category

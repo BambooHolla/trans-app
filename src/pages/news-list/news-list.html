@@ -24,24 +24,61 @@
                     </ion-refresher-content>
                 </ion-refresher>
                 <ion-list class="card-background-page">
-                    <ion-item *ngFor="let site of newsList" ionic (click)="viewNews(site.newsId)" no-lines>
-                        <div class="infos">
-                            <div class="publisher">{{site.publisherName}}</div>
-                            <div class="news-title">{{site.newsTitle}}</div>
-                            <div class="news-abstract">{{site.abstract}}</div>
-                            <div class="news-date">{{site.crtDateTime|date:"y年M月d日 H:mm"}}</div>
+                    <ng-container *ngFor="let data_item of noticeList.list;let i = index">
+                        <div class="banner-card" *ngIf="i==0;else normalListItem">
+                            <div class="wrapper" [style.backgroundImage]="'url('+data_item.cover+')'">
+                                <div class="title">{{data_item.newsTitle}}</div>
+                                <button class="click-to-read" ion-button (click)="viewNews(data_item.newsId)">点击阅读</button>
+                            </div>
                         </div>
-                    </ion-item>
+                        <ng-template #normalListItem>
+                            <ion-item class="notify-item" (click)="viewNews(data_item.newsId)" no-lines>
+                                <!-- <div class="infos">
+                                    <div class="publisher">{{data_item.publisherName}}</div>
+                                    <div class="news-title">{{data_item.newsTitle}}</div>
+                                    <div class="news-abstract">{{data_item.abstract}}</div>
+                                    <div class="news-date">{{data_item.crtDateTime|date:"y年M月d日 H:mm"}}</div>
+                                </div> -->
+                                <div class="infos">
+                                    <div class="title">{{data_item.newsTitle}}</div>
+                                    <div class="date">{{data_item.crtDateTime|date:"y年M月d日 H:mm"}}</div>
+                                </div>
+                            </ion-item>
+                        </ng-template>
+                    </ng-container>
                 </ion-list>
                 <!--加载更多-->
-                <ion-infinite-scroll [enabled]="hasMore" (ionInfinite)="loadMoreNewsList($event)">
+                <ion-infinite-scroll #noticeIS [enabled]="noticeList.hasMore" (ionInfinite)="loadMoreNewsList($event)">
                     <ion-infinite-scroll-content loadingText="正在加载...">
                     </ion-infinite-scroll-content>
                 </ion-infinite-scroll>
             </ion-content>
         </ion-slide>
         <ion-slide>
-            新闻？？
+            <ion-content class="child-content" [style.height.px]="slideHeight">
+                <ion-spinner name="ios" *ngIf="initing"></ion-spinner>
+                <!--下拉刷新-->
+                <ion-refresher (ionRefresh)="initNoticeList($event)">
+                    <ion-refresher-content refreshingText="正在刷新...">
+                    </ion-refresher-content>
+                </ion-refresher>
+                <ion-list class="card-background-page">
+                    <ion-item class="big-news-item" *ngFor="let data_item of newsList.list" (click)="viewNews(data_item.newsId)" no-lines>
+                        <div class="card-item" [style.backgroundImage]="'url('+data_item.cover+')'">
+                            <div class="wrapper">
+                                <div class="news-title">{{data_item.newsTitle}}</div>
+                                <div class="news-abstract">{{data_item.abstract}}</div>
+                                <div class="news-date">{{data_item.crtDateTime|date:"y年M月d日 H:mm"}}</div>
+                            </div>
+                        </div>
+                    </ion-item>
+                </ion-list>
+                <!--加载更多-->
+                <ion-infinite-scroll #noticeIS [enabled]="newsList.hasMore" (ionInfinite)="loadMoreNoticeList($event)">
+                    <ion-infinite-scroll-content loadingText="正在加载...">
+                    </ion-infinite-scroll-content>
+                </ion-infinite-scroll>
+            </ion-content>
         </ion-slide>
     </ion-slides>
 </ion-content>
