@@ -41,6 +41,6 @@
             <ion-checkbox color="dark" [(ngModel)]="protocolAgree"></ion-checkbox>
             <div class="protocol-label" (click)="toggleProtocolAgree()">同意<a>《服务协议》</a></div>
         </div>
-        <button block ion-button color="special" (click)="submitAddAddress()">完成添加</button>
+        <button block ion-button color="special" [disabled]="!canSubmit" (click)="submitAddAddress()">完成添加</button>
     </div>
 </ion-content>
