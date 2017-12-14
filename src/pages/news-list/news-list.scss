@@ -1,4 +1,44 @@
 page-news-list {
+  .tab-list {
+    width: 100%;
+    height: 40px;
+    line-height: 40px;
+    position: relative;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    .tab-item {
+      flex: 1;
+      text-align: center;
+      color: #fff;
+      transition-duration: 250ms;
+      font-size: 16px;
+      &.focus {
+      }
+    }
+    .tab-tale {
+      position: absolute;
+      width: 20%;
+      height: 4px;
+      border-radius: 2px;
+      background: color($colors, 'special');
+      top: calc(100% - 4px);
+      /* box-shadow: 0 0 20px #3dc8e8; */
+      transform: translateX(-50%);
+      transition: left 0.25s ease-in-out;
+      &.tab-pos-1 {
+        left: 25%;
+      }
+      &.tab-pos-2 {
+        left: 75%;
+      }
+    }
+  }
+
   .optional-header {
     ion-col {
       font-size: 1.7em;
@@ -8,10 +48,14 @@ page-news-list {
     min-height: 3.8rem;
   }
   .scroll-content {
-    // margin-bottom: 0 !important;
-  } // .list-ios {
-  //     margin-bottom: 0;
-  // }
+  }
+
+  .child-content {
+    .fixed-content,
+    .scroll-content {
+      margin-bottom: 0 !important;
+    }
+  }
 }
 
 .card-background-page {
@@ -116,8 +160,8 @@ page-news-list {
 
 .enableBackdropDismiss {
   pointer-events: none;
-  bottom: 60px!important;
+  bottom: 60px !important;
 }
-.click-block-disabled{
-  display: none!important;
+.click-block-disabled {
+  display: none !important;
 }

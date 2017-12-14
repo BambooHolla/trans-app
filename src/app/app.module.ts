@@ -49,6 +49,12 @@ import { CreateAccountConfirmPage } from '../pages/create-account-confirm/create
 import { IdentificationPage } from '../pages/identification/identification';
 import { AuthPendingPage } from '../pages/auth-pending/auth-pending';
 import { HomePage } from '../pages/home/home';
+
+import { SubmitRealInfoPage } from '../pages/submit-real-info/submit-real-info';
+import { WithdrawAddressListPage } from '../pages/withdraw-address-list/withdraw-address-list';
+import { WorkOrderListPage } from '../pages/work-order-list/work-order-list';
+import { WorkOrderAddPage } from '../pages/work-order-add/work-order-add';
+import { WorkOrderDetailPage } from '../pages/work-order-detail/work-order-detail';
 /**+ from BNLC framework*/
 import { RechargeGatewayPage } from '../pages/recharge-gateway/recharge-gateway';
 import { RechargeDetailPage } from '../pages/recharge-detail/recharge-detail';
@@ -58,7 +64,6 @@ import { AccountCenterV2Page } from '../pages/account-center-v2/account-center-v
 import { AddAddressPage } from '../pages/add-address/add-address';
 import { AppSettingProvider } from '../bnlc-framework/providers/app-setting/app-setting';
 import { AppFetchProvider } from '../bnlc-framework/providers/app-fetch/app-fetch';
-
 /**- from BNLC framework*/
 
 // import { NewsContentModule } from '../pages/news-content/news-content.module';
@@ -149,6 +154,8 @@ import { KjuaQrcodeComponent } from '../components/kjua-qrcode/kjua-qrcode';
 import { EntrustServiceProvider } from '../providers/entrust-service';
 import { FsProvider } from '../providers/fs/fs';
 import { ProductId2namePipe } from '../pipes/product-id2name';
+import { IdentificationNumberCheckerProvider } from '../providers/identification-number-checker/identification-number-checker';
+import { WorkOrderProvider } from '../providers/work-order/work-order';
 // import { BankCode2NamePipe } from '..\pipes\bank-code2-name/bank-code2-name';
 // import { FileService } from '../providers/file.service';
 // import { IsLoadingDirective } from '../directives/is-loading/is-loading';
@@ -205,6 +212,11 @@ import { ProductId2namePipe } from '../pipes/product-id2name';
         // TriColListComponent,
         // LoginPage,
         // RegisterPage,
+        SubmitRealInfoPage,
+        WithdrawAddressListPage,
+        WorkOrderListPage,
+        WorkOrderAddPage,
+        WorkOrderDetailPage,
         HomePage,
         QuotationDetailPage,
         FundStatementPage,
@@ -301,6 +313,21 @@ import { ProductId2namePipe } from '../pipes/product-id2name';
                         name: 'account-center-v2'
                     },
                     { component: AddAddressPage, name: 'add-address' },
+                    {
+                        component: AccountCenterPage,
+                        name: 'account-center-old'
+                    },
+                    { component: SubmitRealInfoPage, name: 'submit-real-info' },
+                    {
+                        component: WithdrawAddressListPage,
+                        name: 'withdraw-address-list'
+                    },
+                    { component: WorkOrderListPage, name: 'work-order-list' },
+                    { component: WorkOrderAddPage, name: 'work-order-add' },
+                    {
+                        component: WorkOrderDetailPage,
+                        name: 'work-order-detail'
+                    },
                     //- from BNLC framwork
 
                     { component: LoginPage, name: 'login' },
@@ -334,6 +361,12 @@ import { ProductId2namePipe } from '../pipes/product-id2name';
     ],
     bootstrap: [IonicApp],
     entryComponents: [
+        SubmitRealInfoPage,
+        WithdrawAddressListPage,
+        WorkOrderListPage,
+        WorkOrderAddPage,
+        WorkOrderDetailPage,
+
         RechargeGatewayPage,
         RechargeDetailPage,
         WithdrawGatewayPage,
@@ -429,7 +462,9 @@ import { ProductId2namePipe } from '../pipes/product-id2name';
         NoticeListModel,
         EntrustServiceProvider,
         AccountServiceProvider,
-        FsProvider
+        FsProvider,
+        IdentificationNumberCheckerProvider,
+    WorkOrderProvider
     ]
 })
-export class AppModule { }
+export class AppModule {}

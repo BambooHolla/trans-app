@@ -11,9 +11,70 @@ page-add-address {
 			}
 		}
 		ion-item.item-block {
-			margin-top: 0.55px;
-			ion-label {
-				color: color($colors, 'special');
+			margin-top: 0.55px; // ion-label {
+			// 	color: color($colors, 'special');
+			// }
+		}
+		.with-left-baseline {
+			width: 5rem;
+		}
+	}
+	.common-form {
+		ion-label.form-label {
+			font-size: 1.4rem;
+			align-self:  flex-start;
+			margin-top: 1.4rem;
+		}
+		input {
+			font-size: 1.4rem;
+			&::-webkit-input-placeholder {
+				font-size: 1.4rem;
+			}
+		}
+	}
+	.radio-list {
+		flex-grow: 1;
+		.item-radio {
+			padding-left: 0;
+			background-color: transparent;
+			.item-inner {
+				flex-direction: row-reverse;
+				.label {
+					color: rgba(#fff, 0.6) !important;
+				}
+			}
+			&.item-radio-checked {
+				.item-inner {
+					.label {
+						color: #fff !important;
+					}
+				}
+			}
+		}
+		.radio-icon {
+			transform: scale(0.7);
+			border-radius: 50%;
+			width: 1.6rem;
+			height: 1.6rem;
+			background-color: transparent;
+			border-color: color($colors, 'special');
+			border-width: 0.2rem;
+			border-style: solid;
+			box-sizing: border-box;
+			.radio-inner {
+				border-color: color($colors, 'special');
+				transform: scale(1.2) rotate(45deg);
+				top: 0.15rem;
+				left: 0.4rem;
+				width: 0.4rem;
+				height: 0.8rem;
+				border-width: 0.2rem;
+				border-top-width: 0;
+				border-left-width: 0;
+				animation: checkbox-inner-ani 0.15s;
+			}
+			&.radio-checked {
+				background-color: rgba(#000, 0.08);
 			}
 		}
 	}
@@ -32,24 +93,24 @@ page-add-address {
 				padding-right: 0.5em;
 				background: none;
 				border: none;
-				font-size: 1.2px;
+				font-size: 0.1rem;
 				color: #fff;
 				transform: scale(0.7);
 				.checkbox-icon {
 					background-color: transparent;
-					border-color: #c1b17f;
-					border-width: 2px;
+					border-color: color($colors, 'special');
+					border-width: 0.2rem;
 					box-sizing: border-box;
 					&.checkbox-checked {
-						border-color: #c1b17f; // background-color: #c1b17f;
+						border-color: color($colors, 'special');
 						.checkbox-inner {
-							border-color: #c1b17f;
+							border-color: color($colors, 'special');
 							transform: scale(1.2) rotate(45deg);
-							top: 3px;
-							left: 6px;
-							width: 5px;
-							height: 9px;
-							border-width: 2px;
+							top: 0.15rem;
+							left: 0.45rem;
+							width: 0.4rem;
+							height: 0.8rem;
+							border-width: 0.2rem;
 							border-top-width: 0;
 							border-left-width: 0;
 							animation: checkbox-inner-ani 0.15s;
@@ -65,12 +126,11 @@ page-add-address {
 					}
 				}
 			}
-			.protocol-label{
+			.protocol-label {
 				> a {
 					color: #3997ee;
 				}
 			}
 		}
-
 	}
 }

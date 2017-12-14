@@ -1,4 +1,10 @@
 page-withdraw-detail {
+	ion-icon[name='添加'] {
+		background-image: url('../assets/icon/添加.png');
+	}
+	ion-icon[name='￥✏'] {
+		background-image: url('../assets/icon/￥✏.png');
+	}
 	ion-list {
 		margin-top: 1rem !important;
 		margin-bottom: 0 !important;
@@ -35,12 +41,6 @@ page-withdraw-detail {
 				background-position: center;
 				margin-right: 0.3rem;
 			}
-			ion-icon[name='添加'] {
-				background-image: url('../assets/icon/添加.png');
-			}
-			ion-icon[name='￥✏'] {
-				background-image: url('../assets/icon/￥✏.png');
-			}
 		}
 		ion-item.item-block {
 			margin-top: 0.55px;
@@ -54,7 +54,29 @@ page-withdraw-detail {
 				font-size: 1.4rem;
 				// color: color($colors, 'special');
 			}
+			.withdraw-to {
+				font-size: 1.4rem;
+				position: relative;
+				flex-shrink: 0;
+				flex-grow: 1;
+				> i {
+					color: rgba(#fff, 0.8);
+					display: flex;
+					align-items: center;
+					justify-content: center;
+					ion-icon {
+						width: 1.3rem;
+						height: 1.3rem;
+						background-size: contain;
+						background-repeat: no-repeat;
+						background-position: center;
+					}
+				}
 
+				.button-inner {
+					justify-content: flex-end;
+				}
+			}
 			.account-selector {
 				background: transparent;
 				display: flex;

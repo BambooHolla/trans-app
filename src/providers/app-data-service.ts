@@ -65,6 +65,7 @@ export class AppDataService {
         this._data[key] = localStorage.getItem(this.APPDATASERVICE_PREIX + key);
       } else {
         this[key + 'Promise'] = this.storage.ready().then(async () => {
+          debugger
           return (this._data[key] = (await this.storage.get(key)) || new Map());
         });
       }

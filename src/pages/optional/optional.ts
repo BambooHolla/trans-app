@@ -136,7 +136,10 @@ export class OptionalPage extends SecondLevelPage
     });
   }
 
-  initPersonalStockListSubscriber() {
+  async initPersonalStockListSubscriber() {
+    debugger
+    await this.appDataService.productsPromise;
+    console.log(this.appDataService.products)
     // 当个人中心的股票持仓列表变化时，重新进行订阅
     this.personalDataService.personalStockList$.subscribe(data => {
       console.log('initPersonalStockListSubscriber', data);

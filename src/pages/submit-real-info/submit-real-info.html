@@ -1,0 +1,57 @@
+<!--
+  Generated template for the SubmitRealInfoPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+    <ion-navbar>
+        <ion-title>实名认证</ion-title>
+    </ion-navbar>
+</ion-header>
+<ion-content>
+    <form [formGroup]="formData" class="form-container">
+        <div class="form-item with-bottom-division">
+            <div class="label">真实姓名</div>
+            <div class="input-container">
+                <input placeholder="请输入您的姓名" [formControl]="realName" required/>
+            </div>
+        </div>
+        <div class="form-item with-bottom-division">
+            <div class="label">证件类型</div>
+            <div class="input-container">
+                <ion-select [formControl]="IDtype" required interface="action-sheet" placeholder="请选择" multiple="false" cancelText="取消">
+                    <ion-option *ngFor="let certificate_type of certificate_type_list" [value]="certificate_type.value">{{certificate_type.text}}</ion-option>
+                </ion-select>
+            </div>
+        </div>
+        <div class="form-item with-bottom-division">
+            <div class="label">证件号码</div>
+            <div class="input-container">
+                <input placeholder="请输入证件号码" [formControl]="IDnumber" required/>
+            </div>
+        </div>
+        <div class="form-item img-picker-list">
+            <div class="label">证件照片</div>
+            <div class="input-container">
+                <div *ngFor="let imageData of images" class="img-picker" (click)="upload(imageData.name)">
+                    <!-- <input type="file"> -->
+                    <ng-container *ngIf="imageData.image">
+                        <img [src]="imageData.image" class="in-box-image" />
+                    </ng-container>
+                    <ng-container *ngIf="!imageData.image">
+                        <div class="in-box-add">
+                            <span class="add-icon">+</span>
+                            <div class="sub-title">{{imageData.text}}</div>
+                        </div>
+                    </ng-container>
+                </div>
+            </div>
+        </div>
+        <div class="submit-container">
+            <button ion-button type="submit" (click)="submitForm()" [disabled]="formData.invalid">
+                提交认证
+            </button>
+        </div>
+    </form>
+</ion-content>

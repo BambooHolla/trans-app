@@ -41,9 +41,12 @@ export class FLP_Route extends FLP_Lifecycle {
 	// 页面B完成任务后，返回页面A，触发任务完成的回调
 	// 这个流程相关的API
 	viewCtrl: ViewController;
-	finishJob() {
+	finishJob(is_force_remove_view?: boolean) {
 		this.navParams.data['is_finish_job'] = true;
-		if (this.navParams.get('remove_view_after_finish')) {
+		if (
+			this.navParams.get('remove_view_after_finish') ||
+			is_force_remove_view
+		) {
 			setTimeout(() => {
 				const viewCtrl = this.viewCtrl;
 				if (viewCtrl) {
@@ -70,8 +73,8 @@ export class FLP_Route extends FLP_Lifecycle {
 	}
 
 	/** 页面跳转专用的核心函数
- *  内置了跳转拦截的功能，需要通过registerRouteToBeforeCheck来注册拦截检测器
- */
+	 *  内置了跳转拦截的功能，需要通过registerRouteToBeforeCheck来注册拦截检测器
+	 */
 	routeTo(path: string, ...args: any[]): Promise<any>;
 	@asyncCtrlGenerator.loading(
 		FLP_Route.jump_loading_message,

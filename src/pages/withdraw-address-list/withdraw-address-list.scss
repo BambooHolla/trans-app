@@ -1,0 +1,48 @@
+page-withdraw-address-list {
+	.radio-list {
+		flex-grow: 1;
+		.item-radio {
+			padding-left: 0;
+			background-color: transparent;
+			.item-inner {
+				flex-direction: row-reverse;
+				.label {
+					color: rgba(#fff, 0.6) !important;
+				}
+			}
+			&.item-radio-checked {
+				.item-inner {
+					.label {
+						color: #fff !important;
+					}
+				}
+			}
+		}
+		.radio-icon {
+			transform: scale(0.7);
+			border-radius: 50%;
+			width: 1.6rem;
+			height: 1.6rem;
+			background-color: transparent;
+			border-color: color($colors, 'special');
+			border-width: 0.2rem;
+			border-style: solid;
+			box-sizing: border-box;
+			.radio-inner {
+				border-color: color($colors, 'special');
+				transform: scale(1.2) rotate(45deg);
+				top: 0.15rem;
+				left: 0.4rem;
+				width: 0.4rem;
+				height: 0.8rem;
+				border-width: 0.2rem;
+				border-top-width: 0;
+				border-left-width: 0;
+				animation: checkbox-inner-ani 0.15s;
+			}
+			&.radio-checked {
+				background-color: rgba(#000, 0.08);
+			}
+		}
+	}
+}

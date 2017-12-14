@@ -3,17 +3,21 @@ import {
 	IonicPage,
 	NavController,
 	NavParams,
-	InfiniteScroll
+	InfiniteScroll,
+	ViewController,
+	ModalController
 } from 'ionic-angular';
 import { SecondLevelPage } from '../../bnlc-framework/SecondLevelPage';
 import { asyncCtrlGenerator } from '../../bnlc-framework/Decorator';
 import {
+	AccountType,
 	AccountServiceProvider,
 	PaymentCategory,
 	ProductModel,
-	RechargeAddressModel,
+	CryptoCurrencyModel,
 	DealResult
 } from '../../providers/account-service/account-service';
+import { WithdrawAddressListPage } from '../withdraw-address-list/withdraw-address-list';
 
 /**
  * Generated class for the WithdrawDetailPage page.
@@ -28,23 +32,65 @@ import {
 export class WithdrawDetailPage extends SecondLevelPage {
 	constructor(
 		public navCtrl: NavController,
+		public viewCtrl: ViewController,
 		public navParams: NavParams,
-		public accountService: AccountServiceProvider
+		public accountService: AccountServiceProvider,
+		public modalCtrl: ModalController
 	) {
 		super(navCtrl, navParams);
 		this.productInfo = this.navParams.get('productInfo');
 	}
-	productInfo: any;
-	withdraw_address_list: any[];
+	productInfo: ProductModel;
+	withdraw_address_list: CryptoCurrencyModel[];
+	selected_withdraw_address: CryptoCurrencyModel;
+	access_info: any;
+	openWithdrawAddressSelector() {
+		const { withdraw_address_list, productInfo } = this;
+		const selector = this.modalCtrl.create(WithdrawAddressListPage, {
+			title: '请选择提现地址',
+			productInfo,
+			selected_data:
+				this.selected_withdraw_address &&
+				this.selected_withdraw_address.id,
+			withdraw_address_list
+		});
+		selector.onWillDismiss(data => {
+			console.log('selected result:', data);
+			this.selected_withdraw_address = data.selected_data;
+			if (data.withdraw_address_list) {
+				this.withdraw_address_list = data.withdraw_address_list;
+			}
+		});
+		selector.present();
+	}
+	toAddWithdrawAddress() {
+		return this.routeTo('add-address', {
+			productInfo: this.productInfo
+		});
+	}
+
 	@WithdrawDetailPage.willEnter
 	@asyncCtrlGenerator.loading()
 	@asyncCtrlGenerator.error('获取账户信息出错')
 	async getAccountsInfo() {
 		this.productInfo = this.navParams.get('productInfo');
-		this.withdraw_address_list = await this.accountService.withdrawAddressList.getPromise();
-		return this.withdraw_address_list;
+		if (this.productInfo) {
+			const tasks = [];
+			tasks[tasks.length] = this.accountService
+				.getWithdrawAddress(this.productInfo.productId)
+				.then(data => {
+					this.withdraw_address_list = data;
+				});
+			tasks[tasks.length] = this.accountService
+				.getAccountProduct({
+					productId: this.productInfo.productId,
+					accountType: AccountType.Product
+				})
+				.then(data => (this.access_info = data));
+		} else {
+			this.navCtrl.removeView(this.viewCtrl);
+		}
 	}
-
 
 	transaction_logs: any[];
 	@WithdrawDetailPage.willEnter
