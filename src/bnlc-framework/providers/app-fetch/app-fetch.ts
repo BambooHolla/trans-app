@@ -12,11 +12,30 @@ import { AppSettingProvider } from '../app-setting/app-setting';
   and Angular DI.
 */
 export class ServerResError extends Error {
-  constructor(code, message) {
-    super(`${[code]} ${message}`);
-    this.CODE = String(code);
-    this.MESSAGE = String(message);
+  static parseErrorMessage(code, message) {
+    const CODE_LIST = [code + ''];
+    var MESSAGE = message;
+    while (MESSAGE.indexOf('500 - ') === 0) {
+      const rest_msg = MESSAGE.substr(6);
+      try {
+        const rest_err = JSON.parse(rest_msg);
+        if (rest_err.error) {
+          CODE_LIST.push(rest_err.error.code);
+          MESSAGE = rest_err.error.message;
+        } else {
+          break;
+        }
+      } catch (err) {}
+    }
+    return new ServerResError(CODE_LIST, MESSAGE);
   }
+  constructor(code_list: string[], message: string) {
+    super(message);
+    this.MESSAGE = String(message);
+    this.CODE_LIST = code_list;
+    this.stack += '\t\n' + code_list.join('\t\n');
+  }
+  CODE_LIST: string[];
   CODE: string;
   MESSAGE: string;
 }
@@ -29,7 +48,7 @@ export type CommonResponseData<T> = {
 };
 @Injectable()
 export class AppFetchProvider {
-  ServerResError = ServerResError
+  ServerResError = ServerResError;
   private _user_token: string;
 
   constructor(
@@ -69,7 +88,9 @@ export class AppFetchProvider {
       return data.data;
     } else {
       debugger;
-      return Promise.reject(new ServerResError(err.code, err.message));
+      return Promise.reject(
+        ServerResError.parseErrorMessage(err.code, err.message)
+      );
     }
   }
   private _handleResCatch(res) {
@@ -77,7 +98,9 @@ export class AppFetchProvider {
     const error = res.json().error;
     debugger;
     if (error) {
-      return Promise.reject(error.message);
+      return Promise.reject(
+        ServerResError.parseErrorMessage(error.code, error.message)
+      );
     } else {
       if (data) {
         if (

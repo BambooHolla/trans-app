@@ -75,7 +75,7 @@ export class AddAddressPage extends SecondLevelPage {
 	}
 	get canSubmit() {
 		// 表单中所有的值都不能为空
-		return Object.keys(this.formData).every(v => !!v);
+		return Object.keys(this.formData).every(k => this.formData[k]);
 	}
 	protocolAgree = true;
 	toggleProtocolAgree() {
