@@ -19,7 +19,7 @@
             <ion-content class="child-content" [style.height.px]="slideHeight">
                 <ion-spinner name="ios" *ngIf="initing"></ion-spinner>
                 <!--下拉刷新-->
-                <ion-refresher (ionRefresh)="initNewsList($event)">
+                <ion-refresher (ionRefresh)="initNoticeList($event)">
                     <ion-refresher-content refreshingText="正在刷新...">
                     </ion-refresher-content>
                 </ion-refresher>
@@ -48,7 +48,7 @@
                     </ng-container>
                 </ion-list>
                 <!--加载更多-->
-                <ion-infinite-scroll #noticeIS [enabled]="noticeList.hasMore" (ionInfinite)="loadMoreNewsList($event)">
+                <ion-infinite-scroll #noticeIS [enabled]="noticeList.hasMore" (ionInfinite)="loadMoreNoticeList($event)">
                     <ion-infinite-scroll-content loadingText="正在加载...">
                     </ion-infinite-scroll-content>
                 </ion-infinite-scroll>
@@ -58,7 +58,7 @@
             <ion-content class="child-content" [style.height.px]="slideHeight">
                 <ion-spinner name="ios" *ngIf="initing"></ion-spinner>
                 <!--下拉刷新-->
-                <ion-refresher (ionRefresh)="initNoticeList($event)">
+                <ion-refresher (ionRefresh)="initNewsList($event)">
                     <ion-refresher-content refreshingText="正在刷新...">
                     </ion-refresher-content>
                 </ion-refresher>
@@ -74,7 +74,7 @@
                     </ion-item>
                 </ion-list>
                 <!--加载更多-->
-                <ion-infinite-scroll #noticeIS [enabled]="newsList.hasMore" (ionInfinite)="loadMoreNoticeList($event)">
+                <ion-infinite-scroll #noticeIS [enabled]="newsList.hasMore" (ionInfinite)="loadMoreNewsList($event)">
                     <ion-infinite-scroll-content loadingText="正在加载...">
                     </ion-infinite-scroll-content>
                 </ion-infinite-scroll>
