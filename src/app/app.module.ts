@@ -52,6 +52,9 @@ import { HomePage } from '../pages/home/home';
 
 import { SubmitRealInfoPage } from '../pages/submit-real-info/submit-real-info';
 import { WithdrawAddressListPage } from '../pages/withdraw-address-list/withdraw-address-list';
+import { WorkOrderListPage } from '../pages/work-order-list/work-order-list';
+import { WorkOrderAddPage } from '../pages/work-order-add/work-order-add';
+import { WorkOrderDetailPage } from '../pages/work-order-detail/work-order-detail';
 /**+ from BNLC framework*/
 import { RechargeGatewayPage } from '../pages/recharge-gateway/recharge-gateway';
 import { RechargeDetailPage } from '../pages/recharge-detail/recharge-detail';
@@ -151,6 +154,7 @@ import { KjuaQrcodeComponent } from '../components/kjua-qrcode/kjua-qrcode';
 import { EntrustServiceProvider } from '../providers/entrust-service';
 import { FsProvider } from '../providers/fs/fs';
 import { IdentificationNumberCheckerProvider } from '../providers/identification-number-checker/identification-number-checker';
+import { WorkOrderProvider } from '../providers/work-order/work-order';
 // import { BankCode2NamePipe } from '..\pipes\bank-code2-name/bank-code2-name';
 // import { FileService } from '../providers/file.service';
 // import { IsLoadingDirective } from '../directives/is-loading/is-loading';
@@ -209,6 +213,9 @@ import { IdentificationNumberCheckerProvider } from '../providers/identification
         // RegisterPage,
         SubmitRealInfoPage,
         WithdrawAddressListPage,
+        WorkOrderListPage,
+        WorkOrderAddPage,
+        WorkOrderDetailPage,
         HomePage,
         QuotationDetailPage,
         FundStatementPage,
@@ -313,6 +320,12 @@ import { IdentificationNumberCheckerProvider } from '../providers/identification
                         component: WithdrawAddressListPage,
                         name: 'withdraw-address-list'
                     },
+                    { component: WorkOrderListPage, name: 'work-order-list' },
+                    { component: WorkOrderAddPage, name: 'work-order-add' },
+                    {
+                        component: WorkOrderDetailPage,
+                        name: 'work-order-detail'
+                    },
                     //- from BNLC framwork
 
                     { component: LoginPage, name: 'login' },
@@ -348,6 +361,9 @@ import { IdentificationNumberCheckerProvider } from '../providers/identification
     entryComponents: [
         SubmitRealInfoPage,
         WithdrawAddressListPage,
+        WorkOrderListPage,
+        WorkOrderAddPage,
+        WorkOrderDetailPage,
 
         RechargeGatewayPage,
         RechargeDetailPage,
@@ -445,7 +461,8 @@ import { IdentificationNumberCheckerProvider } from '../providers/identification
         EntrustServiceProvider,
         AccountServiceProvider,
         FsProvider,
-        IdentificationNumberCheckerProvider
+        IdentificationNumberCheckerProvider,
+    WorkOrderProvider
     ]
 })
 export class AppModule {}
