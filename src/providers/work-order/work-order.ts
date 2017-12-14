@@ -1,5 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import {
+	AppSettingProvider,
+	TB_AB_Generator
+} from '../../bnlc-framework/providers/app-setting/app-setting';
+import { AppFetchProvider } from '../../bnlc-framework/providers/app-fetch/app-fetch';
+import { AsyncBehaviorSubject } from '../../bnlc-framework/providers/RxExtends';
 
 /*
   Generated class for the WorkOrderProvider provider.
@@ -9,9 +15,8 @@ import { Injectable } from '@angular/core';
 */
 @Injectable()
 export class WorkOrderProvider {
-
-  constructor(public http: HttpClient) {
-    console.log('Hello WorkOrderProvider Provider');
-  }
-
+	constructor(
+		public appSetting: AppSettingProvider,
+		public fetch: AppFetchProvider
+	) {}
 }
