@@ -52,8 +52,8 @@ export class AccountServiceProvider {
 	readonly GET_WITHDRAW_ADDRESS_DETAIL = this.appSetting.APP_URL(
 		'account/payments/type/:type'
 	);
-	readonly SUBMIT_WITHDRAW_APPPLY = this.appSetting.APP_URL(
-		'transaction/externaltransactions/withdraw'
+	readonly CREATE_WITHDRAW_TRABSACTION = this.appSetting.APP_URL(
+		'transaction/transactions/create'
 	);
 
 	readonly SUBMIT_CERTIFICATION = this.appSetting.APP_URL(
@@ -226,8 +226,17 @@ export class AccountServiceProvider {
 			params: type
 		});
 	}
-	submitWithdrawAppply() {
-		return this.fetch.post(this.SUBMIT_WITHDRAW_APPPLY);
+	submitWithdrawAppply(body: {
+		transactionType: TransactionType;
+		productId: string;
+		price: number;
+		amount: number;
+		transactionId?: string;
+		status?: TransactionStatus;
+		paymentId?: number;
+		password: string;
+	}) {
+		return this.fetch.post(this.CREATE_WITHDRAW_TRABSACTION, body);
 	}
 
 	static getDealResultDetail(dealResult: DealResult) {
@@ -343,6 +352,8 @@ export enum TransactionType {
 	BuyProduct = '001', // 购买产品
 	SaleProduct = '002', // 卖出产品
 	GiveProduct = '003', // 赠送产品
+    RechargeProduct= '004',// 产品充值
+    WithdrawProduct= '005',// 产品提现
 	Other = '999' // 其他
 }
 export enum TransactionStatus {

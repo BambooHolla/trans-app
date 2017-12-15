@@ -168,7 +168,7 @@ export class NewsListPage /* implements OnInit, OnDestroy  */ extends SecondLeve
             const res = await this.newsService.getNewsList({
                 page: newsList.page,
                 pageSize: newsList.page_size,
-                // msgType: NewsMsgType.news
+                msgType: NewsMsgType.news
             });
             newsList.hasMore = res.length === newsList.page_size;
             this.newsInfiniteScroll &&
@@ -193,7 +193,7 @@ export class NewsListPage /* implements OnInit, OnDestroy  */ extends SecondLeve
             const res = await this.newsService.getNewsList({
                 page: noticeList.page,
                 pageSize: noticeList.page_size,
-                // msgType: NewsMsgType.notice
+                msgType: NewsMsgType.notice
             });
             noticeList.hasMore = res.length === noticeList.page_size;
             this.noticeInfiniteScroll &&

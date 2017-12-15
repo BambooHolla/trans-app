@@ -15,6 +15,7 @@ import {
 	PaymentCategory,
 	ProductModel,
 	CryptoCurrencyModel,
+	TransactionType,
 	DealResult
 } from '../../providers/account-service/account-service';
 import { WithdrawAddressListPage } from '../withdraw-address-list/withdraw-address-list';
@@ -40,8 +41,26 @@ export class WithdrawDetailPage extends SecondLevelPage {
 		super(navCtrl, navParams);
 		this.productInfo = this.navParams.get('productInfo');
 	}
+	formData: {
+		selected_withdraw_address_id: number;
+		amount: string;
+		password: string;
+	} = {
+		selected_withdraw_address_id: undefined,
+		amount: '',
+		password: ''
+	};
 	productInfo: ProductModel;
 	withdraw_address_list: CryptoCurrencyModel[];
+
+	@WithdrawDetailPage.watchChange(
+		(self: WithdrawDetailPage, value: CryptoCurrencyModel) => {
+			debugger
+			self.formData.selected_withdraw_address_id = value
+				? value.id
+				: undefined;
+		}
+	)
 	selected_withdraw_address: CryptoCurrencyModel;
 	access_info: any;
 	openWithdrawAddressSelector() {
@@ -90,6 +109,20 @@ export class WithdrawDetailPage extends SecondLevelPage {
 		} else {
 			this.navCtrl.removeView(this.viewCtrl);
 		}
+	}
+
+	get canSubmit() {
+		return Object.keys(this.formData).every(k => this.formData[k]);
+	}
+	submitWithdrawAppply(){
+		this.accountService.submitWithdrawAppply({
+			transactionType:TransactionType.WithdrawProduct,
+			productId:this.productInfo.productId,
+			price:0,
+			amount:parseFloat(this.formData.amount),
+			password:this.formData.password,
+			paymentId:this.formData.selected_withdraw_address_id
+		})
 	}
 
 	transaction_logs: any[];

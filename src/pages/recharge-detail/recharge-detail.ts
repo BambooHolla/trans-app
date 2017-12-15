@@ -63,18 +63,6 @@ export class RechargeDetailPage extends SecondLevelPage {
 		}
 	}
 
-	@RechargeDetailPage.willEnter
-	@asyncCtrlGenerator.loading(
-		undefined,
-		undefined,
-		undefined,
-		'recharge-detail'
-	)
-	@asyncCtrlGenerator.error('获取账户信息出错')
-	async getAccessInfo() {
-		// this.accountService.getAcountAssets()
-	}
-
 	@asyncCtrlGenerator.success('地址已经成功复制到剪切板')
 	async copyCode() {
 		navigator['clipboard'].writeText(

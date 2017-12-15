@@ -18,8 +18,7 @@ import { SecondLevelPage } from '../../bnlc-framework/SecondLevelPage';
   selector: 'page-optional',
   templateUrl: 'optional.html'
 })
-export class OptionalPage extends SecondLevelPage
-  implements OnDestroy, AfterViewInit {
+export class OptionalPage extends SecondLevelPage {
   optionalStockDetailList: any[] = [];
   personalAssets: object = {};
   scrollEventRemover: any;
@@ -48,29 +47,6 @@ export class OptionalPage extends SecondLevelPage
     public stockDataService: StockDataService // public translate: TranslateService,
   ) {
     super(navCtrl, navParams);
-  }
-
-  //标题栏滚动监听
-  @ViewChild('listHeader') ionScroll;
-  @ViewChild('listGrid') list;
-
-  ngAfterViewInit() {
-    //TODO:把时间监听转为Observable
-    // this.scrollEventRemover = this.ionScroll.addScrollEventListener(($event) => {
-    //   // inside the scroll event
-    //   // console.dir($event)
-    //   // this.printLog()
-    //   this.listScroll($event.target)
-    // })
-  }
-  ngOnDestroy() {
-    // this.scrollEventRemover()
-  }
-  printLog() {
-    console.log('printlog');
-  }
-  listScroll(scrollController: HTMLElement) {
-    this.list.nativeElement.style.left = `-${scrollController.scrollLeft}px`;
   }
 
   initData(refresher?: Refresher) {
