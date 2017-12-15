@@ -279,8 +279,24 @@ export class SocketioService {
     return observable;
   }
 
-  subscribeRealtimeReports(equityCodes: string[], api: string = 'realtimeReports'): Observable<any> {
+  subscribeRealtimeReports(
+    equityCodes: string[], 
+    api: string = 'realtimeReports',
+    options: any = {}
+  ): Observable<any> {
     const observable = new Observable(observer => {
+      console.log('subscribeRealtimeReports options', options)
+      let theDate = new Date()
+      const {
+        timespan = '1m',
+        type = '001',
+        start = theDate.setDate(theDate.getDate() - 1),
+        end = new Date(),
+        keepcontact = true,
+        rewatch = false,
+      } = options
+      console.log('subscribeRealtimeReports options', options)
+
       const subscribeData = {
         channel: equityCodes,
         from: 'wzx',
@@ -288,21 +304,24 @@ export class SocketioService {
       };
       // 对于所有订阅都已取消的 refCount 重新进行订阅时，
       // 这个函数会被重新调用一次，并传入新的 observer 。
-      let theDate = new Date()
       this.socketReady(api)
         .then(() => {
           this.report_getObservableFromMap(api, `${equityCodes}`)
             .subscribe(observer)
           this._socketioSubscribeSet.add(subscribeData);
           console.log('watch: ', `${equityCodes}`)
+          if(rewatch) {
+            this.socketAPIs.get(api).socket
+              .emit('unwatch',equityCodes)
+          }
           this.socketAPIs.get(api).socket
-            .emit('watch', "1m", '001', equityCodes,
+            .emit('watch', timespan, type, equityCodes,
             //todo:默认以当前时间倒退24小时获取数据.(24小时数据量可能过多.4小时?)
             // new Date('2017-11-13 00:00:00'),
             // new Date('2017-11-14 00:00:00'),
-            theDate.setDate(theDate.getDate()-1),
-            new Date(),
-            true
+            start,
+            end,
+            keepcontact
           )
           console.log(theDate)
         })

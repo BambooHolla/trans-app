@@ -47,7 +47,7 @@ export class HistoryRecordPage {
   getTradeHistory(){
     const traderId = this.navParams.data ? this.navParams.data.traderId : undefined
 
-    return this.entrustServiceProvider.getEntrusts(traderId,'003,004',this.page,this.pageSize)
+    return this.entrustServiceProvider.getEntrusts(traderId,'003',this.page,this.pageSize)
       .then(data => {
         console.log('getTradeHistory data:', data)
         return data

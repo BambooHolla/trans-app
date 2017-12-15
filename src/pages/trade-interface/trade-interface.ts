@@ -1,6 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 // import * as echarts from 'echarts';
-import { NavParams, ToastController, AlertController, NavController, InfiniteScroll } from 'ionic-angular';
+import { NavParams, ToastController, AlertController, NavController, InfiniteScroll, Platform } from 'ionic-angular';
 
 import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
@@ -14,6 +14,8 @@ import { AlertService } from '../../providers/alert-service';
 import { SocketioService } from "../../providers/socketio-service";
 import { EntrustServiceProvider } from "../../providers/entrust-service";
 import { HistoryRecordPage } from '../history-record/history-record';
+import { StatusBar } from '@ionic-native/status-bar';
+import { AndroidFullScreen } from '@ionic-native/android-full-screen';
 
 @Component({
   selector: 'page-trade-interface',
@@ -31,6 +33,7 @@ export class TradeInterfacePage {
   private traderId: string = this.appSettings.SIM_DATA ?
     '000001' : undefined;
   private reportArr = []
+  private candlestickArr = []
   private entrusts = []
 
   page = 1
@@ -46,6 +49,35 @@ export class TradeInterfacePage {
   private _depth$: Observable<any>;
 
   private _realtimeData$: Observable<any> = Observable.of([])
+  private _candlestickData$: Observable<any> = Observable.of([])
+
+  private isPortrait: boolean = true
+  private activeIndex: number = 0
+  private timeArray: string[] = ['分时', '5分', '30分', '1小时']
+
+  private betsHidden: boolean = false;
+  @ViewChild('largeRealtimeChart') largeRealtimeChart;
+  
+  private kDataUnit: string = '';
+  private candlestickOptions = {
+    customTooltip: true,
+    candlestickcalculateList: [[5, 'rgba(254, 53, 53, .6)'], [10, 'purple'], [20, 'blue'], [30, 'green']],
+    yAxisLabel: {
+      inside: true,
+      showMinLabel: false,
+      showMaxLabel: false,
+      textStyle: {
+        fontSize: 10,
+        color: '#fff'
+      },
+    },
+    ySplitLine: {
+      show: false,
+    },
+    // ySplitNumber:4,
+    yAxisShow: false,
+  };
+
 
   private viewDidLeave: BehaviorSubject<boolean> = new BehaviorSubject(false);
   private viewDidLeave$ = this.viewDidLeave
@@ -131,6 +163,10 @@ export class TradeInterfacePage {
     public tradeService: TradeService,
     public alertService: AlertService,
     public entrustServiceProvider: EntrustServiceProvider,
+
+    public platform: Platform,
+    public statusBar: StatusBar,
+    public androidFullScreen: AndroidFullScreen,
   ) {    
     this.traderId = this.navParams.get('stockCode') || this.navParams.data || this.traderId;
 
@@ -548,6 +584,125 @@ export class TradeInterfacePage {
   loadMoreHistory(infiniteScroll: InfiniteScroll) {
     this.page += 1
     this.getProcessEntrusts(infiniteScroll)
+  }
+
+  //行情详情图表
+  toggleBets() {
+    this.betsHidden = !this.betsHidden;
+
+    if (this.largeRealtimeChart) {
+      this.largeRealtimeChart.resize();
+    }
+  }
+
+  switchOrientation(toPortrait: boolean) {
+    this.isPortrait = toPortrait;
+    (<any>window).screenSimLandscape = !toPortrait;
+    if (toPortrait) {
+      this.statusBar.show();
+      // statusBar 隐藏后再显示，在 android 上会变成单独的状态条，
+      // 不会融入 APP 的界面。
+      // 即使设置 overlaysWebView 为 true 也无效。
+      // this.statusBar.overlaysWebView(true);
+
+      // 因此改用 androidFullScreen 来处理 android 设备的状态条问题，
+      // 基本表现尚可，但偶尔会出现以下设置不生效的情况。
+      // ios 设备的效果待测。
+      if (this.platform.is('android')) {
+        this.androidFullScreen.isImmersiveModeSupported()
+          .then(() => this.androidFullScreen.immersiveMode())
+          .then(() => this.androidFullScreen.showSystemUI())
+          .then(() => this.androidFullScreen.showUnderStatusBar())
+          .catch((error: any) => console.log(error.message || error));
+      }
+    } else {
+      this.statusBar.hide();
+    }
+  }
+
+  changeTime(index) {
+    if (index === this.activeIndex) {
+      return;
+    }
+
+    this.activeIndex = index;
+    const KDATA_UNITS = this.appSettings.KDATA_UNITS;
+    if (index > 0 && index <= KDATA_UNITS.length) {
+      const kDataUnit = this.kDataUnit = KDATA_UNITS[index - 1];
+      // FIXME ：切换 K 线图形态时，强制要求重新获取数据，
+      // 这样会比较费流量。
+      // 可以考虑增加判断，数据已存在就不要重新获取。
+      // this.stockDataService.requestKData(this._stockCode, kDataUnit);
+      this.candlestickArr = []
+      let theDate = new Date()
+      let timespan,startTime
+      switch (index) {
+        case 1:
+          timespan = '5m';
+          startTime = theDate.setDate(theDate.getDate() - 5);
+          break;
+        case 2:
+          timespan = '30m';
+          startTime = theDate.setDate(theDate.getDate() - 30);
+          break; 
+        case 3:
+          timespan = '1h';
+          startTime = theDate.setDate(theDate.getDate() - 60);
+          break; 
+        default:
+          timespan = '5m';
+          startTime = theDate.setDate(theDate.getDate() - 5);
+          break;
+      }
+      this._candlestickData$ = this.socketioService.subscribeRealtimeReports([this.traderId],undefined,{
+        // var reportType = {
+        //   Year: '1y',//年报
+        //   HalfYear: '6M',//半年报
+        //   Quarter: '1q',//季报
+        //   Month: '1M',//月报
+        //   Week: '1w',//周报
+        //   Day: '1d',//日报
+        //   Hour: '1h',//时报
+        //   HalfHour: '30m',//30分报
+        //   FifteenMinute: '15m',//15分报
+        //   FiveMinute: '5m',//5分报
+        //   Minute: '1m'//1分报
+        // }
+        timespan: timespan,
+        type: '001',
+        start: startTime,
+        keepcontact : false,
+        rewatch : true,
+      })
+        .takeUntil(this.viewDidLeave$)
+        .filter(({ type }) => type === this.traderId)
+        .map(data => data.data)
+        .map(data => {
+          //处理增量更新
+          const srcArr = this.candlestickArr
+          const resData = data.map(item => {
+            const value = item.value
+            const time = new Date(item.beginTime)
+            return{
+              startPrice: value.start,
+              endPrice: value.end,
+              minPrice: value.min,
+              maxPrice: value.max,
+              date: `${time.getFullYear()}/${time.getMonth() + 1}/${time.getDate()} ${time.getHours()}:${time.getMinutes()}`,
+              turnoverAmount: value.amount * value.avg / this.appSettings.Product_Price_Rate,
+              turnoverQuantity: value.amount / this.appSettings.Product_Price_Rate,
+              // yesterdayPrice:4.78,
+            }    
+          })
+          srcArr.push(...resData)//使用push+解构赋值,预期echarts动画实现
+          const length = srcArr.length
+          if (length > this.appSettings.Charts_Array_Length) {
+            srcArr.splice(0, length - this.appSettings.Charts_Array_Length)
+          }
+          console.log('trade- interface_candlestickData:srcArr:', srcArr)
+          return srcArr.concat()
+        })      
+    }
   }
 
 }
