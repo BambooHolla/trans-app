@@ -13,6 +13,10 @@ import { PersonalDataService } from '../../providers/personal-data-service';
 import { StockDataService } from '../../providers/stock-data-service';
 import { AppDataService } from '../../providers/app-data-service';
 import { SecondLevelPage } from '../../bnlc-framework/SecondLevelPage';
+import {
+  AccountServiceProvider,
+  ProductModel
+} from '../../providers/account-service/account-service';
 
 @Component({
   selector: 'page-optional',
@@ -44,6 +48,7 @@ export class OptionalPage extends SecondLevelPage {
     public appSettings: AppSettings,
     public appDataService: AppDataService,
     public personalDataService: PersonalDataService,
+    public accountService: AccountServiceProvider,
     public stockDataService: StockDataService // public translate: TranslateService,
   ) {
     super(navCtrl, navParams);
@@ -113,9 +118,8 @@ export class OptionalPage extends SecondLevelPage {
   }
 
   async initPersonalStockListSubscriber() {
-    debugger
     await this.appDataService.productsPromise;
-    console.log(this.appDataService.products)
+    const productList = await this.accountService.productList.getPromise();
     // 当个人中心的股票持仓列表变化时，重新进行订阅
     this.personalDataService.personalStockList$.subscribe(data => {
       console.log('initPersonalStockListSubscriber', data);
@@ -130,6 +134,7 @@ export class OptionalPage extends SecondLevelPage {
           }
         })
         .map(({ stockCode, restQuantity, cost }) => ({
+          productInfo: productList.find(p => p.productId == stockCode),
           personalData: {
             stockCode,
             restQuantity,

@@ -81,7 +81,7 @@
         </ion-item>
     </ion-list>
     <div class="withdraw-logs">
-        <div class="title">充值记录</div>
+        <div class="title">提现记录</div>
         <div class="withdraw-log" *ngFor="let tlog of transaction_logs">
             <div class="base-info">
                 <div class="type-name">{{tlog.productDetail}}</div>
@@ -94,7 +94,7 @@
             <div class="detail-info">
                 <div class="withdraw-amount">
                     <div class="sub-title">
-                        充值数量
+                        提现数量
                     </div>
                     <div class="value">{{tlog.amount|number:'1.4-4'}}</div>
                 </div>
@@ -106,7 +106,7 @@
                 </div>
                 <div class="withdraw-address">
                     <div class="sub-title">
-                        充值地址
+                        提现地址
                     </div>
                     <div class="value">{{tlog.externalSerialNumber}}</div>
                 </div>

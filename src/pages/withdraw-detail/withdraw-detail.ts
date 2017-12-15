@@ -55,7 +55,7 @@ export class WithdrawDetailPage extends SecondLevelPage {
 
 	@WithdrawDetailPage.watchChange(
 		(self: WithdrawDetailPage, value: CryptoCurrencyModel) => {
-			debugger
+			debugger;
 			self.formData.selected_withdraw_address_id = value
 				? value.id
 				: undefined;
@@ -106,6 +106,7 @@ export class WithdrawDetailPage extends SecondLevelPage {
 					accountType: AccountType.Product
 				})
 				.then(data => (this.access_info = data));
+			await Promise.all(tasks);
 		} else {
 			this.navCtrl.removeView(this.viewCtrl);
 		}
@@ -114,15 +115,15 @@ export class WithdrawDetailPage extends SecondLevelPage {
 	get canSubmit() {
 		return Object.keys(this.formData).every(k => this.formData[k]);
 	}
-	submitWithdrawAppply(){
+	submitWithdrawAppply() {
 		this.accountService.submitWithdrawAppply({
-			transactionType:TransactionType.WithdrawProduct,
-			productId:this.productInfo.productId,
-			price:0,
-			amount:parseFloat(this.formData.amount),
-			password:this.formData.password,
-			paymentId:this.formData.selected_withdraw_address_id
-		})
+			transactionType: TransactionType.WithdrawProduct,
+			productId: this.productInfo.productId,
+			price: 0,
+			amount: parseFloat(this.formData.amount),
+			password: this.formData.password,
+			paymentId: this.formData.selected_withdraw_address_id
+		});
 	}
 
 	transaction_logs: any[];
