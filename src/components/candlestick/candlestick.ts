@@ -31,13 +31,16 @@ export class CandlestickComponent extends EchartsBaseComponent {
           for (let item of rawData) {
               kdatas.push();
               datas.push([
+                  //不传的参数的注释掉 否则显示不出图表
+                  //二维数组的每一数组项（上例中的每行）是渲染一个box，它含有四个量值，依次是：
+                  //[open, close, lowest, highest]（即：[开盘值, 收盘值, 最低值, 最高值]）
                   item.startPrice,
                   item.endPrice,
                   item.minPrice,
                   item.maxPrice,
-                  item.yesterdayPrice,
-                  item.turnoverQuantity/10000,
-                  item.turnoverAmount/10000,
+                  //item.yesterdayPrice,
+                  item.turnoverQuantity,
+                  item.turnoverAmount,
               ]);
               times.push(item.date);
               vols.push(item.turnoverQuantity);

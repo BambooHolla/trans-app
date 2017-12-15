@@ -172,8 +172,9 @@
 				[echartsData]="_realtimeData$ | async" 
 				[options]="realtimeOptions">
 			</realtime-report>
+			<ion-icon class="sresize" (click)="switchOrientation(false)"></ion-icon>
 		</div>
-
+		
 		<div class="bets item-center-center">
 			<div class="bets-tab">
 				<div *ngFor="let data of _depth$ | async ; let i = index;" class="bets-row" [class.sep]="i === 5"
@@ -229,3 +230,82 @@
 
 	</div>
 </ion-content>
+
+<!-- 横屏k线图表 -->
+<div class="home-contain sim-landscape" [class.show]="!isPortrait">
+	<ion-grid class="sft child-span-padding-left-1">
+		<ion-row>
+			<ion-col col-3 no-padding>
+				<h1 class="{{showData?.changeValue | riseOrFall}}" text-center> {{(_baseData$ | async)?.price | priceConversion | numberFilter}}</h1>
+				<!-- <div text-center>{{showData?.datetime}}</div> -->
+			</ion-col>
+			<ion-col col-2>
+				<div text-left>涨跌
+					<span class="{{showData?.changeValue | riseOrFall}}">{{showData?.changeValue | number:'.2-2' | positiveSign}}</span>
+				</div>
+				<div text-left>幅度
+					<span class="{{(_baseData$ | async)?.range | riseOrFall}}">{{(_baseData$ | async)?.range | percent:'1.0-2'}}</span>
+				</div>
+			</ion-col>
+			<ion-col col-2>
+				<div text-left>高
+					<span class="{{(_baseData$ | async)?.range | riseOrFall}}">{{(_baseData$ | async)?.max | priceConversion | numberFilter:true}}</span>
+				</div>
+				<div text-left>低
+					<span class="{{(_baseData$ | async)?.range | riseOrFall}}">{{(_baseData$ | async)?.min | priceConversion | numberFilter:true}}</span>
+				</div>
+			</ion-col>
+			<!-- <ion-col col-2>
+				<div text-left>昨
+					<span>{{showData?.yesterdayPrice | number:'.2-2' | numberFilter}}</span>
+				</div>
+				<div text-left>今
+					<span class="{{(showData?.startPrice - showData?.yesterdayPrice) | riseOrFall}}">{{showData?.startPrice | number:'.2-2' | numberFilter}}</span>
+				</div>
+			</ion-col> -->
+			<ion-col col-2>
+				<div text-left>量
+					<span>{{(_baseData$ | async)?.amount | quantityConversion | numberUnitFormat:true:true:6}}</span>
+				</div>
+				<div text-left>额
+					<span>{{showData?.turnoverAmount | numberUnitFormat}}</span>
+				</div>
+			</ion-col>
+			<ion-col col-1 tappable (click)="switchOrientation(true)">
+				<ion-icon name="close" class="vertical-center"></ion-icon>
+			</ion-col>
+		</ion-row>
+	</ion-grid>
+	<div class="sfull">
+		<div class="charts">
+			<realtime-report 
+				#largeRealtimeChart
+				[echartsData]="_realtimeData$ | async" 
+				[options]="realtimeOptions"
+				*ngIf="activeIndex === 0 && !isPortrait">
+			</realtime-report>
+			 <!-- (_kData$ | async)[kDataUnit] -->
+			 <!-- (tooltipEmitted)="showKDataCustomTooltip($event)" -->
+			<candlestick-component [echartsData]="_candlestickData$ | async" [options]="candlestickOptions"
+			 *ngIf="activeIndex !== 0 && !isPortrait">
+			</candlestick-component>
+			<div class="arrow-div" tappable (click)="toggleBets()">
+				<ion-icon *ngIf="activeIndex === 0" name="{{betsHidden ? 'ios-arrow-back' : 'ios-arrow-forward'}}" class="vertical-center"></ion-icon>
+			</div>
+		</div>
+		<div class="bets item-center-center" *ngIf="!isPortrait && !betsHidden && activeIndex === 0">		
+			<div class="bets-tab">
+				<div *ngFor="let data of _depth$ | async ; let i = index;" class="bets-row" [class.sep]="i === 5" tappable (click)="setPrice(data?.price)">
+					<span>{{appSettings.betsTitle[i]}}</span>
+					<span class="{{data?.price && data?.price - (_baseData$ | async)?.yesterdayPrice | riseOrFall}}">{{data?.price | priceConversion | numberFilter:true:false:6}}</span>
+					<span class="color-important">{{data?.amount | quantityConversion | numberUnitFormat}}</span>
+				</div>
+			</div>
+		</div>
+	</div>
+	<ion-grid class="sfulltab">
+		<ion-row col-8>
+			<ion-col col-3 *ngFor="let title of timeArray; let i = index;" (click)="changeTime(i)" [class.active]="activeIndex === i">{{title}}</ion-col>
+		</ion-row>
+	</ion-grid>
+</div>
