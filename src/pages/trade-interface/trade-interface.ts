@@ -615,6 +615,10 @@ export class TradeInterfacePage {
           .then(() => this.androidFullScreen.showUnderStatusBar())
           .catch((error: any) => console.log(error.message || error));
       }
+      //tofix:关闭旋屏时需要重新watch分时图数据,临时处理待优化
+      // console.log('switchOrientation subscribeRealtimeReports ')
+      // this.socketioService.subscribeRealtimeReports([this.traderId])
+      this.doSubscribe()
     } else {
       this.statusBar.hide();
     }
