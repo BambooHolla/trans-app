@@ -13,13 +13,16 @@ import { PersonalDataService } from '../../providers/personal-data-service';
 import { StockDataService } from '../../providers/stock-data-service';
 import { AppDataService } from '../../providers/app-data-service';
 import { SecondLevelPage } from '../../bnlc-framework/SecondLevelPage';
+import {
+  AccountServiceProvider,
+  ProductModel
+} from '../../providers/account-service/account-service';
 
 @Component({
   selector: 'page-optional',
   templateUrl: 'optional.html'
 })
-export class OptionalPage extends SecondLevelPage
-  implements OnDestroy, AfterViewInit {
+export class OptionalPage extends SecondLevelPage {
   optionalStockDetailList: any[] = [];
   personalAssets: object = {};
   scrollEventRemover: any;
@@ -45,32 +48,10 @@ export class OptionalPage extends SecondLevelPage
     public appSettings: AppSettings,
     public appDataService: AppDataService,
     public personalDataService: PersonalDataService,
+    public accountService: AccountServiceProvider,
     public stockDataService: StockDataService // public translate: TranslateService,
   ) {
     super(navCtrl, navParams);
-  }
-
-  //标题栏滚动监听
-  @ViewChild('listHeader') ionScroll;
-  @ViewChild('listGrid') list;
-
-  ngAfterViewInit() {
-    //TODO:把时间监听转为Observable
-    // this.scrollEventRemover = this.ionScroll.addScrollEventListener(($event) => {
-    //   // inside the scroll event
-    //   // console.dir($event)
-    //   // this.printLog()
-    //   this.listScroll($event.target)
-    // })
-  }
-  ngOnDestroy() {
-    // this.scrollEventRemover()
-  }
-  printLog() {
-    console.log('printlog');
-  }
-  listScroll(scrollController: HTMLElement) {
-    this.list.nativeElement.style.left = `-${scrollController.scrollLeft}px`;
   }
 
   initData(refresher?: Refresher) {
@@ -137,9 +118,8 @@ export class OptionalPage extends SecondLevelPage
   }
 
   async initPersonalStockListSubscriber() {
-    debugger
     await this.appDataService.productsPromise;
-    console.log(this.appDataService.products)
+    const productList = await this.accountService.productList.getPromise();
     // 当个人中心的股票持仓列表变化时，重新进行订阅
     this.personalDataService.personalStockList$.subscribe(data => {
       console.log('initPersonalStockListSubscriber', data);
@@ -154,6 +134,7 @@ export class OptionalPage extends SecondLevelPage
           }
         })
         .map(({ stockCode, restQuantity, cost }) => ({
+          productInfo: productList.find(p => p.productId == stockCode),
           personalData: {
             stockCode,
             restQuantity,

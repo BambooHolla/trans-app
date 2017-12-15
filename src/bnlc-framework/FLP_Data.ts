@@ -60,4 +60,61 @@ export class FLP_Data extends FLP_Form {
 			}
 		};
 	}
+
+	static watchChange(
+		emit_name_or_fun?: string | ((ctx: any, v: any) => void)
+	) {
+		return function(
+			target: any,
+			name: string,
+			descriptor?: PropertyDescriptor
+		) {
+			if (descriptor) {
+				const source_set = descriptor.set;
+				descriptor.set = function(v) {
+					source_set(v);
+					this.event.emit(name + 'Changed', { ctx: this, value: v });
+				};
+			} else {
+				let _v: any;
+				Object.defineProperty(target, name, {
+					set(v) {
+						_v = v;
+						(this as FLP_Data).event.emit(name + 'Changed', {
+							ctx: this,
+							value: v
+						});
+					},
+					get() {
+						return _v;
+					}
+				});
+			}
+
+			if (emit_name_or_fun !== undefined) {
+				FLP_Data.followChange(name, emit_name_or_fun)(target);
+			}
+		};
+	}
+	static followChange(
+		follow_prop_name: string,
+		emit_name_or_fun: string | ((ctx: any, v: any) => void)
+	) {
+		return function(
+			target: any
+			// name: string,
+			// descriptor?: PropertyDescriptor
+		) {
+			target.event.on(follow_prop_name + 'Changed', change_info => {
+				const { ctx, value } = change_info;
+				if (typeof emit_name_or_fun === 'string') {
+					if (typeof ctx[emit_name_or_fun] === 'function') {
+						ctx[emit_name_or_fun](value);
+					}
+				} else if (typeof emit_name_or_fun === 'function') {
+					emit_name_or_fun(ctx, value);
+				}
+			});
+		};
+	}
 }
