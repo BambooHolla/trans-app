@@ -5,14 +5,43 @@
   Ionic pages and navigation.
 -->
 <ion-header>
-
-  <ion-navbar>
-    <ion-title>WorkOrderDetail</ion-title>
-  </ion-navbar>
-
+    <div class="hdbg header-with-bg bg-color-dark-alpha">
+        <ion-navbar>
+            <ion-title>工单详情信息</ion-title>
+        </ion-navbar>
+    </div>
 </ion-header>
-
-
-<ion-content padding>
-
+<ion-content>
+    <div class="work-order-detail">
+        <div class="base-info">
+            <div class="category">
+                <ali-icon name="icon-financial-problems"></ali-icon>
+                资金问题
+            </div>
+            <div class="time">
+                <ali-icon name="icon-time-3-clock"></ali-icon>
+                2017.12.20
+            </div>
+        </div>
+        <div class="detail">
+            <div class="question">请问需要手续费吗？是多少呢？这里就是可以显示很多文字很多文字不过一般不会有人有那么多字要打啦！！！！！！！！！！！！！！！！！！！！</div>
+            <div class="status">已提交</div>
+        </div>
+    </div>
+    <div class="chat-logs" #chatLogs>
+        <div *ngFor="let chat_log of chat_logs" [ngClass]="chat_log.from_self?'from-self':'from-other'" class="chat-log-item">
+            <div class="avatar">
+                <ali-icon [name]="chat_log.from_self?'icon-smile':'icon-glass-man'"></ali-icon>
+            </div>
+            <div class="content">{{chat_log.content}}</div>
+        </div>
+    </div>
 </ion-content>
+<ion-footer>
+    <div class="chat-container">
+        <div class="chat-input-container">
+            <textarea [(ngModel)]="chat_content"></textarea>
+        </div>
+        <button ion-button class="send-btn" (click)="sendChat()">发送</button>
+    </div>
+</ion-footer>

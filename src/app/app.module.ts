@@ -120,6 +120,8 @@ import { CandlestickComponent } from '../components/candlestick/candlestick';
 import { VolumnComponent } from '../components/volumn/volumn';
 import { DistancelineComponent } from '../components/distanceline/distanceline';
 import { RealTimeChartsComponent } from '../components/realtime-charts/realtime-charts';
+import { ComponentsModule } from '../components/components.module';
+
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -356,7 +358,8 @@ import { NewsServiceProvider } from '../providers/news-service/news-service';
         InformationModule,
         BaseSharedModule,
 
-        SearchItemPageModule
+        SearchItemPageModule,
+        ComponentsModule,
         // InformationSlideModule,
         // RouterModule.forChild(appRoutes),
     ],
