@@ -189,7 +189,7 @@ export function asyncLoadingWrapGenerator(
         loading['_is_dissmissed'] = true;
       });
       loading['_my_present'] = () => {
-        if (loading['_is_presented']) {
+        if (loading['_is_presented'] || loading['_is_dissmissed']) {
           return;
         }
         loading['_is_presented'] = true;
@@ -233,9 +233,9 @@ export function asyncLoadingWrapGenerator(
       };
       if ('PAGE_STATUS' in this) {
         // 还没进入页面
-        const run_loading_present = () => {
+        const run_loading_present = with_dealy => {
           before_dismiss = null;
-          loading_present();
+          with_dealy ? setImmediate(loading_present) : loading_present();
           this.event.once('didLeave', loading_dismiss);
         };
         if (this.PAGE_STATUS === PAGE_STATUS.WILL_ENTER) {
@@ -245,7 +245,7 @@ export function asyncLoadingWrapGenerator(
             this.event.off('didEnter', run_loading_present);
           };
         } else if (this.PAGE_STATUS === PAGE_STATUS.DID_ENTER) {
-          run_loading_present();
+          run_loading_present(true);
         } else {
           debugger;
         }

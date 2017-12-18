@@ -72,6 +72,11 @@ export class HomePage {
       name: '提现',
       href: 'withdraw-gateway',
     },
+    {
+      icon: "gabout",
+      name: '我的工单',
+      href: 'work-order-list',
+    },
   ];
 
   constructor(
