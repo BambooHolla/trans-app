@@ -112,7 +112,7 @@ export class WorkOrderServiceProvider {
 	}) {
 		search = this._formatSkipAndLimitSearch(search);
 
-		return this.fetch.get<ContactModel[]>(this.CONTACTS, { search });
+		return this.fetch.autoCache(true).get<ContactModel[]>(this.CONTACTS, { search });
 	}
 	getContactReplyList(
 		contactId: string,
@@ -125,7 +125,7 @@ export class WorkOrderServiceProvider {
 	) {
 		search = this._formatSkipAndLimitSearch(search);
 
-		return this.fetch.get<ReplyModel[]>(this.CONTACT_REPLY, {
+		return this.fetch.autoCache(true).get<ReplyModel[]>(this.CONTACT_REPLY, {
 			search,
 			params: { contactId }
 		});

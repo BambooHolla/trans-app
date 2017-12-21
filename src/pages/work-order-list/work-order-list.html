@@ -36,6 +36,9 @@
                 <div class="status">{{work_order.statusDetail}}</div>
             </div>
         </div>
+        <ion-infinite-scroll (ionInfinite)="$event.waitFor(loadMoreWorkOrderList($event))" [enabled]="hasMore">
+            <ion-infinite-scroll-content></ion-infinite-scroll-content>
+        </ion-infinite-scroll>
     </div>
 </ion-content>
 <ion-footer>

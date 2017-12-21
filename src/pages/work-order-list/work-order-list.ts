@@ -35,6 +35,7 @@ export class WorkOrderListPage extends SecondLevelPage {
 	work_order_list: ConcatModel[];
 	page = 0;
 	pageSize = 5;
+	hasMore = true;
 
 	@WorkOrderListPage.willEnter
 	@asyncCtrlGenerator.loading(undefined, 'hide_loading_and_use_welcome')
@@ -58,7 +59,7 @@ export class WorkOrderListPage extends SecondLevelPage {
 		return work_order_list;
 	}
 
-	@ViewChild(InfiniteScroll) infiniteScroll: InfiniteScroll;
+	// @ViewChild(InfiniteScroll) infiniteScroll: InfiniteScroll;
 
 	private async _getWorkOrderList() {
 		const { page, pageSize } = this;
@@ -76,9 +77,15 @@ export class WorkOrderListPage extends SecondLevelPage {
 				)
 			};
 		});
-		if (this.infiniteScroll) {
-			this.infiniteScroll.enable(list.length >= pageSize);
-		}
+			this.hasMore; = list.length >= pageSize;
+		return list;
+	}
+
+	@asyncCtrlGenerator.error('更多工单列表加载失败')
+	async loadMoreWorkOrderList() {
+		this.page += 1;
+		const list = await this._getWorkOrderList();
+		this.work_order_list.push(...list);
 		return list;
 	}
 
