@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
+import { Http, Headers } from '@angular/http';
 import 'rxjs/add/operator/map';
 import {
 	AppSettingProvider,
@@ -39,6 +39,9 @@ export class AccountServiceProvider {
 	readonly ADD_WITHDRAW_ADDRESS = this.appSetting.APP_URL(
 		'account/payment/create'
 	);
+	readonly GET_WTIHDRAW_LOGS = this.appSetting.APP_URL(
+		'transaction/transactions'
+	);
 	/** 同ADD_WITHDRAW_ADDRESS，但是这个是提交验证信息的*/
 	readonly CREATE_VALIDATE = this.appSetting.APP_URL(
 		'account/payment/createvalidate'
@@ -66,6 +69,8 @@ export class AccountServiceProvider {
 	readonly SEND_VALIDATE_TO_CUSTOMER = this.appSetting.APP_URL(
 		'user/validate/customersend'
 	);
+
+	readonly SET_ACCOUNT_PWD = this.appSetting.APP_URL('user/setAccountPwd');
 
 	getAcountAssets(
 		accountId?: string,
@@ -226,17 +231,47 @@ export class AccountServiceProvider {
 			params: type
 		});
 	}
-	submitWithdrawAppply(body: {
-		transactionType: TransactionType;
-		productId: string;
-		price: number;
-		amount: number;
-		transactionId?: string;
+	submitWithdrawAppply(
+		body: {
+			transactionType: TransactionType;
+			productId: string;
+			amount: number;
+
+			accountId?: string;
+			accountType?: AccountType;
+			paymentId?: string;
+			priceAccountId?: string;
+			priceAccountType?: string;
+			priceId?: string;
+			price?: number;
+			attach?: string;
+			remark?: string;
+		},
+		v_secondpassword: string
+	) {
+		return this.fetch.post<TransactionModel>(
+			this.CREATE_WITHDRAW_TRABSACTION,
+			body,
+			{
+				headers: new Headers({
+					'x-bnqkl-secondpassword': v_secondpassword
+				})
+			}
+		);
+	}
+
+	getWithdrawLogs(search: {
+		page?: number;
+		pageSize?: number;
+		customerId?: string;
+		accountId?: string;
+		targetId?: string;
+		transactionType?: TransactionType;
 		status?: TransactionStatus;
-		paymentId?: number;
-		password: string;
 	}) {
-		return this.fetch.post(this.CREATE_WITHDRAW_TRABSACTION, body);
+		return this.fetch.get<TransactionModel[]>(this.GET_WTIHDRAW_LOGS, {
+			search
+		});
 	}
 
 	static getDealResultDetail(dealResult: DealResult) {
@@ -247,6 +282,14 @@ export class AccountServiceProvider {
 		if (dealResult == DealResult.Failed) return '失败';
 		if (dealResult == DealResult.Expired) return '过期';
 		if (dealResult == DealResult.Other) return '其他';
+	}
+	static getTransactionStatusDetail(status: TransactionStatus) {
+		if (status == TransactionStatus.Unpaied) return '待支付';
+		if (status == TransactionStatus.Paied) return '已支付';
+		if (status == TransactionStatus.Confirmed) return '已确认';
+		if (status == TransactionStatus.Cancel) return '已取消';
+		if (status == TransactionStatus.InAudit) return '审核中';
+		if (status == TransactionStatus.Other) return '其他';
 	}
 
 	submitCertification(body: {
@@ -293,6 +336,26 @@ export class AccountServiceProvider {
 		paymentAccountRemark?: string;
 	}) {
 		return this.fetch.post(this.CREATE_VALIDATE, body);
+	}
+
+	setAccountPWD(
+		accountPwd: string,
+		loginPwd: string,
+		c_type: CertificateType,
+		code: string
+	) {
+		var type = -1;
+		if (c_type == CertificateType.邮箱) {
+			type = 0;
+		} else if (c_type == CertificateType.手机号) {
+			type = 1;
+		}
+		return this.fetch.post(this.SET_ACCOUNT_PWD, {
+			type,
+			accountPwd,
+			loginPwd,
+			code
+		});
 	}
 }
 export enum CertificationCertificateType {
@@ -352,14 +415,16 @@ export enum TransactionType {
 	BuyProduct = '001', // 购买产品
 	SaleProduct = '002', // 卖出产品
 	GiveProduct = '003', // 赠送产品
-    RechargeProduct= '004',// 产品充值
-    WithdrawProduct= '005',// 产品提现
+	RechargeProduct = '004', // 产品充值
+	WithdrawProduct = '005', // 产品提现
 	Other = '999' // 其他
 }
 export enum TransactionStatus {
 	Unpaied = '001', // 待支付
 	Paied = '002', // 已支付
-	Cancel = '003', // 已取消
+	Confirmed = '003', // 已确认
+	Cancel = '004', // 已取消
+	InAudit = '005', // 审核中
 	Other = '999' // 其他
 }
 export enum DealResult {
@@ -475,4 +540,27 @@ export type AuthenticationModel = {
 	category: CertificateType;
 	type: string;
 	id: string;
+};
+
+export type TransactionModel = {
+	id: number;
+	transactionId: string;
+	customerId: string;
+	accountId: string;
+	accountType: AccountType;
+	transactionType: TransactionType;
+	targetId: string;
+	amount: string;
+	priceAccountId: string;
+	priceAccountType: string;
+	priceId: string;
+	price: string;
+	totalPrice: string;
+	status: TransactionStatus;
+	transactionAt: any;
+	paymentId: string;
+	attach: string;
+	remark: string;
+	createdAt: string;
+	updatedAt: string;
 };

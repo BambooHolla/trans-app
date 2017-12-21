@@ -605,3 +605,24 @@ ion-label[pad] {
   -ms-touch-action: all !important;
   touch-action: all !important;
 }
+
+
+
+
+// list animate
+.list-fadeInRight-ani {
+  > .list-fadeInRight-ani-item {
+    animation: fadeInRight 800ms cubic-bezier(0.11, 0.99, 0.18, 1);
+    animation-fill-mode: both;
+  }
+}
+@keyframes fadeInRight {
+  0% {
+    opacity: 0;
+    transform: translateX(62vw);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}

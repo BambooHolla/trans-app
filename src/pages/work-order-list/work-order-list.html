@@ -20,22 +20,25 @@
         <div class="sub-title-decoration"></div>
     </div>
     <div class="order-list">
-        <div class="order-item" (click)="routeTo('work-order-detail')">
+        <div class="order-item" *ngFor="let work_order of work_order_list" (click)="routeTo('work-order-detail',{work_order:work_order})">
             <div class="base-info">
                 <div class="category">
                     <ali-icon name="icon-financial-problems"></ali-icon>
-                    资金问题
+                    {{work_order.typeDetail}}
                 </div>
                 <div class="time">
                     <ali-icon name="icon-time-3-clock"></ali-icon>
-                    2017.12.20
+                    {{work_order.submitDateTime|date:"y.M.d"}}
                 </div>
             </div>
             <div class="detail">
-                <div class="question">请问需要手续费吗？是多少呢？</div>
-                <div class="status">已提交</div>
+                <div class="question">{{work_order.content}}</div>
+                <div class="status">{{work_order.statusDetail}}</div>
             </div>
         </div>
+        <ion-infinite-scroll (ionInfinite)="$event.waitFor(loadMoreWorkOrderList($event))" [enabled]="hasMore">
+            <ion-infinite-scroll-content></ion-infinite-scroll-content>
+        </ion-infinite-scroll>
     </div>
 </ion-content>
 <ion-footer>

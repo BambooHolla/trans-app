@@ -31,7 +31,7 @@
             </ion-list>
         </ion-item>
         <ion-item>
-            <ion-label class="form-label with-left-baseline" color="primary">验证</ion-label>
+            <ion-label class="form-label with-left-baseline" color="primary">验证码</ion-label>
             <ion-input [(ngModel)]="formData.vcode" placeholder="请填写验证码"></ion-input>
             <button (click)="sendValidate()" [disabled]="!formData.check_method" ion-button item-end color="special">获取验证码</button>
         </ion-item>

@@ -9,14 +9,35 @@ import {
 	SimpleChanges,
 	SimpleChange
 } from '@angular/core';
-import { NavController, NavParams, Content } from 'ionic-angular';
+import {
+	IonicPage,
+	NavController,
+	NavParams,
+	InfiniteScroll,
+	Content,
+	ViewController,
+	Refresher,
+	ModalController
+} from 'ionic-angular';
 import { SecondLevelPage } from '../../bnlc-framework/SecondLevelPage';
 import { asyncCtrlGenerator } from '../../bnlc-framework/Decorator';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-
+import {
+	WorkOrderServiceProvider,
+	ContactType,
+	ConcatModel,
+	ReplyRole,
+	ReplyModel
+} from '../../providers/work-order-service/work-order-service';
 const MB: typeof MutationObserver =
 	window['MutationObserver'] || window['WebKitMutationObserver'];
 
+type ChatLog =
+	| ReplyModel
+	| {
+			htmlContent: string;
+			from_self: false;
+		};
 @Component({
 	selector: 'page-work-order-detail',
 	templateUrl: 'work-order-detail.html'
@@ -25,31 +46,73 @@ export class WorkOrderDetailPage extends SecondLevelPage
 	implements AfterContentInit {
 	constructor(
 		public navCtrl: NavController,
+		public viewCtrl: ViewController,
 		public navParams: NavParams,
 		public r1: Renderer,
-		public r2: Renderer2
+		public r2: Renderer2,
+		public workOrderService: WorkOrderServiceProvider
 	) {
 		super(navCtrl, navParams);
 	}
 
+	work_order: ConcatModel;
 	chat_content = '';
-	chat_logs = [];
+	page = 0;
+	pageSize = 5;
+	enableMore = true;
+	chat_logs: ChatLog[] = [];
 	@WorkOrderDetailPage.willEnter
 	@asyncCtrlGenerator.loading()
 	@asyncCtrlGenerator.error('获取工单内容出错')
 	async getChatLogs() {
-		await new Promise(cb => setTimeout(cb, 1000));
-		this.chat_logs = [
-			{
-				from_self: false,
-				content: '您好，谢谢您支持毕加所我是为您解答的管理员小b,我司产品无需手续费安全可靠放心使用。'
-			},
-			{
-				from_self: true,
-				content: '好的，谢谢！'
-			}
-		];
+		this.work_order = this.navParams.get('work_order');
+		if (this.work_order) {
+		} else {
+			this.navCtrl.removeView(this.viewCtrl);
+		}
+		this.page = 0;
+		const contact_reply_list = await this._getContactReplyList();
+
+		this.chat_logs = contact_reply_list.reverse();
 	}
+
+	@ViewChild(Refresher) refresher: Refresher;
+
+	private async _getContactReplyList() {
+		const { page, pageSize } = this;
+		const list = await this._formatContactReplyList(
+			await this.workOrderService.getContactReplyList(
+				this.work_order.workOrderId,
+				{
+					page,
+					pageSize
+				}
+			)
+		);
+		this.enableMore = list.length >= pageSize;
+		return list;
+	}
+
+	@asyncCtrlGenerator.error('加载历史记录出错')
+	async loadMoreHistoryReplyList(ref?: Refresher) {
+		this.page += 1;
+		const contact_reply_list = await this._getContactReplyList();
+		this.chat_logs.unshift(...contact_reply_list.reverse());
+		if (ref) {
+			ref.complete();
+		}
+	}
+
+	private async _formatContactReplyList(list: ReplyModel[]) {
+		return list.map(item => {
+			return {
+				...item,
+				htmlContent: item.content,
+				from_self: ReplyRole.customer == item.senderRole
+			} as ChatLog;
+		});
+	}
+
 	@ViewChild(Content) content: Content;
 	@ViewChild('chatLogs') chatLogs: ElementRef;
 
@@ -58,18 +121,25 @@ export class WorkOrderDetailPage extends SecondLevelPage
 	observer: MutationObserver;
 	ngAfterContentInit() {
 		const scrollEle = this.content.getScrollElement();
-		const isScrollToBottom = () =>
-			scrollEle.scrollHeight - scrollEle.clientHeight ==
-			scrollEle.scrollTop;
+		const shouldScrollToBottom = () => {
+			return (
+				scrollEle.scrollHeight -
+					(scrollEle.scrollTop + scrollEle.clientHeight) <
+				scrollEle.clientHeight
+			);
+		};
 
 		const observer = (this.observer = new MB(mutations => {
-			mutations.forEach(mutation => {
-				console.log(mutation.type);
-				// this.bindEnterAniForNodes(
-				// 	Array.prototype.slice.call(mutation.addedNodes)
-				// );
+			// mutations.forEach(mutation => {
+			// console.log(mutation.type);
+			// this.bindEnterAniForNodes(
+			// 	Array.prototype.slice.call(mutation.addedNodes)
+			// );
+			// });
+			debugger;
+			if (shouldScrollToBottom()) {
 				this.content.scrollToBottom();
-			});
+			}
 		}));
 		// 传入目标节点和观察选项
 		observer.observe(this.chatLogs.nativeElement, { childList: true });
@@ -87,18 +157,16 @@ export class WorkOrderDetailPage extends SecondLevelPage
 		const { chat_content } = this;
 		this.chat_content = chat_content.trim();
 		if (chat_content) {
-			await new Promise(cb => setTimeout(cb, 200));
+			const replay = await this.workOrderService.addContactReply(
+				this.work_order.workOrderId,
+				{
+					content: this.chat_content
+				}
+			);
 			this.chat_content = '';
-			this.chat_logs.push({
-				from_self: true,
-				content: chat_content
-			});
-			setTimeout(() => {
-				this.chat_logs.push({
-					from_self: false,
-					content: 'ECHO:' + chat_content
-				});
-			}, 1000);
+			this.chat_logs.push(
+				(await this._formatContactReplyList([replay]))[0]
+			);
 		}
 	}
 }

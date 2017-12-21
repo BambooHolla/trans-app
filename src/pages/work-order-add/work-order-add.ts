@@ -5,6 +5,10 @@ import { NavController, NavParams } from 'ionic-angular';
 import { SecondLevelPage } from '../../bnlc-framework/SecondLevelPage';
 import { asyncCtrlGenerator } from '../../bnlc-framework/Decorator';
 import { FsProvider, FileType } from '../../providers/fs/fs';
+import {
+	WorkOrderServiceProvider,
+	ContactType
+} from '../../providers/work-order-service/work-order-service';
 import { ImageTakerController } from '../../components/image-taker-controller';
 
 @Component({
@@ -16,7 +20,8 @@ export class WorkOrderAddPage extends SecondLevelPage {
 		public navCtrl: NavController,
 		public navParams: NavParams,
 		public fs: FsProvider,
-		public imageTakerCtrl: ImageTakerController
+		public imageTakerCtrl: ImageTakerController,
+		public workOrderService: WorkOrderServiceProvider
 	) {
 		super(navCtrl, navParams);
 	}
@@ -59,19 +64,14 @@ export class WorkOrderAddPage extends SecondLevelPage {
 
 	category_list = [
 		{
-			value: '001',
-			key: 'a',
-			text: '啊'
+			key: ContactType[ContactType.question],
+			value: ContactType.question,
+			text: '常见问题'
 		},
 		{
-			value: '002',
-			key: 'b',
-			text: '吗'
-		},
-		{
-			value: '003',
-			key: 'c',
-			text: '了'
+			key: ContactType[ContactType.advice],
+			value: ContactType.advice,
+			text: '意见反馈'
 		}
 	];
 	upload(name) {
@@ -141,5 +141,20 @@ export class WorkOrderAddPage extends SecondLevelPage {
 		}
 
 		return new Blob([ia], { type: mimeString });
+	}
+	@asyncCtrlGenerator.loading()
+	@asyncCtrlGenerator.error('工单提交失败')
+	@asyncCtrlGenerator.success('工单提交成功')
+	submitForm() {
+		return this.workOrderService.addWorkOrder({
+			name: this.realName.value,
+			phone: this.phoneNumber.value,
+			email: this.email.value,
+			type: this.category.value,
+			content: this.detail.value,
+			attachment: this.files.value.split(' ')
+		}).then(()=>{
+			this.finishJob(true)
+		})
 	}
 }
