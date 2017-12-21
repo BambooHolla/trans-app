@@ -70,6 +70,7 @@ export class WorkOrderDetailPage extends SecondLevelPage
 		} else {
 			this.navCtrl.removeView(this.viewCtrl);
 		}
+		this.page = 0;
 		const contact_reply_list = await this._getContactReplyList();
 
 		this.chat_logs = contact_reply_list.reverse();
@@ -135,6 +136,7 @@ export class WorkOrderDetailPage extends SecondLevelPage
 			// 	Array.prototype.slice.call(mutation.addedNodes)
 			// );
 			// });
+			debugger;
 			if (shouldScrollToBottom()) {
 				this.content.scrollToBottom();
 			}

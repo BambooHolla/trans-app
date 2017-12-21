@@ -54,6 +54,7 @@ export class WorkOrderListPage extends SecondLevelPage {
 			}, 2500);
 		}
 
+		this.page = 0;
 		const work_order_list = await this._getWorkOrderList();
 		this.work_order_list = work_order_list;
 		return work_order_list;
@@ -77,7 +78,7 @@ export class WorkOrderListPage extends SecondLevelPage {
 				)
 			};
 		});
-			this.hasMore; = list.length >= pageSize;
+		this.hasMore = list.length >= pageSize;
 		return list;
 	}
 

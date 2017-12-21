@@ -85,11 +85,11 @@ export class WorkOrderServiceProvider {
 		if (search) {
 			if ('page' in search) {
 				search.skip = (search.page | 0) + 1;
-				delete search.page;
+				// delete search.page;
 			}
 			if ('pageSize' in search) {
 				search.limit = search.pageSize;
-				delete search.pageSize;
+				// delete search.pageSize;
 			}
 			if ((search.skip | 0) === 0) {
 				delete search.skip;
