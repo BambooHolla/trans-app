@@ -152,7 +152,7 @@ export class WithdrawDetailPage extends SecondLevelPage {
 				transactionType: TransactionType.WithdrawProduct,
 				productId: this.productInfo.productId,
 				amount: parseFloat(this.formData.amount),
-				password: this.formData.password,
+				v_secondpassword: this.formData.password,
 				paymentId: this.formData.selected_withdraw_address_id + ''
 			})
 			.then((transaction: TransactionModel) => {

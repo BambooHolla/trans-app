@@ -1,0 +1,107 @@
+import {
+	Directive,
+	Input,
+	ElementRef,
+	OnChanges,
+	SimpleChanges,
+	SimpleChange,
+	ViewChildren,
+	QueryList,
+	AfterViewInit,
+	ContentChildren,
+	AfterContentInit,
+	AfterViewChecked,
+	AfterContentChecked
+} from '@angular/core';
+
+/**
+ * Generated class for the ListAniDirective directive.
+ *
+ * See https://angular.io/api/core/Directive for more info on Angular
+ * Directives.
+ */
+const watchAniEnd =
+	'onanimationend' in window
+		? function(ele: HTMLElement, cb: any, time?: number) {
+				ele.addEventListener('animationend', cb);
+			}
+		: function(ele: HTMLElement, cb: any, time: number) {
+				setTimeout(cb, time);
+			};
+
+@Directive({
+	selector: '[list-ani]' // Attribute selector
+})
+export class ListAniDirective implements OnChanges, AfterContentInit {
+	@Input() animateName = 'fadeInRight';
+	constructor(private elementRef: ElementRef) {
+		console.log('Hello ListAniDirective Directive');
+		this.setEleAni();
+		window['listAni'] = this;
+	}
+
+	get ele() {
+		return this.elementRef.nativeElement as HTMLElement;
+	}
+	private _cur_ani_classname;
+	setEleAni() {
+		this.ele.classList.add(
+			(this._cur_ani_classname = `list-${this.animateName}-ani`)
+		);
+	}
+	delEleAni() {
+		this.ele.classList.remove(this._cur_ani_classname);
+	}
+
+	ngOnChanges(changes: SimpleChanges) {
+		if (changes.animateName) {
+			this.delEleAni();
+			this.setEleAni();
+		}
+	}
+	@ContentChildren('aniItem') contentEles: QueryList<any>;
+
+	ngAfterContentInit() {
+		console.log(
+			'ngAfterContentInit aniItem length',
+			this.contentEles.length
+		);
+		this.bindEnterAni();
+
+		this.contentEles.changes.subscribe(v => {
+			console.log('changes.subscribe aniItem length', v);
+			this.bindEnterAni();
+		});
+	}
+	static aniKey = '[list-ani]KEY:' +
+		Math.random()
+			.toString(36)
+			.substr(2);
+
+	private bindEnterAni() {
+		const aniKey = ListAniDirective.aniKey;
+		const ani_item_classname = this._cur_ani_classname + '-item';
+
+		var ani_i = 0;
+		Array.prototype.slice
+			.call(this.ele.children)
+			.forEach((ele: HTMLElement) => {
+				if (!ele[aniKey]) {
+					ele[aniKey] = true;
+					ele.classList.add(ani_item_classname);
+					const delay = 60 * ani_i;
+					ele.style.animationDelay = delay + 'ms';
+					ani_i += 1;
+
+					watchAniEnd(
+						ele,
+						() => {
+							ele.classList.remove(ani_item_classname);
+							ele.style.animationDelay = '';
+						},
+						800
+					);
+				}
+			});
+	}
+}

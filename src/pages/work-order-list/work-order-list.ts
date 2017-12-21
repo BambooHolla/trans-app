@@ -1,21 +1,23 @@
-import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import { Component, ViewChild } from '@angular/core';
+import { NavController, NavParams, InfiniteScroll } from 'ionic-angular';
 import { SecondLevelPage } from '../../bnlc-framework/SecondLevelPage';
 import { asyncCtrlGenerator } from '../../bnlc-framework/Decorator';
-
-/**
- * Generated class for the WorkOrderListPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
+import {
+	WorkOrderServiceProvider,
+	ContactType,
+	ConcatModel
+} from '../../providers/work-order-service/work-order-service';
 
 @Component({
 	selector: 'page-work-order-list',
 	templateUrl: 'work-order-list.html'
 })
 export class WorkOrderListPage extends SecondLevelPage {
-	constructor(public navCtrl: NavController, public navParams: NavParams) {
+	constructor(
+		public navCtrl: NavController,
+		public navParams: NavParams,
+		public workOrderService: WorkOrderServiceProvider
+	) {
 		super(navCtrl, navParams);
 	}
 	private static hide_loading_and_use_welcome = true;
@@ -30,7 +32,9 @@ export class WorkOrderListPage extends SecondLevelPage {
 	get hide_loading_and_use_welcome() {
 		return WorkOrderListPage.hide_loading_and_use_welcome;
 	}
-	work_order_list: any[];
+	work_order_list: ConcatModel[];
+	page = 0;
+	pageSize = 5;
 
 	@WorkOrderListPage.willEnter
 	@asyncCtrlGenerator.loading(undefined, 'hide_loading_and_use_welcome')
@@ -48,8 +52,34 @@ export class WorkOrderListPage extends SecondLevelPage {
 				WorkOrderListPage._first_init_page = false;
 			}, 2500);
 		}
-		await new Promise(cb => setTimeout(cb, 1500));
-		this.work_order_list = Array.from(Array(2));
+
+		const work_order_list = await this._getWorkOrderList();
+		this.work_order_list = work_order_list;
+		return work_order_list;
+	}
+
+	@ViewChild(InfiniteScroll) infiniteScroll: InfiniteScroll;
+
+	private async _getWorkOrderList() {
+		const { page, pageSize } = this;
+		const list = (await this.workOrderService.getWorkOrderList({
+			page,
+			pageSize
+		})).map(work_order_item => {
+			return {
+				...work_order_item,
+				typeDetail: WorkOrderServiceProvider.getConcatTypeDetail(
+					work_order_item.type
+				),
+				statusDetail: WorkOrderServiceProvider.getContactStatusDetail(
+					work_order_item.status
+				)
+			};
+		});
+		if (this.infiniteScroll) {
+			this.infiniteScroll.enable(list.length >= pageSize);
+		}
+		return list;
 	}
 
 	@WorkOrderListPage.didLeave
@@ -58,4 +88,6 @@ export class WorkOrderListPage extends SecondLevelPage {
 			this.work_order_list && this.work_order_list.length
 		);
 	}
+	getConcatTypeDetail = WorkOrderServiceProvider.getConcatTypeDetail;
+	getContactStatusDetail = WorkOrderServiceProvider.getContactStatusDetail;
 }

@@ -236,7 +236,7 @@ export class AccountServiceProvider {
 		productId: string;
 		amount: number;
 
-		password: string;
+		v_secondpassword: string;
 
 		accountId?: string;
 		accountType?: AccountType;
