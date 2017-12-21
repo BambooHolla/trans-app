@@ -59,7 +59,7 @@
         </ion-item-divider>
         <ion-item>
             <ion-label color="primary">提币数额</ion-label>
-            <ion-input class="rtl" [(ngModel)]="formData.amount" placeholder="请填写提币数额" type="number"></ion-input>
+            <ion-input class="rtl" [(ngModel)]="formData.amount" set-input-status="amount" placeholder="请填写提币数额" min=0 [max]="access_info?.balance" type="number"></ion-input>
         </ion-item>
         <ion-item-divider class="left-link">
             <ion-icon name="￥✏"></ion-icon>
@@ -102,13 +102,13 @@
                     <div class="sub-title">
                         提现到
                     </div>
-                    <div class="value">IBT</div>
+                    <div class="value">{{tlog.withdrawName}}</div>
                 </div>
                 <div class="withdraw-address">
                     <div class="sub-title">
                         提现地址
                     </div>
-                    <div class="value">{{tlog.externalSerialNumber}}</div>
+                    <div class="value">{{tlog.withdrawAddress}}</div>
                 </div>
             </div>
         </div>

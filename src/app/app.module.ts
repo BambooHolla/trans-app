@@ -51,6 +51,7 @@ import { AuthPendingPage } from '../pages/auth-pending/auth-pending';
 import { HomePage } from '../pages/home/home';
 
 import { SubmitRealInfoPage } from '../pages/submit-real-info/submit-real-info';
+import { SetPayPwdPage } from '../pages/set-pay-pwd/set-pay-pwd';
 import { WithdrawAddressListPage } from '../pages/withdraw-address-list/withdraw-address-list';
 import { WorkOrderListPage } from '../pages/work-order-list/work-order-list';
 import { WorkOrderAddPage } from '../pages/work-order-add/work-order-add';
@@ -64,6 +65,8 @@ import { AccountCenterV2Page } from '../pages/account-center-v2/account-center-v
 import { AddAddressPage } from '../pages/add-address/add-address';
 import { AppSettingProvider } from '../bnlc-framework/providers/app-setting/app-setting';
 import { AppFetchProvider } from '../bnlc-framework/providers/app-fetch/app-fetch';
+import {DirectivesModule as BNLC_DirectivesModule} from '../bnlc-framework/directives/directives.module'
+
 /**- from BNLC framework*/
 
 // import { NewsContentModule } from '../pages/news-content/news-content.module';
@@ -122,7 +125,6 @@ import { DistancelineComponent } from '../components/distanceline/distanceline';
 import { RealTimeChartsComponent } from '../components/realtime-charts/realtime-charts';
 import { ComponentsModule } from '../components/components.module';
 
-
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { Keyboard } from '@ionic-native/keyboard';
@@ -157,8 +159,8 @@ import { EntrustServiceProvider } from '../providers/entrust-service';
 import { FsProvider } from '../providers/fs/fs';
 import { ProductId2namePipe } from '../pipes/product-id2name';
 import { IdentificationNumberCheckerProvider } from '../providers/identification-number-checker/identification-number-checker';
-import { WorkOrderProvider } from '../providers/work-order/work-order';
 import { NewsServiceProvider } from '../providers/news-service/news-service';
+import { WorkOrderServiceProvider } from '../providers/work-order-service/work-order-service';
 // import { BankCode2NamePipe } from '..\pipes\bank-code2-name/bank-code2-name';
 // import { FileService } from '../providers/file.service';
 // import { IsLoadingDirective } from '../directives/is-loading/is-loading';
@@ -216,6 +218,7 @@ import { NewsServiceProvider } from '../providers/news-service/news-service';
         // LoginPage,
         // RegisterPage,
         SubmitRealInfoPage,
+        SetPayPwdPage,
         WithdrawAddressListPage,
         WorkOrderListPage,
         WorkOrderAddPage,
@@ -321,6 +324,7 @@ import { NewsServiceProvider } from '../providers/news-service/news-service';
                         name: 'account-center-old'
                     },
                     { component: SubmitRealInfoPage, name: 'submit-real-info' },
+                    { component: SetPayPwdPage, name: 'set-pay-pwd' },
                     {
                         component: WithdrawAddressListPage,
                         name: 'withdraw-address-list'
@@ -360,12 +364,14 @@ import { NewsServiceProvider } from '../providers/news-service/news-service';
 
         SearchItemPageModule,
         ComponentsModule,
+        BNLC_DirectivesModule
         // InformationSlideModule,
         // RouterModule.forChild(appRoutes),
     ],
     bootstrap: [IonicApp],
     entryComponents: [
         SubmitRealInfoPage,
+        SetPayPwdPage,
         WithdrawAddressListPage,
         WorkOrderListPage,
         WorkOrderAddPage,
@@ -468,8 +474,8 @@ import { NewsServiceProvider } from '../providers/news-service/news-service';
         AccountServiceProvider,
         FsProvider,
         IdentificationNumberCheckerProvider,
-    WorkOrderProvider,
-    NewsServiceProvider
+        NewsServiceProvider,
+        WorkOrderServiceProvider
     ]
 })
 export class AppModule {}

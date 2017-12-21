@@ -9,6 +9,7 @@ import {
 } from 'ionic-angular';
 import { SecondLevelPage } from '../../bnlc-framework/SecondLevelPage';
 import { asyncCtrlGenerator } from '../../bnlc-framework/Decorator';
+import { PromiseOut } from '../../bnlc-framework/providers/PromiseExtends';
 import {
 	AccountType,
 	AccountServiceProvider,
@@ -16,6 +17,7 @@ import {
 	ProductModel,
 	CryptoCurrencyModel,
 	TransactionType,
+	TransactionModel,
 	DealResult
 } from '../../providers/account-service/account-service';
 import { WithdrawAddressListPage } from '../withdraw-address-list/withdraw-address-list';
@@ -50,8 +52,22 @@ export class WithdrawDetailPage extends SecondLevelPage {
 		amount: '',
 		password: ''
 	};
+	errors: any = {};
+	@WithdrawDetailPage.setErrorTo('errors', 'amount', ['outRange'])
+	checkout_amount() {
+		const balance =
+			parseFloat(this.access_info && this.access_info.balance) || 0;
+		const amount = parseFloat(this.formData.amount) || 0;
+		if (amount <= 0 || amount > balance) {
+			return { outRange: true };
+		}
+	}
+
 	productInfo: ProductModel;
 	withdraw_address_list: CryptoCurrencyModel[];
+	private _withdraw_address_list_promise = new PromiseOut<
+		CryptoCurrencyModel[]
+	>();
 
 	@WithdrawDetailPage.watchChange(
 		(self: WithdrawDetailPage, value: CryptoCurrencyModel) => {
@@ -99,6 +115,15 @@ export class WithdrawDetailPage extends SecondLevelPage {
 				.getWithdrawAddress(this.productInfo.productId)
 				.then(data => {
 					this.withdraw_address_list = data;
+					this._withdraw_address_list_promise.resolve(
+						this.withdraw_address_list
+					);
+					if (this.selected_withdraw_address) {
+						this.selected_withdraw_address = this.withdraw_address_list.find(
+							wa => wa.id == this.selected_withdraw_address.id
+						);
+						this.formData.selected_withdraw_address_id = this.selected_withdraw_address.id;
+					}
 				});
 			tasks[tasks.length] = this.accountService
 				.getAccountProduct({
@@ -113,17 +138,32 @@ export class WithdrawDetailPage extends SecondLevelPage {
 	}
 
 	get canSubmit() {
-		return Object.keys(this.formData).every(k => this.formData[k]);
+		return (
+			Object.keys(this.formData).every(k => this.formData[k]) &&
+			!this.hasError(this.errors)
+		);
 	}
+	@asyncCtrlGenerator.loading()
+	@asyncCtrlGenerator.error('提现失败')
+	@asyncCtrlGenerator.success('提现成功')
 	submitWithdrawAppply() {
-		this.accountService.submitWithdrawAppply({
-			transactionType: TransactionType.WithdrawProduct,
-			productId: this.productInfo.productId,
-			price: 0,
-			amount: parseFloat(this.formData.amount),
-			password: this.formData.password,
-			paymentId: this.formData.selected_withdraw_address_id
-		});
+		return this.accountService
+			.submitWithdrawAppply({
+				transactionType: TransactionType.WithdrawProduct,
+				productId: this.productInfo.productId,
+				amount: parseFloat(this.formData.amount),
+				password: this.formData.password,
+				paymentId: this.formData.selected_withdraw_address_id + ''
+			})
+			.then((transaction: TransactionModel) => {
+				return this._formatWithdrawLogs([
+					transaction
+				]).then(format_transaction_list => {
+					const format_transaction = format_transaction_list[0];
+					this.transaction_logs.unshift(format_transaction);
+					return format_transaction;
+				});
+			});
 	}
 
 	transaction_logs: any[];
@@ -131,7 +171,6 @@ export class WithdrawDetailPage extends SecondLevelPage {
 	async getTransactionLogs() {
 		this.withdraw_logs_page_info.page = 0;
 		var zz = await this._getWithdrawLogs();
-		console.log(zz);
 		this.transaction_logs = zz;
 	}
 	withdraw_logs_page_info = {
@@ -150,28 +189,46 @@ export class WithdrawDetailPage extends SecondLevelPage {
 	@asyncCtrlGenerator.error('获取充值记录出错')
 	async _getWithdrawLogs() {
 		const { withdraw_logs_page_info } = this;
-		const transaction_logs = await this.accountService.getTransactionLogs(
-			withdraw_logs_page_info.page,
-			withdraw_logs_page_info.page_size,
-			PaymentCategory.Withdraw
-		);
+		const transaction_logs = await this.accountService.getWithdrawLogs({
+			page: withdraw_logs_page_info.page,
+			pageSize: withdraw_logs_page_info.page_size,
+			transactionType: TransactionType.WithdrawProduct
+		});
 		withdraw_logs_page_info.has_more =
 			transaction_logs.length === withdraw_logs_page_info.page_size;
 		this.infiniteScroll &&
 			this.infiniteScroll.enable(withdraw_logs_page_info.has_more);
+
+		return this._formatWithdrawLogs(transaction_logs);
+	}
+
+	private async _formatWithdrawLogs(transaction_logs: TransactionModel[]) {
 		const productList = await this.accountService.productList.getPromise();
+		const withdraw_address_list = await this._withdraw_address_list_promise
+			.promise;
 		const formated_transaction_logs = transaction_logs.map(transaction => {
 			const product = productList.find(
-				product => product.productId === transaction.productId
+				product => product.productId === transaction.targetId
+			);
+			const withdraw_address_info = withdraw_address_list.find(
+				wa => wa.id + '' == transaction.paymentId
 			);
 
 			return Object.assign(transaction, {
-				dealResultDetail: AccountServiceProvider.getDealResultDetail(
-					transaction.dealResult
+				dealResultDetail: AccountServiceProvider.getTransactionStatusDetail(
+					transaction.status
 				),
 				productDetail: product
 					? product.productDetail
-					: product.productId
+						? product.productDetail
+						: product.productId
+					: '',
+				withdrawName: withdraw_address_info
+					? withdraw_address_info.paymentAccountRemark
+					: '',
+				withdrawAddress: withdraw_address_info
+					? withdraw_address_info.paymentAccountNumber
+					: ''
 			});
 		});
 		console.log('formated_transaction_logs', formated_transaction_logs);

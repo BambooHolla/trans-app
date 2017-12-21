@@ -154,17 +154,25 @@ export class TradeService {
               const products = await this.appDataService.productsPromise;
               const product = products.get(productId);
               const price = products.get(priceId);
-              console.log('%cGGGG','color:red',productId,priceId,product,price)
-
-              traderList.set(`${priceId}-${productId}`, {
-                traderId: `${priceId}-${productId}`,
-                traderName: `${product.productName} / ${price.productName}`,
-                reportRef: new Observable(), //用来存放报表中间管道
-                reportArr: [],
-                marketRef: new BehaviorSubject(undefined), //用来存放交易中间管道
-                buyFee,
-                saleFee
-              });
+              console.log(
+                '%cGGGG',
+                'color:red',
+                productId,
+                priceId,
+                product,
+                price
+              );
+              if (product && price) {
+                traderList.set(`${priceId}-${productId}`, {
+                  traderId: `${priceId}-${productId}`,
+                  traderName: `${product.productName} / ${price.productName}`,
+                  reportRef: new Observable(), //用来存放报表中间管道
+                  reportArr: [],
+                  marketRef: new BehaviorSubject(undefined), //用来存放交易中间管道
+                  buyFee,
+                  saleFee
+                });
+              }
             });
         }
         return Promise.resolve(traderList);

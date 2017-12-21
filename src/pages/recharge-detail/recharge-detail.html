@@ -53,7 +53,7 @@
 		</div>
 	</div>
 	<div class="recharge-logs">
-		<div class="title">提现记录</div>
+		<div class="title">充值记录</div>
 		<div class="recharge-log" *ngFor="let tlog of transaction_logs">
 			<div class="base-info">
 				<div class="type-name">{{tlog.productDetail}}</div>
@@ -66,7 +66,7 @@
 			<div class="detail-info">
 				<div class="recharge-amount">
 					<div class="sub-title">
-						提现数量
+						充值数量
 					</div>
 					<div class="value">{{tlog.amount|number:'1.4-4'}}</div>
 				</div>

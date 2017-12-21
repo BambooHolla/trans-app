@@ -38,7 +38,11 @@ export class WorkOrderListPage extends SecondLevelPage {
 	async loadWorkOrderList() {
 		WorkOrderListPage._first_init_page =
 			WorkOrderListPage.hide_loading_and_use_welcome;
-		console.log('show_welcome', WorkOrderListPage._first_init_page,this.show_welcome);
+		console.log(
+			'show_welcome',
+			WorkOrderListPage._first_init_page,
+			this.show_welcome
+		);
 		if (WorkOrderListPage._first_init_page) {
 			setTimeout(() => {
 				WorkOrderListPage._first_init_page = false;
@@ -50,7 +54,8 @@ export class WorkOrderListPage extends SecondLevelPage {
 
 	@WorkOrderListPage.didLeave
 	reset_hide_loading_and_use_welcome() {
-		WorkOrderListPage.hide_loading_and_use_welcome = !this.work_order_list
-			.length;
+		WorkOrderListPage.hide_loading_and_use_welcome = !(
+			this.work_order_list && this.work_order_list.length
+		);
 	}
 }
