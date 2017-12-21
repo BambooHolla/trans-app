@@ -148,13 +148,15 @@ export class WithdrawDetailPage extends SecondLevelPage {
 	@asyncCtrlGenerator.success('提现成功')
 	submitWithdrawAppply() {
 		return this.accountService
-			.submitWithdrawAppply({
-				transactionType: TransactionType.WithdrawProduct,
-				productId: this.productInfo.productId,
-				amount: parseFloat(this.formData.amount),
-				v_secondpassword: this.formData.password,
-				paymentId: this.formData.selected_withdraw_address_id + ''
-			})
+			.submitWithdrawAppply(
+				{
+					transactionType: TransactionType.WithdrawProduct,
+					productId: this.productInfo.productId,
+					amount: parseFloat(this.formData.amount),
+					paymentId: this.formData.selected_withdraw_address_id + ''
+				},
+				this.formData.password
+			)
 			.then((transaction: TransactionModel) => {
 				return this._formatWithdrawLogs([
 					transaction

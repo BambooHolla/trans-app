@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
+import { Http, Headers } from '@angular/http';
 import 'rxjs/add/operator/map';
 import {
 	AppSettingProvider,
@@ -231,26 +231,32 @@ export class AccountServiceProvider {
 			params: type
 		});
 	}
-	submitWithdrawAppply(body: {
-		transactionType: TransactionType;
-		productId: string;
-		amount: number;
+	submitWithdrawAppply(
+		body: {
+			transactionType: TransactionType;
+			productId: string;
+			amount: number;
 
-		v_secondpassword: string;
-
-		accountId?: string;
-		accountType?: AccountType;
-		paymentId?: string;
-		priceAccountId?: string;
-		priceAccountType?: string;
-		priceId?: string;
-		price?: number;
-		attach?: string;
-		remark?: string;
-	}) {
+			accountId?: string;
+			accountType?: AccountType;
+			paymentId?: string;
+			priceAccountId?: string;
+			priceAccountType?: string;
+			priceId?: string;
+			price?: number;
+			attach?: string;
+			remark?: string;
+		},
+		v_secondpassword: string
+	) {
 		return this.fetch.post<TransactionModel>(
 			this.CREATE_WITHDRAW_TRABSACTION,
-			body
+			body,
+			{
+				headers: new Headers({
+					'x-bnqkl-secondpassword': v_secondpassword
+				})
+			}
 		);
 	}
 
