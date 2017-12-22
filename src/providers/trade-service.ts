@@ -21,6 +21,7 @@ import { Subject } from 'rxjs/Subject';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
 import { Observable } from 'rxjs/Observable';
+import { StockDataService } from './stock-data-service';
 
 @Injectable()
 export class TradeService {
@@ -128,6 +129,7 @@ export class TradeService {
     public appService: AppService,
     public appDataService: AppDataService,
     public personalDataService: PersonalDataService,
+    public stockDataService: StockDataService,
     public socketioService: SocketioService,
     public alertService: AlertService
   ) {}
@@ -152,8 +154,8 @@ export class TradeService {
             // )
             .map(async ({ priceId, productId, buyFee, saleFee }) => {
               const products = await this.appDataService.productsPromise;
-              const product = products.get(productId);
-              const price = products.get(priceId);
+              const product = await this.stockDataService.getProduct(productId)//products.get(productId);
+              const price = await this.stockDataService.getProduct(priceId)//products.get(priceId);
               console.log(
                 '%cGGGG',
                 'color:red',

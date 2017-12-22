@@ -1597,7 +1597,7 @@ export class StockDataService {
   public requestProducts(platformType: string = this.appSettings.Platform_Type): Promise<any> {
     const path = `/product/product`
     const params = {
-      platformType: platformType,
+      instid: platformType,
     }
     return this.appService.request(RequestMethod.Post, path, params, true)
       .then(data => {
@@ -1607,6 +1607,21 @@ export class StockDataService {
       .catch(err => {
         console.log('requestProducts error: ', err.message || err);
         return Promise.reject(err);
+      });
+  }
+
+  public requestProductById(productId): Promise<any> {
+    const path = `/product/product/${productId}`
+    
+    return this.appService.request(RequestMethod.Get, path, undefined, true)
+      .then(data => {
+        console.log('requestProductById: ', data)
+        this.parseStockListData([data])
+        return data
+      })
+      .catch(err => {
+        console.log('requestProductById error: ', err.message || err);
+        return undefined;
       });
   }
 
@@ -1624,7 +1639,10 @@ export class StockDataService {
         baseDataChanged = true;
       }
       //获取成功更新列表缓存
-      this.appDataService.products.set(productId, { productName })
+      this.appDataService.products.set(productId, { 
+        productName,
+        expire: new Date().getTime()+this.appSettings.EXPIRE_TIME_SPAN,
+      })
     })
 
     console.log('storage product: ', this.appDataService.products)
@@ -1632,5 +1650,16 @@ export class StockDataService {
     if (baseDataChanged) {
       this._stockBaseData.next(baseData);
     }
+  }
+
+  public async getProduct(productId){
+    let product = this.appDataService.products.get(productId)
+    const now = new Date()
+
+    if (!product || product.expire > now){
+      product = await this.requestProductById(productId)
+    }
+
+    return product
   }
 }

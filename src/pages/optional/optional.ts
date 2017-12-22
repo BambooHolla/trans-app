@@ -126,13 +126,14 @@ export class OptionalPage extends SecondLevelPage {
       // 个人中心的股票持仓列表变化时，才刷新当前页股票列表的数据源
       // console.log('initPersonalStockListSubscriber: ', data)
       this.optionalStockDetailList = data
-        .filter(({ stockCode }) => {
-          if (this.appSettings.SIM_DATA) {
-            return true;
-          } else {
-            return this.appDataService.products.has(stockCode);
-          }
-        })
+        // //个人持仓已由平台类型在请求时过滤,故这边不再做过滤
+        // .filter(({ stockCode }) => {
+        //   if (this.appSettings.SIM_DATA) {
+        //     return true;
+        //   } else {
+        //     return this.appDataService.products.has(stockCode);
+        //   }
+        // })
         .map(({ stockCode, restQuantity, cost }) => ({
           productInfo: productList.find(p => p.productId == stockCode),
           personalData: {
@@ -182,7 +183,8 @@ export class OptionalPage extends SecondLevelPage {
           const item = data[key];
           let priceName = '';
           const products = await this.appDataService.productsPromise;
-          const product = products.get(item.priceId);
+          const product = await this.stockDataService.getProduct(item.priceId)
+
           if (product) priceName = `(${product.productName})`;
           item.priceName = priceName;
           console.log('requestAssets in', data);

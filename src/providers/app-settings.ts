@@ -53,6 +53,9 @@ export class AppSettings {
   //模拟数据开关
   public readonly SIM_DATA: boolean = false;
 
+  //数据过期时间
+  public readonly EXPIRE_TIME_SPAN: number = 1e3 * 60 * 60 * 24 * 30;
+  
   // 退出某个页面后，多长时间取消对于实时数据的订阅。
   // 避免切换页面时实时数据频繁订阅/取消订阅，
   // 因为有时切换页面前后观看的都是同一个股票的数据。
