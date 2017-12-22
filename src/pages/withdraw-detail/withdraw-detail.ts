@@ -104,6 +104,15 @@ export class WithdrawDetailPage extends SecondLevelPage {
 		});
 	}
 
+	has_account_pwd = false;
+
+	@WithdrawDetailPage.willEnter
+	@asyncCtrlGenerator.loading()
+	@asyncCtrlGenerator.error('获取交易密码信息出错')
+	async checkHasAccountPWD() {
+		this.has_account_pwd = await this.accountService.hasAccountPwd.getPromise();
+	}
+
 	@WithdrawDetailPage.willEnter
 	@asyncCtrlGenerator.loading()
 	@asyncCtrlGenerator.error('获取账户信息出错')
@@ -131,6 +140,10 @@ export class WithdrawDetailPage extends SecondLevelPage {
 					accountType: AccountType.Product
 				})
 				.then(data => (this.access_info = data));
+
+			tasks[tasks.length] = this.accountService
+				.hasAccountPwd.getPromise()
+				.then(data => (this.has_account_pwd = data));
 			await Promise.all(tasks);
 		} else {
 			this.navCtrl.removeView(this.viewCtrl);

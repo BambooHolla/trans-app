@@ -74,7 +74,8 @@
         <!-- </ion-item> -->
         <ion-item>
             <ion-label color="primary">资金密码</ion-label>
-            <ion-input class="rtl" [(ngModel)]="formData.password" placeholder="请输入资金密码" type="password" ></ion-input>
+            <ion-input *ngIf="has_account_pwd" class="rtl" [(ngModel)]="formData.password" placeholder="请输入资金密码" type="password" ></ion-input>
+            <button item-end *ngIf="!has_account_pwd" (click)="routeTo('set-pay-pwd')" ion-button color="special" >去设置</button>
         </ion-item>
         <ion-item class="follow-pre-item">
             <button class="submit-btn" [disabled]="!canSubmit" ion-button color="special" (click)="submitWithdrawAppply()">确认提现</button>

@@ -28,6 +28,18 @@ export class SetPayPwdPage extends SecondLevelPage {
 	) {
 		super(navCtrl, navParams);
 	}
+
+	has_account_pwd = false;
+	loading_has_account_pwd = true;
+
+	@SetPayPwdPage.willEnter
+	@asyncCtrlGenerator.error('获取交易密码信息出错')
+	async checkHasAccountPWD() {
+		this.loading_has_account_pwd = true;
+		this.has_account_pwd = await this.accountService.hasAccountPwd.getPromise();
+		this.loading_has_account_pwd = false;
+	}
+
 	formData: {
 		payPWD: string;
 		confirmPayPWD: string;

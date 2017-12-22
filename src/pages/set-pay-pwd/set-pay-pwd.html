@@ -7,7 +7,7 @@
 <ion-header>
     <div class="hdbg header-with-bg bg-color-dark-alpha">
         <ion-navbar>
-            <ion-title>设置交易密码</ion-title>
+            <ion-title>{{has_account_pwd?'重置':'设置'}}交易密码</ion-title>
         </ion-navbar>
     </div>
 </ion-header>
@@ -45,7 +45,7 @@
                 <ion-checkbox color="dark" [(ngModel)]="protocolAgree"></ion-checkbox>
                 <div class="protocol-label" (click)="toggleProtocolAgree()">同意<a>《服务协议》</a></div>
             </div> -->
-            <button block ion-button color="special" [disabled]="!canSubmit" (click)="submitForm()">提交认证</button>
+            <button block ion-button color="special" [disabled]="!canSubmit" (click)="submitForm()">提交</button>
         </div>
     </ion-list>
 </ion-content>

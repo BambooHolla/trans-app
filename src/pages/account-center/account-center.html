@@ -32,11 +32,13 @@
         修改登录密码
       </ion-col>
     </ion-row>
-    <ion-row class="bottom-line" navPush="set-pay-pwd">
-      <ion-col padding class="vertical-center">
-        设置交易密码
-      </ion-col>
-    </ion-row>
+    <ng-container *ngIf="!loading_has_account_pwd">
+      <ion-row class="bottom-line" (click)="routeTo('set-pay-pwd')">
+        <ion-col padding class="vertical-center">
+          {{has_account_pwd?'重置':'设置'}}交易密码
+        </ion-col>
+      </ion-row>
+    </ng-container>
     <ion-row class="bottom-line" (click)="identify()">
       <ion-col padding class="vertical-center">
         实名认证

@@ -16,11 +16,11 @@ const CONSTRUCTOR_HELPER = Promise.resolve() as Promise<any>;
  * @class CatchAbleFetcher
  */
 export class AsyncBehaviorSubject<T> extends BehaviorSubject<Promise<T>> {
-  getPromise(): Promise<Promise<T>> {
+  getPromise(): Promise<T> {
     // super.toPromise();
     const res = new PromisePro<Promise<T>>();
     this.take(1).subscribe(res.resolve, res.reject);
-    return res.promise;
+    return res.promise.then(v => v);
   }
   constructor(executor: Executor<T>) {
     super(CONSTRUCTOR_HELPER);

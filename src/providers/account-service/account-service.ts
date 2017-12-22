@@ -71,6 +71,7 @@ export class AccountServiceProvider {
 	);
 
 	readonly SET_ACCOUNT_PWD = this.appSetting.APP_URL('user/setAccountPwd');
+	readonly HAS_ACCOUNT_PWD = this.appSetting.APP_URL('user/hasAccountPwd');
 
 	getAcountAssets(
 		accountId?: string,
@@ -336,6 +337,17 @@ export class AccountServiceProvider {
 		paymentAccountRemark?: string;
 	}) {
 		return this.fetch.post(this.CREATE_VALIDATE, body);
+	}
+
+	hasAccountPwd: AsyncBehaviorSubject<boolean>;
+	@TB_AB_Generator('hasAccountPwd')
+	hasAccountPwd_Executor(promise_pro) {
+		return promise_pro.follow(this.hasAccountPWD());
+	}
+	hasAccountPWD() {
+		return this.fetch
+			.get<{ status: string; message: string }>(this.HAS_ACCOUNT_PWD)
+			.then(data => data.status === '1');
 	}
 
 	setAccountPWD(
