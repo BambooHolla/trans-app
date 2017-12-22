@@ -171,13 +171,13 @@ export class WithdrawDetailPage extends SecondLevelPage {
 	transaction_logs: any[];
 	@WithdrawDetailPage.willEnter
 	async getTransactionLogs() {
-		this.withdraw_logs_page_info.page = 0;
+		this.withdraw_logs_page_info.page = 1;
 		var zz = await this._getWithdrawLogs();
 		this.transaction_logs = zz;
 	}
 	withdraw_logs_page_info = {
 		has_more: true,
-		page: 0,
+		page: 1,
 		page_size: 10
 	};
 	has_more_withdraw_logs = true;

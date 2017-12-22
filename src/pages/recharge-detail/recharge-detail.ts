@@ -77,14 +77,14 @@ export class RechargeDetailPage extends SecondLevelPage {
 	transaction_logs: any[];
 	@RechargeDetailPage.willEnter
 	async getTransactionLogs() {
-		this.recharge_logs_page_info.page = 0;
+		this.recharge_logs_page_info.page = 1;
 		var zz = await this._getRechargeLogs();
 		console.log(zz);
 		this.transaction_logs = zz;
 	}
 	recharge_logs_page_info = {
 		has_more: true,
-		page: 0,
+		page: 1,
 		page_size: 10
 	};
 	has_more_recharge_logs = true;

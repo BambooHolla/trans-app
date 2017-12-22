@@ -33,7 +33,7 @@ export class WorkOrderListPage extends SecondLevelPage {
 		return WorkOrderListPage.hide_loading_and_use_welcome;
 	}
 	work_order_list: ConcatModel[];
-	page = 0;
+	page = 1;
 	pageSize = 5;
 	hasMore = true;
 
@@ -54,7 +54,7 @@ export class WorkOrderListPage extends SecondLevelPage {
 			}, 2500);
 		}
 
-		this.page = 0;
+		this.page = 1;
 		const work_order_list = await this._getWorkOrderList();
 		this.work_order_list = work_order_list;
 		return work_order_list;

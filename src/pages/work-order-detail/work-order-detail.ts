@@ -57,7 +57,7 @@ export class WorkOrderDetailPage extends SecondLevelPage
 
 	work_order: ConcatModel;
 	chat_content = '';
-	page = 0;
+	page = 1;
 	pageSize = 5;
 	enableMore = true;
 	chat_logs: ChatLog[] = [];
@@ -70,7 +70,7 @@ export class WorkOrderDetailPage extends SecondLevelPage
 		} else {
 			this.navCtrl.removeView(this.viewCtrl);
 		}
-		this.page = 0;
+		this.page = 1;
 		const contact_reply_list = await this._getContactReplyList();
 
 		this.chat_logs = contact_reply_list.reverse();

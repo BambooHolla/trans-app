@@ -38,13 +38,13 @@ export class NewsListPage /* implements OnInit, OnDestroy  */ extends SecondLeve
     newsList = {
         list: [] as NewModel[],
         hasMore: true,
-        page: 0,
+        page: 1,
         page_size: 10
     };
     noticeList = {
         list: [] as NewModel[],
         hasMore: true,
-        page: 0,
+        page: 1,
         page_size: 10
     };
 
@@ -206,7 +206,7 @@ export class NewsListPage /* implements OnInit, OnDestroy  */ extends SecondLeve
     }
 
     async initNewsList(refresher?: Refresher) {
-        this.newsList.page = 0;
+        this.newsList.page = 1;
         // 如果有下拉刷新的控件，就不现实了loading层了
         if (refresher) {
             this.newsList.list = await this._getNewsList();
@@ -217,7 +217,7 @@ export class NewsListPage /* implements OnInit, OnDestroy  */ extends SecondLeve
         }
     }
     async initNoticeList(refresher?: Refresher) {
-        this.noticeList.page = 0;
+        this.noticeList.page = 1;
         // 如果有下拉刷新的控件，就不现实了loading层了
         if (refresher) {
             this.noticeList.list = await this._getNoticeList();
