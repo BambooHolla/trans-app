@@ -29,6 +29,8 @@ import {
 	ReplyRole,
 	ReplyModel
 } from '../../providers/work-order-service/work-order-service';
+import { FsProvider, FileType } from '../../providers/fs/fs';
+
 const MB: typeof MutationObserver =
 	window['MutationObserver'] || window['WebKitMutationObserver'];
 
@@ -50,12 +52,14 @@ export class WorkOrderDetailPage extends SecondLevelPage
 		public navParams: NavParams,
 		public r1: Renderer,
 		public r2: Renderer2,
+		public fsService: FsProvider,
 		public workOrderService: WorkOrderServiceProvider
 	) {
 		super(navCtrl, navParams);
 	}
 
 	work_order: ConcatModel;
+	work_order_attachment: string[];
 	chat_content = '';
 	page = 1;
 	pageSize = 5;
@@ -67,13 +71,20 @@ export class WorkOrderDetailPage extends SecondLevelPage
 	async getChatLogs() {
 		this.work_order = this.navParams.get('work_order');
 		if (this.work_order) {
+			this.getWorkOrderAttachment();
 		} else {
 			this.navCtrl.removeView(this.viewCtrl);
+			return;
 		}
 		this.page = 1;
 		const contact_reply_list = await this._getContactReplyList();
 
 		this.chat_logs = contact_reply_list.reverse();
+	}
+	getWorkOrderAttachment() {
+		this.work_order_attachment = this.work_order.attachment.map(fid => {
+			return this.fsService.READ_FILE.replace(':fid', fid);
+		});
 	}
 
 	@ViewChild(Refresher) refresher: Refresher;
