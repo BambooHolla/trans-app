@@ -6,6 +6,7 @@ import { AppSettings } from "../../providers/app-settings";
 // import { Observable } from "rxjs/Observable";
 import { ToastController, AlertController } from "ionic-angular";
 import { AppService } from '../../providers/app.service';
+import { StockDataService } from '../../providers/stock-data-service';
 // import * as echarts from 'echarts';
 // import { NavController } from 'ionic-angular';
 
@@ -162,6 +163,7 @@ export class CommissionListPage implements OnInit {
     public appDataService: AppDataService,
     public AppSettings: AppSettings,
     private appService: AppService,
+    private stockDataService: StockDataService,
     private toastCtrl: ToastController,
     private alertCtrl: AlertController,
   ) {
@@ -283,19 +285,22 @@ export class CommissionListPage implements OnInit {
             // item.FID_CXBZ != "W"
             item
           )
-            .map(item => ({
-              id: item.id,
-              name: this.appDataService.products.get(item.productId) ?
-                this.appDataService.products.get(item.productId).productName : "",//另外通过产品信息获取
-              time: ``,//交易完成时间后端接口缺少字段
-              // time: new Date(`${item.FID_WTRQ.replace(/(\d{4})(\d{2})(\d{2})/, '$1/$2/$3')} ${item.FID_WTSJ}`),
-              commit: item.entrustPrice,
-              average: (item.completeTotalPrice / item.completeAmount / 100).toFixed(2),
-              commission: item.entrustAmount,
-              deal: item.completeAmount,
-              state: item.entrustOperationType == '001' ? '买入' :
-                item.entrustOperationType == '002' ? '卖出' : '',//委托操作类型（001买入、002卖出）
-            }))
+            .map(async item => {
+              let product = await this.stockDataService.getProduct(item.productId)
+              
+              return {
+                id: item.id,
+                name: product.name,//另外通过产品信息获取
+                time: ``,//交易完成时间后端接口缺少字段
+                // time: new Date(`${item.FID_WTRQ.replace(/(\d{4})(\d{2})(\d{2})/, '$1/$2/$3')} ${item.FID_WTSJ}`),
+                commit: item.entrustPrice,
+                average: (item.completeTotalPrice / item.completeAmount / 100).toFixed(2),
+                commission: item.entrustAmount,
+                deal: item.completeAmount,
+                state: item.entrustOperationType == '001' ? '买入' :
+                  item.entrustOperationType == '002' ? '卖出' : '',//委托操作类型（001买入、002卖出）
+              }
+            })
           this.optionalListData = data
         }
       })
