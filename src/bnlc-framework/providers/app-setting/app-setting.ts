@@ -14,6 +14,10 @@ import { BehaviorSubject } from "rxjs/BehaviorSubject";
 export class AppSettingProvider {
   static SERVER_URL = 'http://bjs.bnqkl.cn';
   static SERVER_PREFIX = '/api/v1/bngj';
+  static Platform_Type = '8545236f-0e18-4102-8705-fa5ee777b270';
+  public get Platform_Type() {
+    return AppSettingProvider.Platform_Type;
+  }
   APP_URL(path: string) {
     return (
       AppSettingProvider.SERVER_URL +

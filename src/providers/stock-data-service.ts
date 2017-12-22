@@ -1594,7 +1594,7 @@ export class StockDataService {
 
   // }
 
-  public requestProducts(platformType: string = '001'): Promise<any> {
+  public requestProducts(platformType: string = this.appSettings.Platform_Type): Promise<any> {
     const path = `/product/product`
     const params = {
       platformType: platformType,
