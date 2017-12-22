@@ -124,6 +124,7 @@ export class LoginService {
           console.log('login:', data);
           const err = data.error || data.err;
           if (!err) {
+            document.cookie = `X-AUTH-TOKEN=${data.data.token}`
             return Promise.resolve(data.data);
           } else {
             return Promise.reject(err);
@@ -170,6 +171,7 @@ export class LoginService {
   }
 
   public doLogout() {
+    document.cookie = `X-AUTH-TOKEN=;expires=Thu, 01 Jan 1970 00:00:00 GMT`
     this.bnlcAppSetting.clearUserToken();
     return new Promise(resolve => {
       this.appDataService.resetCustomization();

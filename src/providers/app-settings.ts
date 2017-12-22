@@ -33,7 +33,10 @@ export class AppSettings {
   public readonly SOCKET_URL: string = 'http://119.23.68.40:11880'; //原gjs,现不用
   public readonly SOCKET_PREFIX: string = '/socket/v1/bngj';
 
-  public readonly Platform_Type: string = '002'; //平台类型： 001高交所、002币加所、003本能理财
+  public get Platform_Type() {
+    return AppSettingProvider.Platform_Type;
+  } 
+  // public readonly Platform_Type: string = '002'; //平台类型： 001高交所、002币加所、003本能理财
   /**
    * 产品/10^9
    * 钱/100
