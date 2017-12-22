@@ -76,7 +76,7 @@ export class WorkOrderAddPage extends SecondLevelPage {
 	];
 	upload(name) {
 		const imageTaker = this.imageTakerCtrl.create(name);
-		const fid_promise = this.fs.getImageUploaderId(FileType.身份证图片);
+		const fid_promise = this.fs.getImageUploaderId(FileType.工单图片);
 		imageTaker.onDidDismiss(async (result, role) => {
 			if (role !== 'cancel' && result) {
 				const image = this.images.find(

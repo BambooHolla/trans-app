@@ -52,7 +52,9 @@ export class FsProvider {
 
 export enum FileType {
 	新闻图片 = '001',
-	身份证图片 = '002'
+	身份证图片 = '002',
+	个人传记图片 = '003',
+	工单图片 = '004'
 }
 export type UploadedFileModel = {
 	"name": string,
