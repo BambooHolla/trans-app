@@ -37,6 +37,8 @@ export class WorkOrderListPage extends SecondLevelPage {
 	pageSize = 5;
 	hasMore = true;
 
+	disable_init_list_when_enter = false;
+
 	@WorkOrderListPage.willEnter
 	@asyncCtrlGenerator.loading(undefined, 'hide_loading_and_use_welcome')
 	@asyncCtrlGenerator.error('工单列表加载失败')
@@ -54,10 +56,17 @@ export class WorkOrderListPage extends SecondLevelPage {
 			}, 2500);
 		}
 
-		this.page = 1;
-		const work_order_list = await this._getWorkOrderList();
-		this.work_order_list = work_order_list;
-		return work_order_list;
+		if (!this.disable_init_list_when_enter) {
+			this.page = 1;
+			const work_order_list = await this._getWorkOrderList();
+			this.work_order_list = work_order_list;
+			return work_order_list;
+		}
+		this.disable_init_list_when_enter = false;
+	}
+	routeToWorkOrderDetail(work_order) {
+		this.disable_init_list_when_enter = true;
+		this.routeTo('work-order-detail', { work_order });
 	}
 
 	// @ViewChild(InfiniteScroll) infiniteScroll: InfiniteScroll;
