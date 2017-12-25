@@ -23,6 +23,7 @@
                     <ion-refresher-content refreshingText="正在刷新...">
                     </ion-refresher-content>
                 </ion-refresher>
+                <div class="no-content" *ngIf="!noticeList?.list || noticeList?.list.length == 0">暂无公告</div>
                 <ion-list class="card-background-page">
                     <ng-container *ngFor="let data_item of noticeList.list;let i = index">
                         <div class="banner-card" *ngIf="i==0;else normalListItem">
@@ -62,6 +63,7 @@
                     <ion-refresher-content refreshingText="正在刷新...">
                     </ion-refresher-content>
                 </ion-refresher>
+                <div class="no-content" *ngIf="!newsList?.list || newsList?.list.length == 0">暂无新闻</div>
                 <ion-list class="card-background-page">
                     <ion-item class="big-news-item" *ngFor="let data_item of newsList.list" (click)="viewNews(data_item.newsId)" no-lines>
                         <div class="card-item" [style.backgroundImage]="'url('+data_item.cover+')'">

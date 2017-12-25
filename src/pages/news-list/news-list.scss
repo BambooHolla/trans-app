@@ -1,4 +1,13 @@
 page-news-list {
+
+  .no-content {
+    text-align: center;
+    height: 10rem;
+    line-height: 10rem;
+    font-size: 2rem;
+    color: color($colors, middark);
+  }
+
   .tab-list {
     width: 100%;
     height: 40px;

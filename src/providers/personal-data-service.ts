@@ -174,8 +174,9 @@ export class PersonalDataService {
     this.requestEquityDeposit()
       .catch(err => {});
     
-    this.requestBankAccount()
-      .catch(err => {})
+    //币加所暂无银行账户概念
+    // this.requestBankAccount()
+    //   .catch(err => {})
   }
 
   requestCustomerData(): Promise<any> {
