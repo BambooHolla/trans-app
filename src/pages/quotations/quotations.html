@@ -58,7 +58,7 @@
                 </span>
                 <span class="font-smaller">                
                     <label class="{{showData?.changeValue | riseOrFall}}">成交量 </label>
-                    {{(trader?.marketRef | async)?.amount | number:'.2-5'}}                
+                    {{(trader?.marketRef | async)?.amount | quantityConversion | number:'.2-5'}}                
                 </span>
             </div>
         </div>
