@@ -71,7 +71,7 @@
                     <div class="sub-title">
                         充值数量
                     </div>
-                    <div class="value">{{tlog.amount|number:'1.4-4'}}</div>
+                    <div class="value">{{tlog.amount/1e8|number:'1.4-4'}}</div>
                 </div>
                 <!-- <div class="recharge-to">
 					<div class="sub-title">
@@ -83,7 +83,7 @@
                     <div class="sub-title">
                         充值地址
                     </div>
-                    <div class="value">{{tlog.externalSerialNumber}}</div>
+                    <div class="value">{{tlog.rechargeAddress}}</div>
                 </div>
             </div>
         </div>

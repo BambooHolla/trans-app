@@ -174,12 +174,10 @@ export class AppFetchProvider {
     const params = options.params as { [key: string]: any };
     if (params && params.constructor === Object) {
       delete options.params;
-      console.log(url);
       for (let key in params) {
         const val = params[key];
         url = url.replace(new RegExp(`\:${key}`, 'g'), val);
       }
-      console.log(url);
     }
     return { url, options };
   }

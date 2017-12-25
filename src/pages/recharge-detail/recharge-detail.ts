@@ -122,22 +122,33 @@ export class RechargeDetailPage extends SecondLevelPage {
 		this.infiniteScroll &&
 			this.infiniteScroll.enable(recharge_logs_page_info.has_more);
 		const productList = await this.accountService.productList.getPromise();
-		const formated_transaction_logs = transaction_logs.map(transaction => {
-			const product = productList.find(
-				product => product.productId === transaction.targetId,
-			);
+		const formated_transaction_logs = await Promise.all(
+			transaction_logs.map(async transaction => {
+				const product = productList.find(
+					product => product.productId === transaction.targetId,
+				);
+				const recharge_address_info = await this.accountService.getPaymentById(
+					transaction.paymentId,
+				);
 
-			return Object.assign(transaction, {
-				dealResultDetail: AccountServiceProvider.getTransactionStatusDetail(
-					transaction.status,
-				),
-				productDetail: product
-					? product.productDetail
+				return Object.assign(transaction, {
+					dealResultDetail: AccountServiceProvider.getTransactionStatusDetail(
+						transaction.status,
+					),
+					productDetail: product
 						? product.productDetail
-						: product.productId
-					: '',
-			});
-		});
+							? product.productDetail
+							: product.productId
+						: '',
+					rechargeName: recharge_address_info
+						? recharge_address_info.paymentAccountRemark
+						: '',
+					rechargeAddress: recharge_address_info
+						? recharge_address_info.paymentAccountNumber
+						: '',
+				});
+			}),
+		);
 		console.log('formated_transaction_logs', formated_transaction_logs);
 		return formated_transaction_logs;
 	}

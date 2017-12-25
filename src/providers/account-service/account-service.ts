@@ -3,7 +3,7 @@ import { Http, Headers } from '@angular/http';
 import 'rxjs/add/operator/map';
 import {
 	AppSettingProvider,
-	TB_AB_Generator
+	TB_AB_Generator,
 } from '../../bnlc-framework/providers/app-setting/app-setting';
 import { AppFetchProvider } from '../../bnlc-framework/providers/app-fetch/app-fetch';
 import { AsyncBehaviorSubject } from '../../bnlc-framework/providers/RxExtends';
@@ -19,55 +19,56 @@ export class AccountServiceProvider {
 	constructor(
 		public http: Http,
 		public appSetting: AppSettingProvider,
-		public fetch: AppFetchProvider
+		public fetch: AppFetchProvider,
 	) {}
 	// readonly GET_ACCOUNT_INFO = this.appSetting.APP_URL('aco')
 	readonly GET_ACCOUNT_ASSETS = this.appSetting.APP_URL(
-		'account/accounts/:id'
+		'account/accounts/:id',
 	);
 	readonly GET_ACCOUNT_PRODUCT = this.appSetting.APP_URL(
-		'account/accounts/products'
+		'account/accounts/products',
 	);
 	readonly GET_CRYPTO_CURRENCY = this.appSetting.APP_URL(
-		'account/payment/cryptocurrency'
+		'account/payment/cryptocurrency',
 	);
 	readonly GET_PRODUCTS = this.appSetting.APP_URL('product/product');
 	readonly GET_TRANSACTION_LOGS = this.appSetting.APP_URL(
-		'transaction/externaltransactions'
+		'transaction/externaltransactions',
 	);
+	readonly PAYMENT_ITEM = this.appSetting.APP_URL('account/payment/:id');
 	readonly GET_WITHDRAW_ADDRESS = this.appSetting.APP_URL('account/payments');
 	readonly ADD_WITHDRAW_ADDRESS = this.appSetting.APP_URL(
-		'account/payment/create'
+		'account/payment/create',
 	);
 	readonly GET_WTIHDRAW_LOGS = this.appSetting.APP_URL(
-		'transaction/transactions'
+		'transaction/transactions',
 	);
 	/** 同ADD_WITHDRAW_ADDRESS，但是这个是提交验证信息的*/
 	readonly CREATE_VALIDATE = this.appSetting.APP_URL(
-		'account/payment/createvalidate'
+		'account/payment/createvalidate',
 	);
 	readonly DELETE_PAYMENT = this.appSetting.APP_URL(
-		'account/payment/delete/:id'
+		'account/payment/delete/:id',
 	);
 	readonly GET_WITHDRAW_ADDRESS_TYPE_LIST = this.appSetting.APP_URL(
-		'account/paymenttypelist'
+		'account/paymenttypelist',
 	);
 	readonly GET_WITHDRAW_ADDRESS_DETAIL = this.appSetting.APP_URL(
-		'account/payments/type/:type'
+		'account/payments/type/:type',
 	);
 	readonly CREATE_WITHDRAW_TRABSACTION = this.appSetting.APP_URL(
-		'transaction/transactions/create'
+		'transaction/transactions/create',
 	);
 
 	readonly SUBMIT_CERTIFICATION = this.appSetting.APP_URL(
-		'user/addCertification'
+		'user/addCertification',
 	);
 
 	readonly GET_AUTHENTICATE_DETAIL = this.appSetting.APP_URL(
-		'user/getAuthenticateDetail'
+		'user/getAuthenticateDetail',
 	);
 	readonly SEND_VALIDATE_TO_CUSTOMER = this.appSetting.APP_URL(
-		'user/validate/customersend'
+		'user/validate/customersend',
 	);
 
 	readonly SET_ACCOUNT_PWD = this.appSetting.APP_URL('user/setAccountPwd');
@@ -76,16 +77,16 @@ export class AccountServiceProvider {
 	getAcountAssets(
 		accountId?: string,
 		accountType?: string,
-		customerId?: string
+		customerId?: string,
 	) {
 		return this.fetch.get(this.GET_ACCOUNT_ASSETS, {
 			params: {
-				id: accountId
+				id: accountId,
 			},
 			search: {
 				accountType,
-				customerId
-			}
+				customerId,
+			},
 		});
 	}
 	getAccountProduct(search: {
@@ -95,7 +96,7 @@ export class AccountServiceProvider {
 		customerId?: string;
 	}) {
 		return this.fetch.get(this.GET_ACCOUNT_PRODUCT, {
-			search
+			search,
 		});
 	}
 
@@ -103,10 +104,26 @@ export class AccountServiceProvider {
 		return this.fetch
 			.autoCache(true)
 			.get<CryptoCurrencyModel>(this.GET_CRYPTO_CURRENCY, {
-				search: { productId }
+				search: { productId },
 			});
 	}
 
+	private _paymentIdCache = new Map<string, CryptoCurrencyModel>();
+	async getPaymentById(id: string) {
+		var paymentData = this._paymentIdCache.get(id);
+		if (!paymentData) {
+			paymentData = await this.fetch
+				.autoCache(true)
+				.get<CryptoCurrencyModel[]>(this.PAYMENT_ITEM, {
+					params: { id },
+				})
+				.then(list => list[0]);
+			if (paymentData) {
+				this._paymentIdCache.set(id, paymentData);
+			}
+		}
+		return paymentData;
+	}
 	getWithdrawAddress(productId: string) {
 		return this.fetch
 			.autoCache(true)
@@ -114,15 +131,21 @@ export class AccountServiceProvider {
 				search: {
 					pageSize: 50,
 					paymentOrganization: productId,
-					paymentCategory: PaymentCategory.Withdraw
-				}
+					paymentCategory: PaymentCategory.Withdraw,
+				},
+			})
+			.then(list => {
+				list.forEach(item => {
+					this._paymentIdCache.set(item.id + '', item);
+				});
+				return list;
 			});
 	}
 	deleteWithdrawAddress(id: number) {
 		return this.fetch.delete(this.DELETE_PAYMENT, {
 			params: {
-				id
-			}
+				id,
+			},
 		});
 	}
 
@@ -138,7 +161,7 @@ export class AccountServiceProvider {
 		productType?: ProductType,
 		productStatus?: ProductStatus,
 		productName?: string,
-		productIdArr?: string
+		productIdArr?: string,
 	) {
 		return this.fetch.post<ProductModel[]>(this.GET_PRODUCTS, {
 			page,
@@ -146,7 +169,7 @@ export class AccountServiceProvider {
 			productType,
 			productStatus,
 			productName,
-			productIdArr
+			productIdArr,
 		});
 	}
 	getTransactionLogs(
@@ -155,7 +178,7 @@ export class AccountServiceProvider {
 		paymentCategory?: PaymentCategory,
 		dealResult?: DealResult,
 		externalTransactionId?: string,
-		expiredAt?: string
+		expiredAt?: string,
 	) {
 		return this.fetch.get<any[]>(this.GET_TRANSACTION_LOGS, {
 			search: {
@@ -164,8 +187,8 @@ export class AccountServiceProvider {
 				paymentCategory,
 				dealResult,
 				externalTransactionId,
-				expiredAt
-			}
+				expiredAt,
+			},
 		});
 	}
 
@@ -176,7 +199,7 @@ export class AccountServiceProvider {
 		paymentOrganization: string,
 		paymentAccountNumber: string,
 		realname?: string,
-		paymentAccountRemark?: string
+		paymentAccountRemark?: string,
 	) {
 		return this.fetch.post(this.ADD_WITHDRAW_ADDRESS, {
 			paymentCategory,
@@ -185,7 +208,7 @@ export class AccountServiceProvider {
 			paymentOrganization,
 			paymentAccountNumber,
 			realname,
-			paymentAccountRemark
+			paymentAccountRemark,
 		});
 	}
 	withdrawAddressTypeList: AsyncBehaviorSubject<
@@ -203,7 +226,7 @@ export class AccountServiceProvider {
 				for (let name in dict) {
 					res.push({
 						name,
-						type: dict[name]
+						type: dict[name],
 					});
 				}
 				return res;
@@ -217,7 +240,7 @@ export class AccountServiceProvider {
 	getWithdrawAddressList() {
 		return this.getWithdrawAddressTypeList().then(type_list => {
 			return Promise.all(
-				type_list.map(type => this.getWithdrawAddressDetail(type))
+				type_list.map(type => this.getWithdrawAddressDetail(type)),
 			);
 		});
 		// return this.fetch
@@ -230,7 +253,7 @@ export class AccountServiceProvider {
 	}
 	getWithdrawAddressDetail(type: string) {
 		return this.fetch.get(this.GET_WITHDRAW_ADDRESS_DETAIL, {
-			params: type
+			params: type,
 		});
 	}
 	submitWithdrawAppply(
@@ -249,16 +272,16 @@ export class AccountServiceProvider {
 			attach?: string;
 			remark?: string;
 		},
-		v_secondpassword: string
+		v_secondpassword: string,
 	) {
 		return this.fetch.post<TransactionModel>(
 			this.CREATE_WITHDRAW_TRABSACTION,
 			body,
 			{
 				headers: new Headers({
-					'x-bnqkl-secondpassword': v_secondpassword
-				})
-			}
+					'x-bnqkl-secondpassword': v_secondpassword,
+				}),
+			},
 		);
 	}
 
@@ -272,10 +295,10 @@ export class AccountServiceProvider {
 		status?: TransactionStatus;
 	}) {
 		return this.fetch.get<TransactionModel[]>(this.GET_WTIHDRAW_LOGS, {
-			search:{
+			search: {
 				...search,
-				transactionType:TransactionType.WithdrawProduct
-			}
+				transactionType: TransactionType.WithdrawProduct,
+			},
 		});
 	}
 	getRechargeLogs(search: {
@@ -288,10 +311,10 @@ export class AccountServiceProvider {
 		status?: TransactionStatus;
 	}) {
 		return this.fetch.get<TransactionModel[]>(this.GET_WTIHDRAW_LOGS, {
-			search:{
+			search: {
 				...search,
-				transactionType:TransactionType.RechargeProduct
-			}
+				transactionType: TransactionType.RechargeProduct,
+			},
 		});
 	}
 
@@ -333,15 +356,15 @@ export class AccountServiceProvider {
 		return this.fetch.get<AuthenticationModel[]>(
 			this.GET_AUTHENTICATE_DETAIL,
 			{
-				search
-			}
+				search,
+			},
 		);
 	}
 
 	sendValidateToCustomer(category: CertificateType, authId: string) {
 		return this.fetch.post(this.SEND_VALIDATE_TO_CUSTOMER, {
 			category,
-			authId
+			authId,
 		});
 	}
 	/** 通过验证码创建(绑定)支付账户*/
@@ -374,7 +397,7 @@ export class AccountServiceProvider {
 		accountPwd: string,
 		loginPwd: string,
 		c_type: CertificateType,
-		code: string
+		code: string,
 	) {
 		var type = -1;
 		if (c_type == CertificateType.邮箱) {
@@ -386,24 +409,24 @@ export class AccountServiceProvider {
 			type,
 			accountPwd,
 			loginPwd,
-			code
+			code,
 		});
 	}
 }
 export enum CertificationCertificateType {
 	账号 = '001',
-	身份 = '002'
+	身份 = '002',
 }
 export enum CertificationPatternType {
 	人工审核 = '001',
-	系统自动审核 = '002'
+	系统自动审核 = '002',
 }
 export enum CertificationCollectType {
 	文本填写 = '001',
 	证件照片 = '002',
 	证件视频 = '003',
 	手持证件照片 = '004',
-	现场认证 = '005'
+	现场认证 = '005',
 }
 export enum PaymenType {
 	Bank = '001', // 银行卡
@@ -413,18 +436,18 @@ export enum PaymenType {
 	IFMT = '005', // IFMT
 	BTC = '006', // BTC
 	ETH = '007', // ETH
-	Other = '999' // 其他
+	Other = '999', // 其他
 }
 export enum PaymentCategory {
 	Recharge = '001', // 充值
 	Withdraw = '002', // 提现
-	Other = '999' // 其他
+	Other = '999', // 其他
 }
 export enum PaymentBelong {
 	Platform = '001', // 平台
 	Custoemr = '002', // 客户【勿使用，拼写错误】
 	Customer = '002', // 客户
-	Other = '999' // 其他
+	Other = '999', // 其他
 }
 
 export enum ProductType {
@@ -436,12 +459,12 @@ export enum ProductType {
 	'bnlc_main' = '301', //首页主产品
 	'bnlc_increaseInterest' = '302', //加息计划
 
-	'others' = '999' //"其他"
+	'others' = '999', //"其他"
 }
 export enum ProductStatus {
 	'suspension' = '001', //"已下架/停牌",
 	'tradable' = '002', //"已上架/可交易",
-	'others' = '999' //"其他"
+	'others' = '999', //"其他"
 }
 export enum TransactionType {
 	BuyProduct = '001', // 购买产品
@@ -449,7 +472,7 @@ export enum TransactionType {
 	GiveProduct = '003', // 赠送产品
 	RechargeProduct = '004', // 产品充值
 	WithdrawProduct = '005', // 产品提现
-	Other = '999' // 其他
+	Other = '999', // 其他
 }
 export enum TransactionStatus {
 	Unpaied = '001', // 待支付
@@ -457,7 +480,7 @@ export enum TransactionStatus {
 	Confirmed = '003', // 已确认
 	Cancel = '004', // 已取消
 	InAudit = '005', // 审核中
-	Other = '999' // 其他
+	Other = '999', // 其他
 }
 export enum DealResult {
 	Preparing = '001', // 准备中
@@ -466,7 +489,7 @@ export enum DealResult {
 	Finish = '004', // 完成
 	Failed = '005', // 失败
 	Expired = '006', // 过期
-	Other = '999' // 其他
+	Other = '999', // 其他
 }
 export enum AccountType {
 	Cash = '001', // 现金账
@@ -478,7 +501,7 @@ export enum AccountType {
 	Interest = '007', // 利息账
 	Experience = '008', // 体验金账户
 	CryptoCurrency = '009', // 数字货币账户
-	Other = '999' // 其他
+	Other = '999', // 其他
 }
 export enum CertificateType {
 	手机号 = '001',
@@ -487,7 +510,7 @@ export enum CertificateType {
 	声音 = '004',
 	人脸 = '005',
 	二代身份证 = '006',
-	护照 = '007'
+	护照 = '007',
 }
 export enum BankCode {
 	上海银行 = 'BOS',
@@ -505,7 +528,7 @@ export enum BankCode {
 	建设银行 = 'CCB',
 	招商银行 = 'CMB',
 	民生银行 = 'CMBC',
-	浦发银行 = 'SPDB'
+	浦发银行 = 'SPDB',
 }
 export type ProductModel = {
 	_id: string;

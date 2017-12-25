@@ -66,9 +66,6 @@ export class WithdrawDetailPage extends SecondLevelPage {
 	productInfo: ProductModel;
 	// 可用的提现地址列表
 	withdraw_address_list: CryptoCurrencyModel[];
-	private _withdraw_address_list_promise = new PromiseOut<
-		CryptoCurrencyModel[]
-	>();
 
 	@WithdrawDetailPage.watchChange(
 		(self: WithdrawDetailPage, value: CryptoCurrencyModel) => {
@@ -126,9 +123,6 @@ export class WithdrawDetailPage extends SecondLevelPage {
 				.getWithdrawAddress(this.productInfo.productId)
 				.then(data => {
 					this.withdraw_address_list = data;
-					this._withdraw_address_list_promise.resolve(
-						this.withdraw_address_list,
-					);
 					if (this.selected_withdraw_address) {
 						this.selected_withdraw_address = this.withdraw_address_list.find(
 							wa => wa.id == this.selected_withdraw_address.id,
@@ -228,33 +222,33 @@ export class WithdrawDetailPage extends SecondLevelPage {
 
 	private async _formatWithdrawLogs(transaction_logs: TransactionModel[]) {
 		const productList = await this.accountService.productList.getPromise();
-		const withdraw_address_list = await this._withdraw_address_list_promise
-			.promise;
-		const formated_transaction_logs = transaction_logs.map(transaction => {
-			const product = productList.find(
-				product => product.productId === transaction.targetId,
-			);
-			const withdraw_address_info = withdraw_address_list.find(
-				wa => wa.id + '' == transaction.paymentId,
-			);
+		const formated_transaction_logs = await Promise.all(
+			transaction_logs.map(async transaction => {
+				const product = productList.find(
+					product => product.productId === transaction.targetId,
+				);
+				const withdraw_address_info = await this.accountService.getPaymentById(
+					transaction.paymentId,
+				);
 
-			return Object.assign(transaction, {
-				dealResultDetail: AccountServiceProvider.getTransactionStatusDetail(
-					transaction.status,
-				),
-				productDetail: product
-					? product.productDetail
+				return Object.assign(transaction, {
+					dealResultDetail: AccountServiceProvider.getTransactionStatusDetail(
+						transaction.status,
+					),
+					productDetail: product
 						? product.productDetail
-						: product.productId
-					: '',
-				withdrawName: withdraw_address_info
-					? withdraw_address_info.paymentAccountRemark
-					: '',
-				withdrawAddress: withdraw_address_info
-					? withdraw_address_info.paymentAccountNumber
-					: '',
-			});
-		});
+							? product.productDetail
+							: product.productId
+						: '',
+					withdrawName: withdraw_address_info
+						? withdraw_address_info.paymentAccountRemark
+						: '',
+					withdrawAddress: withdraw_address_info
+						? withdraw_address_info.paymentAccountNumber
+						: '',
+				});
+			}),
+		);
 		console.log('formated_transaction_logs', formated_transaction_logs);
 		return formated_transaction_logs;
 	}
