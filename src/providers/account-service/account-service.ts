@@ -168,6 +168,7 @@ export class AccountServiceProvider {
 			}
 		});
 	}
+
 	addWithdrawAddress(
 		paymentCategory: PaymentCategory,
 		paymentType: PaymenType,
@@ -267,11 +268,30 @@ export class AccountServiceProvider {
 		customerId?: string;
 		accountId?: string;
 		targetId?: string;
-		transactionType?: TransactionType;
+		// transactionType?: TransactionType;
 		status?: TransactionStatus;
 	}) {
 		return this.fetch.get<TransactionModel[]>(this.GET_WTIHDRAW_LOGS, {
-			search
+			search:{
+				...search,
+				transactionType:TransactionType.WithdrawProduct
+			}
+		});
+	}
+	getRechargeLogs(search: {
+		page?: number;
+		pageSize?: number;
+		customerId?: string;
+		accountId?: string;
+		targetId?: string;
+		// transactionType?: TransactionType;
+		status?: TransactionStatus;
+	}) {
+		return this.fetch.get<TransactionModel[]>(this.GET_WTIHDRAW_LOGS, {
+			search:{
+				...search,
+				transactionType:TransactionType.RechargeProduct
+			}
 		});
 	}
 

@@ -3,7 +3,8 @@ import {
 	IonicPage,
 	NavController,
 	NavParams,
-	InfiniteScroll
+	ViewController,
+	InfiniteScroll,
 } from 'ionic-angular';
 import { SecondLevelPage } from '../../bnlc-framework/SecondLevelPage';
 import { asyncCtrlGenerator } from '../../bnlc-framework/Decorator';
@@ -13,7 +14,7 @@ import {
 	ProductModel,
 	AccountType,
 	CryptoCurrencyModel,
-	DealResult
+	DealResult,
 } from '../../providers/account-service/account-service';
 
 /**
@@ -24,13 +25,14 @@ import {
  */
 @Component({
 	selector: 'page-recharge-detail',
-	templateUrl: 'recharge-detail.html'
+	templateUrl: 'recharge-detail.html',
 })
 export class RechargeDetailPage extends SecondLevelPage {
 	constructor(
 		public navCtrl: NavController,
+		public viewCtrl: ViewController,
 		public navParams: NavParams,
-		public accountService: AccountServiceProvider
+		public accountService: AccountServiceProvider,
 	) {
 		super(navCtrl, navParams);
 		this.productInfo = this.navParams.get('productInfo');
@@ -43,7 +45,7 @@ export class RechargeDetailPage extends SecondLevelPage {
 		undefined,
 		undefined,
 		undefined,
-		'recharge-detail'
+		'recharge-detail',
 	)
 	@asyncCtrlGenerator.error('获取账户信息出错')
 	async getAccountsInfo() {
@@ -53,39 +55,43 @@ export class RechargeDetailPage extends SecondLevelPage {
 			// 获取地址信息
 			tasks[tasks.length] = this.accountService
 				.getRechargeAddress(this.productInfo.productId)
-				.then(data => (this.recharge_address = data));
+				.then(data => (this.recharge_address = data[0]));
 
 			// 获取账户资产
 			tasks[tasks.length] = this.accountService
 				.getAccountProduct({
 					productId: this.productInfo.productId,
-					accountType: AccountType.Product
+					accountType: AccountType.Product,
 				})
 				.then(data => (this.access_info = data));
+			// 获取充值记录
+			tasks[tasks.length] = this.getTransactionLogs();
 			const tasks_res = await Promise.all(tasks);
 			return tasks_res.reduce((p, c) => ({ ...p, ...c }), {});
+		} else {
+			this.navCtrl.removeView(this.viewCtrl);
 		}
 	}
 
 	@asyncCtrlGenerator.success('地址已经成功复制到剪切板')
 	async copyCode() {
 		navigator['clipboard'].writeText(
-			this.recharge_address.paymentAccountNumber
+			this.recharge_address.paymentAccountNumber,
 		);
 	}
 
 	transaction_logs: any[];
-	@RechargeDetailPage.willEnter
-	async getTransactionLogs() {
+
+	getTransactionLogs() {
 		this.recharge_logs_page_info.page = 1;
-		var zz = await this._getRechargeLogs();
-		console.log(zz);
-		this.transaction_logs = zz;
+		return this._getRechargeLogs().then(
+			data => (this.transaction_logs = data),
+		);
 	}
 	recharge_logs_page_info = {
 		has_more: true,
 		page: 1,
-		page_size: 10
+		page_size: 10,
 	};
 	has_more_recharge_logs = true;
 	@ViewChild(InfiniteScroll) infiniteScroll: InfiniteScroll;
@@ -99,11 +105,11 @@ export class RechargeDetailPage extends SecondLevelPage {
 	@asyncCtrlGenerator.error('获取充值记录出错')
 	async _getRechargeLogs() {
 		const { recharge_logs_page_info } = this;
-		const transaction_logs = await this.accountService.getTransactionLogs(
-			recharge_logs_page_info.page,
-			recharge_logs_page_info.page_size,
-			PaymentCategory.Recharge
-		);
+		const transaction_logs = await this.accountService.getRechargeLogs({
+			page: recharge_logs_page_info.page,
+			pageSize: recharge_logs_page_info.page_size,
+			targetId: this.productInfo.productId,
+		});
 		recharge_logs_page_info.has_more =
 			transaction_logs.length === recharge_logs_page_info.page_size;
 		this.infiniteScroll &&
@@ -111,18 +117,18 @@ export class RechargeDetailPage extends SecondLevelPage {
 		const productList = await this.accountService.productList.getPromise();
 		const formated_transaction_logs = transaction_logs.map(transaction => {
 			const product = productList.find(
-				product => product.productId === transaction.productId
+				product => product.productId === transaction.targetId,
 			);
 
 			return Object.assign(transaction, {
-				dealResultDetail: AccountServiceProvider.getDealResultDetail(
-					transaction.dealResult
+				dealResultDetail: AccountServiceProvider.getTransactionStatusDetail(
+					transaction.status,
 				),
 				productDetail: product
 					? product.productDetail
 						? product.productDetail
 						: product.productId
-					: ''
+					: '',
 			});
 		});
 		console.log('formated_transaction_logs', formated_transaction_logs);

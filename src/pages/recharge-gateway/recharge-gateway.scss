@@ -8,6 +8,7 @@ page-recharge-gateway {
 			}
 		}
 		ion-item.item-block {
+			background-color: color($colors, alpha-dark);
 			margin-top: 0.55px;
 			ion-label {
 				color: color($colors, 'special');

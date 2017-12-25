@@ -6,7 +6,7 @@ page-withdraw-detail {
 		background-image: url('../assets/icon/￥✏.png');
 	}
 	ion-list {
-		margin-top: 1rem !important;
+		// margin-top: 1rem !important;
 		margin-bottom: 0 !important;
 		ion-item-divider.item-divider {
 			ion-label {
@@ -43,6 +43,7 @@ page-withdraw-detail {
 			}
 		}
 		ion-item.item-block {
+			background-color: color($colors, alpha-dark);
 			margin-top: 0.55px;
 			&.follow-pre-item {
 				margin-top: 0;
