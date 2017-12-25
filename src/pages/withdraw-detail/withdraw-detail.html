@@ -17,7 +17,7 @@
             <button item-end class="account-selector">
                 <div class="account-info">
                     <div class="account-name">{{productInfo?.productDetail}}{{productInfo?.cryptoCurrencyCode}}</div>
-                    <div class="account-amount">可用{{access_info?.balance|number:'1.4-4'}}{{productInfo?.cryptoCurrencyCode}}</div>
+                    <div class="account-amount">可用{{access_info?.balance/1e8|number:'1.4-4'}}{{productInfo?.cryptoCurrencyCode}}</div>
                 </div>
             </button>
         </ion-item>

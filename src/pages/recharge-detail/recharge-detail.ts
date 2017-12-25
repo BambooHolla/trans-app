@@ -74,7 +74,14 @@ export class RechargeDetailPage extends SecondLevelPage {
 	}
 
 	@asyncCtrlGenerator.success('地址已经成功复制到剪切板')
+	@asyncCtrlGenerator.error('地址复制失败')
 	async copyCode() {
+		if (!this.recharge_address.paymentAccountNumber) {
+			throw new Error('无可用地址');
+		}
+		if (!navigator['clipboard']) {
+			throw new Error('复制插件异常');
+		}
 		navigator['clipboard'].writeText(
 			this.recharge_address.paymentAccountNumber,
 		);
