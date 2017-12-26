@@ -103,7 +103,7 @@ export class AccountServiceProvider {
 	getRechargeAddress(productId: string) {
 		return this.fetch
 			.autoCache(true)
-			.get<CryptoCurrencyModel>(this.GET_CRYPTO_CURRENCY, {
+			.get<CryptoCurrencyModel[]>(this.GET_CRYPTO_CURRENCY, {
 				search: { productId },
 			});
 	}
