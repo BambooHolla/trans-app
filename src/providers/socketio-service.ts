@@ -75,16 +75,21 @@ export class SocketioService {
     public appSettings: AppSettings,
     public loginService: LoginService,
   ){
-    
+    this.initSubscribers();
   }
 
   initSubscribers() {
-    this.loginService.logout$.subscribe(() => {
-      this.socketAPIs.forEach((value,key,map)=>{
-        this.disconnectSocket(key)
-      })
-        // this.disconnectSocket('price')
+    this.loginService.status$.subscribe(is_login_in=>{
+      if(!is_login_in){
+          this.disconnectSocket()
+      }
     })
+    // this.loginService.logout$.subscribe(() => {
+    //   this.socketAPIs.forEach((value,key,map)=>{
+    //     this.disconnectSocket(key)
+    //   })
+    //     // this.disconnectSocket('price')
+    // })
   }
 
   private socketReady(api): Promise<any> {
@@ -203,12 +208,15 @@ export class SocketioService {
     // console.log(socket);
   }
 
-  disconnectSocket(api){
-    if (this.socketAPIs.get(api) && this.socketAPIs.get(api).socket){
-      this.socketAPIs.get(api).socket.disconnect();
-    }
-    //TODO:api对应的observable清出map
-    this.apiObservableMap.delete(api)
+  disconnectSocket(){
+    this.socketAPIs.forEach((value,api,map)=>{
+      if (this.socketAPIs.get(api) && this.socketAPIs.get(api).socket){
+        this.socketAPIs.get(api).socket.disconnect();
+      }
+      //TODO:api对应的observable清出map
+   
+      this.apiObservableMap.delete(api)
+    })
 
     this._socketioSubscribeSet.clear();
     this._authenticated.next(undefined);
@@ -345,7 +353,7 @@ export class SocketioService {
   private getObservableFromMap(api: string, equityCode: string) {
     if (!this.apiObservableMap.has(api)) {
       this.apiObservableMap.set(api,
-        Observable.fromEvent(this.socketAPIs.get(api).socket, 'data').takeUntil(this.loginService.logout$)
+        Observable.fromEvent(this.socketAPIs.get(api).socket, 'data').takeUntil(this.loginService.status$.filter(is_login_in=>!is_login_in))
       );
       // this.socketAPIs.get('price').socket.on(eventName, this.onData.bind(this, { eventName, equityCode}));
     }
@@ -367,7 +375,7 @@ export class SocketioService {
   private report_getObservableFromMap(api: string, equityCode: string) {
     if (!this.apiObservableMap.has(api)) {
       this.apiObservableMap.set(api,
-        Observable.fromEvent(this.socketAPIs.get(api).socket, 'data').takeUntil(this.loginService.logout$)
+        Observable.fromEvent(this.socketAPIs.get(api).socket, 'data').takeUntil(this.loginService.status$.filter(is_login_in=>!is_login_in))
       );
     }
     return this.apiObservableMap.get(api)

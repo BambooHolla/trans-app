@@ -329,7 +329,7 @@ export class AccountServiceProvider {
 	}
 	static getTransactionStatusDetail(status: TransactionStatus) {
 		if (status == TransactionStatus.Unpaied) return '待支付';
-		if (status == TransactionStatus.Paied) return '已支付';
+		if (status == TransactionStatus.Paied) return '确认中'; //'已支付';
 		if (status == TransactionStatus.Confirmed) return '已确认';
 		if (status == TransactionStatus.Cancel) return '已取消';
 		if (status == TransactionStatus.InAudit) return '审核中';

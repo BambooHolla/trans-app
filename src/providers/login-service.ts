@@ -23,18 +23,26 @@ export class LoginService {
   // 并使用该属性构造出一个可观察对象 status$ ，
   // 在相关代码（例如 /src/app/app.component.ts ）中可以订阅这个可观察对象，
   // 从而实现对该属性的监视。
-  _status = new BehaviorSubject<boolean>(undefined);
-  status$: Observable<boolean> = this._status
-    .asObservable()
+  userToken = new BehaviorSubject<string>(undefined);
+  status$: Observable<boolean> = this.userToken
     // 在值被设置时，
     // 使用 distinctUntilChanged() 方法保证只处理真正变化了的值
-    .filter(value => typeof value === 'boolean')
+    .map(v => !!v)
     .distinctUntilChanged();
 
-  logout$: Observable<any> = this._status
-    .asObservable()
-    .filter(value => value === false)
-    .distinctUntilChanged();
+  // logout$: Observable<boolean> = this.userToken
+  //   .map(v => v=='')
+    // .distinctUntilChanged();
+
+  setToken(token: string = '',expiredTime?:number) {
+    this.userToken.next(token);
+    this.appDataService.token = token;
+  }
+  setLoginData(data:any){
+    this.bnlcAppSetting.setUserToken(data);
+    this.setToken( data.token);
+    this.appDataService.customerId = data.customerId;
+  }
 
   GET_CUSTOMER_DATA = `/user/getCustomersData`;
 
@@ -44,7 +52,7 @@ export class LoginService {
     public appDataService: AppDataService,
     public appService: AppService,
     public alertService: AlertService,
-    public bnlcAppSetting: AppSettingProvider
+    public bnlcAppSetting: AppSettingProvider,
   ) {
     this.appDataService.dataReady
       .then(async () => {
@@ -64,7 +72,7 @@ export class LoginService {
               RequestMethod.Get,
               this.GET_CUSTOMER_DATA,
               void 0,
-              true
+              true,
             );
             console.log(loginerInfo);
             token_use_able = true;
@@ -76,10 +84,9 @@ export class LoginService {
                 const loginRes = await this._doLogin(
                   this.appDataService.customerId,
                   this.appDataService.password,
-                  this.appDataService.savePassword
+                  this.appDataService.savePassword,
                 );
                 console.log('loginRes', loginRes);
-                this.appDataService.token = loginRes.token;
                 token_use_able = true;
               }
             } catch (err) {
@@ -87,16 +94,14 @@ export class LoginService {
             }
           }
         }
-        if (token_use_able) {
-          this.afterLogin();
-        } else {
-          this._status.next(false);
-        }
+
+        this.setToken(token_use_able ? token : '');
       })
       .catch(err => {
         console.log(err);
         this.alertService.showAlert('警告', err.message);
-        this._status.next(false);
+        // this.userToken.next('');
+        this.setToken('');
       });
   }
 
@@ -104,58 +109,50 @@ export class LoginService {
     customerId: string,
     password: string,
     savePassword: boolean = true,
-    type?: number
+    type?: number,
   ): Promise<any> {
     let promise: Promise<{ token }>;
     if (type === void 0) {
       type = this.appSettings.accountType(customerId);
     }
 
-    if (!this.appSettings.FAKE_LOGIN) {
-      promise = this.http
-        .post(this.appSettings.LOGIN_URL, {
-          type: type,
-          account: customerId,
-          password
-        })
-        .map(res => res.json())
-        .toPromise()
-        .then(data => {
-          console.log('login:', data);
-          const err = data.error || data.err;
-          if (!err) {
-            document.cookie = `X-AUTH-TOKEN=${data.data.token}`
-            return Promise.resolve(data.data);
-          } else {
-            return Promise.reject(err);
-          }
-        });
-    } else {
-      promise = new Promise(resolve => {
-        setTimeout(() => {
-          resolve({ token: 'test' });
-        }, Math.round(Math.random()) * 500);
+    promise = this.http
+      .post(this.appSettings.LOGIN_URL, {
+        type: type,
+        account: customerId,
+        password,
+      })
+      .map(res => res.json())
+      .toPromise()
+      .then(data => {
+        console.log('login:', data);
+        const err = data.error || data.err;
+        if (!err) {
+          document.cookie = `X-AUTH-TOKEN=${data.data.token}`;
+          return Promise.resolve(data.data);
+        } else {
+          return Promise.reject(err);
+        }
       });
-    }
+
     return promise;
   }
   public doLogin(
     customerId: string,
     password: string,
     savePassword: boolean = true,
-    type?: number
+    type?: number,
   ): Promise<boolean | string> {
     return this._doLogin(customerId, password, savePassword, type)
       .then(data => {
-        this.bnlcAppSetting.setUserToken(data);
         Object.assign(this.appDataService, {
           token: data.token,
           customerId,
           password,
-          savePassword
+          savePassword,
         });
 
-        this.afterLogin();
+        this.setLoginData(data);
         return true;
       })
       .catch(error => {
@@ -171,19 +168,15 @@ export class LoginService {
   }
 
   public doLogout() {
-    document.cookie = `X-AUTH-TOKEN=;expires=Thu, 01 Jan 1970 00:00:00 GMT`
+    document.cookie = `X-AUTH-TOKEN=;expires=Thu, 01 Jan 1970 00:00:00 GMT`;
     this.bnlcAppSetting.clearUserToken();
     return new Promise(resolve => {
       this.appDataService.resetCustomization();
 
-      this._status.next(false);
+      this.userToken.next('');
 
       resolve(true);
     });
-  }
-
-  private afterLogin() {
-    this._status.next(true);
   }
 
   // 重置密码
@@ -194,7 +187,7 @@ export class LoginService {
       type: this.appSettings.accountType(account),
       account,
       code,
-      password
+      password,
     });
   }
 
@@ -206,9 +199,9 @@ export class LoginService {
       this.MODIFY_PASSWORD,
       {
         oldPassword,
-        newPassword
+        newPassword,
       },
-      true
+      true,
     );
   }
 }
