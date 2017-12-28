@@ -1653,11 +1653,18 @@ export class StockDataService {
   }
 
   public async getProduct(productId){
-    let product = this.appDataService.products.get(productId)
-    const now = new Date()
+    const products = await this.accountService.productList.getPromise()
+    let product = products.find(p=>p.productId==productId);
 
-    if (!product || product.expire > now){
-      product = await this.requestProductById(productId)
+    // await this.appDataService.productsPromise;
+    // let product = this.appDataService.products.get(productId)
+    // const now = new Date()
+
+    // if (!product || product.expire > now){
+    //   product = await this.requestProductById(productId)
+    // }
+    if(!product){
+       product = await this.requestProductById(productId)
     }
 
     return product
