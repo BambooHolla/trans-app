@@ -72,30 +72,30 @@
 	<ion-grid [hidden]="appDataService.show_onestep_trade" class="trinp  content-block">
 		<ion-row class="fee">
 			<ion-icon ios="ios-alert-outline" md="ios-alert-outline"></ion-icon>
-			费率标准
+			费率标准:{{fee}}
 		</ion-row>
 		<ion-row class="input-row">
-			<ion-col col-2 tappable (click)="changeByStep('price',-0.01,-2)">-</ion-col>
+			<ion-col col-2 tappable (click)="changeByStep('price','-')">-</ion-col>
 				<ion-col col-1>
 					<ion-icon name="ios-gprice" class="vertical-center"></ion-icon>
 				</ion-col>
 			<ion-col col-7>
 				<ion-input #priceInputer type="number" placeholder="价格"
 					[(ngModel)]="price"
-					(blur)="formatNumber('price',-2)"
+					(ngModelChange)="formatNumber('price',-8)"
 					></ion-input>
 			</ion-col>
-			<ion-col col-2 tappable (click)="changeByStep('price',0.0001,-4)">+</ion-col>
+			<ion-col col-2 tappable (click)="changeByStep('price','+')">+</ion-col>
 		</ion-row>
 		<ion-row class="input-row" align-items-center>
-			<ion-col col-2 tappable (click)="changeByStep('amount',-handBase)">-</ion-col>
+			<ion-col col-2 tappable (click)="changeByStep('amount','-')">-</ion-col>
 			<ion-col col-1>
 				<ion-icon name="ios-gamount" class="vertical-center"></ion-icon>
 			</ion-col>
 			<ion-col col-7>
-				<ion-input #amountInputer type="number" placeholder="数量" [(ngModel)]="amount" (blur)="formatNumber('amount')"></ion-input>
+				<ion-input #amountInputer type="number" placeholder="数量" [(ngModel)]="amount" (change)="formatNumber('amount')"></ion-input>
 			</ion-col>
-			<ion-col col-2 tappable (click)="changeByStep('amount',handBase)">+</ion-col>
+			<ion-col col-2 tappable (click)="changeByStep('amount','+')">+</ion-col>
 		</ion-row>
 		<ion-row>
 			<ion-item no-lines>
@@ -132,9 +132,9 @@
 				</svg>
 				<div class="svgcont" (click)="quickTrade('buy')">
 					<div>买</div>
-					<p id="buysum">{{buyTotalAmount | numberUnitFormat}}</p>
+					<p id="buysum">{{buyTotalAmount | quantityConversion | numberUnitFormat}}</p>
 					<span>可买数量</span>
-					<label id="buynum">{{buyTotalQuantity | numberFilter}}</label>
+					<label id="buynum">{{buyTotalQuantity | quantityConversion | numberFilter}}</label>
 				</div>
 			</ion-col>
 			<ion-col col-6>
@@ -143,9 +143,9 @@
 				</svg>
 				<div class="svgcont" (click)="quickTrade('sale')">
 					<div>卖</div>
-					<p id="salesum">{{saleTotalAmount | numberUnitFormat}}</p>
+					<p id="salesum">{{saleTotalAmount | quantityConversion | numberUnitFormat}}</p>
 					<span>可卖数量</span>
-					<label id="salenum">{{saleTotalQuantity | numberFilter}}</label>
+					<label id="salenum">{{saleTotalQuantity | quantityConversion | numberFilter}}</label>
 				</div>
 			</ion-col>
 		</ion-row>
@@ -223,7 +223,7 @@
 		</div>
 		
 		<!--加载更多-->
-		<ion-infinite-scroll [enabled]="hasMore" (ionInfinite)="loadMoreEntrusts($event)">
+		<ion-infinite-scroll [enabled]="hasMore" (ionInfinite)="loadMoreHistory($event)">
 			<ion-infinite-scroll-content loadingText="正在加载...">
 			</ion-infinite-scroll-content>
 		</ion-infinite-scroll>

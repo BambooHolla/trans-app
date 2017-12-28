@@ -185,6 +185,85 @@ export class TradeService {
       });
   }
 
+  /**
+   * 获取快捷交易显示数据
+   */
+  public getQuickTradeData(transactionType,productId,priceId,amount) {
+    const path = `/transaction/quickTransaction`;
+
+    const params = {
+      controllerType: "001",
+      transactionType,
+    }
+    
+    //交易类型： '001'买， '002'卖
+    if (transactionType === "001") {
+      params['buyPriceId']= priceId
+      params['buyTotalPrice']= amount
+      params['buyProductId']= productId
+    } else if (transactionType === "002") {
+      params['salePriceId'] = priceId
+      params['saleTotalAmount'] = amount
+      params['saleProductId'] = productId
+    }
+
+    return this.appService
+      .request(RequestMethod.Post, path, params, true)
+      .then(data => {
+        console.log('getQuickTradeData: ', data);
+
+        if (!data) {
+          return Promise.reject(new Error('data missing'));
+        } else if (data.error) {
+          return Promise.reject(new Error(data.error));
+        } else {
+          return Promise.resolve(data)
+        }
+      })
+      .catch(err => {
+        console.log('getQuickTradeData error: ', err);
+        // return Promise.reject(err);
+      });
+  }
+
+  public quickTrade(transactionType, productId, priceId, amount) {
+    const path = `/transaction/quickTransaction`;
+
+    const params = {
+      controllerType: "002",
+      transactionType,
+    }
+
+    //交易类型： '001'买， '002'卖
+    if (transactionType === "001") {
+      params['buyPriceId'] = priceId
+      params['buyTotalPrice'] = amount
+      params['buyProductId'] = productId
+    } else if (transactionType === "002") {
+      params['salePriceId'] = priceId
+      params['saleTotalAmount'] = amount
+      params['saleProductId'] = productId
+    }
+
+    return this.appService
+      .request(RequestMethod.Post, path, params, true)
+      .then(data => {
+        console.log('quickTrade: ', data);
+
+        if (!data) {
+          return Promise.reject(new Error('data missing'));
+        } else if (data.error) {
+          return Promise.reject(new Error(data.error));
+        } else {
+          return Promise.resolve(data);
+        }
+      })
+      .catch(err => {
+        console.log('quickTrade error: ', err);
+        return Promise.reject(err);
+      });
+  }
+
   private _errorHandler(error, static_return = false) {
     if (error instanceof Error) {
       error = { code: '999', message: error.message };
