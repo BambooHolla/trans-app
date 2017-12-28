@@ -23,10 +23,27 @@ import { AndroidFullScreen } from '@ionic-native/android-full-screen';
 })
 export class TradeInterfacePage {
   // tradeType:number = 1 //1是买,0是卖
+
+  private viewDidLeave: BehaviorSubject<boolean> = new BehaviorSubject(false);
+  private viewDidLeave$ = this.viewDidLeave
+    .asObservable()
+    .distinctUntilChanged()
+    .filter(value => value === true);
+
   private _tradeType$: BehaviorSubject<number> = new BehaviorSubject(1);
   public tradeType$: Observable<number> = this._tradeType$
     .asObservable()
     .distinctUntilChanged()
+    .do(type=>{
+      let rateSrc
+      if (type === 0){
+        rateSrc = this.sellRate
+      }else if (type === 1){
+        rateSrc = this.buyRate
+      }
+      // this.fee = await this.getFee(rateSrc)
+      this.getFee(rateSrc).then(data => this.fee = data)
+    })
 
   private traderList = []
   //traderId可以做成subject, 用setter 和getter改变 作为源头触发其他改动.
@@ -40,8 +57,30 @@ export class TradeInterfacePage {
   pageSize = 10
   hasMore: boolean = false
 
-  private cards: string[] = ['满仓', '1/2仓', '1/3仓', '1/4仓', '1手', '5手', '10手'];
+  private _cards = {
+    '满仓': 1,
+    '1/2仓': 1 / 2,
+    '1/3仓': 1 / 3,
+    '1/4仓': 1 / 4,
+  }
+  private cards: string[] = Object.keys(this._cards)
   private buySaleActiveIndex: BehaviorSubject<number> = new BehaviorSubject(0);
+  private quickTradeSelector = this.buySaleActiveIndex
+    .asObservable()
+    .takeUntil(this.viewDidLeave$)
+    .distinctUntilChanged()
+    .do(index => {
+      this.getQuickTradeData(index)
+    })
+
+  private buyRate
+  private sellRate
+  private fee
+
+  private buyTotalAmount
+  private buyTotalQuantity
+  private saleTotalAmount
+  private saleTotalQuantity
 
   private _saleableQuantity$: Observable<number>;
 
@@ -77,13 +116,6 @@ export class TradeInterfacePage {
     // ySplitNumber:4,
     yAxisShow: false,
   };
-
-
-  private viewDidLeave: BehaviorSubject<boolean> = new BehaviorSubject(false);
-  private viewDidLeave$ = this.viewDidLeave
-            .asObservable()
-            .distinctUntilChanged()
-            .filter(value => value === true);
 
   // liquiddata:any;
 
@@ -168,6 +200,8 @@ export class TradeInterfacePage {
     public statusBar: StatusBar,
     public androidFullScreen: AndroidFullScreen,
   ) {    
+    // debugger
+    // window['TradeInterfacePage'] = this 
     this.traderId = this.navParams.get('stockCode') || this.navParams.data || this.traderId;
 
     // if (!this.traderId) this.appDataService.products.forEach((value, key, map) => {
@@ -187,13 +221,25 @@ export class TradeInterfacePage {
     }
   }
 
-  changeByStep(target: string, step: number, precision: number = -2) {
+  changeByStep(target: string, sign: string = '+', step?: any, precision: number = -8) {
     const invBase = Math.pow(10, -precision);
-    // 最后必须使用除法，如果用乘法会出现浮点数表示的问题。
+    // 浮点数四则运算存在精度误差问题.尽量用整数运算
     // 例如 602 * 0.01 = 6.0200000000000005 ，
     // 改用 602 / 100 就可以得到正确结果。
-    const result = Math.max(0, Math.round((+this[target] + step) * invBase) / invBase);
-    this[target] = result.toFixed(Math.max(0, -precision));
+
+    let length = 0
+    if (isNaN(step)) {
+      length = this[target].split('.')[1] ? this[target].split('.')[1].length : length
+      step = Math.pow(10, -length)
+      step = sign + step
+    }
+
+    const result = Math.max(0, Math.round(+this[target] * invBase + step * invBase) / invBase);
+    //强制刷新数据hack处理
+    this[target] = length ? result.toFixed(length) : result.toString()    
+    this.platform.raf(()=>{      
+      this[target] = length ? result.toFixed(length) : result.toString()//.toFixed(Math.max(0, -precision));
+    })
     // //TODO:价格改变时修改最大可交易数量
     // if(target === 'price'){
     //   this.checkMax(result)
@@ -223,13 +269,13 @@ export class TradeInterfacePage {
     }
   }
 
-  formatNumber(target: string, precision: number = 0){
-    this.changeByStep(target, 0, precision);
+  formatNumber(target: string, precision?: number){
+    this.changeByStep(target, undefined, 0, precision);
   }
 
   setPrice(price = this.price) {
     this.price = price
-    this.formatNumber('price', -4)
+    this.formatNumber('price')
   }
 
   chooseTradeType($event: MouseEvent){
@@ -238,6 +284,36 @@ export class TradeInterfacePage {
       this._tradeType$.next(Number(dataset.tradeType))
       this.checkMax()
     }
+  }
+
+  async getFee(rate) {
+    if(!rate) return ''
+    
+    // const rate = this.buyRate
+    const traders = this.traderId
+    const rateTarget = rate.targetType === '001' ? await this.stockDataService.getProduct(traders[1]) : 
+      rate.targetType === '002' ? await this.stockDataService.getProduct(traders[0]) : void 0
+    const rateStr = rate ?
+      rate.calculateType === '001' ? `${rate.rate * 100}%` :
+        rate.calculateType === '002' ? `${rate.rate + rateTarget}` : void 0
+      : void 0
+
+    // const sellRate = this.sellRate
+    // const sellrateTarget = sellRate.targetType === '001' ? await this.stockDataService.getProduct(traders[1]) :
+    //   sellRate.targetType === '002' ? await this.stockDataService.getProduct(traders[0]) : void 0
+    // const sellRateStr = sellRate ?
+    //   sellRate.calculateType === '001' ? `${sellRate.rate * 100}%` :
+    //     sellRate.calculateType === '002' ? `${sellRate.rate + sellrateTarget}` : void 0
+    //   : void 0
+
+    return rateStr
+
+    // const toast = this.toastCtrl.create({
+    //   message: `买入费率:${buyRateStr}  卖出费率:${sellRateStr}`,
+    //   duration: 3000,
+    //   position: 'middle'
+    // })
+    // toast.present()
   }
 
   doTrade(tradeType: number = this._tradeType$.getValue()){
@@ -330,6 +406,8 @@ export class TradeInterfacePage {
     //   name: '1机',
     //   value: 0.7
     // }, 0.69];
+
+    this.quickTradeSelector.subscribe()
   }
 
   ionViewDidLeave(){
@@ -376,7 +454,9 @@ export class TradeInterfacePage {
         .do(data => {
           console.log('doSubscribe do')
           if(!data) return false
-          if(!this.price) this.price = String(data.price)
+          if(!this.price) this.price = parseFloat(data.price).toString()
+          this.buyRate = data.buyRate
+          this.sellRate = data.sellRate
         })
       // this.stockDataService.stockBaseData$.map(data => data[stockCode])
       //   .do(data => console.log('final data:', stockCode, data))
@@ -709,4 +789,114 @@ export class TradeInterfacePage {
     }
   }
 
+  //快捷交易
+  getQuickTradeData(index) {
+    console.log('getQuickTradeData')
+    const rate = Object.values(this._cards)[index]
+    const traders = this.traderId.split('-')
+    let priceProduct, productProduct
+
+    this.personalDataService.personalStockList.forEach(item => {
+
+      if (item.stockCode === traders[0]) {
+        priceProduct = item
+      } else if (item.stockCode === traders[1]) {
+        productProduct = item
+      }
+
+    })
+
+    if (priceProduct) {
+      this.buyTotalQuantity = priceProduct.saleableQuantity * rate
+      this.buyTotalAmount = undefined
+      // priceid productid totalprice
+      this.tradeService.getQuickTradeData('001', traders[1], traders[0], this.buyTotalQuantity)
+        .then(data => {
+          if (data) {
+            this.buyTotalQuantity = data.forecastTotalPrice
+            this.buyTotalAmount = data.forecastAmount
+          } 
+          // else {
+          //   this.buyTotalQuantity = 0
+          // }
+        })
+    }
+    if (productProduct) {
+      this.saleTotalQuantity = productProduct.saleableQuantity * rate
+      this.saleTotalAmount = undefined
+      this.tradeService.getQuickTradeData('002', traders[1], traders[0], this.saleTotalQuantity)
+        .then(data => {
+          if (data) {
+            this.saleTotalQuantity = data.forecastAmount
+            this.saleTotalAmount = data.forecastTotalPrice
+          } 
+          // else {
+          //   this.saleTotalQuantity = 0
+          // }
+        })
+    }
+  }
+
+  quickTrade(tradeType){
+    let transactionType = ''
+    let amount = 0
+    if (tradeType === 'buy') {
+      transactionType = '001'
+      amount = this.buyTotalQuantity
+    }else if (tradeType === 'sale') {
+      transactionType = '002'
+      amount = this.saleTotalQuantity
+    }else {
+      return void 0
+    }
+
+    if(!Number(amount)){
+      this.alertService.showAlert('下单失败', '预计成交额为0')
+      return void 0
+    }
+
+    this.alertService.presentLoading('')
+
+    try{
+      const index = this.buySaleActiveIndex.getValue()
+      const rate = Object.values(this._cards)[index]
+      const traders = this.traderId.split('-')
+      const priceId = traders[0]
+      const productId = traders[1]
+
+      this.tradeService.quickTrade(transactionType, productId, priceId, amount)
+        .then(async data => {
+          if (!data.realityAmount){
+            return Promise.reject({message:'无委托提交'})
+          }
+          //刷新账户信息
+          await this.personalDataService.requestFundData().catch(() => { });
+          await this.personalDataService.requestEquityDeposit().catch(() => { });
+          this.getQuickTradeData(index)          
+
+          this.alertService.dismissLoading()
+
+          const toast = this.toastCtrl.create({
+            message: `快捷下单成功`,
+            duration: 3000,
+            position: 'middle'
+          })
+          toast.present()
+
+          //下单成功刷新委托单
+          this.page = 1
+          this.getProcessEntrusts()
+        })
+        .catch(err => {
+          this.alertService.dismissLoading()
+          if(err&&err.message){
+            this.alertService.showAlert('下单失败',err.message)
+          }
+        })
+    }finally{
+      // this.alertService.dismissLoading()
+    }
+
+  }
+  
 }
