@@ -290,7 +290,7 @@ export class CommissionListPage implements OnInit {
               
               return {
                 id: item.id,
-                name: product.name,//另外通过产品信息获取
+                name: product.productName,//另外通过产品信息获取
                 time: ``,//交易完成时间后端接口缺少字段
                 // time: new Date(`${item.FID_WTRQ.replace(/(\d{4})(\d{2})(\d{2})/, '$1/$2/$3')} ${item.FID_WTSJ}`),
                 commit: item.entrustPrice,

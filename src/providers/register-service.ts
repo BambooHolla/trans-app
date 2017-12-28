@@ -27,6 +27,7 @@ export class RegisterService {
   SEND_SMS_CODE_URL = `/user/sendSmsToAppointed`;
   SEND_EMAIL_CODE_URL = `/user/sendEmailCode`;
   CREATE_ACCOUNT = `/user/register`;
+  AUTH_REGISTER = `/user/authenticateRegister`;
 
   sendSMSCode(telephone: string, type = '201') {
     // 如果是邮箱
@@ -36,8 +37,8 @@ export class RegisterService {
         this.SEND_EMAIL_CODE_URL,
         {
           email: telephone,
-          type
-        }
+          type,
+        },
       );
     }
     // 否则尝试当成手机号码发送
@@ -47,18 +48,37 @@ export class RegisterService {
     });
   }
   doRegister(account: string, code: string, password: string) {
-    return this.appService.request(RequestMethod.Post, this.CREATE_ACCOUNT, {
-      //type:int 0表示邮箱,1表示手机
-      type: this.appSettings.accountType(account),
-      account,
-      code,
-      password
-    }).then(data=>{
-      const {token} = data;
-      this.appDataService.customerId = account;
-      this.appDataService.password = password;
-      this.loginService.setLoginData(data);
-      return data;
-    })
+    return this.appService
+      .request(RequestMethod.Post, this.CREATE_ACCOUNT, {
+        //type:int 0表示邮箱,1表示手机
+        type: this.appSettings.accountType(account),
+        account,
+        code,
+        password,
+      })
+      .then(data => {
+        const { token } = data;
+        this.appDataService.customerId = account;
+        this.appDataService.password = password;
+        this.loginService.setLoginData(data);
+        return data;
+      });
+  }
+  doAuthRegister(account: string, code: string, password: string) {
+    return this.appService
+      .request(RequestMethod.Post, this.AUTH_REGISTER, {
+        //type:int 0表示邮箱,1表示手机
+        type: this.appSettings.accountType(account),
+        account,
+        code,
+        password,
+      })
+      .then(data => {
+        const { token } = data;
+        this.appDataService.customerId = account;
+        this.appDataService.password = password;
+        this.loginService.setLoginData(data);
+        return data;
+      });
   }
 }

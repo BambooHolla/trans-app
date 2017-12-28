@@ -137,7 +137,7 @@ export class RegisterPage {
       const password = controls.password;
       const vcode = controls.vcode;
 
-      await this.registerService.doRegister(customerId, vcode, password);
+      await this.registerService.doAuthRegister(customerId, vcode, password);
     } catch (err) {
       this.alertCtrl
         .create({
