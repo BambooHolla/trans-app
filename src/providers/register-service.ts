@@ -54,8 +54,10 @@ export class RegisterService {
       code,
       password
     }).then(data=>{
-      this.appDataService.token = data;
-      this.loginService._status.next(true)
+      const {token} = data;
+      this.appDataService.customerId = account;
+      this.appDataService.password = password;
+      this.loginService.setLoginData(data);
       return data;
     })
   }

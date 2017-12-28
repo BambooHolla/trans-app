@@ -178,16 +178,13 @@ export class OptionalPage extends SecondLevelPage {
     return this.personalDataService
       .personalAssets()
       .then(async data => {
-        console.log('requestAssets:', data);
         for (let key in data) {
           const item = data[key];
           let priceName = '';
-          const products = await this.appDataService.productsPromise;
           const product = await this.stockDataService.getProduct(item.priceId)
 
           if (product) priceName = `(${product.productName})`;
           item.priceName = priceName;
-          console.log('requestAssets in', data);
         }
         console.log('requestAssets', data);
         this.personalAssets = data;
