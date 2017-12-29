@@ -31,9 +31,9 @@ export class LoginPage {
 
   loginForm: FormGroup = new FormGroup({
     // myContry: new FormControl('1002'),
-    customerId: new FormControl({ value: '', disabled: true }, Validators.required),
-    password: new FormControl({ value: '', disabled: true }, Validators.required),
-    savePassword: new FormControl({ value: true, disabled: true })
+    customerId: new FormControl({ value: '' }, Validators.required),
+    password: new FormControl({ value: '' }, Validators.required),
+    savePassword: new FormControl({ value: true })
   });
 
   get customerId(){
@@ -88,7 +88,7 @@ export class LoginPage {
       const controls = this.loginForm.controls;
 
       for (const prop in controls) {
-        controls[prop].enable();
+        // controls[prop].enable();
         if (prop in appDataService) {
           // console.log(prop, appDataService[prop]);
           controls[prop].setValue(appDataService[prop]);
