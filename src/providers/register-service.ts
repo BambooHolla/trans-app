@@ -27,7 +27,7 @@ export class RegisterService {
   SEND_SMS_CODE_URL = `/user/sendSmsToAppointed`;
   SEND_EMAIL_CODE_URL = `/user/sendEmailCode`;
   CREATE_ACCOUNT = `/user/register`;
-  AUTH_REGISTER = `/user/authenticateRegister`;
+  AUTH_REGISTER = `/user/authRegister`;
 
   sendSMSCode(telephone: string, type = '201') {
     // 如果是邮箱
