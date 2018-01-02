@@ -13,7 +13,7 @@
     <ion-list item-end *ngIf="withdraw_address_list" class="radio-list" radio-group [(ngModel)]="formData.withdraw_address_id">
         <ion-item-sliding *ngFor="let withdraw_address of withdraw_address_list">
             <ion-item>
-                <ion-label>{{withdraw_address.paymentAccountRemark}} - {{withdraw_address.paymentAccountNumber}}</ion-label>
+                <ion-label>{{withdraw_address.realname}} - {{withdraw_address.paymentAccountNumber}}</ion-label>
                 <ion-radio checked="true" [value]="withdraw_address.id"></ion-radio>
             </ion-item>
             <ion-item-options side="right">

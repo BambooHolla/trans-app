@@ -76,6 +76,13 @@ page-withdraw-detail {
 
 				.button-inner {
 					justify-content: flex-end;
+					> span {
+						white-space: nowrap;
+						overflow: hidden;
+						text-overflow: ellipsis;
+						width: 50vw;
+						display: block;
+					}
 				}
 			}
 			.account-selector {

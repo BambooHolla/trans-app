@@ -21,7 +21,7 @@
                 </div>
             </button>
         </ion-item>
-        <ion-item>
+        <ion-item class="must-show-label">
             <ion-label>提现到</ion-label>
             <!-- <button item-end class="account-selector">
                 <div class="account-info">
@@ -43,7 +43,8 @@
                     <button ion-button clear full (click)="openWithdrawAddressSelector()" icon-right>
                         <i *ngIf="!selected_withdraw_address;else selectedWithdrawAddressInfo">请选择</i>
                         <ng-template #selectedWithdrawAddressInfo>
-                            {{selected_withdraw_address.paymentAccountNumber}} - {{selected_withdraw_address.paymentAccountRemark}}
+                            <span>{{selected_withdraw_address.realname}} - 
+                            {{selected_withdraw_address.paymentAccountNumber}}</span>
                         </ng-template>
                         <ion-icon name="md-arrow-dropdown"></ion-icon>
                     </button>
@@ -74,8 +75,8 @@
         <!-- </ion-item> -->
         <ion-item>
             <ion-label color="primary">资金密码</ion-label>
-            <ion-input *ngIf="has_account_pwd" class="rtl" [(ngModel)]="formData.password" placeholder="请输入资金密码" type="password" ></ion-input>
-            <button item-end *ngIf="!has_account_pwd" (click)="routeTo('set-pay-pwd')" ion-button color="special" >去设置</button>
+            <ion-input *ngIf="has_account_pwd" class="rtl" [(ngModel)]="formData.password" placeholder="请输入资金密码" type="password"></ion-input>
+            <button item-end *ngIf="!has_account_pwd" (click)="routeTo('set-pay-pwd')" ion-button color="special">去设置</button>
         </ion-item>
         <ion-item class="follow-pre-item">
             <button class="submit-btn" [disabled]="!canSubmit" ion-button color="special" (click)="submitWithdrawAppply()">确认提现</button>
