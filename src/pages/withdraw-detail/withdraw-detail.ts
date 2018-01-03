@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild } from "@angular/core";
 import {
 	IonicPage,
 	NavController,
@@ -6,10 +6,10 @@ import {
 	InfiniteScroll,
 	ViewController,
 	ModalController,
-} from 'ionic-angular';
-import { SecondLevelPage } from '../../bnlc-framework/SecondLevelPage';
-import { asyncCtrlGenerator } from '../../bnlc-framework/Decorator';
-import { PromiseOut } from '../../bnlc-framework/providers/PromiseExtends';
+} from "ionic-angular";
+import { SecondLevelPage } from "../../bnlc-framework/SecondLevelPage";
+import { asyncCtrlGenerator } from "../../bnlc-framework/Decorator";
+import { PromiseOut } from "../../bnlc-framework/providers/PromiseExtends";
 import {
 	AccountType,
 	AccountServiceProvider,
@@ -19,8 +19,8 @@ import {
 	TransactionType,
 	TransactionModel,
 	DealResult,
-} from '../../providers/account-service/account-service';
-import { WithdrawAddressListPage } from '../withdraw-address-list/withdraw-address-list';
+} from "../../providers/account-service/account-service";
+import { WithdrawAddressListPage } from "../withdraw-address-list/withdraw-address-list";
 
 /**
  * Generated class for the WithdrawDetailPage page.
@@ -29,8 +29,8 @@ import { WithdrawAddressListPage } from '../withdraw-address-list/withdraw-addre
  * on Ionic pages and navigation.
  */
 @Component({
-	selector: 'page-withdraw-detail',
-	templateUrl: 'withdraw-detail.html',
+	selector: "page-withdraw-detail",
+	templateUrl: "withdraw-detail.html",
 })
 export class WithdrawDetailPage extends SecondLevelPage {
 	constructor(
@@ -41,7 +41,7 @@ export class WithdrawDetailPage extends SecondLevelPage {
 		public modalCtrl: ModalController,
 	) {
 		super(navCtrl, navParams);
-		this.productInfo = this.navParams.get('productInfo');
+		this.productInfo = this.navParams.get("productInfo");
 	}
 	formData: {
 		selected_withdraw_address_id: number;
@@ -49,11 +49,11 @@ export class WithdrawDetailPage extends SecondLevelPage {
 		password: string;
 	} = {
 		selected_withdraw_address_id: undefined,
-		amount: '',
-		password: '',
+		amount: "",
+		password: "",
 	};
 	errors: any = {};
-	@WithdrawDetailPage.setErrorTo('errors', 'amount', ['outRange'])
+	@WithdrawDetailPage.setErrorTo("errors", "amount", ["outRange"])
 	checkout_amount() {
 		const balance =
 			parseFloat(this.access_info && this.access_info.balance) || 0;
@@ -80,7 +80,7 @@ export class WithdrawDetailPage extends SecondLevelPage {
 	openWithdrawAddressSelector() {
 		const { withdraw_address_list, productInfo } = this;
 		const selector = this.modalCtrl.create(WithdrawAddressListPage, {
-			title: '请选择提现地址',
+			title: "请选择提现地址",
 			productInfo,
 			selected_data:
 				this.selected_withdraw_address &&
@@ -88,7 +88,7 @@ export class WithdrawDetailPage extends SecondLevelPage {
 			withdraw_address_list,
 		});
 		selector.onWillDismiss(data => {
-			console.log('selected result:', data);
+			console.log("selected result:", data);
 			this.selected_withdraw_address = data.selected_data;
 			if (data.withdraw_address_list) {
 				this.withdraw_address_list = data.withdraw_address_list;
@@ -97,7 +97,7 @@ export class WithdrawDetailPage extends SecondLevelPage {
 		selector.present();
 	}
 	toAddWithdrawAddress() {
-		return this.routeTo('add-address', {
+		return this.routeTo("add-address", {
 			productInfo: this.productInfo,
 		});
 	}
@@ -106,16 +106,16 @@ export class WithdrawDetailPage extends SecondLevelPage {
 
 	@WithdrawDetailPage.willEnter
 	@asyncCtrlGenerator.loading()
-	@asyncCtrlGenerator.error('获取交易密码信息出错')
+	@asyncCtrlGenerator.error("获取交易密码信息出错")
 	async checkHasAccountPWD() {
 		this.has_account_pwd = await this.accountService.hasAccountPwd.getPromise();
 	}
 
 	@WithdrawDetailPage.willEnter
 	@asyncCtrlGenerator.loading()
-	@asyncCtrlGenerator.error('获取账户信息出错')
+	@asyncCtrlGenerator.error("获取账户信息出错")
 	async getAccountsInfo() {
-		this.productInfo = this.navParams.get('productInfo');
+		this.productInfo = this.navParams.get("productInfo");
 		if (this.productInfo) {
 			const tasks = [];
 			// 获取可用的提现地址
@@ -159,16 +159,16 @@ export class WithdrawDetailPage extends SecondLevelPage {
 		);
 	}
 	@asyncCtrlGenerator.loading()
-	@asyncCtrlGenerator.error('提现失败')
-	@asyncCtrlGenerator.success('提现成功')
+	@asyncCtrlGenerator.error("提现失败")
+	@asyncCtrlGenerator.success("提现成功")
 	submitWithdrawAppply() {
 		return this.accountService
 			.submitWithdrawAppply(
 				{
 					transactionType: TransactionType.WithdrawProduct,
 					productId: this.productInfo.productId,
-					amount: parseFloat(this.formData.amount),
-					paymentId: this.formData.selected_withdraw_address_id + '',
+					amount: parseFloat(this.formData.amount) * 1e8,
+					paymentId: this.formData.selected_withdraw_address_id + "",
 				},
 				this.formData.password,
 			)
@@ -204,7 +204,7 @@ export class WithdrawDetailPage extends SecondLevelPage {
 		this.transaction_logs.push(...(await this._getWithdrawLogs()));
 		ctrl.complete();
 	}
-	@asyncCtrlGenerator.error('获取充值记录出错')
+	@asyncCtrlGenerator.error("获取充值记录出错")
 	async _getWithdrawLogs() {
 		const { withdraw_logs_page_info } = this;
 		const transaction_logs = await this.accountService.getWithdrawLogs({
@@ -239,17 +239,17 @@ export class WithdrawDetailPage extends SecondLevelPage {
 						? product.productDetail
 							? product.productDetail
 							: product.productId
-						: '',
+						: "",
 					withdrawName: withdraw_address_info
 						? withdraw_address_info.paymentAccountRemark
-						: '',
+						: "",
 					withdrawAddress: withdraw_address_info
 						? withdraw_address_info.paymentAccountNumber
-						: '',
+						: "",
 				});
 			}),
 		);
-		console.log('formated_transaction_logs', formated_transaction_logs);
+		console.log("formated_transaction_logs", formated_transaction_logs);
 		return formated_transaction_logs;
 	}
 }

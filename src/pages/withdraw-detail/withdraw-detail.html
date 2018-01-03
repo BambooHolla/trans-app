@@ -14,7 +14,7 @@
 <ion-content>
     <ion-list>
         <ion-item>从
-            <button item-end class="account-selector">
+            <button item-end class="account-selector" [title]="access_info?.balance">
                 <div class="account-info">
                     <div class="account-name">{{productInfo?.productDetail}}{{productInfo?.cryptoCurrencyCode}}</div>
                     <div class="account-amount">可用{{access_info?.balance/1e8|number:'1.4-4'}}{{productInfo?.cryptoCurrencyCode}}</div>
@@ -94,11 +94,11 @@
                 <div class="status">{{tlog.dealResultDetail}}</div>
             </div>
             <div class="detail-info">
-                <div class="withdraw-amount">
+                <div class="withdraw-amount" [title]="tlog.amount">
                     <div class="sub-title">
                         提现数量
                     </div>
-                    <div class="value">{{tlog.amount|number:'1.4-4'}}</div>
+                    <div class="value">{{tlog.amount/1e8|number:'1.4-4'}}</div>
                 </div>
                 <div class="withdraw-to">
                     <div class="sub-title">
@@ -106,7 +106,7 @@
                     </div>
                     <div class="value">{{tlog.withdrawName}}</div>
                 </div>
-                <div class="withdraw-address">
+                <div class="withdraw-address" [title]="tlog.withdrawAddress">
                     <div class="sub-title">
                         提现地址
                     </div>
