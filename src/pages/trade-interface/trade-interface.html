@@ -97,10 +97,14 @@
 			</ion-col>
 			<ion-col col-2 tappable (click)="changeByStep('amount','+')">+</ion-col>
 		</ion-row>
-		<ion-row>
-			<ion-item no-lines>
+		<ion-row class="range-component">
+			<ion-item no-lines class="range-item">
 				<ion-range #quantityRange [(ngModel)]="range" (ionChange)="amount = maxAmount * Range.ratio ;formatNumber('amount',-2)" pin="true"></ion-range>
 			</ion-item>
+			<div class="range-mark">
+				<div class="left">0</div>
+				<div class="right">{{maxAmount | numberUnitFormat}}{{targetName}}</div>
+			</div>
 		</ion-row>
 		<!-- </ion-grid>
 		<ion-grid class="trbtn">  -->
@@ -234,7 +238,7 @@
 <!-- 横屏k线图表 -->
 <div class="home-contain sim-landscape" [class.show]="!isPortrait">
 	<ion-grid class="sft child-span-padding-left-1">
-		<ion-row>
+		<ion-row justify-content-around>
 			<ion-col col-3 no-padding>
 				<h1 class="{{showData?.changeValue | riseOrFall}}" text-center> {{(_baseData$ | async)?.price | priceConversion | numberFilter}}</h1>
 				<!-- <div text-center>{{showData?.datetime}}</div> -->
