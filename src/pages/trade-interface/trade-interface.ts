@@ -37,8 +37,10 @@ export class TradeInterfacePage {
     .do(type=>{
       let rateSrc
       if (type === 0){
+        this.targetName = this.productName
         rateSrc = this.sellRate
       }else if (type === 1){
+        this.targetName = this.priceName
         rateSrc = this.buyRate
       }
       // this.fee = await this.getFee(rateSrc)
@@ -46,6 +48,9 @@ export class TradeInterfacePage {
     })
 
   private traderList = []
+  private priceName: string
+  private productName: string
+  private targetName: string  
   //traderId可以做成subject, 用setter 和getter改变 作为源头触发其他改动.
   private traderId: string = this.appSettings.SIM_DATA ?
     '000001' : undefined;
@@ -447,6 +452,10 @@ export class TradeInterfacePage {
     if (traderId){
       const traderList = await this.appDataService.traderListPromise;
       const trader = this.appDataService.traderList.get(traderId)
+      if(!trader) return void 0 
+      const names = trader.traderName.split(' / ')
+      this.productName = names[0]
+      this.priceName = names[1]
       // this._baseData$ = this.stockDataService.subscibeRealtimeData(traderId, 'price', this.viewDidLeave$)
       this._baseData$ = trader.marketRef
         .do(data => console.log('trade-interface:1', data))

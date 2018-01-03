@@ -1,4 +1,8 @@
 page-trade-interface {
+	//reset grid padding
+	.grid{
+		padding: 0;
+	}
 
 	.scroll-content {
 		// display: flex;
@@ -148,7 +152,30 @@ page-trade-interface {
 				height: 4.2rem;
 				border-radius: 4.2rem;
 				background-color: #242435;
-				margin: 1.2rem auto;
+				margin: 1.1rem auto 0;
+			}
+
+			.range-component{
+				position: relative;
+			}
+
+			.range-item{
+				background-color:unset;
+				padding-left:8px;
+			}
+
+			.range-mark {
+				position: absolute;
+				padding-left: 19px;
+				padding-right: 24px;
+				bottom: 1rem;
+				width: 100%;
+				text-align: justify;
+				color: color($colors, middark);
+				display: flex;
+				justify-content: space-between;
+
+				div {}
 			}
 
 			// ion-row{
