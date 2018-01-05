@@ -1,47 +1,51 @@
 
 <ion-header class="color-primary home-header">
-  <ion-grid no-padding text-center class="optional-header">
-    <ion-row class="row home-settings-icon bar-tops">
+  <ion-grid no-padding text-center>
+    <ion-row class="home-settings-icon bar-tops">
       <!-- <ion-col col-11></ion-col> -->
-      <ion-col col-1 offset-11  [navPush]="settings">
+      <ion-col tappable col-1 offset-11 (click)="routeTo('account-center-old')">
         <img src="assets/images/mine/setting-icon.png" alt="" class="home-settings-img" />
       </ion-col>
     </ion-row>
     <ion-row>
-      <ion-col class="padding">
+      <ion-col class="personal">
+        <div class="realname">{{personalDataService.realname}}</div>
+        <div class="mobile" *ngIf="personalDataService.mobile">{{personalDataService.mobile}}</div>
+        <div class="email" *ngIf="personalDataService.email">{{personalDataService.email}}</div>
+        <div class="bedge"><img src="../assets/icon/home-beage.png" alt=""></div>
       </ion-col>
     </ion-row>
-<!--     <ion-row>
-      <ion-col class="title-col">
-        <h1>{{personalDataService.assets || 0 | number: '.2-2'}}</h1>
-        <h6>总资产</h6>
-      </ion-col>
-    </ion-row>
-    <ion-row class="info-row">
-      <ion-col>
-        <div no-margin-bottom>{{personalDataService.accountBalance || 0 | number: '.2-2'}}</div>
-        <p ion-text color="important">可用资金</p>
-      </ion-col>
-      <ion-col class="midline">
-        |
-      </ion-col>
-      <ion-col>
-        <div no-margin-bottom>----</div>
-        <p ion-text color="important">可用积分</p>
-      </ion-col>
-    </ion-row> -->
     <ion-row>
-      <ion-col class="avator-col">
-        <ion-avatar><img src="assets/images/mine/head-cover-image.png"/></ion-avatar>
-        <h6>135008800010</h6>
+      <ion-col>
+        <div class="assets-title">总资产{{personalAssets?.asset?.priceName}}</div>
+        <div class="assets-amount">{{personalAssets?.asset?.total | quantityConversion}}</div>
+      </ion-col>
+    </ion-row>
+    <ion-row class="notice" *ngIf="false">
+      <ion-col class="vertical-center">
+        <ion-icon name="gnotice" ios color="important" class="vertical-center"></ion-icon>
+        <span>这里是一条公告~</span>
       </ion-col>
     </ion-row>
   </ion-grid>
 </ion-header>
 <ion-content no-bounce class="home-contain">
   <ion-grid no-padding>
+    <ion-row class="main-button" text-center>
+      <ion-col col-6 [navPush]="'recharge-gateway'">
+        <img src="../assets/icon/充值.png" alt="">
+        <span>充值</span>
+      </ion-col>
+      <ion-col col-6 [navPush]="'withdraw-gateway'">
+        <img src="../assets/icon/提现.png" alt="">
+        <span>提现</span>
+      </ion-col>
+    </ion-row>
     <ion-row *ngFor="let data of commandData" tappable [navPush]="data.href" class="dark-8-transparent bottom-hr" [class.bottom-space]="data.bottomSpace">
-      <ion-col padding class="vertical-center"><ion-icon name="{{data.icon}}" ios color="important" class="vertical-center"></ion-icon><span>{{data.name}}</span></ion-col>
+      <ion-col padding class="vertical-center">
+        <ion-icon name="{{data.icon}}" ios color="important" class="vertical-center"></ion-icon>
+        <span>{{data.name}}</span>
+      </ion-col>
     </ion-row>
   </ion-grid>
 </ion-content>

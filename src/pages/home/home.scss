@@ -1,52 +1,75 @@
 page-home {
 	.home-header {
-		// background: linear-gradient(to bottom, rgba(69, 178, 213, 1), rgba(129, 214, 242, 1));
 		background: linear-gradient(to bottom, color($colors, gold), #2a2b3f);
-
-		//这里背景颜色不透明,透明了显得颜色暗淡,原因是设计稿头部下面没有一层半透明黑色蒙板,而我们的布局有
-		//TODO:更改布局然后改变样式
-				ion-row.info-row {
-					p {
-						margin-top: 0.6rem;
-						margin-bottom: 1.6rem;
-						font-size: 1.2rem;
-					}
-
-				}
-				.midline{
-					flex-grow: 0.5;
-					font-size: 2rem;
-					font-weight: 200;
-					color: color($colors, gold);
-				}
-		.avator-col{
-			padding-top:2rem!important;
-			display: flex;
-			flex-direction: column;
-			align-items: center;
-			justify-content: center;
-			ion-avatar{
-				height: 80px;
-				width: 80px;
-				border-radius:50%;
-				overflow: hidden;
-				border:0.3rem solid rgba(255,255,255,0.3);
-				img{
-					width: 100%;
-					height: 100%;
-				}
+		.personal{
+			margin: 1rem 0 1.3rem;
+			ion-row{
+				text-align: center;				
 			}
-			h6{
-				padding-top:1rem;
-				padding-bottom:3rem;
+			.realname{
+				font-size: 1.6rem;
+				margin-bottom: .6rem;
+			}
+			.mobile,.email,.bedge{
 				font-size: 1.2rem;
-				color: color($colors, gold);
-				font-weight: lighter;
+				line-height: 1.2rem;
+				margin-bottom: .7rem;
+			}
+			.bedge img{
+				height: 1.9rem;
+				width: 7.6rem;
+				// display: inline-block;
+				// padding-left: 2.4rem;
+				// height: 1.9rem;
+				// line-height: 1.9rem;
+				// background-image: url('../assets/icon/home-beage.png');
+				// background-position: center;
+				// background-size: 100% 100%;
+			}
+		}
+
+		.assets-title{
+			color:color($colors,lightdark);
+			font-size: 1.2rem;
+			margin-bottom: 1rem;
+		}
+		.assets-amount{
+			color:color($colors,special);
+			font-size: 1.6rem;
+			margin-bottom: 2rem;
+		}
+		.notice{
+			background-color: rgba(255,255,255,0.2);
+			height: 2.3rem;
+			line-height: 2.3rem;
+			padding-left: 1.7rem;
+			ion-col{
+				text-align: left;
+			}
+			span{
+				margin-left: .5rem;
+				font-size: 1.2rem;
+				color:color($colors,lightdark);
 			}
 		}
 	}
 
 	.home-contain {
+		.main-button{
+			height: 6.7rem;
+			background-color: color($colors,background-darker);
+			margin-bottom: .8rem;
+			img{
+				margin-top: 1.4rem;
+				width: 2.2rem;
+				height: 2rem;
+			}
+			span{
+				display: block;
+				margin: 0;
+			}
+		}
+
 			ion-row {
 				padding: 0 1.5em;
 				border-color: #4a2925;
@@ -58,12 +81,16 @@ page-home {
 				}
 
 				&.bottom-space {
-					margin-bottom: 0.5em;
+					margin-bottom: 0.8em;
 				}
 			}
 	}
 
 	// 图标
+	.ion-ios-gnotice::before{
+		content: '';
+		background-image:url('../assets/icon/notice.png');
+	}
 	.ion-ios-gcard::before{
 		background-image:url('../assets/images/mine/身份认证icon.png');
 	}
@@ -97,17 +124,17 @@ page-home {
 
   .home-settings-icon {
     width: 100%;
-    position: absolute;
-    top: 24px;
-    left: -10px;
-    height: 40px;
-    line-height: 40px;
+    // position: absolute;
+    // top: 1.5rem;
+    padding-right: 1rem;
+    height: 1.9rem;
+    line-height: 1.9rem;
     z-index: 1;
-    font-size: 20px;
+    font-size: 1.9rem;
     color: #fff;
   }
   .home-settings-img {
-    width: 1.6rem;
+    width: 1.9rem;
     transition: transform 0.4s ease;
   }
   .home-settings-img:active {
