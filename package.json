@@ -43,6 +43,7 @@
     "cordova-plugin-camera-preview": "^0.9.0",
     "cordova-plugin-compat": "^1.2.0",
     "cordova-plugin-console": "^1.1.0",
+    "cordova-plugin-crosswalk-webview": "^2.3.0",
     "cordova-plugin-device": "^1.1.7",
     "cordova-plugin-file": "^4.3.3",
     "cordova-plugin-fullscreen": "^1.2.0",
@@ -116,7 +117,14 @@
       },
       "cordova.plugins.diagnostic": {},
       "cordova-plugin-statusbar": {},
-      "cordova-plugin-ionic-webview": {}
+      "cordova-plugin-ionic-webview": {},
+      "cordova-plugin-crosswalk-webview": {
+        "XWALK_COMMANDLINE": "--disable-pull-to-refresh-effect --enable-experimental-web-platform-features",
+        "XWALK_VERSION": "23+",
+        "XWALK_LITEVERSION": "xwalk_core_library_canary:17+",
+        "XWALK_MODE": "embedded",
+        "XWALK_MULTIPLEAPK": "true"
+      }
     }
   }
 }

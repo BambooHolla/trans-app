@@ -1,30 +1,29 @@
 <ion-header>
-
   <ion-navbar>
     <ion-title>账户中心</ion-title>
   </ion-navbar>
-
 </ion-header>
-<ion-content no-bounce class="bg-in account-contain">
-  <ion-grid no-padding class="dark-transparent">
-    <ion-row class="bottom-line">
+<ion-content no-bounce class="account-contain">
+  <ion-grid no-padding>
+    <ion-row class="bottom-line" (click)="identify()">
       <ion-col padding class="vertical-center">
-        用户名<span class="f-right">{{personalDataService.realname}}</span>
+        实名认证<span class="f-right">{{personalDataService.realname}}</span>
       </ion-col>
     </ion-row>
-    <ion-row class="bottom-line">
+    <!-- <ion-row class="bottom-line" *ngIf="false">
       <ion-col padding class="vertical-center">
         身份证号<span class="f-right">{{personalDataService.idcardnumber | numMask:6:4}}</span>
       </ion-col>
-    </ion-row>
-    <ion-row class="bottom-line">
+    </ion-row> -->
+    <ion-row class="bottom-line" *ngIf="personalDataService.mobile">
       <ion-col padding class="vertical-center">
-        手机号<span class="f-right">{{personalDataService.mobile | numMask}}</span>
+        手机号码<span class="f-right">{{personalDataService.mobile | numMask}}</span>
       </ion-col>
     </ion-row>
-    <ion-row class="bottom-line" (click)="openPage()">
+    <ion-row class="bottom-line" *ngIf="personalDataService.email">
       <ion-col padding class="vertical-center">
-        修改交易密码
+        邮箱地址
+        <span class="f-right">{{personalDataService.email}}</span>
       </ion-col>
     </ion-row>
     <ion-row class="bottom-line" navPush="modify-pwd">
@@ -39,38 +38,10 @@
         </ion-col>
       </ion-row>
     </ng-container>
-    <ion-row class="bottom-line" (click)="identify()">
-      <ion-col padding class="vertical-center">
-        实名认证
-      </ion-col>
-    </ion-row>
-
   </ion-grid>
-  <ion-row class="account-tip">
-    <ion-icon name="ios-grule"></ion-icon>
-    <span>交易账户以下信息可提供给银行绑定银行账号</span>
-  </ion-row>
-  <ion-grid no-padding class="dark-transparent">
-    <ion-row class="bottom-line">
-      <ion-col padding class="vertical-center">
-        客户号<span class="f-right">{{appDataService.customerId}}</span>
-      </ion-col>
-    </ion-row>
-    <ion-row class="bottom-line">
-      <ion-col padding class="vertical-center">
-        {{personalDataService.relatedBankAccount.bankName}}
-        <span class="f-right">{{personalDataService.relatedBankAccount.cardNo | numMask:4:4}}</span>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
-  <ion-row tappable class="dark-transparent account-exit" (click)="financeAccount()">
+  <ion-row tappable class="account-exit" (click)="loginService.doLogout()">
     <ion-col padding class="exit-center">
-      开户
-    </ion-col>
-  </ion-row>
-  <ion-row tappable class="dark-transparent account-exit" (click)="loginService.doLogout()">
-    <ion-col padding class="exit-center">
-      退出
+      退出账号
     </ion-col>
   </ion-row>
 

@@ -114,12 +114,21 @@ export class StockDataService {
     //   clearInterval(this._tradeDayCheckTimer);
     // }
 
-    this._stockObservableMap.forEach(observableMap => {
-      observableMap.forEach(({ subject }) => {
-        subject.unsubscribe();
-      });
-      observableMap.clear();
-    });
+    //作为中间媒介(intermediate)的subject可能不需要主动unsubscribe,
+    //官方实例是直接在multicast中新建subject
+    //参考http://reactivex.io/rxjs/class/es6/Observable.js~Observable.html#instance-method-multicast
+    // this._stockObservableMap.forEach(observableMap => {
+    //   observableMap.forEach(({ subject },key) => {
+    //     console.log('stockdataservice :', subject)
+    //     if(subject !== undefined && !subject.closed){
+    //       // console.log('stockdataservice close?', subject.closed)          
+    //       subject.unsubscribe();
+    //       // console.log('stockdataservice close!:', subject.closed)
+    //     }
+    //   });
+    //   observableMap.clear();
+    // });
+
     this._stockObservableMap.clear();
 
     this._stockKData.next({});
@@ -1611,6 +1620,7 @@ export class StockDataService {
   }
 
   public requestProductById(productId): Promise<any> {
+    // if(!productId) return void 0
     const path = `/product/product/${productId}`
     
     return this.appService.request(RequestMethod.Get, path, undefined, true)

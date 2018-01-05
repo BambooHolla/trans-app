@@ -84,6 +84,7 @@
     <feature name="StatusBar">
         <param name="ios-package" onload="true" value="CDVStatusBar" />
     </feature>
+    <allow-navigation href="http://192.168.16.207:8100" />
     <engine name="android" spec="^6.2.3" />
     <engine name="ios" spec="^4.5.4" />
     <plugin name="cordova-plugin-console" spec="^1.1.0" />
@@ -103,4 +104,11 @@
     <plugin name="cordova.plugins.diagnostic" spec="^3.7.2" />
     <plugin name="cordova-plugin-statusbar" spec="^2.3.0" />
     <plugin name="cordova-plugin-ionic-webview" spec="^1.1.16" />
+    <plugin name="cordova-plugin-crosswalk-webview" spec="^2.3.0">
+        <variable name="XWALK_COMMANDLINE" value="--disable-pull-to-refresh-effect --enable-experimental-web-platform-features" />
+        <variable name="XWALK_VERSION" value="23+" />
+        <variable name="XWALK_LITEVERSION" value="xwalk_core_library_canary:17+" />
+        <variable name="XWALK_MODE" value="embedded" />
+        <variable name="XWALK_MULTIPLEAPK" value="true" />
+    </plugin>
 </widget>

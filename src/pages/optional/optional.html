@@ -6,14 +6,14 @@
     </ion-row>
     <ion-row>
       <ion-col class="title-col">
-        <h1>{{personalAssets?.dayProfit?.total | quantityConversion | numberUnitFormat:true:true:8 | positiveSign}}</h1>
-        <h6>今日盈亏</h6>
+        <h1>{{personalAssets?.asset?.total | quantityConversion}}</h1>
+        <h6>总资产{{personalAssets?.asset?.priceName}}</h6>
       </ion-col>
     </ion-row>
     <ion-row class="info-row">
       <ion-col>
-        <h6 no-margin-bottom>{{personalAssets?.asset?.total | quantityConversion}}</h6>
-        <span class="h7">总资产{{personalAssets?.asset?.priceName}}</span>
+        <h6 no-margin-bottom>{{personalAssets?.dayProfit?.total | quantityConversion | numberUnitFormat:true:true:8 | positiveSign}}</h6>
+        <span class="h7">今日盈亏</span>
       </ion-col>
       <ion-col class="split-line">
         <div></div>
