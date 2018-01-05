@@ -50,7 +50,6 @@ export class LoginPage {
     public appSettings: AppSettings
   ) {
     // this.presentLoading();
-    this.init();
   }
 
   ionViewDidLoad() {
@@ -73,6 +72,13 @@ export class LoginPage {
     // this.verticalCenter = false;
     // this.gridPaddingTop = span + 'px';
   }
+  ionViewDidEnter(){
+    this.loginService.userToken
+      .distinctUntilChanged()
+      .subscribe(()=>{
+        this.init()
+      }) 
+  }
   showPassword(ele:TextInput){
     ele.type = "text"
   }
@@ -84,7 +90,7 @@ export class LoginPage {
     const appDataService = this.appDataService;
     try {
       await appDataService.dataReady;
-
+      
       const controls = this.loginForm.controls;
 
       for (const prop in controls) {

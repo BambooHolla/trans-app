@@ -91,6 +91,7 @@ export class LoginService {
               }
             } catch (err) {
               console.error('尝试帐号密码登录更新Token失败\n', err);
+              this.doLogout()
             }
           }
         }
