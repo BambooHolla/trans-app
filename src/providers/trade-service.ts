@@ -155,19 +155,19 @@ export class TradeService {
             .map(async ({ priceId, productId, buyFee, saleFee }) => {
               const products = await this.appDataService.productsPromise;
               const product = await this.stockDataService.getProduct(productId)//products.get(productId);
-              const price = await this.stockDataService.getProduct(priceId)//products.get(priceId);
-              console.log(
-                '%cGGGG',
-                'color:red',
-                productId,
-                priceId,
-                product,
-                price
-              );
-              if (product && price) {
+              const price = !priceId? undefined : await this.stockDataService.getProduct(priceId)//products.get(priceId);
+              // console.log(
+              //   '%cGGGG',
+              //   'color:red',
+              //   productId,
+              //   priceId,
+              //   product,
+              //   price
+              // );
+              if (product) {
                 traderList.set(`${priceId}-${productId}`, {
                   traderId: `${priceId}-${productId}`,
-                  traderName: `${product.productName} / ${price.productName}`,
+                  traderName: !priceId ? `${product.productName}` : `${product.productName} / ${price.productName}`,
                   reportRef: new Observable(), //用来存放报表中间管道
                   reportArr: [],
                   marketRef: new BehaviorSubject(undefined), //用来存放交易中间管道
