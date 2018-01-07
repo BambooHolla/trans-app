@@ -67,8 +67,11 @@ export class OptionalPage extends SecondLevelPage {
   onIonViewDidEnter() {
     this.viewDidLeave.next(false);
 
-    this.requestAssets();
-    this.initPersonalStockListSubscriber();
+    this.requestAssets()
+      .catch()
+      
+    this.initPersonalStockListSubscriber()
+      .catch()
 
     // this.personalDataService.requestFundData();
 

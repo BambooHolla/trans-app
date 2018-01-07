@@ -169,7 +169,7 @@ export class PersonalDataService {
       .catch(err => {});
 
     this.requestFundData()
-      // .catch(err => {});
+      .catch(err => {});
 
     this.requestEquityDeposit()
       .catch(err => {});

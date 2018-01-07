@@ -96,7 +96,7 @@ export class HomePage extends FirstLevelPage{
   }
 
   requestAssets() {
-    return this.personalDataService
+    this.personalDataService
       .personalAssets()
       .then(async data => {
         for (let key in data) {
@@ -109,11 +109,11 @@ export class HomePage extends FirstLevelPage{
         }
         console.log('requestAssets', data);
         this.personalAssets = data;
-        return Promise.resolve();
+        // return Promise.resolve();
       })
       .catch(err => {
         console.log('requestAssets:', err);
-        return Promise.reject(err);
+        // return Promise.reject(err);
       });
   }
 
