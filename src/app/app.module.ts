@@ -133,7 +133,7 @@ import { ImagePicker } from '@ionic-native/image-picker';
 import { AndroidPermissions } from '@ionic-native/android-permissions';
 import { ScreenOrientation } from '@ionic-native/screen-orientation';
 import { AndroidFullScreen } from '@ionic-native/android-full-screen';
-
+import { Clipboard } from '@ionic-native/clipboard';
 //引入资讯模块
 import { InformationModule } from '../pages/information/information.module';
 
@@ -448,6 +448,7 @@ import { WorkOrderServiceProvider } from '../providers/work-order-service/work-o
         AndroidPermissions,
         ScreenOrientation,
         AndroidFullScreen,
+        Clipboard,
         AppSettings,
         AppDataService,
         HttpService,

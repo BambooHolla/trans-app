@@ -1,10 +1,10 @@
-import { Component, Renderer2, Inject } from '@angular/core';
-import { Platform } from 'ionic-angular';
-import { StatusBar } from '@ionic-native/status-bar';
-import { SplashScreen } from '@ionic-native/splash-screen';
-import { ScreenOrientation } from '@ionic-native/screen-orientation';
-import { AndroidFullScreen } from '@ionic-native/android-full-screen';
-
+import { Component, Renderer2, Inject } from "@angular/core";
+import { Platform } from "ionic-angular";
+import { StatusBar } from "@ionic-native/status-bar";
+import { SplashScreen } from "@ionic-native/splash-screen";
+import { ScreenOrientation } from "@ionic-native/screen-orientation";
+import { AndroidFullScreen } from "@ionic-native/android-full-screen";
+import { Clipboard } from "@ionic-native/clipboard";
 // import { App, NavController, LoadingController, Loading } from 'ionic-angular';
 import {
   App,
@@ -12,27 +12,27 @@ import {
   Loading,
   AlertController,
   ToastController,
-  ModalController
-} from 'ionic-angular';
+  ModalController,
+} from "ionic-angular";
 
 // import { TranslateService } from '@ngx-translate/core';
 
 // import { LoadingPage } from '../pages/loading/loading';
-import { TabsPage } from '../pages/tabs/tabs';
-import { LoginPage } from '../pages/login/login';
-import { EntrancePage } from '../pages/entrance/entrance';
+import { TabsPage } from "../pages/tabs/tabs";
+import { LoginPage } from "../pages/login/login";
+import { EntrancePage } from "../pages/entrance/entrance";
 
-import { AppSettings } from '../providers/app-settings';
-import { KeyboardService } from '../providers/keyboard-service';
-import { LoginService } from '../providers/login-service';
-import { AppDataService } from '../providers/app-data-service';
-import { SocketioService } from '../providers/socketio-service';
-import { StockDataService } from '../providers/stock-data-service';
-import { TradeService } from '../providers/trade-service';
-import { PersonalDataService } from '../providers/personal-data-service';
+import { AppSettings } from "../providers/app-settings";
+import { KeyboardService } from "../providers/keyboard-service";
+import { LoginService } from "../providers/login-service";
+import { AppDataService } from "../providers/app-data-service";
+import { SocketioService } from "../providers/socketio-service";
+import { StockDataService } from "../providers/stock-data-service";
+import { TradeService } from "../providers/trade-service";
+import { PersonalDataService } from "../providers/personal-data-service";
 
 @Component({
-  templateUrl: 'app.html'
+  templateUrl: "app.html",
 })
 export class PicassoApp {
   rootPage: any;
@@ -44,7 +44,7 @@ export class PicassoApp {
   presentLoading(val) {
     if (!this.loginChecked) {
       this.loader = this.loadingCtrl.create({
-        content: val
+        content: val,
       });
       this.loader.present();
     }
@@ -65,6 +65,7 @@ export class PicassoApp {
     public keyboardService: KeyboardService,
     public screenOrientation: ScreenOrientation,
     public androidFullScreen: AndroidFullScreen,
+    public clipboard: Clipboard,
     public personalDataService: PersonalDataService,
     public stockDataService: StockDataService,
     public socketioService: SocketioService,
@@ -77,17 +78,24 @@ export class PicassoApp {
     public toastCtrl: ToastController,
     public modalController: ModalController,
     // translate: TranslateService,
-    public renderer2: Renderer2
+    public renderer2: Renderer2,
   ) {
-    window['platform'] = platform;
-    window['alertCtrl'] = alertCtrl;
-    window['loadingCtrl'] = loadingCtrl;
-    window['toastCtrl'] = toastCtrl;
-    window['modalCtrl'] = modalController;
+    window["platform"] = platform;
+    window["alertCtrl"] = alertCtrl;
+    window["loadingCtrl"] = loadingCtrl;
+    window["toastCtrl"] = toastCtrl;
+    window["modalCtrl"] = modalController;
+    window["clipboard"] = clipboard;
+    if (!navigator["clipboard"]) {
+      navigator["clipboard"] = {
+        writeText: text => clipboard.copy(text),
+        readText: () => clipboard.paste(),
+      };
+    }
     this.screenOrientation
       .lock(this.screenOrientation.ORIENTATIONS.PORTRAIT)
       .catch(err => {
-        console.log('screenOrientation error:', err.message);
+        console.log("screenOrientation error:", err.message);
       });
 
     this.loginService.status$
@@ -116,15 +124,15 @@ export class PicassoApp {
           const topPage = rootNav.last().component;
 
           if (targetPage !== topPage) {
-            const direction = status ? 'forward' : 'back';
+            const direction = status ? "forward" : "back";
             rootNav.setRoot(
               targetPage,
               {},
               {
                 direction,
-                animation: 'ios-transition',
-                animate: true
-              }
+                animation: "ios-transition",
+                animate: true,
+              },
             );
           }
         }
@@ -140,19 +148,19 @@ export class PicassoApp {
             })
             .catch(err => {
               console.log(
-                'loginService requestProducts error: ',
-                err.message || err
+                "loginService requestProducts error: ",
+                err.message || err,
               );
             });
           this.personalDataService
             .personalPriceId()
             .then(data => {
-              this.appDataService.productId = data.value || '';
+              this.appDataService.productId = data.value || "";
             })
             .catch(err => {
               console.log(
-                'loginService personalPriceId error: ',
-                err.message || err
+                "loginService personalPriceId error: ",
+                err.message || err,
               );
             });
         }
@@ -164,7 +172,7 @@ export class PicassoApp {
   ionViewDidLoad() {}
 
   afterPlatformReady() {
-    if (this.platform.is('android')) {
+    if (this.platform.is("android")) {
       // android 的全屏模式，顶部状态栏融入 APP 。
       // 不需要修改 java 文件
       const androidFullScreen = this.androidFullScreen;
@@ -174,13 +182,13 @@ export class PicassoApp {
         .then(() => androidFullScreen.showSystemUI())
         .then(() => androidFullScreen.showUnderStatusBar())
         .catch((error: any) => console.log(error.message || error));
-    } else if (this.platform.is('ios')) {
+    } else if (this.platform.is("ios")) {
       // ios 设备需要在 platform ready 之后再设置方向锁定，
       // 并且锁定的方向应为 PORTRAIT_PRIMARY 。
       this.screenOrientation
         .lock(this.screenOrientation.ORIENTATIONS.PORTRAIT_PRIMARY)
         .catch(err => {
-          console.log('screenOrientation error:', err.message);
+          console.log("screenOrientation error:", err.message);
         });
     }
 
@@ -208,8 +216,8 @@ export class PicassoApp {
   // 设置根元素的背景，与当前激活页的背景保持大致相同，
   // 避免在软键盘弹出/收起时短暂闪现难看的背景。
   setAppRootBackground(status: boolean) {
-    const className = status ? 'bg-in' : 'bg-out';
-    const oldClassName = status ? 'bg-out' : 'bg-in';
+    const className = status ? "bg-in" : "bg-out";
+    const oldClassName = status ? "bg-out" : "bg-in";
     const rootElem = this.appCtrl._appRoot._elementRef.nativeElement;
     this.renderer2.removeClass(rootElem, oldClassName);
     this.renderer2.addClass(rootElem, className);

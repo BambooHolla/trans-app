@@ -23,6 +23,7 @@
     "@ionic-native/android-full-screen": "~4.4.2",
     "@ionic-native/android-permissions": "~4.4.2",
     "@ionic-native/camera-preview": "~4.4.2",
+    "@ionic-native/clipboard": "^4.5.2",
     "@ionic-native/core": "4.4.0",
     "@ionic-native/image-picker": "~4.4.2",
     "@ionic-native/keyboard": "~4.4.2",
@@ -56,6 +57,7 @@
     "cordova-sqlite-storage": "^2.1.2",
     "cordova.plugins.diagnostic": "^3.7.2",
     "core-js": "~2.4.1",
+    "danielsogl-cordova-plugin-clipboard": "^1.0.2",
     "echarts": "~3.6.2",
     "echarts-liquidfill": "~1.0.5",
     "es6-promise-plugin": "^4.1.1",
@@ -71,7 +73,8 @@
     "socket.io-client": "~2.0.2",
     "sw-toolbox": "3.6.0",
     "zone.js": "0.8.18",
-    "zrender": "~3.5.2"
+    "zrender": "~3.5.2",
+    "cordova-clipboard": "^1.1.1"
   },
   "devDependencies": {
     "@ionic/app-scripts": "^3.1.2",
@@ -91,7 +94,8 @@
     "cordova-plugin-statusbar",
     "cordova-plugin-splashscreen",
     "ionic-plugin-keyboard",
-    "cordova-plugin-console"
+    "cordova-plugin-console",
+    "cordova-clipboard"
   ],
   "cordovaPlatforms": [],
   "description": "Picasso",
@@ -117,6 +121,7 @@
       },
       "cordova.plugins.diagnostic": {},
       "cordova-plugin-statusbar": {},
+      "cordova-clipboard": {},
       "cordova-plugin-ionic-webview": {},
       "cordova-plugin-crosswalk-webview": {
         "XWALK_COMMANDLINE": "--disable-pull-to-refresh-effect --enable-experimental-web-platform-features",
