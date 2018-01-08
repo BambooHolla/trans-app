@@ -280,6 +280,12 @@ export class SocketioService {
         // this.removeFromSocketioSubscribeList(subscribeData);
         this._socketioSubscribeSet.delete(subscribeData);
         this.socketAPIs.get(api).socket.emit('unsubscribe', subscribeData);
+        if (api == 'price' || api == 'depth') {
+          console.log(`unwatch:${api} `, `${equityCodeWithSuffix}`)
+          this.socketAPIs.get(api).socket.emit('unwatch', [`${equityCodeWithSuffix}`])
+        } else {
+          this.socketAPIs.get(api).socket.emit('unwatch', `${equityCodeWithSuffix}`)
+        }    
         // this.socketAPIs.get(api).socket.emit(`unwatch:${api}:`, [`${equityCodeWithSuffix}`])
       }
     });
