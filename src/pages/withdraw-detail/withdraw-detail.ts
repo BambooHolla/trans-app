@@ -19,6 +19,7 @@ import {
 	TransactionType,
 	TransactionModel,
 	DealResult,
+	RateMainType,
 } from "../../providers/account-service/account-service";
 import { WithdrawAddressListPage } from "../withdraw-address-list/withdraw-address-list";
 
@@ -145,12 +146,22 @@ export class WithdrawDetailPage extends SecondLevelPage {
 				.then(data => (this.has_account_pwd = data));
 			// 获取提现记录
 			tasks[tasks.length] = this.getTransactionLogs();
+			// 获取手续费
+			tasks[tasks.length] = this.accountService
+				.getProductRate(this.productInfo.productId, {
+					rateMainType: RateMainType.withdraw,
+				})
+				.then(data => {
+					console.log("手续非：", data);
+					this.rate_info = data[0];
+				});
 
 			await Promise.all(tasks);
 		} else {
 			this.navCtrl.removeView(this.viewCtrl);
 		}
 	}
+	rate_info: any = {};
 
 	get canSubmit() {
 		return (

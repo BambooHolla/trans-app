@@ -1,12 +1,12 @@
-import { Injectable } from '@angular/core';
-import { Http, Headers } from '@angular/http';
-import 'rxjs/add/operator/map';
+import { Injectable } from "@angular/core";
+import { Http, Headers } from "@angular/http";
+import "rxjs/add/operator/map";
 import {
 	AppSettingProvider,
 	TB_AB_Generator,
-} from '../../bnlc-framework/providers/app-setting/app-setting';
-import { AppFetchProvider } from '../../bnlc-framework/providers/app-fetch/app-fetch';
-import { AsyncBehaviorSubject } from '../../bnlc-framework/providers/RxExtends';
+} from "../../bnlc-framework/providers/app-setting/app-setting";
+import { AppFetchProvider } from "../../bnlc-framework/providers/app-fetch/app-fetch";
+import { AsyncBehaviorSubject } from "../../bnlc-framework/providers/RxExtends";
 
 /*
   Generated class for the AccountServiceProvider provider.
@@ -23,56 +23,59 @@ export class AccountServiceProvider {
 	) {}
 	// readonly GET_ACCOUNT_INFO = this.appSetting.APP_URL('aco')
 	readonly GET_ACCOUNT_ASSETS = this.appSetting.APP_URL(
-		'account/accounts/:id',
+		"account/accounts/:id",
 	);
 	readonly GET_ACCOUNT_PRODUCT = this.appSetting.APP_URL(
-		'account/accounts/products',
+		"account/accounts/products",
 	);
 	readonly GET_CRYPTO_CURRENCY = this.appSetting.APP_URL(
-		'account/payment/cryptocurrency',
+		"account/payment/cryptocurrency",
 	);
-	readonly GET_PRODUCTS = this.appSetting.APP_URL('product/product');
+	readonly GET_PRODUCTS = this.appSetting.APP_URL("product/product");
 	readonly GET_TRANSACTION_LOGS = this.appSetting.APP_URL(
-		'transaction/externaltransactions',
+		"transaction/externaltransactions",
 	);
-	readonly PAYMENT_ITEM = this.appSetting.APP_URL('account/payment/:id');
-	readonly GET_WITHDRAW_ADDRESS = this.appSetting.APP_URL('account/payments');
+	readonly PAYMENT_ITEM = this.appSetting.APP_URL("account/payment/:id");
+	readonly GET_WITHDRAW_ADDRESS = this.appSetting.APP_URL("account/payments");
 	readonly ADD_WITHDRAW_ADDRESS = this.appSetting.APP_URL(
-		'account/payment/create',
+		"account/payment/create",
 	);
 	readonly GET_WTIHDRAW_LOGS = this.appSetting.APP_URL(
-		'transaction/transactions',
+		"transaction/transactions",
 	);
 	/** 同ADD_WITHDRAW_ADDRESS，但是这个是提交验证信息的*/
 	readonly CREATE_VALIDATE = this.appSetting.APP_URL(
-		'account/payment/createvalidate',
+		"account/payment/createvalidate",
 	);
 	readonly DELETE_PAYMENT = this.appSetting.APP_URL(
-		'account/payment/delete/:id',
+		"account/payment/delete/:id",
 	);
 	readonly GET_WITHDRAW_ADDRESS_TYPE_LIST = this.appSetting.APP_URL(
-		'account/paymenttypelist',
+		"account/paymenttypelist",
 	);
 	readonly GET_WITHDRAW_ADDRESS_DETAIL = this.appSetting.APP_URL(
-		'account/payments/type/:type',
+		"account/payments/type/:type",
 	);
 	readonly CREATE_WITHDRAW_TRABSACTION = this.appSetting.APP_URL(
-		'transaction/transactions/create',
+		"transaction/transactions/create",
 	);
 
 	readonly SUBMIT_CERTIFICATION = this.appSetting.APP_URL(
-		'user/addCertification',
+		"user/addCertification",
 	);
 
 	readonly GET_AUTHENTICATE_DETAIL = this.appSetting.APP_URL(
-		'user/getAuthenticateDetail',
+		"user/getAuthenticateDetail",
 	);
 	readonly SEND_VALIDATE_TO_CUSTOMER = this.appSetting.APP_URL(
-		'user/validate/customersend',
+		"user/validate/customersend",
+	);
+	readonly GET_PRODUCT_RATE = this.appSetting.APP_URL(
+		"product/strategy/rate/product/:productId",
 	);
 
-	readonly SET_ACCOUNT_PWD = this.appSetting.APP_URL('user/setAccountPwd');
-	readonly HAS_ACCOUNT_PWD = this.appSetting.APP_URL('user/hasAccountPwd');
+	readonly SET_ACCOUNT_PWD = this.appSetting.APP_URL("user/setAccountPwd");
+	readonly HAS_ACCOUNT_PWD = this.appSetting.APP_URL("user/hasAccountPwd");
 
 	getAcountAssets(
 		accountId?: string,
@@ -136,7 +139,7 @@ export class AccountServiceProvider {
 			})
 			.then(list => {
 				list.forEach(item => {
-					this._paymentIdCache.set(item.id + '', item);
+					this._paymentIdCache.set(item.id + "", item);
 				});
 				return list;
 			});
@@ -150,7 +153,7 @@ export class AccountServiceProvider {
 	}
 
 	productList: AsyncBehaviorSubject<ProductModel[]>;
-	@TB_AB_Generator('productList')
+	@TB_AB_Generator("productList")
 	productList_Executor(promise_pro) {
 		return promise_pro.follow(this.getProducts(0, 30));
 	}
@@ -214,7 +217,7 @@ export class AccountServiceProvider {
 	withdrawAddressTypeList: AsyncBehaviorSubject<
 		{ name: string; type: string }[]
 	>;
-	@TB_AB_Generator('withdrawAddressTypeList')
+	@TB_AB_Generator("withdrawAddressTypeList")
 	withdrawAddressTypeList_Executor(promise_pro) {
 		return promise_pro.follow(this.getWithdrawAddressTypeList());
 	}
@@ -233,7 +236,7 @@ export class AccountServiceProvider {
 			});
 	}
 	withdrawAddressList: AsyncBehaviorSubject<any[]>;
-	@TB_AB_Generator('withdrawAddressList')
+	@TB_AB_Generator("withdrawAddressList")
 	withdrawAddressList_Executor(promise_pro) {
 		return promise_pro.follow(this.getWithdrawAddressList());
 	}
@@ -279,7 +282,7 @@ export class AccountServiceProvider {
 			body,
 			{
 				headers: new Headers({
-					'x-bnqkl-secondpassword': v_secondpassword,
+					"x-bnqkl-secondpassword": v_secondpassword,
 				}),
 			},
 		);
@@ -319,21 +322,21 @@ export class AccountServiceProvider {
 	}
 
 	static getDealResultDetail(dealResult: DealResult) {
-		if (dealResult == DealResult.Preparing) return '准备中';
-		if (dealResult == DealResult.InAudit) return '审核中';
-		if (dealResult == DealResult.InConfirmation) return '确认中';
-		if (dealResult == DealResult.Finish) return '完成';
-		if (dealResult == DealResult.Failed) return '失败';
-		if (dealResult == DealResult.Expired) return '过期';
-		if (dealResult == DealResult.Other) return '其他';
+		if (dealResult == DealResult.Preparing) return "准备中";
+		if (dealResult == DealResult.InAudit) return "审核中";
+		if (dealResult == DealResult.InConfirmation) return "确认中";
+		if (dealResult == DealResult.Finish) return "完成";
+		if (dealResult == DealResult.Failed) return "失败";
+		if (dealResult == DealResult.Expired) return "过期";
+		if (dealResult == DealResult.Other) return "其他";
 	}
 	static getTransactionStatusDetail(status: TransactionStatus) {
-		if (status == TransactionStatus.Unpaied) return '待支付';
-		if (status == TransactionStatus.Paied) return '确认中'; //'已支付';
-		if (status == TransactionStatus.Confirmed) return '已确认';
-		if (status == TransactionStatus.Cancel) return '已取消';
-		if (status == TransactionStatus.InAudit) return '审核中';
-		if (status == TransactionStatus.Other) return '其他';
+		if (status == TransactionStatus.Unpaied) return "待支付";
+		if (status == TransactionStatus.Paied) return "确认中"; //'已支付';
+		if (status == TransactionStatus.Confirmed) return "已确认";
+		if (status == TransactionStatus.Cancel) return "已取消";
+		if (status == TransactionStatus.InAudit) return "审核中";
+		if (status == TransactionStatus.Other) return "其他";
 	}
 
 	submitCertification(body: {
@@ -383,14 +386,14 @@ export class AccountServiceProvider {
 	}
 
 	hasAccountPwd: AsyncBehaviorSubject<boolean>;
-	@TB_AB_Generator('hasAccountPwd')
+	@TB_AB_Generator("hasAccountPwd")
 	hasAccountPwd_Executor(promise_pro) {
 		return promise_pro.follow(this.hasAccountPWD());
 	}
 	hasAccountPWD() {
 		return this.fetch
 			.get<{ status: string; message: string }>(this.HAS_ACCOUNT_PWD)
-			.then(data => data.status === '1');
+			.then(data => data.status === "1");
 	}
 
 	setAccountPWD(
@@ -412,42 +415,56 @@ export class AccountServiceProvider {
 			code,
 		});
 	}
+
+	getProductRate(
+		productId,
+		search?: {
+			rateMainType?: RateMainType;
+			rateTargetType?: RateTargetType;
+			calcMethodType?: CalcMethodType;
+		},
+	) {
+		return this.fetch.get(this.GET_PRODUCT_RATE, {
+			params: { productId },
+			search,
+		});
+	}
 }
 export enum CertificationCertificateType {
-	账号 = '001',
-	身份 = '002',
+	账号 = "001",
+	身份 = "002",
 }
 export enum CertificationPatternType {
-	人工审核 = '001',
-	系统自动审核 = '002',
+	人工审核 = "001",
+	系统自动审核 = "002",
 }
 export enum CertificationCollectType {
-	文本填写 = '001',
-	证件照片 = '002',
-	证件视频 = '003',
-	手持证件照片 = '004',
-	现场认证 = '005',
+	文本填写 = "001",
+	证件照片 = "002",
+	证件视频 = "003",
+	手持证件照片 = "004",
+	现场认证 = "005",
 }
 export enum PaymenType {
-	Bank = '001', // 银行卡
-	Alipay = '002', // 支付宝
-	WechatPay = '003', // 微信
-	SinaPay = '004', // 新浪支付
-	IFMT = '005', // IFMT
-	BTC = '006', // BTC
-	ETH = '007', // ETH
-	Other = '999', // 其他
+	Bank = "001", // 银行卡
+	Alipay = "002", // 支付宝
+	WechatPay = "003", // 微信
+	SinaPay = "004", // 新浪支付
+	IFMT = "005", // IFMT
+	BTC = "006", // BTC
+	ETH = "007", // ETH
+	Other = "999", // 其他
 }
 export enum PaymentCategory {
-	Recharge = '001', // 充值
-	Withdraw = '002', // 提现
-	Other = '999', // 其他
+	Recharge = "001", // 充值
+	Withdraw = "002", // 提现
+	Other = "999", // 其他
 }
 export enum PaymentBelong {
-	Platform = '001', // 平台
-	Custoemr = '002', // 客户【勿使用，拼写错误】
-	Customer = '002', // 客户
-	Other = '999', // 其他
+	Platform = "001", // 平台
+	Custoemr = "002", // 客户【勿使用，拼写错误】
+	Customer = "002", // 客户
+	Other = "999", // 其他
 }
 
 export enum ProductType {
@@ -456,79 +473,102 @@ export enum ProductType {
 	//币加所产品类型 2开头
 
 	//本能理财产品类型 3开头
-	'bnlc_main' = '301', //首页主产品
-	'bnlc_increaseInterest' = '302', //加息计划
+	"bnlc_main" = "301", //首页主产品
+	"bnlc_increaseInterest" = "302", //加息计划
 
-	'others' = '999', //"其他"
+	"others" = "999", //"其他"
 }
 export enum ProductStatus {
-	'suspension' = '001', //"已下架/停牌",
-	'tradable' = '002', //"已上架/可交易",
-	'others' = '999', //"其他"
+	"suspension" = "001", //"已下架/停牌",
+	"tradable" = "002", //"已上架/可交易",
+	"others" = "999", //"其他"
 }
 export enum TransactionType {
-	BuyProduct = '001', // 购买产品
-	SaleProduct = '002', // 卖出产品
-	GiveProduct = '003', // 赠送产品
-	RechargeProduct = '004', // 产品充值
-	WithdrawProduct = '005', // 产品提现
-	Other = '999', // 其他
+	BuyProduct = "001", // 购买产品
+	SaleProduct = "002", // 卖出产品
+	GiveProduct = "003", // 赠送产品
+	RechargeProduct = "004", // 产品充值
+	WithdrawProduct = "005", // 产品提现
+	Other = "999", // 其他
 }
 export enum TransactionStatus {
-	Unpaied = '001', // 待支付
-	Paied = '002', // 已支付
-	Confirmed = '003', // 已确认
-	Cancel = '004', // 已取消
-	InAudit = '005', // 审核中
-	Other = '999', // 其他
+	Unpaied = "001", // 待支付
+	Paied = "002", // 已支付
+	Confirmed = "003", // 已确认
+	Cancel = "004", // 已取消
+	InAudit = "005", // 审核中
+	Other = "999", // 其他
 }
 export enum DealResult {
-	Preparing = '001', // 准备中
-	InAudit = '002', // 审核中
-	InConfirmation = '003', // 确认中
-	Finish = '004', // 完成
-	Failed = '005', // 失败
-	Expired = '006', // 过期
-	Other = '999', // 其他
+	Preparing = "001", // 准备中
+	InAudit = "002", // 审核中
+	InConfirmation = "003", // 确认中
+	Finish = "004", // 完成
+	Failed = "005", // 失败
+	Expired = "006", // 过期
+	Other = "999", // 其他
 }
 export enum AccountType {
-	Cash = '001', // 现金账
-	Deposit = '002', // 存管账
-	Product = '003', // 产品账
-	Bail = '004', // 保证金
-	Commission = '005', // 佣金账
-	Integral = '006', // 积分账
-	Interest = '007', // 利息账
-	Experience = '008', // 体验金账户
-	CryptoCurrency = '009', // 数字货币账户
-	Other = '999', // 其他
+	Cash = "001", // 现金账
+	Deposit = "002", // 存管账
+	Product = "003", // 产品账
+	Bail = "004", // 保证金
+	Commission = "005", // 佣金账
+	Integral = "006", // 积分账
+	Interest = "007", // 利息账
+	Experience = "008", // 体验金账户
+	CryptoCurrency = "009", // 数字货币账户
+	Other = "999", // 其他
 }
 export enum CertificateType {
-	手机号 = '001',
-	邮箱 = '002',
-	指纹 = '003',
-	声音 = '004',
-	人脸 = '005',
-	二代身份证 = '006',
-	护照 = '007',
+	手机号 = "001",
+	邮箱 = "002",
+	指纹 = "003",
+	声音 = "004",
+	人脸 = "005",
+	二代身份证 = "006",
+	护照 = "007",
 }
+export enum RateMainType {
+	/** 买入*/
+	buyin = "001",
+	/** 卖出*/
+	sellout = "002",
+	/** 充值*/
+	recharge = "003",
+	/** 提现*/
+	withdraw = "004",
+	/** 其他*/
+	others = "999",
+}
+export enum RateTargetType {
+	/** 主体产品*/ mainProduct = "001",
+	/** 标的产品*/ priceProduct = "002",
+	/** 其他*/ others = "999",
+}
+export enum CalcMethodType {
+	/** 按比例*/ rate = "001",
+	/** 按定额*/ quota = "002",
+	/** 其他*/ others = "999",
+}
+
 export enum BankCode {
-	上海银行 = 'BOS',
-	中信银行 = 'CITIC',
-	中国邮储银行 = 'PSBC',
-	中国银行 = 'BOC',
-	交通银行 = 'COMM',
-	光大银行 = 'CEB',
-	兴业银行 = 'CIB',
-	农业银行 = 'ABC',
-	华夏银行 = 'HXB',
-	工商银行 = 'ICBC',
-	平安银行 = 'SZPAB',
-	广发银行 = 'GDB',
-	建设银行 = 'CCB',
-	招商银行 = 'CMB',
-	民生银行 = 'CMBC',
-	浦发银行 = 'SPDB',
+	上海银行 = "BOS",
+	中信银行 = "CITIC",
+	中国邮储银行 = "PSBC",
+	中国银行 = "BOC",
+	交通银行 = "COMM",
+	光大银行 = "CEB",
+	兴业银行 = "CIB",
+	农业银行 = "ABC",
+	华夏银行 = "HXB",
+	工商银行 = "ICBC",
+	平安银行 = "SZPAB",
+	广发银行 = "GDB",
+	建设银行 = "CCB",
+	招商银行 = "CMB",
+	民生银行 = "CMBC",
+	浦发银行 = "SPDB",
 }
 export type ProductModel = {
 	_id: string;
