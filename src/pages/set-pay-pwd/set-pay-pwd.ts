@@ -109,6 +109,7 @@ export class SetPayPwdPage extends SecondLevelPage {
 				formData.vcode
 			)
 			.then(() => {
+				this.accountService.hasAccountPwd.refresh();
 				this.finishJob(true);
 			});
 	}
