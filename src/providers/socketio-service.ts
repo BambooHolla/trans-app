@@ -279,7 +279,7 @@ export class SocketioService {
         
         // this.removeFromSocketioSubscribeList(subscribeData);
         this._socketioSubscribeSet.delete(subscribeData);
-        this.socketAPIs.get(api).socket.emit('unsubscribe', subscribeData);
+        // this.socketAPIs.get(api).socket.emit('unsubscribe', subscribeData);
         if (api == 'price' || api == 'depth') {
           console.log(`unwatch:${api} `, `${equityCodeWithSuffix}`)
           this.socketAPIs.get(api).socket.emit('unwatch', [`${equityCodeWithSuffix}`])
@@ -373,7 +373,7 @@ export class SocketioService {
       .do(data => console.log('apiObservableMap:', data, ' & ', equityCode))
       //将数据筛选移到具体业务上
       //tofix:深度的都是单支交易获得,故不做筛选
-      .filter(data => api == 'depth'|| equityCode === data.type || data.ec === equityCode || data.n === equityCode)
+      .filter(data =>equityCode === data.type || data.ec === equityCode || data.n === equityCode)
       .do(data => console.log('apiObservableMap filter:', data))
       .map(data => data.data || data)
   }
