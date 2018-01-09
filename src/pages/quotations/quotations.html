@@ -1,11 +1,23 @@
 <ion-header>
     <ion-navbar>
         <ion-title>行情</ion-title>
-        <ion-buttons right padding-horizontal>
-            <button ion-button [navPush]="searchItemPage">
+        <ion-buttons  [hidden]="showSearch" right padding-horizontal (click)="toShowSearch()">
+            <button ion-button>
                 <ion-icon class="large-icon" name="search"></ion-icon>
             </button>
         </ion-buttons>
+        <ion-toolbar [hidden]="!showSearch" class="searchbar">
+            <div #searchInputWrap class="searchInput">
+                <!-- <div class="icon"></div> -->
+                <ion-item no-padding no-lines>
+                    <ion-input #searchInput type="text" clearInput (keyup)="search(searchInput.value)">
+                    </ion-input>
+                </ion-item>
+            </div>
+            <ion-buttons right (click)="showSearch = false">
+                <button ion-button navPop>取消</button>
+            </ion-buttons>
+        </ion-toolbar>
     </ion-navbar>
 </ion-header>
 
@@ -37,7 +49,7 @@
      </div>
     </div> -->
 
-    <div *ngFor="let trader of traderList" class="qhd">
+    <div *ngFor="let trader of traderList_show" class="qhd">
         <realtime-report
             tappable [navPush]="tradeInterface" [navParams]="trader.traderId"
             [echartsData]="trader?.reportRef | async" 

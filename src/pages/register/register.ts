@@ -111,7 +111,9 @@ export class RegisterPage {
     this.sending_vcode = true;
     try {
       await this.registerService.sendSMSCode(
-        this.registerForm.get('customerId').value
+        this.registerForm.get('customerId').value,
+        undefined,
+        '1001',
       );
 
       this.tickResendTimeClock(); // 开始倒计时重新发送短信的按钮

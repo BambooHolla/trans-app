@@ -555,7 +555,6 @@ export class TradeInterfacePage {
   }
 
   cancelEntrust(entrustId){
-    //todo:提示是否撤单
     this.entrustServiceProvider.cancelEntrust(entrustId)
       .then(data => {
         console.log('cancelEntrust data', data)
@@ -590,7 +589,11 @@ export class TradeInterfacePage {
         } else {
           console.log('cancelEntrust err:', err)
         }
-      });
+      })
+      .then(()=>{
+        this.personalDataService.requestFundData().catch(() => { });
+        this.personalDataService.requestEquityDeposit().catch(() => { });
+      })
   }
 
   getProcessEntrusts(infiniteScroll?: InfiniteScroll){

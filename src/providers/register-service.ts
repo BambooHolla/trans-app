@@ -29,7 +29,7 @@ export class RegisterService {
   CREATE_ACCOUNT = `/user/register`;
   AUTH_REGISTER = `/user/authRegister`;
 
-  sendSMSCode(telephone: string, type = '201') {
+  sendSMSCode(telephone: string, type = '201', templateType ='2001') {
     // 如果是邮箱
     if (this.appSettings.accountType(telephone) === 0) {
       return this.appService.request(
@@ -44,7 +44,7 @@ export class RegisterService {
     // 否则尝试当成手机号码发送
     return this.appService.request(RequestMethod.Get, this.SEND_SMS_CODE_URL, {
       telephone,
-      // type
+      type:templateType,
     });
   }
   doRegister(account: string, code: string, password: string) {

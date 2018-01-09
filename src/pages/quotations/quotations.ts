@@ -1,4 +1,4 @@
-import { Component, ViewChildren } from '@angular/core';
+import { Component, ViewChildren, ViewChild, ElementRef, Renderer,  } from '@angular/core';
 // import { Slides, NavController } from 'ionic-angular';
 import { NavController } from 'ionic-angular';
 
@@ -23,9 +23,18 @@ import { TradeInterfacePage } from "../trade-interface/trade-interface";
 	templateUrl: 'quotations.html'
 })
 export class QuotationsPage {
+	@ViewChild('searchInputWrap', { read: ElementRef }) searchInputWrap;
+	showSearch = false
+	private searchTermStream = new BehaviorSubject<string>('');
+	search(term: string) {
+		// console.log('searched');
+		this.searchTermStream.next(term);
+	}
+
 	tradeInterface: any = TradeInterfacePage;
 
 	traderList: object[] = new Array()
+	traderList_show: object[] = new Array()
 	tempArray = new Array(5)
 	realtimeReports$: Observable<any>
 
@@ -146,8 +155,23 @@ export class QuotationsPage {
 		public appDataService: AppDataService,
 		public socketioService: SocketioService,
 		public stockDataService: StockDataService,
+		public renderer:Renderer,
 	) {
 		// this.changeActive(0);
+	}
+
+	ngOnInit() {
+		this.searchTermStream
+			.takeUntil(this.viewDidLeave$)
+			.debounceTime(300)
+			.distinctUntilChanged()
+			.switchMap((term: string) => Observable.of(term.trim().toLowerCase()))
+			.subscribe((string) => {
+				// const reg = new RegExp(string)
+				this.traderList_show = this.traderList.filter((item: any, index, arr) => {
+					return item.traderName.toLowerCase().indexOf(string) !== -1
+				})
+			})
 	}
 
 	ionViewDidEnter() {
@@ -210,6 +234,11 @@ export class QuotationsPage {
 	// 		}, 1000)
 	// 	});
 	// }
+
+	toShowSearch(){
+		this.showSearch = true
+		this.renderer.setElementStyle(this.searchInputWrap.nativeElement,'width','unset')
+	}
 
 	destoryCharts() {
 		if (this._thisPageActive === false && this.charts) {
@@ -333,9 +362,10 @@ export class QuotationsPage {
 		const traderList = []
 		srcTraderList.forEach((value,key,map)=>{
 			traderList.push(value)
-			return traderIdList.push(key)
+			traderIdList.push(key)
 		})
 		this.traderList = traderList
+		this.traderList_show = this.traderList
 		console.log('teee', this.viewDidLeave.getValue())
 		this.realtimeReports$ = this.socketioService.subscribeRealtimeReports(traderIdList)
 			.do(() => console.log('realtimeReports$ success'))
