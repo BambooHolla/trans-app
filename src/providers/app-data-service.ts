@@ -10,6 +10,13 @@ export class AppDataService {
   }
 
   private _ready: boolean = true;
+  /**
+   * 配置私密数据缓存的key
+   */
+  private _private_data_keyword = [
+    'account',
+    'contact',
+  ]
 
   public get ready(): boolean {
     return this._ready;
@@ -50,6 +57,15 @@ export class AppDataService {
   }
 
   public resetCustomization() {
+    // console.log('storage.keys: ',this.storage.keys())
+    const reg = new RegExp(this._private_data_keyword.join('|'))
+    // console.log(reg)
+    this.storage.forEach((value,key,index)=>{
+      // console.log('storage', key , ' : ' ,value)
+      if (reg.test(key)){
+        this.storage.remove(key)
+      }
+    })
     this.token = '';
     this.customerId = '';
     this.password = '';
