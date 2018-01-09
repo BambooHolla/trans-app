@@ -30,7 +30,7 @@
                 <ion-icon name="￥+"></ion-icon>
                 充值地址
             </div>
-            <button class="copy-button" ion-button (click)="copyCode()">
+            <button class="copy-button" ion-button (click)="copyCode()" [copy]="recharge_address.paymentAccountNumber">
                 <ion-icon name="复制"></ion-icon>
                 即可复制
             </button>

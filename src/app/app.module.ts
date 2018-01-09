@@ -65,7 +65,9 @@ import { AccountCenterV2Page } from '../pages/account-center-v2/account-center-v
 import { AddAddressPage } from '../pages/add-address/add-address';
 import { AppSettingProvider } from '../bnlc-framework/providers/app-setting/app-setting';
 import { AppFetchProvider } from '../bnlc-framework/providers/app-fetch/app-fetch';
-import {DirectivesModule as BNLC_DirectivesModule} from '../bnlc-framework/directives/directives.module'
+import { DirectivesModule as BNLC_DirectivesModule } from '../bnlc-framework/directives/directives.module'
+
+import { DirectivesModule} from '../directives/directives.module'
 
 /**- from BNLC framework*/
 
@@ -364,7 +366,8 @@ import { WorkOrderServiceProvider } from '../providers/work-order-service/work-o
 
         SearchItemPageModule,
         ComponentsModule,
-        BNLC_DirectivesModule
+        BNLC_DirectivesModule,
+        DirectivesModule
         // InformationSlideModule,
         // RouterModule.forChild(appRoutes),
     ],

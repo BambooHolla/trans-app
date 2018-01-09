@@ -5,6 +5,7 @@ import {
 	ToastController,
 	ModalController
 } from 'ionic-angular';
+
 export class FLP_Tool {
 	// 全局弹出层控制器
 	@FLP_Tool.FromGlobal alertCtrl: AlertController;
@@ -15,7 +16,7 @@ export class FLP_Tool {
 	/**
     * 用于管理loading对象的对象池
     * 由于有的页面loading的显示时，用户可以直接无视返回上一级页面，所以就需要有一个对象池缓存这些对象并在页面离开的时候销毁它们
-    * 
+    *
     * @type {Set<Loading>}
     * @memberof FirstLevelPage
     */
