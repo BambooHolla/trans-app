@@ -32,7 +32,7 @@ export class VolumnComponent extends EchartsBaseComponent {
                   item.endPrice,
                   item.minPrice,
                   item.maxPrice,
-                  item.yesterdayPrice,
+                //   item.yesterdayPrice,
                   item.turnoverQuantity/10000,
                   item.turnoverAmount/10000,
               ]);

@@ -452,26 +452,26 @@ export class QuotationsPage {
 		}, 3e3);
 	}
 
-	showRealtimeQutationTooltip(data) {
-		const realtimeData = this.stockDataService.getStockRealtimeData(this.stockCode);
-		const dataItem = realtimeData[data[0].dataIndex];
-		const baseData = this.stockDataService.getStockBaseData(this.stockCode);
-		if (!dataItem || !baseData) {
-			return;
-		}
-		const changeValue = data[0].data - (baseData ? baseData.yesterdayPrice : 0);
-		const changeRate = baseData && baseData.yesterdayPrice ?
-			changeValue / baseData.yesterdayPrice : 0;
+	// showRealtimeQutationTooltip(data) {
+	// 	const realtimeData = this.stockDataService.getStockRealtimeData(this.stockCode);
+	// 	const dataItem = realtimeData[data[0].dataIndex];
+	// 	const baseData = this.stockDataService.getStockBaseData(this.stockCode);
+	// 	if (!dataItem || !baseData) {
+	// 		return;
+	// 	}
+	// 	const changeValue = data[0].data - (baseData ? baseData.yesterdayPrice : 0);
+	// 	const changeRate = baseData && baseData.yesterdayPrice ?
+	// 		changeValue / baseData.yesterdayPrice : 0;
 
-		this.tempData.next({
-			...this.tempData.getValue(),
-			latestPrice: data[0].data,
-			avgPrice: data[1].data,
-			turnoverQuantity: dataItem.turnoverQuantity,
-			turnoverAmount: dataItem.turnoverAmount,
-			changeValue,
-			changeRate,
-		});
-		this.switchToTempData();
-	}
+	// 	this.tempData.next({
+	// 		...this.tempData.getValue(),
+	// 		latestPrice: data[0].data,
+	// 		avgPrice: data[1].data,
+	// 		turnoverQuantity: dataItem.turnoverQuantity,
+	// 		turnoverAmount: dataItem.turnoverAmount,
+	// 		changeValue,
+	// 		changeRate,
+	// 	});
+	// 	this.switchToTempData();
+	// }
 }

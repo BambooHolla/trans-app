@@ -39,9 +39,7 @@
 					<!-- <span>+23%</span> -->
 					<span class="{{(_baseData$ | async)?.range | riseOrFall}}">{{(_baseData$ | async)?.range | percent:'1.0-2'}}</span>
 				</div>
-				<!-- <div>今开
-						<span class="{{((_baseData$ | async)?.startPrice - (_baseData$ | async)?.yesterdayPrice) | riseOrFall}}">{{(_baseData$ | async)?.startPrice | number:'.2-2' | numberFilter}}</span>
-					</div> -->
+
 				<div>
 					<label>量</label>
 					<!-- <span>35.2314</span> -->
@@ -184,7 +182,7 @@
 				<div *ngFor="let data of _depth$ | async ; let i = index;" class="bets-row" [class.sep]="i === 5"
 						tappable (click)="setPrice(data?.price)">
 					<span>{{appSettings.betsTitle[i]}}</span>
-					<span class="{{data?.price && data?.price - (_baseData$ | async)?.yesterdayPrice | riseOrFall}}">{{data?.price | priceConversion | numberFilter:true:false:6}}</span>
+					<span class="{{(_baseData$ | async)?.range | riseOrFall}}">{{data?.price | priceConversion | numberFilter:true:false:6}}</span>
 					<span class="color-important">{{data?.amount | quantityConversion | numberUnitFormat}}</span>
 				</div>
 			</div>
@@ -259,14 +257,6 @@
 					<span class="{{(_baseData$ | async)?.range | riseOrFall}}">{{(_baseData$ | async)?.min | priceConversion | numberFilter:true}}</span>
 				</div>
 			</ion-col>
-			<!-- <ion-col col-2>
-				<div text-left>昨
-					<span>{{showData?.yesterdayPrice | number:'.2-2' | numberFilter}}</span>
-				</div>
-				<div text-left>今
-					<span class="{{(showData?.startPrice - showData?.yesterdayPrice) | riseOrFall}}">{{showData?.startPrice | number:'.2-2' | numberFilter}}</span>
-				</div>
-			</ion-col> -->
 			<ion-col col-2>
 				<div text-left>量
 					<span>{{(_baseData$ | async)?.amount | quantityConversion | numberUnitFormat:true:true:6}}</span>
@@ -301,7 +291,7 @@
 			<div class="bets-tab">
 				<div *ngFor="let data of _depth$ | async ; let i = index;" class="bets-row" [class.sep]="i === 5" tappable (click)="setPrice(data?.price)">
 					<span>{{appSettings.betsTitle[i]}}</span>
-					<span class="{{data?.price && data?.price - (_baseData$ | async)?.yesterdayPrice | riseOrFall}}">{{data?.price | priceConversion | numberFilter:true:false:6}}</span>
+					<span class="{{(_baseData$ | async)?.range | riseOrFall}}">{{data?.price | priceConversion | numberFilter:true:false:6}}</span>
 					<span class="color-important">{{data?.amount | quantityConversion | numberUnitFormat}}</span>
 				</div>
 			</div>

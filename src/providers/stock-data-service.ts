@@ -55,29 +55,7 @@ export class StockDataService {
   }
   
   public stockBaseData$ = this._stockBaseData.asObservable();
-
-  // 板块列表。
-  // 暂时使用固定数据。
-  // private _sectorList: SectorSimpleData[] = [
-  //   // {sectorType: '00', sectorName: '股权板块'},
-  //   // {sectorType: '01', sectorName: '互联网产权'},
-  //   // {sectorType: '02', sectorName: '高科技产权'},
-  //   // {sectorType: '20', sectorName: '台资企业'},
-  //   // {sectorType: '30', sectorName: '专利技术'},
-  //   // 001 高交所股票、002 高交所知识产权、003 私募基金、004 本能理财
-  //   { sectorType: '001', sectorName: '高交所股票'},
-  //   { sectorType: '002', sectorName: '高交所知识产权'},
-  // ];
-
-  // public get sectorList(){
-  //   return this._sectorList;
-  // }
-
-  // private _sectorData: BehaviorSubject<SectorData> = new BehaviorSubject(undefined);
-
-  // public sectorData$ = this._sectorData.asObservable()
-  //     .filter(data => data !== undefined);
-
+  
   // 保证数值在小数点后最多只有两位有效数字。
   // js 做加减法，或乘以一个带有小数的数字，都有可能出现精度问题，
   // 因此需要对计算结果做校正。
@@ -241,25 +219,14 @@ export class StockDataService {
             if (this.appSettings.SIM_DATA){
               this.getSimStartData(code);
             } else {
-              this.requestRealtimeStartData(code)
+              //此方法只获取昨日收盘价 故废弃
+              // this.requestRealtimeStartData(code)
             }
           }
         });
       });
     }, 180e3);
   }
-
-  // private initSectors() {
-  //   const sectorData = {};
-  //   this._sectorList.forEach(({sectorType, sectorName}) => {
-  //     sectorData[sectorType] = {
-  //       sectorName,
-  //       stockCodeList: null,
-  //     };
-  //   });
-
-  //   this._sectorData.next(sectorData);
-  // }
 
   private _stockKData: BehaviorSubject<{ [key: string]: { [key: string]: any[] } }> =
     new BehaviorSubject({});
@@ -328,87 +295,58 @@ export class StockDataService {
     return false;
   }
 
-  private requestRealtimeStartData(code, cancel$?: Observable<any>): Subscription {
-    // const url = `${this.appSettings.SERVER_URL}/api/v1/gjs/biz/equities/timePrice/${code}`
-    let todayDate = new Date().getDate()
-    const yesterdayDate = new Date(new Date().setDate(todayDate - 1)).toLocaleDateString()// 直接使用日期,后端采用new Date(value)处理
-    const url = `${this.appSettings.SERVER_URL + this.appSettings.SERVER_PREFIX}/product/productPrice`///${code}`?priceDate=${yesterdayDate}`
-    const token = this.appDataService.token
-    if (!token) {
-      return Observable.throw(new Error('token missing!')).subscribe()
-    }
-    const headers = new Headers()
-    headers.append('X-AUTH-TOKEN', token)
+  // private requestRealtimeStartData(code, cancel$?: Observable<any>): Subscription {
+  //   // const url = `${this.appSettings.SERVER_URL}/api/v1/gjs/biz/equities/timePrice/${code}`
+  //   let todayDate = new Date().getDate()
+  //   const yesterdayDate = new Date(new Date().setDate(todayDate - 1)).toLocaleDateString()// 直接使用日期,后端采用new Date(value)处理
+  //   const url = `${this.appSettings.SERVER_URL + this.appSettings.SERVER_PREFIX}/product/productPrice`///${code}`?priceDate=${yesterdayDate}`
+  //   const token = this.appDataService.token
+  //   if (!token) {
+  //     return Observable.throw(new Error('token missing!')).subscribe()
+  //   }
+  //   const headers = new Headers()
+  //   headers.append('X-AUTH-TOKEN', token)
+  //   let http$ = this.http.post(url, {
+  //     productId: code,
+  //     priceDate: yesterdayDate
+  //   }, { headers })
 
-    // return this.httpService.getObservableWithToken(url, undefined, cancel$)
-    //   .switchMap(data => {
-    //     if (!data.data || !data.data.todayTrend || !Array.isArray(data.data.todayTrend)){
-    //       return Observable.throw('realtime data missing')
-    //     }
-    //     return Observable.of(data.data)
-    //   })
-    //   .subscribe({
-    //     next: data => {
-    //       // 是否要用实时数据的最新价格代替 baseData 的最新价格？
-    //       if (data.yesterdayPrice) {
-    //         this.setStockBaseData(code, {
-    //           // latestPrice: data.data.yesterdayPrice,
-    //           yesterdayPrice: data.yesterdayPrice,
-    //         })
-    //       }
-    //       this.parseAndSetRealtimeData(
-    //         code,
-    //         data.todayTrend
-    //           .filter(this.filterRealtimeData)
-    //       );
-    //     },
-    //     error: err => {
-    //       console.log('requestRealtimeStartData error: ', err.message || err);
-    //       // this.parseAndSetRealtimeData(code, []);
-    //       return Observable.throw(err);
-    //     }
-    //   })
-    let http$ = this.http.post(url, {
-      productId: code,
-      priceDate: yesterdayDate
-    }, { headers })
+  //   if (cancel$) {
+  //     http$ = http$.takeUntil(cancel$)
+  //   }
 
-    if (cancel$) {
-      http$ = http$.takeUntil(cancel$)
-    }
+  //   return http$
+  //     .map(res => res.json())
+  //     .switchMap(data => {
+  //       // 使用 switchMap 来包含 Observable.throw()
+  //       console.log('requestRealtimeStartData data: ', data);
+  //       if (!data) {
+  //         return Observable.throw(new Error('data missing'));
+  //       }
 
-    return http$
-      .map(res => res.json())
-      .switchMap(data => {
-        // 使用 switchMap 来包含 Observable.throw()
-        console.log('requestRealtimeStartData data: ', data);
-        if (!data) {
-          return Observable.throw(new Error('data missing'));
-        }
+  //       const err = data.err || data.error
+  //       if (err) {
+  //         return Observable.throw(new Error(err.message || err));
+  //       }
 
-        const err = data.err || data.error
-        if (err) {
-          return Observable.throw(new Error(err.message || err));
-        }
-
-        // switchMap 的正常返回值需要使用 Observable.of()
-        return Observable.of(data.data);
-      })
-      .subscribe({
-        next: data => {
-          console.log('requestRealtimeStartData subscribe data: ', data);
-          if (data && data[0] && data[0].todayPrice) {
-            this.setStockBaseData(code, {
-              yesterdayPrice: data[0].todayPrice / 100,
-            })
-          }
-        },
-        error: err => {
-          console.log('requestRealtimeStartData error: ', err.message || err);
-          return Observable.throw(err);
-        }
-      })
-  }
+  //       // switchMap 的正常返回值需要使用 Observable.of()
+  //       return Observable.of(data.data);
+  //     })
+  //     .subscribe({
+  //       next: data => {
+  //         console.log('requestRealtimeStartData subscribe data: ', data);
+  //         if (data && data[0] && data[0].todayPrice) {
+  //           this.setStockBaseData(code, {
+  //             yesterdayPrice: data[0].todayPrice / 100,
+  //           })
+  //         }
+  //       },
+  //       error: err => {
+  //         console.log('requestRealtimeStartData error: ', err.message || err);
+  //         return Observable.throw(err);
+  //       }
+  //     })
+  // }
 
   /**
    * 检查与数据项同一时间段的数据项，
@@ -531,7 +469,8 @@ export class StockDataService {
       }
 
       if (needData) {
-        this.requestRealtimeStartData(code, cancelGettingStartData$)
+        //此方法只获取昨日收盘价 故废弃
+        // this.requestRealtimeStartData(code, cancelGettingStartData$)
       }
     }
 
@@ -621,99 +560,11 @@ export class StockDataService {
       this.simStockBaseData(code);
       return Promise.resolve();
     }
-
-    // const url = `${this.appSettings.SERVER_URL}/api/v1/gjs/biz/equities/equityPrice/${code}`;
-    // return this.httpService.getWithToken(url)
-    //   .then(data => {
-    //     console.log('requestStockBaseData: ', data);
-    //     if (!Array.isArray(data.data) || !data.data.length){
-    //       return Promise.reject(new Error('requestStockBaseData: data missing!'));
-    //     }
-
-    //     this.parseStockBaseData(code, data.data[0]);
-    //   })
-    //   .catch(err => {
-    //     console.log('requestStockBaseData error: ', err.message || err);
-    //     return Promise.reject(err);
-    //   });
+    
     const productList = await this.accountService.productList.getPromise();
     const product = productList.find(product => product.productId === code);
     this.parseStockBaseData(code, product);
-    // const path = `/product/product`;
-    // const params = {
-    //   // "platformType": "002",
-    //   // "productStatus": "002",
-    //   "productIdArr": [
-    //     code
-    //   ],
-    // }
-    // console.log('requestStockBaseData: ', code)
-    
-    // return this.appService.request(RequestMethod.Post, path, params, true)
-    //   .then(data => {
-    //     console.log('requestStockBaseData: ', data)
-    //     if (!Array.isArray(data) || !data.length) {
-    //       return Promise.reject(new Error('requestStockBaseData: data missing!'))
-    //     }
-
-    //     this.parseStockBaseData(code, data[0])
-    //   })
-    //   .catch(err => {
-    //     console.log('requestStockBaseData error: ', err)
-    //     return Promise.reject(err)
-    //   })
   }
-
-  // FID_GQDM  股权代码  C  　  股权代码
-  // FID_GQMC  股权名称  C  　  股权名称
-  // FID_GQLB  股权类别  C  　  股权类别
-  // FID_BZ  币种  C  　  币种
-  // FID_ZGBJ  最高报价  N  　  最高报价
-  // FID_ZDBJ  最低报价  N  　  最低报价
-  // FID_JYJS  交易基数  N  　  交易基数
-  // FID_JYJW  交易价位  N  　  交易价位
-  // FID_MMXZ  买卖限制  N  　  买卖限制
-  // FID_JYDW  交易单位  N  　  交易单位
-  // FID_ZSP  昨收盘  N  　  昨收盘
-  // FID_EN_WTLB  委托类别范围  C  　  委托类别范围
-  // FID_WTSX  委托上限  N  　  委托上限
-  // FID_WTXX  委托下限  N  　  委托下限
-  // FID_JYXZ  交易限制  N  　  交易限制
-  // FID_SSRQ  上市日期  N  　  上市日期
-  // FID_SLSX  股东数量上限  N  　  股东数量上限
-  // FID_YXSJ  有效时间  N  　  有效时间
-  // FID_ZGB  总股本  N  　  总股本
-  // FID_FXJ  发行价  N  　  发行价
-  // FID_ZSP  昨收盘  N  　  昨收盘
-  // FID_ZXJ  最新价  N  　  最新价
-  // FID_JKP  今开盘  N  　  今开盘
-  // FID_CJSL  成交数量  N  　  成交数量
-  // FID_CJJE  成交金额  N  　  成交金额
-  // FID_ZGJ  最高价  N  　  最高价
-  // FID_ZDJ  最低价  N  　  最低价
-  // FID_CJBS  成交笔数  N  　  成交笔数
-  // FID_MRJG1  买入价格1  N  　  买入价格1
-  // FID_MRSL1  买入数量1  N  　  买入数量1
-  // FID_MRJG2  买入价格2  N  　  买入价格2
-  // FID_MRSL2  买入数量2  N  　  买入数量2
-  // FID_MRJG3  买入价格3  N  　  买入价格3
-  // FID_MRSL3  买入数量3  N  　  买入数量3
-  // FID_MRJG4  买入价格4  N  　  买入价格4
-  // FID_MRSL4  买入数量4  N  　  买入数量4
-  // FID_MRJG5  买入价格5  N  　  买入价格5
-  // FID_MRSL5  买入数量5  N  　  买入数量5
-  // FID_MCJG1  卖出价格1  N  　  卖出价格1
-  // FID_MCSL1  卖出数量1  N  　  卖出数量1
-  // FID_MCJG2  卖出价格2  N  　  卖出价格2
-  // FID_MCSL2  卖出数量2  N  　  卖出数量2
-  // FID_MCJG3  卖出价格3  N  　  卖出价格3
-  // FID_MCSL3  卖出数量3  N  　  卖出数量3
-  // FID_MCJG4  卖出价格4  N  　  卖出价格4
-  // FID_MCSL4  卖出数量4  N  　  卖出数量4
-  // FID_MCJG5  卖出价格5  N  　  卖出价格5
-  // FID_MCSL5  卖出数量5  N  　  卖出数量5
-  // FID_CODE  返回值  N  　  返回值
-  // FID_MESSAGE  返回信息  C  　  返回信息
 
   private _baseDataForSim = {
     '000001': {
@@ -825,13 +676,7 @@ export class StockDataService {
     };
 
     const { latestPrice, startPrice, turnoverQuantity, turnoverAmount } = subData;
-    const yesterdayPrice = subData.yesterdayPrice || baseData.yesterdayPrice;
     const extraData: AnyObject = {...subData};
-    if (latestPrice && yesterdayPrice) {
-      // 减法可能导致精度问题，在视图上显示时需要进行格式化。
-      extraData.changeValue = latestPrice - yesterdayPrice;
-      extraData.changeRate = latestPrice / yesterdayPrice - 1;
-    }
     if (startPrice) {
       extraData.auctionDone = true;
     }
@@ -1478,130 +1323,6 @@ export class StockDataService {
     this._randomKDataArray = data;
     return data;
   }
-
-  // FID_BZ: ""
-  // FID_CCSLXZ: ""
-  // FID_CCSLXZ_JG: ""
-  // FID_CODE: ""
-  // FID_CPDM: ""
-  // FID_CPID: "0"
-  // FID_CPMC: ""
-  // FID_DQRQ: ""
-  // FID_EN_WTLB: ""
-  // FID_FLLB: ""
-  // FID_FXJ: ""
-  // FID_FXRQ: ""
-  // FID_GQDM: "000002"
-  // FID_GQLB: "01"
-  // FID_GQMC: "万科A"
-  // FID_JJJYBZ: ""
-  // FID_JSSJ: ""
-  // FID_JYDW: ""
-  // FID_JYJS: ""
-  // FID_JYJW: ""
-  // FID_JYXZ: ""
-  // FID_JYZT: ""
-  // FID_JZJ: ""
-  // FID_KSRQ: ""
-  // FID_LX: "0"
-  // FID_MESSAGE: ""
-  // FID_MMXZ: ""
-  // FID_PYDM: "WKA"
-  // FID_QTJGCCXX: ""
-  // FID_QTZGCCSX: ""
-  // FID_SLSX: ""
-  // FID_SSRQ: ""
-  // FID_TDBH: ""
-  // FID_TZSL: ""
-  // FID_TZXX: ""
-  // FID_WTSX: ""
-  // FID_WTXX: ""
-  // FID_XGDM: ""
-  // FID_XJFS: ""
-  // FID_XQXZ: ""
-  // FID_YXSJ: ""
-  // FID_ZDBJ: ""
-  // FID_ZED: ""
-  // FID_ZGB: ""
-  // FID_ZGBJ: ""
-  // FID_ZSP: "15"
-  // FID_ZXJ: "15"
-
-  // 00 股权板块
-  // 01 互联网产权
-  // 02 高科技产权
-  // 20 台资企业
-  // 30 专利技术
-  // public requestEquitiesOfSector(sectorType: string = '001'): Promise<any> {
-  //   // const url = `${this.appSettings.SERVER_URL}/api/v1/gjs/biz/equities/info`;
-  //   // const params = new URLSearchParams();
-  //   // params.append('equityType', sectorType);
-  //   // return this.httpService.getWithToken(url, {params})
-  //   //   .then(data => {
-  //   //     if (!Array.isArray(data.data)){
-  //   //       return Promise.reject(`get equities of equityType[${sectorType}] data missing`);
-  //   //     }
-  //   //     // console.log(data);
-  //   //     this.parseSectorStockListData(sectorType, data.data);
-  //   //   })
-  //   //   .catch(err => {
-  //   //     console.log('getEquityOfSector error: ', err.message || err);
-  //   //     // this.parseAndSetRealtimeData(code, []);
-  //   //     return Promise.reject(err);
-  //   //   });
-  //   const path = `/product/product`
-  //   const params = {
-  //     //productType	string
-  //     // 001 高交所股票、002 高交所知识产权、003 私募基金、004 本能理财
-  //     productType:sectorType,
-  //   }
-  //   return this.appService.request(RequestMethod.Post, path, params, true)
-  //     .then(data => {
-  //       console.log('requestEquitiesOfSector: ',data)
-  //       this.parseSectorStockListData(sectorType, data);
-  //     })
-  //     .catch(err => {
-  //       console.log('getEquityOfSector error: ', err.message || err);
-  //       // this.parseAndSetRealtimeData(code, []);
-  //       return Promise.reject(err);
-  //     });
-  // }
-
-  // private parseSectorStockListData(sectorType: string, data: any[]) {
-  //   const stockCodeList: string[] = data.map(item => item.FID_GQDM);
-
-  //   const baseData = Object.assign({}, this._stockBaseData.getValue());
-  //   let baseDataChanged = false;
-  //   data.forEach(({ FID_GQDM: stockCode, FID_GQMC: name ,productId,productName}) => {
-  //     if (name && !baseData[stockCode]) {
-  //       baseData[stockCode] = {
-  //         stockCode,
-  //         name,
-  //         turnoverQuantity: 0,
-  //         turnoverAmount: 0,
-  //       };
-  //       baseDataChanged = true;
-  //     }
-  //     //获取成功更新列表缓存
-  //     this.appDataService.products.set(productId,{productName})
-  //   })
-
-  //   console.log('storage product: ',this.appDataService.products)
-
-  //   if (baseDataChanged) {
-  //     this._stockBaseData.next(baseData);
-  //   }
-
-  //   const sectorData = this._sectorData.getValue();
-  //   this._sectorData.next({
-  //     ...sectorData,
-  //     [sectorType]: {
-  //       ...sectorData[sectorType],
-  //       stockCodeList,
-  //     }
-  //   });
-
-  // }
 
   public requestProducts(platformType: string = this.appSettings.Platform_Type): Promise<any> {
     const path = `/product/product`
