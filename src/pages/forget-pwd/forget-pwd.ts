@@ -110,9 +110,8 @@ export class ForgetPwdPage {
 			if (!customerId) {
 				throw new RangeError('请填写手机号/邮箱');
 			}
-			await this.registerService.sendSMSCode(customerId,undefined,'1004');
-
-			this.tickResendTimeClock(); // 开始倒计时重新发送短信的按钮
+				await this.registerService.sendSMSCode(customerId,undefined,'1004');
+				this.tickResendTimeClock(); // 开始倒计时重新发送短信的按钮
 		} catch (err) {
 			this.alertCtrl
 				.create({
