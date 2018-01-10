@@ -1,10 +1,10 @@
 page-forget-pwd {
- .fixed-content,
+    .fixed-content,
     .scroll-content {
-        margin-top: 0!important;
+        margin-top: 90px;
     }
-    ion-navbar{
-        .button-inner{
+    ion-navbar {
+        .button-inner {
             color: #c1b17f;
         }
     }
@@ -84,15 +84,15 @@ page-forget-pwd {
             margin-top: -20px;
         }
     }
-    background-image: url("../assets/images/login/bg-image.png");
-    background-size: cover;
-    background-position: center;
+    // background-image: url("../assets/images/login/bg-image.png");
+    // background-size: cover;
+    // background-position: center;
     &::before {
         content: "";
         position: absolute;
         width: 100%;
         height: 100%;
-        background-color: rgba(42, 43, 63, 0.88);
+        // background-color: rgba(42, 43, 63, 0.88);
         top: 0;
         left: 0;
     }
@@ -101,7 +101,7 @@ page-forget-pwd {
         position: absolute;
         width: 100%;
         height: 100%;
-        background-color: rgba(0, 0, 0, 0.2);
+        // background-color: rgba(0, 0, 0, 0.2);
         top: 0;
         left: 0;
     }
@@ -125,12 +125,12 @@ page-forget-pwd {
             display: flex;
             flex-direction: column;
             .forgetPWD-form-item {
-                background-color: rgba(0, 0, 0, 0.2);
+                // background-color: rgba(0, 0, 0, 0.2);
                 border-radius: 0.4rem;
                 margin: 0.4rem 0 .4rem;
                 padding: 0;
                 min-height: unset;
-                position:relative;
+                position: relative;
                 .item-inner {
                     border-bottom: none;
                 }
@@ -157,28 +157,6 @@ page-forget-pwd {
                         width: 100%;
                     }
                 }
-                .send-vcode {
-                    background-color: #c1b17f;
-                    color: #FFF;
-                    border-radius: 0.4rem;
-                    width: 7rem!important;
-                    height: 2.4rem!important;
-                    box-sizing: border-box;
-                    display: inline-block;
-                    margin: 0;
-                    padding: 0.5rem;
-                    font-weight: lighter;
-                    font-size: 1.2rem;
-                    &[disabled] {
-                        opacity: .8;
-                    }
-                }
-                .error-tip{
-                    display: inline-block;
-                    color: darkred;
-                    font-size: 1.2rem;
-                    text-shadow: 0 0 1rem #000;
-                }
             }
             .forget-password {
                 align-self: flex-end;
@@ -199,12 +177,92 @@ page-forget-pwd {
         }
     }
     // 表单校验的样式
-    ion-item{
-        &.input-has-value.ng-invalid:not(.input-has-focus){
+    ion-item {
+        &.input-has-value.ng-invalid:not(.input-has-focus) {
             background-color: rgba(255, 0, 0, 0.2)!important;
         }
-        &.input-has-focus{
-            box-shadow: 0 0 0.2rem rgba(255,255,255,0.2);
+        &.input-has-focus {
+            box-shadow: 0 0 0.2rem rgba(255, 255, 255, 0.2);
         }
+    }
+    //修改页面样式  chenfeng 20180110
+    .toolbar-title {
+        font-weight: 800;
+    }
+    .account-contain {
+        ion-grid {
+            ion-row {
+                padding: 0 1.5rem;
+                margin-top: 1px;
+                background-color: #262739;
+                background-color: color($colors, background-darker);
+                ion-col {
+                    font-size: 1.4rem;
+                    padding: 0!important;
+                    .f-right {
+                        float: right;
+                        color: color($colors, special);
+                        font-size: 1.3rem;
+                    }
+                    .send-vcode {
+                        background-color: #c1b17f;
+                        color: #FFF;
+                        border-radius: 0.4rem;
+                        width: 7rem!important;
+                        height: 2.4rem!important;
+                        box-sizing: border-box;
+                        display: inline-block;
+                        margin: 0;
+                        padding: 0.5rem;
+                        font-weight: lighter;
+                        font-size: 1.2rem;
+                        &[disabled] {
+                            opacity: .8;
+                        }
+                    }
+                    button {
+                        position: relative;
+                        top: 50%;
+                        transform: translateY(-50%);
+                    }
+                }
+                .i-col {
+                    display: inherit;
+                }
+            }
+            .error-tip {
+                height: 16px;
+                line-height: 16px;
+                margin: 16px;
+                display: inline-block;
+                color: darkred;
+                font-size: 1.2rem;
+                text-shadow: 0 0 1rem #000;
+            }
+        }
+        .account-exit {
+            margin-top: 2rem;
+            .exit-center {
+                text-align: center;
+                font-size: 1.4rem;
+            }
+        }
+    }
+    .trbtn {
+        height: 4.5rem;
+        padding: 1.2rem 0;
+        margin: 0 auto;
+        border-radius: .4rem;
+        text-align: center;
+        width: 90%;
+        font-size: 1.3rem;
+        color: #FFF;
+        background: #c1b17f;
+        font-family: Microsoft YaHei;
+        font-size: 16px;
+    }
+    input {
+        height: 3.2rem;
+        line-height: 3.2rem;
     }
 }
