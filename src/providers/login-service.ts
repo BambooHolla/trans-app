@@ -35,8 +35,9 @@ export class LoginService {
     // .distinctUntilChanged();
 
   setToken(token: string = '',expiredTime?:number) {
-    this.userToken.next(token);
+    //usertoken推入新值会触发登陆 所以必须先设置token
     this.appDataService.token = token;
+    this.userToken.next(token);
   }
   setLoginData(data:any){
     this.bnlcAppSetting.setUserToken(data);
