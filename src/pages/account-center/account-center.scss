@@ -13,7 +13,10 @@ account-center{
                     .f-right{
                         float: right;
                         color: color($colors,special);
-					    font-size: 1.3rem;
+                        font-size: 1.3rem;
+                        &.no-identify{
+                            color: color($colors,middark);
+                        }
                     }
 				}
 			}
