@@ -36,6 +36,7 @@ export class WithdrawAddressListPage extends SecondLevelPage {
 		public viewCtrl: ViewController
 	) {
 		super(navCtrl, navParams);
+		this.productInfo = this.navParams.get("productInfo");
 	}
 	formData: { withdraw_address_id: CryptoCurrencyModel['id'] } = {
 		withdraw_address_id: undefined
@@ -87,5 +88,11 @@ export class WithdrawAddressListPage extends SecondLevelPage {
 			this.formData.withdraw_address_id = _v;
 		});
 		return this.withdraw_address_list;
+	}
+
+	addWithdrawAddress() {
+		return this.routeTo("add-address", {
+			productInfo: this.productInfo,
+		});
 	}
 }

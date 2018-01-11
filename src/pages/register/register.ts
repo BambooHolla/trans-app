@@ -110,6 +110,9 @@ export class RegisterPage {
   async register_step1() {
     this.sending_vcode = true;
     try {
+      if (!this.registerForm.get('customerId').value) {
+        throw new RangeError('请填写手机号/邮箱');
+      }
       await this.registerService.sendSMSCode(
         this.registerForm.get('customerId').value,
         undefined,

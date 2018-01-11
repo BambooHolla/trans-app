@@ -81,7 +81,7 @@ export class WithdrawDetailPage extends SecondLevelPage {
 	openWithdrawAddressSelector() {
 		const { withdraw_address_list, productInfo } = this;
 		const selector = this.modalCtrl.create(WithdrawAddressListPage, {
-			title: "请选择提现地址",
+			title: "提现地址管理",
 			productInfo,
 			selected_data:
 				this.selected_withdraw_address &&

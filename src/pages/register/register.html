@@ -25,7 +25,7 @@
             <ion-item class="register-form-item">
                 <ion-input formControlName="vcode" class="number" placeholder="验证码">
                 </ion-input>
-                <button item-right class="send-vcode credit-submit-btn" style="z-index:9999" [disabled]="sending_vcode||resend_time_clock" (click)="register_step1()">
+                <button item-right type="button" class="send-vcode credit-submit-btn" style="z-index:9999" [disabled]="sending_vcode||resend_time_clock" (click)="register_step1()">
           {{sending_vcode?'发送中':(resend_time_clock?(resend_time_clock+'s'):'获取验证码')}}</button>
             </ion-item>
             <ion-item class="register-form-item">
