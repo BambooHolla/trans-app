@@ -172,7 +172,9 @@ export class TradeService {
                   reportArr: [],
                   marketRef: new BehaviorSubject(undefined), //用来存放交易中间管道
                   buyFee,
-                  saleFee
+                  saleFee,
+                  priceId,
+                  productId,
                 });
               }
             });

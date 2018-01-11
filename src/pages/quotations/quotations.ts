@@ -170,6 +170,8 @@ export class QuotationsPage {
 				// const reg = new RegExp(string)
 				this.traderList_show = this.traderList.filter((item: any, index, arr) => {
 					return item.traderName.toLowerCase().indexOf(string) !== -1
+				}).sort((a:any, b:any) => {
+					return a.priceId - b.priceId
 				})
 			})
 	}
