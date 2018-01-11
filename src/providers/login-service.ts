@@ -42,7 +42,6 @@ export class LoginService {
   setLoginData(data:any){
     this.bnlcAppSetting.setUserToken(data);
     this.setToken( data.token);
-    this.appDataService.customerId = data.customerId;
   }
 
   GET_CUSTOMER_DATA = `/user/getCustomersData`;
@@ -147,6 +146,7 @@ export class LoginService {
   ): Promise<boolean | string> {
     return this._doLogin(customerId, password, savePassword, type)
       .then(data => {
+        debugger
         Object.assign(this.appDataService, {
           token: data.token,
           customerId,

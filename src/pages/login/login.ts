@@ -1,4 +1,4 @@
-import { Component, ElementRef } from '@angular/core';
+import { Component, ElementRef,OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 import {
@@ -23,7 +23,7 @@ import { AppSettings } from '../../providers/app-settings';
   selector: 'page-login',
   templateUrl: 'login.html'
 })
-export class LoginPage {
+export class LoginPage implements OnInit{
   private verticalCenter: boolean = true;
   private gridPaddingTop: string = '0';
 
@@ -52,6 +52,14 @@ export class LoginPage {
     // this.presentLoading();
   }
 
+  ngOnInit() {
+    this.loginService.userToken
+      .distinctUntilChanged()
+      .subscribe(() => {
+        this.init()
+      }) 
+  }
+
   ionViewDidLoad() {
     /*this.appDataService.token = "";
     this.loginService.userToken.next('')*/
@@ -73,11 +81,7 @@ export class LoginPage {
     // this.gridPaddingTop = span + 'px';
   }
   ionViewDidEnter(){
-    this.loginService.userToken
-      .distinctUntilChanged()
-      .subscribe(()=>{
-        this.init()
-      }) 
+
   }
   showPassword(ele:TextInput){
     ele.type = "text"
