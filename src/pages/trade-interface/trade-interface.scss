@@ -43,12 +43,19 @@ page-trade-interface {
 	ion-range{
 		position: relative;
 		top:-1.2rem;
-	}
-
-	.range-slider .range-bar:first-child{
-		border-radius: 2.5px;
-		border: 1px solid #c1b17f;
-		background: transparent;
+		
+		.range-slider .range-bar:first-child{
+			border-radius: 2.5px;
+			border: 1px solid color($colors,special);
+			background: transparent;
+		}
+		&.issale .range-slider .range-bar:first-child{
+			border: 1px solid color($colors,eye-catching);
+		}
+		
+		&.issale .range-bar-active{
+			background:color($colors,eye-catching);
+		}
 	}
 	
 	.content-block{
@@ -122,9 +129,21 @@ page-trade-interface {
 				font-size: 1.5rem;	
 				padding: 0;
 				
-				&.enabled{
-					background-color: #222333;
+				&.sale{	
+					color: color($colors,eye-catching);
+				}
+				&.buy{						
 					color: color($colors,special);
+				}
+
+				&.enabled{
+					color: color($colors,special);
+					&.buy{
+						background-color: rgba(color($colors,special),.1);
+					}
+					&.sale{						
+						background-color: rgba(color($colors,eye-catching),.1);
+					}
 				}
 			}
 		}
@@ -195,16 +214,16 @@ page-trade-interface {
 							font-size: 2.4rem;
 							//placeholder设置
 							&::-webkit-input-placeholder { /* WebKit browsers */ 
-								font-size: 2rem;
+								font-size: 1.3rem;
 							} 
 							&:-moz-placeholder { /* Mozilla Firefox 4 to 18 */ 
-								font-size: 2rem;								 
+								font-size: 1.3rem;								 
 							} 
 							&::-moz-placeholder { /* Mozilla Firefox 19+ */ 
-								font-size: 2rem;								 
+								font-size: 1.3rem;								 
 							} 
 							&:-ms-input-placeholder { /* Internet Explorer 10+ */ 
-								font-size: 2rem;								 
+								font-size: 1.3rem;								 
 							} 
 						}
 					}
@@ -223,6 +242,10 @@ page-trade-interface {
 			background:color($colors, special);
 			font-family:Microsoft YaHei;
 			
+			&.issale{
+				background:color($colors, eye-catching);				
+			}
+
 			&[disabled]{
 				background:#c9c9c9;
 			}		
@@ -230,48 +253,61 @@ page-trade-interface {
 
 		//快捷交易
 		.stsvg{
-			margin:0 0 .5rem;
-			height: 13.3rem;
+			margin:0 0 1px;
+			height: 16.7rem;
 			background-color: color($colors, background-darker);
 			ion-col{
-				overflow: hidden;
-				height: 12rem;
+				// overflow: hidden;
+				// height: 12.6rem;
 				text-align: center;
 				.circle-svg {
-					width:13.8rem;
-					height:13.8rem;
+					width:14.9rem;
+					height:14.9rem;
 					margin: 0 auto;
 
 					path {
 						stroke: #EBEFF4;
 					}
 
-					&.rise path {
-						stroke: #DD3838;
+					&.buy path {
+						stroke: color($colors,special);
 					}
 
-					&.fall path {
-						stroke: #0D7593;
+					&.sale path {
+						stroke: color($colors,eye-catching);
 					}
 				}
 				.svgcont{
 					position:absolute;
-					top:3.66rem;
+					top:0;
 					left: 0;
 					right: 0;
-					width: 11rem;
-					margin: auto;
+					bottom: 0;
+					display: flex;
+					flex-direction: column;
+					justify-content: center;
+					.blank{
+						height: 2rem;
+						margin: 0;
+					}
 					div{
-						font-size: 1.3rem;
+						margin-bottom: 1.2rem;
+						font-size: 1.2rem;
 					}
 					p{
-						font-size: 1.8rem;
-						margin: 0.3rem 0 .5rem 0;
-						height: 2.2rem;
-						line-height: 2.2rem;
+						margin:0 0 1rem;
+						font-size: 2.4rem;
+						height: 2.4rem;
+						line-height: 2.4rem;
 					}
 					span{
-						font-size: 1.2rem;
+						margin-bottom: .4rem;
+						font-size: 1.1rem;
+					}
+					label{
+						font-size: 1.1rem;
+						margin: 0;
+						color: #fff;
 					}
 				}
 			}
@@ -288,15 +324,18 @@ page-trade-interface {
 			.stonums{
 				// background:rgba(255,255,255,0.1);
 				font-size: 1.5rem;
-				color:#627485;
+				color:color($colors,middark);
 				text-align: center;
 				padding:0.5rem 0.5rem 0 0.5rem;
 				height: 3.8rem;
 				.scroll-content{
 					white-space: nowrap;
 					height: 3.8rem;
-					margin-left: 1rem;
-					margin-right: 2rem;
+					.scroll-zoom-wrapper{
+						padding: 0 2.6rem;
+						display: flex;
+						justify-content: space-between;
+					}
 				}
 				ion-card{
 					background-color: color($colors, background-darker);
@@ -328,8 +367,8 @@ page-trade-interface {
 						width: 100%;
 						height: 0.3rem;
 						border-radius: 0.3rem;
-					    background-color: #0d7391;
-						box-shadow:0 0 1.5rem 0 #0d7391;
+						background-color: color($colors,primary);
+						box-shadow:0 0 1.5rem 0 color($colors,primary);
 						left:0;
 					}
 				}
@@ -373,8 +412,19 @@ page-trade-interface {
 					white-space: nowrap;
 					height: 2.2rem;
 
-					&.sep {
-						margin-top: 2.2rem;
+					.sep {
+						display: block;
+						text-align: left;
+						padding-left: 2rem;
+						font-size: 2rem;
+						line-height: 2.2rem;
+					}
+
+					.buy{
+						color:color($colors,special);
+					}
+					.sale{
+						color:color($colors,eye-catching);
 					}
 
 					span {
@@ -384,17 +434,20 @@ page-trade-interface {
 						overflow: hidden;
 						text-align: right;
 
-						&:first-child {
+						&.bets-title {
 							width: 2em;
 							text-align: left;
 							padding-left: 0.5em;
+							// color:color($colors,middark);
 						}
-						&:nth-child(2) {
+						&.bets-amount {
 							width: 3em;
+							// color:color($colors,eye-catching);
 						}
-						&:nth-child(3) {
+						&.bets-quantity {
 							width: 3.5em;
 							padding-right: 0.5em;
+							color:color($colors,middark);
 						}
 					}
 				}

@@ -50,12 +50,12 @@
 				<div>
 					<label>高</label>
 					<!-- <span>4.23113</span> -->
-					<span class="{{(_baseData$ | async)?.range | riseOrFall}}">{{(_baseData$ | async)?.max | priceConversion | numberFilter:true}}</span>
+					<span>{{(_baseData$ | async)?.max | priceConversion | numberFilter:true}}</span>
 				</div>
 				<div>
 					<label>低</label>
 					<!-- <span>3.54521</span> -->
-					<span class="{{(_baseData$ | async)?.range | riseOrFall}}">{{(_baseData$ | async)?.min | priceConversion | numberFilter:true}}</span>
+					<span>{{(_baseData$ | async)?.min | priceConversion | numberFilter:true}}</span>
 				</div>
 			</ion-col>	
 		</ion-row>
@@ -63,8 +63,8 @@
 	<!-- 限价交易 -->
 	<ion-grid [hidden]="appDataService.show_onestep_trade">
 		<ion-row class="entrust-type" (click)="chooseTradeType($event)">
-			<ion-col data-trade-type="1" [class.enabled]="!!(tradeType$|async)">买</ion-col>
-			<ion-col data-trade-type="0" [class.enabled]="!(tradeType$|async)">卖</ion-col>
+			<ion-col data-trade-type="1" class="buy" [class.enabled]="!!(tradeType$|async)">买</ion-col>
+			<ion-col data-trade-type="0" class="sale" [class.enabled]="!(tradeType$|async)">卖</ion-col>
 		</ion-row>
 	</ion-grid>	
 	<ion-grid [hidden]="appDataService.show_onestep_trade" class="trinp  content-block">
@@ -97,7 +97,11 @@
 		</ion-row>
 		<ion-row class="range-component">
 			<ion-item no-lines class="range-item">
-				<ion-range #quantityRange [(ngModel)]="range" (ionChange)="amount = maxAmount * Range.ratio ;formatNumber('amount',-2)" pin="true"></ion-range>
+				<ion-range #quantityRange
+					 [class.issale]="!(tradeType$|async)"
+					 [(ngModel)]="range" 
+					 (ionChange)="amount = maxAmount * Range.ratio ;formatNumber('amount',-2)" 
+					 pin="true"></ion-range>
 			</ion-item>
 			<div class="range-mark">
 				<div class="left">0</div>
@@ -117,7 +121,10 @@
 				  [disabled]="+amount <= 0 || +price <= 0 || (_saleableQuantity$ | async) < amount" 
 					(click)="toSale()">委托卖出</button>
 			</ion-col> -->
-			<button class="trbtn" block [disabled]="" (click)="doTrade()">委托{{!!(tradeType$|async)?'买入':'卖出'}}</button>
+			<button class="trbtn" [class.issale]="!(tradeType$|async)" 
+				block [disabled]="" (click)="doTrade()">
+				委托{{!!(tradeType$|async)?'买入':'卖出'}}
+			</button>
 		</ion-row>
 	</ion-grid>
 	<!-- 快捷交易 -->
@@ -129,10 +136,11 @@
 	<ion-grid class="stsvg" [hidden]="!appDataService.show_onestep_trade">
 		<ion-row>
 			<ion-col col-6>
-				<svg class="circle-svg" [ngClass]="buyCircleClass" viewBox="0,0,200,200">
-					<path class="svg-path" d='M 186 146 A 96 96 0 1 0 14 146' fill='none' stroke-width='8' stroke-linecap='round' />
+				<svg class="circle-svg buy" viewBox="0,0,298,252">
+					<path class="svg-path" d='M 52 252 A 143 143 0 1 1 246 252' fill='none' stroke-width='12' stroke-linecap='round' />
 				</svg>
 				<div class="svgcont" (click)="quickTrade('buy')">
+					<div class="blank"></div>
 					<div>买</div>
 					<p id="buysum">{{buyTotalAmount | quantityConversion | numberUnitFormat}}</p>
 					<span>可买数量</span>
@@ -140,10 +148,11 @@
 				</div>
 			</ion-col>
 			<ion-col col-6>
-				<svg class="circle-svg" [ngClass]="saleCircleClass" viewBox="0,0,200,200">
-					<path class="svg-path" d='M 186 146 A 96 96 0 1 0 14 146' fill='none' stroke-width='8' stroke-linecap='round' />
+				<svg class="circle-svg sale" viewBox="0,0,298,252">
+					<path class="svg-path" d='M 52 252 A 143 143 0 1 1 246 252' fill='none' stroke-width='12' stroke-linecap='round' />
 				</svg>
 				<div class="svgcont" (click)="quickTrade('sale')">
+					<div class="blank"></div>
 					<div>卖</div>
 					<p id="salesum">{{saleTotalAmount | quantityConversion | numberUnitFormat}}</p>
 					<span>可卖数量</span>
@@ -179,11 +188,14 @@
 		
 		<div class="bets item-center-center">
 			<div class="bets-tab">
-				<div *ngFor="let data of _depth$ | async ; let i = index;" class="bets-row" [class.sep]="i === 5"
+				<div *ngFor="let data of _depth$ | async as depths ; let i = index;" class="bets-row"
 						tappable (click)="setPrice(data?.price)">
-					<span>{{appSettings.betsTitle[i]}}</span>
-					<span class="{{(_baseData$ | async)?.range | riseOrFall}}">{{data?.price | priceConversion | numberFilter:true:false:6}}</span>
-					<span class="color-important">{{data?.amount | quantityConversion | numberUnitFormat}}</span>
+					<span *ngIf="i==depths.length/2" class="sep {{(_baseData$ | async)?.range | riseOrFall}}">
+						{{(_baseData$ | async)?.price | priceConversion | numberFilter}}
+					</span>
+					<span class="bets-title {{i<depths.length/2? 'sale': 'buy'}}">{{appSettings.betsTitle[i]}}</span>
+					<span class="bets-amount {{i<depths.length/2? 'sale': 'buy'}}">{{data?.price | priceConversion | numberFilter:true:false:6}}</span>
+					<span class="bets-quantity">{{data?.amount | quantityConversion | numberUnitFormat}}</span>
 				</div>
 			</div>
 		</div>
@@ -289,10 +301,10 @@
 		</div>
 		<div class="bets item-center-center" *ngIf="!isPortrait && !betsHidden && activeIndex === 0">		
 			<div class="bets-tab">
-				<div *ngFor="let data of _depth$ | async ; let i = index;" class="bets-row" [class.sep]="i === 5" tappable (click)="setPrice(data?.price)">
-					<span>{{appSettings.betsTitle[i]}}</span>
-					<span class="{{(_baseData$ | async)?.range | riseOrFall}}">{{data?.price | priceConversion | numberFilter:true:false:6}}</span>
-					<span class="color-important">{{data?.amount | quantityConversion | numberUnitFormat}}</span>
+				<div *ngFor="let data of _depth$ | async as depths ; let i = index;" class="bets-row" [class.sep]="i === 5" tappable (click)="setPrice(data?.price)">
+					<span class="{{i<depths.length/2? 'sale': 'buy'}}">{{appSettings.betsTitle[i]}}</span>
+					<span class="{{i<depths.length/2?'sale':'buy'}}">{{data?.price | priceConversion | numberFilter:true:false:6}}</span>
+					<span class="depth-amount">{{data?.amount | quantityConversion | numberUnitFormat}}</span>
 				</div>
 			</div>
 		</div>

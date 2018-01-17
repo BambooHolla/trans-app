@@ -36,11 +36,10 @@ export class TradeInterfacePage {
     .distinctUntilChanged()
     .do(type=>{
       let rateSrc
+      this.targetName = this.productName
       if (type === 0){
-        this.targetName = this.productName
         rateSrc = this.sellRate
       }else if (type === 1){
-        this.targetName = this.priceName
         rateSrc = this.buyRate
       }
       // this.fee = await this.getFee(rateSrc)
@@ -133,7 +132,7 @@ export class TradeInterfacePage {
     return this._price.getValue()
   }
   amount: string = '0';
-  maxAmount: string | number = '100';
+  maxAmount: string | number;
   range = 0;
   @ViewChild('quantityRange') Range: any
   @ViewChild('priceInputer') PriceInputer: any
@@ -375,6 +374,9 @@ export class TradeInterfacePage {
           toast.present()
           //初始化数据
           this.amount = '0';
+          //下单成功刷新委托单
+          this.page = 1
+          this.getProcessEntrusts()
         }else{
           return Promise.reject(result);
         }
