@@ -93,21 +93,25 @@ export class SocketioService {
   }
 
   private socketReady(api): Promise<any> {
-    console.log('equityCode socket api2:', api)
+   // console.log('equityCode socket api2:', api)
     
     const targetSocket = this.socketAPIs.get(api)
-    if (!targetSocket || !targetSocket.socket
-    ) { //  ||  this._authenticated.getValue() === undefined) {
+   // console.log('equityCode socket api2:targetSocket:', targetSocket)
+    if (!targetSocket || !targetSocket.socket || targetSocket.socket.disconnected) { //  ||  this._authenticated.getValue() === undefined) {
+     // console.log('equityCode socket api2:targetSocket:false')
+
       this.connectSocket(api);
     }
-    console.log('socket api2 auth:',this._authenticated.getValue())
+   // console.log('socket api2 auth:',this._authenticated.getValue())
     return this.authenticated$
       .filter(value => typeof value === 'boolean')
       .first()
       .toPromise()
-      .then(value => value ?
+      .then(value => {
+       // console.log('socket api2 auth:authenticated$: ',value)
+        return value ?
         Promise.resolve() : Promise.reject('unauthenticattion')
-      );
+      });
   }
 
   private connectSocket(api){
@@ -116,7 +120,7 @@ export class SocketioService {
       targetSocket.socket.connect();
       return;
     }
-    console.log(this._socketUrl(targetSocket.target))
+   // console.log(this._socketUrl(targetSocket.target))
     targetSocket.socket = SocketIOClient.connect(this._socketUrl(targetSocket.target), {
       // transports: ['polling','websocket'],
       forceNew: true,// will create two distinct connections
@@ -143,25 +147,25 @@ export class SocketioService {
     // 依然有可能触发 reconnect 与 connect ，
     // 这样原有连接与订阅依然会失效！
     socket.on('connect', () => {
-      console.log(`${api}Socket connected`);
+     // console.log(`${api}Socket connected`);
       //gjs:认证授权
       // socket.emit('authentication', this.appDataService.token);
       this._authenticated.next(true)
     });
 
     socket.on('data', function (data) {
-      console.log(`${api}Socket on data: `,data);
+     // console.log(`${api}Socket on data: `,data);
     });
 
     socket.on('error', function (err) {
-      console.log(`${api}Socket on err: `,err);
+     // console.log(`${api}Socket on err: `,err);
     });
 
     socket.on('failed', function (err) {
-      console.log(`${api}Socket on failed: `, err);
+     // console.log(`${api}Socket on failed: `, err);
     });
     // socket.on('authenticated', () => {
-    //   console.log('authenticated');
+    //  // console.log('authenticated');
     //   // this._authenticated.next(true);
     //   // 认证通过后重新进行订阅（有可能是断线重连）。
     //   this.socketioResubscribe();
@@ -171,13 +175,13 @@ export class SocketioService {
     //   // 验证未通过时，断开 socketio 连接，
     //   // 此后所有的订阅都不会进行，包括网络断线重连后。
     //   // 必须注销并重新登录，才会重连 socketio 并重新尝试认证。
-    //   console.log('unauthorized: ', result && (result.message || result));
+    //  // console.log('unauthorized: ', result && (result.message || result));
     //   this._authenticated.next(false);
     //   socket.disconnect();
     // });
 
     socket.on('connect_error', (...args) => {
-      console.log(`${api}Socket connect_error:`, args);
+     // console.log(`${api}Socket connect_error:`, args);
       // 在连接出错的情况下（后期可以考虑在连续多次出错时才进行处理），
       // 使用 disconnect() 可以保证不再做无谓的连接尝试。
       // 同时将 _authenticated 设为 undefined ，
@@ -190,7 +194,7 @@ export class SocketioService {
     // connect_timeout 时，会同时触发 connect_error ，
     // 似乎不需要额外处理，因此姑且注释掉。
     // socket.on('connect_timeout', (...args) => {
-    //   console.log('connect_timeout:', args);
+    //  // console.log('connect_timeout:', args);
     //   // socket.disconnect();
     //   // if (this._authenticated.getValue() !== undefined) {
     //   //   this._authenticated.next(false);
@@ -202,17 +206,19 @@ export class SocketioService {
     // socket.on('reconnect', (retryTimes) => {
     //   // reconnect 回调函数的参数只有一个，
     //   // 表示重连成功之前的重试次数。
-    //   console.log('reconnect, retryTimes: ', retryTimes);
+    //  // console.log('reconnect, retryTimes: ', retryTimes);
     // });
 
-    // console.log(socket);
+    //// console.log(socket);
   }
 
   disconnectSocket(){
     this.socketAPIs.forEach((value,api,map)=>{
-      if (this.socketAPIs.get(api) && this.socketAPIs.get(api).socket){
-        this.socketAPIs.get(api).socket.disconnect();
-      }
+      // if (this.socketAPIs.get(api) && this.socketAPIs.get(api).socket){
+      //   this.socketAPIs.get(api).socket.disconnect();
+      // }
+      value.socket ? value.socket.disconnect() : void 0
+      // value.socket = undefined
       //TODO:api对应的observable清出map
    
       this.apiObservableMap.delete(api)
@@ -242,7 +248,7 @@ export class SocketioService {
 
   subscribeEquity(equityCodeWithSuffix: string, api: string): Observable<any> {
     // const equityCode = /^([^-]+)/.exec(equityCodeWithSuffix)[1];
-    console.log(equityCodeWithSuffix, ' & ', api)
+   // console.log(equityCodeWithSuffix, ' & ', api)
     const observable = new Observable(observer => {
       const subscribeData = {
         channel: equityCodeWithSuffix,
@@ -251,9 +257,10 @@ export class SocketioService {
       };
       // 对于所有订阅都已取消的 refCount 重新进行订阅时，
       // 这个函数会被重新调用一次，并传入新的 observer 。
-      console.log('equityCode socket api:',api)
+     // console.log('equityCode socket api:',api)
       this.socketReady(api)
         .then(() => {
+         // console.log('equityCode socket api:ready', api)
           if (equityCodeWithSuffix.indexOf('-') === -1){
             equityCodeWithSuffix = '-'+equityCodeWithSuffix
           }
@@ -262,26 +269,26 @@ export class SocketioService {
           this._socketioSubscribeSet.add(subscribeData);
           // this.socket.emit('subscribe', subscribeData);
           if(api == 'price' || api == 'depth'){
-            console.log(`watch:${api} `, `${equityCodeWithSuffix}`)
+           // console.log(`watch:${api} `, `${equityCodeWithSuffix}`)
             this.socketAPIs.get(api).socket.emit('watch', [`${equityCodeWithSuffix}`])            
           }else{
             this.socketAPIs.get(api).socket.emit('watch', `${equityCodeWithSuffix}`)
           }          
         })
         .catch(err => {
-          console.log(err)
+         // console.log(err)
         });
 
       // 在 multicast refCount 上的所有订阅都取消时，
       // 会调用此方法取消 observer 的订阅。
       return () => {
-        console.log('socketio unsubscribe: ', equityCodeWithSuffix);
+       // console.log('socketio unsubscribe: ', equityCodeWithSuffix);
         
         // this.removeFromSocketioSubscribeList(subscribeData);
         this._socketioSubscribeSet.delete(subscribeData);
         // this.socketAPIs.get(api).socket.emit('unsubscribe', subscribeData);
         if (api == 'price' || api == 'depth') {
-          console.log(`unwatch:${api} `, `${equityCodeWithSuffix}`)
+         // console.log(`unwatch:${api} `, `${equityCodeWithSuffix}`)
           this.socketAPIs.get(api).socket.emit('unwatch', [`${equityCodeWithSuffix}`])
         } else {
           this.socketAPIs.get(api).socket.emit('unwatch', `${equityCodeWithSuffix}`)
@@ -299,7 +306,7 @@ export class SocketioService {
     options: any = {}
   ): Observable<any> {
     const observable = new Observable(observer => {
-      console.log('subscribeRealtimeReports options', options)
+     // console.log('subscribeRealtimeReports options', options)
       let theDate = new Date()
       const {
         timespan = '1m',
@@ -309,7 +316,7 @@ export class SocketioService {
         keepcontact = true,
         rewatch = false,
       } = options
-      console.log('subscribeRealtimeReports options', options)
+     // console.log('subscribeRealtimeReports options', options)
 
       const subscribeData = {
         channel: equityCodes,
@@ -323,7 +330,7 @@ export class SocketioService {
           this.report_getObservableFromMap(api, `${equityCodes}`)
             .subscribe(observer)
           this._socketioSubscribeSet.add(subscribeData);
-          console.log('watch: ', `${equityCodes}`)
+         // console.log('watch: ', `${equityCodes}`)
           if(rewatch) {
             this.socketAPIs.get(api).socket
               .emit('unwatch',equityCodes)
@@ -337,16 +344,16 @@ export class SocketioService {
             end,
             keepcontact
           )
-          console.log(theDate)
+         // console.log(theDate)
         })
         .catch(err => {
-          console.log(err)
+         // console.log(err)
         });
 
       // 在 multicast refCount 上的所有订阅都取消时，
       // 会调用此方法取消 observer 的订阅。
       return () => {
-        console.log('socketio unsubscribe: ', equityCodes);
+       // console.log('socketio unsubscribe: ', equityCodes);
 
         this._socketioSubscribeSet.delete(subscribeData);
         this.socketAPIs.get(api).socket.emit('unsubscribe', subscribeData);
@@ -370,11 +377,11 @@ export class SocketioService {
     //   subscriberMap.set(subscriber, equityCode);
     // }
     return this.apiObservableMap.get(api)
-      .do(data => console.log('apiObservableMap:', data, ' & ', equityCode))
+      //.do(data => console.log('apiObservableMap:', data, ' & ', equityCode))
       //将数据筛选移到具体业务上
       //tofix:深度的都是单支交易获得,故不做筛选
       .filter(data =>equityCode === data.type || data.ec === equityCode || data.n === equityCode)
-      .do(data => console.log('apiObservableMap filter:', data))
+      //.do(data => console.log('apiObservableMap filter:', data))
       .map(data => data.data || data)
   }
 
@@ -385,7 +392,7 @@ export class SocketioService {
       );
     }
     return this.apiObservableMap.get(api)
-      .do(data => console.log('apiObservableMap:', data, ' & ', equityCode))
-      .do(data => console.log('apiObservableMap filter:', data))
+      //.do(data => console.log('apiObservableMap:', data, ' & ', equityCode))
+      //.do(data => console.log('apiObservableMap filter:', data))
   }
 }
