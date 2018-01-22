@@ -8,6 +8,8 @@
     "build": "ionic-app-scripts build",
     "lint": "ionic-app-scripts lint",
     "ionic:build": "ionic-app-scripts build",
+    "ionic:build:android": "ionic cordova build android --aot --minifycss --optimizejs",
+    "ionic:build:ios": "ionic cordova build ios --aot --minifycss --optimizejs",
     "app-scripts-build": "ionic-app-scripts build --prod --platform android --target cordova --debug",
     "ionic:serve": "ionic-app-scripts serve"
   },

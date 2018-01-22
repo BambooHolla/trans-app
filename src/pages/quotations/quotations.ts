@@ -161,6 +161,7 @@ export class QuotationsPage {
 	}
 
 	ngOnInit() {
+		this.subscribeRealtimeReports()
 		this.searchTermStream
 			.takeUntil(this.viewDidLeave$)
 			.debounceTime(300)
@@ -181,7 +182,6 @@ export class QuotationsPage {
 		this.viewDidLeave.next(false);
 
 		this.doSubscribe();
-		this.subscribeRealtimeReports()
 		// 延时后再设置 _thisPageActive 的值，是为了配合下面强制销毁 echarts 元素的操作。
 		// 对于 echarts 元素的强制销毁，实际上并没有销毁元素本身，
 		// 因此需要在 ionViewDidEnter() 触发后渲染视图时，根据 _thisPageActive = false 的条件，
@@ -240,6 +240,11 @@ export class QuotationsPage {
 	toShowSearch(){
 		this.showSearch = true
 		this.renderer.setElementStyle(this.searchInputWrap.nativeElement,'width','unset')
+	}
+
+	cancelFilter(){
+		this.showSearch = false;
+		this.traderList_show = this.traderList;
 	}
 
 	destoryCharts() {
