@@ -250,12 +250,12 @@
 	<ion-grid class="sft child-span-padding-left-1">
 		<ion-row justify-content-around>
 			<ion-col col-3 no-padding>
-				<h1 class="{{showData?.changeValue | riseOrFall}}" text-center> {{(_baseData$ | async)?.price | priceConversion | numberFilter}}</h1>
+				<h1 class="{{(_baseData$ | async)?.range | riseOrFall}}" text-center> {{(_baseData$ | async)?.price | priceConversion | numberFilter}}</h1>
 				<!-- <div text-center>{{showData?.datetime}}</div> -->
 			</ion-col>
 			<ion-col col-2>
 				<div text-left>涨跌
-					<span class="{{showData?.changeValue | riseOrFall}}">{{showData?.changeValue | number:'.2-2' | positiveSign}}</span>
+					<span class="{{(_baseData$ | async)?.range | riseOrFall}}">{{(_baseData$ | async)?.price||0 - (_baseData$ | async)?.start | number:'.2-2' | positiveSign}}</span>
 				</div>
 				<div text-left>幅度
 					<span class="{{(_baseData$ | async)?.range | riseOrFall}}">{{(_baseData$ | async)?.range | percent:'1.0-2'}}</span>
@@ -263,10 +263,10 @@
 			</ion-col>
 			<ion-col col-2>
 				<div text-left>高
-					<span class="{{(_baseData$ | async)?.range | riseOrFall}}">{{(_baseData$ | async)?.max | priceConversion | numberFilter:true}}</span>
+					<span class="">{{(_baseData$ | async)?.max | priceConversion | numberFilter:true}}</span>
 				</div>
 				<div text-left>低
-					<span class="{{(_baseData$ | async)?.range | riseOrFall}}">{{(_baseData$ | async)?.min | priceConversion | numberFilter:true}}</span>
+					<span class="">{{(_baseData$ | async)?.min | priceConversion | numberFilter:true}}</span>
 				</div>
 			</ion-col>
 			<ion-col col-2>
@@ -274,7 +274,7 @@
 					<span>{{(_baseData$ | async)?.amount | quantityConversion | numberUnitFormat:true:true:6}}</span>
 				</div>
 				<div text-left>额
-					<span>{{showData?.turnoverAmount | numberUnitFormat}}</span>
+					<span>{{((_baseData$ | async)?.price * (_baseData$ | async)?.amount) | numberFilter}}</span>
 				</div>
 			</ion-col>
 			<ion-col col-1 tappable (click)="switchOrientation(true)">
@@ -299,12 +299,15 @@
 				<ion-icon *ngIf="activeIndex === 0" name="{{betsHidden ? 'ios-arrow-back' : 'ios-arrow-forward'}}" class="vertical-center"></ion-icon>
 			</div>
 		</div>
-		<div class="bets item-center-center" *ngIf="!isPortrait && !betsHidden && activeIndex === 0">		
+		<div class="bets item-center-center" *ngIf="!isPortrait && !betsHidden && activeIndex === 0">
 			<div class="bets-tab">
-				<div *ngFor="let data of _depth$ | async as depths ; let i = index;" class="bets-row" [class.sep]="i === 5" tappable (click)="setPrice(data?.price)">
-					<span class="{{i<depths.length/2? 'sale': 'buy'}}">{{appSettings.betsTitle[i]}}</span>
-					<span class="{{i<depths.length/2?'sale':'buy'}}">{{data?.price | priceConversion | numberFilter:true:false:6}}</span>
-					<span class="depth-amount">{{data?.amount | quantityConversion | numberUnitFormat}}</span>
+				<div *ngFor="let data of _depth$ | async as depths ; let i = index;" class="bets-row">
+					<span *ngIf="i==depths.length/2" class="sep {{(_baseData$ | async)?.range | riseOrFall}}">
+						{{(_baseData$ | async)?.price | priceConversion | numberFilter}}
+					</span>
+					<span class="bets-title {{i<depths.length/2? 'sale': 'buy'}}">{{appSettings.betsTitle[i]}}</span>
+					<span class="bets-amount {{i<depths.length/2?'sale':'buy'}}">{{data?.price | priceConversion | numberFilter:true:false:6}}</span>
+					<span class="bets-quantity ">{{data?.amount | quantityConversion | numberUnitFormat}}</span>
 				</div>
 			</div>
 		</div>
