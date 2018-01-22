@@ -35,30 +35,27 @@ export class AppService {
       this.appSettings.SERVER_PREFIX +
       path}`;
     const token = this.appDataService.token;
+
+    const headers = options.headers ||
+      new Headers({
+        'x-bnqkl-platform': this.appSettings.Platform_Type,
+      })
+
     if (withToken) {
       if (!token) {
         return Promise.reject(new Error('token missing!'));
       }
-      const headers = options.headers ||
-        new Headers({
-          'X-AUTH-TOKEN': token,
-          'x-bnqkl-platform': this.appSettings.Platform_Type,
-        })
-
-      options = {
-        // 构造对象时，其中使用的对象扩展运算符也要遵循先后原则，
-        // 即代码中写在后面的属性会覆盖掉前面的同名属性。
-        // 此处 options 对象中若存在 headers 属性，会被后面的 headers 覆盖。
-        ...options,
-        headers: headers
-      };
+      headers.append('X-AUTH-TOKEN',token)
     }
-    // const cacheKey=JSON.stringify({
-    //   metho: method, path: path, params: params, headers: options.headers
-    // })
-    // if(cache.cache){
 
-    // }
+    options = {
+      // 构造对象时，其中使用的对象扩展运算符也要遵循先后原则，
+      // 即代码中写在后面的属性会覆盖掉前面的同名属性。
+      // 此处 options 对象中若存在 headers 属性，会被后面的 headers 覆盖。
+      ...options,
+      headers: headers
+    }; 
+
     switch (method) {
       case RequestMethod.Get:
         requestMethod = this.http.get(url, {
