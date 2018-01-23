@@ -254,7 +254,7 @@ export class RealtimeReportComponent extends EchartsBaseComponent {
       }],
       dataZoom: [{
         type: 'inside',
-        filterMode: 'filter',
+        filterMode: 'none',
         zoomLock: true,
         preventDefaultMouseMove:false,
         startValue: tradingTimeArray.length - 1 - 60*8,//一分钟一条数据,取8小时的数据

@@ -85,9 +85,11 @@ export class LoginPage implements OnInit{
   }
   showPassword(ele:TextInput){
     ele.type = "text"
+    ele.getElementRef().nativeElement.children[0].type = "text"
   }
   hidePassword(ele:TextInput){
     ele.type = "password"
+    ele.getElementRef().nativeElement.children[0].type = "password"
   }
 
   async init() {

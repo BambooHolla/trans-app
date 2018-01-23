@@ -110,9 +110,14 @@ export class AppService {
         let formated_error = this._errorHandler(error, true);
         if (!formated_error) {
           //将error转为对象,
-          const body = error.json() || error;
+          let body 
+          try {
+            body = error.json() || error;
+          } catch (e) {
+            body = error ? error.toString() || error : void 0;
+          }
           //提取error
-          const err = body.error || body || error;
+          const err = body ? body.error || body : void 0;
           formated_error = this._errorHandler(err);
         }
         return Promise.reject(formated_error);

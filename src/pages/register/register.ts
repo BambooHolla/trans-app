@@ -124,7 +124,7 @@ export class RegisterPage {
       this.alertCtrl
         .create({
           title: '警告',
-          message: err.message,
+          message: err.message || err,
           buttons: ['OK']
         })
         .present();

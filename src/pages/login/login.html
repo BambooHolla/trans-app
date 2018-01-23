@@ -25,7 +25,7 @@
       <ion-item class="login-form-item">
         <ion-input #pwd formControlName="password" class="password" type="password" placeholder="密码">
         </ion-input>
-        <div item-right class="view-pwd-wrapper" (pointerdown)="showPassword(pwd)" (pointerup)="hidePassword(pwd)">
+        <div tappable item-right class="view-pwd-wrapper" (touchstart)="showPassword(pwd)" (touchend)="hidePassword(pwd)" style="z-index:9999">
           <ion-icon name="view-pwd"></ion-icon>
         </div>
       </ion-item>
