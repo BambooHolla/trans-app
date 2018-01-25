@@ -141,6 +141,11 @@ export class RegisterPage {
       const customerId = controls.customerId;
       const password = controls.password;
       const vcode = controls.vcode;
+      
+      const type = this.appSettings.accountType(customerId)
+      if(type !== 0 && type !== 1){
+        throw { message:'请使用中国大陆手机号码或电子邮箱地址注册'}
+      }
 
       await this.registerService.doAuthRegister(customerId, vcode, password);
     } catch (err) {

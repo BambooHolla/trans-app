@@ -40,12 +40,12 @@
                 </ion-input>
             </ion-item>
             <div class="register-agree-protocol">
-                <ion-checkbox color="dark" formControlName="protocolAgree"></ion-checkbox>
+                <ion-checkbox color="dark" formControlName="protocolAgree" #agreement></ion-checkbox>
                 <p class="protocol-checkbox" (click)="toggleProtocolAgree()">
                     <a>币加所用户协议</a>
                 </p>
             </div>
-            <button ion-button class="register-form-submit" type="submit" [disabled]="registerForm.invalid || !appDataService.ready || registering">
+            <button ion-button class="register-form-submit" type="submit" [disabled]="registerForm.invalid || !agreement.value || !appDataService.ready || registering">
         注册
       </button>
         </form>

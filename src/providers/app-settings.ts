@@ -33,6 +33,12 @@ export class AppSettings {
   public readonly SOCKET_URL: string = 'http://119.23.68.40:11880'; //原gjs,现不用
   public readonly SOCKET_PREFIX: string = '/socket/v1/bngj';
 
+  public readonly RegExp_Tel = [
+    /^((13[4-9])|(15([0-2]|[7-9]))|(18[2|3|4|7|8])|(178)|(147))[\d]{8}$/,//RegExp_CMCC
+    /^((13[0-2])|(145)|(15[5-6])|(176)|(18[5-6]))[\d]{8}$/,//RegExp_CUCC
+    /^((133)|(153)|(18[0|1|9])|(177))[\d]{8}$/,//RegExp_CTCC
+  ]
+
   public get Platform_Type() {
     return AppSettingProvider.Platform_Type;
   } 
@@ -540,7 +546,7 @@ export class AppSettings {
       )
     ) {
       return 0;
-    } else if (/^1[34578]\d{9}$/.test(str)) {
+    } else if (this.RegExp_Tel.findIndex(reg => reg.test(str)) !== -1) {
       return 1;
     } else {
       return 2;
