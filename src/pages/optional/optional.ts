@@ -57,10 +57,13 @@ export class OptionalPage extends SecondLevelPage {
   initData(refresher?: Refresher) {
     //tofix:刷新页面数据初始化流程问题
     if (refresher) {
-      this.requestAssets()
+      Promise.all([
+        this.requestAssets(),
+        this.initPersonalStockListSubscriber(),
+        this.personalDataService.requestEquityDeposit(),
+      ])
         .then(() => refresher.complete())
         .catch(() => refresher.complete());
-      this.initPersonalStockListSubscriber();
     }
   }
   @OptionalPage.didEnter
