@@ -40,6 +40,7 @@ export class HttpService {
     // FIXME ：当输入的 options 上存在 headers 属性时，
     //         此处的 append 会直接修改原对象，这是一个小问题，可以考虑改进。
     headers.append('X-AUTH-TOKEN', token)
+    headers.append('x-bnqkl-platform', this.appSettings.Platform_Type);
 
     return this.http
       // 构造对象时，其中使用的对象扩展运算符也要遵循先后原则，
@@ -80,6 +81,7 @@ export class HttpService {
     // FIXME ：当输入的 options 上存在 headers 属性时，
     //         此处的 append 会直接修改原对象，这是一个小问题，可以考虑改进。
     headers.append('X-AUTH-TOKEN', token)
+    headers.append('x-bnqkl-platform', this.appSettings.Platform_Type);
 
     let http$ = this.http
       // 构造对象时，其中使用的对象扩展运算符也要遵循先后原则，

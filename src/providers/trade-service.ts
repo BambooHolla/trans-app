@@ -39,6 +39,7 @@ export class TradeService {
         this.appSettings.SERVER_PREFIX}/transaction/entrusts/create`;
       const headers = new Headers({ 'Content-Type': 'application/json' });
       headers.append('X-AUTH-TOKEN', this.appDataService.token);
+      headers.append('x-bnqkl-platform', this.appSettings.Platform_Type);
 
       const options = new RequestOptions({ headers: headers });
 

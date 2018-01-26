@@ -26,6 +26,7 @@ export class SearchService {
 
         const headers = new Headers();
         headers.append('X-AUTH-TOKEN', this.appDataService.token);
+        headers.append('x-bnqkl-platform', this.AppSettings.Platform_Type);
 
         return this.http
             .get(serverUrl, {

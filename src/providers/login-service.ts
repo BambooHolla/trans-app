@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { Http, RequestMethod } from '@angular/http';
+import { Http, RequestMethod, RequestOptions, Headers } from '@angular/http';
 
 import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
@@ -116,6 +116,11 @@ export class LoginService {
     if (type === void 0) {
       type = this.appSettings.accountType(customerId);
     }
+    
+    const options = new RequestOptions({
+      headers: new Headers({
+        'x-bnqkl-platform': this.appSettings.Platform_Type,
+      }) });
 
     promise = this.http
       .post(this.appSettings.LOGIN_URL, {

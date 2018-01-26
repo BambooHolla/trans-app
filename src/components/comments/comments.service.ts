@@ -105,6 +105,7 @@ export class CommentService {
     params.set('page', '0');
     const headers = new Headers();
     headers.append('X-AUTH-TOKEN', this.appDataService.token);
+    headers.append('x-bnqkl-platform', this.appSettings.Platform_Type);
 
     return this.http.get(url, { 
       search: params,
@@ -152,6 +153,7 @@ export class CommentService {
     const url = ``//${this.appSettings.SERVER_URL}/api/v1/gjs/news/newsComments/create`
     const headers = new Headers({ 'Content-Type': 'application/json' });
     headers.append('X-AUTH-TOKEN', this.appDataService.token);
+    headers.append('x-bnqkl-platform', this.appSettings.Platform_Type);
 
     const options = new RequestOptions({ headers: headers });
 

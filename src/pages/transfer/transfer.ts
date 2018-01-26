@@ -65,6 +65,7 @@ export class TransferPage {
     const url = ``//${this.appSettings.SERVER_URL}/api/v1/gjs/biz/accounts/${transferTarget}`
     const headers = new Headers({ 'Content-Type': 'application/json' });
     headers.append('X-AUTH-TOKEN', this.appDataService.token);
+    headers.append('x-bnqkl-platform', this.appSettings.Platform_Type);
 
     const options = new RequestOptions({ headers: headers });
 

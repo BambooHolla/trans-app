@@ -79,6 +79,7 @@ export class CreateAccountStepThirdPage extends SecondLevelPage {
             .SERVER_URL}/api/v1/bngj/user/addCertification`;
         const headers = new Headers({ 'Content-Type': 'application/json' });
         headers.append('X-AUTH-TOKEN', this.appDataService.token);
+        headers.append('x-bnqkl-platform', this.appSettings.Platform_Type);
 
         const options = new RequestOptions({ headers: headers });
         console.log(body);

@@ -229,6 +229,7 @@ export class CreateAccountStepFirstPage implements AfterViewInit, OnDestroy {
 
         const headers = new Headers()
         headers.append('X-AUTH-TOKEN', this.appDataService.token)
+        headers.append('x-bnqkl-platform', this.appSettings.Platform_Type);
 
         return this.http.get(url, {
             search: params,

@@ -188,6 +188,7 @@ export class CommissionListPage implements OnInit {
 
     const headers = new Headers();
     headers.append('X-AUTH-TOKEN', this.appDataService.token);
+    headers.append('x-bnqkl-platform', this.AppSettings.Platform_Type);
 
     this.http
       .get(serverUrl, {
@@ -338,6 +339,7 @@ export class CommissionListPage implements OnInit {
     const url = `${this.AppSettings.SERVER_URL + this.AppSettings.SERVER_PREFIX}/transaction/entrusts/cancel/${commissionId}`
     const headers = new Headers({ 'Content-Type': 'application/json' });
     headers.append('X-AUTH-TOKEN', this.appDataService.token);
+    headers.append('x-bnqkl-platform', this.AppSettings.Platform_Type);
 
     const options = new RequestOptions({ headers: headers });
 
