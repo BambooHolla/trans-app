@@ -105,11 +105,11 @@ console.log(
 /**
  * 基于token的AsyncBehaviorSubjuet类型的属性/方法生成器
  * tokenBaseAsyncBehaviorSubjectGenerator
- * 
+ *
  * @export
- * @param {any} target 
- * @param {any} name 
- * @param {any} descriptor 
+ * @param {any} target
+ * @param {any} name
+ * @param {any} descriptor
  */
 export function TB_AB_Generator(target_prop_name: string, need_token = true) {
   return (target, name, descriptor) => {
