@@ -74,8 +74,8 @@
         <!-- <div class="transfer-tip">以太坊网络转账费用为每笔0.0100ETH,用于支付给矿工的手续费。以太坊网络转账费用是不固定的,取决于转账时矿工计算需要消耗的算力,当转账费用超过90000gas(目前折合为0.018个ETH),此次转账会失败,并将余额退回到您的原账户。</div> -->
         <!-- </ion-item> -->
         <ion-item>
-            <ion-label color="primary">资金密码</ion-label>
-            <ion-input *ngIf="has_account_pwd" class="rtl" [(ngModel)]="formData.password" placeholder="请输入资金密码" type="password"></ion-input>
+            <ion-label color="primary">交易密码</ion-label>
+            <ion-input *ngIf="has_account_pwd" class="rtl" [(ngModel)]="formData.password" placeholder="请输入交易密码" type="password"></ion-input>
             <button item-end *ngIf="!has_account_pwd" (click)="routeTo('set-pay-pwd')" ion-button color="special">去设置</button>
         </ion-item>
         <ion-item class="follow-pre-item">
