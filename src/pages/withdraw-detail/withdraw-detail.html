@@ -43,14 +43,18 @@
                     <button ion-button clear full (click)="openWithdrawAddressSelector()" icon-right>
                         <i *ngIf="!selected_withdraw_address;else selectedWithdrawAddressInfo">请选择</i>
                         <ng-template #selectedWithdrawAddressInfo>
-                            <span>{{selected_withdraw_address.realname}} - 
-                            {{selected_withdraw_address.paymentAccountNumber}}</span>
+                            <div class="account-info">
+                                    <div class="account-name">{{selected_withdraw_address.realname}}</div>
+                                    <div class="account-amount">{{selected_withdraw_address.paymentAccountNumber}}</div>
+                                </div>
                         </ng-template>
-                        <ion-icon name="md-arrow-dropdown"></ion-icon>
+                        <ion-icon name="ios-arrow-forward"></ion-icon>
                     </button>
                 </ng-container>
                 <ng-template #no_selectable_withdraw_address_list>
-                    <i (click)="toAddWithdrawAddress()">无可用地址，点击<ion-icon name="添加"></ion-icon>添加</i>
+                    <i (click)="toAddWithdrawAddress()">点击添加&nbsp;&nbsp;
+                        <ion-icon name="ios-arrow-forward"></ion-icon>
+                    </i>
                 </ng-template>
             </div>
         </ion-item>
@@ -102,7 +106,6 @@
                 </div>
                 <div class="withdraw-to">
                     <div class="sub-title">
-                        提现到
                     </div>
                     <div class="value">{{tlog.withdrawName}}</div>
                 </div>
