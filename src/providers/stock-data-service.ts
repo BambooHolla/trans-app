@@ -76,7 +76,7 @@ export class StockDataService {
     this.startTradeDayCheckTimer();
     // this.initSectors();
     this.initRefreshRealtimeDataTimer();
-    this.initSubscribers()
+    // this.initSubscribers()//此方法是用来退出登录释放订阅的 币加所项目部分订阅不再与登陆状态关联 故注释
   }
 
   initSubscribers() {
@@ -1329,7 +1329,7 @@ export class StockDataService {
     const params = {
       instid: platformType,
     }
-    return this.appService.request(RequestMethod.Post, path, params, true)
+    return this.appService.request(RequestMethod.Post, path, params)
       .then(data => {
         console.log('requestProducts: ', data)
         this.parseStockListData(data)
@@ -1344,7 +1344,7 @@ export class StockDataService {
     // if(!productId) return void 0
     const path = `/product/product/${productId}`
     
-    return this.appService.request(RequestMethod.Get, path, undefined, true)
+    return this.appService.request(RequestMethod.Get, path, undefined)
       .then(data => {
         console.log('requestProductById: ', data)
         this.parseStockListData([data])
@@ -1384,18 +1384,11 @@ export class StockDataService {
   }
 
   public async getProduct(productId){
-    const products = await this.accountService.productList.getPromise()
-    let product = products.find(p=>p.productId==productId);
+    let product = this.appDataService.products.get(productId)
+    const now = new Date()
 
-    // await this.appDataService.productsPromise;
-    // let product = this.appDataService.products.get(productId)
-    // const now = new Date()
-
-    // if (!product || product.expire > now){
-    //   product = await this.requestProductById(productId)
-    // }
-    if(!product){
-       product = await this.requestProductById(productId)
+    if (!product || product.expire > now) {
+      product = await this.requestProductById(productId)
     }
 
     return product

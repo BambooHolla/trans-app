@@ -17,6 +17,7 @@ import { StockDataService } from '../../providers/stock-data-service';
 import { AppDataService } from '../../providers/app-data-service';
 import { Subject } from 'rxjs/Subject';
 import { TradeInterfacePage } from "../trade-interface/trade-interface";
+import { TradeService } from '../../providers/trade-service';
 
 @Component({
 	selector: 'page-quotations',
@@ -155,6 +156,7 @@ export class QuotationsPage {
 		public appDataService: AppDataService,
 		public socketioService: SocketioService,
 		public stockDataService: StockDataService,
+		public tradeService: TradeService,
 		public renderer:Renderer,
 	) {
 		// this.changeActive(0);
@@ -175,6 +177,9 @@ export class QuotationsPage {
 					return a.priceId - b.priceId
 				})
 			})
+	}
+
+	ionViewWillEnter(){
 	}
 
 	ionViewDidEnter() {
@@ -363,7 +368,9 @@ export class QuotationsPage {
 	 * TODO:迁移到数据中心处理
 	 */
 	async subscribeRealtimeReports(){
-		const srcTraderList = await this.appDataService.traderListPromise;
+		await this.appDataService.traderListPromise;
+		const srcTraderList = (this.appDataService.traderList.size ? this.appDataService.traderList
+			: await this.tradeService.getTradeList()) as Map<string,AnyObject>
 		// const traderList = [...this.appDataService.traderList.keys()]
 		const traderIdList = []
 		const traderList = []

@@ -75,7 +75,7 @@ export class SocketioService {
     public appSettings: AppSettings,
     public loginService: LoginService,
   ){
-    this.initSubscribers();
+    // this.initSubscribers();//此方法是用来退出登录释放订阅的 币加所项目部分订阅不再与登陆状态关联 故注释
   }
 
   initSubscribers() {
@@ -366,7 +366,8 @@ export class SocketioService {
   private getObservableFromMap(api: string, equityCode: string) {
     if (!this.apiObservableMap.has(api)) {
       this.apiObservableMap.set(api,
-        Observable.fromEvent(this.socketAPIs.get(api).socket, 'data').takeUntil(this.loginService.status$.filter(is_login_in=>!is_login_in))
+        Observable.fromEvent(this.socketAPIs.get(api).socket, 'data')
+          // .takeUntil(this.loginService.status$.filter(is_login_in=>!is_login_in))
       );
       // this.socketAPIs.get('price').socket.on(eventName, this.onData.bind(this, { eventName, equityCode}));
     }
@@ -388,7 +389,8 @@ export class SocketioService {
   private report_getObservableFromMap(api: string, equityCode: string) {
     if (!this.apiObservableMap.has(api)) {
       this.apiObservableMap.set(api,
-        Observable.fromEvent(this.socketAPIs.get(api).socket, 'data').takeUntil(this.loginService.status$.filter(is_login_in=>!is_login_in))
+        Observable.fromEvent(this.socketAPIs.get(api).socket, 'data')
+          // .takeUntil(this.loginService.status$.filter(is_login_in=>!is_login_in))
       );
     }
     return this.apiObservableMap.get(api)

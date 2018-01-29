@@ -35,7 +35,7 @@ import { PersonalDataService } from "../providers/personal-data-service";
   templateUrl: "app.html",
 })
 export class PicassoApp {
-  rootPage: any;
+  private rootPage = TabsPage;
 
   private loader: Loading;
 
@@ -108,52 +108,11 @@ export class PicassoApp {
       // 初始值（ undefined ）已经在 LoginService 中被过滤，
       // 保证传递过来的值都是布尔值。
       .subscribe(status => {
-        // console.log('login status changed: ', status);
-
-        const targetPage = status ? TabsPage : LoginPage; //EntrancePage;
-        if (!this.rootPage) {
-          // if (location.hash.length > 2) {
-          //   // 如果有hash，使用默认的deeplink来进行路由
-          // } else {
-          //   this.rootPage = targetPage;
-          // }
-          this.rootPage = targetPage;
-
-          // rootPage 为空，表示刚刚进入 app ，
-          // 需要在登录状态确认后进行初始化操作。
-        } else {
-          const rootNav = this.appCtrl.getRootNav();
-          const topPage = rootNav.last().component;
-
-          if (targetPage !== topPage) {
-            const direction = status ? "forward" : "back";
-            rootNav.setRoot(
-              targetPage,
-              {},
-              {
-                direction,
-                animation: "ios-transition",
-                animate: true,
-              },
-            );
-          }
-        }
 
         // this.setAppRootBackground(status);
 
-        //登陆成功获取股票列表
+        //登陆成功获取个人信息
         if (status) {
-          this.stockDataService
-            .requestProducts(this.appSettings.Platform_Type)
-            .then(() => {
-              this.tradeService.getTradeList();
-            })
-            .catch(err => {
-              console.log(
-                "loginService requestProducts error: ",
-                err.message || err,
-              );
-            });
           this.personalDataService
             .personalPriceId()
             .then(data => {
@@ -169,6 +128,18 @@ export class PicassoApp {
       });
 
     this.keyboardService.init(this.renderer2);
+    this.stockDataService
+      .requestProducts(this.appSettings.Platform_Type)
+      .then(async () => {
+        console.log("product requested then",new Date())
+        await this.tradeService.getTradeList()
+      })
+      .catch(err => {
+        console.log(
+          "loginService requestProducts error: ",
+          err.message || err,
+        );
+      });
   }
 
   ionViewDidLoad() {

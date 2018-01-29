@@ -138,8 +138,8 @@ export class TradeService {
   public getTradeList() {
     const path = `/transactionengine/traders`;
 
-    this.appService
-      .request(RequestMethod.Get, path, undefined, true)
+    return this.appService
+      .request(RequestMethod.Get, path, undefined)
       .then(async data => {
         console.log('getTradeList: ', data);
         const traderList = await this.appDataService.traderList;
@@ -149,7 +149,8 @@ export class TradeService {
         } else if (data.error) {
           return Promise.reject(new Error(data.error));
         } else {
-          (data as any[])
+          await Promise.all(
+            (data as any[])
             // .filter(item =>
             //   item
             // )
@@ -179,7 +180,8 @@ export class TradeService {
                   productId,
                 });
               // }
-            });
+            })
+          )
         }
         return Promise.resolve(traderList);
       })

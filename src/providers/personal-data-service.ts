@@ -455,6 +455,7 @@ export class PersonalDataService {
     //     return Promise.reject(err);
     //   });
 
+    //持仓
     const path = `/account/position/totals`
     return this.appService.request(RequestMethod.Get,path,undefined,true)
       .then(data => {

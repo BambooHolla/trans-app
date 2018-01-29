@@ -60,15 +60,15 @@ export class TabsPage implements OnInit, AfterViewInit, AfterContentInit {
   tab_list: any[];
   tab_names: any[];
   tab_map: Map<string, Tab>;
-  index_tab_name = 'optional';
+  index_tab_name = 'quotations';
   initTabs() {
     this.tab_list = [
-      this.optionalTab,
       this.quotationsTab,
       this.newsTab,
+      this.optionalTab,
       this.homeTab
     ];
-    this.tab_names = ['optional', 'quotations', 'news', 'home'];
+    this.tab_names = ['quotations', 'news', 'optional', 'home'];
     this.tab_map = new Map();
     this.tab_map.set('optionalTab', this.optionalTab);
     this.tab_map.set('quotationsTab', this.quotationsTab);

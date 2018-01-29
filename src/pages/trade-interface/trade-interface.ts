@@ -299,7 +299,7 @@ export class TradeInterfacePage {
       rate.targetType === '002' ? await this.stockDataService.getProduct(traders[0]) : void 0
     const rateStr = rate ?
       rate.calculateType === '001' ? `${rate.rate * 100}%` :
-        rate.calculateType === '002' ? `${rate.rate + rateTarget}` : void 0
+        rate.calculateType === '002' ? `${rate.rate + rateTarget.productName}` : void 0
       : void 0
 
     // const sellRate = this.sellRate
