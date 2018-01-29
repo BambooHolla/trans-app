@@ -109,6 +109,7 @@ import {
 
 import { BnHeaderComponent } from '../components/bn-header/bn-header';
 import { BnMenuComponent } from '../components/bn-menu/bn-menu';
+import { CommonAlert } from '../components/common-alert/common-alert';
 
 // import { RiseOrFallPipe } from '../pipes/rise-or-fall';
 // import { NumReplacePipe } from '../pipes/num-replace';
@@ -264,9 +265,10 @@ import { WorkOrderServiceProvider } from '../providers/work-order-service/work-o
         QuantityConversionPipe,
         PriceConversionPipe,
         ProductId2namePipe,
-        KjuaQrcodeComponent
+        KjuaQrcodeComponent,
         // BankCode2NamePipe,
         // IsLoadingDirective,
+        CommonAlert
     ],
     imports: [
         // NewsContentModule,
@@ -438,7 +440,8 @@ import { WorkOrderServiceProvider } from '../providers/work-order-service/work-o
         VolumnComponent,
         DistancelineComponent,
         ImageTakerCmp,
-        RealTimeChartsComponent
+        RealTimeChartsComponent,
+        CommonAlert
     ],
     providers: [
         AppService,

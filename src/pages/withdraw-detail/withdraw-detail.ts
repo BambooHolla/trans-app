@@ -22,6 +22,7 @@ import {
 	RateMainType,
 } from "../../providers/account-service/account-service";
 import { WithdrawAddressListPage } from "../withdraw-address-list/withdraw-address-list";
+import { CommonAlert } from "../../components/common-alert/common-alert";
 
 /**
  * Generated class for the WithdrawDetailPage page.
@@ -102,6 +103,15 @@ export class WithdrawDetailPage extends SecondLevelPage {
 			productInfo: this.productInfo,
 		});
 	}
+
+	//自定义弹窗(modal->alert)
+	describeModal() {
+		let modal = this.modalCtrl.create(CommonAlert, {
+			title1: "提取金额不得大于当前可用余额",
+			title2: "不得小于0.001ETH"
+		}, { showBackdrop: true, enableBackdropDismiss: true });
+		modal.present();
+	  }
 
 	has_account_pwd = false;
 

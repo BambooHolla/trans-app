@@ -208,7 +208,7 @@ page-forget-pwd {
                         background-color: #c1b17f;
                         color: #FFF;
                         border-radius: 0.4rem;
-                        width: 7rem!important;
+                        width: 8rem!important;
                         height: 2.4rem!important;
                         box-sizing: border-box;
                         display: inline-block;
@@ -220,14 +220,10 @@ page-forget-pwd {
                             opacity: .8;
                         }
                     }
-                    button {
-                        position: relative;
-                        top: 50%;
-                        transform: translateY(-50%);
-                    }
                 }
                 .i-col {
                     display: inherit;
+                    align-items: center;
                 }
             }
             .error-tip {
