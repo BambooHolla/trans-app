@@ -7,9 +7,15 @@
 <ion-header>
     <ion-navbar>
         <ion-title>{{navbar_title}}</ion-title>
-        <ion-buttons class="flash-trade" right (click)="addWithdrawAddress()">
+        <ion-buttons left (click)="finishSelect(false)">
             <button ion-button ion-only>
-                </button>
+                <ion-icon name="arrow-back" left class="withdraw-back"></ion-icon>
+            </button>
+        </ion-buttons>
+        <ion-buttons right (click)="addWithdrawAddress()">
+            <button ion-button ion-only>
+                <ion-icon ios="ios-add" md="md-add" right class="withdraw-add"></ion-icon>
+            </button>
         </ion-buttons>
     </ion-navbar>
 </ion-header>
@@ -60,9 +66,6 @@
         </ion-buttons> -->
         <ion-row tappable class="account-exit" style="background:none">
             <ion-col padding class="exit-center">
-                <button ion-button class="cancel" (click)="finishSelect()">
-                        取消
-                      </button>
                 <button ion-button class="trbtn" [disabled]="!formData?.withdraw_address_id" (click)="finishSelect(true)">
                             确认
                           </button>
