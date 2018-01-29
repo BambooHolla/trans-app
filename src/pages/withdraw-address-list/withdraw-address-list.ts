@@ -91,6 +91,7 @@ export class WithdrawAddressListPage extends SecondLevelPage {
 	}
 
 	addWithdrawAddress() {
+		console.log(11111)
 		return this.routeTo("add-address", {
 			productInfo: this.productInfo,
 		});
