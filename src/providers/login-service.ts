@@ -116,7 +116,7 @@ export class LoginService {
     if (type === void 0) {
       type = this.appSettings.accountType(customerId);
     }
-    
+
     const options = new RequestOptions({
       headers: new Headers({
         'x-bnqkl-platform': this.appSettings.Platform_Type,
@@ -189,12 +189,12 @@ export class LoginService {
   // 重置密码
   RESET_PASSWORD = `/user/resetPassword`;
 
-  doResetPWD(account: string, code: string, password: string) {
+  doResetPWD(account: string, code: string, resetPwd: string) {
     return this.appService.request(RequestMethod.Post, this.RESET_PASSWORD, {
       type: this.appSettings.accountType(account),
       account,
       code,
-      password,
+      resetPwd,
     });
   }
 
