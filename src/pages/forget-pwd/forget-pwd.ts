@@ -131,10 +131,10 @@ export class ForgetPwdPage {
 			const controls = this.forgetPWDForm.getRawValue();
 
 			const customerId = controls.customerId;
-			const password = controls.password;
+			const resetPwd = controls.password;
 			const vcode = controls.vcode;
 
-			await this.loginService.doResetPWD(customerId, vcode, password);
+			await this.loginService.doResetPWD(customerId, vcode, resetPwd);
 
 			this.appDataService.password = ''; // 清空已经保存的密码，要求用户手动输入
 			this.appDataService.customerId = customerId;
