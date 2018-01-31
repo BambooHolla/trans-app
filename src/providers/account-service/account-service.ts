@@ -57,7 +57,7 @@ export class AccountServiceProvider {
 		"account/payments/type/:type",
 	);
 	readonly CREATE_WITHDRAW_TRABSACTION = this.appSetting.APP_URL(
-		"transaction/transactions/create",
+		"transaction/transactions/create?transactionType=005",
 	);
 
 	readonly SUBMIT_CERTIFICATION = this.appSetting.APP_URL(

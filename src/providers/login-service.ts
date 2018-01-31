@@ -127,7 +127,7 @@ export class LoginService {
         type: type,
         account: customerId,
         password,
-      })
+      },options)
       .map(res => res.json())
       .toPromise()
       .then(data => {
