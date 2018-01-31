@@ -4,6 +4,7 @@ import { Http, Headers, RequestOptionsArgs } from '@angular/http';
 
 import 'rxjs/add/operator/map';
 import { AppSettingProvider } from '../app-setting/app-setting';
+import { Events } from 'ionic-angular';
 
 /*
   Generated class for the AppFetchProvider provider.
@@ -53,6 +54,7 @@ export class AppFetchProvider {
 
   constructor(
     public http: Http,
+    private events: Events,
     public appSetting: AppSettingProvider,
     public storage: Storage
   ) {
@@ -88,6 +90,9 @@ export class AppFetchProvider {
       return data.data;
     } else {
       debugger;
+      if (err.code === -1) {
+        this.events.publish('show login', 'login');
+      }
       return Promise.reject(
         ServerResError.parseErrorMessage(err.code, err.message)
       );
@@ -169,6 +174,7 @@ export class AppFetchProvider {
     const headers = options.headers || (options.headers = new Headers());
     headers.append('x-bnqkl-platform', this.appSetting.Platform_Type);
     if (!without_token) {
+      if (!this._user_token) this.events.publish('show login', 'login')
       headers.append('X-AUTH-TOKEN', this._user_token);
     }
     const params = options.params as { [key: string]: any };

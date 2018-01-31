@@ -7,6 +7,9 @@ import {
   AlertController,
   LoadingController,
   TextInput,
+  ViewController,
+  ModalController,
+  Events,
 } from 'ionic-angular';
 
 import { LoginService } from '../../providers/login-service';
@@ -41,8 +44,11 @@ export class LoginPage implements OnInit{
   }
 
   constructor(
+    private events: Events,
     public navCtrl: NavController,
+    public viewCtrl: ViewController,
     public loadingCtrl: LoadingController,
+    public modalController: ModalController,
     public alertCtrl: AlertController,
     public elementRef: ElementRef,
     public loginService: LoginService,
@@ -123,7 +129,9 @@ export class LoginPage implements OnInit{
     const type = this.appSettings.accountType(customerId);
 
     this.logining = true;
-    await this.loginService.doLogin(customerId, password, savePassword, type);
+    if(await this.loginService.doLogin(customerId, password, savePassword, type) === true){
+      this.dismiss()
+    }
     this.logining = false;
   }
 
@@ -152,4 +160,14 @@ export class LoginPage implements OnInit{
   goToRegister() {
     this.routeTo('register', this.loginForm.getRawValue());
   }
+
+  dismiss(){
+    this.viewCtrl.dismiss()
+    this.events.subscribe('show login', page => {
+      this.events.unsubscribe('show login')
+      this.modalController.create(LoginPage).present()
+      // this.rootNav.push(page)      
+    })
+  }
+
 }

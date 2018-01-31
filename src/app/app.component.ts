@@ -1,5 +1,5 @@
 import { Component, Renderer2, Inject } from "@angular/core";
-import { Platform } from "ionic-angular";
+import { Platform, Events } from "ionic-angular";
 import { StatusBar } from "@ionic-native/status-bar";
 import { SplashScreen } from "@ionic-native/splash-screen";
 import { ScreenOrientation } from "@ionic-native/screen-orientation";
@@ -35,7 +35,9 @@ import { PersonalDataService } from "../providers/personal-data-service";
   templateUrl: "app.html",
 })
 export class PicassoApp {
-  private rootPage = TabsPage;
+
+  private rootPage = TabsPage    
+  private loginModal = this.modalController.create(LoginPage)
 
   private loader: Loading;
 
@@ -59,6 +61,7 @@ export class PicassoApp {
 
   constructor(
     public appCtrl: App,
+    private events: Events,
     public loginService: LoginService,
     public appDataService: AppDataService,
     public appSettings: AppSettings,
@@ -86,6 +89,7 @@ export class PicassoApp {
     window["toastCtrl"] = toastCtrl;
     window["modalCtrl"] = modalController;
     window["clipboard"] = clipboard;
+
     if (!navigator["clipboard"]) {
       navigator["clipboard"] = {
         writeText: text => clipboard.copy(text),
@@ -111,8 +115,8 @@ export class PicassoApp {
 
         // this.setAppRootBackground(status);
 
-        //登陆成功获取个人信息
         if (status) {
+          //登陆成功获取个人信息
           this.personalDataService
             .personalPriceId()
             .then(data => {
@@ -124,6 +128,13 @@ export class PicassoApp {
                 err.message || err,
               );
             });
+        }else{
+          //退出登录后订阅显示登录页事件
+          this.events.subscribe('show login', page => {
+            this.events.unsubscribe('show login')
+            this.loginModal.present()
+            // this.rootNav.push(page)      
+          })
         }
       });
 

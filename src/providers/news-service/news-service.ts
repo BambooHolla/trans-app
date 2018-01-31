@@ -55,7 +55,7 @@ export class NewsServiceProvider {
 	}) {
 		return this.fetch.autoCache(true).get<NewModel[]>(this.GET_NEWS_LIST, {
 			search: Object.assign({ page: 0 }, query)
-		});
+		},true);
 	}
 	getNewDetail(news_id: string) {
 		return this.fetch
