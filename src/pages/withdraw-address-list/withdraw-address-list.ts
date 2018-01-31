@@ -16,6 +16,7 @@ import {
 } from '../../providers/account-service/account-service';
 import { SecondLevelPage } from '../../bnlc-framework/SecondLevelPage';
 import { asyncCtrlGenerator } from '../../bnlc-framework/Decorator';
+import { AddAddressPage } from '../add-address/add-address';
 /**
  * Generated class for the WithdrawAddressListPage page.
  *
@@ -45,6 +46,7 @@ export class WithdrawAddressListPage extends SecondLevelPage {
 	navbar_title: string;
 	productInfo: ProductModel;
 	withdraw_address_list: CryptoCurrencyModel[];
+
 	@WithdrawAddressListPage.willEnter
 	initData() {
 		this.productInfo = this.navParams.get('productInfo');
@@ -53,6 +55,7 @@ export class WithdrawAddressListPage extends SecondLevelPage {
 		);
 		this.formData.withdraw_address_id = this.navParams.get('selected_data');
 		this.navbar_title = this.navParams.get('title');
+
 		if (!this.withdraw_address_list) {
 			this.navCtrl.removeView(this.viewCtrl);
 		}
@@ -91,9 +94,16 @@ export class WithdrawAddressListPage extends SecondLevelPage {
 	}
 
 	addWithdrawAddress() {
-		console.log(11111)
-		return this.routeTo("add-address", {
+		// return this.routeTo("add-address", {
+		// 	productInfo: this.productInfo,
+		// });
+		const selector = this.modalCtrl.create(AddAddressPage, {
 			productInfo: this.productInfo,
 		});
+		selector.onDidDismiss(returnData => {
+			this.formData.withdraw_address_id = returnData.id;
+			this.withdraw_address_list.push(returnData ? returnData : {})
+		  });
+		selector.present();
 	}
 }

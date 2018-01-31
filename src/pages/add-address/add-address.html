@@ -7,6 +7,11 @@
 <ion-header>
     <div class="hdbg header-with-bg bg-color-dark-alpha">
         <ion-navbar>
+            <ion-buttons left (click)="finishSelect(false)">
+                <button ion-button ion-only>
+                    <ion-icon name="arrow-back" left class="withdraw-back"></ion-icon>
+                </button>
+            </ion-buttons>
             <ion-title>添加地址</ion-title>
         </ion-navbar>
     </div>
@@ -33,7 +38,7 @@
         <ion-item>
             <ion-label class="form-label with-left-baseline" color="primary">验证码</ion-label>
             <ion-input [(ngModel)]="formData.vcode" placeholder="请填写验证码"></ion-input>
-            <button (click)="sendValidate()" [disabled]="!formData.check_method" ion-button item-end color="special">获取验证码</button>
+            <button (vcode-sender)="$event.waitFor(sendValidate())" [disabled]="!formData.check_method" ion-button item-end color="special">获取验证码</button>
         </ion-item>
     </ion-list>
     <div class="submit-wrapper">

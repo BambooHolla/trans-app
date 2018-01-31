@@ -98,8 +98,15 @@ export class AddAddressPage extends SecondLevelPage {
 				code: vcode,
 				category: check_method.category
 			})
-			.then(() => {
-				this.finishJob(true);
+			.then((returnData) => {
+				console.log('add-address return data')
+				console.log(returnData)
+				this.viewCtrl.dismiss(returnData);
+				// this.finishJob(true);
 			});
+	}
+
+	finishSelect(send_selected_data?: boolean) {
+		this.viewCtrl.dismiss();
 	}
 }

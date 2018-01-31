@@ -24,7 +24,6 @@ export class CommonAlert {
   }
 
   dismiss() {
-    console.log(1111)
     this.viewCtrl.dismiss();
   }
 }
