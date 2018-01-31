@@ -22,6 +22,7 @@ import {
 	RateMainType,
 } from "../../providers/account-service/account-service";
 import { WithdrawAddressListPage } from "../withdraw-address-list/withdraw-address-list";
+import { AddAddressPage } from "../add-address/add-address";
 import { CommonAlert } from "../../components/common-alert/common-alert";
 
 /**
@@ -81,6 +82,8 @@ export class WithdrawDetailPage extends SecondLevelPage {
 	access_info: any;
 	openWithdrawAddressSelector() {
 		const { withdraw_address_list, productInfo } = this;
+		console.log('目前的   withdraw_address_list 暂时未刷新')
+		console.log(withdraw_address_list)
 		const selector = this.modalCtrl.create(WithdrawAddressListPage, {
 			title: "提现地址管理",
 			productInfo,
@@ -99,9 +102,21 @@ export class WithdrawDetailPage extends SecondLevelPage {
 		selector.present();
 	}
 	toAddWithdrawAddress() {
-		return this.routeTo("add-address", {
+		// return this.routeTo("add-address", {
+		// 	productInfo: this.productInfo,
+		// });
+		const selector = this.modalCtrl.create(AddAddressPage, {
 			productInfo: this.productInfo,
 		});
+		selector.onDidDismiss(returnData => {
+			this.selected_withdraw_address = returnData ? returnData : null;
+			this.accountService
+				.getWithdrawAddress(this.productInfo.productId)
+				.then(data => {
+					this.withdraw_address_list = data;
+				});
+		  });
+		selector.present();
 	}
 
 	//自定义弹窗(modal->alert)
