@@ -18,7 +18,7 @@ export class ProductId2namePipe implements PipeTransform {
   ) { }
 
   async transform(productId: string, ...args) {
-    const products = this.appDataService.products;
+    // const products = this.appDataService.products;
     const product = await this.stockDataService.getProduct(productId)// products.get(productId);
     
     if (product) return product.productName

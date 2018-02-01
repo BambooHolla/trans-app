@@ -23,8 +23,9 @@ page-login {
 	.dismiss{
 		position: absolute;
 		color: color($colors,special);
-		top:3rem;
-		left: 8.3vw;//12.5(form-padding)*2/3
+		top:2rem;
+		left: 6vw;//12.5(form-padding)*2/3 - 1rem~
+		padding: 1rem;
 		font-size: 1.4rem;
 	}
 	.login-warpper {

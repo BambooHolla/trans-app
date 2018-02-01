@@ -1341,9 +1341,9 @@ export class StockDataService {
   }
 
   public requestProductById(productId): Promise<any> {
-    // if(!productId) return void 0
+    if (!productId) return Promise.reject(void 0)
     const path = `/product/product/${productId}`
-    
+
     return this.appService.request(RequestMethod.Get, path, undefined)
       .then(data => {
         console.log('requestProductById: ', data)
@@ -1352,42 +1352,43 @@ export class StockDataService {
       })
       .catch(err => {
         console.log('requestProductById error: ', err.message || err);
-        return undefined;
+        return void 0;
       });
   }
 
   private parseStockListData(data: any[]) {
     const baseData = Object.assign({}, this._stockBaseData.getValue());
-    let baseDataChanged = false;
-    data.forEach(({ FID_GQDM: stockCode, FID_GQMC: name, productId, productName }) => {
-      if (name && !baseData[stockCode]) {
-        baseData[stockCode] = {
-          stockCode,
-          name,
-          turnoverQuantity: 0,
-          turnoverAmount: 0,
-        };
-        baseDataChanged = true;
-      }
+    // let baseDataChanged = false;
+    data.forEach(product => {
+      // data.forEach(({ FID_GQDM: stockCode, FID_GQMC: name, productId, productName }) => {
+      // if (name && !baseData[stockCode]) {
+      //   baseData[stockCode] = {
+      //     stockCode,
+      //     name,
+      //     turnoverQuantity: 0,
+      //     turnoverAmount: 0,
+      //   };
+      //   baseDataChanged = true;
+      // }
       //获取成功更新列表缓存
-      this.appDataService.products.set(productId, { 
-        productName,
+      this.appDataService.products.set(product.productId, { 
+        ...product,
         expire: new Date().getTime()+this.appSettings.EXPIRE_TIME_SPAN,
       })
     })
 
     console.log('storage product: ', this.appDataService.products)
 
-    if (baseDataChanged) {
-      this._stockBaseData.next(baseData);
-    }
+    // if (baseDataChanged) {
+    //   this._stockBaseData.next(baseData);
+    // }
   }
 
   public async getProduct(productId){
     let product = this.appDataService.products.get(productId)
     const now = new Date()
 
-    if (!product || product.expire > now) {
+    if (!product || product.expire < now) {
       product = await this.requestProductById(productId)
     }
 

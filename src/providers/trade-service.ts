@@ -154,19 +154,19 @@ export class TradeService {
             // .filter(item =>
             //   item
             // )
-            .map(async ({ priceId, productId, buyFee, saleFee }) => {
-              const products = await this.appDataService.productsPromise;
-              const product = await this.stockDataService.getProduct(productId)//products.get(productId);
-              const price = !priceId? undefined : await this.stockDataService.getProduct(priceId)//products.get(priceId);
-              // console.log(
-              //   '%cGGGG',
-              //   'color:red',
-              //   productId,
-              //   priceId,
-              //   product,
-              //   price
-              // );
-              // if (product) {
+              .map(async ({ priceId, productId, buyFee, saleFee }) => {
+                const products = await this.appDataService.productsPromise;
+                const product = await this.stockDataService.getProduct(productId)//products.get(productId);
+                const price = !priceId ? undefined : await this.stockDataService.getProduct(priceId)//products.get(priceId);
+                // console.log(
+                //   '%cGGGG',
+                //   'color:red',
+                //   productId,
+                //   priceId,
+                //   product,
+                //   price
+                // );
+                // if (product) {
                 traderList.set(`${priceId}-${productId}`, {
                   traderId: `${priceId}-${productId}`,
                   traderName: !priceId ? `${product ? product.productName : '--'}` :
@@ -179,8 +179,8 @@ export class TradeService {
                   priceId,
                   productId,
                 });
-              // }
-            })
+                // }
+              })
           )
         }
         return Promise.resolve(traderList);
