@@ -24,6 +24,7 @@ import {
 import { WithdrawAddressListPage } from "../withdraw-address-list/withdraw-address-list";
 import { AddAddressPage } from "../add-address/add-address";
 import { CommonAlert } from "../../components/common-alert/common-alert";
+import { StockDataService } from "../../providers/stock-data-service";
 
 /**
  * Generated class for the WithdrawDetailPage page.
@@ -41,6 +42,7 @@ export class WithdrawDetailPage extends SecondLevelPage {
 		public viewCtrl: ViewController,
 		public navParams: NavParams,
 		public accountService: AccountServiceProvider,
+		public stockDataService: StockDataService,
 		public modalCtrl: ModalController,
 	) {
 		super(navCtrl, navParams);
@@ -259,12 +261,9 @@ export class WithdrawDetailPage extends SecondLevelPage {
 	}
 
 	private async _formatWithdrawLogs(transaction_logs: TransactionModel[]) {
-		const productList = await this.accountService.productList.getPromise();
 		const formated_transaction_logs = await Promise.all(
 			transaction_logs.map(async transaction => {
-				const product = productList.find(
-					product => product.productId === transaction.targetId,
-				);
+				const product = await this.stockDataService.getProduct(transaction.targetId);
 				const withdraw_address_info = await this.accountService.getPaymentById(
 					transaction.paymentId,
 				);

@@ -42,7 +42,7 @@ export class QuotationsPage {
 	quotationDetailPage: any = QuotationDetailPage;
 	stockDetailPage: any = StockDetailPage;
 	searchItemPage: any = SearchItemPage;
-	stockCode = '000001';
+	stockCode: string;
 	// stockCode = ['000001','000002','010001'];
 	restoreTimer = null;
 

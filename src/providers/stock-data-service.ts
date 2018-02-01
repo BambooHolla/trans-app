@@ -561,8 +561,7 @@ export class StockDataService {
       return Promise.resolve();
     }
     
-    const productList = await this.accountService.productList.getPromise();
-    const product = productList.find(product => product.productId === code);
+    const product = await this.getProduct(code)
     this.parseStockBaseData(code, product);
   }
 

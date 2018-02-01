@@ -125,13 +125,12 @@ export class OptionalPage extends SecondLevelPage {
 
   async initPersonalStockListSubscriber() {
     await this.appDataService.productsPromise;
-    const productList = await this.accountService.productList.getPromise();
     // 当个人中心的股票持仓列表变化时，重新进行订阅
-    this.personalDataService.personalStockList$.subscribe(data => {
+    this.personalDataService.personalStockList$.subscribe(async data => {
       console.log('initPersonalStockListSubscriber', data);
       // 个人中心的股票持仓列表变化时，才刷新当前页股票列表的数据源
       // console.log('initPersonalStockListSubscriber: ', data)
-      this.optionalStockDetailList = data
+      this.optionalStockDetailList = await Promise.all(data
         // //个人持仓已由平台类型在请求时过滤,故这边不再做过滤
         // .filter(({ stockCode }) => {
         //   if (this.appSettings.SIM_DATA) {
@@ -140,8 +139,8 @@ export class OptionalPage extends SecondLevelPage {
         //     return this.appDataService.products.has(stockCode);
         //   }
         // })
-        .map(({ stockCode, restQuantity, cost }) => ({
-          productInfo: productList.find(p => p.productId == stockCode),
+        .map(async ({ stockCode, restQuantity, cost }) => ({
+          productInfo: await this.stockDataService.getProduct(stockCode),
           personalData: {
             stockCode,
             restQuantity,
@@ -165,7 +164,7 @@ export class OptionalPage extends SecondLevelPage {
                 return item;
               }
             })
-        }));
+        })))
       this.lastRealtimeStockList = this.realtimeStockList.getValue().concat();
       this.realtimeStockList.next(data.map(({ stockCode }) => stockCode));
       this.doSubscribe();

@@ -16,6 +16,7 @@ import {
 	CryptoCurrencyModel,
 	DealResult,
 } from '../../providers/account-service/account-service';
+import { StockDataService } from '../../providers/stock-data-service';
 
 /**
  * Generated class for the RechargeDetailPage page.
@@ -33,6 +34,7 @@ export class RechargeDetailPage extends SecondLevelPage {
 		public viewCtrl: ViewController,
 		public navParams: NavParams,
 		public accountService: AccountServiceProvider,
+		public stockDataService: StockDataService,
 	) {
 		super(navCtrl, navParams);
 		this.productInfo = this.navParams.get('productInfo');
@@ -121,12 +123,9 @@ export class RechargeDetailPage extends SecondLevelPage {
 			transaction_logs.length === recharge_logs_page_info.page_size;
 		this.infiniteScroll &&
 			this.infiniteScroll.enable(recharge_logs_page_info.has_more);
-		const productList = await this.accountService.productList.getPromise();
 		const formated_transaction_logs = await Promise.all(
 			transaction_logs.map(async transaction => {
-				const product = productList.find(
-					product => product.productId === transaction.targetId,
-				);
+				const product = await this.stockDataService.getProduct(transaction.targetId);
 				const recharge_address_info = await this.accountService.getPaymentById(
 					transaction.paymentId,
 				);
