@@ -107,6 +107,12 @@ export class PicassoApp {
       this.afterPlatformReady();
     });
 
+    this.events.subscribe('show login', page => {
+      this.events.unsubscribe('show login')
+      this.loginModal.present()
+      // this.rootNav.push(page)      
+    })
+
     this.loginService.status$
       // 订阅 status$ 对象，在登录状态变化时，更改 app 的根页面。
       // 初始值（ undefined ）已经在 LoginService 中被过滤，
@@ -130,11 +136,11 @@ export class PicassoApp {
             });
         }else{
           //退出登录后订阅显示登录页事件
-          this.events.subscribe('show login', page => {
-            this.events.unsubscribe('show login')
-            this.loginModal.present()
-            // this.rootNav.push(page)      
-          })
+          // this.events.subscribe('show login', page => {
+          //   this.events.unsubscribe('show login')
+          //   this.loginModal.present()
+          //   // this.rootNav.push(page)      
+          // })
         }
       });
 

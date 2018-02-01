@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { NavController, NavParams } from 'ionic-angular';
+import { NavController, NavParams, Events } from 'ionic-angular';
 import { FundStatementPage } from '../fund-statement/fund-statement';
 import { CommissionListPage } from '../commission-list/commission-list';
 import { HistoryRecordPage } from '../history-record/history-record';
@@ -90,6 +90,7 @@ export class HomePage extends FirstLevelPage{
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
+    private events: Events,
     public personalDataService: PersonalDataService,
     public stockDataService: StockDataService,
   ) {
@@ -121,6 +122,10 @@ export class HomePage extends FirstLevelPage{
         console.log('requestAssets:', err);
         // return Promise.reject(err);
       });
+  }
+
+  showLogin(){
+    this.events.publish('show login', 'login');
   }
 
 }

@@ -5,8 +5,6 @@ import { NavController, NavParams, Refresher } from 'ionic-angular';
 import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
-import { StockDetailPage } from '../../pages/stock-detail/stock-detail';
-
 // import { TranslateService } from '@ngx-translate/core';
 import { AppSettings } from '../../providers/app-settings';
 import { PersonalDataService } from '../../providers/personal-data-service';
@@ -17,6 +15,7 @@ import {
   AccountServiceProvider,
   ProductModel
 } from '../../providers/account-service/account-service';
+import { LoginService } from '../../providers/login-service';
 
 @Component({
   selector: 'page-optional',
@@ -25,8 +24,6 @@ import {
 export class OptionalPage extends SecondLevelPage {
   optionalStockDetailList: any[] = [];
   personalAssets: object = {};
-  scrollEventRemover: any;
-  stockDetailPage: any = StockDetailPage;
 
   private viewDidLeave: BehaviorSubject<boolean> = new BehaviorSubject(false);
   private viewDidLeave$ = this.viewDidLeave
@@ -47,35 +44,40 @@ export class OptionalPage extends SecondLevelPage {
     public navParams: NavParams,
     public appSettings: AppSettings,
     public appDataService: AppDataService,
+    public loginService:LoginService,
     public personalDataService: PersonalDataService,
     public accountService: AccountServiceProvider,
     public stockDataService: StockDataService // public translate: TranslateService,
   ) {
     super(navCtrl, navParams);
+    this.loginService.status$.subscribe(status=>{
+      if(status){
+        this.initData()
+      }else{
+        this.resetData()
+      }
+    })
   }
 
   initData(refresher?: Refresher) {
     //tofix:刷新页面数据初始化流程问题
-    if (refresher) {
-      Promise.all([
-        this.requestAssets(),
-        this.initPersonalStockListSubscriber(),
-        this.personalDataService.requestEquityDeposit(),
-      ])
-        .then(() => refresher.complete())
-        .catch(() => refresher.complete());
-    }
+    Promise.all([
+      this.requestAssets(),
+      this.initPersonalStockListSubscriber(),
+      this.personalDataService.requestEquityDeposit(),
+    ])
+      .then(() => refresher ? refresher.complete() : void 0)
+      .catch(() => refresher ? refresher.complete() : void 0);
   }
+
+  resetData(){
+    this.personalAssets = {}
+    this.optionalStockDetailList = []
+  }
+
   @OptionalPage.didEnter
   onIonViewDidEnter() {
     this.viewDidLeave.next(false);
-
-    this.requestAssets()
-      .catch()
-      
-    this.initPersonalStockListSubscriber()
-      .catch()
-
     // this.personalDataService.requestFundData();
 
     // this.doSubscribe();

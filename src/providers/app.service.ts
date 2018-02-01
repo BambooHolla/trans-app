@@ -12,14 +12,14 @@ import { Observable } from 'rxjs/Observable';
 
 import { AppSettings } from './app-settings';
 import { AppDataService } from './app-data-service';
-import { Events } from 'ionic-angular';
+// import { Events } from 'ionic-angular';
 // import { LoginService } from './login-service';
 
 @Injectable()
 export class AppService {
   constructor(
     private http: Http,
-    private events: Events,
+    // private events: Events,
     private appSettings: AppSettings,
     private appDataService: AppDataService // private loginService: LoginService,
   ) {}
@@ -45,7 +45,7 @@ export class AppService {
 
     if (withToken) {
       if (!token) {
-        this.events.publish('show login', 'login');
+        // this.events.publish('show login', 'login');
         return Promise.reject(new Error('token missing!'));
       }
       headers.append('X-AUTH-TOKEN',token)
@@ -97,7 +97,7 @@ export class AppService {
           // FORBIDDEN
           // 注入 LoginService 会导致循环依赖错误！
           if (err.code === -1) {
-            this.events.publish('show login', 'login');            
+            // this.events.publish('show login', 'login');
           }
           return Promise.reject(new Error(err.message || err));
         }
