@@ -17,16 +17,25 @@ page-home {
 				height: 1.2rem;
 				margin-bottom: .7rem;
 			}
-			.bedge img{
-				height: 1.9rem;
-				width: 7.6rem;
-				// display: inline-block;
-				// padding-left: 2.4rem;
-				// height: 1.9rem;
-				// line-height: 1.9rem;
-				// background-image: url('../assets/icon/home-beage.png');
-				// background-position: center;
-				// background-size: 100% 100%;
+			.bedge {
+				img{
+					height: 1.9rem;
+					width: 7.6rem;
+					// display: inline-block;
+					// padding-left: 2.4rem;
+					// height: 1.9rem;
+					// line-height: 1.9rem;
+					// background-image: url('../assets/icon/home-beage.png');
+					// background-position: center;
+					// background-size: 100% 100%;
+				}
+				button{
+					color: color($colors,primary);
+					height: 1.9rem;
+					width: 7.6rem;
+					border-radius: .95rem;
+					background-color: color($colors,special);
+				}
 			}
 		}
 

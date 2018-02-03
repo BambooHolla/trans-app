@@ -14,7 +14,10 @@
         <div class="realname">{{personalDataService.realname}}</div>
         <div class="mobile">{{personalDataService.mobile}}</div>
         <div class="email">{{personalDataService.email}}</div>
-        <div class="bedge"><img tappable src="assets/icon/home-beage.png" alt="" (click)="showLogin()"></div>
+        <div class="bedge">
+          <button *ngIf="!login_status" (click)="showLogin()">登陆</button>
+          <img *ngIf="login_status" tappable src="assets/icon/home-beage.png" alt="" (click)="showLogin()">
+        </div>
       </ion-col>
     </ion-row>
     <ion-row>

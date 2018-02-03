@@ -72,8 +72,8 @@ export class StockDataService {
     public loginService: LoginService,
     public accountService:AccountServiceProvider
   ){
-    this.initTradeDay();
-    this.startTradeDayCheckTimer();
+    // this.initTradeDay();
+    // this.startTradeDayCheckTimer();
     // this.initSectors();
     this.initRefreshRealtimeDataTimer();
     // this.initSubscribers()//此方法是用来退出登录释放订阅的 币加所项目部分订阅不再与登陆状态关联 故注释

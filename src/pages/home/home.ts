@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 import { NavController, NavParams, Events } from 'ionic-angular';
 import { FundStatementPage } from '../fund-statement/fund-statement';
@@ -16,13 +16,15 @@ import { TransferPage } from "../transfer/transfer";
 import { PersonalDataService } from '../../providers/personal-data-service';
 import { StockDataService } from '../../providers/stock-data-service';
 import { InviteCommissionPage } from '../invite-commission/invite-commission';
+import { LoginService } from '../../providers/login-service';
 
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html'
 })
-export class HomePage extends FirstLevelPage{
+export class HomePage extends FirstLevelPage implements OnInit{
   personalAssets: any;
+  login_status: boolean;
   commandData: any[] = [
     // {
     //   icon: "gabout",
@@ -91,15 +93,30 @@ export class HomePage extends FirstLevelPage{
     public navCtrl: NavController,
     public navParams: NavParams,
     private events: Events,
+    public loginService: LoginService,
     public personalDataService: PersonalDataService,
     public stockDataService: StockDataService,
   ) {
     super(navCtrl, navParams)
   }
 
+  ngOnInit(){
+    this.loginService.status$
+      .subscribe(status => {
+        this.login_status = status
+        if(status){
+          this.personalDataService.requestFundData();
+          this.requestAssets();
+        }else{
+          this.personalDataService.resetData();
+          this.personalAssets = {};
+        }
+      })
+
+  }
+
   ionViewDidEnter() {
-    this.personalDataService.requestFundData();
-    this.requestAssets();
+
   }
 
   requestAssets() {
