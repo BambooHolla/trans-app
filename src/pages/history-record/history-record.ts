@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { EntrustServiceProvider } from '../../providers/entrust-service';
-import { NavParams, Refresher, InfiniteScroll, AlertController } from 'ionic-angular';
+import { NavParams, Refresher, InfiniteScroll, AlertController, Events } from 'ionic-angular';
+import { AppDataService } from '../../providers/app-data-service';
 // import * as echarts from 'echarts';
 // import { NavController } from 'ionic-angular';
 
@@ -46,6 +47,13 @@ export class HistoryRecordPage {
   }
 
   getTradeHistory(){
+
+    const token = this.appDataService.token;
+
+    if (!token) {
+      return Promise.reject(this.events.publish('show login', 'login'))
+    }
+
     const traderId = this.navParams.data ? this.navParams.data.traderId : undefined
 
     return this.entrustServiceProvider.getDeliveryList(traderId,this.page,this.pageSize)
@@ -68,7 +76,9 @@ export class HistoryRecordPage {
   constructor(
     /*public navCtrl: NavController*/
     public navParams: NavParams,
-    public alertCtrl: AlertController,
+    public alertCtrl: AlertController, 
+    public events: Events,
+    public appDataService: AppDataService,
     public entrustServiceProvider: EntrustServiceProvider
   ) {
     this.initData();
