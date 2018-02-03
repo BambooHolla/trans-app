@@ -4,7 +4,7 @@
   </ion-navbar>
 </ion-header>
 <ion-content no-bounce class="account-contain">
-  <ion-grid no-padding>
+  <ion-grid *ngIf="login_status" no-padding>
     <ion-row class="bottom-line" (click)="identify()">
       <ion-col padding class="vertical-center">
         实名认证<span class="f-right" [class.no-identify]="!personalDataService.realname">{{personalDataService.realname || personalDataService.certifiedMsg}}</span>
@@ -39,9 +39,14 @@
       </ion-row>
     </ng-container>
   </ion-grid>
-  <ion-row tappable class="account-exit" (click)="loginService.doLogout()">
+  <ion-row *ngIf="login_status" tappable class="account-exit" (click)="loginService.doLogout()">
     <ion-col padding class="exit-center">
       退出账号
+    </ion-col>
+  </ion-row>
+  <ion-row *ngIf="!login_status" tappable class="account-exit" (click)="showLogin()">
+    <ion-col padding class="exit-center">
+      登陆账号
     </ion-col>
   </ion-row>
 

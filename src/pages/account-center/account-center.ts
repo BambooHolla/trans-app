@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { NavController, NavParams } from 'ionic-angular';
+import { NavController, NavParams, Events } from 'ionic-angular';
 import { ChangeTradePassword } from '../change-trade-password/change-trade-password';
 
 import { LoginService } from '../../providers/login-service';
@@ -18,21 +18,29 @@ import { asyncCtrlGenerator } from '../../bnlc-framework/Decorator';
   templateUrl: 'account-center.html'
 })
 export class AccountCenterPage extends SecondLevelPage {
+
+  private login_status: boolean;
+
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
+    public events: Events,
     public loginService: LoginService,
     public appDataService: AppDataService,
     public accountService: AccountServiceProvider,
     public personalDataService: PersonalDataService
   ) {
     super(navCtrl, navParams);
+    this.loginService.status$.subscribe(status=>{
+      this.login_status = status
+      if(status) this.checkHasAccountPWD()
+    })
   }
 
   has_account_pwd = false;
   loading_has_account_pwd = true;
 
-  @AccountCenterPage.willEnter
+  // @AccountCenterPage.willEnter
   @asyncCtrlGenerator.error('获取交易密码信息出错')
   async checkHasAccountPWD() {
     this.loading_has_account_pwd = true;
@@ -54,4 +62,9 @@ export class AccountCenterPage extends SecondLevelPage {
   financeAccount() {
     this.navCtrl.push(CreateAccountStepSecondPage);
   }
+
+  showLogin() {
+    this.events.publish('show login', 'login');
+  }
+
 }
