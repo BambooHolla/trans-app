@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { NavController, NavParams, InfiniteScroll } from 'ionic-angular';
+import { NavController, NavParams, InfiniteScroll, Events } from 'ionic-angular';
 import { SecondLevelPage } from '../../bnlc-framework/SecondLevelPage';
 import { asyncCtrlGenerator } from '../../bnlc-framework/Decorator';
 import {
@@ -7,18 +7,27 @@ import {
 	ContactType,
 	ConcatModel
 } from '../../providers/work-order-service/work-order-service';
+import { LoginService } from '../../providers/login-service';
 
 @Component({
 	selector: 'page-work-order-list',
 	templateUrl: 'work-order-list.html'
 })
 export class WorkOrderListPage extends SecondLevelPage {
+	private login_status: boolean;
+
 	constructor(
 		public navCtrl: NavController,
 		public navParams: NavParams,
+		public events: Events,
+		public loginService: LoginService,
 		public workOrderService: WorkOrderServiceProvider
 	) {
 		super(navCtrl, navParams);
+		this.loginService.status$.subscribe(status => {
+			this.login_status = status
+			if (status) this.loadWorkOrderList()
+		})
 	}
 	private static hide_loading_and_use_welcome = true;
 	private static _first_init_page = true;
@@ -39,7 +48,7 @@ export class WorkOrderListPage extends SecondLevelPage {
 
 	disable_init_list_when_enter = false;
 
-	@WorkOrderListPage.willEnter
+	// @WorkOrderListPage.willEnter
 	@asyncCtrlGenerator.loading(undefined, 'hide_loading_and_use_welcome')
 	@asyncCtrlGenerator.error('工单列表加载失败')
 	async loadWorkOrderList() {
@@ -107,4 +116,8 @@ export class WorkOrderListPage extends SecondLevelPage {
 	}
 	getConcatTypeDetail = WorkOrderServiceProvider.getConcatTypeDetail;
 	getContactStatusDetail = WorkOrderServiceProvider.getContactStatusDetail;
+
+	showLogin() {
+		this.events.publish('show login', 'login');
+	}
 }

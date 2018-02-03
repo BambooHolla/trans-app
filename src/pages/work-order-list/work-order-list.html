@@ -42,5 +42,7 @@
     </div>
 </ion-content>
 <ion-footer>
-    <button (click)="routeTo('work-order-add')" [class.with-welcome-page-ani]="hide_loading_and_use_welcome&&show_welcome" ion-button class="new-work-order" color="special">提交工单</button>
+    <button *ngIf="login_status" (click)="showLogin()" [class.with-welcome-page-ani]="hide_loading_and_use_welcome&&show_welcome"
+        ion-button class="new-work-order" color="special">登陆</button>
+    <button *ngIf="login_status"(click)="routeTo('work-order-add')" [class.with-welcome-page-ani]="hide_loading_and_use_welcome&&show_welcome" ion-button class="new-work-order" color="special">提交工单</button>
 </ion-footer>
