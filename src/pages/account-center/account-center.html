@@ -7,7 +7,7 @@
   <ion-grid no-padding>
     <ion-row class="bottom-line" (click)="identify()">
       <ion-col padding class="vertical-center">
-        实名认证<span class="f-right" [class.no-identify]="!personalDataService.realname">{{personalDataService.realname || "点此提交认证"}}</span>
+        实名认证<span class="f-right" [class.no-identify]="!personalDataService.realname">{{personalDataService.realname || personalDataService.certifiedMsg}}</span>
       </ion-col>
     </ion-row>
     <!-- <ion-row class="bottom-line" *ngIf="false">

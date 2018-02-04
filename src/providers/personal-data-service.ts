@@ -40,6 +40,18 @@ export class PersonalDataService {
     return this._realname;
   }
 
+  private _certifiedStatus = '';
+
+  public get certifiedStatus() {
+    return this._certifiedStatus;
+  }
+
+  private _certifiedMsg = ''
+
+  public get certifiedMsg() {
+    return this._certifiedMsg;
+  }
+
   private _fullname = '';
 
   public get fullname(){
@@ -158,7 +170,9 @@ export class PersonalDataService {
     this._assets = 0;
     this._phone = '';
     this._mobile = '';
-    this._idcardnumber = ''
+    this._idcardnumber = '';
+    this._certifiedStatus = '';
+    this._certifiedMsg = '';
 
     this._personalStockList.next([]);
     this._personalStockListIsNull.next(undefined);
@@ -173,6 +187,9 @@ export class PersonalDataService {
 
     this.requestEquityDeposit()
       .catch(err => {});
+
+    this.requestCertifiedStatus()
+      .catch(err => { });    
     
     //币加所暂无银行账户概念
     // this.requestBankAccount()
@@ -210,6 +227,48 @@ export class PersonalDataService {
       });
   }
 
+  requestCertifiedStatus(){
+    const path = `/user/certifiedStatus`
+    const params = new URLSearchParams()
+    params.set('category', '006')//001手机号、002邮箱、003指纹、004声音、005人脸、006二代身份证、007护照
+    params.set('type', '002')//类别 001 账号 002 身份
+
+    return this.appService.request(RequestMethod.Get, path, params, true)
+      .then(data => {
+        console.log('requestCertifiedStatus: ', data);
+        if (!data) {
+          return Promise.reject(new Error('data missing'));
+        }
+        
+
+        // CertifiedStatusResponse {
+        //   data:
+        //   CertifiedStatusResponseData {
+        //     status:
+        //     string *
+        //       认证状态：101已认证，102未认证，103审核中，104审核不通过
+        //     message:
+        //     string
+        //     返回结果具体描述
+        //     name:
+        //     string
+        //     认证名称
+        //   }
+        // }
+
+        this._certifiedStatus = data.status
+        if (data.status === '101' || data.status === '103'){
+          this._realname = data.name
+        } else if (data.status === '102' || data.status === '104'){
+          this._certifiedMsg = data.message
+        }
+      })
+      .catch(err => {
+        console.log('requestCertifiedStatus error: ', err);
+        // return Promise.reject(err);
+      });
+  }
+
   // FID_KHH      客户号
   // FID_KHXM     客户姓名
   // FID_KHQC     客户全称
@@ -236,7 +295,7 @@ export class PersonalDataService {
     // 是否需要检测客户状态？
     // 状态不正常是是否要自动注销登录？
     // this._accountStatus = parseInt(data.FID_KHZT);
-
+    console.log('parseCustomerData')
     this._realname = data.realName;
     // this._fullname = data.FID_KHQC;
     // this._phone = data.telephone;

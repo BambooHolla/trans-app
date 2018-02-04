@@ -45,6 +45,9 @@ export class AccountCenterPage extends SecondLevelPage {
   }
 
   identify() {
+    if (this.personalDataService.certifiedStatus === '101' || this.personalDataService.certifiedStatus === '103'){
+      return void 0
+    }
     this.navCtrl.push('submit-real-info');
   }
 
