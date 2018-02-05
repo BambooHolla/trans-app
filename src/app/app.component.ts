@@ -98,6 +98,7 @@ export class PicassoApp {
         console.log("screenOrientation error:", err.message);
       });
     
+    this.statusBar.hide();
     platform.ready().then(() => {
       this.afterPlatformReady();
     });
@@ -138,7 +139,7 @@ export class PicassoApp {
           }
         }
 
-        this.setAppRootBackground(status);
+        // this.setAppRootBackground(status);
 
         //登陆成功获取股票列表
         if (status) {
@@ -170,7 +171,8 @@ export class PicassoApp {
     this.keyboardService.init(this.renderer2);
   }
 
-  ionViewDidLoad() {}
+  ionViewDidLoad() {
+  }
 
   afterPlatformReady() {
     if (this.platform.is("android")) {
@@ -195,6 +197,7 @@ export class PicassoApp {
 
     this.keyboardService.disableScroll();
 
+    this.statusBar.show()
     // Okay, so the platform is ready and our plugins are available.
     // Here you can do any higher level native things you might need.
     this.statusBar.styleLightContent();
@@ -207,7 +210,9 @@ export class PicassoApp {
     //   this.statusBar.backgroundColorByHexString('#00ffffff');
     // }
 
-    this.splashScreen.hide();
+    //使用异步保证页面元素准备就绪
+    setTimeout(()=> this.splashScreen.hide()
+      , 300) 
 
     // translate.setDefaultLang('zh_CN');
 
@@ -216,11 +221,11 @@ export class PicassoApp {
 
   // 设置根元素的背景，与当前激活页的背景保持大致相同，
   // 避免在软键盘弹出/收起时短暂闪现难看的背景。
-  setAppRootBackground(status: boolean) {
-    const className = status ? "bg-in" : "bg-out";
-    const oldClassName = status ? "bg-out" : "bg-in";
-    const rootElem = this.appCtrl._appRoot._elementRef.nativeElement;
-    this.renderer2.removeClass(rootElem, oldClassName);
-    this.renderer2.addClass(rootElem, className);
-  }
+  // setAppRootBackground(status: boolean) {
+  //   const className = status ? "bg-in" : "bg-out";
+  //   const oldClassName = status ? "bg-out" : "bg-in";
+  //   const rootElem = this.appCtrl._appRoot._elementRef.nativeElement;
+  //   this.renderer2.removeClass(rootElem, oldClassName);
+  //   this.renderer2.addClass(rootElem, className);
+  // }
 }
