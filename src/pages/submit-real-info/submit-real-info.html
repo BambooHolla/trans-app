@@ -36,8 +36,22 @@
         <div class="form-item img-picker-list">
             <div class="label">证件照片</div>
             <div class="input-container">
+                <!-- <div *ngFor="let imageData of images" class="img-picker" (click)="upload(imageData.name)">
+                    <ng-container *ngIf="imageData.image">
+                        <img [src]="imageData.image" class="in-box-image" />
+                    </ng-container>
+                    <ng-container *ngIf="!imageData.image">
+                        <div class="in-box-add">
+                            <span class="add-icon">+</span>
+                            <div class="sub-title">{{imageData.text}}</div>
+                        </div>
+                    </ng-container>
+                </div> -->
+            </div>
+        </div>
+        <div class="form-item img-picker-list form-item-img">
+            <div class="input-container">
                 <div *ngFor="let imageData of images" class="img-picker" (click)="upload(imageData.name)">
-                    <!-- <input type="file"> -->
                     <ng-container *ngIf="imageData.image">
                         <img [src]="imageData.image" class="in-box-image" />
                     </ng-container>
@@ -50,6 +64,17 @@
                 </div>
             </div>
         </div>
+        <!-- <div *ngFor="let imageData of images" class="img-picker" (click)="upload(imageData.name)">
+                <ng-container *ngIf="imageData.image">
+                    <img [src]="imageData.image" class="in-box-image" />
+                </ng-container>
+                <ng-container *ngIf="!imageData.image">
+                    <div class="in-box-add">
+                        <span class="add-icon">+</span>
+                        <div class="sub-title">{{imageData.text}}</div>
+                    </div>
+                </ng-container>
+            </div> -->
         <div class="submit-container">
             <button ion-button type="submit" (click)="submitForm()" [disabled]="formData.invalid">
                 提交认证

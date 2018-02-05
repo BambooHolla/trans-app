@@ -164,6 +164,7 @@ import { ProductId2namePipe } from '../pipes/product-id2name';
 import { IdentificationNumberCheckerProvider } from '../providers/identification-number-checker/identification-number-checker';
 import { NewsServiceProvider } from '../providers/news-service/news-service';
 import { WorkOrderServiceProvider } from '../providers/work-order-service/work-order-service';
+import { InviteCommissionPage } from '../pages/invite-commission/invite-commission';
 // import { BankCode2NamePipe } from '..\pipes\bank-code2-name/bank-code2-name';
 // import { FileService } from '../providers/file.service';
 // import { IsLoadingDirective } from '../directives/is-loading/is-loading';
@@ -268,7 +269,8 @@ import { WorkOrderServiceProvider } from '../providers/work-order-service/work-o
         KjuaQrcodeComponent,
         // BankCode2NamePipe,
         // IsLoadingDirective,
-        CommonAlert
+        CommonAlert,
+        InviteCommissionPage
     ],
     imports: [
         // NewsContentModule,
@@ -441,7 +443,8 @@ import { WorkOrderServiceProvider } from '../providers/work-order-service/work-o
         DistancelineComponent,
         ImageTakerCmp,
         RealTimeChartsComponent,
-        CommonAlert
+        CommonAlert,
+        InviteCommissionPage
     ],
     providers: [
         AppService,

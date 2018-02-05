@@ -1,0 +1,331 @@
+page-invite-commission {
+    ion-list {
+        margin-top: 1rem !important;
+        margin-bottom: 0 !important;
+        ion-item-divider.item-divider {
+            min-height: 1rem;
+            ion-label {
+                display: none;
+            }
+        }
+        ion-item.item-block {
+            background-color: color($colors, alpha-dark);
+            margin-top: 0.55px;
+            ion-label {
+                font-size: 1.4rem;
+                // color: color($colors, 'special');
+            }
+            .account-selector {
+                background: transparent;
+                display: flex;
+                flex-direction: row;
+                justify-content: center;
+                align-items: center;
+                margin-right: 0rem;
+                .account-info {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: flex-end;
+                    .account-name {
+                        color: color($colors, 'special');
+                        font-size: 1.4rem;
+                    }
+                    .account-amount {
+                        padding-top: 0.2rem;
+                        color: color($colors, 'lightdark');
+                        font-size: 1.2rem;
+                    }
+                    padding-right: 1rem;
+                }
+                ion-icon {
+                    flex-grow: 0;
+                }
+            }
+        }
+    }
+    .scroll-content>.account-assets {
+        display: flex;
+        flex-direction: row;
+        width: 100%;
+        justify-content: space-between;
+        background-color: color($colors, 'alpha-dark');
+        >.assets-item {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            flex: 1;
+            padding: 1.5rem;
+            ion-icon {
+                width: 2.8rem;
+                height: 2.8rem;
+                background-size: contain;
+                margin-bottom: 0.8rem;
+                background-repeat: no-repeat;
+                background-position: center;
+            }
+            ion-icon[name='邀请朋友'] {
+                background-image: url('../assets/icon/邀请朋友.png');
+            }
+            ion-icon[name='佣金'] {
+                background-image: url('../assets/icon/佣金.png');
+            }
+            .sub-title {
+                font-size: 1.4rem;
+                color: color($colors, 'lightdark');
+            }
+            .amount {
+                font-size: 1.6rem;
+                color: color($colors, 'special');
+            }
+        }
+    }
+    .invite-href {
+        margin-top: 2px!important;
+    }
+    .inviter {
+        padding: .5rem 1rem!important;
+        .person {
+            margin-left: 2rem;
+            font-size: 13px;
+            color: rgba(255, 255, 255, .5);
+        }
+    }
+    .scroll-content>.invite-msg {
+        margin-top: 1rem;
+        display: flex;
+        flex-direction: column;
+        padding: 1rem;
+        background-color: color($colors, 'alpha-dark');
+        >.title-bar {
+            width: 100%;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+            .title {
+                display: flex;
+                font-size: 1.6rem;
+                padding-bottom: 0.4rem;
+                flex-direction: row;
+                align-items: center;
+                ion-icon {
+                    width: 1.4rem;
+                    height: 1.4rem;
+                    background-size: contain;
+                    background-repeat: no-repeat;
+                    background-position: center;
+                    margin-right: 0.5rem;
+                }
+                ion-icon[name='推荐id'] {
+                    background-image: url('../assets/icon/推荐id.png');
+                }
+                ion-icon[name='推荐链接'] {
+                    background-image: url('../assets/icon/推荐链接.png');
+                }
+                ion-icon[name='推荐人'] {
+                    background-image: url('../assets/icon/推荐人.png');
+                }
+            }
+            ion-icon[name='设置'] {
+                width: 1.4rem;
+                height: 1.4rem;
+                background-size: contain;
+                background-repeat: no-repeat;
+                background-position: center;
+                margin-right: 0.5rem;
+                background-image: url('../assets/icon/设置.png');
+            }
+            .set span {
+                padding: 0 .1rem;
+            }
+            .copy-button {
+                padding: 0.4rem;
+                border-radius: 2rem;
+                height: auto;
+                background-color: color($colors, 'special');
+                font-size: 1.3rem;
+                color: #fff;
+                ion-icon[name='复制'] {
+                    width: 1.2rem;
+                    height: 1.2rem;
+                    background-size: contain;
+                    background-repeat: no-repeat;
+                    background-position: center;
+                    background-image: url('../assets/icon/复制.png');
+                    margin-right: 0.3rem;
+                }
+            }
+        }
+        .invite-detail {
+            margin-top: .1rem;
+            align-items: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            .qrcode-image {
+                border: 0.4rem solid color($colors, 'special');
+                background-color: #fff;
+                border-radius: 50%;
+                width: 12rem;
+                height: 12rem;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                .qrcode {
+                    width: 66%;
+                    height: 66%;
+                    display: block;
+                    background: #fff;
+                }
+            }
+            .hash-code {
+                padding-top: 0.8rem;
+                color: rgba(white, 0.5);
+                padding-bottom: 0.4rem;
+                font-size: 1.4rem;
+                /* font-weight: lighter; */
+            }
+            /* .hash-code-info {
+				text-align: center;
+				.hash-code,
+				.tip {
+					padding-top: 0.4rem;
+					color: rgba(white, 0.5);
+					padding-bottom: 0.4rem;
+					font-size: 1.5rem;
+					font-weight: lighter;
+				}
+				.tip {
+					padding-bottom: 0rem;
+				}
+			} */
+        }
+    }
+    .scroll-content>.prompt {
+        background-color: color($colors, 'alpha-dark');
+        margin-top: 1rem;
+        padding: 1rem;
+        display: none;
+        /* > .title {
+			font-size: 1.4rem;
+			padding-bottom: 0.4rem;
+		} */
+        ion-icon[name='警告'] {
+            width: 1.2rem;
+            height: 1.2rem;
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            background-image: url('../assets/icon/警告.png');
+            margin-right: 0.3rem;
+            line-height: 1.2rem;
+            display: inline-block;
+        }
+        .content {
+            color: color($colors, 'lightdark');
+            font-size: 1.3rem;
+            line-height: 1.45rem;
+        }
+    }
+    .scroll-content>.invite-logs {
+        margin-top: 1rem;
+        >.title {
+            color: color($colors, 'special');
+            background-color: color($colors, 'alpha-dark');
+            padding: 1rem;
+            font-size: 1.6rem;
+        }
+        .intro {
+            .base-info {
+                padding: .5rem 1rem!important;
+                color: color($colors, 'lightdark');
+            }
+        }
+        .recharge-log {
+            .base-info {
+                background-color: color($colors, 'alpha-dark');
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                // height: 3rem;
+                padding: 1rem;
+                .type-name {
+                    font-size: 1.5rem;
+                    color: color($colors, 'special');
+                    width: 28vw;
+                }
+                .time-at {
+                    flex: 1;
+                    text-align: left;
+                    text-indent: 1rem;
+                    font-size: 1.2rem;
+                    color: #6d6d6d;
+                    width: 50vw;
+                }
+                .status {
+                    font-size: 1.5rem;
+                    color: color($colors, 'special');
+                }
+            }
+            .detail-info {
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+                >*:nth-child(n) {
+                    position: relative;
+                    &::after {
+                        right: 0;
+                        content: '';
+                        display: block;
+                        width: 1px;
+                        height: 80%;
+                        top: 10%;
+                        position: absolute;
+                        background-color: #222333;
+                    }
+                }
+                >*:last-child {
+                    &::after {
+                        width: 0;
+                    }
+                }
+                .recharge-amount,
+                .recharge-to,
+                .recharge-address {
+                    box-sizing: box-sizing;
+                    margin: 0.6rem 0;
+                    padding: 0 1rem;
+                    /* min-width: 33vw; */
+                    flex-basis: 33vw;
+                    flex-grow: 1;
+                    flex-shrink: 0;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                    align-items: center;
+                    overflow: hidden;
+                    .sub-title {
+                        font-size: 1.3rem;
+                        color: color($colors, 'lightdark');
+                        margin-bottom: 0.6rem;
+                    }
+                    .value {
+                        font-size: 1.4rem;
+                        color: color($colors, 'special');
+                        white-space: nowrap;
+                        text-overflow: ellipsis;
+                        overflow: hidden;
+                        max-width: 100%;
+                    }
+                }
+                /* .recharge-amount, */
+                .recharge-address {
+                    flex-basis: 50vw;
+                    flex-shrink: 1;
+                }
+            }
+        }
+    }
+}
