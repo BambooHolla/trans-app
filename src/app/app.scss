@@ -130,15 +130,15 @@ body {
 
 .platform-ios {
   ion-header {
-    padding-top: $cordova-ios-statusbar-padding;
+    // padding-top: $cordova-ios-statusbar-padding;
 
-    >ion-navbar.toolbar.statusbar-padding {
-      margin-top: -$cordova-ios-statusbar-padding;
-    }
+    // >ion-navbar.toolbar.statusbar-padding {
+    //   margin-top: -$cordova-ios-statusbar-padding;
+    // }
 
     .header-with-bg {
-      margin-top: -$cordova-ios-statusbar-padding;
-      padding-top: $cordova-ios-statusbar-padding;
+      // margin-top: -$cordova-ios-statusbar-padding;
+      // padding-top: $cordova-ios-statusbar-padding;
       &.bg-color-dark-alpha{
         background-color: color($colors, 'alpha-dark');
       }
@@ -146,29 +146,29 @@ body {
   }
 }
 
-.platform-android {
-  ion-header {
-    padding-top: $cordova-md-statusbar-padding;
+// .platform-android {
+//   ion-header {
+//     padding-top: $cordova-md-statusbar-padding;
 
-    .header-with-bg {
-      margin-top: -$cordova-md-statusbar-padding;
+//     .header-with-bg {
+//       margin-top: -$cordova-md-statusbar-padding;
 
-      padding-top: $cordova-md-statusbar-padding;
-    }
-  }
-}
+//       padding-top: $cordova-md-statusbar-padding;
+//     }
+//   }
+// }
 
-.platform-windowsphone {
-  ion-header {
-    padding-top: $cordova-wp-statusbar-padding;
+// .platform-windowsphone {
+//   ion-header {
+//     padding-top: $cordova-wp-statusbar-padding;
 
-    .header-with-bg {
-      margin-top: -$cordova-wp-statusbar-padding;
+//     .header-with-bg {
+//       margin-top: -$cordova-wp-statusbar-padding;
 
-      padding-top: $cordova-wp-statusbar-padding;
-    }
-  }
-}
+//       padding-top: $cordova-wp-statusbar-padding;
+//     }
+//   }
+// }
 
 .header-ios, .footer-ios {
   .toolbar-background-ios {

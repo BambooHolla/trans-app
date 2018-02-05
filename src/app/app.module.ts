@@ -282,6 +282,7 @@ import { WorkOrderServiceProvider } from '../providers/work-order-service/work-o
                 //modalLeave: 'modal-slide-out',
                 // tabsPlacement: 'bottom',
                 // pageTransition: 'ios-transition',
+                statusbarPadding: true,
                 tabsHideOnSubPages: true
             },
             {

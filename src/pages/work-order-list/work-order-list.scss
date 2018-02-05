@@ -1,4 +1,8 @@
 page-work-order-list {
+	.header-with-bg {
+    // margin-top: -$cordova-ios-statusbar-padding;
+		padding-top: $cordova-ios-statusbar-padding;
+	}
 	.welcome {
 		opacity: 0;
 		transition-duration: 500ms;

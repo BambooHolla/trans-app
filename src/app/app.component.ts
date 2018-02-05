@@ -97,6 +97,10 @@ export class PicassoApp {
       .catch(err => {
         console.log("screenOrientation error:", err.message);
       });
+    
+    platform.ready().then(() => {
+      this.afterPlatformReady();
+    });
 
     this.loginService.status$
       // 订阅 status$ 对象，在登录状态变化时，更改 app 的根页面。
@@ -116,9 +120,6 @@ export class PicassoApp {
 
           // rootPage 为空，表示刚刚进入 app ，
           // 需要在登录状态确认后进行初始化操作。
-          platform.ready().then(() => {
-            this.afterPlatformReady();
-          });
         } else {
           const rootNav = this.appCtrl.getRootNav();
           const topPage = rootNav.last().component;
@@ -200,7 +201,7 @@ export class PicassoApp {
 
     // if (this.platform.is('ios')){
     //   // let status bar overlay webview
-    //   this.statusBar.overlaysWebView(true);
+      this.statusBar.overlaysWebView(true);
 
     //   // set status bar to white
     //   this.statusBar.backgroundColorByHexString('#00ffffff');

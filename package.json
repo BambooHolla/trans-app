@@ -41,7 +41,7 @@
     "@types/jquery": "~2.0.41",
     "clipboard": "^1.7.1",
     "com.synconset.imagepicker": "^2.1.10",
-    "cordova-android": "^6.4.0",
+    "cordova-android": "^6.2.3",
     "cordova-clipboard": "^1.1.1",
     "cordova-ios": "^4.5.4",
     "cordova-plugin-android-permissions": "^0.11.0",
