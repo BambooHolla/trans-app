@@ -23,7 +23,7 @@
             <div class="detail">
                 <div class="question">请问需要手续费吗？是多少呢？这里就是可以显示很多文字很多文字不过一般不会有人有那么多字要打啦！！！！！！！！！！！！！！！！！！！！</div>
                 <div class="attachment-wrapper" *ngFor="let src of work_order_attachment">
-                    <img [src]="src"/>
+                    <img [src]="src" />
                 </div>
                 <div class="status">已提交</div>
             </div>
@@ -32,7 +32,7 @@
 </ion-header>
 <ion-content>
     <ion-refresher [enabled]="enableMore" (ionRefresh)="loadMoreHistoryReplyList($event)">
-        <ion-refresher-content pullingIcon="arrow-dropdown" pullingText="加载历史记录" refreshingSpinner="circles"  refreshingText="加载中……" >
+        <ion-refresher-content pullingIcon="arrow-dropdown" pullingText="加载历史记录" refreshingSpinner="circles" refreshingText="加载中……">
         </ion-refresher-content>
     </ion-refresher>
     <div class="chat-logs" #chatLogs list-ani>
@@ -47,7 +47,7 @@
 <ion-footer>
     <div class="chat-container">
         <div class="chat-input-container">
-            <textarea [(ngModel)]="chat_content"></textarea>
+            <ion-textarea [(ngModel)]="chat_content"></ion-textarea>
         </div>
         <button ion-button class="send-btn" (click)="sendChat()">发送</button>
     </div>

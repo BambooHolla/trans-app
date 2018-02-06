@@ -40,11 +40,11 @@
 				<kjua-qrcode class="qrcode" [config]="{label:recharge_address.paymentAccountNumber}"></kjua-qrcode>
 			</div> -->
             <div class="hash-code">
-                <ng-container *ngIf="personalDataService?.recommendCode;else noAddress">
+                <ng-container *ngIf="personalDataService?.recommendCode;else noAddress1">
                     {{personalDataService.recommendCode}}
                 </ng-container>
-                <ng-template #noAddress>
-                    <i>推荐ID不存在</i>sss
+                <ng-template #noAddress1>
+                    <i>无可用ID</i>
                 </ng-template>
             </div>
         </div>
@@ -65,11 +65,11 @@
 				<kjua-qrcode class="qrcode" [config]="{label:recharge_address.paymentAccountNumber}"></kjua-qrcode>
 			</div> -->
             <div class="hash-code">
-                <ng-container *ngIf="recharge_address?.index;else noAddress">
-                    {{recharge_address.index}}
+                <ng-container *ngIf="personalDataService?.recommendCode;else noAddress2">
+                    {{ref}}
                 </ng-container>
-                <ng-template #noAddress>
-                    <i>无可用地址</i>
+                <ng-template #noAddress2>
+                    <i>无可用链接</i>
                 </ng-template>
             </div>
         </div>
@@ -81,7 +81,7 @@
                 我的推荐人
                 <span class="person">{{recommender}}</span>
             </div>
-            <button class="copy-button set" ion-button (click)="copyCode()" [copy]="recharge_address.index">
+            <button class="copy-button set" ion-button (click)="set()">
                 <ion-icon name="设置"></ion-icon>
                 设置
             </button>
