@@ -24,8 +24,8 @@
             <ion-label class="form-label with-left-baseline" color="primary">地址</ion-label>
             <ion-input [(ngModel)]="formData.address" placeholder="请填写地址"></ion-input>
         </ion-item>
-        <ion-item>
-            <ion-label class="form-label with-left-baseline" color="primary">验证</ion-label>
+        <ion-item class="val">
+            <ion-label class="form-label" color="primary">验证</ion-label>
             <ion-list item-end *ngIf="check_method_options" class="radio-list" radio-group [(ngModel)]="formData.check_method">
                 <ion-item *ngFor="let check_method_opt of check_method_options">
                     <ion-label>{{check_method_opt.value}}</ion-label>

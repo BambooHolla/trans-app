@@ -1,5 +1,36 @@
 page-submit-real-info {
-	ion-content {
-		background: #2a2b3f;
-	}
+    ion-content {
+        background: #2a2b3f;
+    }
+    .toolbar-title {
+        font-weight: 400!important;
+    }
+    form {
+        margin: 1rem 0!important;
+        .label {
+            color: #FFF!important;
+        }
+        .form-item-img {
+            width: 70%;
+            margin: 0 auto;
+            .img-picker {
+                margin-bottom: 2rem!important;
+            }
+            .in-box-add {
+                div {
+                    position: absolute;
+                    z-index: 666;
+                    color: #444451;
+                    font-size: 7.4rem!important;
+                }
+                span {
+                    font-size: 4rem!important;
+                    font-weight: 200;
+                }
+            }
+        }
+        .select-icon .select-icon-inner {
+            color: #FFF!important;
+        }
+    }
 }

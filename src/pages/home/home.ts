@@ -4,7 +4,7 @@ import { NavController, NavParams } from 'ionic-angular';
 import { FundStatementPage } from '../fund-statement/fund-statement';
 import { CommissionListPage } from '../commission-list/commission-list';
 import { HistoryRecordPage } from '../history-record/history-record';
-import { FirstLevelPage} from '../../bnlc-framework/FirsetLevelPage'
+import { FirstLevelPage } from '../../bnlc-framework/FirsetLevelPage'
 
 
 // import { CreateAccountStepThirdPage } from '../create-account-step-third/create-account-step-third';
@@ -15,6 +15,7 @@ import { TransferPage } from "../transfer/transfer";
 
 import { PersonalDataService } from '../../providers/personal-data-service';
 import { StockDataService } from '../../providers/stock-data-service';
+import { InviteCommissionPage } from '../invite-commission/invite-commission';
 
 @Component({
   selector: 'page-home',
@@ -59,6 +60,11 @@ export class HomePage extends FirstLevelPage{
       href: HistoryRecordPage,
       bottomSpace: true,
     },
+    {
+      icon: "ginvite",
+      name: '邀请返佣',
+      href: InviteCommissionPage,
+    },
     // {
     //   icon: "gperson",
     //   name: '账户中心',
@@ -70,7 +76,7 @@ export class HomePage extends FirstLevelPage{
     //   href: HelpPage,
     // },
     {
-      icon: "gabout",
+      icon: "ghelp",
       name: '反馈与帮助',
       href: 'work-order-list',
     },
