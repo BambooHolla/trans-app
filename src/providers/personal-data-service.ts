@@ -93,6 +93,12 @@ export class PersonalDataService {
     return this._mobile;
   }
 
+  private _recommendCode = '';
+
+  public get recommendCode(){
+    return this._recommendCode;
+  }
+
   private _relatedBankAccount = {
     bankName:'',
     cardNo:'',
@@ -102,7 +108,7 @@ export class PersonalDataService {
   public get relatedBankAccount() {
     return this._relatedBankAccount
   }
-  
+
   private _personalStockList: BehaviorSubject<any[]> = new BehaviorSubject([]);
   public personalStockList$: Observable<any[]> = this._personalStockList
         .asObservable()
@@ -189,8 +195,8 @@ export class PersonalDataService {
       .catch(err => {});
 
     this.requestCertifiedStatus()
-      .catch(err => { });    
-    
+      .catch(err => { });
+
     //币加所暂无银行账户概念
     // this.requestBankAccount()
     //   .catch(err => {})
@@ -211,7 +217,7 @@ export class PersonalDataService {
       return Promise.resolve();
     }
 
-    const path = `/user/getCustomersData`    
+    const path = `/user/getCustomersData`
     return this.appService.request(RequestMethod.Get, path, undefined, true)
       .then(data => {
         console.log('getCustomersData: ', data);
@@ -239,7 +245,7 @@ export class PersonalDataService {
         if (!data) {
           return Promise.reject(new Error('data missing'));
         }
-        
+
 
         // CertifiedStatusResponse {
         //   data:
@@ -303,6 +309,7 @@ export class PersonalDataService {
     this._mobile = data.telephone// || data.FID_MOBILE;
     // this._address = data.FID_DZ;
     this._email = data.email;
+    this._recommendCode = data.recommendCode;
   }
 
   requestFundData(): Promise<any> {
@@ -581,7 +588,7 @@ export class PersonalDataService {
           //数据丢失时显示
           this.setRelatedBankAccount({
             FID_YHDM:'xxxx',
-            FID_YHZH: '000000000000000000',            
+            FID_YHZH: '000000000000000000',
           })
           return Promise.reject(new Error('data missing'));
         }
@@ -610,7 +617,7 @@ export class PersonalDataService {
         if (!data) {
           return Promise.reject(new Error('data missing'));
         }
-        
+
         return Promise.resolve(data)
       })
       .catch(err => {

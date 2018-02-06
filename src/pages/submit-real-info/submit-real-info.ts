@@ -65,8 +65,8 @@ export class SubmitRealInfoPage extends SecondLevelPage {
 		return this.formData.get('IDtype');
 	}
 	private images = [
-		{ name: 'front', text: '正　面', image: null, fid: '', uploading: false },
-		{ name: 'back', text: '反　面', image: null, fid: '', uploading: false }
+		{ name: 'front', text: '正 面', image: null, fid: '', uploading: false },
+		{ name: 'back', text: '反 面', image: null, fid: '', uploading: false }
 	];
 
 	upload(name) {
