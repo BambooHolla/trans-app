@@ -6,12 +6,16 @@ import {
   IonicPage,
   LoadingController,
   NavController,
-  NavParams
+  NavParams,
+  ModalController
 } from 'ionic-angular';
 
 import { RegisterService } from '../../providers/register-service';
 import { AppDataService } from '../../providers/app-data-service';
 import { AppSettings } from '../../providers/app-settings';
+
+import { InformationModal } from '../../modals/information-modal/information-modal';
+
 /**
  * Generated class for the RegisterPage page.
  *
@@ -54,6 +58,7 @@ export class RegisterPage {
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
+    public modalCtrl: ModalController,
     public loadingCtrl: LoadingController,
     public alertCtrl: AlertController,
     public elementRef: ElementRef,
@@ -158,6 +163,17 @@ export class RegisterPage {
         .present();
     } finally {
       this.registering = false;
+    }
+  }
+
+  showModal(agreementName = 'registAgreement') {
+    if (agreementName in this.appSettings.agreementData) {
+      const { title, agreementFirst } = this.appSettings.agreementData[agreementName];
+      const informationModal = this.modalCtrl.create(InformationModal, {
+        title,
+        agreementFirst,
+      });
+      informationModal.present();
     }
   }
 }

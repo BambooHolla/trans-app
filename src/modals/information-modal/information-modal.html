@@ -1,10 +1,10 @@
-<ion-header>
+<ion-header *ngIf="params?.data?.title">
     <ion-navbar >
         <ion-title>{{params.data.title}}</ion-title>
     </ion-navbar>
 </ion-header>
 
-<ion-content padding class="bg-in" >
+<ion-content padding class="bg-transparent" >
     <div>
         <!--<ion-label color="primary">{{character.nameFirst}}</ion-label>-->
         <div [innerHTML]="params.data.agreementFirst" class="agreement"></div>
@@ -13,7 +13,7 @@
 
         <div class="first"></div>
         <div class="second" (click)="close()">
-            <ion-icon name="md-close-circle"  style="font-size: 4rem;"></ion-icon>
+            <!-- <ion-icon name="md-close-circle" class="close-btn"></ion-icon> -->
         </div>
         <div class="third"></div>
 </ion-content>
