@@ -34,7 +34,8 @@ export class HistoryRecordPage {
     this.page = 1;
     this.getTradeHistory()
       .then(data=>{
-        this.entrusts = data
+        const data_show = data.filter(item => Number(item.completeTotalPrice))
+        this.entrusts = data_show
         if (refresher) refresher.complete()
         this.hasMore = !(data.length < this.pageSize)
       })
@@ -47,7 +48,7 @@ export class HistoryRecordPage {
   getTradeHistory(){
     const traderId = this.navParams.data ? this.navParams.data.traderId : undefined
 
-    return this.entrustServiceProvider.getEntrusts(traderId,'003',this.page,this.pageSize)
+    return this.entrustServiceProvider.getDeliveryList(traderId,this.page,this.pageSize)
       .then(data => {
         console.log('getTradeHistory data:', data)
         return data
@@ -56,7 +57,7 @@ export class HistoryRecordPage {
         console.log('getTradeHistory err')
         this.alertCtrl
           .create({
-            title: '获取咨询出错',
+            title: '获取记录出错',
             subTitle: err? err.message||'':err,
           })
           .present();
@@ -76,8 +77,10 @@ export class HistoryRecordPage {
   async loadMoreHistory(infiniteScroll: InfiniteScroll) {
     this.page += 1;
     const tradeHistory = await this.getTradeHistory();
-    this.hasMore = !(tradeHistory.length < this.pageSize)    
-    this.entrusts.push(...tradeHistory);
+    this.hasMore = !(tradeHistory.length < this.pageSize)
+    const tradeHistory_show = tradeHistory.filter(item => Number(item.completeTotalPrice))
+    this.entrusts.push(...tradeHistory_show);
+    // console.log('getDeliveryList entrusts:',this.entrusts)
     infiniteScroll.complete();
     infiniteScroll.enable(this.hasMore);
   }

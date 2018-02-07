@@ -120,4 +120,71 @@ export class EntrustServiceProvider {
         return Promise.reject(new Error(err))        
       });
   }
+
+  /**
+   * 获取委托单
+   * @param traderId {priceId-productId}
+   * @param entrustStatus //委托状态（001挂单中、002部分成交、003已成交、004已撤单）
+   */
+  getDeliveryList(traderId?, page?, pageSize = 10) {
+    const path = `/transaction/deliveryList`
+
+    let params = new URLSearchParams();
+
+    if (traderId) {
+      const productId = traderId.split('-')[1]
+      const priceId = traderId.split('-')[0]
+
+      params.set('productId', productId);
+      params.set('priceId', priceId);
+    }
+    
+    if (page) {
+      params.set('page', page);
+      params.set('pageSize', pageSize.toString());
+    }
+
+    return this.appService.request(RequestMethod.Get, path, params, true)
+      .then(data => {
+        console.log('getDeliveryList: ', data);
+
+        if (!data) {
+          return Promise.reject(new Error('data missing'))
+        } else if (data.error) {
+          return Promise.reject(new Error(data.error))
+        } else {
+          data = (data as any[]).filter(item =>
+            item
+          )
+            // entrustId:string
+            // productId:string
+            // priceId:string
+            // deliveryAmount:number
+            // deliveryTotalPrice:number
+            // deliveryFee:number
+            // profitOrLoss:number
+            // deliveryAt:string
+            // operationType:string
+            .map(item => ({
+              id: item.id,
+              productId: item.productId,
+              priceId: item.priceId,
+              // entrustTime: item.entrustAt,
+              updatedTime: item.deliveryAt,
+              // commitPrice: item.entrustPrice,
+              // commitAmount: item.entrustAmount,
+              completePrice: item.deliveryPrice,
+              completeTotalPrice: item.deliveryTotalPrice,
+              completeAmount: item.deliveryAmount,
+              operationType: item.deliveryType,//委托操作类型（001买入、002卖出）
+              // surplusAmount: item.surplusAmount,
+            }))
+          return Promise.resolve(data)
+        }
+      })
+      .catch(err => {
+        console.log('getDeliveryList error: ', err);
+        // return Promise.reject(err);
+      });
+  }
 }
