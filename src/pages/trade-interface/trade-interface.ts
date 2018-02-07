@@ -260,7 +260,7 @@ export class TradeInterfacePage {
         .filter(({ stockCode }) => stockCode === traders[0])
       let saleableQuantity = (target && target.length != 0 ? target : [{ saleableQuantity:0}])[0]
         .saleableQuantity / this.appSettings.Product_Price_Rate
-      this.maxAmount = saleableQuantity / Number(price)
+      this.maxAmount = Number(price) ? saleableQuantity / Number(price) :'--'
     } else if (this._tradeType$.getValue() === 0) {
       //最大持仓
       const target = personalStockList
@@ -404,7 +404,7 @@ export class TradeInterfacePage {
     console.log('pricetarget', this.PriceInputer)
     console.log('pricetarget', this.PriceInputer.getElementRef())
     console.log('pricetarget', this.PriceInputer.getNativeElement())
-    this.subscribeTradeData()
+    // this.subscribeTradeData() //暂时没用 用另一种方式保证刷新数值
 
     this.initData();
     this.getProcessEntrusts();

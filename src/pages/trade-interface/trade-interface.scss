@@ -187,7 +187,6 @@ page-trade-interface {
 				}
 
 				&.enabled{
-					color: color($colors,special);
 					&.buy{
 						background-color: rgba(color($colors,special),.1);
 					}
