@@ -11,16 +11,19 @@ export class AboutPage {
   commandData: any[] = [
     {
       icon: "gemail",
-      name: 'bngj@bnqkl.com',
-    }, {
-      icon: "gphone",
-      name: '0591-87275881',
-    }, {
+      name: 'service@picaex.com',
+    }, 
+    // {
+    //   icon: "gphone",
+    //   name: '0591-87275881',
+    // }, 
+    {
       icon: "gcompany",
-      name: '厦门本能管家科技有限公司',
-    }, {
+      name: 'PICASSO BLOCKCHAIN TECHNOLOGY (MALTA) LIMITED',
+    }, 
+    {
       icon: "gaddress",
-      name: '厦门市思明区湖滨北路72号中闽大厦38楼',
+      name: 'SmartCity Malta, SCM 01, Floor 4, 401, Ricasoli, Kalkara SCM 1001, Malta',
     },
   ]
 

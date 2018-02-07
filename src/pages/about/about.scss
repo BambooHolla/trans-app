@@ -15,23 +15,25 @@ page-about {
     }
     ion-grid {
         ion-row {
-            height: 5.5rem;
-            line-height: 5.5rem;
+            min-height: 5.5rem;
+            // line-height: 5.5rem;
             background-color:rgba(#242535,.3);
             margin: 0 !important;
             &+ion-row {
                 border-top: 1px solid rgba(#535353,.3);
             }
             ion-col {
+                display: flex;
+                align-items:center;
                 font-size: 1.4rem;
                 color: color($colors,lightgrey);
                 padding: 0 1.6rem !important;
             }
             ion-icon{
+                float: left;
                 margin-right: .6rem;
             }
             span{
-                vertical-align: middle;
             }
         }
     }
