@@ -64,7 +64,7 @@ export class RegisterService {
         return data;
       });
   }
-  doAuthRegister(account: string, code: string, password: string) {
+  doAuthRegister(account: string, code: string, password: string, timeZone?:string) {
     return this.appService
       .request(RequestMethod.Post, this.AUTH_REGISTER, {
         //type:int 0表示邮箱,1表示手机
@@ -72,6 +72,7 @@ export class RegisterService {
         account,
         code,
         password,
+        timeZone
       })
       .then(data => {
         const { token } = data;

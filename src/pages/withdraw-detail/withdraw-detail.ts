@@ -214,6 +214,8 @@ export class WithdrawDetailPage extends SecondLevelPage {
 				]).then(format_transaction_list => {
 					const format_transaction = format_transaction_list[0];
 					this.transaction_logs.unshift(format_transaction);
+					this.formData.amount = '';
+					this.formData.password = '';
 					return format_transaction;
 				});
 			});
