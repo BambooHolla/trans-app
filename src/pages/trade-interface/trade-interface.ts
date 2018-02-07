@@ -395,7 +395,8 @@ export class TradeInterfacePage {
           toast.present()
         }
         console.log(err.statusText || err.message || err)
-      });
+      })
+      .then(()=>this.checkMax())
   }
 
   ionViewDidEnter(){
@@ -593,8 +594,12 @@ export class TradeInterfacePage {
         }
       })
       .then(()=>{
-        this.personalDataService.requestFundData().catch(() => { });
-        this.personalDataService.requestEquityDeposit().catch(() => { });
+        Promise.all([
+          this.personalDataService.requestFundData().catch(() => { }),
+          this.personalDataService.requestEquityDeposit().catch(() => { }),
+        ]).then(()=>
+          this.checkMax()
+        )
       })
   }
 
