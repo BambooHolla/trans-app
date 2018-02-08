@@ -10,14 +10,8 @@
         <div [innerHTML]="params.data.agreementFirst" class="agreement"></div>
 
     </div>
-
-        <div class="first"></div>
-        <div class="second" (click)="close()">
-            <!-- <ion-icon name="md-close-circle" class="close-btn"></ion-icon> -->
-        </div>
-        <div class="third"></div>
 </ion-content>
 
 <ion-footer>
-
+        <div class="close-button" (click)="close()"></div>
 </ion-footer>

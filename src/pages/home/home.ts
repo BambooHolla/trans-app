@@ -51,16 +51,16 @@ export class HomePage extends FirstLevelPage implements OnInit{
     //   name: '我的委托/撤销',
     //   href: CommissionListPage,
     // },
-    {
-      icon: "gtrend",
-      name: '资金变动查询',
-      href: FundStatementPage,
-    },
+    // {
+    //   icon: "gtrend",
+    //   name: '资金变动查询',
+    //   href: FundStatementPage,
+    // },
     {
       icon: "gdoc",
       name: '历史成交',
       href: HistoryRecordPage,
-      bottomSpace: true,
+      // bottomSpace: true,
     },
     {
       icon: "ginvite",
