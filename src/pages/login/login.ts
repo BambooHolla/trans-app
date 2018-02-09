@@ -57,7 +57,7 @@ export class LoginPage implements OnInit{
       .distinctUntilChanged()
       .subscribe(() => {
         this.init()
-      }) 
+      })
   }
 
   ionViewDidLoad() {
@@ -96,7 +96,7 @@ export class LoginPage implements OnInit{
     const appDataService = this.appDataService;
     try {
       await appDataService.dataReady;
-      
+
       const controls = this.loginForm.controls;
 
       for (const prop in controls) {
@@ -114,7 +114,10 @@ export class LoginPage implements OnInit{
   async login() {
     const controls = this.loginForm.controls;
 
-    const customerId = controls['customerId'].value;
+    let customerId = controls['customerId'].value;
+    if (customerId.indexOf(" ") >= 0) {
+      customerId = customerId.replace(/(\s*$)/g, "");
+    }
     const password = controls['password'].value;
     const savePassword = true;//controls['savePassword'].value;
     const type = this.appSettings.accountType(customerId);

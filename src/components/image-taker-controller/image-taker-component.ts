@@ -60,16 +60,20 @@ export class ImageTakerCmp {
                         inputEle.dispatchEvent(clickEvent);
                         inputEle.onchange = e => {
                             if (inputEle.files && inputEle.files[0]) {
-                                var reader = new FileReader();
+                                //var reader = new FileReader();
 
-                                reader.onload = e => {
-                                    this.dismiss({
-                                        name,
-                                        data: e.target['result']
-                                    });
-                                };
+                                //reader.onload = e => {
+                                    //this.dismiss({
+                                        //name,
+                                        //data: e.target['result']
+                                    //});
+                                //};
 
-                                reader.readAsDataURL(inputEle.files[0]);
+                                //reader.readAsDataURL(inputEle.files[0]);
+                                this.dismiss({
+                                    name,
+                                    data: URL.createObjectURL(inputEle.files[0])
+                                });
                             } else {
                                 this.dismiss(null);
                             }
