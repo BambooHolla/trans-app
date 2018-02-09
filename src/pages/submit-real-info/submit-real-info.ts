@@ -18,6 +18,7 @@ import {
 import { IdentificationNumberCheckerProvider } from '../../providers/identification-number-checker/identification-number-checker';
 import { ImageTakerController } from '../../components/image-taker-controller';
 import { FsProvider, FileType } from '../../providers/fs/fs';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
 	selector: 'page-submit-real-info',
@@ -31,7 +32,8 @@ export class SubmitRealInfoPage extends SecondLevelPage {
 		public accountService: AccountServiceProvider,
 		public imageTakerCtrl: ImageTakerController,
 		public fs: FsProvider,
-		public idNumberChecker: IdentificationNumberCheckerProvider
+		public idNumberChecker: IdentificationNumberCheckerProvider,
+		public san: DomSanitizer
 	) {
 		super(navCtrl, navParams);
 	}
@@ -100,9 +102,9 @@ export class SubmitRealInfoPage extends SecondLevelPage {
 		try {
 			const fid = await fid_promise;
 			const result_data = result.data;
-			const blob = this.dataURItoBlob(result_data);
+			const blob = await this.minImage(result_data);
 			const blob_url = URL.createObjectURL(blob);
-			image.image = result_data;
+			image.image = this.san.bypassSecurityTrustUrl(blob_url);
 			const upload_res = await this.fs.uploadImage(fid, blob);
 			console.log('upload_res', upload_res);
 			if (image.image === result_data) {
@@ -113,7 +115,7 @@ export class SubmitRealInfoPage extends SecondLevelPage {
 		}
 	}
 
-	dataURItoBlob(dataURI) {
+	async dataURItoBlob(dataURI) {
 		// convert base64/URLEncoded data component to raw binary data held in a string
 		var byteString;
 		if (dataURI.split(',')[0].indexOf('base64') >= 0)
@@ -158,5 +160,37 @@ export class SubmitRealInfoPage extends SecondLevelPage {
 				this.finishJob(true);
 				return d;
 			});
+	}
+
+	async minImage(url) { //压缩
+		const canvas = document.createElement("canvas");
+		const maxSize = 1000;
+
+		const ctx = canvas.getContext("2d");
+		const image = new Image();
+		image.src = url;
+		return new Promise<Blob>((resolve, reject) => {
+			image.onload = () => {
+				try {
+					const { width, height } = image;
+					const max_WH = Math.max(width, height);
+					if (max_WH < maxSize) {
+						resolve(this.dataURItoBlob(url))
+					}
+					if (width === max_WH) {
+						image.width = canvas.width = maxSize;
+						image.height = canvas.height = height / width * maxSize;
+					} else {
+						image.height = canvas.height = maxSize;
+						image.width = canvas.width = width / height * maxSize;
+					}
+					console.log(canvas.width, canvas.height)
+
+					ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
+					canvas.toBlob(resolve);
+				} catch (err) { reject(err) }
+			}
+			image.onerror = reject
+		})
 	}
 }
