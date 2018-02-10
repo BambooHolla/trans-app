@@ -49,7 +49,7 @@ export class TradeInterfacePage {
   private traderList = []
   private priceName: string
   private productName: string
-  private targetName: string  
+  private targetName: string
   //traderId可以做成subject, 用setter 和getter改变 作为源头触发其他改动.
   private traderId: string = this.appSettings.SIM_DATA ?
     '000001' : undefined;
@@ -100,7 +100,7 @@ export class TradeInterfacePage {
 
   private betsHidden: boolean = false;
   @ViewChild('largeRealtimeChart') largeRealtimeChart;
-  
+
   private kDataUnit: string = '';
   private candlestickOptions = {
     customTooltip: true,
@@ -141,8 +141,8 @@ export class TradeInterfacePage {
   handBase = 0.01;
 
   realtimeOptions = {
-    xAxisShow: true, 
-    axisLabelShow: false, 
+    xAxisShow: true,
+    axisLabelShow: false,
     yAxisStyle: {
       color: 'rgba(255, 255, 255, 0.2)',
       type: 'dashed',
@@ -179,7 +179,7 @@ export class TradeInterfacePage {
     //     }
     //   })
   }
-  
+
   backInOut(k) {
       var s = 1.70158 * 1.525;
       if ((k *= 2) < 1) { return 0.5 * (k * k * ((s + 1) * k - s)); }
@@ -203,9 +203,9 @@ export class TradeInterfacePage {
     public platform: Platform,
     public statusBar: StatusBar,
     public androidFullScreen: AndroidFullScreen,
-  ) {    
+  ) {
     // debugger
-    // window['TradeInterfacePage'] = this 
+    // window['TradeInterfacePage'] = this
     this.traderId = this.navParams.get('stockCode') || this.navParams.data || this.traderId;
 
     // if (!this.traderId) this.appDataService.products.forEach((value, key, map) => {
@@ -240,8 +240,8 @@ export class TradeInterfacePage {
 
     const result = Math.max(0, Math.round(+this[target] * invBase + step * invBase) / invBase);
     //强制刷新数据hack处理
-    this[target] = length ? result.toFixed(length) : result.toString()    
-    this.platform.raf(()=>{      
+    this[target] = length ? result.toFixed(length) : result.toString()
+    this.platform.raf(()=>{
       this[target] = length ? result.toFixed(length) : result.toString()//.toFixed(Math.max(0, -precision));
     })
     // //TODO:价格改变时修改最大可交易数量
@@ -292,10 +292,10 @@ export class TradeInterfacePage {
 
   async getFee(rate) {
     if(!rate) return ''
-    
+
     // const rate = this.buyRate
     const traders = this.traderId
-    const rateTarget = rate.targetType === '001' ? await this.stockDataService.getProduct(traders[1]) : 
+    const rateTarget = rate.targetType === '001' ? await this.stockDataService.getProduct(traders[1]) :
       rate.targetType === '002' ? await this.stockDataService.getProduct(traders[0]) : void 0
     const rateStr = rate ?
       rate.calculateType === '001' ? `${rate.rate * 100}%` :
@@ -334,16 +334,16 @@ export class TradeInterfacePage {
     if(price <= 0){
       toast.setMessage('请输入正确的购买价格')
     }else if(amount <= 0){
-      toast.setMessage('请输入正确的购买数量')      
+      toast.setMessage('请输入正确的购买数量')
     }else if(amount > Number(this.maxAmount)){
-      toast.setMessage('购买数量超过可购买上限')      
+      toast.setMessage('购买数量超过可购买上限')
     }else{
       show_warning = false
     }
 
     if(show_warning){
       toast.present()
-      return false      
+      return false
     }
 
     console.log('doTrade:',
@@ -364,7 +364,7 @@ export class TradeInterfacePage {
         console.log('doTrade:',resData)
         // [{ "FID_CODE": "1", "FID_MESSAGE": "委托成功,您这笔委托的合同号是:201" }]
         const result = resData instanceof Array ? resData[0] : resData
-        
+
         if (typeof result === 'object' && result.id) {
           let toast = this.toastCtrl.create({
             message: '委托单已提交',//`${result.id}`,
@@ -391,7 +391,7 @@ export class TradeInterfacePage {
             duration: 3000,
             position: 'middle'
           })
-          this.alertService.dismissLoading()          
+          this.alertService.dismissLoading()
           toast.present()
         }
         console.log(err.statusText || err.message || err)
@@ -436,9 +436,9 @@ export class TradeInterfacePage {
         // )
         //TODO:交易类型,价格 变动触发 最大可交易量变动
         if(tradeType === 1){
-          
-          this.maxAmount 
-          this.amount 
+
+          this.maxAmount
+          this.amount
         }else if(tradeType === 0){
 
         }
@@ -455,7 +455,7 @@ export class TradeInterfacePage {
     if (traderId){
       const traderList = await this.appDataService.traderListPromise;
       const trader = this.appDataService.traderList.get(traderId)
-      if(!trader) return void 0 
+      if(!trader) return void 0
       const names = trader.traderName.split(' / ')
       this.productName = names[0]
       this.priceName = names[1]
@@ -481,7 +481,7 @@ export class TradeInterfacePage {
       //         .subscribe();
       //     }
       //   })
-      console.log('trade-interface:(doSubscribe):depth ', this._depth$)      
+      console.log('trade-interface:(doSubscribe):depth ', this._depth$)
       // if(!this._depth$){
         this._depth$ = this.socketioService.subscribeEquity(traderId, 'depth')
           .do(data => console.log('trade-interface:depth:', data))
@@ -532,7 +532,7 @@ export class TradeInterfacePage {
   }
 
   confirmCancel(entrustId, entrustTime, entrustCategory) {
-    entrustCategory =  entrustCategory == '001' ? '买入' : entrustCategory == '002' ? '卖出' : '' 
+    entrustCategory =  entrustCategory == '001' ? '买入' : entrustCategory == '002' ? '卖出' : ''
     entrustTime = new Date(entrustTime)
     entrustTime = `${entrustTime.getFullYear()}-${entrustTime.getMonth()+1}-${entrustTime.getDate()}`
     let alert = this.alertCtrl.create({
@@ -581,7 +581,7 @@ export class TradeInterfacePage {
 
         this.page = 1
         this.getProcessEntrusts()
-        
+
         if (err && err.message) {
           let toast = this.toastCtrl.create({
             message: `${err.message}`,
@@ -611,7 +611,7 @@ export class TradeInterfacePage {
         if(this.page == 1){
           this.entrusts = data
         }else{
-          this.entrusts.push(...data)          
+          this.entrusts.push(...data)
         }
         this.hasMore = !(data.length < this.pageSize)
         if (infiniteScroll){
@@ -673,10 +673,10 @@ export class TradeInterfacePage {
         })
         alert.present()
       }else{
-        this.appDataService.show_onestep_trade = true;        
+        this.appDataService.show_onestep_trade = true;
       }
-      
-      
+
+
     }
   }
 
@@ -747,11 +747,11 @@ export class TradeInterfacePage {
         case 2:
           timespan = '30m';
           startTime = theDate.setDate(theDate.getDate() - 30);
-          break; 
+          break;
         case 3:
           timespan = '1h';
           startTime = theDate.setDate(theDate.getDate() - 60);
-          break; 
+          break;
         default:
           timespan = '5m';
           startTime = theDate.setDate(theDate.getDate() - 5);
@@ -795,7 +795,7 @@ export class TradeInterfacePage {
               turnoverAmount: value.amount * value.avg / this.appSettings.Product_Price_Rate,
               turnoverQuantity: value.amount / this.appSettings.Product_Price_Rate,
               // yesterdayPrice:4.78,
-            }    
+            }
           })
           srcArr.push(...resData)//使用push+解构赋值,预期echarts动画实现
           const length = srcArr.length
@@ -804,7 +804,7 @@ export class TradeInterfacePage {
           }
           console.log('trade- interface_candlestickData:srcArr:', srcArr)
           return srcArr.concat()
-        })      
+        })
     }
   }
 
@@ -834,7 +834,7 @@ export class TradeInterfacePage {
           if (data) {
             this.buyTotalQuantity = data.forecastTotalPrice
             this.buyTotalAmount = data.forecastAmount
-          } 
+          }
           // else {
           //   this.buyTotalQuantity = 0
           // }
@@ -848,7 +848,7 @@ export class TradeInterfacePage {
           if (data) {
             this.saleTotalQuantity = data.forecastAmount
             this.saleTotalAmount = data.forecastTotalPrice
-          } 
+          }
           // else {
           //   this.saleTotalQuantity = 0
           // }
@@ -891,7 +891,7 @@ export class TradeInterfacePage {
           //刷新账户信息
           await this.personalDataService.requestFundData().catch(() => { });
           await this.personalDataService.requestEquityDeposit().catch(() => { });
-          this.getQuickTradeData(index)          
+          this.getQuickTradeData(index)
 
           this.alertService.dismissLoading()
 
@@ -917,5 +917,5 @@ export class TradeInterfacePage {
     }
 
   }
-  
+
 }
