@@ -20,8 +20,8 @@
         </div>
         <div class="assets-item frozen">
             <ion-icon name="佣金"></ion-icon>
-            <div class="sub-title">已获得的佣金预估</div>
-            <div class="amount">1 IBT</div>
+            <div class="sub-title">已获得的佣金</div>
+            <div class="amount">&nbsp;</div>
         </div>
     </div>
     <div class="invite-msg">
@@ -81,7 +81,7 @@
                 我的推荐人
                 <span class="person">{{recommender}}</span>
             </div>
-            <button class="copy-button set" ion-button (click)="set()">
+            <button class="copy-button set" ion-button (click)="set()" [disabled]="recommender">
                 <ion-icon name="设置"></ion-icon>
                 设置
             </button>
