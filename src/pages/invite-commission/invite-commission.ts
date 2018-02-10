@@ -4,7 +4,9 @@ import {
   NavParams,
   Refresher,
   InfiniteScroll,
-  AlertController
+  AlertController,
+  ModalController,
+  ToastController
 } from "ionic-angular";
 import { asyncCtrlGenerator } from "../../bnlc-framework/Decorator";
 import { PersonalDataService } from "../../providers/personal-data-service";
@@ -12,6 +14,8 @@ import { AppService } from "../../providers/app.service";
 import { Http, RequestMethod, URLSearchParams } from "@angular/http";
 import { AppDataService } from "../../providers/app-data-service";
 import { AppSettingProvider } from "../../bnlc-framework/providers/app-setting/app-setting";
+import { CustomizeAlert } from "../../modals/customize-alert/customize-alert";
+import { AlertService } from "../../providers/alert-service";
 
 @Component({
   selector: "page-invite-commission",
@@ -41,7 +45,10 @@ export class InviteCommissionPage {
     public personalDataService: PersonalDataService,
     public appService: AppService,
     public appDataService: AppDataService,
-    public setting: AppSettingProvider
+    public setting: AppSettingProvider,
+    public modalCtrl: ModalController,
+    public alertService: AlertService,
+    public toastCtrl: ToastController
   ) {
     this.initData();
     this.ref =
@@ -60,7 +67,17 @@ export class InviteCommissionPage {
     navigator["clipboard"].writeText(this.recharge_address.index);
   }
 
-  set() {}
+  set() {
+    let modal = this.modalCtrl.create(CustomizeAlert,
+      {tip:"请输入邀请码"},
+      { showBackdrop: true, enableBackdropDismiss: true });
+    modal.onDidDismiss(returnData => {
+      if (returnData) {
+        this.setRecommender(returnData);
+      }
+		  });
+		modal.present();
+  }
   //获取推荐了多少人
   requestRecommendData(): Promise<any> {
     const path = `/user/getRecommendCount`;
@@ -82,25 +99,45 @@ export class InviteCommissionPage {
       });
   }
 
-  //获取推荐人
+  //获取我的推荐人
   requestRecommender(): Promise<any> {
-    const path = `/user/getRecommendList`;
+    const path = `/user/getMyRecommender`;
     return this.appService
       .request(RequestMethod.Get, path, undefined, true)
       .then(data => {
         if (!data) {
           return Promise.reject(new Error("data missing"));
         }
-        if (data[0].realName) {
-          this.recommender = data[0].realName;
-        } else if (data[0].telephone) {
-          this.recommender = data[0].telephone;
-        } else if (data[0].email) {
-          this.recommender = data[0].email;
+        if (data.realName) {
+          this.recommender = data.realName;
+        } else if (data.telephone) {
+          this.recommender = data.telephone;
+        } else if (data.email) {
+          this.recommender = data.email;
         }
       })
       .catch(err => {
         console.log("getCustomersData error: ", err);
       });
   }
+
+    //设置推荐人
+    setRecommender(code): Promise<any> {
+      const path = `/user/setInvitationCode`;
+      return this.appService
+        .request(RequestMethod.Post, path, {code: code}, true)
+        .then(data => {
+          if (!data) {
+            return Promise.reject(new Error("data missing"));
+          }
+          this.alertService.dismissLoading();
+          this.alertService.alertTips(data.message);
+          this.requestRecommender();
+        })
+        .catch(err => {
+          this.alertService.dismissLoading();
+          this.alertService.showAlert('警告', err.message?err.message:err);
+          console.log("getCustomersData error: ", err);
+        });
+    }
 }
