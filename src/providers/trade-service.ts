@@ -165,10 +165,11 @@ export class TradeService {
               //   product,
               //   price
               // );
-              if (product) {
+              // if (product) {
                 traderList.set(`${priceId}-${productId}`, {
                   traderId: `${priceId}-${productId}`,
-                  traderName: !priceId ? `${product.productName}` : `${product.productName} / ${price.productName}`,
+                  traderName: !priceId ? `${product ? product.productName : '--'}` :
+                    `${product ? product.productName : '--'} / ${product ? price.productName : '--'}`,
                   reportRef: new Observable(), //用来存放报表中间管道
                   reportArr: [],
                   marketRef: new BehaviorSubject(undefined), //用来存放交易中间管道
@@ -177,7 +178,7 @@ export class TradeService {
                   priceId,
                   productId,
                 });
-              }
+              // }
             });
         }
         return Promise.resolve(traderList);
