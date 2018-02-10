@@ -1,0 +1,19 @@
+<ion-content>
+    <div class="title">
+        <img src="../assets/icon/recommend.jpg" alt="">
+    </div>
+    <div class="message">
+        <span class="tip">{{tip}}</span>
+        <input type="text" [(ngModel)]="recommendCode">
+        <div class="alert-button-group">
+            <button ion-button="alert-button" (click)="dismiss()">
+                    <span class="button-inner">取消</span>
+                    <div class="button-effect"></div>
+                </button>
+            <button ion-button="alert-button" style="transition: none;background-color: #c1b17f" (click)="submit()">
+                    <span class="button-inner submit">确认</span>
+                    <div class="button-effect"></div>
+                </button>
+        </div>
+    </div>
+</ion-content>

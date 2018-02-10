@@ -5,9 +5,9 @@
   Ionic pages and navigation.
 -->
 <ion-header>
-        <ion-navbar>
-            <ion-title>{{productInfo?.productDetail}}充值</ion-title>
-        </ion-navbar>
+    <ion-navbar>
+        <ion-title>{{productInfo?.productDetail}}充值</ion-title>
+    </ion-navbar>
 </ion-header>
 <ion-content>
     <div class="account-assets">
@@ -30,7 +30,7 @@
             </div>
             <button class="copy-button" ion-button (click)="copyCode()" [copy]="recharge_address.paymentAccountNumber">
                 <ion-icon name="复制"></ion-icon>
-                即可复制
+                点击复制
             </button>
         </div>
         <div class="address-detail">
@@ -55,6 +55,7 @@
     </div>
     <div class="recharge-logs">
         <div class="title">充值记录</div>
+        <div class="no-entrust" *ngIf="!transaction_logs || transaction_logs.length == 0">暂无充值记录~</div>
         <div class="recharge-log" *ngFor="let tlog of transaction_logs">
             <div class="base-info">
                 <div class="type-name">{{tlog.productDetail}}</div>

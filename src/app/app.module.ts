@@ -110,6 +110,7 @@ import {
 import { BnHeaderComponent } from '../components/bn-header/bn-header';
 import { BnMenuComponent } from '../components/bn-menu/bn-menu';
 import { CommonAlert } from '../components/common-alert/common-alert';
+import { CustomizeAlert } from '../modals/customize-alert/customize-alert';
 
 // import { RiseOrFallPipe } from '../pipes/rise-or-fall';
 // import { NumReplacePipe } from '../pipes/num-replace';
@@ -270,7 +271,8 @@ import { InviteCommissionPage } from '../pages/invite-commission/invite-commissi
         // BankCode2NamePipe,
         // IsLoadingDirective,
         CommonAlert,
-        InviteCommissionPage
+        InviteCommissionPage,
+        CustomizeAlert
     ],
     imports: [
         // NewsContentModule,
@@ -445,7 +447,8 @@ import { InviteCommissionPage } from '../pages/invite-commission/invite-commissi
         ImageTakerCmp,
         RealTimeChartsComponent,
         CommonAlert,
-        InviteCommissionPage
+        InviteCommissionPage,
+        CustomizeAlert
     ],
     providers: [
         AppService,

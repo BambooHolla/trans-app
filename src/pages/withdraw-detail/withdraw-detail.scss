@@ -8,6 +8,14 @@
         .withdraw-to button {
             height: 40px!important;
         }
+        .no-entrust {
+            text-align: center;
+            height: 10rem;
+            line-height: 10rem;
+            font-size: 2rem;
+            color: #6b6b6b;
+            background-color: rgba(34, 35, 51, 0.8);
+        }
         ion-list {
             .transfer-expenses {
                 color: color($colors, 'special');
