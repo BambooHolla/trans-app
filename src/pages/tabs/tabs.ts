@@ -11,7 +11,8 @@ import { NavController, Tab, Tabs } from 'ionic-angular';
 import { OptionalPage } from '../optional/optional';
 import { RecommendPage } from '../recommend/recommend';
 import { HomePage } from '../home/home';
-import { QuotationsPage } from '../quotations/quotations';
+// import { QuotationsPage } from '../quotations/quotations';
+import { QuotationsPageV2 } from '../quotations-v2/quotations-v2';
 
 import { AppSettings } from '../../providers/app-settings';
 import { PersonalDataService } from '../../providers/personal-data-service';
@@ -34,7 +35,7 @@ export class TabsPage implements OnInit, AfterViewInit, AfterContentInit {
   newsListPage: any = NewsListPage;
 
   homeRoot: any = HomePage;
-  quotationsPageRoot: any = QuotationsPage;
+  quotationsPageRoot: any = QuotationsPageV2;
   // tradeRoot: any = TradeInterfacePage;
 
   stockCode: string;

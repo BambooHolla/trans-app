@@ -79,7 +79,7 @@ import { FundStatementPage } from '../pages/fund-statement/fund-statement';
 import { ImagePickerPage } from '../pages/image-picker/image-picker';
 import { CommissionListPage } from '../pages/commission-list/commission-list';
 import { HistoryRecordPage } from '../pages/history-record/history-record';
-import { QuotationsPage } from '../pages/quotations/quotations';
+import { QuotationsPageV2 } from '../pages/quotations-v2/quotations-v2';
 import { TradeInterfacePage } from '../pages/trade-interface/trade-interface';
 import { StockDetailPage } from '../pages/stock-detail/stock-detail';
 
@@ -233,7 +233,7 @@ import { InviteCommissionPage } from '../pages/invite-commission/invite-commissi
         FundStatementPage,
         CommissionListPage,
         HistoryRecordPage,
-        QuotationsPage,
+        QuotationsPageV2,
         TradeInterfacePage,
         StockDetailPage,
         // NoticeListPage,
@@ -299,7 +299,7 @@ import { InviteCommissionPage } from '../pages/invite-commission/invite-commissi
                         defaultHistory: [TabsPage]
                     },
                     {
-                        component: QuotationsPage,
+                        component: QuotationsPageV2,
                         name: 'quotations',
                         defaultHistory: [TabsPage]
                     },
@@ -419,7 +419,7 @@ import { InviteCommissionPage } from '../pages/invite-commission/invite-commissi
         FundStatementPage,
         CommissionListPage,
         HistoryRecordPage,
-        QuotationsPage,
+        QuotationsPageV2,
         TradeInterfacePage,
         StockDetailPage,
         OptionalPage,

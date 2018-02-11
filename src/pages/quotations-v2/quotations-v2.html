@@ -1,0 +1,103 @@
+<ion-header>
+    <ion-navbar>
+        <ion-grid no-padding>
+            <ion-row class="title-header">
+                <ion-col class="title" no-padding text-center>
+                    行情
+                </ion-col>
+                <ion-buttons [hidden]="showSearch" right padding-horizontal (click)="toShowSearch()">
+                    <button ion-button>
+                        <ion-icon class="large-icon" name="search"></ion-icon>
+                    </button>
+                </ion-buttons>
+                <ion-toolbar [hidden]="!showSearch" class="searchbar">
+                    <div #searchInputWrap class="searchInput">
+                        <ion-item no-padding no-lines>
+                            <ion-input #searchInput type="text" clearInput (keyup)="search(searchInput.value)">
+                            </ion-input>
+                        </ion-item>
+                    </div>
+                    <ion-buttons right (click)="cancelFilter()">
+                        <button ion-button>取消</button>
+                    </ion-buttons>
+                </ion-toolbar>
+            </ion-row>
+            <ion-row class="products">
+                <ion-col no-padding>btc</ion-col>
+                <ion-col no-padding>eth</ion-col>
+                <ion-col no-padding>ibt</ion-col>
+            </ion-row>
+            <ion-row class="prices">
+                <ion-col no-padding>12321312312</ion-col>
+                <ion-col no-padding>12312321321</ion-col>
+                <ion-col no-padding>21312312321</ion-col>
+            </ion-row>
+        </ion-grid>
+    </ion-navbar>
+</ion-header>
+
+<ion-content class="home-contain">
+
+    <!-- <div *ngFor="let trader of traderList_show" class="qhd">
+        <realtime-report tappable [navPush]="tradeInterface" [navParams]="trader.traderId" [echartsData]="trader?.reportRef | async"
+            [options]="realtimeOptions">
+        </realtime-report>
+        <div class="qcont quotcont">
+            <div class="title">
+                <h6>{{trader.traderName}}</h6>
+                <span class="font-smaller">
+                    <label class="{{showData?.changeValue | riseOrFall}}">最新价 </label>
+                    {{(trader?.marketRef | async)?.price | number:'.2-5'}}
+                </span>
+                <span class="font-smaller">
+                    <label class="{{showData?.changeValue | riseOrFall}}">成交量 </label>
+                    {{(trader?.marketRef | async)?.amount | quantityConversion | number:'.2-5'}}
+                </span>
+            </div>
+        </div>
+    </div> -->
+
+    <div class="trader-item">
+        <div class="header">
+            <div class="name">
+                btc/ibt
+            </div>
+            <div class="price">
+                12312321312321131456.123
+            </div>
+            <div class="range">
+                <div class="box">
+                    +123.89%
+                </div>
+            </div>
+        </div>
+        <div class="body">
+            <div>
+                <div>
+                    <span class="key">名</span>
+                    <span class="value">12,321.1234</span>
+                </div>
+                <div>
+                    <span class="key">名</span>
+                    <span class="value">12,321.1234</span>
+                </div>
+            </div>
+            <div>
+                <div>
+                    <span class="key">名</span>
+                    <span class="value">12,321.1234</span>
+                </div>
+                <div>
+                    <span class="key">名</span>
+                    <span class="value">12,321.1234</span>
+                </div>
+            </div>
+            <div>
+                <realtime-report tappable [navPush]="tradeInterface" [navParams]="trader?.traderId" [echartsData]="trader?.reportRef | async"
+                    [options]="realtimeOptions">
+                </realtime-report>
+            </div>
+        </div>
+    </div>
+
+</ion-content>

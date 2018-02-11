@@ -1,0 +1,209 @@
+page-quotations-v2{
+    ion-header {
+        background-color: color($colors,background);
+        .title-header{
+            position: relative;
+            // height: 5.8rem;
+            padding: 1.7rem 0;
+            font-size: 1.8rem;
+            line-height: 1.8rem;
+            text-align: center;
+            .title{
+                margin-right: -6rem;
+            }
+            ion-buttons>button{
+                vertical-align: middle;
+                height: 1.6rem;
+            }
+        }
+        .row{
+            position: relative;
+        }
+        .toolbar-title {
+            font-size: 1.7rem;
+        }
+
+        .searchbar{
+            position: absolute;
+            bottom: 0%;
+            font-size: 1.5rem;
+            
+            .searchInput{
+                position: relative;
+                margin-left: 2.6rem;
+                transition:width 2s;
+                width: 0;
+                .clearInput{
+                    position: absolute;
+                    right: 1.1rem;
+                    top: .85rem;
+                }
+
+                ion-input{
+                    border: 0;
+                    height: 3.2rem;
+                    width:100%;
+                    border-radius: 1.6rem;
+                    background-color: rgba(255,255,255,0.12);
+                    padding: 0 0 0 3.2rem;
+
+                    input{
+                        margin: 0;
+                        line-height: 3.2rem;
+                    }
+                }
+            }
+
+            span{
+            display: inline-block;
+            width: 4.6rem;
+            margin-left: .5rem;
+            text-align: center;
+            line-height: 3.2rem;
+            vertical-align: middle;
+            }
+        }
+
+        .products{
+            margin-top: .8rem;
+            font-size: 1.8rem;
+            line-height: 1.8rem;
+            text-align: center;
+        }
+        .prices{
+            margin: 2.3rem 0 .6rem;
+            font-size: 1.6rem;
+            line-height: 1.6rem;
+            text-align: center;
+        }
+    }
+    
+    ion-content{
+        background-color: color($colors,background-darker)!important;
+        .qhd{
+            position: relative;
+            height: 11rem;
+
+            .qcont{
+                position: absolute;
+                height: 12rem!important;
+                width:100%;
+                top:0;
+                pointer-events: none;
+                .slides{
+                    margin-top:1.8rem;
+                    margin-left: 0.8rem;
+                }
+            }
+            .echarts-placeholder{
+                height: 12rem;
+                // background:#0d7593;
+            }
+        }
+
+        .quotcont{
+            height: 12rem;
+            padding: 1rem;
+            .echarts-placeholder,
+            .slideselem {
+                height: 10rem;
+            }
+            .slide-zoom{
+                margin-top: 0.8rem;
+                text-align: center;
+            }
+            .title{
+                // width:13rem;
+                float: left;
+                padding:0.5rem 0 0 0.8rem;
+                span{
+                    display: block;
+                }
+                label{
+                    color:color($colors, lightdark); 
+                }
+                h6{
+                    color:color($colors, special);
+                    margin:0;
+                }
+            }
+            .slides{
+                width: 12rem;
+                float: left;
+                text-align: center;
+                padding: 1.5rem 1.8rem 0 1.8rem;
+                h3, h6{margin:0;}
+            }
+            .slideselem{
+                overflow: hidden;
+            }
+        }
+    }
+
+    .trader-item{
+        margin-top: 1.5rem;
+        &+.trader-item{
+            margin-top: .7rem;
+        }
+
+        .header{
+            display: flex;
+            background-color: #212231;
+            margin-bottom: 1px;
+            &>*{
+                flex:1;
+                overflow: hidden;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+                padding-left: 2.2rem;
+                height: 4.4rem;
+                line-height: 4.4rem;
+                // div{
+                //     width:100%;
+                // }
+                // display: inline-block;
+                // width: 33%;
+            }
+            .name,.price{
+                font-size: 1.8rem;
+            }
+            .range .box{
+                margin: 1rem 0;
+                display: inline-block;
+                text-align: center;
+                width: 8.6rem;
+                height: 2.4rem;
+                line-height: 2.4rem;
+                border-radius: .2rem;
+                background-color: #000;
+            }
+        }
+        .body{
+            height: 6.5rem;
+            background-color: #212231;            
+            display: flex;
+            align-items: center;
+            &>*{
+                flex:1;
+                overflow: hidden;
+                padding-left: 2.2rem;
+                .key,.value{
+                    font-size: 1.2rem;
+                    line-height: 1.2rem;
+                }
+                .key{
+                    color: color($colors,middark);
+                }
+                .value{
+                    overflow: hidden;
+                    white-space: nowrap;
+                    text-overflow: ellipsis;
+                }
+                div+div{
+                    margin-top: 1.1rem;
+                }
+            }
+        }
+    }
+    
+}
