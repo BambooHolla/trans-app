@@ -99,53 +99,22 @@ export class QuotationsPageV2 {
 		customTooltip: true,
 		xAxisShow: false,
 		axisLabelShow: false,
-		yAxisStyle: {
-			color: 'rgba(255, 255, 255, 0.2)',
-			type: 'dashed',
-		},
-		textColor: 'rgba(255, 255, 255, 1)',
+		// yAxisStyle: {
+		// 	// color: 'rgba(255, 255, 255, 0.2)',
+		// 	type: 'dashed',
+		// },
+		// textColor: 'rgba(255, 255, 255, 1)',
 		gridLeft: '0',
+		gridRight: '10px',
 		gridTop: '10px',
-		gridBottom: '0px',
+		gridBottom: '6px',
 		xAxisInside: false,
 		yAxisSplitLine: false,
-		align: 'bottom',
-		yAxisSize: '10',
+		// align: 'bottom',
+		// yAxisSize: '10',
+		area: {},
 	};
 
-	realtimeOption = {
-		customTooltip: true,
-		xAxisShow: true,
-		axisLabelShow: false,
-		yAxisStyle: {
-			color: 'rgba(255, 255, 255, 0.2)',
-			type: 'dashed',
-		},
-		textColor: 'rgba(255, 255, 255, 1)',
-		gridLeft: '0',
-		gridTop: '0px',
-		gridBottom: '10px',
-		xAxisInside: true,
-		yAxisSplitLine: true,
-		align: 'top',
-		yAxisSize: '10',
-		// area: {
-		// 	normal: {
-		// 		color: {
-		// 			type: 'linear',
-		// 			x: 0,
-		// 			y: 0,
-		// 			x2: 0,
-		// 			y2: 1,
-		// 			colorStops: [{
-		// 				offset: 0, color: 'rgb(204,255,255)' // 0% 处的颜色
-		// 			}, {
-		// 				offset: 1, color: 'rgb(51,153,204)' // 100% 处的颜色
-		// 			}],
-		// 		}
-		// 	}
-		// },
-	};
 	constructor(
 		public navCtrl: NavController,
 		public appSettings: AppSettings,
@@ -345,6 +314,7 @@ export class QuotationsPageV2 {
 				.subscribe(value.marketRef)//, this.viewDidLeave$)
 		})
 	}
+
 	switchToTempData() {
 		this.useTempData.next(true);
 

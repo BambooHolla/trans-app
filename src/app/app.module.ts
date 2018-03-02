@@ -166,6 +166,7 @@ import { IdentificationNumberCheckerProvider } from '../providers/identification
 import { NewsServiceProvider } from '../providers/news-service/news-service';
 import { WorkOrderServiceProvider } from '../providers/work-order-service/work-order-service';
 import { InviteCommissionPage } from '../pages/invite-commission/invite-commission';
+import { QuotationsPage } from '../pages/quotations/quotations';
 // import { BankCode2NamePipe } from '..\pipes\bank-code2-name/bank-code2-name';
 // import { FileService } from '../providers/file.service';
 // import { IsLoadingDirective } from '../directives/is-loading/is-loading';
@@ -233,6 +234,7 @@ import { InviteCommissionPage } from '../pages/invite-commission/invite-commissi
         FundStatementPage,
         CommissionListPage,
         HistoryRecordPage,
+        QuotationsPage,//v2版本中其实不需要这个页面.但是angular编译会遍历目录,从而报错没有引入此页面的(即使项目中实际上并没有用到!贼傻逼!)
         QuotationsPageV2,
         TradeInterfacePage,
         StockDetailPage,

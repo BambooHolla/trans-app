@@ -68,7 +68,7 @@ export class SocketioService {
 
   private apiObservableMap: Map<string, Observable<any>> = new Map();
 
-  private _socketioSubscribeSet: Set<any> = new Set();
+  // private _socketioSubscribeSet: Set<any> = new Set();
 
   constructor(
     private appDataService: AppDataService,
@@ -94,7 +94,6 @@ export class SocketioService {
 
   private socketReady(api): Promise<any> {
    // console.log('equityCode socket api2:', api)
-    
     const targetSocket = this.socketAPIs.get(api)
    // console.log('equityCode socket api2:targetSocket:', targetSocket)
     if (!targetSocket || !targetSocket.socket || targetSocket.socket.disconnected) { //  ||  this._authenticated.getValue() === undefined) {
@@ -224,7 +223,7 @@ export class SocketioService {
       this.apiObservableMap.delete(api)
     })
 
-    this._socketioSubscribeSet.clear();
+    // this._socketioSubscribeSet.clear();
     this._authenticated.next(undefined);
   }
 
@@ -250,11 +249,11 @@ export class SocketioService {
     // const equityCode = /^([^-]+)/.exec(equityCodeWithSuffix)[1];
    // console.log(equityCodeWithSuffix, ' & ', api)
     const observable = new Observable(observer => {
-      const subscribeData = {
-        channel: equityCodeWithSuffix,
-        from: 'wzx',
-        date: new Date(),
-      };
+      // const subscribeData = {
+      //   channel: equityCodeWithSuffix,
+      //   from: 'wzx',
+      //   date: new Date(),
+      // };
       // 对于所有订阅都已取消的 refCount 重新进行订阅时，
       // 这个函数会被重新调用一次，并传入新的 observer 。
      // console.log('equityCode socket api:',api)
@@ -266,7 +265,7 @@ export class SocketioService {
           }
           this.getObservableFromMap(api, `${equityCodeWithSuffix}`)
             .subscribe(observer)
-          this._socketioSubscribeSet.add(subscribeData);
+          // this._socketioSubscribeSet.add(subscribeData);
           // this.socket.emit('subscribe', subscribeData);
           if(api == 'price' || api == 'depth'){
            // console.log(`watch:${api} `, `${equityCodeWithSuffix}`)
@@ -285,7 +284,7 @@ export class SocketioService {
        // console.log('socketio unsubscribe: ', equityCodeWithSuffix);
         
         // this.removeFromSocketioSubscribeList(subscribeData);
-        this._socketioSubscribeSet.delete(subscribeData);
+        // this._socketioSubscribeSet.delete(subscribeData);
         // this.socketAPIs.get(api).socket.emit('unsubscribe', subscribeData);
         if (api == 'price' || api == 'depth') {
          // console.log(`unwatch:${api} `, `${equityCodeWithSuffix}`)
@@ -294,6 +293,38 @@ export class SocketioService {
           this.socketAPIs.get(api).socket.emit('unwatch', `${equityCodeWithSuffix}`)
         }    
         // this.socketAPIs.get(api).socket.emit(`unwatch:${api}:`, [`${equityCodeWithSuffix}`])
+      }
+    });
+
+    return observable;
+  }
+
+  subscribeHeaderPrice(equityCodeWithSuffix: string, api: string = 'price'): Observable<any> {
+    const observable = new Observable(observer => {
+      this.socketReady(api)
+        .then(() => {
+          ((api, equityCode) => {
+            if (!this.apiObservableMap.has(api + '-money')) {
+              this.apiObservableMap.set(api + '-money',
+                Observable.fromEvent(this.socketAPIs.get(api).socket, 'data' + '-money')
+              );
+            }
+            return this.apiObservableMap.get(api + '-money')
+              // .filter(data => equityCode === data.type || data.ec === equityCode || data.n === equityCode)
+              // .map(data => data.data || data)
+              .do(data => console.log('subscribeHeaderPrice', data))
+          })(api, `${equityCodeWithSuffix}`)
+            .subscribe(observer)
+          this.socketAPIs.get(api).socket.emit('watch' + '-money', [`${equityCodeWithSuffix}`])
+        })
+        .catch(err => {
+          // console.log(err)
+        });
+
+      // 在 multicast refCount 上的所有订阅都取消时，
+      // 会调用此方法取消 observer 的订阅。
+      return () => {
+        this.socketAPIs.get(api).socket.emit('unwatch' + '-money', [`${equityCodeWithSuffix}`])
       }
     });
 
@@ -318,18 +349,18 @@ export class SocketioService {
       } = options
      // console.log('subscribeRealtimeReports options', options)
 
-      const subscribeData = {
-        channel: equityCodes,
-        from: 'wzx',
-        date: new Date(),
-      };
+      // const subscribeData = {
+      //   channel: equityCodes,
+      //   from: 'wzx',
+      //   date: new Date(),
+      // };
       // 对于所有订阅都已取消的 refCount 重新进行订阅时，
       // 这个函数会被重新调用一次，并传入新的 observer 。
       this.socketReady(api)
         .then(() => {
           this.report_getObservableFromMap(api, `${equityCodes}`)
             .subscribe(observer)
-          this._socketioSubscribeSet.add(subscribeData);
+          // this._socketioSubscribeSet.add(subscribeData);
          // console.log('watch: ', `${equityCodes}`)
           if(rewatch) {
             this.socketAPIs.get(api).socket
@@ -355,8 +386,9 @@ export class SocketioService {
       return () => {
        // console.log('socketio unsubscribe: ', equityCodes);
 
-        this._socketioSubscribeSet.delete(subscribeData);
-        this.socketAPIs.get(api).socket.emit('unsubscribe', subscribeData);
+        // this._socketioSubscribeSet.delete(subscribeData);
+        this.socketAPIs.get(api).socket.emit('unwatch', [`${equityCodes}`])        
+        // this.socketAPIs.get(api).socket.emit('unsubscribe', subscribeData);
       }
     });
 

@@ -41,6 +41,7 @@ export class AppDataService {
   public password;
   public savePassword;
   public productId;
+  public mainproducts;
   public show_onestep_trade;
   public show_onestep_warning;
 

@@ -23,14 +23,17 @@
                 </ion-toolbar>
             </ion-row>
             <ion-row class="products">
-                <ion-col no-padding>btc</ion-col>
-                <ion-col no-padding>eth</ion-col>
-                <ion-col no-padding>ibt</ion-col>
+                <ion-col *ngFor="let item of appDataService.mainproducts" no-padding>{{item.productName}}</ion-col>
+                <!-- <ion-col no-padding>eth</ion-col>
+                <ion-col no-padding>ibt</ion-col> -->
             </ion-row>
             <ion-row class="prices">
-                <ion-col no-padding>12321312312</ion-col>
-                <ion-col no-padding>12312321321</ion-col>
-                <ion-col no-padding>21312312321</ion-col>
+                <ion-col *ngFor="let item of appDataService.mainproducts" no-padding>
+                    {{item.symbol}} 
+                    <span class="{{item.range | riseOrFall}}">{{item.price || '--'}}</span>
+                </ion-col>
+                <!-- <ion-col no-padding>12312321321</ion-col>
+                <ion-col no-padding>21312312321</ion-col> -->
             </ion-row>
         </ion-grid>
     </ion-navbar>
@@ -57,39 +60,49 @@
         </div>
     </div> -->
 
-    <div class="trader-item">
+    <div *ngFor="let trader of traderList_show" class="trader-item">
         <div class="header">
             <div class="name">
-                btc/ibt
+                {{trader.traderName}}
             </div>
-            <div class="price">
-                12312321312321131456.123
+            <div class="price {{(trader.marketRef | async)?.range|riseOrFall}}">
+                {{(trader.marketRef | async)?.price | number:'.2-5'}}
             </div>
             <div class="range">
-                <div class="box">
-                    +123.89%
+                <div class="box bg-{{(trader.marketRef | async)?.range|riseOrFall}}">
+                    {{(trader.marketRef | async)?.range | percent:'.2-2' | positiveSign}}
                 </div>
             </div>
         </div>
         <div class="body">
             <div>
                 <div>
-                    <span class="key">名</span>
-                    <span class="value">12,321.1234</span>
+                    <span class="key">高</span>
+                    <span class="value">
+                        {{(trader.marketRef | async)?.max | number:'.2-5'}}
+                    </span>
                 </div>
                 <div>
-                    <span class="key">名</span>
-                    <span class="value">12,321.1234</span>
+                    <span class="key">低</span>
+                    <span class="value">
+                        {{(trader.marketRef | async)?.min | number:'.2-5'}}
+                    </span>
                 </div>
             </div>
             <div>
                 <div>
-                    <span class="key">名</span>
-                    <span class="value">12,321.1234</span>
+                    <span class="key">
+                        {{(trader.marketRef | async)?.instSymbol || '价'}}
+                    </span>
+                    <span class="value {{(trader.marketRef | async)?.range|riseOrFall}}">
+                        {{(trader.marketRef | async)?.instPrice | number:'.2-5'}}
+                    </span>
                 </div>
                 <div>
-                    <span class="key">名</span>
-                    <span class="value">12,321.1234</span>
+                    <span class="key">量</span>
+                    <span class="value">
+                        {{(trader.marketRef | async)?.amount | number:'.2-5'}}
+                    </span>
                 </div>
             </div>
             <div>

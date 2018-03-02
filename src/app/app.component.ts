@@ -157,6 +157,31 @@ export class PicassoApp {
           err.message || err,
         );
       });
+      
+      (async ()=>{
+        const mainproducts = this.appDataService.mainproducts || 
+          await this.tradeService.getMainProducts()
+        console.log('::mainproducts::', mainproducts)
+        return Promise.resolve(mainproducts)
+      })()
+        .then((mainproducts:AnyObject[]) =>{
+          console.log('mainproducts::')
+          for (const product of mainproducts){
+            if (product.productId){
+              console.log('mainproducts:', product)
+              this.socketioService.subscribeHeaderPrice(product.productId)
+                .do(data => console.log('mainproducts:::?', data))
+                .filter(data=>data.type === product.productId)
+                .map(data => data.data || data)
+                .do(data => console.log('mainproducts:::!',data))
+                .subscribe(data=>{
+                  product.symbol = data.symbol
+                  product.price = data.price
+                  product.range = data.range
+                })
+            }
+          }
+        })
   }
 
   ionViewDidLoad() {

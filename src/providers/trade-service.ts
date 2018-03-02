@@ -191,6 +191,22 @@ export class TradeService {
       });
   }
 
+  public getMainProducts() {
+    const path = `/transaction/money/types`;
+
+    return this.appService
+      .request(RequestMethod.Get, path, undefined)
+      .then(data => {
+        console.log('getMainProducts: ', data);
+        this.appDataService.mainproducts = data
+        return Promise.resolve(data)
+      })
+      .catch(err => {
+        console.log('getMainProducts error: ', err);
+        // return Promise.reject(err);
+      });
+  }
+
   /**
    * 获取快捷交易显示数据
    */
