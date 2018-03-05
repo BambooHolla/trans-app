@@ -4,7 +4,7 @@ import { NavController, NavParams, Slides, Platform, ToastController } from 'ion
 
 import { AndroidFullScreen } from '@ionic-native/android-full-screen';
 import { StatusBar } from '@ionic-native/status-bar';
-import { TradeInterfacePage } from '../trade-interface/trade-interface';
+// import { TradeInterfacePage } from '../trade-interface/trade-interface';
 
 import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
@@ -118,7 +118,7 @@ export class StockDetailPage {
 
   turnoverQuantity: any;
 
-  tradeInterfacePage: any = TradeInterfacePage;
+  // tradeInterfacePage: any = TradeInterfacePage;
 
   @ViewChild('sld') sld: Slides;
 

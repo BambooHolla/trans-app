@@ -20,6 +20,7 @@ import { PersonalDataService } from '../../providers/personal-data-service';
 //引入资讯的首页
 import { InformationPage } from '../information/information';
 // import { TradeInterfacePage } from '../trade-interface/trade-interface';
+import { TradeInterfaceV2Page } from '../trade-interface-v2/trade-interface-v2';
 import { NewsListPage } from '../news-list/news-list';
 
 @Component({
@@ -36,7 +37,7 @@ export class TabsPage implements OnInit, AfterViewInit, AfterContentInit {
 
   homeRoot: any = HomePage;
   quotationsPageRoot: any = QuotationsPageV2;
-  // tradeRoot: any = TradeInterfacePage;
+  tradeRoot: any = TradeInterfaceV2Page;
 
   stockCode: string;
 

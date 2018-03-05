@@ -16,7 +16,7 @@ import { SocketioService } from '../../providers/socketio-service';
 import { StockDataService } from '../../providers/stock-data-service';
 import { AppDataService } from '../../providers/app-data-service';
 import { Subject } from 'rxjs/Subject';
-import { TradeInterfacePage } from "../trade-interface/trade-interface";
+// import { TradeInterfacePage } from "../trade-interface/trade-interface";
 import { TradeService } from '../../providers/trade-service';
 
 @Component({
@@ -32,7 +32,7 @@ export class QuotationsPage {
 		this.searchTermStream.next(term);
 	}
 
-	tradeInterface: any = TradeInterfacePage;
+	// tradeInterface: any = TradeInterfacePage;
 
 	traderList: object[] = new Array()
 	traderList_show: object[] = new Array()

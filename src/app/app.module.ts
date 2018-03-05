@@ -81,6 +81,7 @@ import { CommissionListPage } from '../pages/commission-list/commission-list';
 import { HistoryRecordPage } from '../pages/history-record/history-record';
 import { QuotationsPageV2 } from '../pages/quotations-v2/quotations-v2';
 import { TradeInterfacePage } from '../pages/trade-interface/trade-interface';
+import { TradeInterfaceV2Page } from '../pages/trade-interface-v2/trade-interface-v2';
 import { StockDetailPage } from '../pages/stock-detail/stock-detail';
 
 import { InputModal } from '../modals/input/input';
@@ -237,6 +238,7 @@ import { QuotationsPage } from '../pages/quotations/quotations';
         QuotationsPage,//v2版本中其实不需要这个页面.但是angular编译会遍历目录,从而报错没有引入此页面的(即使项目中实际上并没有用到!贼傻逼!)
         QuotationsPageV2,
         TradeInterfacePage,
+        TradeInterfaceV2Page,
         StockDetailPage,
         // NoticeListPage,
         // NoticePage,
@@ -423,6 +425,7 @@ import { QuotationsPage } from '../pages/quotations/quotations';
         HistoryRecordPage,
         QuotationsPageV2,
         TradeInterfacePage,
+        TradeInterfaceV2Page,
         StockDetailPage,
         OptionalPage,
         // SearchItemPage,

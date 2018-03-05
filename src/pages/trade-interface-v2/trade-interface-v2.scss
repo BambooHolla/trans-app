@@ -1,0 +1,649 @@
+page-trade-interface-v2 {
+	//reset grid padding
+	.grid{
+		padding: 0;
+	}
+
+	.scroll-content {
+		// display: flex;
+		// flex-direction: column;
+	}
+
+	.flash-trade{
+		background-image: url('../assets/icon/flash.png');
+		background-size: contain;
+		height: 2rem;
+		width: 2rem;
+	}
+	.history-icon{		
+		background-image: url('../assets/icon/history-list.png');
+		background-size: contain;
+		height: 1.4rem;
+		width: 1.3rem;
+	}
+	// //tofix:由于ionic代码bug导致不能传入类,后续改正,先用.popover-content设置样式
+	// .trader-list-pop{
+	// 	width: 100%;
+	// 	background-color: #2a2b3f
+	// }
+
+	.item-select {
+		.item-inner{
+			border-bottom: 0 !important;
+		}
+		.input-wrapper{
+			padding-right: 1.3rem;
+			justify-content: center;
+			.select-icon{
+				width: 1.8rem;
+			}
+		}
+	}
+
+	ion-range{
+		position: relative;
+		top:-1.2rem;
+		
+		.range-slider .range-bar:first-child{
+			border-radius: 2.5px;
+			border: 1px solid color($colors,special);
+			background: transparent;
+		}
+		&.issale .range-slider .range-bar:first-child{
+			border: 1px solid color($colors,eye-catching);
+		}
+		
+		&.issale .range-bar-active{
+			background:color($colors,eye-catching);
+		}
+	}
+	
+	.content-block{
+		background-color: #262739;
+		padding: .6rem 0 1rem;
+	}
+	
+	.bets {
+		// flex-grow: 0;
+		width: 10em;
+		float: right;
+		font-size: 1.125rem;
+		line-height: 2.2rem;
+		&-row {
+			white-space: nowrap;
+			height: 2.2rem;
+			&:nth-child(6){
+				height: 4.4rem;
+			}
+			.sep {
+				display: block;
+				text-align: left;
+				padding-left: 2rem;
+				font-size: 2rem;
+				line-height: 2.2rem;
+			}
+			.buy{
+				color:color($colors,special);
+			}
+			.sale{
+				color:color($colors,eye-catching);
+			}
+			span {
+				display: inline-block;
+				box-sizing: content-box;
+				padding: 0x;
+				overflow: hidden;
+				text-align: right;
+				&.bets-title {
+					width: 2em;
+					text-align: left;
+					padding-left: 0.5em;
+					// color:color($colors,middark);
+				}
+				&.bets-amount {
+					width: 3em;
+					// color:color($colors,eye-catching);
+				}
+				&.bets-quantity {
+					width: 3.5em;
+					padding-right: 0.5em;
+					color:color($colors,middark);
+				}
+			}
+		}
+	}
+
+	ion-content{
+
+		ion-col div{
+			white-space:nowrap; 
+			overflow:hidden; 
+			text-overflow:ellipsis;
+		}
+
+		.price{
+			font-size: 2.3rem;
+			padding-left: .5rem;
+			overflow: hidden;
+		}
+
+		label{
+			color:color($colors, middark); 
+			margin-right: 1.5rem;
+		}
+
+		.trtop{
+			// flex-grow: 1;
+			// flex-shrink: 0;
+			height: 13rem;
+
+			.liquid-container {
+				// height: 13rem;
+				padding-top: 0;
+				padding-bottom: 0;
+			}
+
+			ion-row{
+				ion-col{
+					ion-grid{
+						padding:3rem 0 0 0;
+						h1{
+							margin:0;
+							font-size: 4rem;
+						}
+						[col-4]{
+							padding-top: 1.3rem;
+							ion-icon{
+								font-size:1.6rem;
+								padding:-0.3rem 0.3rem 0 0;
+							}
+						}
+					}
+					
+					.echarts-placeholder{
+						height:12rem;
+					}
+				}
+			}
+		}
+
+		.entrust-type{
+			background-color: #262739;
+			color: #6d6d6d;
+			text-align: center;
+			vertical-align: middle;
+			height: 3.9rem;
+			margin:0 0 .5rem;
+			ion-col{
+				line-height: 3.9rem;
+				font-size: 1.5rem;	
+				padding: 0;
+				
+				&.sale{	
+					color: color($colors,eye-catching);
+				}
+				&.buy{						
+					color: color($colors,special);
+				}
+
+				&.enabled{
+					&.buy{
+						background-color: rgba(color($colors,special),.1);
+					}
+					&.sale{						
+						background-color: rgba(color($colors,eye-catching),.1);
+					}
+				}
+			}
+		}
+
+		.trinp{
+			// flex-grow: 1;
+			// flex-shrink: 0;
+			text-align: center;
+			// margin-top: 0.5rem;
+
+			.fee{
+				color: #6d6d6d;
+				height: 1.2rem;
+				font-size: 1.2rem;
+				line-height: 1.2rem;
+				margin-bottom: .4rem;
+
+				ion-icon{
+					margin:0 .5rem 0 1.6rem;
+				}
+			}
+
+			.input-row{
+				width:67%;
+				height: 4.2rem;
+				border-radius: 4.2rem;
+				background-color: #242435;
+				margin: 1.1rem auto 0;
+			}
+
+			.range-component{
+				position: relative;
+			}
+
+			.range-item{
+				background-color:unset;
+				padding-left:8px;
+			}
+
+			.range-mark {
+				position: absolute;
+				padding-left: 19px;
+				padding-right: 24px;
+				bottom: 1rem;
+				width: 100%;
+				text-align: justify;
+				color: color($colors, middark);
+				display: flex;
+				justify-content: space-between;
+
+				div {}
+			}
+
+			// ion-row{
+				// height: 3rem;
+
+				ion-col{
+					font-size: 3rem;
+					padding: 0;
+					ion-icon{
+						margin-top:-0.3rem;
+					}
+					ion-input{
+						margin-top: -0.2rem;
+						input{
+							margin: 0;
+							text-align: center;
+							font-size: 2.4rem;
+							//placeholder设置
+							&::-webkit-input-placeholder { /* WebKit browsers */ 
+								font-size: 1.3rem;
+							} 
+							&:-moz-placeholder { /* Mozilla Firefox 4 to 18 */ 
+								font-size: 1.3rem;								 
+							} 
+							&::-moz-placeholder { /* Mozilla Firefox 19+ */ 
+								font-size: 1.3rem;								 
+							} 
+							&:-ms-input-placeholder { /* Internet Explorer 10+ */ 
+								font-size: 1.3rem;								 
+							} 
+						}
+					}
+				}
+			// }
+		}
+		.trbtn{
+			height: 4.5rem;
+			padding:1.2rem 0;
+			margin: 0 auto;
+			border-radius: .4rem;
+			text-align: center;
+			width:90%;
+			font-size: 1.3rem;
+			color:color($colors, primary);
+			background:color($colors, special);
+			font-family:Microsoft YaHei;
+			
+			&.issale{
+				background:color($colors, eye-catching);				
+			}
+
+			&[disabled]{
+				background:#c9c9c9;
+			}		
+		}
+
+		//快捷交易
+		.stsvg{
+			margin:0 0 1px;
+			height: 16.7rem;
+			background-color: color($colors, background-darker);
+			ion-col{
+				// overflow: hidden;
+				// height: 12.6rem;
+				text-align: center;
+				.circle-svg {
+					width:14.9rem;
+					height:14.9rem;
+					margin: 0 auto;
+
+					path {
+						stroke: #EBEFF4;
+					}
+
+					&.buy path {
+						stroke: color($colors,special);
+					}
+
+					&.sale path {
+						stroke: color($colors,eye-catching);
+					}
+				}
+				.svgcont{
+					position:absolute;
+					top:0;
+					left: 0;
+					right: 0;
+					bottom: 0;
+					display: flex;
+					flex-direction: column;
+					justify-content: center;
+					.blank{
+						height: 2rem;
+						margin: 0;
+					}
+					div{
+						margin-bottom: 1.2rem;
+						font-size: 1.2rem;
+					}
+					p{
+						margin:0 0 1rem;
+						font-size: 2.4rem;
+						height: 2.4rem;
+						line-height: 2.4rem;
+					}
+					span{
+						margin-bottom: .4rem;
+						font-size: 1.1rem;
+					}
+					label{
+						font-size: 1.1rem;
+						margin: 0;
+						color: #fff;
+					}
+				}
+			}
+		}
+		ion-slides{
+			height: unset;
+			ion-slide{
+				height: unset;
+			}
+		}
+		.stnum{
+			margin-bottom: 0.85rem;
+			background-color: color($colors, background-darker);
+			.stonums{
+				// background:rgba(255,255,255,0.1);
+				font-size: 1.5rem;
+				color:color($colors,middark);
+				text-align: center;
+				padding:0.5rem 0.5rem 0 0.5rem;
+				height: 3.8rem;
+				.scroll-content{
+					white-space: nowrap;
+					height: 3.8rem;
+					.scroll-zoom-wrapper{
+						padding: 0 2.6rem;
+						display: flex;
+						justify-content: space-between;
+					}
+				}
+				ion-card{
+					background-color: color($colors, background-darker);
+					width:unset!important;
+					padding:0 0.6em;
+					display:inline-block;
+					box-shadow:unset;
+					margin:0;
+					position:relative;
+					// &.wid{
+					// 	width:72px!important;
+					// }
+					ion-card-content{
+						font-size: 1.5rem;
+						line-height: .8;
+						padding-left:0;
+						padding-right:0;
+						text-align:center;
+					}
+				}
+				.active{
+					color:#fff;
+					// font-size: 2.25rem;
+					&:before{
+						content:"";
+						position: absolute;
+						z-index: 1;
+						bottom: 0.5rem;
+						width: 100%;
+						height: 0.3rem;
+						border-radius: 0.3rem;
+						background-color: color($colors,primary);
+						box-shadow:0 0 1.5rem 0 color($colors,primary);
+						left:0;
+					}
+				}
+			}
+		}
+
+		.trbom{
+			display: flex;
+			flex-grow: 0;
+			flex-shrink: 0;
+			margin-top: 1rem;
+			height: 25.2rem;
+
+			.charts {
+				overflow: hidden;
+				flex-grow: 1;
+				position: relative;
+
+				.echarts-placeholder {
+					// position: absolute;
+					// top: 0;
+					// bottom: 0;
+					// left: 0;
+					// right: 0;
+					// height: 98%;
+					height:25rem;
+					// position: relative;
+					// top: 10%;
+				}
+			}
+		}
+	}
+
+	.entrusts{
+		background-color: color($colors,background-darker);
+		margin-top: 1rem;
+		padding-bottom: 1.6rem;
+		&>.header{
+			*{
+			 line-height: 4rem;
+			}
+			height: 4rem;
+			padding: 0 2.4rem 0 1.8rem;
+			border-bottom: 1px dashed color($colors,middark);
+			.title{
+				font-weight: 600;
+				font-size: 1.5rem;
+				color: color($colors,special);
+			}
+			.goto-history{
+				height: 1.4rem;
+				color: color($colors,middark);
+				float: right;
+				ion-icon{
+					width: 1.3rem;
+					vertical-align: middle;
+				}
+				font{
+					font-size: 1.3rem;
+					vertical-align: middle;
+				}
+			}
+		}
+		.no-entrust{
+			text-align: center;
+			height: 10rem;
+			line-height: 10rem;
+			font-size: 2rem;
+			color: color($colors,middark);			
+		}
+		.entrust{
+			padding: 1.2rem 2.6rem 0 2.3rem;
+			&:last-child{
+				.params{
+					border-bottom: 0;
+				}
+			}
+			.header{
+				*{
+					display: inline-block;
+				}
+				.type{
+					box-sizing: content-box;
+					width: 3.2rem;
+					height: 3.2rem;
+					line-height: 3.2rem;
+					border: 1px solid color($colors,special);
+					border-radius: 50%;
+					font-size: 1.4rem;
+					text-align: center;
+					&.buy{
+						color:white;
+						background-color: color($colors,special);
+					}
+					&.sale{
+						color: color($colors,special);	
+					}
+				}
+				.date{
+					color: color($colors,middark);
+					margin-left: .8rem;
+					height: .9rem;
+					font-size: .9rem;
+					line-height: .9rem;
+				}
+				button{
+					padding: 0;
+					float: right;
+					height: 2.5rem;
+					width: 5.2rem;
+					background-color: transparent;
+					border: 1px solid color($colors,special);
+					border-radius: .5rem;
+					vertical-align: middle;
+					color: color($colors,special);
+					font-size: 1.25rem;
+				}
+			}
+			.params{				
+				display: flex;
+				justify-content: space-between;
+				margin-top: 1.4rem;
+				padding-bottom: .6rem;
+				border-bottom: .5px solid color($colors,background);
+				.col{
+					padding: 0;
+					.name{
+						display: block;
+						font-size: 1.2rem;
+						color: color($colors,middark);
+						padding-bottom: .4rem;
+					}
+					.value{
+						font-size: .9rem;
+						color: color($colors,special);
+					}
+					&:last-child{
+						min-width: fit-content;
+						flex-grow: 0;
+					}
+				}
+			}
+		}
+	}
+
+	//横屏放大按钮
+	.sresize {
+		position: absolute;
+		top: 0.6rem;
+		left: 0.6rem;
+		width: 2.4rem;
+		height: 2.4rem;
+		background: url(../assets/images/icons/sresize.png) no-repeat;
+		background-size: 2.4rem 2.4rem;
+	}
+
+	//横屏图表
+	.sim-landscape {
+		display: flex;
+		flex-direction: column;
+		background-color: color($colors,background);
+		.child-span-padding-left-1{
+			span{
+				box-sizing: border-box;
+				display: inline-block;
+				max-width: 85%;
+				overflow: hidden;
+				text-overflow:ellipsis;
+				white-space: nowrap;
+			}
+		}
+	}
+	.sft{
+		padding-top:1em;
+		background:rgba(255,255,255,0.1);
+
+		height: 6.6rem;
+		flex-grow: 0;
+		flex-shrink: 0;
+
+		ion-col{
+			text-align: center;
+			h1{
+				font-size: 2.7rem;
+				margin:0;
+			}
+			ion-icon{
+				font-size: 5rem;
+				margin-top: -1.1rem;
+			}
+			&:last-of-type{
+				text-align: right;
+				padding-right:2.3em;
+			}
+		}
+	}
+}
+	// .popover-content{
+	// 	// width: 100% !important;
+	// 	background-color: #2a2b3f !important;
+	// 	// left: 0 !important;
+	// }
+ion-popover{
+	.item-ios{
+		padding-right: 18px;//因为左边有2padding 故这里是16+2=18px
+	}
+	.label{
+		margin-left: 52px !important;
+		text-align: center;
+	}
+}
+	
+ion-popover .item.item-block .item-inner{
+	border-bottom: 0.5px solid rgba(193, 177, 127, .6);
+}
+.item.item-block.item-radio-checked .item-inner .radio-inner{
+	border-color: color($colors,special);
+}
+
+.item.item-block.item-radio-checked .item-inner .label{
+	color:color($colors,special);
+}
+
+.alert-message a{
+	color: unset;
+}
+.alert-wrapper .alert-checkbox-icon{
+	background-color: unset;
+}
