@@ -73,9 +73,10 @@ export class RealtimeReportComponent extends EchartsBaseComponent {
       },
       seriesColor = '#fff',
       axisLabelColor = '#fff',
-      rangeColor = ['#ff4238', '#30d94c'],
+      rangeColor = ['#ef5454', '#ffffff', '#c1b17f'],
       seriesLineColor = 'orange',
       showTimeLabelPerHour = true,
+      showLineRangeColor = false,
     } = options;
 
     window['temp_price'] = 50
@@ -106,6 +107,19 @@ export class RealtimeReportComponent extends EchartsBaseComponent {
     // const maxSpan = Math.max(mid / 100, priceData.reduce((max, value) =>
     //   value ? Math.max(Math.abs(value - mid), max) : max,
     //   0));
+
+    // const seriesRandomColor = `#${Math.round(Math.random() * 16777215).toString(16)}`
+    const countedRangeColor = (() => {
+      const range = (this.echartsData as AnyObject[]).slice(-1)[0].range
+      if (range > 1e-4){
+        return rangeColor[0];
+      }
+      if (range < -1e-4){
+        return rangeColor[2];
+      }
+      return rangeColor[1];
+    })()
+
 
     const option = {
       tooltip: {
@@ -236,9 +250,9 @@ export class RealtimeReportComponent extends EchartsBaseComponent {
               if (e > 1e-8)
                 return rangeColor[0];
               if (e === 0)
-                return "#a1a1a1";
-              if (e < -1e-8)
                 return rangeColor[1]
+              if (e < -1e-8)
+                return rangeColor[2]
             }
           },
           showMinLabel: showAxisBoundaryLabel,
@@ -253,14 +267,14 @@ export class RealtimeReportComponent extends EchartsBaseComponent {
         // boundaryGap: ['20%', '20%'],
         zlevel: 100,
       }],
-      dataZoom: [{
-        type: 'inside',
-        filterMode: 'none',
-        zoomLock: true,
-        preventDefaultMouseMove:false,
-        startValue: tradingTimeArray.length - 1 - 60*8,//一分钟一条数据,取8小时的数据
-        endValue: tradingTimeArray.length - 1
-      }],
+      // dataZoom: [{
+      //   type: 'inside',
+      //   filterMode: 'none',
+      //   zoomLock: true,
+      //   preventDefaultMouseMove:false,
+      //   // startValue: tradingTimeArray.length - 1 - 60*8,//一分钟一条数据,取8小时的数据
+      //   // endValue: tradingTimeArray.length - 1
+      // }],
       series: [
         {
           name: '价格',
@@ -268,7 +282,8 @@ export class RealtimeReportComponent extends EchartsBaseComponent {
           lineStyle: {
             normal: {
               width: 1,
-              color: seriesColor
+              color: showLineRangeColor ? (countedRangeColor)// || seriesRandomColor) 
+                : seriesColor
             }
           },
           areaStyle: area,//折线包围面积颜色

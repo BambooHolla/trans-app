@@ -60,7 +60,7 @@
         </div>
     </div> -->
 
-    <div *ngFor="let trader of traderList_show" class="trader-item">
+    <div *ngFor="let trader of traderList_show"  tappable [navPush]="tradeInterface" [navParams]="trader?.traderId" class="trader-item">
         <div class="header">
             <div class="name">
                 {{trader.traderName}}
@@ -106,7 +106,7 @@
                 </div>
             </div>
             <div>
-                <realtime-report tappable [navPush]="tradeInterface" [navParams]="trader?.traderId" [echartsData]="trader?.reportRef | async"
+                <realtime-report [echartsData]="trader?.reportRef | async"
                     [options]="realtimeOptions">
                 </realtime-report>
             </div>
