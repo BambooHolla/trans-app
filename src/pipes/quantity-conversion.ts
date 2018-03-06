@@ -17,6 +17,6 @@ export class QuantityConversionPipe implements PipeTransform {
   ) { }
   
   transform(value: any, ...args) {
-    return Number((value / this.appSettings.Product_Price_Rate).toFixed(4));
+    return Number((value / this.appSettings.Product_Price_Rate).toFixed(4)) || value;
   }
 }

@@ -42,7 +42,6 @@ export class TradeInterfaceV2Page {
       }else if (type === 1){
         rateSrc = this.buyRate
       }
-      // this.fee = await this.getFee(rateSrc)
       this.getFee(rateSrc).then(data => this.fee = data)
     })
 
@@ -56,6 +55,9 @@ export class TradeInterfaceV2Page {
   private reportArr = []
   private candlestickArr = []
   private entrusts = []
+
+  private trader_target
+  private trader_product
 
   page = 1
   pageSize = 10
@@ -159,25 +161,6 @@ export class TradeInterfaceV2Page {
       traderList.push(value)
     })
     this.traderList = traderList
-    // this.traderId = traderList[0] ? traderList[0].traderId:undefined //从一级界面进来可能需要对traderId进行初始化
-    // this.stockDataService.stockBaseData$
-    //   .map(data => data[this.stockCode])
-    //   .filter(data => data !== undefined)
-    //   // 使用 first() 以确保只订阅第一次有效数据。
-    //   .first()
-    //   .subscribe(baseData => {
-    //     // console.log(baseData.bets, baseData.latestPrice);
-    //     const { handBase = 100, bets, latestPrice } = baseData;
-    //     this.handBase = handBase;
-    //     const price = Number(bets && (bets[5].price || bets[4].price) ||
-    //                     latestPrice ||
-    //                     0
-    //                   )
-    //     this.price = price.toFixed(2)
-    //     if (price > 0) {
-    //       this.amount = (Math.floor(this.personalDataService.accountBalance / price / handBase) * handBase).toString();
-    //     }
-    //   })
   }
   
   backInOut(k) {
@@ -222,6 +205,9 @@ export class TradeInterfaceV2Page {
 
       this.initData()
       this.doSubscribe()
+
+      this.requestAssets()
+
     }
   }
 
@@ -244,10 +230,6 @@ export class TradeInterfaceV2Page {
     this.platform.raf(()=>{      
       this[target] = length ? result.toFixed(length) : result.toString()//.toFixed(Math.max(0, -precision));
     })
-    // //TODO:价格改变时修改最大可交易数量
-    // if(target === 'price'){
-    //   this.checkMax(result)
-    // }
   }
 
   checkMax(price = this.price){
@@ -631,6 +613,8 @@ export class TradeInterfaceV2Page {
     this.reportArr = []
     this.doSubscribe()
     this.getProcessEntrusts()
+    
+    this.requestAssets()
   }
   confirmChangeTradingMode(){
     console.log('confirmChangeTradingMode')
@@ -916,6 +900,40 @@ export class TradeInterfaceV2Page {
       // this.alertService.dismissLoading()
     }
 
+  }
+
+
+  private personalAssets: object = {};
+  requestAssets() {
+    const traders = this.traderId.split('-')
+
+    this.personalDataService.personalStockList.forEach(item => {
+
+      if (item.stockCode === traders[0]) {
+        this.trader_target = item
+      } else if (item.stockCode === traders[1]) {
+        this.trader_product = item
+      }
+
+    })
+
+    this.personalDataService
+      .personalAssets()
+      .then(async data => {
+        for (let key in data) {
+          const item = data[key];
+          let priceName = '';
+          const product = await this.stockDataService.getProduct(item.priceId)
+
+          if (product) priceName = `(${product.productName})`;
+          item.priceName = priceName;
+        }
+        console.log('requestAssets', data);
+        this.personalAssets = data;
+      })
+      .catch(err => {
+        console.log('requestAssets:', err);
+      });
   }
   
 }

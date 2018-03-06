@@ -15,6 +15,12 @@ page-trade-interface-v2 {
 		height: 2rem;
 		width: 2rem;
 	}
+	.chart-button{
+		background-image: url('../assets/icon/chart-button.png');
+		background-size: contain;
+		height: 2rem;
+		width: 2rem;
+	}
 	.history-icon{		
 		background-image: url('../assets/icon/history-list.png');
 		background-size: contain;
@@ -63,18 +69,30 @@ page-trade-interface-v2 {
 		padding: .6rem 0 1rem;
 	}
 	
+
+	.bets-wrap{
+		display: flex;
+	}
 	.bets {
-		// flex-grow: 0;
-		width: 10em;
-		float: right;
 		font-size: 1.125rem;
 		line-height: 2.2rem;
+		flex: 1;
+		text-align: center;
+		// zoom:1;
+		// &::after{
+		// 	display:block;
+		// 	clear:both;
+		// 	content:"";
+		// 	visibility:hidden;
+		// 	height:0;
+		// } 
+		float: left;
 		&-row {
 			white-space: nowrap;
 			height: 2.2rem;
-			&:nth-child(6){
-				height: 4.4rem;
-			}
+			width: 49%;
+			// float: left;
+			margin: 0 auto;
 			.sep {
 				display: block;
 				text-align: left;
@@ -565,13 +583,10 @@ page-trade-interface-v2 {
 
 	//横屏放大按钮
 	.sresize {
-		position: absolute;
-		top: 0.6rem;
-		left: 0.6rem;
-		width: 2.4rem;
-		height: 2.4rem;
+		width: 2rem;
+		height: 2rem;
 		background: url(../assets/images/icons/sresize.png) no-repeat;
-		background-size: 2.4rem 2.4rem;
+		background-size: 2rem 2rem;
 	}
 
 	//横屏图表
@@ -614,6 +629,57 @@ page-trade-interface-v2 {
 			}
 		}
 	}
+
+	.position{
+		display: flex;
+		.label{
+			color:color($colors,middark);
+		}
+		.trader{
+			.label{
+				
+			}
+		}
+		&>div{
+			flex: 1;
+			text-align: center;
+			position: relative;
+		}
+		.visible{
+			position: absolute;
+			right: 2rem;
+			top: 50%;
+			transform: translateY(-50%);
+			background-repeat: no-repeat;
+			&.on{
+				background-image: url('../assets/icon/eye-open.png');
+				background-size: contain;
+				height: 2rem;
+				width: 2rem;
+			}
+			&.off{
+				background-image: url('../assets/icon/eye-close.png');
+				background-size: contain;
+				height: 2rem;
+				width: 2rem;
+			}
+		}
+	}
+
+	.market{
+		background-color: color($colors,background-darker);
+		&-head{
+			display: flex;
+			&>div{
+				flex:1;
+				text-align: center;
+				&:nth-child(2){
+					flex-grow: 1.5;
+				}
+			}
+		}
+	}
+
 }
 	// .popover-content{
 	// 	// width: 100% !important;
