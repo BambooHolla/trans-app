@@ -1,5 +1,13 @@
 page-trade-interface-v2 {
 	//reset grid padding
+
+	ion-header.header{
+		background-color: color($colors,background-darker);
+		.item-select{
+			background-color: color($colors,background-darker);			
+		}
+	}
+
 	.grid{
 		padding: 0;
 	}
@@ -12,12 +20,14 @@ page-trade-interface-v2 {
 	.flash-trade{
 		background-image: url('../assets/icon/flash.png');
 		background-size: contain;
+		margin-right: 1rem;
 		height: 2rem;
 		width: 2rem;
 	}
 	.chart-button{
 		background-image: url('../assets/icon/chart-button.png');
 		background-size: contain;
+		margin-right: 1.2rem;
 		height: 2rem;
 		width: 2rem;
 	}
@@ -40,6 +50,8 @@ page-trade-interface-v2 {
 		.input-wrapper{
 			padding-right: 1.3rem;
 			justify-content: center;
+			margin-right: -6.6rem;
+			margin-left: -2rem;
 			.select-icon{
 				width: 1.8rem;
 			}
@@ -69,30 +81,18 @@ page-trade-interface-v2 {
 		padding: .6rem 0 1rem;
 	}
 	
-
-	.bets-wrap{
-		display: flex;
-	}
 	.bets {
+		// flex-grow: 0;
+		width: 10em;
+		float: right;
 		font-size: 1.125rem;
 		line-height: 2.2rem;
-		flex: 1;
-		text-align: center;
-		// zoom:1;
-		// &::after{
-		// 	display:block;
-		// 	clear:both;
-		// 	content:"";
-		// 	visibility:hidden;
-		// 	height:0;
-		// } 
-		float: left;
 		&-row {
 			white-space: nowrap;
 			height: 2.2rem;
-			width: 49%;
-			// float: left;
-			margin: 0 auto;
+			&:nth-child(6){
+				height: 4.4rem;
+			}
 			.sep {
 				display: block;
 				text-align: left;
@@ -636,6 +636,13 @@ page-trade-interface-v2 {
 			color:color($colors,middark);
 		}
 		.trader{
+			font-size: 1.1rem;
+			text-align: left;
+			padding-left: 3.5rem;
+			&>div{
+				height: 2rem;
+				line-height: 2rem;
+			}
 			.label{
 				
 			}
@@ -650,31 +657,83 @@ page-trade-interface-v2 {
 			right: 2rem;
 			top: 50%;
 			transform: translateY(-50%);
+
+			background-size: contain;
+			height: 1.6rem;
+			width: 1.6rem;
 			background-repeat: no-repeat;
+
 			&.on{
 				background-image: url('../assets/icon/eye-open.png');
-				background-size: contain;
-				height: 2rem;
-				width: 2rem;
 			}
 			&.off{
 				background-image: url('../assets/icon/eye-close.png');
-				background-size: contain;
-				height: 2rem;
-				width: 2rem;
 			}
 		}
 	}
 
 	.market{
-		background-color: color($colors,background-darker);
+		margin: 1rem 0;
 		&-head{
+			background-color: color($colors,background-darker);
 			display: flex;
+		  box-shadow: 0px 6px 8px 0px rgba(0, 0, 0, 0.12);
+			height: 6.4rem;
+			align-items: center;
 			&>div{
 				flex:1;
-				text-align: center;
 				&:nth-child(2){
 					flex-grow: 1.5;
+					font-size: 2.6rem;
+				}
+				padding: 0 1.4rem;
+			}
+			.market-label{
+				color: color($colors,middark);
+			}
+			.market-items{
+				&.right{
+					text-align: right;
+				}
+				&+.market-items{
+					margin-top: 2rem;
+					padding-bottom: .4rem;
+				}
+			}
+		}
+
+		&-body{
+			display: flex;
+			padding: .3rem 0;
+			.bets-group{
+				background-color: color($colors,background-darker);
+				flex: 1;
+				&+.bets-group{
+					margin-left: 1px;
+				}
+				.bet{
+					display: flex;
+					align-items: center;
+					padding: 0 1.6rem;
+					font-size: 1.2rem;
+					line-height: 2.8rem;
+					.sale{	
+						color: color($colors,eye-catching);
+					}
+					.buy{						
+						color: color($colors,special);
+					}
+					.bet-label{
+					}
+					.bet-price{
+						flex: 5;
+						text-align: right;
+					}
+					.bet-amount{
+						flex: 3;
+						text-align: right;
+						color:color($colors,middark);
+					}
 				}
 			}
 		}

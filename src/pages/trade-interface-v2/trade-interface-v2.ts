@@ -45,6 +45,7 @@ export class TradeInterfaceV2Page {
       this.getFee(rateSrc).then(data => this.fee = data)
     })
 
+  private hiddentext = ''
   private traderList = []
   private priceName: string
   private productName: string
@@ -92,6 +93,11 @@ export class TradeInterfaceV2Page {
 
   private _baseData$: Observable<any>;
   private _depth$: Observable<any>;
+  private _depthSource$: Observable<any>;
+  public buy_depth: AnyObject[] = [];
+  public sale_depth: AnyObject[] = [];
+  public buyer = ['买1', '买2', '买3', '买4', '买5'];
+  public saler = ['卖1', '卖2', '卖3', '卖4', '卖5'];
 
   private _realtimeData$: Observable<any> = Observable.of([])
   private _candlestickData$: Observable<any> = Observable.of([])
@@ -208,6 +214,14 @@ export class TradeInterfaceV2Page {
 
       this.requestAssets()
 
+    }
+  }
+
+  toggleVisible($event){
+    if(this.hiddentext){
+      this.hiddentext = ''
+    } else{
+      this.hiddentext = '****'
     }
   }
 
@@ -465,8 +479,9 @@ export class TradeInterfaceV2Page {
       //   })
       console.log('trade-interface-v2:(doSubscribe):depth ', this._depth$)      
       // if(!this._depth$){
-        this._depth$ = this.socketioService.subscribeEquity(traderId, 'depth')
+        this._depthSource$ = this.socketioService.subscribeEquity(traderId, 'depth')
           .do(data => console.log('trade-interface-v2:depth:', data))
+        this._depth$ = this._depthSource$
           // .map(data =>data.data)
           .map(data => {
             let arr = []
@@ -484,6 +499,16 @@ export class TradeInterfaceV2Page {
             return arr
           })
         // this._depth$.subscribe()
+        this._depthSource$.subscribe(data=>{
+          if(data){
+            if(data.buy){
+              this.buy_depth = data.buy;
+            }
+            if (data.sale) {
+              this.sale_depth = data.sale;
+            }
+          }
+        })
       // }
 
       // this._realtimeData$ = this.stockDataService.stockRealtimeData$.map(data => data[stockCode]);
