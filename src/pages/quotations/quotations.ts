@@ -163,7 +163,7 @@ export class QuotationsPage {
 	ngOnInit() {
 		this.subscribeRealtimeReports()
 		this.searchTermStream
-			.takeUntil(this.viewDidLeave$)
+			// .takeUntil(this.viewDidLeave$)
 			.debounceTime(300)
 			.distinctUntilChanged()
 			.switchMap((term: string) => Observable.of(term.trim().toLowerCase()))

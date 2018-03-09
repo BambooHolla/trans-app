@@ -111,13 +111,13 @@ export class EntrustServiceProvider {
         if (!data) {
           return Promise.reject(new Error('data missing'))
         } else if (data.error) {
-          return Promise.reject(new Error(data.error))
+          return Promise.reject(data.error)
         } else {
           return Promise.resolve(data);
         }
       })
       .catch(err => {
-        return Promise.reject(new Error(err))        
+        return Promise.reject(err)        
       });
   }
 
