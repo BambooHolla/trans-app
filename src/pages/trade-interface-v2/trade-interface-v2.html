@@ -95,7 +95,7 @@
 			</div>
 			<div class="bets-group">
 				<div *ngFor="let item of saler ; let i = index;" class="bet"
-				 tappable (click)="setPrice(buy_depth[i]?.price)">
+				 tappable (click)="setPrice(sale_depth[i]?.price)">
 				<div class="bet-label sale">{{item}}</div>
 					<div class="bet-price sale">{{sale_depth[i]?.price || '--' | priceConversion | numberUnitFormat:true:false:10}}</div>
 					<div class="bet-amount">{{sale_depth[i]?.amount || '--' | quantityConversion | numberUnitFormat}}</div>
