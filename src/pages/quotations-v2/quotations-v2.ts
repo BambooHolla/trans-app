@@ -114,6 +114,7 @@ export class QuotationsPageV2 {
 		// align: 'bottom',
 		// yAxisSize: '10',
 		area: {},
+		showLineRangeColor:true,
 	};
 
 	constructor(
@@ -131,7 +132,7 @@ export class QuotationsPageV2 {
 	ngOnInit() {
 		this.subscribeRealtimeReports()
 		this.searchTermStream
-			.takeUntil(this.viewDidLeave$)
+			// .takeUntil(this.viewDidLeave$)
 			.debounceTime(300)
 			.distinctUntilChanged()
 			.switchMap((term: string) => Observable.of(term.trim().toLowerCase()))

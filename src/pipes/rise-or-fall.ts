@@ -15,10 +15,14 @@ export class RiseOrFallPipe implements PipeTransform {
    */
   transform(value: number): string {
     // console.log('RiseOrFallPipe:',value)
-    if (isNaN(value) || Math.abs(value) < 1e-8 || Number(value) === 0){
+    if (
+      isNaN(value)
+      // || Math.abs(value) < 1e-8
+      // || Number(value) === 0
+    ) {
       return '';
     }
 
-    return value > 0 ? 'color-rise' : 'color-fall';
+    return value >= 0 ? 'color-rise' : 'color-fall';
   }
 }

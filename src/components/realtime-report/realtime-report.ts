@@ -16,6 +16,7 @@ export class RealtimeReportComponent extends EchartsBaseComponent {
   // @Input() baseData: any;
   // @Input() tradingTimeArray: any;
 
+  @Input() riseOrFall: any = '';
   @Output() tooltipEmitted: any = new EventEmitter();
 
   computeAvgPrice(realTimeData: any[]) {
@@ -109,17 +110,33 @@ export class RealtimeReportComponent extends EchartsBaseComponent {
     //   0));
 
     // const seriesRandomColor = `#${Math.round(Math.random() * 16777215).toString(16)}`
+    // const countedRangeColor = (() => {
+    //   const lastData = (this.echartsData as AnyObject[]).slice(-1)[0]
+    //   console.log('realtime-report:lastData', lastData)
+    //   if (lastData) {
+    //     const range = lastData.range
+    //     // if (range > 1e-4) {
+    //     if (range >= 0) {
+    //       return rangeColor[0];
+    //     }
+    //     // if (range < -1e-4) {
+    //     if (range < 0) {
+    //       return rangeColor[2];
+    //     }
+    //   }
+    //   return rangeColor[1];
+    // })()
     const countedRangeColor = (() => {
-      const range = (this.echartsData as AnyObject[]).slice(-1)[0].range
-      if (range > 1e-4){
-        return rangeColor[0];
-      }
-      if (range < -1e-4){
-        return rangeColor[2];
+      if (this.riseOrFall) {
+        if ((this.riseOrFall as String).indexOf('fall') != -1) {
+          return rangeColor[0];
+        }
+        if ((this.riseOrFall as String).indexOf('rise') != -1) {
+          return rangeColor[2];
+        }
       }
       return rangeColor[1];
     })()
-
 
     const option = {
       tooltip: {
@@ -306,7 +323,8 @@ export class RealtimeReportComponent extends EchartsBaseComponent {
       ],
       animation: false,
     };
-    // console.log(option)
+    console.log('realtime-report:showLineRangeColor', showLineRangeColor)
+    console.log('realtime-report:linecolor',option.series[0].lineStyle.normal.color)
     // 使用刚指定的配置项和数据显示图表。
     this.chartInstance.setOption(option);
     // this.chartInstance.resize();
