@@ -10,11 +10,13 @@ import {
   ViewController,
   ModalController,
   Events,
+  NavParams,
 } from 'ionic-angular';
 
 import { LoginService } from '../../providers/login-service';
 import { AppDataService } from '../../providers/app-data-service';
 import { AppSettings } from '../../providers/app-settings';
+// import { TabsPage } from '../tabs/tabs';
 /**
  * Generated class for the LoginPage page.
  *
@@ -46,6 +48,7 @@ export class LoginPage implements OnInit{
   constructor(
     private events: Events,
     public navCtrl: NavController,
+    public navParams: NavParams,
     public viewCtrl: ViewController,
     public loadingCtrl: LoadingController,
     public modalController: ModalController,
@@ -53,7 +56,8 @@ export class LoginPage implements OnInit{
     public elementRef: ElementRef,
     public loginService: LoginService,
     public appDataService: AppDataService,
-    public appSettings: AppSettings
+    public appSettings: AppSettings,
+    // // public tabsPage:TabsPage,
   ) {
     // this.presentLoading();
   }
@@ -130,7 +134,13 @@ export class LoginPage implements OnInit{
 
     this.logining = true;
     if(await this.loginService.doLogin(customerId, password, savePassword, type) === true){
-      this.dismiss()
+      this.dismiss();
+      // console.log('jumpto:',this.navParams.data)
+      let cb = this.navParams.data.cb;
+      if(cb) {
+        // this.tabsPage.tabs.select(tabIndex);
+        cb();
+      }
     }
     this.logining = false;
   }
@@ -163,9 +173,11 @@ export class LoginPage implements OnInit{
 
   dismiss(){
     this.viewCtrl.dismiss()
-    this.events.subscribe('show login', page => {
+    this.events.subscribe('show login', (status, cb?) => {
       this.events.unsubscribe('show login')
-      this.modalController.create(LoginPage).present()
+      const modal = cb ? this.modalController.create(LoginPage, { cb })
+        : this.modalController.create(LoginPage)
+      modal.present()
       // this.rootNav.push(page)      
     })
   }

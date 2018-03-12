@@ -107,9 +107,16 @@ export class PicassoApp {
       this.afterPlatformReady();
     });
 
-    this.events.subscribe('show login', page => {
+    this.events.subscribe('show login', (status,cb?) => {
       this.events.unsubscribe('show login')
-      this.loginModal.present()
+      if(cb){
+        this.modalController
+          .create(LoginPage, {cb})
+          .present()
+      }else{
+        this.loginModal.present()
+      }
+      // console.log('events.subscribe:',page)
       // this.rootNav.push(page)      
     })
 

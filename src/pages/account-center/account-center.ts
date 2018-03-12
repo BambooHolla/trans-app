@@ -75,7 +75,8 @@ export class AccountCenterPage extends SecondLevelPage {
           direction: 'back',
           animation: 'ios-transition',
         })
-        this.routeTo('quotations')
+        // this.routeTo('quotations')
+        this.navCtrl.parent.select(0);
       })
       .catch()
   }

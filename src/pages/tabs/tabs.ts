@@ -6,7 +6,7 @@ import {
   AfterContentInit
 } from '@angular/core';
 
-import { NavController, Tab, Tabs } from 'ionic-angular';
+import { NavController, Tab, Tabs, Events } from 'ionic-angular';
 
 import { OptionalPage } from '../optional/optional';
 import { RecommendPage } from '../recommend/recommend';
@@ -22,6 +22,7 @@ import { InformationPage } from '../information/information';
 // import { TradeInterfacePage } from '../trade-interface/trade-interface';
 import { TradeInterfaceV2Page } from '../trade-interface-v2/trade-interface-v2';
 import { NewsListPage } from '../news-list/news-list';
+import { LoginService } from '../../providers/login-service';
 
 @Component({
   selector: 'component-tabs',
@@ -42,8 +43,10 @@ export class TabsPage implements OnInit, AfterViewInit, AfterContentInit {
   stockCode: string;
 
   constructor(
+    private events: Events,
     public navCtrl: NavController,
     public appSettings: AppSettings,
+    public loginService: LoginService,
     public personalDataService: PersonalDataService
   ) {
     // FIXME ：如何获取推荐的股票列表？
@@ -61,6 +64,7 @@ export class TabsPage implements OnInit, AfterViewInit, AfterContentInit {
   @ViewChild('homeTab') homeTab: Tab;
   tab_list: any[];
   tab_names: any[];
+  tab_should_login: String[];
   tab_map: Map<string, Tab>;
   index_tab_name = 'quotations';
   initTabs() {
@@ -71,6 +75,10 @@ export class TabsPage implements OnInit, AfterViewInit, AfterContentInit {
       this.homeTab
     ];
     this.tab_names = ['quotations', 'news', 'optional', 'home'];
+    this.tab_should_login = [
+      'optional', 
+      'home',
+    ];
     this.tab_map = new Map();
     this.tab_map.set('optionalTab', this.optionalTab);
     this.tab_map.set('quotationsTab', this.quotationsTab);
@@ -149,6 +157,12 @@ export class TabsPage implements OnInit, AfterViewInit, AfterContentInit {
       abutton.addEventListener(
         pointerdown_eventname,
         function bindRoot() {
+          const self = this as TabsPage;
+          if (self.tab_should_login.includes(tab.tabUrlPath)
+            && !self.loginService.userToken.getValue()) {
+            return self.events.publish('show login', 'login', () => { self.tabs.select(tab)});
+          }
+
           tab.root || (tab.root = tab.tabUrlPath);
 
           abutton.removeEventListener(pointerdown_eventname, bindRoot);
