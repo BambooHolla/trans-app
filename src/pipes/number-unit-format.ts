@@ -19,7 +19,7 @@ export class NumberUnitFormatPipe implements PipeTransform {
     }
 
     let count = 0;
-    const replacer = retainTailZeroAfterDigit ? /\.$/ : /\.?0*$/
+    const replacer = retainTailZeroAfterDigit ? /\.$/ : /(?:\.0*|(\.\d+?)0+)$/
     for ( ; value >= 1e4 && count < this.unitArray.length; count++) {
       value /= 1e4;
     }
@@ -37,8 +37,13 @@ export class NumberUnitFormatPipe implements PipeTransform {
     let result = strs[0]
     const digLength = retainLength - strs[0].length - this.unitArray[count].length - 1
     if (digLength > 0) {
+      // console.log('numberunitformat:result ',result)
       result += '.' + strs[1].slice(0, digLength)
-      result.replace(replacer, '');
+      // console.log('numberunitformat:result ', result)
+      // console.log('numberunitformat:replacer ', replacer)
+      result = result.replace(replacer, '$1')
+      // console.log('numberunitformat:result ', result)
+      // console.log('numberunitformat:a ',a)
     }
 
     return prefix + result + this.unitArray[count];
