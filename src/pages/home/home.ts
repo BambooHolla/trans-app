@@ -30,17 +30,20 @@ export class HomePage extends FirstLevelPage implements OnInit{
     //   icon: "gabout",
     //   name: '充值',
     //   href: 'recharge-gateway',
+    //   needLogin: true,
     // },
     // {
     //   icon: "gabout",
     //   name: '提现',
     //   href: 'withdraw-gateway',
+    //   needLogin: true,
     //   bottomSpace: true
     // },
     // {
     //   icon: "gtransfer",
     //   name: '银行转交易所/交易所转银行',
     //   href: TransferPage,
+    //   needLogin: true,
     // },
     // {
     //   icon: "gcard",
@@ -50,42 +53,50 @@ export class HomePage extends FirstLevelPage implements OnInit{
     //   icon: "ghand",
     //   name: '我的委托/撤销',
     //   href: CommissionListPage,
+    //   needLogin: true,
     // },
     // {
     //   icon: "gtrend",
     //   name: '资金变动查询',
     //   href: FundStatementPage,
+    //   needLogin: true,
     // },
     {
       icon: "gdoc",
       name: '历史成交',
       href: HistoryRecordPage,
+      needLogin: true,
       // bottomSpace: true,
     },
     {
       icon: "ginvite",
       name: '邀请返佣',
       href: InviteCommissionPage,
+      needLogin: true,
     },
     // {
     //   icon: "gperson",
     //   name: '账户中心',
     //   href: AccountCenterPage,
+    //   needLogin: true,
     // },
     // {
     //   icon: "ghelp",
     //   name: '反馈与帮助',
     //   href: HelpPage,
+    //   needLogin: true,
     // },
     {
       icon: "ghelp",
       name: '反馈与帮助',
       href: 'work-order-list',
+      needLogin: true,
     },
     {
       icon: "gabout",
       name: '关于我们',
       href: AboutPage,
+      needLogin: false,
     },
   ];
 
@@ -144,5 +155,14 @@ export class HomePage extends FirstLevelPage implements OnInit{
   showLogin(){
     this.events.publish('show login', 'login');
   }
+
+  navPush(href,needLogin = false){
+    if(!this.login_status && needLogin){
+      this.showLogin()
+      return void 0
+    }else{
+      this.navCtrl.push(href)
+    }
+  }  
 
 }
