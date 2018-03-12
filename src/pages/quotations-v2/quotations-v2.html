@@ -76,13 +76,13 @@
         </div>
         <div class="body">
             <div>
-                <div>
+                <div class="market">
                     <span class="key">高</span>
                     <span class="value">
                         {{(trader.marketRef | async)?.max | number:'.2-5'}}
                     </span>
                 </div>
-                <div>
+                <div class="market">
                     <span class="key">低</span>
                     <span class="value">
                         {{(trader.marketRef | async)?.min | number:'.2-5'}}
@@ -90,7 +90,7 @@
                 </div>
             </div>
             <div>
-                <div>
+                <div class="market">
                     <span class="key">
                         {{(trader.marketRef | async)?.instSymbol || '价'}}
                     </span>
@@ -98,7 +98,7 @@
                         {{(trader.marketRef | async)?.instPrice | number:'.2-5'}}
                     </span>
                 </div>
-                <div>
+                <div class="market">
                     <span class="key">量</span>
                     <span class="value">
                         {{(trader.marketRef | async)?.amount | quantityConversion | number:'.2-5'}}
