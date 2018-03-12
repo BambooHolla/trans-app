@@ -2,7 +2,7 @@ page-home {
 	.home-header {
 		background: linear-gradient(to bottom, color($colors, gold), #2a2b3f);
 		.personal{
-			margin: 1rem 0 1.3rem;
+			margin: 1rem 0 1.05rem;
 			ion-row{
 				text-align: center;				
 			}
@@ -14,7 +14,6 @@ page-home {
 			.mobile,.email,.bedge{
 				font-size: 1.2rem;
 				line-height: 1.2rem;
-				height: 1.2rem;
 				margin-bottom: .7rem;
 			}
 			.bedge {

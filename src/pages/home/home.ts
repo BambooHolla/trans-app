@@ -113,15 +113,18 @@ export class HomePage extends FirstLevelPage implements OnInit{
 
   ngOnInit(){
     this.loginService.status$
-      .subscribe(status => {
+      .subscribe(async status => {
         this.login_status = status
         if(status){
-          this.personalDataService.requestFundData();
-          this.requestAssets();
+          await Promise.all([
+            this.personalDataService.requestFundData(),
+            this.requestAssets(),
+          ])
         }else{
           this.personalDataService.resetData();
           this.personalAssets = {};
         }
+        this.content.resize();
       })
 
   }
@@ -131,7 +134,7 @@ export class HomePage extends FirstLevelPage implements OnInit{
   }
 
   requestAssets() {
-    this.personalDataService
+    return this.personalDataService
       .personalAssets()
       .then(async data => {
         for (let key in data) {
