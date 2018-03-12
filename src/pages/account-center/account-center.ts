@@ -67,4 +67,17 @@ export class AccountCenterPage extends SecondLevelPage {
     this.events.publish('show login', 'login');
   }
 
+  doLogout(){
+    this.loginService.doLogout()
+      .then(success=>{
+        if(success) this.navCtrl.pop({
+          animate: true,
+          direction: 'back',
+          animation: 'ios-transition',
+        })
+        this.routeTo('quotations')
+      })
+      .catch()
+  }
+
 }

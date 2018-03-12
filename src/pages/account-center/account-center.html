@@ -39,14 +39,14 @@
       </ion-row>
     </ng-container>
   </ion-grid>
-  <ion-row *ngIf="login_status" tappable class="account-exit" (click)="loginService.doLogout()">
+  <ion-row *ngIf="login_status" tappable class="account-exit" (click)="doLogout()">
     <ion-col padding class="exit-center">
       退出账号
     </ion-col>
   </ion-row>
   <ion-row *ngIf="!login_status" tappable class="account-exit" (click)="showLogin()">
     <ion-col padding class="exit-center">
-      登陆账号
+      登录账号
     </ion-col>
   </ion-row>
 
