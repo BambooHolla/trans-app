@@ -135,8 +135,14 @@ export class TradeService {
     public alertService: AlertService
   ) {}
 
+  private last_time_getTradeList
+
   public getTradeList() {
+
     const path = `/transactionengine/traders`;
+    
+    const requestTime = new Date()
+    const shouldUpdate = (+requestTime - this.last_time_getTradeList) > 3e2
 
     return this.appService
       .request(RequestMethod.Get, path, undefined)
@@ -167,18 +173,20 @@ export class TradeService {
                 //   price
                 // );
                 // if (product) {
-                traderList.set(`${priceId}-${productId}`, {
-                  traderId: `${priceId}-${productId}`,
-                  traderName: !priceId ? `${product ? product.productName : '--'}` :
-                    `${product ? product.productName : '--'} / ${product ? price.productName : '--'}`,
-                  reportRef: new Observable(), //用来存放报表中间管道
-                  reportArr: [],
-                  marketRef: new BehaviorSubject(undefined), //用来存放交易中间管道
-                  buyFee,
-                  saleFee,
-                  priceId,
-                  productId,
-                });
+                if (!traderList.has(`${priceId}-${productId}`) || shouldUpdate ){  
+                  traderList.set(`${priceId}-${productId}`, {
+                    traderId: `${priceId}-${productId}`,
+                    traderName: !priceId ? `${product ? product.productName : '--'}` :
+                      `${product ? product.productName : '--'} / ${product ? price.productName : '--'}`,
+                    reportRef: new Observable(), //用来存放报表中间管道
+                    reportArr: [],
+                    marketRef: new BehaviorSubject(undefined), //用来存放交易中间管道
+                    buyFee,
+                    saleFee,
+                    priceId,
+                    productId,
+                  });
+                }
                 // }
               })
           )
