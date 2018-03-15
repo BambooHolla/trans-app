@@ -188,7 +188,7 @@
 				<ion-range #quantityRange
 					 [class.issale]="!(tradeType$|async)"
 					 [(ngModel)]="range" 
-					 (ionChange)="amount = maxAmount * Range.ratio ;formatNumber('amount',-2)" 
+					 (ionChange)="amount = maxAmount * Range.ratio ;formatNumber('amount',-4)" 
 					 pin="true"></ion-range>
 			</ion-item>
 			<div class="range-mark">

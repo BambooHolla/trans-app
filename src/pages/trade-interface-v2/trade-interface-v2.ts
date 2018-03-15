@@ -238,7 +238,7 @@ export class TradeInterfaceV2Page {
       step = sign + step
     }
 
-    const result = Math.max(0, Math.round(+this[target] * invBase + step * invBase) / invBase);
+    const result = Math.max(0, Math.floor(+this[target] * invBase + step * invBase) / invBase);
     //强制刷新数据hack处理
     this[target] = length ? result.toFixed(length) : result.toString()    
     this.platform.raf(()=>{      
@@ -395,7 +395,14 @@ export class TradeInterfaceV2Page {
         }
         console.log(err.statusText || err.message || err)
       })
-      .then(()=>this.checkMax())
+      .then(() => {
+        Promise.all([
+          this.personalDataService.requestFundData().catch(() => { }),
+          this.personalDataService.requestEquityDeposit().catch(() => { }),
+        ]).then(() =>
+          this.checkMax()
+        )
+      })
   }
 
   ionViewDidEnter(){
@@ -421,28 +428,28 @@ export class TradeInterfaceV2Page {
     this.viewDidLeave.next(true);
   }
 
-  subscribeTradeData() {
-    Observable.combineLatest(
-      this._tradeType$,
-      this._price,
-      // Observable.fromEvent(this.Price.getNativeElement(),'input') ,
-    )
-      .distinctUntilChanged()
-      .debounceTime(300)
-      .subscribe(([tradeType, price]) => {
-        // console.log('pricetarget result ', tradeType,
-        //   ' | ', price
-        // )
-        //TODO:交易类型,价格 变动触发 最大可交易量变动
-        if(tradeType === 1){
+  // subscribeTradeData() {
+  //   Observable.combineLatest(
+  //     this._tradeType$,
+  //     this._price,
+  //     // Observable.fromEvent(this.Price.getNativeElement(),'input') ,
+  //   )
+  //     .distinctUntilChanged()
+  //     .debounceTime(300)
+  //     .subscribe(([tradeType, price]) => {
+  //       // console.log('pricetarget result ', tradeType,
+  //       //   ' | ', price
+  //       // )
+  //       //TODO:交易类型,价格 变动触发 最大可交易量变动
+  //       if(tradeType === 1){
           
-          this.maxAmount 
-          this.amount 
-        }else if(tradeType === 0){
+  //         this.maxAmount 
+  //         this.amount 
+  //       }else if(tradeType === 0){
 
-        }
-      })
-  }
+  //       }
+  //     })
+  // }
 
   // 订阅实时数据。
   // 由于 DataSubscriber 装饰器的作用，
