@@ -113,4 +113,14 @@ export class SetPayPwdPage extends SecondLevelPage {
 				this.finishJob(true);
 			});
 	}
+
+	pwdAgreementPass = false;
+	pwdAgreement(){
+		const { formData } = this;
+		if(formData.payPWD && formData.confirmPayPWD && (formData.payPWD == formData.confirmPayPWD)){
+			this.pwdAgreementPass = true;
+		} else {
+			this.pwdAgreementPass = false;
+		}
+	}
 }
