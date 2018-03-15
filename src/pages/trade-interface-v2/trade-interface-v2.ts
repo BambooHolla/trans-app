@@ -322,17 +322,20 @@ export class TradeInterfaceV2Page {
     const price = parseFloat(this.price);
     const amount = parseFloat(this.amount);
 
+    let tradeText = tradeType === 1 ? '买入':
+                    tradeType === 0 ? '卖出': '委托'
+
     let show_warning = true
     let toast = this.toastCtrl.create({
       duration: 3000,
       position: 'middle'
     })
     if(price <= 0){
-      toast.setMessage('请输入正确的购买价格')
+      toast.setMessage(`请输入正确的${tradeText}价格`)
     }else if(amount <= 0){
-      toast.setMessage('请输入正确的购买数量')      
+      toast.setMessage(`请输入正确的${tradeText}数量`)
     }else if(amount > Number(this.maxAmount)){
-      toast.setMessage('购买数量超过可购买上限')      
+      toast.setMessage(`${tradeText}数量超过可${tradeText}上限`)
     }else{
       show_warning = false
     }
