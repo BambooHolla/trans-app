@@ -59,7 +59,9 @@ export class AccountServiceProvider {
 	readonly CREATE_WITHDRAW_TRABSACTION = this.appSetting.APP_URL(
 		"transaction/transactions/create?transactionType=005",
 	);
-
+	readonly CANCEL_WITHDRAW_TRABSACTION = this.appSetting.APP_URL(
+		"transaction/transactions/cancel",
+	);
 	readonly SUBMIT_CERTIFICATION = this.appSetting.APP_URL(
 		"user/addCertification",
 	);
@@ -287,7 +289,21 @@ export class AccountServiceProvider {
 			},
 		);
 	}
+	cancelWithdrawAppply(
+		body: {
+			transactionId: string;
+			id: number;
+			status: string ;
+			freeze: string ;
 
+		
+		}
+	) {
+		return this.fetch.post<TransactionModel>(
+			this.CANCEL_WITHDRAW_TRABSACTION,
+			body
+		);
+	}
 	getWithdrawLogs(search: {
 		page?: number;
 		pageSize?: number;

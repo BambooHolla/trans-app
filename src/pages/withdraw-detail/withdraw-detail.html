@@ -95,6 +95,11 @@
                     {{tlog.createdAt|date:'y-M-d H:mm:ss'}}
                 </div>
                 <div class="status">{{tlog.dealResultDetail}}</div>
+
+                <div class="cancel">
+                    <button class="cancel-btn" [disabled]="tlog.status != '005'" ion-button color="special" (click)="cancelWithdrawModal(tlog.transactionId,tlog.id)">取消</button>
+                </div>
+
             </div>
             <div class="detail-info">
                 <div class="withdraw-amount" [title]="tlog.amount">
