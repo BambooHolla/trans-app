@@ -1,3 +1,9 @@
+    .cancel-btn-confirm {
+        .button-inner {
+            font-weight: 400;
+        }
+    }
+    
     page-withdraw-detail {
         ion-icon[name='添加'] {
             background-image: url('../assets/icon/添加.png');
@@ -207,6 +213,15 @@
                     .status {
                         font-size: 1.5rem;
                         color: color($colors, 'special');
+                    }
+                    .cancel-btn {
+                        height: 2.2rem !important;
+                        padding: 0 0.8rem;
+                        margin-left: 0.4rem;
+                        .button-inner {
+                            padding-top: 0.1rem;
+                            font-size: 1.5rem;
+                        }
                     }
                 }
                 .detail-info {

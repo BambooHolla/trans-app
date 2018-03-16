@@ -6,6 +6,7 @@ import {
 	InfiniteScroll,
 	ViewController,
 	ModalController,
+	AlertController
 } from "ionic-angular";
 import { SecondLevelPage } from "../../bnlc-framework/SecondLevelPage";
 import { asyncCtrlGenerator } from "../../bnlc-framework/Decorator";
@@ -44,6 +45,7 @@ export class WithdrawDetailPage extends SecondLevelPage {
 		public accountService: AccountServiceProvider,
 		public stockDataService: StockDataService,
 		public modalCtrl: ModalController,
+		public alertCtrl : AlertController
 	) {
 		super(navCtrl, navParams);
 		this.productInfo = this.navParams.get("productInfo");
@@ -120,6 +122,56 @@ export class WithdrawDetailPage extends SecondLevelPage {
 		  });
 		selector.present();
 	}
+
+
+	//取消提现订单弹出确认窗
+	cancelWithdrawModal(transactionId?:string,id?:number) {
+		let modal = this.alertCtrl.create({
+			title: '取消订单',
+			message: '确定取消这条提现订单吗？',
+			buttons: [
+				{
+					text: '取消',
+					handler: () => {
+					
+					}
+				},
+				{
+					text: '确定',
+					cssClass:'cancel-btn-confirm',
+					handler: () => {
+					this.cancelWithdrawAppply(transactionId,id)
+					}
+				}
+			]
+		});
+		modal.present();
+	}
+
+	@asyncCtrlGenerator.loading()
+	@asyncCtrlGenerator.error("取消失败")
+	@asyncCtrlGenerator.success("取消成功")
+	cancelWithdrawAppply(transactionId?:string,id?:number) {
+		return this.accountService
+			.cancelWithdrawAppply(
+				{
+					transactionId: transactionId,
+					id: id,
+					status: '005',
+					freeze: 'true',
+				}
+				
+			)
+			.then((data) => {
+				
+				return  this.getTransactionLogs()
+
+			});
+	}
+
+
+
+
 
 	//自定义弹窗(modal->alert)
 	describeModal() {
