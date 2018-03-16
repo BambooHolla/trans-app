@@ -1,15 +1,19 @@
 <ion-header>
     <ion-navbar>
-        <ion-title>
-            <div class="tab-list">
-                <h2 class="tab-item" (click)="tabClick(0)">公告</h2>
-                <h2 class="tab-item" (click)="tabClick(1)">新闻</h2>
-                <div class="tab-tale" [ngClass]="'tab-pos-'+(tabIndex+1)"></div>
-            </div>
-        </ion-title>
-        <ion-buttons right>
-            <ion-icon class="large-icon" name="search"></ion-icon>
-        </ion-buttons>
+        <ion-grid no-padding>
+            <ion-row class="title-header">
+                <ion-col class="tab-list">
+                    <span class="tab-item" (click)="tabClick(0)">公告</span>
+                    <span class="tab-item" (click)="tabClick(1)">新闻</span>
+                    <div class="tab-tale" [ngClass]="'tab-pos-'+(tabIndex+1)"></div>
+                </ion-col>
+                <ion-buttons right padding-horizontal>
+                    <button class="button_self" ion-button>
+                        <ion-icon class="large-icon" name="search"></ion-icon>
+                    </button>
+                </ion-buttons>
+            </ion-row>
+        </ion-grid>
     </ion-navbar>
 </ion-header>
 <!-- <ion-content class="card-background-page bg-in"> -->

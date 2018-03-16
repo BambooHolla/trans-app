@@ -8,13 +8,25 @@ page-news-list {
     color: color($colors, middark);
   }
 
+  .button_self{
+      vertical-align: middle;
+      height: 1.6rem;
+      transform: translate(-.1rem,.2rem);
+  }
+
+  .title-header {
+    align-items: center;
+  }
+
   .tab-list {
     width: 100%;
-    height: 40px;
-    line-height: 40px;
+    height: 3.8rem;
+    line-height: 3.8rem;
     position: relative;
     list-style: none;
-    margin: 0;
+    // margin: 0 -5.9rem 0 0;
+    margin: 0 0 0 5.9rem;
+    // margin: 0;
     padding: 0;
     display: flex;
     flex-direction: row;
@@ -25,13 +37,15 @@ page-news-list {
       text-align: center;
       color: #fff;
       transition-duration: 250ms;
-      font-size: 16px;
+      font-size: 1.8rem;
+      line-height: 1.8rem;
+      height: 1.8rem;
       &.focus {
       }
     }
     .tab-tale {
       position: absolute;
-      width: 20%;
+      width: 16%;
       height: 4px;
       border-radius: 2px;
       background: color($colors, 'special');
@@ -48,11 +62,6 @@ page-news-list {
     }
   }
 
-  .optional-header {
-    ion-col {
-      font-size: 1.7em;
-    }
-  }
   .toolbar-ios {
     min-height: 3.8rem;
   }
