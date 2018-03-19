@@ -97,7 +97,7 @@
                 <div class="status">{{tlog.dealResultDetail}}</div>
 
                 <div class="cancel">
-                    <button class="cancel-btn" [disabled]="tlog.status != '005'" ion-button color="special" (click)="cancelWithdrawModal(tlog.transactionId,tlog.id)">取消</button>
+                    <button class="cancel-btn" *ngIf="tlog.status == '005'" ion-button color="special" (click)="cancelWithdrawModal(tlog.transactionId,tlog.id)">取消</button>
                 </div>
 
             </div>
