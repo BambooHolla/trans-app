@@ -330,9 +330,9 @@ export class TradeInterfaceV2Page {
       duration: 3000,
       position: 'middle'
     })
-    if(price <= 0){
+    if(isNaN(price) || price <= 0){
       toast.setMessage(`请输入正确的${tradeText}价格`)
-    }else if(amount <= 0){
+    }else if(isNaN(amount) || amount <= 0){
       toast.setMessage(`请输入正确的${tradeText}数量`)
     }else if(amount > Number(this.maxAmount)){
       toast.setMessage(`${tradeText}数量超过可${tradeText}上限`)
@@ -960,7 +960,7 @@ export class TradeInterfaceV2Page {
           let priceName = '';
           const product = await this.stockDataService.getProduct(item.priceId)
 
-          if (product) priceName = `(${product.productName})`;
+          if (product) priceName = `${product.productName}`;
           item.priceName = priceName;
         }
         console.log('requestAssets', data);
