@@ -141,7 +141,7 @@ export class SubmitRealInfoPage extends SecondLevelPage {
 	@asyncCtrlGenerator.error('提交出错')
 	@asyncCtrlGenerator.success('认证申请提交成功')
 	submitForm() {
-		const media = this.images.map(im => im.fid).filter(v => v);
+		const media = this.images.map(im => im.fid);
 		if (media.length !== this.images.length) {
 			throw new Error('请上传证件');
 		}
