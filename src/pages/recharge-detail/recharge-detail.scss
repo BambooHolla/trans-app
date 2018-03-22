@@ -1,3 +1,7 @@
+::-webkit-scrollbar {
+    display: none !important;
+}
+
 page-recharge-detail {
     .no-entrust {
         text-align: center;
@@ -286,9 +290,12 @@ page-recharge-detail {
                         font-size: 1.4rem;
                         color: color($colors, 'special');
                         white-space: nowrap;
-                        text-overflow: ellipsis;
+                        // text-overflow: ellipsis;
                         overflow: hidden;
                         max-width: 100%;
+                        div {
+                            overflow: auto;
+                        }
                     }
                 }
                 /* .recharge-amount, */
