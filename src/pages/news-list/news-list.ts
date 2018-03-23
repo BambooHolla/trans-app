@@ -24,7 +24,7 @@ import {
 } from '../../providers/news-service/news-service';
 import { SecondLevelPage } from '../../bnlc-framework/SecondLevelPage';
 import { asyncCtrlGenerator } from '../../bnlc-framework/Decorator';
-
+import {AppSettingProvider} from "../../bnlc-framework/providers/app-setting/app-setting"
 // @IonicPage({
 //     name:"news-list"
 // })
@@ -34,7 +34,7 @@ import { asyncCtrlGenerator } from '../../bnlc-framework/Decorator';
 })
 export class NewsListPage /* implements OnInit, OnDestroy  */ extends SecondLevelPage {
     private newsContentPage: any = NewsContent;
-
+    public serverUrl = this.appSettin.APP_URL('file/read/')
     newsList = {
         list: [] as NewModel[],
         hasMore: true,
@@ -61,6 +61,7 @@ export class NewsListPage /* implements OnInit, OnDestroy  */ extends SecondLeve
         public navParams: NavParams,
         public newsService: NewsServiceProvider,
         public alertCtrl: AlertController,
+        public appSettin : AppSettingProvider,
         public loadingCtrl: LoadingController
     ) {
         super(navCtrl, navParams);

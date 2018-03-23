@@ -70,7 +70,7 @@ export class NewsService {
           title: resData.newsTitle,
           content: resData.content,
           publishTime: new Date(resData.crtDateTime),
-          avatarImg: "assets/images/test/004.png",
+          avatarImg: "assets/images/icons/g-person.png",
         }
         return Promise.resolve(data)
       })
