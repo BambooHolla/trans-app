@@ -168,7 +168,10 @@ export class LoginPage implements OnInit{
     return this.navCtrl.push(path, params, opts, done);
   }
   goToRegister() {
-    this.routeTo('register', this.loginForm.getRawValue());
+    this.routeTo('register', {
+      raw:this.loginForm.getRawValue(),
+      dismissFn: this.dismiss.bind(this)
+    });
   }
 
   dismiss(){

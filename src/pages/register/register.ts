@@ -7,7 +7,8 @@ import {
   LoadingController,
   NavController,
   NavParams,
-  ModalController
+  ModalController,
+  ToastController
 } from 'ionic-angular';
 
 import { RegisterService } from '../../providers/register-service';
@@ -60,6 +61,7 @@ export class RegisterPage {
     public navParams: NavParams,
     public modalCtrl: ModalController,
     public loadingCtrl: LoadingController,
+    public toastCtrl: ToastController,
     public alertCtrl: AlertController,
     public elementRef: ElementRef,
     public registerService: RegisterService,
@@ -67,7 +69,8 @@ export class RegisterPage {
     public appSettings: AppSettings
   ) {
     const rawVal = this.registerForm.getRawValue();
-    const customerId = navParams.get('customerId');
+    // console.log(navParams.get('raw'), navParams)
+    const customerId = navParams.get('raw').customerId//.get('customerId');
     if (customerId) {
       rawVal.customerId = customerId;
       this.registerForm.setValue(rawVal);
@@ -153,7 +156,17 @@ export class RegisterPage {
         throw { message:'请使用中国大陆手机号码或电子邮箱地址注册'}
       }
 
-      await this.registerService.doAuthRegister(customerId, vcode, password, timeZone);
+      this.registerService.doAuthRegister(customerId, vcode, password, timeZone)
+        .then(()=>{
+          const toast = this.toastCtrl.create({
+            message:'注册成功',
+            duration:1e3,
+            position:'middle',
+          });
+          toast.present();
+          this.navCtrl.pop({animate:false})
+            .then(this.navParams.get('dismissFn'));
+        })
     } catch (err) {
       this.alertCtrl
         .create({
