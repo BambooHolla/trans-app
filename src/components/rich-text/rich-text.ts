@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import {AppSettingProvider} from "../../bnlc-framework/providers/app-setting/app-setting"
 
 /**
  * Generated class for the RichText component.
@@ -12,8 +13,12 @@ import { Component, Input } from '@angular/core';
 })
 export class RichText {
   @Input() dataSource:object 
-  constructor() {
 
+  constructor(
+    public appSettin : AppSettingProvider
+  ) {
+  
   }
+  public serverUrl = this.appSettin.APP_URL('file/read/')
 
 }

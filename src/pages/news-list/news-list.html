@@ -70,7 +70,7 @@
                 <div class="no-content" *ngIf="!newsList?.list || newsList?.list.length == 0">暂无新闻</div>
                 <ion-list class="card-background-page">
                     <ion-item class="big-news-item" *ngFor="let data_item of newsList.list" (click)="viewNews(data_item.newsId)" no-lines>
-                        <div class="card-item" [style.backgroundImage]="'url('+data_item.cover+')'">
+                        <div class="card-item" [style.backgroundImage]="'url('+serverUrl+data_item.cover+')'">
                             <div class="wrapper">
                                 <div class="news-title">{{data_item.newsTitle}}</div>
                                 <div class="news-abstract">{{data_item.abstract}}</div>

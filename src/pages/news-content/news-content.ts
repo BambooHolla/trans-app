@@ -39,5 +39,6 @@ export class NewsContent implements OnInit {
       this.newsId,
       this.appSettings.SIM_DATA
     );
+    console.log('新闻',this,this.news)
   }
 }
