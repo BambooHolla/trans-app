@@ -9,6 +9,7 @@ import {
 	WorkOrderServiceProvider,
 	ContactType
 } from '../../providers/work-order-service/work-order-service';
+import { DomSanitizer } from '@angular/platform-browser';
 import { ImageTakerController } from '../../components/image-taker-controller';
 
 @Component({
@@ -20,6 +21,7 @@ export class WorkOrderAddPage extends SecondLevelPage {
 		public navCtrl: NavController,
 		public navParams: NavParams,
 		public fs: FsProvider,
+		public san: DomSanitizer,
 		public imageTakerCtrl: ImageTakerController,
 		public workOrderService: WorkOrderServiceProvider
 	) {
@@ -74,26 +76,49 @@ export class WorkOrderAddPage extends SecondLevelPage {
 			text: '意见反馈'
 		}
 	];
+
+	//上传图片失败弹窗(modal->alert)
+	describeModal(title,msg) {
+		let modal = this.alertCtrl.create( {
+			title: title,
+			message: msg,
+			buttons: [
+				{
+					text: '确定',
+					handler: () => {
+					
+					}
+				}]
+		});
+		modal.present();
+	}
+
 	upload(name) {
 		const imageTaker = this.imageTakerCtrl.create(name);
 		const fid_promise = this.fs.getImageUploaderId(FileType.工单图片);
 		imageTaker.onDidDismiss(async (result, role) => {
-			if (role !== 'cancel' && result) {
-				const image = this.images.find(
-					item => item.name === result.name
-				);
+			debugger
+			if( !result.err){
+				if (role !== 'cancel' && result) {
+					const image = this.images.find(
+						item => item.name === result.name
+					);
 				// console.log('index: ', index, result);
-				if (result.data) {
-					// 开始上传
-					await this.updateImage(fid_promise, image, result);
-					const fids = this.images
-						.map(img => img.fid)
-						.filter(fid => fid);
-					this.files.setValue(fids.join(' '));
-				} else {
-					image.image = 'assets/images/no-record.png';
+			
+					if (result.data) {
+						// 开始上传
+						await this.updateImage(fid_promise, image, result);
+						const fids = this.images
+							.map(img => img.fid)
+							.filter(fid => fid);
+						this.files.setValue(fids.join(' '));
+					} else {
+						image.image = 'assets/images/no-record.png';
+					}
 				}
 				// console.log(this.images);
+			}else {
+				this.describeModal(result.err,result.msg)
 			}
 		});
 		imageTaker.present();
@@ -108,14 +133,18 @@ export class WorkOrderAddPage extends SecondLevelPage {
 		try {
 			const fid = await fid_promise;
 			const result_data = result.data;
-			const blob = this.dataURItoBlob(result_data);
-			const blob_url = URL.createObjectURL(blob);
-			image.image = result_data;
-			const upload_res = await this.fs.uploadImage(fid, blob);
+			// const blob = this.dataURItoBlob(result_data);
+			// const blob_url = URL.createObjectURL(blob);
+
+			//上传图片，展示对应图片（本地的，因为上传到服务器的那个图片不能给外部访问）
+			image.image = this.san.bypassSecurityTrustUrl(result_data);
+			const upload_res = await this.fs.uploadImage(fid, result_data);
+		
 			console.log('upload_res', upload_res);
-			if (image.image === result_data) {
-				image.fid = fid;
-			}
+			image.fid = fid;
+		}catch (e){
+			//上传图片失败，展示失败图片
+			image.image = 'assets/images/no-record.png';
 		} finally {
 			image.uploading = false;
 		}
