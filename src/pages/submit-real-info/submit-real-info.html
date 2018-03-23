@@ -5,9 +5,9 @@
   Ionic pages and navigation.
 -->
 <ion-header>
-        <ion-navbar>
-            <ion-title>实名认证</ion-title>
-        </ion-navbar>
+    <ion-navbar>
+        <ion-title>实名认证</ion-title>
+    </ion-navbar>
 </ion-header>
 <ion-content>
     <form [formGroup]="formData" class="form-container">
@@ -28,7 +28,7 @@
         <div class="form-item with-bottom-division">
             <div class="label">证件号码</div>
             <div class="input-container">
-                <input type="number" placeholder="请输入证件号码" [formControl]="IDnumber" required/>
+                <input type="tel" placeholder="请输入证件号码" [formControl]="IDnumber" required/>
             </div>
         </div>
         <div class="form-item img-picker-list">

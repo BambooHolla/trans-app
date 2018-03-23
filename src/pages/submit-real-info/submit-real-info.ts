@@ -4,7 +4,8 @@ import {
 	IonicPage,
 	NavController,
 	NavParams,
-	ViewController
+	ViewController,
+	AlertController
 } from 'ionic-angular';
 import { SecondLevelPage } from '../../bnlc-framework/SecondLevelPage';
 import { asyncCtrlGenerator } from '../../bnlc-framework/Decorator';
@@ -18,7 +19,9 @@ import {
 import { IdentificationNumberCheckerProvider } from '../../providers/identification-number-checker/identification-number-checker';
 import { ImageTakerController } from '../../components/image-taker-controller';
 import { FsProvider, FileType } from '../../providers/fs/fs';
+import { CommonAlert } from "../../components/common-alert/common-alert";
 import { DomSanitizer } from '@angular/platform-browser';
+import {AppSettingProvider} from "../../bnlc-framework/providers/app-setting/app-setting"
 
 @Component({
 	selector: 'page-submit-real-info',
@@ -32,9 +35,11 @@ export class SubmitRealInfoPage extends SecondLevelPage {
 		public accountService: AccountServiceProvider,
 		public imageTakerCtrl: ImageTakerController,
 		public fs: FsProvider,
+		public alertCtrl: AlertController,
 		public idNumberChecker: IdentificationNumberCheckerProvider,
-		public san: DomSanitizer
-	) {
+		public san: DomSanitizer,
+		public appSetting:AppSettingProvider
+	) { 
 		super(navCtrl, navParams);
 	}
 
@@ -46,7 +51,9 @@ export class SubmitRealInfoPage extends SecondLevelPage {
 		IDnumber: new FormControl('', [
 			Validators.required,
 			(c => {
+				console.log(c.value)
 				if (!this.idNumberChecker.checkIdCardNo(c.value)) {
+					
 					return {
 						wrongIdNumber: true
 					};
@@ -66,32 +73,56 @@ export class SubmitRealInfoPage extends SecondLevelPage {
 	get IDtype() {
 		return this.formData.get('IDtype');
 	}
+	get serverUrl(){
+		return this.appSetting.APP_URL('file/read/')
+	}
 	private images = [
 		{ name: 'front', text: '正 面', image: null, fid: '', uploading: false },
 		{ name: 'back', text: '反 面', image: null, fid: '', uploading: false }
 	];
 
+
+
+	//上传图片失败弹窗(modal->alert)
+	describeModal(title,msg) {
+		let modal = this.alertCtrl.create( {
+			title: title,
+			message: msg,
+			buttons: [
+				{
+					text: '确定',
+					handler: () => {}
+				}]
+		});
+		modal.present();
+	  }
+
 	upload(name) {
 		const imageTaker = this.imageTakerCtrl.create(name);
 		const fid_promise = this.fs.getImageUploaderId(FileType.身份证图片);
 		imageTaker.onDidDismiss((result, role) => {
-			if (role !== 'cancel' && result) {
-				const image = this.images.find(
-					item => item.name === result.name
-				);
-				// console.log('index: ', index, result);
-				if (result.data) {
-					// 开始上传
-					this.updateImage(fid_promise, image, result);
-				} else {
-					image.image = 'assets/images/no-record.png';
+			if( !result.err){
+				if (role !== 'cancel' && result) {
+					const image = this.images.find(
+						item => item.name === result.name
+					);
+					// console.log('index: ', index, result);
+					if (result.data) {
+						// 开始上传
+						this.updateImage(fid_promise, image, result);
+
+					} else {
+						image.image = 'assets/images/no-record.png';
+					}
+					// console.log(this.images);
 				}
-				// console.log(this.images);
+			}else {
+				this.describeModal(result.err,result.msg)
 			}
 		});
 		imageTaker.present();
 	}
-
+	@asyncCtrlGenerator.loading('图片上传中')
 	@asyncCtrlGenerator.error('图片上传失败')
 	async updateImage(
 		fid_promise: Promise<any>,
@@ -102,14 +133,25 @@ export class SubmitRealInfoPage extends SecondLevelPage {
 		try {
 			const fid = await fid_promise;
 			const result_data = result.data;
-			const blob = await this.minImage(result_data);
-			const blob_url = URL.createObjectURL(blob);
-			image.image = this.san.bypassSecurityTrustUrl(blob_url);
-			const upload_res = await this.fs.uploadImage(fid, blob);
-			console.log('upload_res', upload_res);
-			if (image.image === result_data) {
-				image.fid = fid;
-			}
+
+			// 不用压缩图片，产生新的url，因为再上传的时候就限制大小
+			// const blob = await this.minImage(result_data);
+			// const blob_url = URL.createObjectURL(blob);
+			// image.image = this.san.bypassSecurityTrustUrl(blob_url);
+			// const upload_res = await this.fs.uploadImage(fid, blob);
+			// if (image.image.changingThisBreaksApplicationSecurity === blob_url) {
+			// 	image.fid = fid;
+			// }
+
+			//上传图片，展示对应图片（本地的，因为上传到服务器的那个图片不能给外部访问）
+			image.image = this.san.bypassSecurityTrustUrl(result_data);
+			const upload_res = await this.fs.uploadImage(fid, result_data);
+			
+			image.fid = fid;
+			
+		}catch (e){
+			//上传图片失败，展示失败图片
+			image.image = 'assets/images/no-record.png';
 		} finally {
 			image.uploading = false;
 		}
@@ -141,10 +183,19 @@ export class SubmitRealInfoPage extends SecondLevelPage {
 	@asyncCtrlGenerator.error('提交出错')
 	@asyncCtrlGenerator.success('认证申请提交成功')
 	submitForm() {
-		const media = this.images.map(im => im.fid);
+		const media = this.images.map(im => im.fid).filter(v => v);
 		if (media.length !== this.images.length) {
 			throw new Error('请上传证件');
 		}
+		console.log('0',CertificationCertificateType.身份)
+		console.log('1',this.formData.getRawValue().IDtype)
+		console.log('2',this.formData.getRawValue().IDnumber)
+		console.log('3',CertificationPatternType.人工审核)
+		console.log('4',CertificationCollectType.证件照片)
+		console.log('5', this.formData.getRawValue().realName)
+		console.log('6',media)
+		
+		debugger;
 		const formVal = this.formData.getRawValue();
 		return this.accountService
 			.submitCertification({

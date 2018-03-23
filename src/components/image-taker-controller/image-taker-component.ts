@@ -58,7 +58,9 @@ export class ImageTakerCmp {
                             cancelable: true
                         });
                         inputEle.dispatchEvent(clickEvent);
+                        
                         inputEle.onchange = e => {
+                            
                             if (inputEle.files && inputEle.files[0]) {
                                 //var reader = new FileReader();
 
@@ -70,10 +72,17 @@ export class ImageTakerCmp {
                                 //};
 
                                 //reader.readAsDataURL(inputEle.files[0]);
-                                this.dismiss({
-                                    name,
-                                    data: URL.createObjectURL(inputEle.files[0])
-                                });
+                                if(inputEle.files[0].size <= 2097152){
+                                    this.dismiss({
+                                        name,
+                                        data: URL.createObjectURL(inputEle.files[0])
+                                    });
+                                } else{
+                                    this.dismiss({
+                                        err:"上传失败",
+                                        msg:"图片大小最大为2M"
+                                    });
+                                }
                             } else {
                                 this.dismiss(null);
                             }
