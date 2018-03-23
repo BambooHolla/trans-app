@@ -51,7 +51,6 @@ export class SubmitRealInfoPage extends SecondLevelPage {
 		IDnumber: new FormControl('', [
 			Validators.required,
 			(c => {
-				console.log(c.value)
 				if (!this.idNumberChecker.checkIdCardNo(c.value)) {
 					
 					return {
@@ -183,10 +182,11 @@ export class SubmitRealInfoPage extends SecondLevelPage {
 	@asyncCtrlGenerator.error('提交出错')
 	@asyncCtrlGenerator.success('认证申请提交成功')
 	submitForm() {
-		const media = this.images.map(im => im.fid).filter(v => v);
+		let media = this.images.map(im => im.fid).filter(v => v);
 		if (media.length !== this.images.length) {
 			throw new Error('请上传证件');
 		}
+		media = [media.join('|')]
 		console.log('0',CertificationCertificateType.身份)
 		console.log('1',this.formData.getRawValue().IDtype)
 		console.log('2',this.formData.getRawValue().IDnumber)
@@ -194,8 +194,6 @@ export class SubmitRealInfoPage extends SecondLevelPage {
 		console.log('4',CertificationCollectType.证件照片)
 		console.log('5', this.formData.getRawValue().realName)
 		console.log('6',media)
-		
-		debugger;
 		const formVal = this.formData.getRawValue();
 		return this.accountService
 			.submitCertification({
