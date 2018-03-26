@@ -13,7 +13,7 @@
                 <ion-toolbar [hidden]="!showSearch" class="searchbar">
                     <div #searchInputWrap class="searchInput">
                         <ion-item no-padding no-lines>
-                            <ion-input #searchInput type="text" clearInput (keyup)="search(searchInput.value)">
+                            <ion-input #searchInput [(ngModel)]='searchInputValue' type="text" clearInput (keyup)="search(searchInput.value)">
                             </ion-input>
                         </ion-item>
                     </div>
@@ -29,7 +29,7 @@
             </ion-row>
             <ion-row class="prices">
                 <ion-col *ngFor="let item of appDataService.mainproducts" no-padding>
-                    {{item.symbol}} 
+                    {{item.symbol}}
                     <span class="{{item?.range | riseOrFall}}">{{item.price || '--'}}</span>
                 </ion-col>
                 <!-- <ion-col no-padding>12312321321</ion-col>
@@ -60,7 +60,7 @@
         </div>
     </div> -->
 
-    <div *ngFor="let trader of traderList_show"  tappable [navPush]="tradeInterface" [navParams]="trader?.traderId" class="trader-item">
+    <div *ngFor="let trader of traderList_show" tappable [navPush]="tradeInterface" [navParams]="trader?.traderId" class="trader-item">
         <div class="header">
             <div class="name">
                 {{trader.traderName}}
@@ -106,9 +106,7 @@
                 </div>
             </div>
             <div>
-                <realtime-report [echartsData]="trader?.reportRef | async"
-                    [riseOrFall]="(trader.marketRef | async)?.range|riseOrFall"
-                    [options]="realtimeOptions">
+                <realtime-report [echartsData]="trader?.reportRef | async" [riseOrFall]="(trader.marketRef | async)?.range|riseOrFall" [options]="realtimeOptions">
                 </realtime-report>
             </div>
         </div>
