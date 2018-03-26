@@ -72,11 +72,22 @@ export class ImageTakerCmp {
                                 //};
 
                                 //reader.readAsDataURL(inputEle.files[0]);
+                               
                                 if(inputEle.files[0].size <= 2097152){
+
+                                    //旧方法
+                                    // this.dismiss({
+                                    //     name,
+                                    //     data: URL.createObjectURL(inputEle.files[0])
+                                    // });
+                                    
+                                    // by lsy 2018-03-26,data用于本地展示，files用于图片上传服务器
                                     this.dismiss({
                                         name,
-                                        data: URL.createObjectURL(inputEle.files[0])
+                                        data: URL.createObjectURL(inputEle.files[0]),
+                                        files: inputEle.files[0]
                                     });
+                                    
                                 } else{
                                     this.dismiss({
                                         err:"上传失败",
