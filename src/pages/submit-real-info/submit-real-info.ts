@@ -129,10 +129,12 @@ export class SubmitRealInfoPage extends SecondLevelPage {
 		result: any
 	) {
 		image.uploading = true;
+		
 		try {
+			
 			const fid = await fid_promise;
 			const result_data = result.data;
-
+			const result_files = result.files;
 			// 不用压缩图片，产生新的url，因为再上传的时候就限制大小
 			// const blob = await this.minImage(result_data);
 			// const blob_url = URL.createObjectURL(blob);
@@ -144,7 +146,7 @@ export class SubmitRealInfoPage extends SecondLevelPage {
 
 			//上传图片，展示对应图片（本地的，因为上传到服务器的那个图片不能给外部访问）
 			image.image = this.san.bypassSecurityTrustUrl(result_data);
-			const upload_res = await this.fs.uploadImage(fid, result_data);
+			const upload_res = await this.fs.uploadImage(fid, result_files);
 			
 			image.fid = fid;
 			

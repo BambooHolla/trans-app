@@ -94,6 +94,7 @@ export class WorkOrderAddPage extends SecondLevelPage {
 	}
 
 	upload(name) {
+		
 		const imageTaker = this.imageTakerCtrl.create(name);
 		const fid_promise = this.fs.getImageUploaderId(FileType.工单图片);
 		imageTaker.onDidDismiss(async (result, role) => {
@@ -123,6 +124,8 @@ export class WorkOrderAddPage extends SecondLevelPage {
 		});
 		imageTaker.present();
 	}
+
+	@asyncCtrlGenerator.loading('图片上传中')
 	@asyncCtrlGenerator.error('图片上传失败')
 	async updateImage(
 		fid_promise: Promise<any>,
@@ -133,14 +136,15 @@ export class WorkOrderAddPage extends SecondLevelPage {
 		try {
 			const fid = await fid_promise;
 			const result_data = result.data;
+			const result_files = result.files;
 			// const blob = this.dataURItoBlob(result_data);
 			// const blob_url = URL.createObjectURL(blob);
 
 			//上传图片，展示对应图片（本地的，因为上传到服务器的那个图片不能给外部访问）
 			image.image = this.san.bypassSecurityTrustUrl(result_data);
-			const upload_res = await this.fs.uploadImage(fid, result_data);
+			const upload_res = await this.fs.uploadImage(fid, result_files);
 		
-			console.log('upload_res', upload_res);
+			console.log('upload_res', result);
 			image.fid = fid;
 		}catch (e){
 			//上传图片失败，展示失败图片
