@@ -25,6 +25,7 @@ import { TradeService } from '../../providers/trade-service';
 })
 export class QuotationsPageV2 {
 	@ViewChild('searchInputWrap', { read: ElementRef }) searchInputWrap;
+	searchInputValue = '';
 	showSearch = false
 	private searchTermStream = new BehaviorSubject<string>('');
 	search(term: string) {
@@ -210,8 +211,11 @@ export class QuotationsPageV2 {
 	// }
 
 	toShowSearch(){
+		this.searchInputValue = '';
 		this.showSearch = true
 		this.renderer.setElementStyle(this.searchInputWrap.nativeElement,'width','unset')
+		
+		
 	}
 
 	cancelFilter(){
