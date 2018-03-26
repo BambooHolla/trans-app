@@ -263,9 +263,9 @@ export class PersonalDataService {
         // }
 
         this._certifiedStatus = data.status
-        if (data.status === '101' || data.status === '103'){
+        if (data.status === '101'){
           this._realname = data.name
-        } else if (data.status === '102' || data.status === '104'){
+        } else if (data.status === '102' || data.status === '104' || data.status === '103'){
           this._certifiedMsg = data.message
         }
       })
