@@ -23,7 +23,7 @@ import { InformationPage } from '../information/information';
 import { TradeInterfaceV2Page } from '../trade-interface-v2/trade-interface-v2';
 import { NewsListPage } from '../news-list/news-list';
 import { LoginService } from '../../providers/login-service';
-
+import { AppSettingProvider } from '../../bnlc-framework/providers/app-setting/app-setting';
 @Component({
   selector: 'component-tabs',
   templateUrl: 'tabs.html'
@@ -47,7 +47,8 @@ export class TabsPage implements OnInit, AfterViewInit, AfterContentInit {
     public navCtrl: NavController,
     public appSettings: AppSettings,
     public loginService: LoginService,
-    public personalDataService: PersonalDataService
+    public personalDataService: PersonalDataService,
+    public appSetting: AppSettingProvider
   ) {
     // FIXME ：如何获取推荐的股票列表？
     // 后续处理的调用暂时注释掉。
@@ -147,19 +148,20 @@ export class TabsPage implements OnInit, AfterViewInit, AfterContentInit {
     // window.removeEventListener('hashchange', this._binded_tab_route);
   }
   ionViewDidEnter() {
+    
     this.tab_list.forEach(tab => {
       const abutton = tab.btn.getNativeElement();
       let pointerdown_eventname = 'touchstart';
       if ('onpointerdown' in window) {
         pointerdown_eventname = 'pointerdown';
       }
-
+     
       abutton.addEventListener(
         pointerdown_eventname,
         function bindRoot() {
-          const self = this as TabsPage;
-          if (self.tab_should_login.includes(tab.tabUrlPath)
-            && !self.loginService.userToken.getValue()) {
+          const self = this as TabsPage; 
+          if (self.tab_should_login.includes(tab.tabUrlPath) && !self.appSetting.getUserToken()) {
+          
             return self.events.publish('show login', 'login', () => { self.tabs.select(tab)});
           }
 
