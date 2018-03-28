@@ -161,7 +161,6 @@ export class TabsPage implements OnInit, AfterViewInit, AfterContentInit {
         function bindRoot() {
           const self = this as TabsPage; 
           if (self.tab_should_login.includes(tab.tabUrlPath) && !self.appSetting.getUserToken()) {
-          
             return self.events.publish('show login', 'login', () => { self.tabs.select(tab)});
           }
 
