@@ -21,19 +21,24 @@
             </ion-row>
             <ion-row class="bottom-line">
                 <ion-col padding class="vertical-center">
-                    <ion-input formControlName="password" class="password" type="password" placeholder="登录密码">
+                    <ion-input formControlName="password" class="password" type="password" placeholder="登录密码" (input)="validatePWD()">
                     </ion-input>
                 </ion-col>
             </ion-row>
             <div item-right class="error-tip" *ngIf="form_password.errors?.minlength">
                 密码至少3位
             </div>
+
             <ion-row class="bottom-line">
                 <ion-col padding class="vertical-center">
-                    <ion-input formControlName="confirPassword" class="password" type="password" placeholder="确认密码">
+                    <ion-input formControlName="confirPassword" class="password" type="password" placeholder="确认密码" (input)="validatePWD()">
                     </ion-input>
                 </ion-col>
             </ion-row>
+
+            <div item-right class="error-tip" *ngIf="form_password?.value && form_confirPassword?.value  &&  pwdAgreementPass">
+                两次密码不一致
+            </div>
             <ion-row tappable class="account-exit" style="background:none">
                 <ion-col padding class="exit-center">
                     <button ion-button class="trbtn forgetPWD-form-submit" type="submit" [disabled]="forgetPWDForm.invalid || !appDataService.ready || forgetPWDing">

@@ -44,16 +44,26 @@ export class ForgetPwdPage {
 		protocolAgree: new FormControl({ value: true, disabled: false })
 	});
 	get form_password() {
+		
 		return this.forgetPWDForm.get('password');
 	}
+	get form_confirPassword() {
+		return this.forgetPWDForm.get('confirPassword');
+	}
+	pwdAgreementPass = false;
 	validatePWD() {
+		
 		if (this.forgetPWDForm) {
 			const password = this.forgetPWDForm.get('password').value;
 			const confirPassword = this.forgetPWDForm.get('confirPassword')
 				.value;
-			return password !== confirPassword ? { zz: 'zzz' } : null;
+				this.pwdAgreementPass = password !== confirPassword ?true : false;
+			return password !== confirPassword ? {zz:'zz'} : false;
 		}
 	}
+
+
+
 	// protocolAgree = false;
 
 	toggleProtocolAgree() {

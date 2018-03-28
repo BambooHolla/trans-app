@@ -100,24 +100,22 @@ export class SubmitRealInfoPage extends SecondLevelPage {
 		const imageTaker = this.imageTakerCtrl.create(name);
 		const fid_promise = this.fs.getImageUploaderId(FileType.身份证图片);
 		imageTaker.onDidDismiss((result, role) => {
-			if( !result.err){
-				if (role !== 'cancel' && result) {
-					const image = this.images.find(
-						item => item.name === result.name
-					);
-					// console.log('index: ', index, result);
-					if (result.data) {
-						// 开始上传
-						this.updateImage(fid_promise, image, result);
+			
+			if (role !== 'cancel' && result) {
+				const image = this.images.find(
+					item => item.name === result.name
+				);
+				// console.log('index: ', index, result);
+				if (result.data) {
+					// 开始上传
+					this.updateImage(fid_promise, image, result);
 
-					} else {
-						image.image = 'assets/images/no-record.png';
-					}
-					// console.log(this.images);
+				} else {
+					image.image = 'assets/images/no-record.png';
 				}
-			}else {
-				this.describeModal(result.err,result.msg)
+				// console.log(this.images);
 			}
+			
 		});
 		imageTaker.present();
 	}
@@ -134,22 +132,11 @@ export class SubmitRealInfoPage extends SecondLevelPage {
 			
 			const fid = await fid_promise;
 			const result_data = result.data;
-			const result_files = result.files;
-			// 不用压缩图片，产生新的url，因为再上传的时候就限制大小
-			// const blob = await this.minImage(result_data);
-			// const blob_url = URL.createObjectURL(blob);
-			// image.image = this.san.bypassSecurityTrustUrl(blob_url);
-			// const upload_res = await this.fs.uploadImage(fid, blob);
-			// if (image.image.changingThisBreaksApplicationSecurity === blob_url) {
-			// 	image.fid = fid;
-			// }
-
-			//上传图片，展示对应图片（本地的，因为上传到服务器的那个图片不能给外部访问）
-			image.image = this.san.bypassSecurityTrustUrl(result_data);
-			const upload_res = await this.fs.uploadImage(fid, result_files);
-			
+			const blob = await this.minImage(result_data);
+			const blob_url = URL.createObjectURL(blob);
+			image.image = this.san.bypassSecurityTrustUrl(blob_url);
+			const upload_res = await this.fs.uploadImage(fid, blob);
 			image.fid = fid;
-			
 		}catch (e){
 			//上传图片失败，展示失败图片
 			image.image = 'assets/images/no-record.png';

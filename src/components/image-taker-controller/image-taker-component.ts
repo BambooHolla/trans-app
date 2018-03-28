@@ -52,6 +52,7 @@ export class ImageTakerCmp {
                         const inputEle = document.createElement('input');
                         inputEle.type = 'file';
                         inputEle.accept = 'image/*';
+                        inputEle['capture'] = "accept";
                         var clickEvent = new MouseEvent('click', {
                             view: window,
                             bubbles: true,
@@ -73,27 +74,10 @@ export class ImageTakerCmp {
 
                                 //reader.readAsDataURL(inputEle.files[0]);
                                
-                                if(inputEle.files[0].size <= 2097152){
-
-                                    //旧方法
-                                    // this.dismiss({
-                                    //     name,
-                                    //     data: URL.createObjectURL(inputEle.files[0])
-                                    // });
-                                    
-                                    // by lsy 2018-03-26,data用于本地展示，files用于图片上传服务器
-                                    this.dismiss({
-                                        name,
-                                        data: URL.createObjectURL(inputEle.files[0]),
-                                        files: inputEle.files[0]
-                                    });
-                                    
-                                } else{
-                                    this.dismiss({
-                                        err:"上传失败",
-                                        msg:"图片大小最大为2M"
-                                    });
-                                }
+                                this.dismiss({
+                                    name,
+                                    data: URL.createObjectURL(inputEle.files[0])
+                                });                   
                             } else {
                                 this.dismiss(null);
                             }
@@ -103,15 +87,48 @@ export class ImageTakerCmp {
                 {
                     text: '马上拍一张',
                     handler: () => {
-                        let cameraModal = this.modalCtrl.create(CameraModal);
-                        cameraModal.onDidDismiss((data, role) => {
-                            this.dismiss({
-                                name,
-                                data
-                            });
-                        });
+                        // let cameraModal = this.modalCtrl.create(CameraModal);
+                        // cameraModal.onDidDismiss((data, role) => {
+                        //     this.dismiss({
+                        //         name,
+                        //         data
+                        //     });
+                        // });
 
-                        cameraModal.present();
+                        // cameraModal.present();
+
+                        const inputEle = document.createElement('input');
+                        inputEle.type = 'file';
+                        inputEle.accept = 'image/*';
+                        inputEle['capture'] = "camera"
+                        var clickEvent = new MouseEvent('click', {
+                            view: window,
+                            bubbles: true,
+                            cancelable: true
+                        });
+                        inputEle.dispatchEvent(clickEvent);
+                        inputEle.onchange = e => {
+                            
+                            if (inputEle.files && inputEle.files[0]) {
+                                //var reader = new FileReader();
+
+                                //reader.onload = e => {
+                                    //this.dismiss({
+                                        //name,
+                                        //data: e.target['result']
+                                    //});
+                                //};
+
+                                //reader.readAsDataURL(inputEle.files[0]);
+                               
+                                this.dismiss({
+                                    name,
+                                    data: URL.createObjectURL(inputEle.files[0])
+                                });                   
+                            } else {
+                                this.dismiss(null);
+                            }
+                        };
                     }
                 },
                 {

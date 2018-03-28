@@ -99,28 +99,26 @@ export class WorkOrderAddPage extends SecondLevelPage {
 		const fid_promise = this.fs.getImageUploaderId(FileType.工单图片);
 		imageTaker.onDidDismiss(async (result, role) => {
 			
-			if( !result.err){
-				if (role !== 'cancel' && result) {
-					const image = this.images.find(
-						item => item.name === result.name
-					);
-				// console.log('index: ', index, result);
 			
-					if (result.data) {
-						// 开始上传
-						await this.updateImage(fid_promise, image, result);
-						const fids = this.images
-							.map(img => img.fid)
-							.filter(fid => fid);
-						this.files.setValue(fids.join(' '));
-					} else {
-						image.image = 'assets/images/no-record.png';
-					}
+			if (role !== 'cancel' && result) {
+				const image = this.images.find(
+					item => item.name === result.name
+				);
+			// console.log('index: ', index, result);
+		
+				if (result.data) {
+					// 开始上传
+					await this.updateImage(fid_promise, image, result);
+					const fids = this.images
+						.map(img => img.fid)
+						.filter(fid => fid);
+					this.files.setValue(fids.join(' '));
+				} else {
+					image.image = 'assets/images/no-record.png';
 				}
-				// console.log(this.images);
-			}else {
-				this.describeModal(result.err,result.msg)
 			}
+			// console.log(this.images);
+		
 		});
 		imageTaker.present();
 	}
@@ -136,22 +134,57 @@ export class WorkOrderAddPage extends SecondLevelPage {
 		try {
 			const fid = await fid_promise;
 			const result_data = result.data;
-			const result_files = result.files;
+		
 			// const blob = this.dataURItoBlob(result_data);
 			// const blob_url = URL.createObjectURL(blob);
+			// image.image = this.san.bypassSecurityTrustUrl(result_data);
+			// const upload_res = await this.fs.uploadImage(fid, blob);
+			// image.fid = fid;
 
-			//上传图片，展示对应图片（本地的，因为上传到服务器的那个图片不能给外部访问）
-			image.image = this.san.bypassSecurityTrustUrl(result_data);
-			const upload_res = await this.fs.uploadImage(fid, result_files);
-		
-			console.log('upload_res', result);
+			const blob = await this.minImage(result_data);
+			const blob_url = URL.createObjectURL(blob);
+			image.image = this.san.bypassSecurityTrustUrl(blob_url);
+			const upload_res = await this.fs.uploadImage(fid, blob);
 			image.fid = fid;
+
 		}catch (e){
 			//上传图片失败，展示失败图片
 			image.image = 'assets/images/no-record.png';
 		} finally {
 			image.uploading = false;
 		}
+	}
+
+	async minImage(url) { //压缩
+		const canvas = document.createElement("canvas");
+		const maxSize = 1000;
+
+		const ctx = canvas.getContext("2d");
+		const image = new Image();
+		image.src = url;
+		return new Promise<Blob>((resolve, reject) => {
+			image.onload = () => {
+				try {
+					const { width, height } = image;
+					const max_WH = Math.max(width, height);
+					if (max_WH < maxSize) {
+						resolve(this.dataURItoBlob(url))
+					}
+					if (width === max_WH) {
+						image.width = canvas.width = maxSize;
+						image.height = canvas.height = height / width * maxSize;
+					} else {
+						image.height = canvas.height = maxSize;
+						image.width = canvas.width = width / height * maxSize;
+					}
+					console.log(canvas.width, canvas.height)
+
+					ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
+					canvas.toBlob(resolve);
+				} catch (err) { reject(err) }
+			}
+			image.onerror = reject
+		})
 	}
 
 	dataURItoBlob(dataURI) {
