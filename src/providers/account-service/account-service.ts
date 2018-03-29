@@ -75,6 +75,9 @@ export class AccountServiceProvider {
 	readonly GET_PRODUCT_RATE = this.appSetting.APP_URL(
 		"product/strategy/rate/product/:productId",
 	);
+	readonly GET_PRODUCT_LIMITEQUOTA = this.appSetting.APP_URL(
+		"product/strategy/limitedQuotaByProduct",
+	);
 
 	readonly SET_ACCOUNT_PWD = this.appSetting.APP_URL("user/setAccountPwd");
 	readonly HAS_ACCOUNT_PWD = this.appSetting.APP_URL("user/hasAccountPwd");
@@ -445,6 +448,19 @@ export class AccountServiceProvider {
 			search,
 		});
 	}
+
+	getLimitedQuota(
+		productId,
+		limitedQuotaType
+	) {
+		return this.fetch.get(this.GET_PRODUCT_LIMITEQUOTA, {
+			search: {
+				productId: productId,
+				limitedQuotaType: limitedQuotaType,
+			}
+		});
+	}
+
 }
 export enum CertificationCertificateType {
 	账号 = "001",

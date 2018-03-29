@@ -49,6 +49,7 @@ export class WithdrawDetailPage extends SecondLevelPage {
 	) {
 		super(navCtrl, navParams);
 		this.productInfo = this.navParams.get("productInfo");
+		
 	}
 	formData: {
 		selected_withdraw_address_id: number;
@@ -60,6 +61,11 @@ export class WithdrawDetailPage extends SecondLevelPage {
 		password: "",
 	};
 	errors: any = {};
+	promptLimit: any = {
+		title1:'没有提现金额限制',
+		title2:''
+	};
+
 	@WithdrawDetailPage.setErrorTo("errors", "amount", ["outRange"])
 	checkout_amount() {
 		const balance =
@@ -176,8 +182,8 @@ export class WithdrawDetailPage extends SecondLevelPage {
 	//自定义弹窗(modal->alert)
 	describeModal() {
 		let modal = this.modalCtrl.create(CommonAlert, {
-			title1: "提取金额不得大于当前可用余额",
-			title2: "不得小于0.001ETH"
+			title1: this.promptLimit.title1,
+			title2: this.promptLimit.title2
 		}, { showBackdrop: true, enableBackdropDismiss: true });
 		modal.present();
 	  }
@@ -233,8 +239,29 @@ export class WithdrawDetailPage extends SecondLevelPage {
 				.then(data => {
 					console.log("手续非：", data);
 					this.rate_info = data[0];
+					console.log(this.productInfo)
 				});
-
+			// 获取提现限额
+			tasks[tasks.length] = this.accountService
+				.getLimitedQuota(this.productInfo.productId,'002')
+				.then(data => {
+					data = data[0]
+					//多种情况提示语
+					if(!data['min'] && !data['max']){
+						this.promptLimit.title1 = '没有提现金额限制';
+						this.promptLimit.title2 = '';
+					}else if(data['min'] && !data['max']){
+						this.promptLimit.title1 = '单次提现金额不得小于'+data['min']+this.productInfo.productDetail;
+						this.promptLimit.title2 = '';
+					} else if(!data['min'] && data['max']){
+						this.promptLimit.title1 = '单次提现金额不得大于'+data['max']+this.productInfo.productDetail;
+						this.promptLimit.title2 = '';
+					} else{
+						this.promptLimit.title1 = '单次提现金额不得小于'+data['min']+this.productInfo.productDetail;
+						this.promptLimit.title2 = '不得大于'+data['max']+this.productInfo.productDetail;
+					}
+					
+				});
 			await Promise.all(tasks);
 		} else {
 			this.navCtrl.removeView(this.viewCtrl);
