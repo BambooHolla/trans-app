@@ -13,7 +13,7 @@
                 <ion-toolbar [hidden]="!showSearch" class="searchbar">
                     <div #searchInputWrap class="searchInput">
                         <ion-item no-padding no-lines>
-                            <ion-input #searchInput [(ngModel)]='searchInputValue' type="text" clearInput (keyup)="search(searchInput.value)">
+                            <ion-input #searchInput [(ngModel)]='searchInputValue' type="text" clearInput (ionChange)="search(searchInput.value)">
                             </ion-input>
                         </ion-item>
                     </div>

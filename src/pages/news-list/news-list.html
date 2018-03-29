@@ -7,11 +7,25 @@
                     <span class="tab-item" (click)="tabClick(1)">新闻</span>
                     <div class="tab-tale" [ngClass]="'tab-pos-'+(tabIndex+1)"></div>
                 </ion-col>
-                <ion-buttons right padding-horizontal>
+                <ion-buttons right padding-horizontal 
+                    [style.visibility]="showSearch? 'hidden':'visible'" 
+                    (click)="toShowSearch()">
                     <button class="button_self" ion-button>
                         <ion-icon class="large-icon" name="search"></ion-icon>
                     </button>
                 </ion-buttons>
+                <ion-toolbar [hidden]="!showSearch" class="searchbar">
+                    <div #searchInputWrap class="searchInput">
+                        <!-- <div class="icon"></div> -->
+                        <ion-item no-padding no-lines>
+                            <ion-input #searchInput type="text" clearInput (ionChange)="search(searchInput.value)">
+                            </ion-input>
+                        </ion-item>
+                    </div>
+                    <ion-buttons right (click)="cancelFilter()">
+                        <button ion-button navPop>取消</button>
+                    </ion-buttons>
+                </ion-toolbar>
             </ion-row>
         </ion-grid>
     </ion-navbar>
@@ -30,7 +44,7 @@
                 <div class="no-content" *ngIf="!noticeList?.list || noticeList?.list.length == 0">暂无公告</div>
                 <ion-list class="card-background-page">
                     <ng-container *ngFor="let data_item of noticeList.list;let i = index">
-                        <div class="banner-card" *ngIf="i==0;else normalListItem">
+                        <div class="banner-card" *ngIf="i==0 && !showSearch;else normalListItem">
                             <div class="wrapper" [style.backgroundImage]="'url('+data_item.cover+')'">
                                 <div class="title">{{data_item.newsTitle}}</div>
                                 <button class="click-to-read" ion-button (click)="viewNews(data_item.newsId)">点击阅读</button>

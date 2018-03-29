@@ -10,7 +10,7 @@
             <div #searchInputWrap class="searchInput">
                 <!-- <div class="icon"></div> -->
                 <ion-item no-padding no-lines>
-                    <ion-input #searchInput type="text" clearInput (keyup)="search(searchInput.value)">
+                    <ion-input #searchInput type="text" clearInput (ionChange)="search(searchInput.value)">
                     </ion-input>
                 </ion-item>
             </div>

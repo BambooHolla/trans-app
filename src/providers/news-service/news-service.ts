@@ -52,6 +52,7 @@ export class NewsServiceProvider {
 		pageSize?: number;
 		msgType?: NewsMsgType;
 		status?: NewsStatusType;
+		q?: string;
 	}) {
 		return this.fetch.autoCache(true).get<NewModel[]>(this.GET_NEWS_LIST, {
 			search: Object.assign({ page: 0 }, query)
