@@ -226,7 +226,7 @@ export class TradeInterfaceV2Page {
   }
 
   changeByStep(target: string, sign: string = '+', step?: any, precision: number = -8) {
-    const invBase = Math.pow(10, -precision);
+    const invBase = Math.pow(10, -(precision));
     // 浮点数四则运算存在精度误差问题.尽量用整数运算
     // 例如 602 * 0.01 = 6.0200000000000005 ，
     // 改用 602 / 100 就可以得到正确结果。
@@ -237,8 +237,18 @@ export class TradeInterfaceV2Page {
       step = Math.pow(10, -length)
       step = sign + step
     }
-
-    const result = Math.max(0, Math.floor(+this[target] * invBase + step * invBase) / invBase);
+    //原来的方法遇到 “0.0048” *10^8,会丢失精度
+    // const result = Math.max(0, Math.floor(+this[target] * invBase + step * invBase) / invBase);
+    //新方法,区分价格跟数量,价格用新的，数量用旧方法
+    // '11.12' -> ['11','12'] -> (11 * 10^8 * 10^(arr[1].length) + 12 * 10^8 ) / 10^8
+    let result = typeof this[target] == "string"?this[target].split('.'):Math.max(0, Math.floor(+this[target] * invBase + step * invBase) / invBase);
+    if(typeof this[target] == "string" ){
+      if(result.length == 2){
+        result = Math.max(0, Math.floor(result[0] * invBase *  Math.pow(10,result[1].length) + result[1] * invBase + step * invBase) / (invBase * Math.pow(10,result[1].length)));
+      }else{
+        result = Math.max(0, Math.floor(result[0] * invBase + step * invBase) / invBase);
+      }
+    }
     //强制刷新数据hack处理
     this[target] = length ? result.toFixed(length) : result.toString()    
     this.platform.raf(()=>{      

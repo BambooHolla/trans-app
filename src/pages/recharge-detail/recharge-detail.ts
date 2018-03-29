@@ -42,6 +42,7 @@ export class RechargeDetailPage extends SecondLevelPage {
 	productInfo: ProductModel = {} as any;
 	access_info: any = {} as any;
 	recharge_address: CryptoCurrencyModel = {} as any;
+	minRecharge: any = 0;
 	@RechargeDetailPage.willEnter
 	@asyncCtrlGenerator.loading(
 		undefined,
@@ -68,6 +69,13 @@ export class RechargeDetailPage extends SecondLevelPage {
 				.then(data => (this.access_info = data));
 			// 获取充值记录
 			tasks[tasks.length] = this.getTransactionLogs();
+			// 获取充值限额
+			tasks[tasks.length] = this.accountService
+				.getLimitedQuota(this.productInfo.productId,'001')
+				.then(data => {
+					
+					this.minRecharge = data[0].min
+				});
 			const tasks_res = await Promise.all(tasks);
 			return tasks_res.reduce((p, c) => ({ ...p, ...c }), {});
 		} else {
