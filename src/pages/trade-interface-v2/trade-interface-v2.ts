@@ -1,6 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 // import * as echarts from 'echarts';
-import { NavParams, ToastController, AlertController, NavController, InfiniteScroll, Platform } from 'ionic-angular';
+import { NavParams, ToastController, AlertController, NavController, InfiniteScroll, Platform, Content } from 'ionic-angular';
 
 import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
@@ -23,6 +23,7 @@ import { AndroidFullScreen } from '@ionic-native/android-full-screen';
 })
 export class TradeInterfaceV2Page {
   // tradeType:number = 1 //1是买,0是卖
+  @ViewChild(Content) content:Content;
 
   private viewDidLeave: BehaviorSubject<boolean> = new BehaviorSubject(false);
   private viewDidLeave$ = this.viewDidLeave
