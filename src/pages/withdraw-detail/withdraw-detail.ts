@@ -245,20 +245,26 @@ export class WithdrawDetailPage extends SecondLevelPage {
 			tasks[tasks.length] = this.accountService
 				.getLimitedQuota(this.productInfo.productId,'002')
 				.then(data => {
-					data = data[0]
+
+					let limitedQuota = data[0]
 					//多种情况提示语
-					if(!data['min'] && !data['max']){
+					if(limitedQuota){
+						if(!limitedQuota['min'] && !limitedQuota['max']){
+							this.promptLimit.title1 = '没有提现金额限制';
+							this.promptLimit.title2 = '';
+						}else if(limitedQuota['min'] && !limitedQuota['max']){
+							this.promptLimit.title1 = '单次提现金额不得小于'+limitedQuota['min']+this.productInfo.productDetail;
+							this.promptLimit.title2 = '';
+						} else if(!limitedQuota['min'] && limitedQuota['max']){
+							this.promptLimit.title1 = '单次提现金额不得大于'+limitedQuota['max']+this.productInfo.productDetail;
+							this.promptLimit.title2 = '';
+						} else{
+							this.promptLimit.title1 = '单次提现金额不得小于'+limitedQuota['min']+this.productInfo.productDetail;
+							this.promptLimit.title2 = '不得大于'+limitedQuota['max']+this.productInfo.productDetail;
+						}
+					} else {
 						this.promptLimit.title1 = '没有提现金额限制';
 						this.promptLimit.title2 = '';
-					}else if(data['min'] && !data['max']){
-						this.promptLimit.title1 = '单次提现金额不得小于'+data['min']+this.productInfo.productDetail;
-						this.promptLimit.title2 = '';
-					} else if(!data['min'] && data['max']){
-						this.promptLimit.title1 = '单次提现金额不得大于'+data['max']+this.productInfo.productDetail;
-						this.promptLimit.title2 = '';
-					} else{
-						this.promptLimit.title1 = '单次提现金额不得小于'+data['min']+this.productInfo.productDetail;
-						this.promptLimit.title2 = '不得大于'+data['max']+this.productInfo.productDetail;
 					}
 					
 				});

@@ -243,13 +243,16 @@ export class TradeInterfaceV2Page {
     // const result = Math.max(0, Math.floor(+this[target] * invBase + step * invBase) / invBase);
     //新方法,区分价格跟数量,价格用新的，数量用旧方法
     // '11.12' -> ['11','12'] -> (11 * 10^8 * 10^(arr[1].length) + 12 * 10^8 ) / 10^8
-    let result = typeof this[target] == "string"?this[target].split('.'):Math.max(0, Math.floor(+this[target] * invBase + step * invBase) / invBase);
+    let result;
     if(typeof this[target] == "string" ){
+      result = this[target].split('.');
       if(result.length == 2){
         result = Math.max(0, Math.floor(result[0] * invBase *  Math.pow(10,result[1].length) + result[1] * invBase + step * invBase) / (invBase * Math.pow(10,result[1].length)));
       }else{
         result = Math.max(0, Math.floor(result[0] * invBase + step * invBase) / invBase);
       }
+    } else {
+      result = Math.max(0, Math.floor(+this[target] * invBase + step * invBase) / invBase);
     }
     //强制刷新数据hack处理
     this[target] = length ? result.toFixed(length) : result.toString()    
