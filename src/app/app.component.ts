@@ -239,30 +239,27 @@ export class PicassoApp {
     // this.presentLoading();
     
     //android页面高度不正确，调整
-    this.tryOverlaysWebVie(2)
+    this.tryOverlaysWebVie()
   }
   
   overlaysWebView(){
     this.statusBar.overlaysWebView(false);
-    setTimeout(() => {
-      this.statusBar.overlaysWebView(true);
-    }, 50);
+    return new Promise(function(resolve, reject){
+      resolve(this.statusBar.overlaysWebView(true))
+    })
+   
   }
-  tryOverlaysWebVie(num:number = 0){
+  tryOverlaysWebVie(){
     if(this.platform.is('ios')){
       return ;
     }
     if(this.keyboardService.fullHeight > window.innerHeight){
-      this.overlaysWebView();
+      this.overlaysWebView().then((result) =>{
+        this.tryOverlaysWebVie();
+      });
     }
-    if(num > 0){
-      setTimeout(() => {
-        this.tryOverlaysWebVie(num - 1)
-      }, 500);
-    }
-
   }
-
+ 
 
   // 设置根元素的背景，与当前激活页的背景保持大致相同，
   // 避免在软键盘弹出/收起时短暂闪现难看的背景。
