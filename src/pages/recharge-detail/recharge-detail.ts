@@ -42,7 +42,7 @@ export class RechargeDetailPage extends SecondLevelPage {
 	productInfo: ProductModel = {} as any;
 	access_info: any = {} as any;
 	recharge_address: CryptoCurrencyModel = {} as any;
-	minRecharge: any = 0;
+	minRechargeText: any = '';
 	@RechargeDetailPage.willEnter
 	@asyncCtrlGenerator.loading(
 		undefined,
@@ -73,8 +73,11 @@ export class RechargeDetailPage extends SecondLevelPage {
 			tasks[tasks.length] = this.accountService
 				.getLimitedQuota(this.productInfo.productId,'001')
 				.then(data => {
-					
-					this.minRecharge = data[0].min
+					if(data[0] && data[0].min && this.productInfo.productDetail){
+						this.minRechargeText = `最小充值金额为${data[0].min}${this.productInfo.productDetail},小于最小金额的充值将无法到账。`;
+					}else{
+						this.minRechargeText = '';
+					}
 				});
 			const tasks_res = await Promise.all(tasks);
 			return tasks_res.reduce((p, c) => ({ ...p, ...c }), {});

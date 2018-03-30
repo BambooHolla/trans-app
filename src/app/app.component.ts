@@ -102,7 +102,7 @@ export class PicassoApp {
         console.log("screenOrientation error:", err.message);
       });
     
-    this.statusBar.hide();
+    this.statusBar.hide(); 
     platform.ready().then(() => {
       this.afterPlatformReady();
     });
@@ -237,7 +237,32 @@ export class PicassoApp {
     // translate.setDefaultLang('zh_CN');
 
     // this.presentLoading();
+    
+    //android页面高度不正确，调整
+    this.tryOverlaysWebVie(2)
   }
+  
+  overlaysWebView(){
+    this.statusBar.overlaysWebView(false);
+    setTimeout(() => {
+      this.statusBar.overlaysWebView(true);
+    }, 50);
+  }
+  tryOverlaysWebVie(num:number = 0){
+    if(this.platform.is('ios')){
+      return ;
+    }
+    if(this.keyboardService.fullHeight > window.innerHeight){
+      this.overlaysWebView();
+    }
+    if(num > 0){
+      setTimeout(() => {
+        this.tryOverlaysWebVie(num - 1)
+      }, 500);
+    }
+
+  }
+
 
   // 设置根元素的背景，与当前激活页的背景保持大致相同，
   // 避免在软键盘弹出/收起时短暂闪现难看的背景。
