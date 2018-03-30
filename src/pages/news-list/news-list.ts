@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, ElementRef, Renderer } from '@angular/core';
 import {
     Slides,
     Content,
@@ -15,6 +15,7 @@ import {
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import { Subscription } from 'rxjs/Subscription';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 import { NewsContent } from '../news-content/news-content';
 import {
@@ -48,6 +49,14 @@ export class NewsListPage /* implements OnInit, OnDestroy  */ extends SecondLeve
         page_size: 10
     };
 
+    @ViewChild('searchInputWrap', { read: ElementRef }) searchInputWrap;
+    private showSearch = false;
+    private query:string = '';
+    private searchTermStream = new BehaviorSubject<string>('');
+    search(term: string) {
+        this.searchTermStream.next(term);
+    }
+
     // reqType = 0//数据请求类型,0为初始化列表数据,1为添加
 
     // private getNewsListTermStream = new Subject<string>();
@@ -62,12 +71,26 @@ export class NewsListPage /* implements OnInit, OnDestroy  */ extends SecondLeve
         public newsService: NewsServiceProvider,
         public alertCtrl: AlertController,
         public appSettin : AppSettingProvider,
-        public loadingCtrl: LoadingController
+        public loadingCtrl: LoadingController,
+		public renderer: Renderer,
     ) {
         super(navCtrl, navParams);
     }
     slideHeight = 0;
     tabIndex = 0;
+
+    ngOnInit() {
+        this.searchTermStream
+            // .takeUntil(this.viewDidLeave$)
+            .debounceTime(300)
+            .map(str => str && str.trim())
+            .distinctUntilChanged()
+            .do(str => console.log('searchNews:Stream',str))
+            .filter(str => str != this.query)
+            // .switchMap((term: string) => Observable.of(term.trim().toLowerCase()))
+            .subscribe(str=>this.searchNews(str))
+    }
+
     @ViewChild('content', {
         read: Content
     })
@@ -91,16 +114,16 @@ export class NewsListPage /* implements OnInit, OnDestroy  */ extends SecondLeve
             return;
         } else {
             this.tabIndex = index;
-            this.onTabIndexChanged();
+            this.getCurrentContent();
         }
         this.slides.slideTo(index);
     }
     slideChanged() {
         console.log('Q!!!!!!', this.slides.realIndex);
         this.tabIndex = this.slides.realIndex;
-        this.onTabIndexChanged();
+        this.getCurrentContent();
     }
-    onTabIndexChanged() {
+    getCurrentContent() {
         if (this.tabIndex == 0) {
             this.tryGetNoticeList();
         } else if (this.tabIndex == 1) {
@@ -119,7 +142,7 @@ export class NewsListPage /* implements OnInit, OnDestroy  */ extends SecondLeve
 
     @NewsListPage.willEnter
     tryGetData() {
-        this.onTabIndexChanged();
+        this.getCurrentContent();
     }
     tryGetNewsList() {
         if (!this.disable_init_list_when_enter) {
@@ -169,7 +192,8 @@ export class NewsListPage /* implements OnInit, OnDestroy  */ extends SecondLeve
             const res = await this.newsService.getNewsList({
                 page: newsList.page,
                 pageSize: newsList.page_size,
-                msgType: NewsMsgType.news
+                msgType: NewsMsgType.news,
+                q: this.query,
             });
             newsList.hasMore = res.length === newsList.page_size;
             this.newsInfiniteScroll &&
@@ -194,7 +218,8 @@ export class NewsListPage /* implements OnInit, OnDestroy  */ extends SecondLeve
             const res = await this.newsService.getNewsList({
                 page: noticeList.page,
                 pageSize: noticeList.page_size,
-                msgType: NewsMsgType.notice
+                msgType: NewsMsgType.notice,
+                q:this.query,
             });
             noticeList.hasMore = res.length === noticeList.page_size;
             this.noticeInfiniteScroll &&
@@ -244,6 +269,30 @@ export class NewsListPage /* implements OnInit, OnDestroy  */ extends SecondLeve
         noticeList.list.push(...notice_list);
         infiniteScroll.complete();
         infiniteScroll.enable(noticeList.hasMore);
+    }
+
+    toShowSearch() {
+        this.showSearch = true;
+        this.renderer.setElementStyle(this.searchInputWrap.nativeElement, 'width', 'unset');
+    }
+
+    cancelFilter() {
+        this.showSearch = false;
+        this.query = '';
+        if (this.tabIndex == 0) {
+            this.initNoticeList();
+        } else if (this.tabIndex == 1) {
+            this.initNewsList();
+        }
+    }
+
+    async searchNews(str:string){
+        this.query = str;
+        if (this.tabIndex == 0) {
+            this.noticeList.list = await this._getNoticeList();
+        } else if (this.tabIndex == 1) {
+            this.newsList.list = await this._getNewsList();
+        }
     }
 }
 

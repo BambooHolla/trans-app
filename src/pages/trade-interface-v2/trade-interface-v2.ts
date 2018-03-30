@@ -1,6 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 // import * as echarts from 'echarts';
-import { NavParams, ToastController, AlertController, NavController, InfiniteScroll, Platform } from 'ionic-angular';
+import { NavParams, ToastController, AlertController, NavController, InfiniteScroll, Platform, Content } from 'ionic-angular';
 
 import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
@@ -22,7 +22,9 @@ import { AndroidFullScreen } from '@ionic-native/android-full-screen';
   templateUrl: 'trade-interface-v2.html'
 })
 export class TradeInterfaceV2Page {
+  marketPrice: any;
   // tradeType:number = 1 //1是买,0是卖
+  @ViewChild(Content) content:Content;
 
   private viewDidLeave: BehaviorSubject<boolean> = new BehaviorSubject(false);
   private viewDidLeave$ = this.viewDidLeave
@@ -359,21 +361,73 @@ export class TradeInterfaceV2Page {
       this.traderId, ' | ',
       tradeType, ' | ',
       amount, ' | ',
-      price, )
+      price, 
+    )
 
+    let thanText = tradeType === 1 ? '高于' :
+                   tradeType === 0 ? '低于' : '超出'
+
+    let flag = false
+    if (tradeType === 1 && price > 1.1 * this.marketPrice) {
+      flag = true
+    } else if (tradeType === 0 && price < 0.9 * this.marketPrice) {
+      flag = true
+    }
+
+    if (flag){
+      let alert = this.alertCtrl.create({
+        title: '价格确认',
+        message: `您的${tradeText}价格${thanText}当前市场价10%,确认提交委托？`,
+        buttons: [
+          {
+            text: '取消',
+            role: 'cancel',
+            handler: () => {
+              // console.log('Cancel clicked')
+            }
+          },
+          {
+            text: '确认',
+            handler: () => {
+              this._doTrade(
+                this.traderId,
+                '',
+                tradeType,
+                amount,
+                price,
+              )
+            }
+          }
+        ]
+      })
+      alert.present();
+      return void 0;
+    }
+
+    this._doTrade(
+      this.traderId,
+      '',
+      tradeType,
+      amount,
+      price, 
+    )
+    
+  }
+
+  _doTrade(traderId, password, tradeType, amount, price) {
     this.tradeService
       .purchase(
-        this.traderId,
-        '',
+        traderId,
+        password,
         tradeType,
         amount,
         price,
       )
       .then(resData => {
-        console.log('doTrade:',resData)
+        console.log('doTrade:', resData)
         // [{ "FID_CODE": "1", "FID_MESSAGE": "委托成功,您这笔委托的合同号是:201" }]
         const result = resData instanceof Array ? resData[0] : resData
-        
+
         if (typeof result === 'object' && result.id) {
           let toast = this.toastCtrl.create({
             message: '委托单已提交',//`${result.id}`,
@@ -386,7 +440,7 @@ export class TradeInterfaceV2Page {
           //下单成功刷新委托单
           this.page = 1
           this.getProcessEntrusts()
-        }else{
+        } else {
           return Promise.reject(result);
         }
         console.log('doTrade done:', result.id)
@@ -394,13 +448,13 @@ export class TradeInterfaceV2Page {
       })
       .catch(err => {
         console.log('doTrade err:', err);
-        if(err && err.message){
+        if (err && err.message) {
           let toast = this.toastCtrl.create({
             message: `${err.message}`,
             duration: 3000,
             position: 'middle'
           })
-          this.alertService.dismissLoading()          
+          this.alertService.dismissLoading()
           toast.present()
         }
         console.log(err.statusText || err.message || err)
@@ -483,6 +537,7 @@ export class TradeInterfaceV2Page {
           console.log('doSubscribe do')
           if(!data) return false
           if(!this.price) this.price = parseFloat(data.price).toString()
+          this.marketPrice = data.price
           this.buyRate = data.buyRate
           this.sellRate = data.sellRate
         })

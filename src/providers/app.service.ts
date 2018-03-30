@@ -130,8 +130,11 @@ export class AppService {
   private _errorHandler(error, static_return = false) {
     if (error instanceof Error) {
       error = { code: '999', message: error.message };
-    } else if (error instanceof ProgressEvent) {
-      error = { code: '500', message: '网络连接错误,请稍后再试' };
+    } else if (
+      error && error instanceof ProgressEvent 
+      || error.constructor.name === 'ProgressEvent'
+      || error.constructor.name === 'XMLHttpRequestProgressEvent') {
+      error = { code: '500', message: '网络异常' };
     } else if (static_return) {
       error = null;
     }

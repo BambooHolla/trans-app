@@ -215,7 +215,7 @@ export class PicassoApp {
         });
     }
 
-    this.keyboardService.disableScroll();
+    // this.keyboardService.disableScroll();
 
     this.statusBar.show()
     // Okay, so the platform is ready and our plugins are available.
