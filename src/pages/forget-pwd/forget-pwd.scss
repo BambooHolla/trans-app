@@ -1,4 +1,9 @@
 page-forget-pwd {
+
+    .paddingfix{
+        padding-top: $cordova-ios-statusbar-padding;
+    }
+
     .fixed-content,
     .scroll-content {
         margin-top: 90px;
@@ -185,10 +190,7 @@ page-forget-pwd {
             box-shadow: 0 0 0.2rem rgba(255, 255, 255, 0.2);
         }
     }
-    //修改页面样式  chenfeng 20180110
-    .toolbar-title {
-        font-weight: 800;
-    }
+    
     .account-contain {
         ion-grid {
             ion-row {
