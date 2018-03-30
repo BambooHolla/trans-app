@@ -17,6 +17,7 @@ export class QuantityConversionPipe implements PipeTransform {
   ) { }
   
   transform(value: any, ...args) {
-    return Number((value / this.appSettings.Product_Price_Rate).toFixed(4)) || value;
+    if(isNaN(value)) return value;
+    return Number((value / this.appSettings.Product_Price_Rate).toFixed(8));
   }
 }

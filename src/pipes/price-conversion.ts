@@ -18,6 +18,7 @@ export class PriceConversionPipe implements PipeTransform {
 
   transform(value: any, ...args) {
     // / this.appSettings.Price_Rate
+    if(isNaN(value)) return value;
     return Number((+value).toFixed(8));
   }
 }
