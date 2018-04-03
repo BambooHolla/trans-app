@@ -1,25 +1,29 @@
 page-news-list {
-    .no-content {
-        text-align: center;
-        height: 10rem;
-        line-height: 10rem;
-        font-size: 2rem;
-        color: color($colors, middark);
-    }
-    .searchbar {
+
+  .no-content {
+    text-align: center;
+    height: 10rem;
+    line-height: 10rem;
+    font-size: 2rem;
+    color: color($colors, middark);
+  }
+
+  .searchbar{
+    position: absolute;
+    left: 0%;
+    bottom: 0%;
+    font-size: 1.5rem;
+    
+    .searchInput{
+      position: relative;
+      margin-left: 2.6rem;
+      transition:width 2s;
+      width: 0;
+      .clearInput{
         position: absolute;
         bottom: 0%;
         font-size: 1.5rem;
-        .searchInput {
-            position: relative;
-            margin-left: 2.6rem;
-            transition: width 2s;
-            width: 0;
-            .clearInput {
-                position: absolute;
-                right: 1.1rem;
-                top: .85rem;
-            }
+      }
             ion-input {
                 border: 0;
                 height: 3.2rem;
