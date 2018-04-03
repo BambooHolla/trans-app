@@ -156,7 +156,8 @@ export class TradeInterfacePage {
 
     const traderList = [];
     (await this.appDataService.traderListPromise).forEach((value, key, map) => {
-      traderList.push(value)
+      // traderList.push(value)
+      traderList[value.index] = value
     })
     this.traderList = traderList
     // this.traderId = traderList[0] ? traderList[0].traderId:undefined //从一级界面进来可能需要对traderId进行初始化

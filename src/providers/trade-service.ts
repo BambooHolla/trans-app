@@ -160,7 +160,7 @@ export class TradeService {
             // .filter(item =>
             //   item
             // )
-              .map(async ({ priceId, productId, buyFee, saleFee }) => {
+              .map(async ({ priceId, productId, buyFee, saleFee },index) => {
                 const products = await this.appDataService.productsPromise;
                 const product = await this.stockDataService.getProduct(productId)//products.get(productId);
                 const price = !priceId ? undefined : await this.stockDataService.getProduct(priceId)//products.get(priceId);
@@ -185,6 +185,7 @@ export class TradeService {
                     saleFee,
                     priceId,
                     productId,
+                    index,
                   });
                 }
                 // }
