@@ -101,6 +101,13 @@ export class WorkOrderServiceProvider {
 	addWorkOrder(body: { [k in keyof ContactModel]?: ContactModel[k] }) {
 		return this.fetch.post<ContactModel>(this.CONTACTS, body);
 	}
+
+	getContactList(workOrderId : string){
+		return this.fetch.autoCache(true).get<ReplyModel[]>(this.CONTACT_ITEM, {
+			params: { workOrderId }
+		});
+	}
+
 	getWorkOrderList(search?: {
 		type?: ContactType;
 		status?: ContactStatus;

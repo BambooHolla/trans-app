@@ -52,7 +52,6 @@ export class ImageTakerCmp {
                         const inputEle = document.createElement('input');
                         inputEle.type = 'file';
                         inputEle.accept = 'image/*';
-                        inputEle['capture'] = "accept";
                         var clickEvent = new MouseEvent('click', {
                             view: window,
                             bubbles: true,
@@ -87,48 +86,16 @@ export class ImageTakerCmp {
                 {
                     text: '马上拍一张',
                     handler: () => {
-                        // let cameraModal = this.modalCtrl.create(CameraModal);
-                        // cameraModal.onDidDismiss((data, role) => {
-                        //     this.dismiss({
-                        //         name,
-                        //         data
-                        //     });
-                        // });
-
-                        // cameraModal.present();
-
-                        const inputEle = document.createElement('input');
-                        inputEle.type = 'file';
-                        inputEle.accept = 'image/*';
-                        inputEle['capture'] = "camera"
-                        var clickEvent = new MouseEvent('click', {
-                            view: window,
-                            bubbles: true,
-                            cancelable: true
+                        let cameraModal = this.modalCtrl.create(CameraModal);
+                        cameraModal.onDidDismiss((data, role) => {
+                            this.dismiss({
+                                name,
+                                data
+                            });
                         });
-                        inputEle.dispatchEvent(clickEvent);
-                        inputEle.onchange = e => {
-                            
-                            if (inputEle.files && inputEle.files[0]) {
-                                //var reader = new FileReader();
+                        
+                        cameraModal.present();
 
-                                //reader.onload = e => {
-                                    //this.dismiss({
-                                        //name,
-                                        //data: e.target['result']
-                                    //});
-                                //};
-
-                                //reader.readAsDataURL(inputEle.files[0]);
-                               
-                                this.dismiss({
-                                    name,
-                                    data: URL.createObjectURL(inputEle.files[0])
-                                });                   
-                            } else {
-                                this.dismiss(null);
-                            }
-                        };
                     }
                 },
                 {

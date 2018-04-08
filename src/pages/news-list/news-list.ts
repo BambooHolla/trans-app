@@ -135,7 +135,8 @@ export class NewsListPage /* implements OnInit, OnDestroy  */ extends SecondLeve
         console.log('viewNews', id);
         this.disable_init_list_when_enter = true; // 进入子页面返回后禁用自动刷新数据
         this.navCtrl.push(this.newsContentPage, {
-            newsId: id
+            newsId: id,
+            newsType: this.tabIndex
         });
     }
     disable_init_list_when_enter = false;

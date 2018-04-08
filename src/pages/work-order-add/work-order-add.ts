@@ -31,14 +31,19 @@ export class WorkOrderAddPage extends SecondLevelPage {
 	formData = new FormGroup({
 		realName: new FormControl('', [Validators.required]),
 		phoneNumber: new FormControl('', [
-			Validators.required,
+		
 			Validators.pattern(/^1[34578]\d{9}$/)
+			
 		]),
-		email: new FormControl('', [Validators.required, Validators.email]),
+		email: new FormControl('', [
+			//用正则匹配,如用Validators.email，获取焦点不填，在失去焦点会提示错误
+			Validators.pattern(/^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/)
+		]),
 		category: new FormControl('', [Validators.required]),
 		detail: new FormControl('', [Validators.required]),
-		files: new FormControl('', [Validators.required])
+		files: new FormControl('', [])
 	});
+	
 	get realName() {
 		return this.formData.get('realName');
 	}
@@ -77,6 +82,16 @@ export class WorkOrderAddPage extends SecondLevelPage {
 		}
 	];
 
+	public telOrEmail = true;
+	requiredTelOrEmail(){
+		const phoneNumber = this.formData.get('phoneNumber').value;
+		const email = this.formData.get('email').value;
+		this.telOrEmail = phoneNumber||email ? false : true;
+	}
+	
+
+
+
 	//上传图片失败弹窗(modal->alert)
 	describeModal(title,msg) {
 		let modal = this.alertCtrl.create( {
@@ -108,14 +123,16 @@ export class WorkOrderAddPage extends SecondLevelPage {
 		
 				if (result.data) {
 					// 开始上传
-					await this.updateImage(fid_promise, image, result);
+					await this.updateImage(fid_promise, image, result);					
 					const fids = this.images
 						.map(img => img.fid)
 						.filter(fid => fid);
 					this.files.setValue(fids.join(' '));
-				} else {
-					image.image = 'assets/images/no-record.png';
-				}
+				} 
+				// 隐藏没选图片的情况，这个图片提示用于图片上传失败
+				// else {
+				// 	image.image = 'assets/images/no-record.png';
+				// }
 			}
 			// console.log(this.images);
 		
@@ -181,11 +198,16 @@ export class WorkOrderAddPage extends SecondLevelPage {
 
 					ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
 					canvas.toBlob(resolve);
-				} catch (err) { reject(err) }
+				} catch (err) { 
+					reject(err) }
 			}
 			image.onerror = reject
 		})
 	}
+
+
+
+
 
 	dataURItoBlob(dataURI) {
 		// convert base64/URLEncoded data component to raw binary data held in a string

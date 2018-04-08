@@ -110,9 +110,11 @@ export class SubmitRealInfoPage extends SecondLevelPage {
 					// 开始上传
 					this.updateImage(fid_promise, image, result);
 
-				} else {
-					image.image = 'assets/images/no-record.png';
-				}
+				} 
+				// 隐藏没选图片的情况，这个图片提示用于图片上传失败
+				// else {
+				// 	image.image = 'assets/images/no-record.png';
+				// }
 				// console.log(this.images);
 			}
 			
