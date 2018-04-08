@@ -136,7 +136,7 @@ export class CameraModal {
             y: 0,
             width: window.screen.width,
             height: (this.keyboardService.fullHeight || window.screen.height) - 58,
-            camera: 'rear',
+            camera: "front",
             tapPhoto: false,
             previewDrag: false,
             toBack: false,

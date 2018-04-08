@@ -21,7 +21,7 @@ export class NewsService {
   }
   //TODO:lastTime数据获取最后时间
   getNews(lastTime: Date = new Date('2016-01-01'), newsId, isMock) {
-
+    
     if (isMock) {
       return Observable.of({
         titleImg: "assets/images/news-title.jpg",
@@ -38,8 +38,9 @@ export class NewsService {
     const params = new URLSearchParams();
 
     const path = `/news/news/${newsId}`
-    return this.appService.request(RequestMethod.Get, path, params, true)
-      .then(resData => {
+    return this.appService.request(RequestMethod.Get, path, params, false)
+      .then(resData => { 
+     
         console.log('getnews: ', resData);
         ////新闻返回数据结构
         // {

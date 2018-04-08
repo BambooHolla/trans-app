@@ -65,6 +65,7 @@ export class WorkOrderDetailPage extends SecondLevelPage
 	pageSize = 5;
 	enableMore = true;
 	chat_logs: ChatLog[] = [];
+	contact_list:any;
 	@WorkOrderDetailPage.willEnter
 	@asyncCtrlGenerator.loading()
 	@asyncCtrlGenerator.error('获取工单内容出错')
@@ -77,8 +78,8 @@ export class WorkOrderDetailPage extends SecondLevelPage
 			return;
 		}
 		this.page = 1;
+		this.contact_list = await this._getContactList();
 		const contact_reply_list = await this._getContactReplyList();
-
 		this.chat_logs = contact_reply_list.reverse();
 	}
 	getWorkOrderAttachment() {
@@ -103,6 +104,17 @@ export class WorkOrderDetailPage extends SecondLevelPage
 		this.enableMore = list.length >= pageSize;
 		return list;
 	}
+
+	async _getContactList(){
+		const list = await this.workOrderService.getContactList(
+			this.work_order.workOrderId
+		);
+		return list;
+	}
+
+
+
+
 
 	@asyncCtrlGenerator.error('加载历史记录出错')
 	async loadMoreHistoryReplyList(ref?: Refresher) {

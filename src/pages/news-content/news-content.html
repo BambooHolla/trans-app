@@ -1,6 +1,7 @@
 <ion-header>
     <ion-navbar>
-        <ion-title>新闻</ion-title>
+        <ion-title *ngIf="newsType == 0">公告</ion-title>
+        <ion-title *ngIf="newsType == 1">新闻</ion-title>
     </ion-navbar>
 </ion-header>
 
