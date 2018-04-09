@@ -84,8 +84,12 @@ export class WorkOrderDetailPage extends SecondLevelPage
 	}
 	getWorkOrderAttachment() {
 		this.work_order_attachment = this.work_order.attachment.map(fid => {
+			if(!fid){
+				return '';
+			}
 			return this.fsService.READ_FILE.replace(':fid', fid);
 		});
+		
 	}
 
 	@ViewChild(Refresher) refresher: Refresher;
