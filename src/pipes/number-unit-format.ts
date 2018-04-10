@@ -6,7 +6,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class NumberUnitFormatPipe implements PipeTransform {
   unitArray = ['', '万', '亿', '万亿', '亿亿'];
 
-  transform(value: any, retainZero: boolean = false, retainTailZeroAfterDigit: boolean = true, retainLength: number = 6): string {
+  transform(value: any, retainZero: boolean = false, retainTailZeroAfterDigit: boolean | number = true, retainLength: number = 6): string {
     if (isNaN(value)) {
       return '--';
     }
@@ -44,6 +44,9 @@ export class NumberUnitFormatPipe implements PipeTransform {
       result = result.replace(replacer, '$1')
       // console.log('numberunitformat:result ', result)
       // console.log('numberunitformat:a ',a)
+      if (typeof retainTailZeroAfterDigit == 'number' && !isNaN(result)){
+        result = (+result).toFixed(retainTailZeroAfterDigit)
+      }
     }
 
     return prefix + result + this.unitArray[count];
