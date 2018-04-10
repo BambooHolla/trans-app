@@ -919,8 +919,8 @@ export class TradeInterfaceV2Page {
       this.tradeService.getQuickTradeData('001', traders[1], traders[0], this.buyTotalQuantity)
         .then(data => {
           if (data) {
-            this.buyTotalQuantity = data.forecastTotalPrice
-            this.buyTotalAmount = data.forecastAmount
+            this.buyTotalQuantity = data.forecastAmount
+            this.buyTotalAmount = data.forecastPrice
           } 
           // else {
           //   this.buyTotalQuantity = 0
@@ -934,7 +934,7 @@ export class TradeInterfaceV2Page {
         .then(data => {
           if (data) {
             this.saleTotalQuantity = data.forecastAmount
-            this.saleTotalAmount = data.forecastTotalPrice
+            this.saleTotalAmount = data.forecastPrice
           } 
           // else {
           //   this.saleTotalQuantity = 0

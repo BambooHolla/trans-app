@@ -229,8 +229,8 @@
 				</svg>
 				<div class="svgcont" (click)="quickTrade('buy')">
 					<div class="blank"></div>
-					<div>买</div>
-					<p id="buysum">{{buyTotalAmount | quantityConversion | numberUnitFormat}}</p>
+					<div>预估买入价</div>
+					<p id="buysum">{{buyTotalAmount | numberUnitFormat}}</p>
 					<span>可买数量</span>
 					<label id="buynum">{{buyTotalQuantity | quantityConversion | numberFilter}}</label>
 				</div>
@@ -241,8 +241,8 @@
 				</svg>
 				<div class="svgcont" (click)="quickTrade('sale')">
 					<div class="blank"></div>
-					<div>卖</div>
-					<p id="salesum">{{saleTotalAmount | quantityConversion | numberUnitFormat}}</p>
+					<div>预估卖出价</div>
+					<p id="salesum">{{saleTotalAmount | numberUnitFormat}}</p>
 					<span>可卖数量</span>
 					<label id="salenum">{{saleTotalQuantity | quantityConversion | numberFilter}}</label>
 				</div>
