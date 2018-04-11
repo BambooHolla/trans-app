@@ -11,6 +11,17 @@ import { Injectable } from '@angular/core';
 export class IdentificationNumberCheckerProvider {
 	constructor() {}
 
+	//验证护照是否正确
+	checkPassport(str){
+		var Expression=/^[a-zA-Z0-9]{5,17}$/;
+ 		
+		if(Expression.test(str)==true){
+			return true;
+		}else{
+			return false;
+		} 
+	};
+	
 	checkIdCardNo(e) {
 		//15位和18位身份证号码的基本校验
 		var check = /^\d{15}|(\d{17}(\d|x|X))$/.test(e);
@@ -170,4 +181,5 @@ export class IdentificationNumberCheckerProvider {
 		'2'
 	];
 	parityBit = ['1', '0', 'X', '9', '8', '7', '6', '5', '4', '3', '2'];
+
 }

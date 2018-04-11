@@ -1,11 +1,12 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild, ElementRef } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import {
 	IonicPage,
 	NavController,
 	NavParams,
 	ViewController,
-	AlertController
+	AlertController,
+	TextInput
 } from 'ionic-angular';
 import { SecondLevelPage } from '../../bnlc-framework/SecondLevelPage';
 import { asyncCtrlGenerator } from '../../bnlc-framework/Decorator';
@@ -28,6 +29,8 @@ import {AppSettingProvider} from "../../bnlc-framework/providers/app-setting/app
 	templateUrl: 'submit-real-info.html'
 })
 export class SubmitRealInfoPage extends SecondLevelPage {
+	@ViewChild('selectIDtype') selectIDtype:ElementRef;
+	@ViewChild('typeIDnumber') typeIDnumber:ElementRef;
 	constructor(
 		public navCtrl: NavController,
 		public navParams: NavParams,
@@ -47,22 +50,37 @@ export class SubmitRealInfoPage extends SecondLevelPage {
 		{ value: CertificateType.二代身份证, text: '二代身份证' },
 		{ value: CertificateType.护照, text: '护照' }
 	];
+	
+	checkIDtype = CertificateType.二代身份证;
+
 	formData = new FormGroup({
 		IDnumber: new FormControl('', [
 			Validators.required,
 			(c => {
-				if (!this.idNumberChecker.checkIdCardNo(c.value)) {
+				
+				if (this.checkIDtype == CertificateType.二代身份证 && !this.idNumberChecker.checkIdCardNo(c.value)) {
 					
 					return {
 						wrongIdNumber: true
 					};
 				}
+
+				if(this.checkIDtype == CertificateType.护照 && !this.idNumberChecker.checkPassport(c.value)){
+					
+					return {
+						wrongIdNumber: true
+					};
+				} 
+					
 				return null;
+				
 			}).bind(this)
 		]),
 		realName: new FormControl('', [Validators.required]),
 		IDtype: new FormControl('', [Validators.required])
 	});
+
+	
 	get IDnumber() {
 		return this.formData.get('IDnumber');
 	}
@@ -202,6 +220,19 @@ export class SubmitRealInfoPage extends SecondLevelPage {
 				return d;
 			});
 	}
+
+	inputText(ele:TextInput){
+		ele.type = "text";
+	}
+
+	inputNumber(ele:TextInput){
+		ele.type = "number";
+	}
+	getIDtype(){
+		//获取证件类型，进行校验判断，并情况证件号码
+		this.checkIDtype = this.IDtype.value;
+		this.typeIDnumber.nativeElement.value = '';
+	}	
 
 	async minImage(url) { //压缩
 		const canvas = document.createElement("canvas");

@@ -20,7 +20,7 @@
         <div class="form-item with-bottom-division">
             <div class="label">证件类型</div>
             <div class="input-container">
-                <ion-select [formControl]="IDtype" required interface="action-sheet" placeholder="请选择" multiple="false" cancelText="取消">
+                <ion-select [formControl]="IDtype" (ionChange)="getIDtype()" required interface="action-sheet" placeholder="请选择" multiple="false" cancelText="取消">
                     <ion-option *ngFor="let certificate_type of certificate_type_list" [value]="certificate_type.value">{{certificate_type.text}}</ion-option>
                 </ion-select>
             </div>
@@ -28,7 +28,7 @@
         <div class="form-item with-bottom-division">
             <div class="label">证件号码</div>
             <div class="input-container">
-                <input type="tel" placeholder="请输入证件号码" [formControl]="IDnumber" required/>
+                <input [type]="'number'" #typeIDnumber placeholder="请输入证件号码" [formControl]="IDnumber" required (focus)="inputText(typeIDnumber)" (blur)="inputNumber(typeIDnumber)"/>
             </div>
         </div>
         <div class="form-item img-picker-list">
