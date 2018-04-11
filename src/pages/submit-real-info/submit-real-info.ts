@@ -141,6 +141,7 @@ export class SubmitRealInfoPage extends SecondLevelPage {
 			image.fid = fid;
 		}catch (e){
 			//上传图片失败，展示失败图片
+			console.log('图片上传失败',e)
 			image.image = 'assets/images/no-record.png';
 		} finally {
 			image.uploading = false;
