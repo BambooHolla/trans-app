@@ -21,16 +21,16 @@
 		<div class="trader">
 			<div>
 				<span class="label">可用{{productName || '--'}}&nbsp;</span>
-				<span>{{hiddentext || trader_product?.restQuantity || '--' | quantityConversion}}</span>
+				<span>{{hiddentext || trader_product?.restQuantity || '--' | quantityConversion | numberUnitFormat:true:false:13}}</span>
 			</div>
 			<div>
 				<span class="label">可用{{priceName || '--'}}&nbsp;</span>
-				<span>{{hiddentext || trader_target?.restQuantity || '--' | quantityConversion}}</span>
+				<span>{{hiddentext || trader_target?.restQuantity || '--' | quantityConversion | numberUnitFormat:true:false:13}}</span>
 			</div>
 		</div>
 		<div>
 			<div class="label">总资产({{personalAssets?.asset?.priceName || '--'}})</div>
-			<div>{{hiddentext || personalAssets?.asset?.total || '--' | quantityConversion}}</div>
+			<div>{{hiddentext || personalAssets?.asset?.total || '--' | quantityConversion | numberUnitFormat:true:false:13}}</div>
 			<div class="visible" [class.on]="!hiddentext" [class.off]="!!hiddentext" (click)="toggleVisible($event)"></div>
 		</div>
 	</div>
