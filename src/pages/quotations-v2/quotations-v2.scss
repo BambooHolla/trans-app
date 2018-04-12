@@ -18,6 +18,9 @@ page-quotations-v2 {
             ion-buttons>button {
                 vertical-align: middle;
                 height: 1.6rem;
+                &>span{
+                    font-size: 1.6rem;
+                }
             }
         }
         .row {
