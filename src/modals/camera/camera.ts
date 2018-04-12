@@ -23,7 +23,7 @@ export class CameraModal {
 
     pictureValid: boolean = false;
     picture: string;
-    nonePhoto: boolean = true;
+    nonePhoto: boolean = false;
     saveDomStyle:any = {};
 
     pressGesture: Gesture;
@@ -51,9 +51,6 @@ export class CameraModal {
     }
 
     ngOnInit() {
-        //进入模拟相机，样式保存并修改
-        this.recoveryDomStyle(false)
-
         console.log('camera start');
         this.startCamera();
 
@@ -63,9 +60,15 @@ export class CameraModal {
         this.platform.registerBackButtonAction(() => {
             this.close();
         })
+       
     }
 
-
+    //对样式操作，需要等html加载后，不然模态框出来的过度动画回有动画不完整
+    ionViewDidEnter(){
+        //进入模拟相机，样式保存并修改
+        this.recoveryDomStyle(false);
+        this.nonePhoto = true;
+    }
 
     initGestureListener(){
         this.pressGesture = new Gesture(this.scrollerRef._scrollContent.nativeElement);
