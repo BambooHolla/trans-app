@@ -57,9 +57,10 @@ export class CameraModal {
         // console.log(this.scrollerRef);
 
         // 硬件返回，退出模拟相机
-        this.platform.registerBackButtonAction(() => {
-            this.close();
-        })
+        //  会覆盖原来功能
+        // this.platform.registerBackButtonAction(() => {
+        //     this.close();
+        // })
        
     }
 
