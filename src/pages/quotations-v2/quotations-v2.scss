@@ -63,19 +63,29 @@ page-quotations-v2 {
             }
         }
         .products {
-            margin-top: .8rem;
+            margin-top: .7rem;
             height: 1.8rem;
             font-size: 1.8rem;
             line-height: 1.8rem;
             text-align: center;
+            span{
+                padding:0 1.6rem;
+                border-radius: 1.5rem;
+                &.active{
+                    background-color: #212231;
+                }
+            }
         }
         .prices {
-            margin: 2.3rem 0 .6rem;
+            margin: 1.5rem 0 1.8rem;
             height: 1.6rem;
             font-size: 1.6rem;
             line-height: 1.6rem;
             white-space: nowrap;
             text-align: center;
+            .symbol{
+                color: color($colors,middark);
+            }
         }
     }
     ion-content {
@@ -141,22 +151,22 @@ page-quotations-v2 {
         }
     }
     .trader-item {
-        margin-top: 1.5rem;
+        margin-top: 1rem;
         &+.trader-item {
-            margin-top: .7rem;
+            margin-top: 1px;
         }
         .header {
+            padding-top: 1.2rem;
             display: flex;
             background-color: #212231;
-            margin-bottom: 1px;
             &>* {
                 flex: 1;
                 overflow: hidden;
                 white-space: nowrap;
                 text-overflow: ellipsis;
                 padding-left: 2.2rem;
-                height: 4.4rem;
-                line-height: 4.4rem;
+                height: 2.4rem;
+                line-height: 2.4rem;
                 // div{
                 //     width:100%;
                 // }
@@ -168,7 +178,6 @@ page-quotations-v2 {
                 font-size: 1.8rem;
             }
             .range .box {
-                margin: 1rem 0;
                 display: inline-block;
                 text-align: center;
                 width: 8.6rem;
@@ -185,7 +194,7 @@ page-quotations-v2 {
             }
         }
         .body {
-            height: 6.5rem;
+            height: 5.8rem;
             background-color: #212231;
             display: flex;
             align-items: center;
@@ -199,6 +208,9 @@ page-quotations-v2 {
                     line-height: 1.2rem;
                 }
                 .key {
+                    display: inline-block;
+                    min-width: 1.2rem;
+                    text-align: center;
                     color: color($colors, middark);
                 }
                 .value {
@@ -213,7 +225,7 @@ page-quotations-v2 {
                     margin-top: 1.1rem;
                 }
                 .echarts-placeholder {
-                    height: 6.5rem;
+                    height: 5.8rem;
                     // background:#0d7593;
                 }
             }

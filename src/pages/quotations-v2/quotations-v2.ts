@@ -83,6 +83,8 @@ export class QuotationsPageV2 {
 		.distinctUntilChanged()
 		.filter(value => value === true);
 
+	private mainFilter: BehaviorSubject<string> = new BehaviorSubject(undefined);
+
 	private lastRealtimeStockList: string[] = [];
 	private realtimeStockList: BehaviorSubject<string[]> = new BehaviorSubject([]);
 	private realtimeStockList$ = this.realtimeStockList
@@ -107,7 +109,7 @@ export class QuotationsPageV2 {
 		// },
 		// textColor: 'rgba(255, 255, 255, 1)',
 		gridLeft: '0',
-		gridRight: '10px',
+		gridRight: '16px',
 		gridTop: '10px',
 		gridBottom: '6px',
 		xAxisInside: false,
@@ -137,14 +139,10 @@ export class QuotationsPageV2 {
 			.debounceTime(300)
 			.distinctUntilChanged()
 			.switchMap((term: string) => Observable.of(term.trim().toLowerCase()))
-			.subscribe((string) => {
-				// const reg = new RegExp(string)
-				this.traderList_show = this.traderList.filter((item: any, index, arr) => {
-					return item.traderName.toLowerCase().indexOf(string) !== -1
-				}).sort((a:any, b:any) => {
-					return a.priceId - b.priceId
-				})
-			})
+			.subscribe(str => this._filterProduct.call(this,str))
+		this.mainFilter
+			.distinctUntilChanged()
+			.subscribe(str => this._filterProduct.call(this,str))
 	}
 
 	ionViewWillEnter(){
@@ -214,13 +212,44 @@ export class QuotationsPageV2 {
 		this.searchInputValue = '';
 		this.showSearch = true
 		this.renderer.setElementStyle(this.searchInputWrap.nativeElement,'width','unset')
-		
-		
 	}
 
 	cancelFilter(){
 		this.showSearch = false;
 		this.traderList_show = this.traderList;
+		this.searchInputValue = '';
+	}
+
+	filterMainProduct(event$: MouseEvent) {
+		const target = event$.target as HTMLElement
+		let product
+		if (target) {
+			console.log(target)
+			const _target = target.children[0]
+				&& target.querySelector('span')
+				|| target
+			console.log(_target)
+			product = _target.innerText
+		} else {
+			return void 0
+		}
+		if (this.mainFilter.getValue() === product) {
+			this.mainFilter.next('')
+		} else {
+			this.mainFilter.next(product)
+		}
+	}
+	_filterProduct(product) {
+		if (product) {
+			product = product.trim().toLowerCase()
+			this.traderList_show = this.traderList.filter((item: any, index, arr) => {
+				return item.traderName.toLowerCase().indexOf(product) !== -1
+			}).sort((a: any, b: any) => {
+				return a.priceId - b.priceId
+			})
+		} else {
+			this.traderList_show = this.traderList;
+		}
 	}
 
 	destoryCharts() {

@@ -22,14 +22,22 @@
                     </ion-buttons>
                 </ion-toolbar>
             </ion-row>
-            <ion-row class="products">
-                <ion-col *ngFor="let item of appDataService.mainproducts" no-padding>{{item.productName}}</ion-col>
+            <ion-row class="products" 
+            (click)='filterMainProduct($event)'
+            >
+                <ion-col no-padding
+                 class="item-product"
+                 *ngFor="let item of appDataService.mainproducts">
+                    <span [class.active]="item.productName == (mainFilter|async)">
+                        {{item.productName}}
+                    </span>
+                </ion-col>
                 <!-- <ion-col no-padding>eth</ion-col>
                 <ion-col no-padding>ibt</ion-col> -->
             </ion-row>
             <ion-row class="prices">
                 <ion-col *ngFor="let item of appDataService.mainproducts" no-padding>
-                    {{item.symbol}}
+                    <span class="symbol">{{item.symbol}}</span>
                     <span class="{{item?.range | riseOrFall}}">{{item.price | numberUnitFormat:false:2:10 || '--'}}</span>
                 </ion-col>
                 <!-- <ion-col no-padding>12312321321</ion-col>
