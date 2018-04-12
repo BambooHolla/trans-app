@@ -57,7 +57,7 @@ export class SubmitRealInfoPage extends SecondLevelPage {
 		IDnumber: new FormControl('', [
 			Validators.required,
 			(c => {
-				
+				//如果用this.IDtye去获取，在这边会报错，get is not function
 				if (this.checkIDtype == CertificateType.二代身份证 && !this.idNumberChecker.checkIdCardNo(c.value)) {
 					
 					return {
@@ -221,13 +221,6 @@ export class SubmitRealInfoPage extends SecondLevelPage {
 			});
 	}
 
-	inputText(ele:TextInput){
-		ele.type = "text";
-	}
-
-	inputNumber(ele:TextInput){
-		ele.type = "email";	
-	}
 	getIDtype(){
 		//获取证件类型，进行校验判断，并情况证件号码
 		this.checkIDtype = this.IDtype.value;
