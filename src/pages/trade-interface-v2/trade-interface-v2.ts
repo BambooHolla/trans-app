@@ -1,6 +1,15 @@
 import { Component, ViewChild } from '@angular/core';
 // import * as echarts from 'echarts';
-import { NavParams, ToastController, AlertController, NavController, InfiniteScroll, Platform, Content } from 'ionic-angular';
+import { 
+  NavParams, 
+  ToastController, 
+  AlertController, 
+  NavController, 
+  InfiniteScroll, 
+  Platform, 
+  Content,
+  Refresher,
+} from 'ionic-angular';
 
 import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
@@ -463,13 +472,17 @@ export class TradeInterfaceV2Page {
         console.log(err.statusText || err.message || err)
       })
       .then(() => {
-        Promise.all([
-          this.personalDataService.requestFundData().catch(() => { }),
-          this.personalDataService.requestEquityDeposit().catch(() => { }),
-        ]).then(() =>
-          this.checkMax()
-        )
+        this.refreshPersonalData();
       })
+  }
+
+  private refreshPersonalData(refresher?: Refresher) {
+    Promise.all([
+      this.personalDataService.requestFundData().catch(() => { }),
+      this.personalDataService.requestEquityDeposit().catch(() => { }),
+    ])
+      .then(() => (this.checkMax(), this.requestAssets(), this.getProcessEntrusts()))
+      .then(() => refresher ? refresher.complete() : void 0)
   }
 
   ionViewDidEnter(){
@@ -679,12 +692,7 @@ export class TradeInterfaceV2Page {
         }
       })
       .then(()=>{
-        Promise.all([
-          this.personalDataService.requestFundData().catch(() => { }),
-          this.personalDataService.requestEquityDeposit().catch(() => { }),
-        ]).then(()=>
-          this.checkMax()
-        )
+        this.refreshPersonalData()
       })
   }
 

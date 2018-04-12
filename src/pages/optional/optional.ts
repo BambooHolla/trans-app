@@ -66,8 +66,8 @@ export class OptionalPage extends SecondLevelPage {
       this.initPersonalStockListSubscriber(),
       this.personalDataService.requestEquityDeposit(),
     ])
-      .then(() => refresher ? refresher.complete() : void 0)
-      .catch(() => refresher ? refresher.complete() : void 0);
+    .catch(() => refresher ? refresher.complete() : void 0)
+    .then(() => refresher ? refresher.complete() : void 0)
   }
 
   resetData(){

@@ -21,22 +21,28 @@
 		<div class="trader">
 			<div>
 				<span class="label">可用{{productName || '--'}}&nbsp;</span>
-				<span>{{hiddentext || trader_product?.restQuantity || '--' | quantityConversion | numberUnitFormat:true:false:13}}</span>
+				<span>{{hiddentext || (trader_product?.restQuantity || '--' | quantityConversion | numberUnitFormat:true:false:13)}}</span>
 			</div>
 			<div>
 				<span class="label">可用{{priceName || '--'}}&nbsp;</span>
-				<span>{{hiddentext || trader_target?.restQuantity || '--' | quantityConversion | numberUnitFormat:true:false:13}}</span>
+				<span>{{hiddentext || (trader_target?.restQuantity || '--' | quantityConversion | numberUnitFormat:true:false:13)}}</span>
 			</div>
 		</div>
 		<div>
 			<div class="label">总资产({{personalAssets?.asset?.priceName || '--'}})</div>
-			<div>{{hiddentext || personalAssets?.asset?.total || '--' | quantityConversion | numberUnitFormat:true:false:13}}</div>
+			<div>{{hiddentext || (personalAssets?.asset?.total || '--' | quantityConversion | numberUnitFormat:true:false:13)}}</div>
 			<div class="visible" [class.on]="!hiddentext" [class.off]="!!hiddentext" (click)="toggleVisible($event)"></div>
 		</div>
 	</div>
 </ion-header>
 
 <ion-content no-bounce class="home-contain">
+	<!--下拉刷新-->
+	<ion-refresher (ionRefresh)="refreshPersonalData($event)">
+		<ion-refresher-content refreshingText="正在刷新...">
+		</ion-refresher-content>
+	</ion-refresher>
+
 	<div class="market">
 		<div class="market-head">
 			<div>
