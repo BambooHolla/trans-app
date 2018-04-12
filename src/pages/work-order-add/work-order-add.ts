@@ -195,9 +195,14 @@ export class WorkOrderAddPage extends SecondLevelPage {
 						image.width = canvas.width = width / height * maxSize;
 					}
 					console.log(canvas.width, canvas.height)
-
+					
 					ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
-					canvas.toBlob(resolve);
+					// ios  canvas.toBolo not function
+					// canvas.toBlob(resolve);
+					this.canvasToBlob(canvas,resolve)
+					
+
+
 				} catch (err) { 
 					reject(err) }
 			}
@@ -245,4 +250,26 @@ export class WorkOrderAddPage extends SecondLevelPage {
 			this.finishJob(true)
 		})
 	}
+
+
+	canvasToBlob(canvas, cb){
+		cb(this.dataURLToBlob(this.canvasToDataURL(canvas)));
+	}
+
+	canvasToDataURL(canvas, format?, quality?){
+		return canvas.toDataURL(format||'image/jpeg', quality||1.0);
+	}
+
+	dataURLToBlob(dataurl){
+		let arr = dataurl.split(',');
+		let mime = arr[0].match(/:(.*?);/)[1];
+		let bstr = atob(arr[1]);
+		let n = bstr.length;
+		let u8arr = new Uint8Array(n);
+		while(n--){
+			u8arr[n] = bstr.charCodeAt(n);
+		}
+		return new Blob([u8arr], {type:mime});
+	}
+
 }

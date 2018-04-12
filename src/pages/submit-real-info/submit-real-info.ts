@@ -1,11 +1,12 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild, ElementRef } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import {
 	IonicPage,
 	NavController,
 	NavParams,
 	ViewController,
-	AlertController
+	AlertController,
+	TextInput
 } from 'ionic-angular';
 import { SecondLevelPage } from '../../bnlc-framework/SecondLevelPage';
 import { asyncCtrlGenerator } from '../../bnlc-framework/Decorator';
@@ -28,6 +29,8 @@ import {AppSettingProvider} from "../../bnlc-framework/providers/app-setting/app
 	templateUrl: 'submit-real-info.html'
 })
 export class SubmitRealInfoPage extends SecondLevelPage {
+	@ViewChild('selectIDtype') selectIDtype:ElementRef;
+	@ViewChild('typeIDnumber') typeIDnumber:ElementRef;
 	constructor(
 		public navCtrl: NavController,
 		public navParams: NavParams,
@@ -47,22 +50,37 @@ export class SubmitRealInfoPage extends SecondLevelPage {
 		{ value: CertificateType.二代身份证, text: '二代身份证' },
 		{ value: CertificateType.护照, text: '护照' }
 	];
+	
+	checkIDtype = CertificateType.二代身份证;
+
 	formData = new FormGroup({
 		IDnumber: new FormControl('', [
 			Validators.required,
 			(c => {
-				if (!this.idNumberChecker.checkIdCardNo(c.value)) {
+				//如果用this.IDtye去获取，在这边会报错，get is not function
+				if (this.checkIDtype == CertificateType.二代身份证 && !this.idNumberChecker.checkIdCardNo(c.value)) {
 					
 					return {
 						wrongIdNumber: true
 					};
 				}
+
+				if(this.checkIDtype == CertificateType.护照 && !this.idNumberChecker.checkPassport(c.value)){
+					
+					return {
+						wrongIdNumber: true
+					};
+				} 
+					
 				return null;
+				
 			}).bind(this)
 		]),
 		realName: new FormControl('', [Validators.required]),
 		IDtype: new FormControl('', [Validators.required])
 	});
+
+	
 	get IDnumber() {
 		return this.formData.get('IDnumber');
 	}
@@ -141,6 +159,7 @@ export class SubmitRealInfoPage extends SecondLevelPage {
 			image.fid = fid;
 		}catch (e){
 			//上传图片失败，展示失败图片
+			console.log('图片上传失败',e)
 			image.image = 'assets/images/no-record.png';
 		} finally {
 			image.uploading = false;
@@ -202,6 +221,12 @@ export class SubmitRealInfoPage extends SecondLevelPage {
 			});
 	}
 
+	getIDtype(){
+		//获取证件类型，进行校验判断，并情况证件号码
+		this.checkIDtype = this.IDtype.value;
+		this.typeIDnumber.nativeElement.value = '';
+	}	
+
 	async minImage(url) { //压缩
 		const canvas = document.createElement("canvas");
 		const maxSize = 1000;
@@ -227,10 +252,32 @@ export class SubmitRealInfoPage extends SecondLevelPage {
 					console.log(canvas.width, canvas.height)
 
 					ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
-					canvas.toBlob(resolve);
+					// ios  canvas.toBolo not function
+					// canvas.toBlob(resolve);
+					this.canvasToBlob(canvas,resolve)
 				} catch (err) { reject(err) }
 			}
 			image.onerror = reject
 		})
+	}
+
+	canvasToBlob(canvas, cb){
+		cb(this.dataURLToBlob(this.canvasToDataURL(canvas)));
+	}
+
+	canvasToDataURL(canvas, format?, quality?){
+		return canvas.toDataURL(format||'image/jpeg', quality||1.0);
+	}
+
+	dataURLToBlob(dataurl){
+		let arr = dataurl.split(',');
+		let mime = arr[0].match(/:(.*?);/)[1];
+		let bstr = atob(arr[1]);
+		let n = bstr.length;
+		let u8arr = new Uint8Array(n);
+		while(n--){
+			u8arr[n] = bstr.charCodeAt(n);
+		}
+		return new Blob([u8arr], {type:mime});
 	}
 }

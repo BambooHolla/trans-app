@@ -5,7 +5,7 @@ modal-camera {
 		font-size: 3rem;
 		z-index: 1000;
 	}
-
+ 
 	.reverse-camera {
 		right: 2rem;
 		bottom: 1.5rem;
@@ -33,4 +33,13 @@ modal-camera {
 		float: right;
 		margin-right: 3rem;
 	}
+
+	.nonePhoto{
+		display: none;
+	}
+
+	ion-footer{
+		background-color: #000;
+	}
 }
+

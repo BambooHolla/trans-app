@@ -18,15 +18,30 @@ page-submit-real-info {
                 margin-bottom: 2rem!important;
             }
             .in-box-add {
+                display: block!important;;
                 div {
                     position: absolute;
                     z-index: 666;
                     color: #444451;
                     font-size: 7.4rem!important;
+                    text-align: center;
+                    width: 100%;
+                    height: 100%;
+                    top: 0;
+                    left: 0;
+                    line-height: 14rem;
                 }
                 span {
                     font-size: 4rem!important;
                     font-weight: 200;
+                    text-align: center;
+                    display: inline-block; 
+                    width: 100%;
+                    height: 100%;
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    line-height: 14rem;
                 }
             }
         }

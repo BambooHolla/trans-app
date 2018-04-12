@@ -1,6 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
-
+import { Platform } from 'ionic-angular';  
 import { ViewController, NavParams } from 'ionic-angular';
 
 // import { CameraPreview, CameraPreviewPictureOptions, CameraPreviewOptions, CameraPreviewDimensions } from '@ionic-native/camera-preview';
@@ -23,6 +23,8 @@ export class CameraModal {
 
     pictureValid: boolean = false;
     picture: string;
+    nonePhoto: boolean = false;
+    saveDomStyle:any = {};
 
     pressGesture: Gesture;
 
@@ -43,6 +45,7 @@ export class CameraModal {
         private sanitizer: DomSanitizer,
         params: NavParams,
         public keyboardService: KeyboardService,
+        public platform: Platform,
     ) {
 
     }
@@ -53,7 +56,18 @@ export class CameraModal {
 
         // console.log(this.scrollerRef);
 
-        // this.initGestureListener();
+        // 硬件返回，退出模拟相机
+        this.platform.registerBackButtonAction(() => {
+            this.close();
+        })
+       
+    }
+
+    //对样式操作，需要等html加载后，不然模态框出来的过度动画回有动画不完整
+    ionViewDidEnter(){
+        //进入模拟相机，样式保存并修改
+        this.recoveryDomStyle(false);
+        this.nonePhoto = true;
     }
 
     initGestureListener(){
@@ -139,7 +153,7 @@ export class CameraModal {
             camera: "rear",
             tapPhoto: false,
             previewDrag: false,
-            toBack: false,
+            toBack: true,
             alpha: 1
         };
         
@@ -163,7 +177,7 @@ export class CameraModal {
                 height: 1000,
                 quality: 85,
             }  
-
+            
             // take a picture
             this.cameraPreview.takePicture(pictureOpts).then((imageData) => {
                 this.initParams();
@@ -172,13 +186,16 @@ export class CameraModal {
                 this.cameraActive = false;
                 this.pictureValid = true;
                 this.imageScale = 1;
+                this.nonePhoto = false;
             }, (err) => {
                 console.log(err);
                 this.pictureValid = false;
+                this.nonePhoto = true;
                 // this.picture = 'assets/images/no-record.png';
             });
         } else {
             this.startCamera();
+            this.nonePhoto = true;
         }
     }
   
@@ -231,6 +248,7 @@ export class CameraModal {
     }
 
     exit(data) {
+        this.recoveryDomStyle(true);
         this.cameraPreview.stopCamera()
             .catch(err => console.log(err))
             .then(() => {
@@ -260,4 +278,20 @@ export class CameraModal {
         this.baseX = 0;
         this.baseY = 0;
     }
+
+    recoveryDomStyle(recovery:boolean){
+        //需要隐藏根节点以及同级的节点
+        const ionApp = document.querySelector('ion-app') as HTMLElement;
+        const ngComponent = document.querySelector('ng-component') as HTMLElement;
+        if(recovery){
+            ionApp.style.backgroundColor = this.saveDomStyle['ionApp']
+            ngComponent.style.opacity =  this.saveDomStyle['ngComponent']
+        } else {
+            this.saveDomStyle['ionApp'] = ionApp.style.backgroundColor;
+            this.saveDomStyle['ngComponent'] = ngComponent.style.display;
+            ionApp.style.backgroundColor = 'transparent';
+            ngComponent.style.opacity = '0';
+        }
+    }
+
 }
