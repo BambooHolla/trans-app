@@ -33,6 +33,7 @@ export class NewsContent implements OnInit {
     this.newsType = this.navParams.get('newsType');
   }
 
+
   async ngOnInit() {
     this.newsId = this.navParams.get('newsId');
     console.log('新闻id', this.newsId);
@@ -41,7 +42,8 @@ export class NewsContent implements OnInit {
       this.newsId,
       this.appSettings.SIM_DATA
     );
-
-    console.log('新闻',this,this.news)
+    //缓存有时候会出现数组，有时候对象，做个数据处理
+    this.news = this.news.length ? this.news[0] : this.news;
+    console.log('获取新闻',this,this.news)
   }
 }
