@@ -67,29 +67,42 @@ page-quotations-v2 {
         }
         .products {
             margin-top: .7rem;
-            height: 1.8rem;
+            height: 6.8rem;
             font-size: 1.8rem;
             line-height: 1.8rem;
             text-align: center;
-            span{
-                padding:0 1.6rem;
+            .product-name{
+                padding:.4rem 1.6rem;
                 border-radius: 1.5rem;
                 &.active{
                     background-color: #212231;
                 }
             }
-        }
-        .prices {
-            margin: 1.5rem 0 1.8rem;
-            height: 1.6rem;
-            font-size: 1.6rem;
-            line-height: 1.6rem;
-            white-space: nowrap;
-            text-align: center;
-            .symbol{
-                color: color($colors,middark);
+            .product-price{
+                display: inline-block;
+                width: 100%;
+                margin: 1.5rem 0 1.8rem;
+                height: 1.6rem;
+                font-size: 1.6rem;
+                line-height: 1.6rem;
+                white-space: nowrap;
+                text-align: center;
+                .symbol{
+                    color: color($colors,middark);
+                }
             }
         }
+        // .prices {
+        //     margin: 1.5rem 0 1.8rem;
+        //     height: 1.6rem;
+        //     font-size: 1.6rem;
+        //     line-height: 1.6rem;
+        //     white-space: nowrap;
+        //     text-align: center;
+        //     .symbol{
+        //         color: color($colors,middark);
+        //     }
+        // }
     }
     ion-content {
         background-color: color($colors, background-darker)!important;

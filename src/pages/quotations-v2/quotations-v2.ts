@@ -221,14 +221,12 @@ export class QuotationsPageV2 {
 	}
 
 	filterMainProduct(event$: MouseEvent) {
+		// console.log(event$, event$.currentTarget,event$.target)
 		const target = event$.target as HTMLElement
+		const _target = this._findTarget(target)
 		let product
-		if (target) {
+		if (_target) {
 			console.log(target)
-			const _target = target.children[0]
-				&& target.querySelector('span')
-				|| target
-			console.log(_target)
 			product = _target.innerText
 		} else {
 			return void 0
@@ -237,6 +235,24 @@ export class QuotationsPageV2 {
 			this.mainFilter.next('')
 		} else {
 			this.mainFilter.next(product)
+		}
+	}
+	/**
+	 * 由于MouseEvent中取到的target等类似值存在不确定性(可能是框架导致),
+	 * 故用递归方式寻找要修改的目标元素
+	 * @param el 要搜索的标签
+	 */
+	_findTarget(el:HTMLElement):HTMLElement{
+		if(!el){
+			return void 0
+		}else if (el.className.includes('product-name')){
+			return el
+		} else if (el.className.includes('item-product')){
+			return el.querySelector('.product-name')
+		} else if (el.className.includes('products')){
+			return void 0
+		}else{
+			return this._findTarget(el.parentElement)
 		}
 	}
 	_filterProduct(product) {
