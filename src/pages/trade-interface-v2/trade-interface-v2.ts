@@ -8,6 +8,7 @@ import {
   InfiniteScroll, 
   Platform, 
   Content,
+  Events,
   Refresher,
 } from 'ionic-angular';
 
@@ -25,6 +26,7 @@ import { EntrustServiceProvider } from "../../providers/entrust-service";
 import { HistoryRecordPage } from '../history-record/history-record';
 import { StatusBar } from '@ionic-native/status-bar';
 import { AndroidFullScreen } from '@ionic-native/android-full-screen';
+import { AppSettingProvider } from '../../bnlc-framework/providers/app-setting/app-setting';
 
 @Component({
   selector: 'page-trade-interface-v2',
@@ -34,6 +36,7 @@ export class TradeInterfaceV2Page {
   marketPrice: any;
   // tradeType:number = 1 //1是买,0是卖
   @ViewChild(Content) content:Content;
+
 
   private viewDidLeave: BehaviorSubject<boolean> = new BehaviorSubject(false);
   private viewDidLeave$ = this.viewDidLeave
@@ -199,10 +202,11 @@ export class TradeInterfaceV2Page {
     public tradeService: TradeService,
     public alertService: AlertService,
     public entrustServiceProvider: EntrustServiceProvider,
-
+    public appSetting: AppSettingProvider,
     public platform: Platform,
     public statusBar: StatusBar,
     public androidFullScreen: AndroidFullScreen,
+    private events: Events,
   ) {    
     // debugger
     // window['TradeInterfacePage'] = this 
@@ -952,6 +956,9 @@ export class TradeInterfaceV2Page {
   }
 
   quickTrade(tradeType){
+    if(!this.appSetting.getUserToken()){
+      return this.goLogin();
+    }
     let transactionType = ''
     let amount = 0
     if (tradeType === 'buy') {
@@ -1047,4 +1054,7 @@ export class TradeInterfaceV2Page {
       });
   }
   
+  goLogin(){
+    this.events.publish('show login', 'login');
+  }
 }

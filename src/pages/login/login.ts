@@ -11,11 +11,14 @@ import {
   ModalController,
   Events,
   NavParams,
+  Platform,
 } from 'ionic-angular';
 
 import { LoginService } from '../../providers/login-service';
 import { AppDataService } from '../../providers/app-data-service';
 import { AppSettings } from '../../providers/app-settings';
+
+
 // import { TabsPage } from '../tabs/tabs';
 /**
  * Generated class for the LoginPage page.
@@ -33,6 +36,8 @@ export class LoginPage implements OnInit{
   private gridPaddingTop: string = '0';
 
   private logining: boolean = false;
+
+  public unregisterBackButton:any;
 
   loginForm: FormGroup = new FormGroup({
     // myContry: new FormControl('1002'),
@@ -57,6 +62,7 @@ export class LoginPage implements OnInit{
     public loginService: LoginService,
     public appDataService: AppDataService,
     public appSettings: AppSettings,
+    public platform: Platform,
     // // public tabsPage:TabsPage,
   ) {
     // this.presentLoading();
@@ -67,7 +73,13 @@ export class LoginPage implements OnInit{
       .distinctUntilChanged()
       .subscribe(() => {
         this.init()
-      })
+      });
+    
+    this.unregisterBackButton = this.platform.registerBackButtonAction(() => {
+      this.dismiss();
+    })
+
+
   }
 
   ionViewDidLoad() {
@@ -175,6 +187,7 @@ export class LoginPage implements OnInit{
   }
 
   dismiss(){
+    this.unregisterBackButton();
     this.viewCtrl.dismiss()
     this.events.subscribe('show login', (status, cb?) => {
       this.events.unsubscribe('show login')
