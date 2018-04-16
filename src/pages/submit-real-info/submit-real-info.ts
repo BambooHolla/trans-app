@@ -229,7 +229,7 @@ export class SubmitRealInfoPage extends SecondLevelPage {
 
 	async minImage(url) { //压缩
 		const canvas = document.createElement("canvas");
-		const maxSize = 1000;
+		// const maxSize = 1000;
 
 		const ctx = canvas.getContext("2d");
 		const image = new Image();
@@ -239,15 +239,15 @@ export class SubmitRealInfoPage extends SecondLevelPage {
 				try {
 					const { width, height } = image;
 					const max_WH = Math.max(width, height);
-					if (max_WH < maxSize) {
-						resolve(this.dataURItoBlob(url))
-					}
+					// if (max_WH < maxSize) {
+					// 	resolve(this.dataURItoBlob(url))
+					// }
 					if (width === max_WH) {
-						image.width = canvas.width = maxSize;
-						image.height = canvas.height = height / width * maxSize;
+						image.width = canvas.width = max_WH;
+						image.height = canvas.height = height / width * max_WH;
 					} else {
-						image.height = canvas.height = maxSize;
-						image.width = canvas.width = width / height * maxSize;
+						image.height = canvas.height = max_WH;
+						image.width = canvas.width = width / height * max_WH;
 					}
 					console.log(canvas.width, canvas.height)
 
