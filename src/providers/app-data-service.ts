@@ -83,7 +83,7 @@ export class AppDataService {
       } else {
         this[key + 'Promise'] = this.storage.ready().then(async () => {
           // debugger
-          return (this._data[key] = (await this.storage.get(key)) || new Map());
+          return (this._data[key] = (JSON.parse(await this.storage.get(key))) || new Map());
         });
       }
     });
@@ -157,7 +157,7 @@ export class AppDataService {
         var storage_remove = localStorage.removeItem.bind(localStorage);
       } else {
         storage_set = (k, v) =>
-          this.storage.ready().then(() => this.storage.set(k, v));
+          this.storage.ready().then(() => this.storage.set(k, JSON.stringify(v)));
         storage_remove = k =>
           this.storage.ready().then(() => this.storage.remove(k));
       }
@@ -168,7 +168,7 @@ export class AppDataService {
         set: value => {
           this._data[key] = value;
           if (value !== null && value !== undefined) {
-            storage_set(this.APPDATASERVICE_PREIX + key, value);
+            storage_set(this.APPDATASERVICE_PREIX + key, JSON.stringify(value));
           } else {
             storage_remove(this.APPDATASERVICE_PREIX + key);
           }
