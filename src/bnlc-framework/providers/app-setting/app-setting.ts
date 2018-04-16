@@ -12,9 +12,9 @@ import { BehaviorSubject } from "rxjs/BehaviorSubject";
 */
 @Injectable()
 export class AppSettingProvider {
-  static SERVER_URL = 'http://192.168.16.113:40001'; //zhiguang server
+  // static SERVER_URL = 'http://192.168.16.113:40001'; //zhiguang server
   // static SERVER_URL = 'http://bjs.bnqkl.cn'; //old www server
-  // static SERVER_URL = 'https://www.picaex.com' ; //release www server
+  static SERVER_URL = 'https://www.picaex.com' ; //release www server
   // static SERVER_URL = 'http://192.168.16.101:40001'; //company mac server
   static SERVER_PREFIX = '/api/v1/bngj';
   static Platform_Type = '8545236f-0e18-4102-8705-fa5ee777b270';
