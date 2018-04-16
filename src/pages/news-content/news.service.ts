@@ -40,7 +40,9 @@ export class NewsService {
     const path = `/news/news/${newsId}`
     return this.appService.request(RequestMethod.Get, path, params, false)
       .then(resData => { 
-     
+        
+        //后端缓存数据结构第一次为数组，需要判断下
+        resData = resData.length ? resData[0] : resData;
         console.log('getnews: ', resData);
         ////新闻返回数据结构
         // {
