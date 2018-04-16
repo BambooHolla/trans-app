@@ -156,7 +156,12 @@ export class ForgetPwdPage {
 						{
 							text: '去登录',
 							handler: () => {
-								this.navCtrl.push('login');
+								//跳转到重置密码页面，是用过navPush的
+								//所以之后返回需要使用pop()
+								//而不是使用push
+								//因为登录页面是没放在正常的路由里面，而是一个模态框
+								// this.navCtrl.push('login');
+								this.navCtrl.pop();
 							}
 						}
 					]
