@@ -1,4 +1,7 @@
 page-register {
+    .paddingfix{
+        padding-top: $cordova-ios-statusbar-padding;
+    } 
     .fixed-content,
     .scroll-content {
         margin-top: 0!important;
@@ -17,7 +20,7 @@ page-register {
         margin-top: 1.5rem;
         .item-inner {
             border: none;
-        }
+        } 
         ion-checkbox {
             padding-right: 0.5em;
             background: none;
