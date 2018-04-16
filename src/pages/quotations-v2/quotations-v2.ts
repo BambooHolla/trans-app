@@ -352,8 +352,12 @@ export class QuotationsPageV2 {
 				.map(data => {
 					//处理增量更新
 					const srcArr = value.reportArr
-					srcArr.push(...data)//使用push+解构赋值,预期echarts动画实现
 					const length = srcArr.length
+					if(length == 0){
+						srcArr.push(...data)//使用push+解构赋值,预期echarts动画实现
+					}else{
+						srcArr.splice(0,Math.min(length,data.length),...data)
+					}
 					if( length > this.appSettings.Charts_Array_Length){
 						srcArr.splice(0, length - this.appSettings.Charts_Array_Length)
 					}
