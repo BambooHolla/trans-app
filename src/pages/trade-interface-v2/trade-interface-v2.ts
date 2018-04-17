@@ -726,6 +726,7 @@ export class TradeInterfaceV2Page {
   changeTrader($event){
     console.log('traderChanged', this.traderId)
     this.reportArr = []
+    this.targetName = this.productName    
     this.doSubscribe()
     this.getProcessEntrusts()
     
