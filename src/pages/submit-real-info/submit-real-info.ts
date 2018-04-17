@@ -22,7 +22,8 @@ import { ImageTakerController } from '../../components/image-taker-controller';
 import { FsProvider, FileType } from '../../providers/fs/fs';
 import { CommonAlert } from "../../components/common-alert/common-alert";
 import { DomSanitizer } from '@angular/platform-browser';
-import {AppSettingProvider} from "../../bnlc-framework/providers/app-setting/app-setting"
+import {AppSettingProvider} from "../../bnlc-framework/providers/app-setting/app-setting";
+import { PersonalDataService } from '../../providers/personal-data-service';
 
 @Component({
 	selector: 'page-submit-real-info',
@@ -41,7 +42,8 @@ export class SubmitRealInfoPage extends SecondLevelPage {
 		public alertCtrl: AlertController,
 		public idNumberChecker: IdentificationNumberCheckerProvider,
 		public san: DomSanitizer,
-		public appSetting:AppSettingProvider
+		public appSetting:AppSettingProvider,
+		public personalDataService: PersonalDataService,
 	) { 
 		super(navCtrl, navParams);
 	}
@@ -216,8 +218,10 @@ export class SubmitRealInfoPage extends SecondLevelPage {
 				media
 			})
 			.then(d => {
+				//提交成功，改变状态
+				this.personalDataService.requestCertifiedStatus();
 				this.finishJob(true);
-				return d;
+				return d; 
 			});
 	}
 
