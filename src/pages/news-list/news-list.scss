@@ -100,7 +100,14 @@ page-news-list {
         min-height: 3.8rem;
     }
     .scroll-content {}
+
+    ion-slide{
+        .slide-zoom{
+            height: 100%;
+        }
+    }
     .child-content {
+        height: 100%;
         .fixed-content,
         .scroll-content {
             margin-bottom: 0 !important;
