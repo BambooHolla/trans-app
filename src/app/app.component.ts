@@ -215,7 +215,10 @@ export class PicassoApp {
         });
     }
 
-    // this.keyboardService.disableScroll();
+    //ios 交易页面 会把视图顶出，需要用这个禁止
+    if(this.platform.is('ios')){
+      this.keyboardService.disableScroll();
+    }
 
     this.statusBar.show()
     // Okay, so the platform is ready and our plugins are available.
