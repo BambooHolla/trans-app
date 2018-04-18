@@ -33,6 +33,7 @@ import { AppSettingProvider } from '../../bnlc-framework/providers/app-setting/a
   templateUrl: 'trade-interface-v2.html'
 })
 export class TradeInterfaceV2Page {
+  quickTrading: boolean = false;
   marketPrice: any;
   // tradeType:number = 1 //1是买,0是卖
   @ViewChild(Content) content:Content;
@@ -960,6 +961,9 @@ export class TradeInterfaceV2Page {
     if(!this.appSetting.getUserToken()){
       return this.goLogin();
     }
+    if (this.quickTrading) {
+      return void 0
+    }
     let transactionType = ''
     let amount = 0
     if (tradeType === 'buy') {
@@ -986,6 +990,7 @@ export class TradeInterfaceV2Page {
       const priceId = traders[0]
       const productId = traders[1]
 
+      this.quickTrading = true
       this.tradeService.quickTrade(transactionType, productId, priceId, amount)
         .then(async data => {
           if (!data.realityAmount){
@@ -1015,6 +1020,7 @@ export class TradeInterfaceV2Page {
             this.alertService.showAlert('下单失败',err.message)
           }
         })
+        .then(() => this.quickTrading = false)
     }finally{
       // this.alertService.dismissLoading()
     }
