@@ -32,7 +32,9 @@
 <ion-content #content>
     <ion-slides (ionSlideWillChange)="slideChanged()">
         <ion-slide>
-            <ion-content class="child-content" [style.height.px]="slideHeight">
+            <!-- [style.height.px]="slideHeight"不知道干嘛的，先放着 -->
+            <!-- <ion-content class="child-content" [style.height.px]="slideHeight"> -->
+            <ion-content class="child-content">
                 <ion-spinner name="ios" *ngIf="initing"></ion-spinner>
                 <!--下拉刷新-->
                 <ion-refresher (ionRefresh)="initNoticeList($event)">
@@ -72,7 +74,9 @@
             </ion-content>
         </ion-slide>
         <ion-slide>
-            <ion-content class="child-content" [style.height.px]="slideHeight">
+            <!-- [style.height.px]="slideHeight"不知道干嘛的，先放着 -->
+            <!-- <ion-content class="child-content" [style.height.px]="slideHeight"> -->
+            <ion-content class="child-content">
                 <ion-spinner name="ios" *ngIf="initing"></ion-spinner>
                 <!--下拉刷新-->
                 <ion-refresher (ionRefresh)="initNewsList($event)">
