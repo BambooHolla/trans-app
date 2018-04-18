@@ -261,7 +261,7 @@ export class TradeInterfaceV2Page {
     if(typeof this[target] == "string" ){
       result = this[target].split('.');
       if(result.length == 2){
-        result = Math.max(0, Math.floor(result[0] * invBase *  Math.pow(10,result[1].length) + result[1] * invBase + step * invBase) / (invBase * Math.pow(10,result[1].length)));
+        result = Math.max(0, Math.floor(result[0] * invBase *  Math.pow(10,result[1].length) + result[1] * invBase + step * invBase * Math.pow(10,result[1].length)) / (invBase * Math.pow(10,result[1].length)));
       }else{
         result = Math.max(0, Math.floor(result[0] * invBase + step * invBase) / invBase);
       }
