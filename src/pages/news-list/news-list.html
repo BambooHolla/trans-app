@@ -30,7 +30,7 @@
 </ion-header>
 <!-- <ion-content class="card-background-page bg-in"> -->
 <ion-content #content>
-    <ion-slides (ionSlideDidChange)="slideChanged()">
+    <ion-slides (ionSlideWillChange)="slideChanged()">
         <ion-slide>
             <ion-content class="child-content" [style.height.px]="slideHeight">
                 <ion-spinner name="ios" *ngIf="initing"></ion-spinner>
