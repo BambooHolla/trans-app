@@ -17,7 +17,7 @@ import {
 	CertificationCertificateType
 } from '../../providers/account-service/account-service';
 import { AppDataService } from '../../providers/app-data-service';
-
+import { PromptControlleService } from '../../providers/prompt-controlle-service';
 @Component({
 	selector: 'page-add-address',
 	templateUrl: 'add-address.html'
@@ -28,7 +28,8 @@ export class AddAddressPage extends SecondLevelPage {
 		public navParams: NavParams,
 		public appdata: AppDataService,
 		public viewCtrl: ViewController,
-		public accountService: AccountServiceProvider
+		public accountService: AccountServiceProvider,
+		public promptCtrl: PromptControlleService,
 	) {
 		super(navCtrl, navParams);
 	}

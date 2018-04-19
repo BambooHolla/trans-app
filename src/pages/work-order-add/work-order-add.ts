@@ -11,7 +11,7 @@ import {
 } from '../../providers/work-order-service/work-order-service';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ImageTakerController } from '../../components/image-taker-controller';
-
+import { PromptControlleService } from "../../providers/prompt-controlle-service";
 @Component({
 	selector: 'page-work-order-add',
 	templateUrl: 'work-order-add.html'
@@ -23,7 +23,8 @@ export class WorkOrderAddPage extends SecondLevelPage {
 		public fs: FsProvider,
 		public san: DomSanitizer,
 		public imageTakerCtrl: ImageTakerController,
-		public workOrderService: WorkOrderServiceProvider
+		public workOrderService: WorkOrderServiceProvider,
+		public promptCtrl: PromptControlleService,
 	) {
 		super(navCtrl, navParams);
 	}

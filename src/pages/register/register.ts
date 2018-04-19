@@ -8,7 +8,6 @@ import {
   NavController,
   NavParams,
   ModalController,
-  ToastController
 } from 'ionic-angular';
 
 import { RegisterService } from '../../providers/register-service';
@@ -16,7 +15,7 @@ import { AppDataService } from '../../providers/app-data-service';
 import { AppSettings } from '../../providers/app-settings';
 
 import { InformationModal } from '../../modals/information-modal/information-modal';
-
+import { PromptControlleService } from "../../providers/prompt-controlle-service";
 /**
  * Generated class for the RegisterPage page.
  *
@@ -61,7 +60,7 @@ export class RegisterPage {
     public navParams: NavParams,
     public modalCtrl: ModalController,
     public loadingCtrl: LoadingController,
-    public toastCtrl: ToastController,
+    public promptCtrl: PromptControlleService,
     public alertCtrl: AlertController,
     public elementRef: ElementRef,
     public registerService: RegisterService,
@@ -158,7 +157,7 @@ export class RegisterPage {
 
       this.registerService.doAuthRegister(customerId, vcode, password, timeZone)
         .then(()=>{
-          const toast = this.toastCtrl.create({
+          const toast = this.promptCtrl.toastCtrl({
             message:'注册成功',
             duration:1e3,
             position:'middle',

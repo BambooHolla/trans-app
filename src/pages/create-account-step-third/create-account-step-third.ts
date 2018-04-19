@@ -4,7 +4,6 @@ import { FormControl, FormGroup } from '@angular/forms';
 import {
     NavController,
     ModalController,
-    ToastController,
     NavParams
 } from 'ionic-angular';
 
@@ -21,7 +20,7 @@ import {
     CertificationPatternType,
     CertificationCollectType
 } from '../../providers/account-service/account-service';
-
+import { PromptControlleService } from "../../providers/prompt-controlle-service";
 @Component({
     selector: 'page-create-account-step-third',
     templateUrl: 'create-account-step-third.html'
@@ -47,7 +46,7 @@ export class CreateAccountStepThirdPage extends SecondLevelPage {
 
     constructor(
         public navCtrl: NavController,
-        public toastCtrl: ToastController,
+        public promptCtrl: PromptControlleService,
         public modalCtrl: ModalController,
         public navParams: NavParams,
         private http: Http,
@@ -167,7 +166,7 @@ export class CreateAccountStepThirdPage extends SecondLevelPage {
     }
 
     toastAlert(message, duration = 3000, position = 'top') {
-        let toast = this.toastCtrl.create({
+        let toast = this.promptCtrl.toastCtrl({
             message,
             duration,
             position

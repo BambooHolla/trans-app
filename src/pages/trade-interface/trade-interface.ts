@@ -1,6 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 // import * as echarts from 'echarts';
-import { NavParams, ToastController, AlertController, NavController, InfiniteScroll, Platform } from 'ionic-angular';
+import { NavParams, AlertController, NavController, InfiniteScroll, Platform } from 'ionic-angular';
 
 import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
@@ -16,7 +16,7 @@ import { EntrustServiceProvider } from "../../providers/entrust-service";
 import { HistoryRecordPage } from '../history-record/history-record';
 import { StatusBar } from '@ionic-native/status-bar';
 import { AndroidFullScreen } from '@ionic-native/android-full-screen';
-
+import { PromptControlleService } from "../../providers/prompt-controlle-service";
 @Component({
   selector: 'page-trade-interface',
   templateUrl: 'trade-interface.html'
@@ -190,7 +190,7 @@ export class TradeInterfacePage {
   constructor(
     public navCtrl: NavController,
     private alertCtrl: AlertController,
-    public toastCtrl: ToastController,
+    public promptCtrl: PromptControlleService,
     public appSettings: AppSettings,
     public appDataService: AppDataService,
     private socketioService: SocketioService,
@@ -328,7 +328,7 @@ export class TradeInterfacePage {
     const amount = parseFloat(this.amount);
 
     let show_warning = true
-    let toast = this.toastCtrl.create({
+    let toast = this.promptCtrl.toastCtrl({
       duration: 3000,
       position: 'middle'
     })
@@ -367,7 +367,7 @@ export class TradeInterfacePage {
         const result = resData instanceof Array ? resData[0] : resData
         
         if (typeof result === 'object' && result.id) {
-          let toast = this.toastCtrl.create({
+          let toast = this.promptCtrl.toastCtrl({
             message: '委托单已提交',//`${result.id}`,
             duration: 3000,
             position: 'middle'
@@ -387,7 +387,7 @@ export class TradeInterfacePage {
       .catch(err => {
         console.log('doTrade err:', err);
         if(err && err.message){
-          let toast = this.toastCtrl.create({
+          let toast = this.promptCtrl.toastCtrl({
             message: `${err.message}`,
             duration: 3000,
             position: 'middle'
@@ -567,7 +567,7 @@ export class TradeInterfacePage {
         this.getProcessEntrusts()
 
         if (data && data.status) {
-          let toast = this.toastCtrl.create({
+          let toast = this.promptCtrl.toastCtrl({
             message: `撤单成功`,
             duration: 3000,
             position: 'middle'
@@ -584,7 +584,7 @@ export class TradeInterfacePage {
         this.getProcessEntrusts()
         
         if (err && err.message) {
-          let toast = this.toastCtrl.create({
+          let toast = this.promptCtrl.toastCtrl({
             message: `${err.message}`,
             duration: 3000,
             position: 'middle'
@@ -896,7 +896,7 @@ export class TradeInterfacePage {
 
           this.alertService.dismissLoading()
 
-          const toast = this.toastCtrl.create({
+          const toast = this.promptCtrl.toastCtrl({
             message: `快捷下单成功`,
             duration: 3000,
             position: 'middle'

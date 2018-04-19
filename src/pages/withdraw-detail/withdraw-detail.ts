@@ -26,7 +26,7 @@ import { WithdrawAddressListPage } from "../withdraw-address-list/withdraw-addre
 import { AddAddressPage } from "../add-address/add-address";
 import { CommonAlert } from "../../components/common-alert/common-alert";
 import { StockDataService } from "../../providers/stock-data-service";
-
+import { PromptControlleService } from "../../providers/prompt-controlle-service";
 /**
  * Generated class for the WithdrawDetailPage page.
  *
@@ -45,7 +45,8 @@ export class WithdrawDetailPage extends SecondLevelPage {
 		public accountService: AccountServiceProvider,
 		public stockDataService: StockDataService,
 		public modalCtrl: ModalController,
-		public alertCtrl : AlertController
+		public alertCtrl: AlertController,
+		public promptCtrl: PromptControlleService,
 	) {
 		super(navCtrl, navParams);
 		this.productInfo = this.navParams.get("productInfo");

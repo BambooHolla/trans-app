@@ -1,8 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
 // import * as echarts from 'echarts';
 import { 
-  NavParams, 
-  ToastController, 
+  NavParams,
   AlertController, 
   NavController, 
   InfiniteScroll, 
@@ -28,7 +27,7 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { AndroidFullScreen } from '@ionic-native/android-full-screen';
 import { AppSettingProvider } from '../../bnlc-framework/providers/app-setting/app-setting';
 
-import { ModalControlleService } from "../../providers/modal-controlle-service";
+import { PromptControlleService } from "../../providers/prompt-controlle-service";
 @Component({
   selector: 'page-trade-interface-v2',
   templateUrl: 'trade-interface-v2.html'
@@ -194,7 +193,6 @@ export class TradeInterfaceV2Page {
   constructor(
     public navCtrl: NavController,
     private alertCtrl: AlertController,
-    public toastCtrl: ToastController,
     public appSettings: AppSettings,
     public appDataService: AppDataService,
     private socketioService: SocketioService,
@@ -209,7 +207,7 @@ export class TradeInterfaceV2Page {
     public statusBar: StatusBar,
     public androidFullScreen: AndroidFullScreen,
     private events: Events,
-    private modalctrl: ModalControlleService,
+    private promptCtrl: PromptControlleService,
   ) {    
     // debugger
     // window['TradeInterfacePage'] = this 
@@ -357,7 +355,7 @@ export class TradeInterfaceV2Page {
                     tradeType === 0 ? '卖出': '委托'
 
     let show_warning = true
-    let toast = this.toastCtrl.create({
+    let toast = this.promptCtrl.toastCtrl({
       duration: 3000,
       position: 'middle'
     })
@@ -448,7 +446,7 @@ export class TradeInterfaceV2Page {
         const result = resData instanceof Array ? resData[0] : resData
 
         if (typeof result === 'object' && result.id) {
-          let toast = this.toastCtrl.create({
+          let toast = this.promptCtrl.toastCtrl({
             message: '委托单已提交',//`${result.id}`,
             duration: 3000,
             position: 'middle'
@@ -468,7 +466,7 @@ export class TradeInterfaceV2Page {
       .catch(err => {
         console.log('doTrade err:', err);
         if (err && err.message) {
-          let toast = this.toastCtrl.create({
+          let toast = this.promptCtrl.toastCtrl({
             message: `${err.message}`,
             duration: 3000,
             position: 'middle'
@@ -671,11 +669,12 @@ export class TradeInterfaceV2Page {
         this.getProcessEntrusts()
 
         if (data && data.status) {
-          this.modalctrl.toastCtrl({
+          this.promptCtrl.toastCtrl({
             message: `撤单成功`,
             duration: 2000,
             position: 'middle'
-          })
+          }) 
+          .present();
         } else { 
           return Promise.reject(data);
         }
@@ -687,7 +686,7 @@ export class TradeInterfaceV2Page {
         this.getProcessEntrusts()
         
         if (err && err.message) {
-          let toast = this.toastCtrl.create({
+          let toast = this.promptCtrl.toastCtrl({
             message: `${err.message}`,
             duration: 3000,
             position: 'middle'
@@ -1004,7 +1003,7 @@ export class TradeInterfaceV2Page {
 
           this.alertService.dismissLoading()
 
-          const toast = this.toastCtrl.create({
+          const toast = this.promptCtrl.toastCtrl({
             message: `快捷下单成功`,
             duration: 3000,
             position: 'middle'

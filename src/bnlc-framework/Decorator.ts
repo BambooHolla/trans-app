@@ -5,10 +5,10 @@ import {
   LoadingController,
   LoadingOptions,
   Loading,
-  ToastController
 } from 'ionic-angular';
 import { PAGE_STATUS } from './const';
 import { Toast } from '@ionic-native/toast';
+import { PromptControlleService } from "../providers/prompt-controlle-service";
 
 export const ERROR_FROM_ASYNCERROR = { NAME: 'CATCHED_ERROR' };
 
@@ -107,17 +107,18 @@ export function asyncSuccessWrapGenerator(
           const toast = window['toast'] as Toast;
           toast.show(message, duration + '', position).toPromise();
         } else {
-          const toastCtrl: ToastController = this.toastCtrl;
-          if (!(toastCtrl instanceof ToastController)) {
+          console.log( this.promptCtrl)
+          const promptCtrl: any = this.promptCtrl;
+          if (!(promptCtrl instanceof PromptControlleService)) {
             console.warn(
               '需要在',
               target.constructor.name,
-              '中注入 ToastController 依赖'
+              '中注入 ModalControlleService 依赖'
             );
             alert(String(success_msg));
           } else {
-            toastCtrl
-              .create({
+            promptCtrl
+              .toastCtrl({
                 message,
                 position,
                 duration

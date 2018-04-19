@@ -1,9 +1,9 @@
 import { Component, ElementRef, AfterViewInit } from '@angular/core';
-import { NavController, ToastController, Toast } from 'ionic-angular';
+import { NavController, Toast } from 'ionic-angular';
 import { NoticePage } from '../notice/notice';
 import { AppDataService } from '../../providers/app-data-service';
 import { NoticeListModel } from '../../providers/models/notice-list-model';
-
+import { PromptControlleService } from "../../providers/prompt-controlle-service";
 @Component({
   selector: 'page-notice-list',
   templateUrl: 'notice-list.html',
@@ -20,7 +20,7 @@ export class NoticeListPage implements AfterViewInit{
   //public navParams: NavParams
   constructor(public navCtrl: NavController,
     public appDataService: AppDataService,
-    public toastCtrl: ToastController,
+    public promptCtrl: PromptControlleService,
     public noticeListModel: NoticeListModel,
     private el: ElementRef,
   ) {
@@ -123,7 +123,7 @@ export class NoticeListPage implements AfterViewInit{
 
   toastAlert(message, duration = 3000, position = 'top'){
     this.toastDismiss();
-    this.toast = this.toastCtrl.create({
+    this.toast = this.promptCtrl.toastCtrl({
       message,
       duration,
       position,
