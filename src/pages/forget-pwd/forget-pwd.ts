@@ -35,12 +35,14 @@ export class ForgetPwdPage {
 		),
 		password: new FormControl({ value: '', disabled: false }, [
 			Validators.minLength(3),
-			Validators.required
+			Validators.required,
+			
 		]),
 		confirPassword: new FormControl(
-			{ value: '', disabled: false },
-			this.validatePWD.bind(this)
-		),
+			{ value: '', disabled: false },[
+				this.validatePWD.bind(this),
+				Validators.required,
+		]),
 		protocolAgree: new FormControl({ value: true, disabled: false })
 	});
 	get form_password() {
@@ -55,10 +57,9 @@ export class ForgetPwdPage {
 		
 		if (this.forgetPWDForm) {
 			const password = this.forgetPWDForm.get('password').value;
-			const confirPassword = this.forgetPWDForm.get('confirPassword')
-				.value;
-				this.pwdAgreementPass = password !== confirPassword ?true : false;
-			return password !== confirPassword ? {zz:'zz'} : false;
+			const confirPassword = this.forgetPWDForm.get('confirPassword').value;
+			this.pwdAgreementPass = password !== confirPassword ?true : false;
+			return password !== confirPassword ? {err:'err'} : null;
 		}
 	}
 

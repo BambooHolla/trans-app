@@ -43,7 +43,7 @@
             </div>
             <ion-row tappable class="account-exit" style="background:none">
                 <ion-col padding class="exit-center">
-                    <button ion-button class="trbtn forgetPWD-form-submit" type="submit" [disabled]="forgetPWDForm.invalid || !appDataService.ready || forgetPWDing">
+                    <button ion-button class="trbtn forgetPWD-form-submit" type="submit" [disabled]="forgetPWDForm.invalid || !appDataService.ready || forgetPWDing || pwdAgreementPass">
                         确认
                       </button>
                 </ion-col>
