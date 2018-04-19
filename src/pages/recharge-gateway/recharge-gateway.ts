@@ -6,6 +6,7 @@ import {
 	AccountServiceProvider,
 	ProductType
 } from '../../providers/account-service/account-service';
+import { PromptControlleService } from '../../providers/prompt-controlle-service';
 
 /**
  * Generated class for the RechargeGatewayPage page.
@@ -21,7 +22,8 @@ export class RechargeGatewayPage extends SecondLevelPage {
 	constructor(
 		public navCtrl: NavController,
 		public navParams: NavParams,
-		public accountService: AccountServiceProvider
+		public accountService: AccountServiceProvider,
+		
 	) {
 		super(navCtrl, navParams);
 	}

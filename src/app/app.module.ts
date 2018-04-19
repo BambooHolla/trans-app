@@ -496,7 +496,7 @@ import { PromptControlleService } from '../providers/prompt-controlle-service';
         IdentificationNumberCheckerProvider,
         NewsServiceProvider,
         WorkOrderServiceProvider,
-        PromptControlleService,
+        PromptControlleService, 
     ]
 })
 export class AppModule {}
