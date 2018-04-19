@@ -4,12 +4,12 @@ import { Http, Headers, URLSearchParams, RequestOptions, RequestMethod } from "@
 import { AppDataService } from "../../providers/app-data-service";
 import { AppSettings } from "../../providers/app-settings";
 // import { Observable } from "rxjs/Observable";
-import { ToastController, AlertController } from "ionic-angular";
+import { AlertController } from "ionic-angular";
 import { AppService } from '../../providers/app.service';
 import { StockDataService } from '../../providers/stock-data-service';
 // import * as echarts from 'echarts';
 // import { NavController } from 'ionic-angular';
-
+import { PromptControlleService } from "../../providers/prompt-controlle-service";
 @Component({
   selector: 'page-commission-list',
   templateUrl: 'commission-list.html'
@@ -164,7 +164,7 @@ export class CommissionListPage implements OnInit {
     public AppSettings: AppSettings,
     private appService: AppService,
     private stockDataService: StockDataService,
-    private toastCtrl: ToastController,
+    private promprCtrl: PromptControlleService,
     private alertCtrl: AlertController,
   ) {
     this.initData();
@@ -352,7 +352,7 @@ export class CommissionListPage implements OnInit {
         const result = resData instanceof Array ? resData[0] : resData
 
         if (typeof result === 'object' && result.status) {
-          let toast = this.toastCtrl.create({
+          let toast = this.promprCtrl.toastCtrl({
             message: `${result.message}`,
             duration: 3000,
             position: 'middle'
@@ -365,7 +365,7 @@ export class CommissionListPage implements OnInit {
       })
       .catch(err => {
         if (err && err.message) {
-          let toast = this.toastCtrl.create({
+          let toast = this.promprCtrl.toastCtrl({
             message: `${err.message}`,
             duration: 3000,
             position: 'middle'

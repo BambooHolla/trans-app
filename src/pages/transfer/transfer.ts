@@ -1,12 +1,11 @@
 import { Component } from '@angular/core';
-import { ToastController } from "ionic-angular";
 // import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { Http, RequestOptions,Headers } from "@angular/http";
 import { AppSettings } from "../../providers/app-settings";
 import { AppDataService } from "../../providers/app-data-service";
 import { PersonalDataService } from "../../providers/personal-data-service";
 // import { Subscription } from "rxjs/Subscription";
-
+import { PromptControlleService } from "../../providers/prompt-controlle-service";
 @Component({
   selector: 'page-transfer',
   templateUrl: 'transfer.html',
@@ -32,7 +31,7 @@ export class TransferPage {
     private personalDateService: PersonalDataService,
     private appSettings: AppSettings,
     private appDataService: AppDataService,
-    private toastCtrl: ToastController,
+    private promptCtrl: PromptControlleService,
   ) {
     this.noBankAccount = this.cardNo === '000000000000000000'
   }
@@ -87,7 +86,7 @@ export class TransferPage {
         console.log('resData: ' ,resData)
 
         if(resData.err){
-          let toast = this.toastCtrl.create({
+          let toast = this.promptCtrl.toastCtrl({
             message: `${resData.err.message}`,
             duration: 3000,
             position: 'middle'
@@ -95,7 +94,7 @@ export class TransferPage {
           toast.present()
           // console.log('resData.err: ',resData.err.message)
         }else if(resData.data.length){
-          let toast = this.toastCtrl.create({
+          let toast = this.promptCtrl.toastCtrl({
             message: `${resData.data[0].FID_MESSAGE}`,
             duration: 3000,
             position: 'middle'

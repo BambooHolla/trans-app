@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 
-import { NavController, ToastController } from 'ionic-angular';
-
+import { NavController } from 'ionic-angular';
+import { PromptControlleService } from "../../providers/prompt-controlle-service";
 
 @Component({
     selector: 'change-trade-password',
@@ -11,7 +11,7 @@ import { NavController, ToastController } from 'ionic-angular';
 export class ChangeTradePassword {
     constructor(
         public navCtrl: NavController,
-        public toastCtrl: ToastController,
+        public promptCtrl: PromptControlleService,
     )
      {};
 
@@ -34,7 +34,7 @@ export class ChangeTradePassword {
     }
 
     toastAlert(message, duration = 3000, position = 'top'){
-        let toast = this.toastCtrl.create({
+        let toast = this.promptCtrl.toastCtrl({
           message,
           duration,
           position,

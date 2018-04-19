@@ -1,7 +1,7 @@
 import { Component, ViewChild, AfterViewInit, OnDestroy } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 
-import { NavController, ToastController } from 'ionic-angular';
+import { NavController } from 'ionic-angular';
 
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
@@ -10,7 +10,7 @@ import { AppSettings } from '../../providers/app-settings';
 import { AppDataService } from '../../providers/app-data-service';
 import { CreateAccountStepThirdPage } from '../create-account-step-third/create-account-step-third';
 import { AppService } from '../../providers/app.service';
-
+import { PromptControlleService } from "../../providers/prompt-controlle-service";
 @Component({
     selector: 'page-create-account-step-first',
     templateUrl: 'create-account-step-first.html',
@@ -47,7 +47,7 @@ export class CreateAccountStepFirstPage implements AfterViewInit, OnDestroy {
 
     constructor(
         public navCtrl: NavController,
-        public toastCtrl: ToastController,
+        public promptCtrl: PromptControlleService,
         private http: Http,
         private appSettings: AppSettings,
         public appDataService: AppDataService,
@@ -243,7 +243,7 @@ export class CreateAccountStepFirstPage implements AfterViewInit, OnDestroy {
     }
 
     toastAlert(message, duration = 3000, position = 'top') {
-        let toast = this.toastCtrl.create({
+        let toast = this.promptCtrl.toastCtrl({
             message,
             duration,
             position,

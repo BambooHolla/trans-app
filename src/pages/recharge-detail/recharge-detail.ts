@@ -17,7 +17,7 @@ import {
 	DealResult,
 } from '../../providers/account-service/account-service';
 import { StockDataService } from '../../providers/stock-data-service';
-
+import { PromptControlleService } from "../../providers/prompt-controlle-service";
 /**
  * Generated class for the RechargeDetailPage page.
  *
@@ -35,6 +35,7 @@ export class RechargeDetailPage extends SecondLevelPage {
 		public navParams: NavParams,
 		public accountService: AccountServiceProvider,
 		public stockDataService: StockDataService,
+		public promptCtrl: PromptControlleService,
 	) {
 		super(navCtrl, navParams);
 		this.productInfo = this.navParams.get('productInfo');

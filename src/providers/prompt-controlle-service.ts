@@ -1,17 +1,17 @@
 import { Injectable } from '@angular/core';
-import { ToastController } from "ionic-angular";
+import { ToastController,Toast } from "ionic-angular";
 
 
 @Injectable()
-export class ModalControlleService {
+export class PromptControlleService {
 
-    private _toast_ctrl_modal:any;
+    private _toast_ctrl_modal:Toast;
 
     constructor(
         private toastController: ToastController,
     ) {
 
-    }
+    } 
 
     toastCtrl( 
        model?:{
@@ -25,11 +25,13 @@ export class ModalControlleService {
        }
     ){
         if (this._toast_ctrl_modal) {
-            this._toast_ctrl_modal.dismiss();
+            this._toast_ctrl_modal.dismissAll();
             this._toast_ctrl_modal = this.toastController.create(model);
         }else{
             this._toast_ctrl_modal = this.toastController.create(model);
         }
-        this._toast_ctrl_modal.present();
+
+        return this._toast_ctrl_modal;
+
     }
 }

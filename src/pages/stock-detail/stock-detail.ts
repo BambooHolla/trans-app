@@ -1,6 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 // import * as echarts from 'echarts';
-import { NavController, NavParams, Slides, Platform, ToastController } from 'ionic-angular';
+import { NavController, NavParams, Slides, Platform } from 'ionic-angular';
 
 import { AndroidFullScreen } from '@ionic-native/android-full-screen';
 import { StatusBar } from '@ionic-native/status-bar';
@@ -14,7 +14,7 @@ import { PersonalDataService } from '../../providers/personal-data-service';
 import { SocketioService } from '../../providers/socketio-service';
 import { StockDataService } from '../../providers/stock-data-service';
 import { TradeService } from '../../providers/trade-service';
-
+import { PromptControlleService } from "../../providers/prompt-controlle-service";
 @Component({
   selector: 'page-stock-detail',
   templateUrl: 'stock-detail.html'
@@ -236,7 +236,7 @@ export class StockDetailPage {
       public socketioService: SocketioService,
       public stockDataService: StockDataService,
       public tradeService: TradeService,
-      public toastCtrl: ToastController,
+      public promptCtrl: PromptControlleService,
       private navParams: NavParams,
 
     ) {
@@ -418,7 +418,7 @@ export class StockDetailPage {
           const result = resData instanceof Array ? resData[0] : resData
           
           if (typeof result === 'object' && result.FID_CODE) {
-            let toast = this.toastCtrl.create({
+            let toast = this.promptCtrl.toastCtrl({
               message: `${result.FID_MESSAGE}`,
               duration: 3000,
               position: 'middle'
@@ -441,7 +441,7 @@ export class StockDetailPage {
         .catch(err => {
           console.log('trade err:', err);
           if(err && err.message){
-            let toast = this.toastCtrl.create({
+            let toast = this.promptCtrl.toastCtrl({
               message: `${err.message}`,
               duration: 3000,
               position: 'middle'

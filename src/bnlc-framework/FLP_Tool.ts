@@ -5,7 +5,7 @@ import {
 	ToastController,
 	ModalController
 } from 'ionic-angular';
-
+import { PromptControlleService } from "../providers/prompt-controlle-service";
 export class FLP_Tool {
 	// 全局弹出层控制器
 	@FLP_Tool.FromGlobal alertCtrl: AlertController;

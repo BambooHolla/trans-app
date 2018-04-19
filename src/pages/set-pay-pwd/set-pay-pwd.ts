@@ -15,7 +15,7 @@ import {
 	CertificationCertificateType,
 	AuthenticationModel
 } from '../../providers/account-service/account-service';
-
+import { PromptControlleService } from "../../providers/prompt-controlle-service";
 @Component({
 	selector: 'page-set-pay-pwd',
 	templateUrl: 'set-pay-pwd.html'
@@ -24,7 +24,8 @@ export class SetPayPwdPage extends SecondLevelPage {
 	constructor(
 		public navCtrl: NavController,
 		public navParams: NavParams,
-		public accountService: AccountServiceProvider
+		public accountService: AccountServiceProvider,
+		public promptCtrl: PromptControlleService,
 	) {
 		super(navCtrl, navParams);
 	}

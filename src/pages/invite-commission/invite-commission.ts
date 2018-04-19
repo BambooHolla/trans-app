@@ -6,7 +6,6 @@ import {
   InfiniteScroll,
   AlertController,
   ModalController,
-  ToastController
 } from "ionic-angular";
 import { asyncCtrlGenerator } from "../../bnlc-framework/Decorator";
 import { PersonalDataService } from "../../providers/personal-data-service";
@@ -16,7 +15,7 @@ import { AppDataService } from "../../providers/app-data-service";
 import { AppSettingProvider } from "../../bnlc-framework/providers/app-setting/app-setting";
 import { CustomizeAlert } from "../../modals/customize-alert/customize-alert";
 import { AlertService } from "../../providers/alert-service";
-
+import { PromptControlleService } from "../../providers/prompt-controlle-service";
 @Component({
   selector: "page-invite-commission",
   templateUrl: "invite-commission.html"
@@ -48,7 +47,7 @@ export class InviteCommissionPage {
     public setting: AppSettingProvider,
     public modalCtrl: ModalController,
     public alertService: AlertService,
-    public toastCtrl: ToastController
+    public promptCtrl: PromptControlleService
   ) {
     this.initData();
     this.ref =

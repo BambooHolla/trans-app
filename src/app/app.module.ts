@@ -168,7 +168,7 @@ import { NewsServiceProvider } from '../providers/news-service/news-service';
 import { WorkOrderServiceProvider } from '../providers/work-order-service/work-order-service';
 import { InviteCommissionPage } from '../pages/invite-commission/invite-commission';
 import { QuotationsPage } from '../pages/quotations/quotations';
-import { ModalControlleService } from '../providers/modal-controlle-service';
+import { PromptControlleService } from '../providers/prompt-controlle-service';
 // import { BankCode2NamePipe } from '..\pipes\bank-code2-name/bank-code2-name';
 // import { FileService } from '../providers/file.service';
 // import { IsLoadingDirective } from '../directives/is-loading/is-loading';
@@ -496,7 +496,7 @@ import { ModalControlleService } from '../providers/modal-controlle-service';
         IdentificationNumberCheckerProvider,
         NewsServiceProvider,
         WorkOrderServiceProvider,
-        ModalControlleService,
+        PromptControlleService,
     ]
 })
 export class AppModule {}

@@ -24,6 +24,7 @@ import { CommonAlert } from "../../components/common-alert/common-alert";
 import { DomSanitizer } from '@angular/platform-browser';
 import {AppSettingProvider} from "../../bnlc-framework/providers/app-setting/app-setting";
 import { PersonalDataService } from '../../providers/personal-data-service';
+import { PromptControlleService } from '../../providers/prompt-controlle-service';
 
 @Component({
 	selector: 'page-submit-real-info',
@@ -44,6 +45,7 @@ export class SubmitRealInfoPage extends SecondLevelPage {
 		public san: DomSanitizer,
 		public appSetting:AppSettingProvider,
 		public personalDataService: PersonalDataService,
+		public promptCtrl: PromptControlleService,
 	) { 
 		super(navCtrl, navParams);
 	}

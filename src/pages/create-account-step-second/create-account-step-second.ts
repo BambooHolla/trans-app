@@ -1,13 +1,13 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 
-import { NavController, ToastController, NavParams } from 'ionic-angular';
+import { NavController, NavParams } from 'ionic-angular';
 
 import { CreateAccountConfirmPage } from "../create-account-confirm/create-account-confirm";
 import { RequestOptions, Headers, Http } from '@angular/http';
 import { AppDataService } from '../../providers/app-data-service';
 import { AppSettings } from '../../providers/app-settings';
-
+import { PromptControlleService } from "../../providers/prompt-controlle-service";
 @Component({
     selector: 'page-create-account-step-second',
     templateUrl: 'create-account-step-second.html',
@@ -41,7 +41,7 @@ export class CreateAccountStepSecondPage {
 
     constructor(
         public navCtrl: NavController,
-        public toastCtrl: ToastController,
+        public promptCtrl: PromptControlleService,
         public navParams: NavParams,
         private appSettings: AppSettings,
         private appDataService: AppDataService,
@@ -147,7 +147,7 @@ export class CreateAccountStepSecondPage {
 
 
     toastAlert(message, duration = 3000, position = 'top') {
-        let toast = this.toastCtrl.create({
+        let toast = this.promptCtrl.toastCtrl({
             message,
             duration,
             position,

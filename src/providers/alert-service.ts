@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
-import { AlertController/*, Alert*/,LoadingController, Loading,ToastController } from 'ionic-angular';
-
+import { AlertController/*, Alert*/,LoadingController, Loading } from 'ionic-angular';
+import { PromptControlleService } from "../providers/prompt-controlle-service";
 
 @Injectable()
 export class AlertService {
@@ -21,7 +21,7 @@ export class AlertService {
     }
   
   alertTips(tip:string) {
-    let toast = this.toastCtrl.create({
+    let toast = this.promptCtrl.toastCtrl({
       message: tip,
       duration: 900,
       position: 'middle',
@@ -50,7 +50,7 @@ export class AlertService {
   constructor(
     public alertCtrl: AlertController,
     public loadingCtrl: LoadingController,
-    public toastCtrl: ToastController
+    public promptCtrl: PromptControlleService
 
   ){
 
