@@ -28,6 +28,7 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { AndroidFullScreen } from '@ionic-native/android-full-screen';
 import { AppSettingProvider } from '../../bnlc-framework/providers/app-setting/app-setting';
 
+import { ModalControlleService } from "../../providers/modal-controlle-service";
 @Component({
   selector: 'page-trade-interface-v2',
   templateUrl: 'trade-interface-v2.html'
@@ -208,6 +209,7 @@ export class TradeInterfaceV2Page {
     public statusBar: StatusBar,
     public androidFullScreen: AndroidFullScreen,
     private events: Events,
+    private modalctrl: ModalControlleService,
   ) {    
     // debugger
     // window['TradeInterfacePage'] = this 
@@ -669,13 +671,12 @@ export class TradeInterfaceV2Page {
         this.getProcessEntrusts()
 
         if (data && data.status) {
-          let toast = this.toastCtrl.create({
+          this.modalctrl.toastCtrl({
             message: `撤单成功`,
-            duration: 3000,
+            duration: 2000,
             position: 'middle'
           })
-          toast.present()
-        } else {
+        } else { 
           return Promise.reject(data);
         }
       })
