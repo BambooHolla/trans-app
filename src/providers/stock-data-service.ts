@@ -30,6 +30,8 @@ export class StockDataService {
     >
   > = new Map();
 
+  public productRequestPromise: Promise<any>;
+  
   private _thisTradeDayStartTime: number = 0;
   private _thisTradeDayEndTime: number = 0;
   private _nextTradeDayStartTime: number = 0;
@@ -1324,17 +1326,24 @@ export class StockDataService {
   }
 
   public requestProducts(platformType: string = this.appSettings.Platform_Type): Promise<any> {
+
+    if(this.productRequestPromise){
+      return this.productRequestPromise
+    }
+
     const path = `/product/product`
     const params = {
       instid: platformType,
     }
-    return this.appService.request(RequestMethod.Post, path, params)
-      .then(data => {
+    return this.productRequestPromise = this.appService.request(RequestMethod.Post, path, params)
+      .then(async data => {
         console.log('requestProducts: ', data)
-        this.parseStockListData(data)
+        await this.parseStockListData(data)
+        this.productRequestPromise = void 0
       })
       .catch(err => {
         console.log('requestProducts error: ', err.message || err);
+        this.productRequestPromise = void 0        
         return Promise.reject(err);
       });
   }
@@ -1358,7 +1367,7 @@ export class StockDataService {
   private parseStockListData(data: any[]) {
     const baseData = Object.assign({}, this._stockBaseData.getValue());
     // let baseDataChanged = false;
-    data.forEach(product => {
+    return Promise.all(data.map(product => {
       // data.forEach(({ FID_GQDM: stockCode, FID_GQMC: name, productId, productName }) => {
       // if (name && !baseData[stockCode]) {
       //   baseData[stockCode] = {
@@ -1374,9 +1383,7 @@ export class StockDataService {
         ...product,
         expire: new Date().getTime()+this.appSettings.EXPIRE_TIME_SPAN,
       })
-    })
-
-    console.log('storage product: ', this.appDataService.products)
+    }))
 
     // if (baseDataChanged) {
     //   this._stockBaseData.next(baseData);
@@ -1384,10 +1391,13 @@ export class StockDataService {
   }
 
   public async getProduct(productId){
+    if(this.productRequestPromise){
+      await this.productRequestPromise
+    }
     let product = this.appDataService.products.get(productId)
     const now = new Date()
 
-    if (!product || product.expire < now) {
+    if (!product || product.expire && product.expire < now) {
       product = await this.requestProductById(productId)
     }
 
