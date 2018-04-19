@@ -44,10 +44,10 @@
                 <div class="no-content" *ngIf="!noticeList?.list || noticeList?.list.length == 0">暂无公告</div>
                 <ion-list class="card-background-page">
                     <ng-container *ngFor="let data_item of noticeList.list;let i = index">
-                        <div class="banner-card" *ngIf="i==0 && !showSearch;else normalListItem">
+                        <div class="banner-card" *ngIf="i==0 && !showSearch;else normalListItem" (click)="viewNews(data_item.newsId)">
                             <div class="wrapper" [style.backgroundImage]="'url('+data_item.cover+')'">
                                 <div class="title">{{data_item.newsTitle}}</div>
-                                <button class="click-to-read" ion-button (click)="viewNews(data_item.newsId)">点击阅读</button>
+                                <!-- <button class="click-to-read" ion-button>点击阅读</button> -->
                             </div>
                         </div>
                         <ng-template #normalListItem>
