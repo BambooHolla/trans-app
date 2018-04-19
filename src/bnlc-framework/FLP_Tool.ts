@@ -12,7 +12,7 @@ export class FLP_Tool {
 	@FLP_Tool.FromGlobal loadingCtrl: LoadingController;
 	@FLP_Tool.FromGlobal toastCtrl: ToastController;
 	@FLP_Tool.FromGlobal modalCtrl: ModalController;
-
+	@FLP_Tool.FromGlobal promptCtrl: PromptControlleService;
 	/**
     * 用于管理loading对象的对象池
     * 由于有的页面loading的显示时，用户可以直接无视返回上一级页面，所以就需要有一个对象池缓存这些对象并在页面离开的时候销毁它们

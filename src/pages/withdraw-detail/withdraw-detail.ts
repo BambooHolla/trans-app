@@ -330,7 +330,7 @@ export class WithdrawDetailPage extends SecondLevelPage {
 		this.transaction_logs.push(...(await this._getWithdrawLogs()));
 		ctrl.complete();
 	}
-	@asyncCtrlGenerator.error("获取充值记录出错")
+	// @asyncCtrlGenerator.error("获取充值记录出错")
 	async _getWithdrawLogs() {
 		const { withdraw_logs_page_info } = this;
 		const transaction_logs = await this.accountService.getWithdrawLogs({

@@ -71,16 +71,9 @@ export class RechargeDetailPage extends SecondLevelPage {
 			// 获取充值记录
 			tasks[tasks.length] = this.getTransactionLogs();
 			// 获取充值限额
-			tasks[tasks.length] = this.accountService
-				.getLimitedQuota(this.productInfo.productId,'001')
-				.then(data => {
-					if(data[0] && data[0].min && this.productInfo.productDetail){
-						this.minRechargeText = `最小充值金额为${data[0].min}${this.productInfo.productDetail},小于最小金额的充值将无法到账。`;
-					}else{
-						this.minRechargeText = '';
-					}
-				});
+			tasks[tasks.length] = this._getLimitedQuota();
 			const tasks_res = await Promise.all(tasks);
+			console.log('.....',tasks)
 			return tasks_res.reduce((p, c) => ({ ...p, ...c }), {});
 		} else {
 			this.navCtrl.removeView(this.viewCtrl);
@@ -105,7 +98,7 @@ export class RechargeDetailPage extends SecondLevelPage {
 
 	getTransactionLogs() {
 		this.recharge_logs_page_info.page = 1;
-		return this._getRechargeLogs().then(
+		return  this._getRechargeLogs().then(
 			data => (this.transaction_logs = data),
 		);
 	}
@@ -123,7 +116,21 @@ export class RechargeDetailPage extends SecondLevelPage {
 		ctrl.complete();
 	}
 
-	@asyncCtrlGenerator.error('获取充值记录出错')
+	// @asyncCtrlGenerator.error('获取充值限额出错')
+	async _getLimitedQuota(){
+		return await this.accountService
+		.getLimitedQuota(this.productInfo.productId,'001')
+		.then(data => {
+			if(data[0] && data[0].min && this.productInfo.productDetail){
+				this.minRechargeText = `最小充值金额为${data[0].min}${this.productInfo.productDetail},小于最小金额的充值将无法到账。`;
+			}else{
+				this.minRechargeText = '';
+			}
+			return data;
+		});
+	}
+
+	// @asyncCtrlGenerator.error('获取充值记录出错')
 	async _getRechargeLogs() {
 		const { recharge_logs_page_info } = this;
 		const transaction_logs = await this.accountService.getRechargeLogs({
