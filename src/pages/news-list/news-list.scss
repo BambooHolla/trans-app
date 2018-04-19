@@ -217,6 +217,8 @@ page-news-list {
             .title {
                 color: color($colors, 'special');
                 font-size: 1.6rem;
+                overflow: hidden;
+                text-overflow:ellipsis; 
             }
             .date {
                 color: color($colors, 'primary');
@@ -261,10 +263,16 @@ page-news-list {
                 .news-title {
                     color: color($colors, 'special');
                     font-size: 1.6rem;
+                    width: 100%;
+                    overflow: hidden;
+                    text-overflow:ellipsis; 
                 }
                 .news-abstract {
                     color: color($colors, 'primary');
                     font-size: 1.3rem;
+                    width: 100%;
+                    overflow: hidden;
+                    text-overflow:ellipsis;  
                 }
                 .news-date {
                     color: color($colors, 'primary');
