@@ -226,10 +226,12 @@ export class TradeInterfaceV2Page {
         .distinctUntilChanged();
 
       this.initData()
+      this.getProcessEntrusts()
       this.doSubscribe()
 
       this.requestAssets()
 
+      this.quickTradeSelector.subscribe()
     }
   }
 
@@ -491,26 +493,22 @@ export class TradeInterfaceV2Page {
   }
 
   ionViewDidEnter(){
-    window["confirmChangeTradingMode"] = this.confirmChangeTradingMode
+    // window["confirmChangeTradingMode"] = this.confirmChangeTradingMode
     this.viewDidLeave.next(false);
-    console.log('pricetarget', this.PriceInputer)
-    console.log('pricetarget', this.PriceInputer.getElementRef())
-    console.log('pricetarget', this.PriceInputer.getNativeElement())
+    // console.log('pricetarget', this.PriceInputer)
+    // console.log('pricetarget', this.PriceInputer.getElementRef())
+    // console.log('pricetarget', this.PriceInputer.getNativeElement())
     // this.subscribeTradeData() //暂时没用 用另一种方式保证刷新数值
 
-    this.initData();
-    this.getProcessEntrusts();
-    this.doSubscribe();
+    // this.initData();
+    // this.getProcessEntrusts();
+    // this.doSubscribe();
     // this.liquiddata = [{
     //   name: '1机',
     //   value: 0.7
     // }, 0.69];
 
-    this.quickTradeSelector.subscribe()
-  }
-
-  ionViewDidLeave(){
-    this.viewDidLeave.next(true);
+    // this.quickTradeSelector.subscribe()
   }
 
   // subscribeTradeData() {
@@ -555,7 +553,7 @@ export class TradeInterfaceV2Page {
         .do(data => console.log('trade-interface-v2:1', data))
         //初始化买卖价格
         .do(data => {
-          console.log('doSubscribe do')
+          // console.log('doSubscribe do')
           if(!data) return false
           if(!this.price) this.price = parseFloat(data.price).toString()
           this.marketPrice = data.price
