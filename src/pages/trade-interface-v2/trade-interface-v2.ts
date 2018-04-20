@@ -34,6 +34,7 @@ import { PromptControlleService } from "../../providers/prompt-controlle-service
 })
 export class TradeInterfaceV2Page {
   quickTrading: boolean = false;
+  trading: boolean = false;
   marketPrice: any;
   // tradeType:number = 1 //1是买,0是卖
   @ViewChild(Content) content:Content;
@@ -348,6 +349,12 @@ export class TradeInterfaceV2Page {
   }
 
   doTrade(tradeType: number = this._tradeType$.getValue()){
+
+    if(this.trading){
+      return void 0
+    }
+
+
     // 界面按钮已根据是否 可买/可卖 进行了限制，
     // 此处没有再进行判断。
     const price = parseFloat(this.price);
@@ -434,6 +441,7 @@ export class TradeInterfaceV2Page {
   }
 
   _doTrade(traderId, password, tradeType, amount, price) {
+    this.trading = true
     this.tradeService
       .purchase(
         traderId,
@@ -480,6 +488,7 @@ export class TradeInterfaceV2Page {
       })
       .then(() => {
         this.refreshPersonalData();
+        this.trading = false
       })
   }
 

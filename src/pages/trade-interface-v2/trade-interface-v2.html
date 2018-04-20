@@ -216,7 +216,7 @@
 					(click)="toSale()">委托卖出</button>
 			</ion-col> -->
 			<button class="trbtn" [class.issale]="!(tradeType$|async)" 
-				block [disabled]="" (click)="!appSetting.getUserToken()? goLogin() : doTrade()">
+				block [disabled]="trading" (click)="!appSetting.getUserToken()? goLogin() : doTrade()">
 					{{!appSetting.getUserToken()?
 						'登录' :
 						 !!(tradeType$|async)?'委托买入':'委托卖出'
