@@ -27,6 +27,7 @@ import { AddAddressPage } from "../add-address/add-address";
 import { CommonAlert } from "../../components/common-alert/common-alert";
 import { StockDataService } from "../../providers/stock-data-service";
 import { PromptControlleService } from "../../providers/prompt-controlle-service";
+import { PersonalDataService } from '../../providers/personal-data-service';
 /**
  * Generated class for the WithdrawDetailPage page.
  *
@@ -47,6 +48,7 @@ export class WithdrawDetailPage extends SecondLevelPage {
 		public modalCtrl: ModalController,
 		public alertCtrl: AlertController,
 		public promptCtrl: PromptControlleService,
+		public personalDataService: PersonalDataService,
 	) {
 		super(navCtrl, navParams);
 		this.productInfo = this.navParams.get("productInfo");
@@ -223,7 +225,15 @@ export class WithdrawDetailPage extends SecondLevelPage {
 					productId: this.productInfo.productId,
 					accountType: AccountType.Product,
 				})
-				.then(data => (this.access_info = data));
+				.then(data => {
+					this.access_info = data;
+					//获取账户信息后，再去判断有没实名认证
+					//进来这个有加载动画，而且是2个（分开调取）
+					//为避免动画的时候弹窗，弄个延时
+					setTimeout(() => {
+						this.validateIdentify();
+					}, 600);
+				});
 			// 获取是否有设置交易密码
 			tasks[
 				tasks.length
@@ -286,6 +296,11 @@ export class WithdrawDetailPage extends SecondLevelPage {
 	@asyncCtrlGenerator.error("提现失败")
 	@asyncCtrlGenerator.success("提现成功")
 	submitWithdrawAppply() {
+		if(!(this.personalDataService.certifiedStatus == '101')){
+			return new Promise((resolve, reject)=>{
+				reject(`实名认证${this.personalDataService.realname|| this.personalDataService.certifiedMsg}`);
+			});
+		}
 		return this.accountService
 			.submitWithdrawAppply(
 				{
@@ -375,4 +390,59 @@ export class WithdrawDetailPage extends SecondLevelPage {
 		console.log("formated_transaction_logs", formated_transaction_logs);
 		return formated_transaction_logs;
 	}
+
+
+	//做个控制，避免回来后又弹出消息
+	private validateId:boolean = true;
+	validateIdentify(){
+		if(this.personalDataService.certifiedStatus == '101' || !this.validateId){
+			return ;
+		}
+		let options:any = {};
+		//title 不能设置在初始化中，会没掉
+		if(this.personalDataService.certifiedStatus == '102'|| this.personalDataService.certifiedStatus == '104' ){
+			alert['title'] = `无法提现`;
+			alert['message'] = `实名认证${this.personalDataService.realname || this.personalDataService.certifiedMsg}`;
+			alert['buttons'] = [
+				{
+					text: '取消',
+					role: 'cancel',
+					handler: () => {
+						// console.log('Cancel clicked')
+					}
+				},
+				{
+					text: '认证',
+					handler: () => {
+						this.routeTo('submit-real-info').then(e =>{
+							this.validateId = false;
+						})
+					}
+				}
+			];
+		} 
+		if(this.personalDataService.certifiedStatus == '103'){
+			alert['title'] = "无法提现";
+			alert['message'] = `实名认证${this.personalDataService.realname|| this.personalDataService.certifiedMsg}`;
+			alert['buttons'] = [
+				{
+					text: '确认',
+					role: 'cancel',
+					handler: () => {
+						// console.log('Cancel clicked')
+					}
+				}
+			];
+		}
+		// 避免空白提示
+		if(!(JSON.stringify(alert) == "{}")){
+			this.alertCtrl.create(
+				Object.assign(
+					alert
+				)
+			).present();
+		}
+	}
+
+
 }
