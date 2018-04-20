@@ -548,7 +548,7 @@ export class TradeInterfaceV2Page {
       const trader = this.appDataService.traderList.get(traderId)
       if(!trader) return void 0 
       const names = trader.traderName.split(' / ')
-      this.productName = names[0]
+      this.productName = this.targetName = names[0]
       this.priceName = names[1]
       // this._baseData$ = this.stockDataService.subscibeRealtimeData(traderId, 'price', this.viewDidLeave$)
       this._baseData$ = trader.marketRef
@@ -727,7 +727,6 @@ export class TradeInterfaceV2Page {
   changeTrader($event){
     console.log('traderChanged', this.traderId)
     this.reportArr = []
-    this.targetName = this.productName    
     this.doSubscribe()
     this.getProcessEntrusts()
     
