@@ -1068,6 +1068,6 @@ export class TradeInterfaceV2Page {
   }
   
   goLogin(){
-    this.events.publish('show login', 'login');
+    this.events.publish('show login', 'login', this.refreshPersonalData.bind(this));
   }
 }
