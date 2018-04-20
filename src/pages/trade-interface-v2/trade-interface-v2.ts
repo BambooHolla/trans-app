@@ -350,6 +350,10 @@ export class TradeInterfaceV2Page {
 
   doTrade(tradeType: number = this._tradeType$.getValue()){
 
+    if(!(this.personalDataService.certifiedStatus == '101')){
+      return this.validateIdentify();
+    }
+    
     if(this.trading){
       return void 0
     }
@@ -964,6 +968,11 @@ export class TradeInterfaceV2Page {
   }
 
   quickTrade(tradeType){
+    
+    if(!(this.personalDataService.certifiedStatus == '101')){
+      return this.validateIdentify();
+    }
+  
     if(!this.appSetting.getUserToken()){
       return this.goLogin();
     }
@@ -1070,4 +1079,53 @@ export class TradeInterfaceV2Page {
   goLogin(){
     this.events.publish('show login', 'login', this.refreshPersonalData.bind(this));
   }
+
+ 
+	validateIdentify(){
+		if(this.personalDataService.certifiedStatus == '101' ){
+			return ;
+		}
+		let options:any = {};
+		//title 不能设置在初始化中，会没掉
+		if(this.personalDataService.certifiedStatus == '102'|| this.personalDataService.certifiedStatus == '104' ){
+			alert['title'] = `交易失败`;
+			alert['message'] = `实名认证${this.personalDataService.realname || this.personalDataService.certifiedMsg}`;
+			alert['buttons'] = [
+				{
+					text: '取消',
+					role: 'cancel',
+					handler: () => {
+						// console.log('Cancel clicked')
+					}
+				},
+				{
+					text: '认证',
+					handler: () => {
+						this.navCtrl.push('submit-real-info');
+					}
+				}
+			];
+		} 
+		if(this.personalDataService.certifiedStatus == '103'){
+			alert['title'] = "交易失败";
+			alert['message'] = `实名认证${this.personalDataService.realname|| this.personalDataService.certifiedMsg}`;
+			alert['buttons'] = [
+				{
+					text: '确认',
+					role: 'cancel',
+					handler: () => {
+						// console.log('Cancel clicked')
+					}
+				}
+			];
+		}
+		// 避免空白提示
+		if(!(JSON.stringify(alert) == "{}")){
+			this.alertCtrl.create(
+				Object.assign(
+					alert
+				)
+			).present();
+		}
+	}
 }
