@@ -1,6 +1,6 @@
 import { Component, ViewChild, OnDestroy, AfterViewInit } from '@angular/core';
 
-import { NavController, NavParams, Refresher } from 'ionic-angular';
+import { NavController, NavParams, Refresher, AlertController } from 'ionic-angular';
 
 import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
@@ -65,8 +65,18 @@ export class OptionalPage extends SecondLevelPage {
       this.requestAssets(),
       this.initPersonalStockListSubscriber(),
       this.personalDataService.requestEquityDeposit(),
-    ])
-    .catch(() => refresher ? refresher.complete() : void 0)
+    ]) 
+    .catch((error) => {
+      console.log('.....',error)
+      this.alertCtrl.create({
+        title:"获取持仓出错",
+        message:error.message||"未知错误",
+        buttons:[{
+          text:"确定"
+        }]
+      }).present();
+      return refresher ? refresher.complete() : void 0
+    })
     .then(() => refresher ? refresher.complete() : void 0)
   }
 

@@ -37,7 +37,7 @@ export class AlertService {
       enableBackdropDismiss: false,
       buttons: [
         {
-          text: "OK",
+          text: "确定",
           // handler: () => {
 
           // }
