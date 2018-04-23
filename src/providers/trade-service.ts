@@ -138,7 +138,7 @@ export class TradeService {
   private last_time_getTradeList
 
   public getTradeList() {
-
+ 
     const path = `/transactionengine/traders`;
     
     const requestTime = new Date()
@@ -196,6 +196,8 @@ export class TradeService {
       })
       .catch(err => {
         console.log('getTradeList error: ', err);
+        let formated_error = this._errorHandler(err, false);
+        this.alertService.showAlert("获取行情出错",formated_error.message||err.message,'')
         // return Promise.reject(err);
       });
   }

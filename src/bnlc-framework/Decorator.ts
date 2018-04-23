@@ -67,7 +67,9 @@ export function asyncErrorWrapGenerator(
                   {
                     title: String(error_title),
                     subTitle: err_msg,
-                    buttons: ['确定']
+                    buttons: [{
+                      text:'确定'
+                    }] 
                   },
                   opts
                 )
