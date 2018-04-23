@@ -922,7 +922,7 @@ export class TradeInterfaceV2Page {
   //快捷交易
   getQuickTradeData(index) {
     console.log('getQuickTradeData')
-    const rate = Object.values(this._cards)[index]
+    const rate = this._cards[Object.keys(this._cards)[index]]
     const traders = this.traderId.split('-')
     let priceProduct, productProduct
 
@@ -1000,7 +1000,7 @@ export class TradeInterfaceV2Page {
 
     try{
       const index = this.buySaleActiveIndex.getValue()
-      const rate = Object.values(this._cards)[index]
+      const rate = this._cards[Object.keys(this._cards)[index]]
       const traders = this.traderId.split('-')
       const priceId = traders[0]
       const productId = traders[1]
