@@ -79,7 +79,7 @@ export class AppDataService {
   private getDataFromStorage() {
     Object.keys(this._data).forEach(key => {
       if (this._in_storage_keys.indexOf(key) === -1) {
-        this._data[key] = localStorage.getItem(this.APPDATASERVICE_PREIX + key);
+        this._data[key] = JSON.parse(localStorage.getItem(this.APPDATASERVICE_PREIX + key));
       } else {
         this[key + 'Promise'] = this.storage.ready().then(async () => {
           // debugger
@@ -163,6 +163,7 @@ export class AppDataService {
       }
       Object.defineProperty(this, key, {
         get: () => {
+          console.log("==============",this._data[key])
           return this._data[key];
         },
         set: value => {
