@@ -33,7 +33,7 @@ export class RegisterPage {
     customerId: new FormControl({ value: '', disabled: false }),
     vcode: new FormControl({ value: '', disabled: false },Validators.required),
     password: new FormControl({ value: '', disabled: false },[Validators.minLength(3),Validators.required]),
-    confirPassword: new FormControl({ value: '', disabled: false },this.validatePWD.bind(this)),
+    confirPassword: new FormControl({ value: '', disabled: false },[Validators.required,this.validatePWD.bind(this)]),
     protocolAgree: new FormControl({ value: true, disabled: false })
   });
   get form_password(){
@@ -165,16 +165,28 @@ export class RegisterPage {
           toast.present();
           this.navCtrl.pop({animate:false})
             .then(this.navParams.get('dismissFn'));
+        }).catch(err =>{
+          //try -》 catch 捕获不到抛出的错误
+          this.alertCtrl
+          .create({
+            title: '警告',
+            message: err.message,
+            buttons: ['确定']
+          })
+          .present();
         })
-    } catch (err) {
-      this.alertCtrl
-        .create({
-          title: '警告',
-          message: err.message,
-          buttons: ['OK']
-        })
-        .present();
-    } finally {
+    } 
+    // catch (err) {
+     
+    //   this.alertCtrl
+    //     .create({
+    //       title: '警告',
+    //       message: err.message,
+    //       buttons: ['确定']
+    //     })
+    //     .present();
+    // } 
+    finally {
       this.registering = false;
     }
   }
