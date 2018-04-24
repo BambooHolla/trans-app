@@ -21,8 +21,10 @@
         </div>
         <div class="detail">
             <div class="question">{{contact_list?.contact?.content}}</div>
-            <div class="attachment-wrapper" *ngFor="let src of work_order_attachment">
-                <img [src]="src" />
+            <div class="box-attachment-wrapper">
+                <div class="attachment-wrapper" *ngFor="let src of work_order_attachment">
+                    <img [src]="src" />
+                </div>
             </div>
             <div class="status">已提交</div>
         </div>
