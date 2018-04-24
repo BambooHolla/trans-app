@@ -25,11 +25,16 @@ import { TradeService } from '../../providers/trade-service';
 })
 export class QuotationsPageV2 {
 	@ViewChild('searchInputWrap', { read: ElementRef }) searchInputWrap;
+
+	activeProduct:any = "";
+	useSearch:boolean = false;
+
 	searchInputValue = '';
 	showSearch = false
 	private searchTermStream = new BehaviorSubject<string>('');
 	search(term: string) {
 		// console.log('searched');
+		this.useSearch = true;
 		this.searchTermStream.next(term);
 	}
 
@@ -210,20 +215,27 @@ export class QuotationsPageV2 {
 
 	toShowSearch(){
 		this.searchInputValue = '';
-		this.showSearch = true
-		this.renderer.setElementStyle(this.searchInputWrap.nativeElement,'width','unset')
+		this.showSearch = true;
+		this.renderer.setElementStyle(this.searchInputWrap.nativeElement,'width','unset');
+		this.useSearch = false;
 	}
 
 	cancelFilter(){
 		this.showSearch = false;
-		this.traderList_show = this.traderList;
+		// this.traderList_show = this.traderList;
+		if(this.useSearch){
+			this.activeProduct = '';
+		}
+		this.mainFilter.next(this.activeProduct);
 		this.searchInputValue = '';
+		this.useSearch = false;
 	}
-
+	
 	filterMainProduct(event$: MouseEvent) {
 		// console.log(event$, event$.currentTarget,event$.target)
 		const target = event$.target as HTMLElement
 		const _target = this._findTarget(target)
+		this.useSearch = false;
 		let product
 		if (_target) {
 			console.log(target)
@@ -233,9 +245,12 @@ export class QuotationsPageV2 {
 		}
 		if (this.mainFilter.getValue() === product) {
 			this.mainFilter.next('')
+			this.activeProduct = '';
 		} else {
-			this.mainFilter.next(product)
+			this.mainFilter.next(product);
+			this.activeProduct = product;
 		}
+
 	}
 	/**
 	 * 由于MouseEvent中取到的target等类似值存在不确定性(可能是框架导致),
@@ -266,6 +281,7 @@ export class QuotationsPageV2 {
 		} else {
 			this.traderList_show = this.traderList;
 		}
+	
 	}
 
 	destoryCharts() {

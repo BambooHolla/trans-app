@@ -39,7 +39,7 @@ export class CameraModal {
     baseX:number = 0;
     baseY:number = 0;
 
-    unregisterBackButton:any;
+    _unRegisterBackButton:any;
 
 
     constructor(
@@ -60,8 +60,7 @@ export class CameraModal {
         // console.log(this.scrollerRef);
 
         // 硬件返回，退出模拟相机
-       
-        this.unregisterBackButton = this.platform.registerBackButtonAction(() => {
+        this._unRegisterBackButton = this.platform.registerBackButtonAction(() => {
             this.close();
         })
        
@@ -76,7 +75,7 @@ export class CameraModal {
 
     //页面销毁的时候  复原硬件返回
     ionViewWillUnload(){
-        this.unregisterBackButton();
+        this._unRegisterBackButton();
     }
 
     initGestureListener(){

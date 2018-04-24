@@ -27,7 +27,7 @@
             >
                 <ion-col no-padding class="item-product" 
                 *ngFor="let item of appDataService.mainproducts">
-                    <span class="product-name" [class.active]="item.productName == (mainFilter|async)">
+                    <span class="product-name" [class.active]="useSearch ? false : item.productName == (mainFilter|async)">
                         {{item.productName}}
                     </span>
                     <span class="product-price">
