@@ -16,7 +16,7 @@ import {
   ProductModel
 } from '../../providers/account-service/account-service';
 import { LoginService } from '../../providers/login-service';
-
+import { AppSettingProvider } from '../../bnlc-framework/providers/app-setting/app-setting';
 @Component({
   selector: 'page-optional',
   templateUrl: 'optional.html'
@@ -47,7 +47,8 @@ export class OptionalPage extends SecondLevelPage {
     public loginService:LoginService,
     public personalDataService: PersonalDataService,
     public accountService: AccountServiceProvider,
-    public stockDataService: StockDataService // public translate: TranslateService,
+    public stockDataService: StockDataService, // public translate: TranslateService,
+    public appSetting: AppSettingProvider,
   ) {
     super(navCtrl, navParams);
     this.loginService.status$.subscribe(status=>{
@@ -58,6 +59,10 @@ export class OptionalPage extends SecondLevelPage {
       }
     })
   }
+
+
+
+
 
   initData(refresher?: Refresher) {
     //tofix:刷新页面数据初始化流程问题
@@ -87,7 +92,12 @@ export class OptionalPage extends SecondLevelPage {
 
   @OptionalPage.didEnter
   onIonViewDidEnter() {
+    
     this.viewDidLeave.next(false);
+
+    if(this.appSetting.getUserToken()){
+      this.initData()
+    }
     // this.personalDataService.requestFundData();
 
     // this.doSubscribe();
