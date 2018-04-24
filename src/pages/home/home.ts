@@ -17,6 +17,7 @@ import { PersonalDataService } from '../../providers/personal-data-service';
 import { StockDataService } from '../../providers/stock-data-service';
 import { InviteCommissionPage } from '../invite-commission/invite-commission';
 import { LoginService } from '../../providers/login-service';
+import { AppSettingProvider } from '../../bnlc-framework/providers/app-setting/app-setting';
 
 @Component({
   selector: 'page-home',
@@ -107,11 +108,13 @@ export class HomePage extends FirstLevelPage implements OnInit{
     public loginService: LoginService,
     public personalDataService: PersonalDataService,
     public stockDataService: StockDataService,
+    public appSetting: AppSettingProvider,
   ) {
     super(navCtrl, navParams)
   }
 
-  ngOnInit(){
+ngOnInit(){
+
     this.loginService.status$
       .subscribe(async status => {
         this.login_status = status
@@ -121,7 +124,7 @@ export class HomePage extends FirstLevelPage implements OnInit{
             this.requestAssets(),
           ])
         }else{
-          this.personalDataService.resetData();
+          this.personalDataService.resetData(); 
           this.personalAssets = {};
         }
         this.content.resize();
@@ -129,8 +132,13 @@ export class HomePage extends FirstLevelPage implements OnInit{
 
   }
 
-  ionViewDidEnter() {
-
+ async ionViewDidEnter() {
+    if(this.appSetting.getUserToken()){
+      await Promise.all([
+        this.personalDataService.requestFundData(),
+        this.requestAssets(),
+      ])
+    }
   }
 
   requestAssets() {
