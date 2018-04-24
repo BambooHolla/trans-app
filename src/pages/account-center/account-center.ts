@@ -32,8 +32,13 @@ export class AccountCenterPage extends SecondLevelPage {
   ) {
     super(navCtrl, navParams);
     this.loginService.status$.subscribe(status=>{
-      this.login_status = status
-      if(status) this.checkHasAccountPWD()
+      this.login_status = status 
+      if(status) {
+        this.checkHasAccountPWD();
+        if(this.personalDataService.certifiedStatus === '103'){
+          this.personalDataService.requestCertifiedStatus()
+        }
+      }
     })
   }
 

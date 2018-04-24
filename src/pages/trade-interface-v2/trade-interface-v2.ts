@@ -28,6 +28,7 @@ import { AndroidFullScreen } from '@ionic-native/android-full-screen';
 import { AppSettingProvider } from '../../bnlc-framework/providers/app-setting/app-setting';
 
 import { PromptControlleService } from "../../providers/prompt-controlle-service";
+import { LoginService } from '../../providers/login-service';
 @Component({
   selector: 'page-trade-interface-v2',
   templateUrl: 'trade-interface-v2.html'
@@ -182,7 +183,8 @@ export class TradeInterfaceV2Page {
     (await this.appDataService.traderListPromise).forEach((value, key, map) => {
       traderList.push(value)
     })
-    this.traderList = traderList
+    this.traderList = traderList;
+    await this._getRequestCertifiedStatus();
   }
   
   backInOut(k) {
@@ -209,6 +211,7 @@ export class TradeInterfaceV2Page {
     public androidFullScreen: AndroidFullScreen,
     private events: Events,
     private promptCtrl: PromptControlleService,
+    private loginService: LoginService,
   ) {    
     // debugger
     // window['TradeInterfacePage'] = this 
@@ -232,7 +235,7 @@ export class TradeInterfaceV2Page {
 
       this.requestAssets()
 
-      this.quickTradeSelector.subscribe()
+      this.quickTradeSelector.subscribe();
     }
   }
 
@@ -494,6 +497,16 @@ export class TradeInterfaceV2Page {
         this.refreshPersonalData();
         this.trading = false
       })
+  }
+
+  private _getRequestCertifiedStatus(){
+    this.loginService.status$.subscribe(status=>{
+      if(status) {
+        if(this.personalDataService.certifiedStatus === '103'){
+          this.personalDataService.requestCertifiedStatus()
+        }
+      }
+    })
   }
 
   private refreshPersonalData(refresher?: Refresher) {
@@ -1077,7 +1090,7 @@ export class TradeInterfaceV2Page {
   }
   
   goLogin(){
-    this.events.publish('show login', 'login', this.refreshPersonalData.bind(this));
+    this.events.publish('show login', 'login', this.refreshPersonalData.bind(this)); 
   }
 
  
