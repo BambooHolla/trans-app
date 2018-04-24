@@ -235,7 +235,7 @@ export class QuotationsPageV2 {
 		// console.log(event$, event$.currentTarget,event$.target)
 		const target = event$.target as HTMLElement
 		const _target = this._findTarget(target)
-		this.useSearch = false;
+		
 		let product
 		if (_target) {
 			console.log(target)
@@ -250,6 +250,10 @@ export class QuotationsPageV2 {
 			this.mainFilter.next(product);
 			this.activeProduct = product;
 		}
+		if(this.useSearch){
+			this.activeProduct = '';
+		}
+		this.useSearch = false;
 
 	}
 	/**
