@@ -163,7 +163,6 @@ export class AppDataService {
       }
       Object.defineProperty(this, key, {
         get: () => {
-          console.log("==============",this._data[key])
           return this._data[key];
         },
         set: value => {
