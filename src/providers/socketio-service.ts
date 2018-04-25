@@ -370,7 +370,7 @@ export class SocketioService {
           // console.log('watch: ', `${equityCodes}`)
           if (rewatch) {
             this.socketAPIs.get(api).socket
-              .emit('unwatch', equityCodes)
+              .emit('unwatch', equityCodes,ts)
           }
           this.socketAPIs.get(api).socket
             .emit('watch', timespan, type, equityCodes,
@@ -393,7 +393,7 @@ export class SocketioService {
         // console.log('socketio unsubscribe: ', equityCodes);
 
         // this._socketioSubscribeSet.delete(subscribeData);
-        this.socketAPIs.get(api).socket.emit('unwatch', [`${equityCodes}`])
+        this.socketAPIs.get(api).socket.emit('unwatch', [`${equityCodes}`,ts])
         // this.socketAPIs.get(api).socket.emit('unsubscribe', subscribeData);
       }
     });
