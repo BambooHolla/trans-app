@@ -159,9 +159,15 @@ export class TradeInterfaceV2Page {
   amount: string = '0';
   maxAmount: string | number;
   range = 0;
-  @ViewChild('quantityRange') Range: any
-  @ViewChild('priceInputer') PriceInputer: any
-  @ViewChild('amountInputer') AmountInputer: any
+  @ViewChild('quantityRange') Range: any;
+  @ViewChild('priceInputer') PriceInputer: any;
+  @ViewChild('amountInputer') AmountInputer: any;
+
+  inputGroup = {
+    "price":"PriceInputer",
+    "amount":"AmountInputer",
+  }
+
 
   handBase = 0.01;
 
@@ -252,9 +258,8 @@ export class TradeInterfaceV2Page {
     // 浮点数四则运算存在精度误差问题.尽量用整数运算
     // 例如 602 * 0.01 = 6.0200000000000005 ，
     // 改用 602 / 100 就可以得到正确结果。
-
     let length = 0
-    if (isNaN(step)) {
+    if (isNaN(step)) { 
       length = this[target].split('.')[1] ? this[target].split('.')[1].length : length
       step = Math.pow(10, -length)
       step = sign + step
@@ -264,6 +269,7 @@ export class TradeInterfaceV2Page {
     //新方法,区分价格跟数量,价格用新的，数量用旧方法
     // '11.12' -> ['11','12'] -> (11 * 10^8 * 10^(arr[1].length) + 12 * 10^8 ) / 10^8
     let result;
+    
     if(typeof this[target] == "string" ){
       result = this[target].split('.');
       if(result.length == 2){
@@ -274,10 +280,13 @@ export class TradeInterfaceV2Page {
     } else {
       result = Math.max(0, Math.floor(+this[target] * invBase + step * invBase) / invBase);
     }
+
+  
     //强制刷新数据hack处理
-    this[target] = length ? result.toFixed(length) : result.toString()    
+    this[target] = length ? result.toFixed(length) : result.toFixed(this.getFixedLength(result));  
     this.platform.raf(()=>{      
-      this[target] = length ? result.toFixed(length) : result.toString()//.toFixed(Math.max(0, -precision));
+      this[target] = length ? result.toFixed(length) : result.toFixed(this.getFixedLength(result)); //.toFixed(Math.max(0, -precision));
+      this[this.inputGroup[target]].value = this[target];
     })
   }
 
@@ -1140,5 +1149,14 @@ export class TradeInterfaceV2Page {
 				)
 			).present();
 		}
-	}
+  }
+  
+  getFixedLength(number:any = 0){
+    number = typeof number == "string" ? number : number.toString();
+    number = number.split('.');
+    if(number[1]){
+      return number[1].length > 8 ? 8 : number[1].length;
+    }
+    return 0;
+  }
 }
