@@ -185,7 +185,7 @@
 				<ion-icon name="ios-gamount" class="vertical-center"></ion-icon>
 			</ion-col>
 			<ion-col col-7>
-				<ion-input #amountInputer type="number" placeholder="数量" [(ngModel)]="amount" (change)="formatNumber('amount')"></ion-input>
+				<ion-input #amountInputer type="number" placeholder="数量" [(ngModel)]="amount" (ngModelChange)="formatNumber('amount')"></ion-input>
 			</ion-col>
 			<ion-col col-2 tappable (click)="changeByStep('amount','+')">+</ion-col>
 		</ion-row>
