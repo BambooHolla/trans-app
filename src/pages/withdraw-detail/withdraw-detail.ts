@@ -226,13 +226,8 @@ export class WithdrawDetailPage extends SecondLevelPage {
 					accountType: AccountType.Product,
 				})
 				.then(data => {
+					console.log('......',data)
 					this.access_info = data;
-					//获取账户信息后，再去判断有没实名认证
-					//进来这个有加载动画，而且是2个（分开调取）
-					//为避免动画的时候弹窗，弄个延时
-					setTimeout(() => {
-						this.validateIdentify();
-					}, 600);
 				});
 			// 获取是否有设置交易密码
 			tasks[
@@ -279,7 +274,11 @@ export class WithdrawDetailPage extends SecondLevelPage {
 					}
 					
 				});
-			await Promise.all(tasks);
+			await Promise.all(tasks).then(() =>{
+					setTimeout(() => {
+						this.validateIdentify();
+					}, 600);
+			});
 		} else {
 			this.navCtrl.removeView(this.viewCtrl);
 		}
@@ -319,7 +318,18 @@ export class WithdrawDetailPage extends SecondLevelPage {
 					this.transaction_logs.unshift(format_transaction);
 					this.formData.amount = '';
 					this.formData.password = '';
+					
 					return format_transaction;
+				}).then(transaction => {
+					return this.accountService
+					.getAccountProduct({
+						productId: this.productInfo.productId,
+						accountType: AccountType.Product,
+					})
+					.then(data => {
+						this.access_info = data;
+						return transaction;
+					})
 				});
 			});
 	}
