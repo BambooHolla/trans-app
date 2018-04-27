@@ -347,8 +347,10 @@ export class QuotationsPageV2 {
 		const traderIdList = []
 		const traderList = []
 		srcTraderList.forEach((value,key,map)=>{
-			traderList.push(value)
-			traderIdList.push(key)
+			// traderList.push(value);
+			// traderIdList.push(key);
+			traderList[value.index] = value;
+			traderIdList[value.index] = key;
 		})
 		this.traderList = traderList
 		this.traderList_show = this.traderList

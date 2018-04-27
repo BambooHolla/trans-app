@@ -187,7 +187,7 @@ export class TradeInterfaceV2Page {
 
     const traderList = [];
     (await this.appDataService.traderListPromise).forEach((value, key, map) => {
-      traderList.push(value)
+      traderList[value.index] = value;
     })
     this.traderList = traderList;
     await this._getRequestCertifiedStatus();
