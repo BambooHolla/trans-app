@@ -735,8 +735,8 @@ export class TradeInterfaceV2Page {
   }
 
   getProcessEntrusts(infiniteScroll?: InfiniteScroll){
-    this.entrustServiceProvider.getEntrusts(this.traderId,'001,002')
-      .then(data=>{
+    this.entrustServiceProvider.getEntrusts(this.traderId,'001,002',this.page)
+      .then(data=>{ 
         console.log('getProcessEntrusts data:',data)
 
         if(this.page == 1){
@@ -745,7 +745,7 @@ export class TradeInterfaceV2Page {
           this.entrusts.push(...data)          
         }
         this.hasMore = !(data.length < this.pageSize)
-        if (infiniteScroll){
+        if (infiniteScroll){ 
           infiniteScroll.complete()
           infiniteScroll.enable(this.hasMore)
         }
@@ -815,6 +815,7 @@ export class TradeInterfaceV2Page {
 
   loadMoreHistory(infiniteScroll: InfiniteScroll) {
     this.page += 1
+    
     this.getProcessEntrusts(infiniteScroll)
   }
 
