@@ -262,7 +262,7 @@ export class TradeInterfaceV2Page {
     // 例如 602 * 0.01 = 6.0200000000000005 ，
     // 改用 602 / 100 就可以得到正确结果。
     let length = 0
-    
+
     if (isNaN(step)) { 
       this[target] = this[target] == ''? '0' : this[target];
       length = this[target].split('.')[1] ? this[target].split('.')[1].length : length
@@ -274,15 +274,16 @@ export class TradeInterfaceV2Page {
     //新方法,区分价格跟数量,价格用新的，数量用旧方法
     // '11.12' -> ['11','12'] -> (11 * 10^8 * 10^(arr[1].length) + 12 * 10^8 ) / 10^8
     let result: any;
-    
+     
     
     if( step == 0 ){
       // input输入
-      result = this[target] ;
+      result = this[target] == ''? "0": this[target];
       
     } else {  
       // ‘+、-’按钮 
-      result =  this[target] == ''? '' : new BigNumber(this[target]).plus(step).toString();
+      this[target] = this[target] == ''?"0":this[target];
+      result = new BigNumber(this[target]).plus(step).toNumber() < 0 ? '0' : new BigNumber(this[target]).plus(step).toString();
     }
 
     result = this.numberFormat(result);
@@ -403,11 +404,13 @@ export class TradeInterfaceV2Page {
     if(this.trading){
       return void 0
     }
-  //需要对这部分进行number数字处理
-  debugger
+  
+
 
     // 界面按钮已根据是否 可买/可卖 进行了限制，
     // 此处没有再进行判断。
+
+    //do需要对这部分进行number数字处理
     const price = parseFloat(this.price);
     const amount = parseFloat(this.amount);
 
@@ -480,7 +483,12 @@ export class TradeInterfaceV2Page {
       alert.present();
       return void 0;
     }
-  
+  console.log('.......', this.traderId,
+  '',
+  tradeType,
+  amount,
+  price, )
+  debugger 
     this._doTrade(
       this.traderId,
       '',
@@ -1191,6 +1199,10 @@ export class TradeInterfaceV2Page {
   
     number = typeof number == "string" ? number : number.toString();
     number = number.split('.');
+    if(number[0].length > 1){
+      number[0] =  number[0].replace(/\b(0+)/gi,"");
+      number[0] = number[0] == ''? "0": number[0];
+    }
     if(number[1]){
       number[0] =  number[0].length > 10? number[0].substr(-10) : number[0];
       number[1] =  number[1].length > 8? number[1].substr(0,8) : number[1];
