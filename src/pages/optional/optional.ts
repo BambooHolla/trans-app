@@ -17,6 +17,7 @@ import {
 } from '../../providers/account-service/account-service';
 import { LoginService } from '../../providers/login-service';
 import { AppSettingProvider } from '../../bnlc-framework/providers/app-setting/app-setting';
+
 @Component({
   selector: 'page-optional',
   templateUrl: 'optional.html'
@@ -52,7 +53,7 @@ export class OptionalPage extends SecondLevelPage {
   ) {
     super(navCtrl, navParams);
     this.loginService.status$.subscribe(status=>{
-      if(status){
+      if(status && this.appSetting.getUserToken()){
         this.initData()
       }else{
         this.resetData()
@@ -63,25 +64,13 @@ export class OptionalPage extends SecondLevelPage {
 
 
 
-
   initData(refresher?: Refresher) {
     //tofix:刷新页面数据初始化流程问题
-    Promise.all([
+    Promise.all([ 
       this.requestAssets(),
       this.initPersonalStockListSubscriber(),
       this.personalDataService.requestEquityDeposit(),
     ]) 
-    .catch((error) => {
-      console.log('.....',error)
-      this.alertCtrl.create({
-        title:"获取持仓出错",
-        message:error.message||"未知错误",
-        buttons:[{
-          text:"确定"
-        }]
-      }).present();
-      return refresher ? refresher.complete() : void 0
-    })
     .then(() => refresher ? refresher.complete() : void 0)
   }
 
@@ -95,9 +84,6 @@ export class OptionalPage extends SecondLevelPage {
     
     this.viewDidLeave.next(false);
 
-    if(this.appSetting.getUserToken()){
-      this.initData()
-    }
     // this.personalDataService.requestFundData();
 
     // this.doSubscribe();
@@ -219,6 +205,13 @@ export class OptionalPage extends SecondLevelPage {
       })
       .catch(err => {
         console.log('requestAssets:', err);
+        this.alertCtrl.create({
+          title:"获取持仓出错",
+          message:err.message||"未知错误",
+          buttons:[{
+            text:"确定"
+          }]
+        }).present();
         return Promise.reject(err);
       });
   }
