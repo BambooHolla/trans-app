@@ -118,7 +118,7 @@ ngOnInit(){
     this.loginService.status$
       .subscribe(async status => {
         this.login_status = status
-        if(status){
+        if(status && this.appSetting.getUserToken()){
           await Promise.all([
             this.personalDataService.requestFundData(),
             this.requestAssets(),
@@ -130,16 +130,16 @@ ngOnInit(){
         this.content.resize();
       })
 
-  }
+  } 
 
- async ionViewDidEnter() {
-    if(this.appSetting.getUserToken()){
-      await Promise.all([
-        this.personalDataService.requestFundData(),
-        this.requestAssets(),
-      ])
-    }
-  }
+//  async ionViewDidEnter() {
+//     if(this.appSetting.getUserToken()){
+//       await Promise.all([
+//         this.personalDataService.requestFundData(),
+//         this.requestAssets(), 
+//       ])
+//     }
+// }
 
   requestAssets() {
     return this.personalDataService
@@ -159,6 +159,13 @@ ngOnInit(){
       })
       .catch(err => {
         console.log('requestAssets:', err);
+          this.alertCtrl.create({
+            title:"获取信息出错",
+            message:err.message||"未知错误",
+            buttons:[{
+              text:"确定"
+            }]
+          }).present();
         // return Promise.reject(err);
       });
   }
