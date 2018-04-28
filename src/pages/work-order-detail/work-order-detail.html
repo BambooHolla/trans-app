@@ -23,7 +23,7 @@
             <div class="question">{{contact_list?.contact?.content}}</div>
             <div class="box-attachment-wrapper">
                 <div class="attachment-wrapper" *ngFor="let src of work_order_attachment">
-                    <img [src]="src" />
+                    <img [src]="src" *ngIf="src?true:false;">
                 </div>
             </div>
             <div class="status">已提交</div>

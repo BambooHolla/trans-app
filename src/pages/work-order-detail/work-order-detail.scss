@@ -34,14 +34,13 @@ page-work-order-detail {
 			.box-attachment-wrapper{
 				overflow: hidden; 
 				.attachment-wrapper{
-					width: 6rem;
-					height: 6rem;
-					border-radius: 0.3rem; 
+					
 					float: left;
 					margin-right: 1.5rem;
 					img{
-						width: 100%;
-						height: 100%;
+						border-radius: 0.3rem; 
+						width: 6rem;
+						height: 6rem;
 					}
 				}
 				&::after{
