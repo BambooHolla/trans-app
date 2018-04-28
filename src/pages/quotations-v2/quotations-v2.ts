@@ -1,6 +1,6 @@
 import { Component, ViewChildren, ViewChild, ElementRef, Renderer,  } from '@angular/core';
 // import { Slides, NavController } from 'ionic-angular';
-import { NavController } from 'ionic-angular';
+import { NavController,Refresher} from 'ionic-angular';
 
 import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
@@ -27,15 +27,16 @@ export class QuotationsPageV2 {
 	@ViewChild('searchInputWrap', { read: ElementRef }) searchInputWrap;
 
 	activeProduct:any = "";
-	useSearch:boolean = false;
 
 	searchInputValue = '';
 	showSearch = false
 	private searchTermStream = new BehaviorSubject<string>('');
 	search(term: string) {
 		// console.log('searched');
-		this.useSearch = true;
+	
 		this.searchTermStream.next(term);
+		this.activeProduct = term;
+		this.mainFilter.next('');
 	}
 
 	tradeInterface: any = TradeInterfaceV2Page;
@@ -217,26 +218,27 @@ export class QuotationsPageV2 {
 		this.searchInputValue = '';
 		this.showSearch = true;
 		this.renderer.setElementStyle(this.searchInputWrap.nativeElement,'width','unset');
-		this.useSearch = false;
+		
 	}
 
 	cancelFilter(){
 		this.showSearch = false;
 		// this.traderList_show = this.traderList;
-		if(this.useSearch){
+		if(this.searchInputValue){
 			this.activeProduct = '';
 		}
 		this.mainFilter.next(this.activeProduct);
 		this.searchInputValue = '';
-		this.useSearch = false;
+		
 	}
 	
-	filterMainProduct(event$: MouseEvent) {
+	filterMainProduct(event$?: MouseEvent) {
 		// console.log(event$, event$.currentTarget,event$.target)
-		const target = event$.target as HTMLElement
+		const target:any = event$.target as HTMLElement;
 		const _target = this._findTarget(target)
 		
-		let product
+		let product;
+	
 		if (_target) {
 			console.log(target)
 			product = _target.innerText
@@ -250,11 +252,7 @@ export class QuotationsPageV2 {
 			this.mainFilter.next(product);
 			this.activeProduct = product;
 		}
-		if(this.useSearch){
-			this.activeProduct = '';
-		}
-		this.useSearch = false;
-
+	
 	}
 	/**
 	 * 由于MouseEvent中取到的target等类似值存在不确定性(可能是框架导致),
@@ -352,8 +350,13 @@ export class QuotationsPageV2 {
 			traderList[value.index] = value;
 			traderIdList[value.index] = key;
 		})
-		this.traderList = traderList
-		this.traderList_show = this.traderList
+		this.traderList = traderList;
+		
+		this.traderList_show = this.traderList.filter((item: any, index, arr) => {
+			return item.traderName.toLowerCase().indexOf(this.activeProduct.trim().toLowerCase()) !== -1
+		}).sort((a: any, b: any) => {
+			return a.priceId - b.priceId
+		});
 		console.log('teee', this.viewDidLeave.getValue())
 		this.realtimeReports$ = this.socketioService.subscribeRealtimeReports(traderIdList)
 			.do(() => console.log('realtimeReports$ success'))
@@ -404,4 +407,15 @@ export class QuotationsPageV2 {
 			this.restoreTimer = null;
 		}, 3e3);
 	}
+
+	async initTraderList(refresher?: Refresher) {
+        if (refresher) {
+			console.log('.....',this.activeProduct)
+			await this.subscribeRealtimeReports();
+            setTimeout(() => {
+				refresher.complete();
+			}, 200);
+        }
+        
+    }
 }

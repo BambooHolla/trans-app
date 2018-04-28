@@ -27,7 +27,7 @@
             >
                 <ion-col no-padding class="item-product" 
                 *ngFor="let item of appDataService.mainproducts">
-                    <span class="product-name" [class.active]="useSearch ? false : item.productName == (mainFilter|async)">
+                    <span class="product-name" [class.active]="item.productName == (mainFilter|async)">
                         {{item.productName}}
                     </span>
                     <span class="product-price">
@@ -61,6 +61,10 @@
         </div>
     </div> -->
 
+    <ion-refresher (ionRefresh)="initTraderList($event)">
+        <ion-refresher-content refreshingText="正在刷新...">
+        </ion-refresher-content>
+    </ion-refresher>
     <div *ngFor="let trader of traderList_show" tappable [navPush]="tradeInterface" [navParams]="trader?.traderId" class="trader-item">
         <div class="header">
             <div class="name">
