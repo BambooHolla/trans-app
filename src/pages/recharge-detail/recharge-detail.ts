@@ -73,7 +73,6 @@ export class RechargeDetailPage extends SecondLevelPage {
 			// 获取充值限额
 			tasks[tasks.length] = this._getLimitedQuota();
 			const tasks_res = await Promise.all(tasks);
-			console.log('.....',tasks)
 			return tasks_res.reduce((p, c) => ({ ...p, ...c }), {});
 		} else {
 			this.navCtrl.removeView(this.viewCtrl);
@@ -121,10 +120,15 @@ export class RechargeDetailPage extends SecondLevelPage {
 		return await this.accountService
 		.getLimitedQuota(this.productInfo.productId,'001')
 		.then(data => {
-			if(data[0] && data[0].min && this.productInfo.productDetail){
-				this.minRechargeText = `最小充值金额为${data[0].min}${this.productInfo.productDetail},小于最小金额的充值将无法到账。`;
-			}else{
-				this.minRechargeText = '';
+			this.minRechargeText = '';
+			if(data[0] && this.productInfo.productDetail){
+				if(data[0].min && data[0].max){
+					this.minRechargeText = `最小充值金额为${data[0].min}${this.productInfo.productDetail},最大充值金额为${data[0].max}${this.productInfo.productDetail},小于或大于充值金额的充值将无法到账。`;
+				} else if(data[0].min) {
+					this.minRechargeText = `最小充值金额为${data[0].min}${this.productInfo.productDetail},小于最小充值金额的充值将无法到账。`;
+				} else if(data[0].max){
+					this.minRechargeText = `最大充值金额为${data[0].max}${this.productInfo.productDetail},大于最大充值金额的充值将无法到账。`;
+				}
 			}
 			return data;
 		});
