@@ -294,11 +294,10 @@ export class WithdrawDetailPage extends SecondLevelPage {
 	@asyncCtrlGenerator.loading()
 	@asyncCtrlGenerator.error("提现失败")
 	@asyncCtrlGenerator.success("提现成功")
-	submitWithdrawAppply() {
+	async submitWithdrawAppply() {
+		await this.personalDataService.requestCertifiedStatus();
 		if(!(this.personalDataService.certifiedStatus == '101')){
-			return new Promise((resolve, reject)=>{
-				reject(`实名认证${this.personalDataService.realname|| this.personalDataService.certifiedMsg}`);
-			});
+			return Promise.reject(new Error(`实名认证${this.personalDataService.realname|| this.personalDataService.certifiedMsg}`));
 		}
 		return this.accountService
 			.submitWithdrawAppply(

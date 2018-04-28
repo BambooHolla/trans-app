@@ -360,8 +360,8 @@ export class TradeInterfaceV2Page {
     // toast.present()
   }
 
-  doTrade(tradeType: number = this._tradeType$.getValue()){
-
+  async doTrade(tradeType: number = this._tradeType$.getValue()){
+    await this.personalDataService.requestCertifiedStatus();
     if(!(this.personalDataService.certifiedStatus == '101')){
       return this.validateIdentify();
     }
@@ -990,8 +990,8 @@ export class TradeInterfaceV2Page {
     }
   }
 
-  quickTrade(tradeType){
-    
+  async quickTrade(tradeType){
+    await this.personalDataService.requestCertifiedStatus();
     if(!(this.personalDataService.certifiedStatus == '101')){
       return this.validateIdentify();
     }
