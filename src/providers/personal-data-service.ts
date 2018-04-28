@@ -261,7 +261,6 @@ export class PersonalDataService {
         //     认证名称
         //   }
         // }
-
         this._certifiedStatus = data.status
         if (data.status === '101'){
           this._realname = data.name
@@ -302,7 +301,7 @@ export class PersonalDataService {
     // 状态不正常是是否要自动注销登录？
     // this._accountStatus = parseInt(data.FID_KHZT);
     console.log('parseCustomerData')
-    this._realname = data.realName;
+    this._realname = data.realName || this._realname;
     // this._fullname = data.FID_KHQC;
     // this._phone = data.telephone;
     // this._idcardnumber = data.FID_ZJBH;

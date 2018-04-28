@@ -29,6 +29,8 @@ import { AppSettingProvider } from '../../bnlc-framework/providers/app-setting/a
 
 import { PromptControlleService } from "../../providers/prompt-controlle-service";
 import { LoginService } from '../../providers/login-service';
+import { BigNumber } from "bignumber.js";
+
 @Component({
   selector: 'page-trade-interface-v2',
   templateUrl: 'trade-interface-v2.html'
@@ -157,7 +159,7 @@ export class TradeInterfaceV2Page {
     return this._price.getValue()
   }
   amount: string = '0';
-  maxAmount: string | number;
+  maxAmount: string | number ;
   range = 0;
   @ViewChild('quantityRange') Range: any;
   @ViewChild('priceInputer') PriceInputer: any;
@@ -242,6 +244,7 @@ export class TradeInterfaceV2Page {
       this.requestAssets()
 
       this.quickTradeSelector.subscribe();
+     
     }
   }
 
@@ -260,6 +263,7 @@ export class TradeInterfaceV2Page {
     // 改用 602 / 100 就可以得到正确结果。
     let length = 0
     if (isNaN(step)) { 
+      this[target] = this[target] == ''? '0' : this[target];
       length = this[target].split('.')[1] ? this[target].split('.')[1].length : length
       step = Math.pow(10, -length)
       step = sign + step
@@ -268,46 +272,76 @@ export class TradeInterfaceV2Page {
     // const result = Math.max(0, Math.floor(+this[target] * invBase + step * invBase) / invBase);
     //新方法,区分价格跟数量,价格用新的，数量用旧方法
     // '11.12' -> ['11','12'] -> (11 * 10^8 * 10^(arr[1].length) + 12 * 10^8 ) / 10^8
-    let result;
+    let result: any;
+     
     
-    if(typeof this[target] == "string" ){
-      result = this[target].split('.');
-      if(result.length == 2){
-        result = Math.max(0, Math.floor(result[0] * invBase *  Math.pow(10,result[1].length) + result[1] * invBase + step * invBase * Math.pow(10,result[1].length)) / (invBase * Math.pow(10,result[1].length)));
-      }else{
-        result = Math.max(0, Math.floor(result[0] * invBase + step * invBase) / invBase);
-      }
-    } else {
-      result = Math.max(0, Math.floor(+this[target] * invBase + step * invBase) / invBase);
+    if( step == 0 ){
+      // input输入
+      result = this[target] == ''? "0": this[target];
+      
+    } else {  
+      // ‘+、-’按钮 
+      this[target] = this[target] == ''?"0":this[target];
+      result = new BigNumber(this[target]).plus(step).toNumber() < 0 ? '0' : new BigNumber(this[target]).plus(step).toString();
     }
+
+    result = this.numberFormat(result);
+    // if(typeof this[target] == "string" ){
+    //   result = this[target].split('.');
+    //   if(result.length == 2){
+    //     result = Math.max(0, Math.floor(result[0] * invBase *  Math.pow(10,result[1].length) + result[1] * invBase + step * invBase * Math.pow(10,result[1].length)) / (invBase * Math.pow(10,result[1].length)));
+    //   }else{
+    //     result = Math.max(0, Math.floor(result[0] * invBase + step * invBase) / invBase);
+    //   }
+    // } else {
+    //   result = Math.max(0, Math.floor(+this[target] * invBase + step * invBase) / invBase);
+    // }
+
 
   
     //强制刷新数据hack处理
-    this[target] = length ? result.toFixed(length) : result.toFixed(this.getFixedLength(result));  
+    this[target] = result;
     this.platform.raf(()=>{      
-      this[target] = length ? result.toFixed(length) : result.toFixed(this.getFixedLength(result)); //.toFixed(Math.max(0, -precision));
+      this[target] = result;
       this[this.inputGroup[target]].value = this[target];
     })
   }
 
+  // 修改bignumber
   checkMax(price = this.price){
+
     const traders = this.traderId.split('-')
     console.log('checkMax', this.personalDataService.personalStockList, ' & ', traders)
     const personalStockList = this.personalDataService.personalStockList
-    if (this._tradeType$.getValue() === 1) {
-      //可用资金/价格
+    if (this._tradeType$.getValue() === 1) { 
+      //可用资金/价格  
+    
       const target = personalStockList
-        .filter(({ stockCode }) => stockCode === traders[0])
-      let saleableQuantity = (target && target.length != 0 ? target : [{ saleableQuantity:0}])[0]
-        .saleableQuantity / this.appSettings.Product_Price_Rate
-      this.maxAmount = Number(price) ? saleableQuantity / Number(price) :'--'
-    } else if (this._tradeType$.getValue() === 0) {
+        .filter(({ stockCode }) => stockCode === traders[0]);
+      
+      // 旧方法使用Number计算，会导致计算数据出错
+      // let saleableQuantity:any = (target && target.length != 0 ? target : [{ saleableQuantity:0}])[0]
+      //   .saleableQuantity / this.appSettings.Product_Price_Rate;
+      let saleableQuantity:any =  new BigNumber((target && target.length != 0 ? target : [{ saleableQuantity:0}])[0]
+      .saleableQuantity).div( this.appSettings.Product_Price_Rate);
+      this.maxAmount = Number(price) ? saleableQuantity.div(price).toString() : "0";
+      if(this.maxAmount == "0"){
+        this.maxAmount = 0;
+      }
+    } else if (this._tradeType$.getValue() === 0) { 
       //最大持仓
+    
       const target = personalStockList
-        .filter(({ stockCode }) => stockCode === traders[1])
+        .filter(({ stockCode }) => stockCode === traders[1]);
         console.log(target)
-      this.maxAmount = (target && target.length != 0 ? target : [{ saleableQuantity: 0 }])[0]
-        .saleableQuantity / this.appSettings.Product_Price_Rate
+        // let saleableQuantity:any = (target && target.length != 0 ? target : [{ saleableQuantity:0}])[0]
+      //   .saleableQuantity / this.appSettings.Product_Price_Rate;
+        let saleableQuantity:any =  new BigNumber((target && target.length != 0 ? target : [{ saleableQuantity:0}])[0]
+        .saleableQuantity).div( this.appSettings.Product_Price_Rate);
+        this.maxAmount = Number(price) ? saleableQuantity.div(price).toString() : "0";
+        if(this.maxAmount == "0"){
+          this.maxAmount = 0;
+        }
     } else {
 
     }
@@ -369,10 +403,13 @@ export class TradeInterfaceV2Page {
     if(this.trading){
       return void 0
     }
+  
 
 
     // 界面按钮已根据是否 可买/可卖 进行了限制，
     // 此处没有再进行判断。
+
+    //do需要对这部分进行number数字处理
     const price = parseFloat(this.price);
     const amount = parseFloat(this.amount);
 
@@ -445,7 +482,12 @@ export class TradeInterfaceV2Page {
       alert.present();
       return void 0;
     }
-
+  console.log('.......', this.traderId,
+  '',
+  tradeType,
+  amount,
+  price, )
+  debugger 
     this._doTrade(
       this.traderId,
       '',
@@ -590,7 +632,7 @@ export class TradeInterfaceV2Page {
         .do(data => {
           // console.log('doSubscribe do')
           if(!data) return false
-          if(!this.price) this.price = parseFloat(data.price).toString()
+          if(!this.price) this.price = new BigNumber(data.price).toString();
           this.marketPrice = data.price
           this.buyRate = data.buyRate
           this.sellRate = data.sellRate
@@ -1003,7 +1045,7 @@ export class TradeInterfaceV2Page {
       return void 0
     }
     let transactionType = ''
-    let amount = 0
+    let amount:any = 0
     if (tradeType === 'buy') {
       transactionType = '001'
       amount = this.buyTotalQuantity
@@ -1071,13 +1113,12 @@ export class TradeInterfaceV2Page {
     const traders = this.traderId.split('-')
 
     this.personalDataService.personalStockList.forEach(item => {
-
       if (item.stockCode === traders[0]) {
         this.trader_target = item
       } else if (item.stockCode === traders[1]) {
         this.trader_product = item
       }
-
+    
     })
 
     this.personalDataService
@@ -1152,12 +1193,22 @@ export class TradeInterfaceV2Page {
 		}
   }
   
-  getFixedLength(number:any = 0){
+  //格式处理18位，整数18，小数10+8
+  numberFormat(number:any = "0"){
+  
     number = typeof number == "string" ? number : number.toString();
     number = number.split('.');
-    if(number[1]){
-      return number[1].length > 8 ? 8 : number[1].length;
+    if(number[0].length > 1){
+      number[0] =  number[0].replace(/\b(0+)/gi,"");
+      number[0] = number[0] == ''? "0": number[0];
     }
-    return 0;
+    if(number[1]){
+      number[0] =  number[0].length > 10? number[0].substr(-10) : number[0];
+      number[1] =  number[1].length > 8? number[1].substr(0,8) : number[1];
+      return number[0]+'.'+number[1];
+    }else{
+      return number[0].length > 18? number[0].substr(-18) : number[0];
+    }
+    
   }
 }
