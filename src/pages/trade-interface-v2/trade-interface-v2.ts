@@ -262,7 +262,6 @@ export class TradeInterfaceV2Page {
     // 例如 602 * 0.01 = 6.0200000000000005 ，
     // 改用 602 / 100 就可以得到正确结果。
     let length = 0
-
     if (isNaN(step)) { 
       this[target] = this[target] == ''? '0' : this[target];
       length = this[target].split('.')[1] ? this[target].split('.')[1].length : length
