@@ -226,7 +226,6 @@ export class WithdrawDetailPage extends SecondLevelPage {
 					accountType: AccountType.Product,
 				})
 				.then(data => {
-					console.log('......',data)
 					this.access_info = data;
 				});
 			// 获取是否有设置交易密码

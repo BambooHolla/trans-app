@@ -485,12 +485,7 @@ export class TradeInterfaceV2Page {
       alert.present();
       return void 0;
     }
-  console.log('.......', this.traderId,
-  '',
-  tradeType,
-  amount,
-  price, )
-  debugger 
+  
     this._doTrade(
       this.traderId,
       '',
