@@ -328,6 +328,9 @@ export class TradeInterfaceV2Page {
       if(this.maxAmount == "0"){
         this.maxAmount = 0;
       }
+      if(!this.appSetting.getUserToken()){
+        this.maxAmount = '--';
+      }
     } else if (this._tradeType$.getValue() === 0) { 
       //最大持仓
     
@@ -339,9 +342,9 @@ export class TradeInterfaceV2Page {
         let saleableQuantity:any =  new BigNumber((target && target.length != 0 ? target : [{ saleableQuantity:0}])[0]
         .saleableQuantity).div( this.appSettings.Product_Price_Rate);
         this.maxAmount = Number(price) ? saleableQuantity.div(price).toString() : "0";
-        if(this.maxAmount == "0"){
-          this.maxAmount = 0;
-        }
+        // if(this.maxAmount == "0"){
+        //   this.maxAmount = 0;
+        // }
     } else {
 
     }

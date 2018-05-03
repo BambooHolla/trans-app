@@ -1397,10 +1397,9 @@ export class StockDataService {
     let product = this.appDataService.products.get(productId)
     const now = new Date()
 
-    if (!product || product.expire && product.expire < now) {
+    if (!product || product.productName == undefined ||product.expire && product.expire < now) {
       product = await this.requestProductById(productId)
     }
-
     return product
   }
 }
