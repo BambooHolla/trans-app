@@ -26,7 +26,7 @@
                     <img [src]="src" *ngIf="src?true:false;">
                 </div>
             </div>
-            <div class="status">已提交</div>
+            <div class="status">{{contact_status}}</div>
         </div>
     </div>
 </ion-header>
@@ -44,7 +44,7 @@
         </div>
     </div>
 </ion-content>
-<ion-footer>
+<ion-footer *ngIf="contact_list?.contact?.status != '010'">
     <div class="chat-container">
         <div class="chat-input-container">
             <ion-textarea [(ngModel)]="chat_content"></ion-textarea>
