@@ -66,6 +66,13 @@ export class WorkOrderDetailPage extends SecondLevelPage
 	enableMore = true;
 	chat_logs: ChatLog[] = [];
 	contact_list:any;
+	contact_status_list:any = {
+		"001":"已提交",
+		"002":"跟进中",
+		"003":"已反馈",
+		"010":"已处理",
+	};
+	contact_status:string = "";
 	@WorkOrderDetailPage.willEnter
 	@asyncCtrlGenerator.loading()
 	@asyncCtrlGenerator.error('获取工单内容出错')
@@ -79,6 +86,7 @@ export class WorkOrderDetailPage extends SecondLevelPage
 		}
 		this.page = 1;
 		this.contact_list = await this._getContactList();
+		this.contact_status = this.contact_status_list[this.contact_list.contact.status]||"已提交";
 		const contact_reply_list = await this._getContactReplyList();
 		this.chat_logs = contact_reply_list.reverse();
 	}
