@@ -75,18 +75,36 @@ export class AppDataService {
     this.show_onestep_warning = true;
   }
 
+
+  isJSON(str:any) {
+    if (typeof str == 'string') {
+      try {
+          
+          return JSON.parse(str);;
+      } catch(e) {
+          
+          return str;
+      }
+    }
+    return str   
+  }
   readonly APPDATASERVICE_PREIX = 'App-Data-Service:';
   private getDataFromStorage() {
     Object.keys(this._data).forEach(key => {
       if (this._in_storage_keys.indexOf(key) === -1) {
-        this._data[key] = JSON.parse(localStorage.getItem(this.APPDATASERVICE_PREIX + key));
+        this._data[key] = this.isJSON(localStorage.getItem(this.APPDATASERVICE_PREIX + key));
       } else {
         this[key + 'Promise'] = this.storage.ready().then(async () => {
           // debugger
-          return (this._data[key] = (JSON.parse(await this.storage.get(key))) || new Map());
+          return (this._data[key] = this.isJSON(await this.storage.get(key)) || new Map());
         });
       }
     });
+
+    
+
+
+
     // // 没有为 storage 的失败进行处理。
     // // （目前没有遇到过失败的情况）
     // this._dataReady = this.storage

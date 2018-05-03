@@ -61,17 +61,22 @@ export class OptionalPage extends SecondLevelPage {
     })
   }
 
-
-
-
+  private upDate:boolean = true;
   initData(refresher?: Refresher) {
     //tofix:刷新页面数据初始化流程问题
-    Promise.all([ 
-      this.requestAssets(),
-      this.initPersonalStockListSubscriber(),
-      this.personalDataService.requestEquityDeposit(),
-    ]) 
-    .then(() => refresher ? refresher.complete() : void 0)
+    if(this.upDate){
+      this.upDate = false;
+      Promise.all([ 
+        this.requestAssets(),
+        this.initPersonalStockListSubscriber(),
+        this.personalDataService.requestEquityDeposit(),
+      ]) 
+      .then(() => {
+        this.upDate = true;
+        return refresher ? refresher.complete() : void 0;
+      })
+    }
+   
   }
 
   resetData(){
