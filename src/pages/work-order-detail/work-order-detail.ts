@@ -89,7 +89,6 @@ export class WorkOrderDetailPage extends SecondLevelPage
 			}
 			return this.fsService.READ_FILE.replace(':fid', fid);
 		});
-		console.log('........',this,this.work_order_attachment)
 		
 	}
 
