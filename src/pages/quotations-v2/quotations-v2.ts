@@ -337,13 +337,18 @@ export class QuotationsPageV2 {
 	 * 获取多支行情数据
 	 * TODO:迁移到数据中心处理
 	 */
-	async subscribeRealtimeReports(){
+	async subscribeRealtimeReports(upDate?:boolean){
 		await this.appDataService.traderListPromise;
-		const srcTraderList = (this.appDataService.traderList.size ? this.appDataService.traderList
-			: await this.tradeService.getTradeList()) as Map<string,AnyObject>
+		let srcTraderList:any;
 		// const traderList = [...this.appDataService.traderList.keys()]
 		const traderIdList = []
 		const traderList = []
+		if(upDate){
+			srcTraderList = await this.tradeService.getTradeList(true)as Map<string,AnyObject>;
+		} else {
+			srcTraderList = (this.appDataService.traderList.size ? this.appDataService.traderList
+				: await this.tradeService.getTradeList()) as Map<string,AnyObject>;
+		}
 		srcTraderList.forEach((value,key,map)=>{
 			// traderList.push(value);
 			// traderIdList.push(key);
@@ -408,7 +413,7 @@ export class QuotationsPageV2 {
 	async initTraderList(refresher?: Refresher) {
         if (refresher) {
 			
-			await this.subscribeRealtimeReports();
+			await this.subscribeRealtimeReports(true);
 			if(!!this.activeProduct.trim().toLowerCase()){
 				this._filterProduct(this.activeProduct);
 			}

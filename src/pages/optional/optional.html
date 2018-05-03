@@ -49,7 +49,7 @@
     (click)="routeTo('recharge-detail',{productInfo:data.productInfo})"
        ><!-- tappable [navPush]="stockDetailPage" [navParams]="(data?.baseData | async)?.stockCode"> -->
       <ion-col class="light-transparent" col-4 padding>
-        <div class="col1">
+        <div class="col1"> 
           <h5>{{(data?.baseData | async)?.name || '----'}}</h5>
           <div *ngIf="true">
             <span class="font-smaller">最新价</span>

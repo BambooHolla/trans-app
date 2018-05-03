@@ -137,12 +137,12 @@ export class TradeService {
 
   private last_time_getTradeList
 
-  public getTradeList() {
+  public getTradeList(upDate?:boolean) {
  
     const path = `/transactionengine/traders`;
     
     const requestTime = new Date()
-    const shouldUpdate = (+requestTime - this.last_time_getTradeList) > 3e2
+    const shouldUpdate = upDate ? true : (+requestTime - this.last_time_getTradeList) > 3e2;
 
     return this.appService
       .request(RequestMethod.Get, path, undefined)
