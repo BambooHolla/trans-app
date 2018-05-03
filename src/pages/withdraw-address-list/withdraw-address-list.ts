@@ -77,6 +77,29 @@ export class WithdrawAddressListPage extends SecondLevelPage {
 		});
 	}
 
+
+	deleteWithdrawModel(withdraw_address: CryptoCurrencyModel){
+		this.alertCtrl.create({
+			title:"地址删除",
+			message:"确定删除吗？",
+			buttons:[{
+				text: '取消',
+				role: 'cancel',
+				handler: () => {
+					// console.log('Cancel clicked')
+				}
+			},{
+				text: '确认',
+				role: 'cancel',
+				handler: () => {
+					this.deleteWithdrawAddress(withdraw_address);
+				}
+			}]
+		}).present();
+	}
+
+
+
 	@asyncCtrlGenerator.loading()
 	@asyncCtrlGenerator.error('地址删除失败')
 	@asyncCtrlGenerator.success('地址删除成功')
