@@ -176,8 +176,8 @@ export class TradeService {
                 if (!traderList.has(`${priceId}-${productId}`) || shouldUpdate ){  
                   traderList.set(`${priceId}-${productId}`, {
                     traderId: `${priceId}-${productId}`,
-                    traderName: !priceId ? `${product ? product.productName : '--'}` :
-                      `${product ? product.productName : '--'} / ${product ? price.productName : '--'}`,
+                    traderName: !priceId ? `${product ? product.productName ?product.productName:'--' : '--'}` :
+                      `${product ? product.productName?product.productName:'--' : '--'} / ${product ? price.productName?price.productName:'--' : '--'}`,
                     reportRef: new Observable(), //用来存放报表中间管道
                     reportArr: [],
                     marketRef: new BehaviorSubject(undefined), //用来存放交易中间管道

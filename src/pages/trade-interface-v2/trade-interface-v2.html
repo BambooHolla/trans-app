@@ -23,7 +23,7 @@
 				<span class="label">可用{{productName || '--'}}&nbsp;</span>
 				<span>{{hiddentext || (trader_product?.restQuantity || '--' | quantityConversion | numberUnitFormat:true:false:13)}}</span>
 			</div>
-			<div>
+			<div> 
 				<span class="label">可用{{priceName || '--'}}&nbsp;</span>
 				<span>{{hiddentext || (trader_target?.restQuantity || '--' | quantityConversion | numberUnitFormat:true:false:13)}}</span>
 			</div>
@@ -199,7 +199,7 @@
 			</ion-item>
 			<div class="range-mark">
 				<div class="left">0</div>
-				<div class="right">{{maxAmount|| '--'  | numberUnitFormat:true}}{{targetName}}</div>
+				<div class="right">{{maxAmount  | numberUnitFormat:true}}{{targetName}}</div>
 			</div>
 		</ion-row>
 		<!-- </ion-grid>

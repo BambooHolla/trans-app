@@ -68,7 +68,7 @@
     <div *ngFor="let trader of traderList_show" tappable [navPush]="tradeInterface" [navParams]="trader?.traderId" class="trader-item">
         <div class="header">
             <div class="name">
-                {{trader.traderName}}
+                {{trader?.traderName}}
             </div>
             <div class="price {{(trader.marketRef | async)?.range|riseOrFall}}">
                 {{(trader.marketRef | async)?.price | number:'.2-5'}}

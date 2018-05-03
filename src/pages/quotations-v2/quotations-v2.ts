@@ -352,11 +352,8 @@ export class QuotationsPageV2 {
 		})
 		this.traderList = traderList;
 		
-		this.traderList_show = this.traderList.filter((item: any, index, arr) => {
-			return item.traderName.toLowerCase().indexOf(this.activeProduct.trim().toLowerCase()) !== -1
-		}).sort((a: any, b: any) => {
-			return a.priceId - b.priceId
-		});
+		this.traderList_show = this.traderList;
+		
 		console.log('teee', this.viewDidLeave.getValue())
 		this.realtimeReports$ = this.socketioService.subscribeRealtimeReports(traderIdList)
 			.do(() => console.log('realtimeReports$ success'))
@@ -410,8 +407,11 @@ export class QuotationsPageV2 {
 
 	async initTraderList(refresher?: Refresher) {
         if (refresher) {
-			console.log('.....',this.activeProduct)
+			
 			await this.subscribeRealtimeReports();
+			if(!!this.activeProduct.trim().toLowerCase()){
+				this._filterProduct(this.activeProduct);
+			}
             setTimeout(() => {
 				refresher.complete();
 			}, 200);
