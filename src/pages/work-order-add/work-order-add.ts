@@ -241,6 +241,9 @@ export class WorkOrderAddPage extends SecondLevelPage {
 	@asyncCtrlGenerator.error('工单提交失败')
 	@asyncCtrlGenerator.success('工单提交成功')
 	submitForm() {
+		if(this.telOrEmail){
+			return Promise.reject("电话和邮箱至少填写一个")
+		}
 		return this.workOrderService.addWorkOrder({
 			name: this.realName.value,
 			phone: this.phoneNumber.value,

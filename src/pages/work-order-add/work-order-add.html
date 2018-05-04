@@ -12,7 +12,7 @@
 <ion-content>
     <form [formGroup]="formData" class="form-container">
         <div class="form-item with-bottom-division">
-            <div class="label">真实姓名</div>
+            <div class="label label-required">真实姓名</div>
             <div class="input-container">
                 <input placeholder="请输入您的姓名" [formControl]="realName" required/>
             </div>
@@ -20,17 +20,17 @@
         <div class="form-item with-bottom-division">
             <div class="label">电话</div>
             <div class="input-container">
-                <input placeholder="请输入您的手机号码" type="tel" [formControl]="phoneNumber" (input)="requiredTelOrEmail()" />
+                <input placeholder="电话和邮箱至少填写一个" type="tel" [formControl]="phoneNumber" (input)="requiredTelOrEmail()" />
             </div>
         </div>
         <div class="form-item with-bottom-division">
             <div class="label">邮箱</div>
             <div class="input-container">
-                <input placeholder="请输入您的电子邮箱" type="email" [formControl]="email" (input)="requiredTelOrEmail()" />
+                <input placeholder="电话和邮箱至少填写一个" type="email" [formControl]="email" (input)="requiredTelOrEmail()" />
             </div>
         </div>
         <div class="form-item with-bottom-division">
-            <div class="label">分类</div>
+            <div class="label label-required">分类</div>
             <div class="input-container">
                 <ion-select [formControl]="category" required interface="action-sheet" placeholder="请选择" multiple="false" cancelText="取消">
                     <ion-option *ngFor="let category of category_list" [value]="category.value">{{category.text}}</ion-option>
@@ -38,7 +38,7 @@
             </div>
         </div>
         <div class="form-item with-bottom-division top-label">
-            <div class="label">描述</div>
+            <div class="label label-required">描述</div>
             <div class="input-container">
                 <ion-textarea placeholder="请输入工单详情" [formControl]="detail"></ion-textarea>
             </div>
@@ -61,7 +61,7 @@
             </div>
         </div>
         <div class="submit-container">
-            <button ion-button type="submit" (click)="submitForm()" [disabled]="formData.invalid || telOrEmail">
+            <button ion-button type="submit" (click)="submitForm()" [disabled]="formData.invalid">
                 提交工单
             </button>
         </div>
