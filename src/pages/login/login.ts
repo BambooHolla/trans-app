@@ -188,14 +188,15 @@ export class LoginPage implements OnInit{
 
   dismiss(){
     this.unregisterBackButton();
-    this.viewCtrl.dismiss()
+    
     this.events.subscribe('show login', (status, cb?) => {
       this.events.unsubscribe('show login')
       const modal = cb ? this.modalController.create(LoginPage, { cb })
         : this.modalController.create(LoginPage)
       modal.present()
       // this.rootNav.push(page)      
-    })
+    });
+    this.viewCtrl.dismiss();
   }
 
 }

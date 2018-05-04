@@ -1,5 +1,18 @@
 page-work-order-add {
 	.form-container {
+		.with-bottom-division{
+			.label-required{
+				position: relative;
+				&::before{
+					left: 0px;
+					
+					position: absolute;
+					content: '*';
+					display: block;
+					color: red;
+				}
+			}
+		}
 		.file-picker-list {
 			.input-container {
 				flex-direction: row!important;
