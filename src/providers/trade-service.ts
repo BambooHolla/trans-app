@@ -60,7 +60,7 @@ export class TradeService {
       // isMarketOrder: boolean
       // 标示：是否为市价单(true), 限价单false
 
-      let data = {
+      let data:any = {
         type: '00' + (consignmentType ? '1' : '2'), // 001买入，002卖出
         operationType: '002', //string *001现金对产品交易、002产品对产品交易
         productId: equityCode.split('-')[1], //equityCode,
@@ -69,6 +69,10 @@ export class TradeService {
         amount: +consignmentCount * this.appSettings.Product_Price_Rate // 数量
       };
 
+      //为了能先交易完成
+      data.amount = '' + data.amount;
+      data.price = '' + data.price;
+      
       promise = this.http
         .post(url, data, options)
         .toPromise()
@@ -232,11 +236,11 @@ export class TradeService {
     //交易类型： '001'买， '002'卖
     if (transactionType === "001") {
       params['buyPriceId']= priceId
-      params['buyTotalPrice']= amount
+      params['buyTotalPrice']= ''+amount
       params['buyProductId']= productId
     } else if (transactionType === "002") {
       params['salePriceId'] = priceId
-      params['saleTotalAmount'] = amount
+      params['saleTotalAmount'] = ''+amount
       params['saleProductId'] = productId
     }
 
@@ -270,11 +274,11 @@ export class TradeService {
     //交易类型： '001'买， '002'卖
     if (transactionType === "001") {
       params['buyPriceId'] = priceId
-      params['buyTotalPrice'] = amount
+      params['buyTotalPrice'] = ''+amount
       params['buyProductId'] = productId
     } else if (transactionType === "002") {
       params['salePriceId'] = priceId
-      params['saleTotalAmount'] = amount
+      params['saleTotalAmount'] = ''+amount
       params['saleProductId'] = productId
     }
 
