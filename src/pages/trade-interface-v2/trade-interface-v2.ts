@@ -355,7 +355,7 @@ export class TradeInterfaceV2Page {
   }
 
   setPrice(price = this.price) {
-    this.price = price
+    this.price = this.numberFormatDelete0(price)
     this.formatNumber('price')
   }
 
@@ -499,7 +499,7 @@ export class TradeInterfaceV2Page {
   _doTrade(traderId, password, tradeType, amount, price) {
     this.trading = true
     this.tradeService
-      .purchase(
+      .purchase( 
         traderId,
         password,
         tradeType,
@@ -1039,9 +1039,6 @@ export class TradeInterfaceV2Page {
       return this.validateIdentify();
     }
   
-    if(!this.appSetting.getUserToken()){
-      return this.goLogin();
-    }
     if (this.quickTrading) {
       return void 0
     }
@@ -1195,9 +1192,12 @@ export class TradeInterfaceV2Page {
   }
   
   //格式处理18位，整数18，小数10+8
-  numberFormat(number:any = "0"){
+  numberFormat(number:any = "0",delete0?:boolean){
   
     number = typeof number == "string" ? number : number.toString();
+    if(delete0){
+      number = this.numberFormatDelete0(number);
+    }
     number = number.split('.');
     if(number[0].length > 1){
       number[0] =  number[0].replace(/\b(0+)/gi,"");
@@ -1211,5 +1211,20 @@ export class TradeInterfaceV2Page {
       return number[0].length > 18? number[0].substr(-18) : number[0];
     }
     
+  }
+
+  numberFormatDelete0(number:string){
+    let arrExp:any ;
+    number = number.split("").reverse().join("");
+    arrExp = /[1-9|\.]/ig.exec(number)
+    if(arrExp){
+        if(arrExp[0] == '.'){
+          number = number.substring(arrExp.index+1)
+        } else {
+          number = number.substring(arrExp.index)
+        }
+        return  number.split("").reverse().join("")
+    }
+    return number;
   }
 }
