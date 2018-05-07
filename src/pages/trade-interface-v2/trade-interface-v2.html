@@ -92,14 +92,6 @@
 			</div>
 			<div style="clear:both"></div> -->
 			<div class="bets-group">
-				<div *ngFor="let item of buyer ; let i = index;" class="bet"
-				 tappable (click)="setPrice(buy_depth[i]?.price)">
-					<div class="bet-label buy">{{item}}</div>
-					<div class="bet-price buy">{{buy_depth[i]?.price || '--' | priceConversion | numberUnitFormat:true:false:10}}</div>
-					<div class="bet-amount">{{buy_depth[i]?.amount || '--' | quantityConversion | numberUnitFormat}}</div>
-				</div>
-			</div>
-			<div class="bets-group">
 				<div *ngFor="let item of saler ; let i = index;" class="bet"
 				 tappable (click)="setPrice(sale_depth[i]?.price)">
 				<div class="bet-label sale">{{item}}</div>
@@ -107,6 +99,15 @@
 					<div class="bet-amount">{{sale_depth[i]?.amount || '--' | quantityConversion | numberUnitFormat}}</div>
 				</div>
 			</div>
+			<div class="bets-group">
+				<div *ngFor="let item of buyer ; let i = index;" class="bet"
+				 tappable (click)="setPrice(buy_depth[i]?.price)">
+					<div class="bet-label buy">{{item}}</div>
+					<div class="bet-price buy">{{buy_depth[i]?.price || '--' | priceConversion | numberUnitFormat:true:false:10}}</div>
+					<div class="bet-amount">{{buy_depth[i]?.amount || '--' | quantityConversion | numberUnitFormat}}</div>
+				</div>
+			</div>
+			
 		</div>
 	</div>
 	<!-- FIXME ：此页面使用了弹性布局，用于调整主要几个区域元素的高度， -->
@@ -157,8 +158,8 @@
 	<!-- 限价交易 -->
 	<ion-grid [hidden]="appDataService.show_onestep_trade" [scroll-fix-keyboard]="content">
 		<ion-row class="entrust-type" (click)="chooseTradeType($event)">
-			<ion-col data-trade-type="1" class="buy" [class.enabled]="!!(tradeType$|async)">买</ion-col>
 			<ion-col data-trade-type="0" class="sale" [class.enabled]="!(tradeType$|async)">卖</ion-col>
+			<ion-col data-trade-type="1" class="buy" [class.enabled]="!!(tradeType$|async)">买</ion-col>
 		</ion-row>
 	</ion-grid>	
 	<ion-grid [hidden]="appDataService.show_onestep_trade" class="trinp  content-block">
@@ -234,18 +235,6 @@
 	<ion-grid class="stsvg" [hidden]="!appDataService.show_onestep_trade">
 		<ion-row>
 			<ion-col col-6>
-				<svg class="circle-svg buy" viewBox="0,0,298,252">
-					<path class="svg-path" d='M 52 252 A 143 143 0 1 1 246 252' fill='none' stroke-width='12' stroke-linecap='round' />
-				</svg>
-				<div class="svgcont" (click)="quickTrade('buy')">
-					<div class="blank"></div>
-					<div>预估买入价</div>
-					<p id="buysum">{{buyTotalAmount | numberUnitFormat}}</p>
-					<span>可买数量</span>
-					<label id="buynum">{{buyTotalQuantity | quantityConversion | numberFilter}}</label>
-				</div>
-			</ion-col>
-			<ion-col col-6>
 				<svg class="circle-svg sale" viewBox="0,0,298,252">
 					<path class="svg-path" d='M 52 252 A 143 143 0 1 1 246 252' fill='none' stroke-width='12' stroke-linecap='round' />
 				</svg>
@@ -257,6 +246,19 @@
 					<label id="salenum">{{saleTotalQuantity | quantityConversion | numberFilter}}</label>
 				</div>
 			</ion-col>
+			<ion-col col-6>
+				<svg class="circle-svg buy" viewBox="0,0,298,252">
+					<path class="svg-path" d='M 52 252 A 143 143 0 1 1 246 252' fill='none' stroke-width='12' stroke-linecap='round' />
+				</svg>
+				<div class="svgcont" (click)="quickTrade('buy')">
+					<div class="blank"></div>
+					<div>预估买入价</div>
+					<p id="buysum">{{buyTotalAmount | numberUnitFormat}}</p>
+					<span>可买数量</span>
+					<label id="buynum">{{buyTotalQuantity | quantityConversion | numberFilter}}</label>
+				</div>
+			</ion-col>
+			
 		</ion-row>
 	</ion-grid>
 	<ion-grid class="stnum" [hidden]="!appDataService.show_onestep_trade">
