@@ -1031,6 +1031,9 @@ export class TradeInterfaceV2Page {
   }
 
   async quickTrade(tradeType){
+    if(!this.appSetting.getUserToken()){
+      return this.goLogin();
+    }
     await this.personalDataService.requestCertifiedStatus();
     if(!(this.personalDataService.certifiedStatus == '101')){
       return this.validateIdentify();
