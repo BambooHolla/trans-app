@@ -48,7 +48,7 @@ export class WorkOrderListPage extends SecondLevelPage {
 
 	disable_init_list_when_enter = false;
 
-	// @WorkOrderListPage.willEnter
+	@WorkOrderListPage.willEnter
 	@asyncCtrlGenerator.loading(undefined, 'hide_loading_and_use_welcome')
 	@asyncCtrlGenerator.error('工单列表加载失败')
 	async loadWorkOrderList() {
