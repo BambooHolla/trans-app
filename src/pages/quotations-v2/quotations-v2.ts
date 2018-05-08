@@ -145,10 +145,10 @@ export class QuotationsPageV2 {
 			.debounceTime(300)
 			.distinctUntilChanged()
 			.switchMap((term: string) => Observable.of(term.trim().toLowerCase()))
-			.subscribe(str => this._filterProduct.call(this,str))
+			.subscribe(str => this._filterProduct.call(this,str,true))
 		this.mainFilter
 			.distinctUntilChanged()
-			.subscribe(str => this._filterProduct.call(this,str))
+			.subscribe(str => this._filterProduct.call(this,str,false))
 	}
 
 	ionViewWillEnter(){
@@ -272,11 +272,16 @@ export class QuotationsPageV2 {
 			return this._findTarget(el.parentElement)
 		}
 	}
-	_filterProduct(product) {
+	_filterProduct(product,search) {
 		if (product) {
 			product = product.trim().toLowerCase()
 			this.traderList_show = this.traderList.filter((item: any, index, arr) => {
-				return item.traderName.toLowerCase().indexOf(product) !== -1
+				if(search){
+					return item.traderName.toLowerCase().indexOf(product) !== -1
+				} else {
+					return item.priceName.toLowerCase().indexOf(product) !== -1
+				}
+				
 			}).sort((a: any, b: any) => {
 				return a.priceId - b.priceId
 			})
@@ -345,7 +350,7 @@ export class QuotationsPageV2 {
 		const traderList = []
 		if(upDate){
 			srcTraderList = await this.tradeService.getTradeList(true)as Map<string,AnyObject>;
-		} else {
+		} else { 
 			srcTraderList = (this.appDataService.traderList.size ? this.appDataService.traderList
 				: await this.tradeService.getTradeList()) as Map<string,AnyObject>;
 		}
@@ -358,7 +363,7 @@ export class QuotationsPageV2 {
 		this.traderList = traderList;
 		
 		this.traderList_show = this.traderList;
-		
+		debugger
 		console.log('teee', this.viewDidLeave.getValue())
 		this.realtimeReports$ = this.socketioService.subscribeRealtimeReports(traderIdList)
 			.do(() => console.log('realtimeReports$ success'))
@@ -415,7 +420,7 @@ export class QuotationsPageV2 {
 			
 			await this.subscribeRealtimeReports(true);
 			if(!!this.activeProduct.trim().toLowerCase()){
-				this._filterProduct(this.activeProduct);
+				this._filterProduct(this.activeProduct,false);
 			}
             setTimeout(() => {
 				refresher.complete();

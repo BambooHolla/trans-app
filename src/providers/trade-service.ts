@@ -190,6 +190,8 @@ export class TradeService {
                     priceId,
                     productId,
                     index,
+                    productName:!priceId ? `${product ? product.productName ?product.productName:'--' : '--'}` :`${product ? product.productName?product.productName:'--' : '--'}`,
+                    priceName:!priceId ? "":`${product ? price.productName?price.productName:'--' : '--'}`,
                   });
                 }
                 // }
