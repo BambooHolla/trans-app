@@ -363,7 +363,7 @@ export class QuotationsPageV2 {
 		this.traderList = traderList;
 		
 		this.traderList_show = this.traderList;
-		debugger
+		
 		console.log('teee', this.viewDidLeave.getValue())
 		this.realtimeReports$ = this.socketioService.subscribeRealtimeReports(traderIdList)
 			.do(() => console.log('realtimeReports$ success'))
