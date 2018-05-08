@@ -119,10 +119,33 @@ export class SubmitRealInfoPage extends SecondLevelPage {
 	  }
 
 	upload(name) {
-		const imageTaker = this.imageTakerCtrl.create(name);
-		const fid_promise = this.fs.getImageUploaderId(FileType.身份证图片);
-		imageTaker.onDidDismiss((result, role) => {
+		// const imageTaker = this.imageTakerCtrl.create(name);
+		// const fid_promise = this.fs.getImageUploaderId(FileType.身份证图片);
+		// imageTaker.onDidDismiss((result, role) => {
 			
+			// if (role !== 'cancel' && result) {
+			// 	const image = this.images.find(
+			// 		item => item.name === result.name
+			// 	);
+			// 	// console.log('index: ', index, result);
+			// 	if (result.data) {
+			// 		// 开始上传
+			// 		this.updateImage(fid_promise, image, result);
+
+			// 	} 
+			// 	// 隐藏没选图片的情况，这个图片提示用于图片上传失败
+			// 	// else {
+			// 	// 	image.image = 'assets/images/no-record.png';
+			// 	// }
+			// 	// console.log(this.images);
+			// }
+			
+		// });
+		// imageTaker.present();
+		const imageTaker = this.promptCtrl.imageTakerCtrl(name);
+		const fid_promise = this.fs.getImageUploaderId(FileType.工单图片);
+		imageTaker.onDidDismiss(async (result, role) => {
+		
 			if (role !== 'cancel' && result) {
 				const image = this.images.find(
 					item => item.name === result.name
@@ -139,7 +162,6 @@ export class SubmitRealInfoPage extends SecondLevelPage {
 				// }
 				// console.log(this.images);
 			}
-			
 		});
 		imageTaker.present();
 	}

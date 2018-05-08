@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { NavController, NavParams } from 'ionic-angular';
+import { NavController, NavParams,ActionSheetController } from 'ionic-angular';
 
 import { SecondLevelPage } from '../../bnlc-framework/SecondLevelPage';
 import { asyncCtrlGenerator } from '../../bnlc-framework/Decorator';
@@ -25,6 +25,7 @@ export class WorkOrderAddPage extends SecondLevelPage {
 		public imageTakerCtrl: ImageTakerController,
 		public workOrderService: WorkOrderServiceProvider,
 		public promptCtrl: PromptControlleService,
+		public actionsheetCtrl :ActionSheetController,
 	) {
 		super(navCtrl, navParams);
 	}
@@ -111,10 +112,39 @@ export class WorkOrderAddPage extends SecondLevelPage {
 
 	upload(name) {
 		
-		const imageTaker = this.imageTakerCtrl.create(name);
+		// const imageTaker = this.imageTakerCtrl.create(name);
+		// const fid_promise = this.fs.getImageUploaderId(FileType.工单图片);
+		// imageTaker.onDidDismiss(async (result, role) => {
+			
+			
+		// 	if (role !== 'cancel' && result) {
+		// 		const image = this.images.find(
+		// 			item => item.name === result.name
+		// 		);
+		// 	// console.log('index: ', index, result);
+		
+		// 		if (result.data) {
+		// 			// 开始上传
+		// 			await this.updateImage(fid_promise, image, result);					
+		// 			const fids = this.images
+		// 				.map(img => img.fid)
+		// 				.filter(fid => fid);
+		// 			this.files.setValue(fids.join(' '));
+		// 		} 
+		// 		// 隐藏没选图片的情况，这个图片提示用于图片上传失败
+		// 		// else {
+		// 		// 	image.image = 'assets/images/no-record.png';
+		// 		// }
+		// 	}
+		// 	// console.log(this.images);
+		
+		// });
+		// imageTaker.present();
+		
+		const imageTaker = this.promptCtrl.imageTakerCtrl(name);
 		const fid_promise = this.fs.getImageUploaderId(FileType.工单图片);
 		imageTaker.onDidDismiss(async (result, role) => {
-			
+			console.log(result)
 			
 			if (role !== 'cancel' && result) {
 				const image = this.images.find(
