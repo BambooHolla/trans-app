@@ -86,7 +86,7 @@ export class WorkOrderDetailPage extends SecondLevelPage
 		}
 		this.page = 1;
 		this.contact_list = await this._getContactList();
-		this.contact_status = this.contact_status_list[this.contact_list.contact.status]||"已提交";
+		this.contact_status = this.contact_status_list[this.contact_list.contact?this.contact_list.contact.status:"001"]||"已提交";
 		const contact_reply_list = await this._getContactReplyList();
 		this.chat_logs = contact_reply_list.reverse();
 	}
@@ -190,6 +190,11 @@ export class WorkOrderDetailPage extends SecondLevelPage
 	@asyncCtrlGenerator.error('发送出错')
 	async sendChat() {
 		const { chat_content } = this;
+		let list = (await this._getContactList());
+		let status = list["contact"]? list["contact"]["status"]:"001";
+		if(status == "010"){
+			return Promise.reject("工单已处理完成")
+		}
 		this.chat_content = chat_content.trim();
 		if (chat_content) {
 			const replay = await this.workOrderService.addContactReply(
