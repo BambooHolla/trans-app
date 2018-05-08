@@ -150,7 +150,7 @@ export class TradeInterfaceV2Page {
 
   // liquiddata:any;
 
-  _price: BehaviorSubject<string> = new BehaviorSubject(undefined)
+  _price: BehaviorSubject<string> = new BehaviorSubject(undefined);
   set price(str){
     this._price.next(str)
     this.checkMax(str)
@@ -161,7 +161,7 @@ export class TradeInterfaceV2Page {
   amount: string = '0';
   maxAmount: string | number ;
   range = 0;
-  @ViewChild('quantityRange') Range: any;
+  // @ViewChild('quantityRange') Range: any;
   @ViewChild('priceInputer') PriceInputer: any;
   @ViewChild('amountInputer') AmountInputer: any;
 
@@ -236,7 +236,7 @@ export class TradeInterfaceV2Page {
         .map(arr => arr.filter(item => item.stockCode === traderId))
         .map(arr => arr.length && +arr[0].saleableQuantity || 0)
         .distinctUntilChanged();
-
+ 
       this.initData()
       this.getProcessEntrusts()
       this.doSubscribe()
@@ -257,17 +257,29 @@ export class TradeInterfaceV2Page {
   }
 
   changeByStep(target: string, sign: string = '+', step?: any, precision: number = -8) {
+
     const invBase = Math.pow(10, -(precision));
     // 浮点数四则运算存在精度误差问题.尽量用整数运算
     // 例如 602 * 0.01 = 6.0200000000000005 ，
     // 改用 602 / 100 就可以得到正确结果。
     let length = 0
+
     if (isNaN(step)) { 
-      this[target] = this[target] == ''? '0' : this[target];
-      length = this[target].split('.')[1] ? this[target].split('.')[1].length : length
-      step = Math.pow(10, -length)
-      step = sign + step
+      // 旧要求，每次加最后一位
+      // this[target] = this[target] == ''? '0' : this[target];
+      // length = this[target].split('.')[1] ? this[target].split('.')[1].length : length
+      // step = Math.pow(10, -length)
+      // step = sign + step
+      
+      // 新要求
+      if( target == "amount") {
+        step = sign + 100;
+      } else if( target == "price") {
+        step = sign + 1;
+      }
+
     }
+    
     //原来的方法遇到 “0.0048” *10^8,会丢失精度
     // const result = Math.max(0, Math.floor(+this[target] * invBase + step * invBase) / invBase);
     //新方法,区分价格跟数量,价格用新的，数量用旧方法
@@ -355,6 +367,10 @@ export class TradeInterfaceV2Page {
   }
 
   setPrice(price = this.price) {
+    
+    if(!price){
+      price = '0';
+    }
     this.price = this.numberFormatDelete0(price)
     this.formatNumber('price')
   }
@@ -363,6 +379,15 @@ export class TradeInterfaceV2Page {
     const dataset = ($event.target as HTMLElement).dataset
     if (dataset && dataset.tradeType){
       this._tradeType$.next(Number(dataset.tradeType))
+      if(Number(dataset.tradeType)) {
+       
+        this.price = this.buy_depth[0] ? this.numberFormatDelete0(this.buy_depth[0].price)
+                     : this.marketPrice ? this.numberFormatDelete0(this.marketPrice) : "0" ;
+      } else {
+        this.price = this.sale_depth[0] ? this.numberFormatDelete0(this.sale_depth[0].price)
+                     : this.marketPrice ? this.numberFormatDelete0(this.marketPrice) : "0" ;
+      }
+     
       this.checkMax()
     }
   }
@@ -671,7 +696,10 @@ export class TradeInterfaceV2Page {
         this._depthSource$.subscribe(data=>{
           if(data){
             if(data.buy){
-              this.buy_depth = data.buy;
+              this.buy_depth = data.buy; 
+              if(this.buy_depth[0]){
+                this.price = this.numberFormatDelete0(this.buy_depth[0].price);
+              }
             }
             if (data.sale) {
               this.sale_depth = data.sale;
@@ -1213,8 +1241,9 @@ export class TradeInterfaceV2Page {
     
   }
 
-  numberFormatDelete0(number:string){
+  numberFormatDelete0(number:string|number){
     let arrExp:any ;
+    if(typeof number == "number") number = number.toString();
     number = number.split("").reverse().join("");
     arrExp = /[1-9|\.]/ig.exec(number)
     if(arrExp){
