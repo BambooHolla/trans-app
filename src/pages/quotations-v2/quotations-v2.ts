@@ -418,13 +418,37 @@ export class QuotationsPageV2 {
 	async initTraderList(refresher?: Refresher) {
         if (refresher) {
 			
-			await this.subscribeRealtimeReports(true);
-			if(!!this.activeProduct.trim().toLowerCase()){
-				this._filterProduct(this.activeProduct,false);
-			}
-            setTimeout(() => {
+			this.subscribeRealtimeReports(true).then(()=>{
+				if(!!this.activeProduct.trim().toLowerCase()){
+					this._filterProduct(this.activeProduct,false);
+				}
+				if(!this.appDataService.mainproducts){
+					this.tradeService.getMainProducts().then((mainproducts:AnyObject[]) =>{
+						for (const product of mainproducts){
+						  if (product.productId){
+							console.log('mainproducts:', product)
+							this.socketioService.subscribeHeaderPrice(product.productId)
+							  .do(data => console.log('mainproducts:::?', data))
+							  .filter(data=>data.type === product.productId)
+							  .map(data => data.data || data)
+							  .do(data => console.log('mainproducts:::!',data))
+							  .subscribe(data=>{
+								product.symbol = data.symbol
+								product.price = data.price
+								product.range = data.range
+							  })
+						  }
+						}
+						refresher.complete();
+					  }).catch(()=>{
+						refresher.complete();
+					})
+				}else{
+					refresher.complete();
+				}
+			}).catch(()=>{
 				refresher.complete();
-			}, 200);
+			});
         }
         
     }
