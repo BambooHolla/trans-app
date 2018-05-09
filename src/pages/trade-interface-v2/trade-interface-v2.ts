@@ -161,7 +161,17 @@ export class TradeInterfaceV2Page {
   amount: string = '0';
   maxAmount: string | number ;
   range = 0;
-  // @ViewChild('quantityRange') Range: any;
+  oneRange = 0;
+  tenRange = 0;
+  hundredRange = 0;
+
+   // @ViewChild('quantityRange') Range: any;
+  @ViewChild('oneQuantityRange') oneQuantity: any;
+  @ViewChild('tenQuantityRange') tenQuantity: any;
+  @ViewChild('hundredQuantityRange') hundredQuantity: any;
+
+
+ 
   @ViewChild('priceInputer') PriceInputer: any;
   @ViewChild('amountInputer') AmountInputer: any;
 
@@ -1010,15 +1020,22 @@ export class TradeInterfaceV2Page {
     }
   }
 
-  //快捷交易
+
+  //快捷交易三个拉动条
+  rangeQuickTradeData(data:any){
+    console.log(data)
+    this.getQuickTradeData("满仓")
+  }
+  //快捷交易 满仓等
   getQuickTradeData(index) {
     console.log('getQuickTradeData')
-    const rate = this._cards[Object.keys(this._cards)[index]]
+    debugger 
+    const rate = this._cards[Object.keys(this._cards)[index]]||1
     const traders = this.traderId.split('-')
     let priceProduct, productProduct
 
     this.personalDataService.personalStockList.forEach(item => {
-
+      //获取交易信息
       if (item.stockCode === traders[0]) {
         priceProduct = item
       } else if (item.stockCode === traders[1]) {
@@ -1028,6 +1045,7 @@ export class TradeInterfaceV2Page {
     })
 
     if (priceProduct) {
+      //可卖数量
       this.buyTotalQuantity = priceProduct.saleableQuantity * rate
       this.buyTotalAmount = undefined
       // priceid productid totalprice

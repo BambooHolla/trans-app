@@ -177,6 +177,7 @@ export class TradeService {
                 //   price
                 // );
                 // if (product) {
+                 
                 if (!traderList.has(`${priceId}-${productId}`) || shouldUpdate ){  
                   traderList.set(`${priceId}-${productId}`, {
                     traderId: `${priceId}-${productId}`,

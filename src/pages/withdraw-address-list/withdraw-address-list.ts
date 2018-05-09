@@ -127,8 +127,10 @@ export class WithdrawAddressListPage extends SecondLevelPage {
 			productInfo: this.productInfo,
 		});
 		selector.onDidDismiss(returnData => {
-			
-			this.formData.withdraw_address_id = returnData?returnData.id : undefined;
+			if(!returnData){
+				return ;
+			}
+			this.formData.withdraw_address_id = returnData.id
 			this.withdraw_address_list.push(returnData ? returnData : {})
 		  });
 		selector.present();
