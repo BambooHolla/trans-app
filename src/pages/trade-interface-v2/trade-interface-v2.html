@@ -271,6 +271,57 @@
 			</ion-card>
 		</ion-scroll>
 	</ion-grid>
+	<ion-grid class="stnum trinp" [hidden]="true||!appDataService.show_onestep_trade">
+	
+		<ion-row class="range-component">
+			<ion-item no-lines class="range-item">
+				<ion-range #oneQuantityRange
+					 [class.issale]="false"
+					 [(ngModel)]="oneRange"
+					 max='100'
+					 min='0'
+					 step='1'
+					 (ionChange)="rangeQuickTradeData(oneRange)" 
+					 pin="false"></ion-range>
+			</ion-item>
+			<!-- <div class="range-mark">
+				<div class="left">0</div>
+				<div class="right">{{maxAmount  | numberUnitFormat:true}}{{targetName}}</div>
+			</div> -->
+		</ion-row>
+		<ion-row class="range-component">
+			<ion-item no-lines class="range-item">
+				<ion-range #tenQuantityRange
+					 [class.issale]="false"
+					 [(ngModel)]="tenRange" 
+					 max='1000'
+					 min='0'
+					 step='10'
+					 (ionChange)="rangeQuickTradeData(tenRange)" 
+					 pin="false"></ion-range>
+			</ion-item>
+			<!-- <div class="range-mark">
+				<div class="left">0</div>
+				<div class="right">{{maxAmount  | numberUnitFormat:true}}{{targetName}}</div>
+			</div> -->
+		</ion-row>
+		<ion-row class="range-component">
+			<ion-item no-lines class="range-item">
+				<ion-range #hundredQuantityRange
+					 [class.issale]="false"
+					 [(ngModel)]="hundredRange" 
+					 max='10000'
+					 min='0'
+					 step='100'
+					 (ionChange)="rangeQuickTradeData(hundredRange)" 
+					 pin="false"></ion-range>
+			</ion-item>
+			<!-- <div class="range-mark">
+				<div class="left">0</div>
+				<div class="right">{{maxAmount  | numberUnitFormat:true}}{{targetName}}</div>
+			</div> -->
+		</ion-row>
+	</ion-grid>
 
 	<div class="entrusts">
 		<div class="header">

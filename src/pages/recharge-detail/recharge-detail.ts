@@ -51,7 +51,7 @@ export class RechargeDetailPage extends SecondLevelPage {
 		undefined,
 		'recharge-detail',
 	)
-	@asyncCtrlGenerator.error('获取账户信息出错')
+	@asyncCtrlGenerator.error('获取数据出错')
 	async getAccountsInfo() {
 		this.productInfo = this.navParams.get('productInfo');
 		if (this.productInfo) {
