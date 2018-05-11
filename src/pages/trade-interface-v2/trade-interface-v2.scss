@@ -1,5 +1,8 @@
 page-trade-interface-v2 {
 	//reset grid padding
+	ion-header{
+	
+	}
 	ion-header.active-back{
 		transform: translateX(100%);
 		will-change: transform,-webkit-transform;
