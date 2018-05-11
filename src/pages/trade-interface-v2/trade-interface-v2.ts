@@ -36,6 +36,7 @@ import { BigNumber } from "bignumber.js";
   templateUrl: 'trade-interface-v2.html'
 })
 export class TradeInterfaceV2Page {
+  activeBack:boolean = false;
   quickTrading: boolean = false;
   trading: boolean = false;
   marketPrice: any;
@@ -603,7 +604,9 @@ export class TradeInterfaceV2Page {
       .then(() => (this.checkMax(), this.requestAssets(), this.getProcessEntrusts()))
       .then(() => refresher ? refresher.complete() : void 0)
   }
-
+  ionViewWillLeave(){
+    this.activeBack =true;
+  }
   ionViewDidEnter(){
     // window["confirmChangeTradingMode"] = this.confirmChangeTradingMode
     this.viewDidLeave.next(false);
@@ -1030,9 +1033,7 @@ export class TradeInterfaceV2Page {
   }
   //快捷交易 满仓等
   getQuickTradeData(index) {
-    if(index || !index){
-      return ;
-    }
+    
     console.log('getQuickTradeData')
     
     const rate = this._cards[Object.keys(this._cards)[index]]||1
