@@ -68,11 +68,11 @@ page-trade-interface-v2 {
 			background: transparent;
 		}
 		&.issale .range-slider .range-bar:first-child{
-			border: 1px solid color($colors,eye-catching);
+			border: 1px solid #fff;
 		}
 		
 		&.issale .range-bar-active{
-			background:color($colors,eye-catching);
+			background:#fff;
 		}
 	}
 	
