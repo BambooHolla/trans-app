@@ -35,7 +35,7 @@
         <div item-right class="error-tip" *ngIf="newPassword.errors?.sameError||oldPassword.errors?.sameError">
           不可和旧密码相同
         </div>
-        validatePWDDiff
+        
       </ion-item>
       <ion-item class="account-form-item">
         <ion-input formControlName="confirmNewPassword" class="password" type="password" placeholder="确认新密码">
@@ -44,7 +44,7 @@
           两次密码填写不一致
         </div>
       </ion-item>
-      <button ion-button class="account-form-submit" type="submit" [disabled]="modifyForm.invalid || !appDataService.ready || modifying">
+      <button ion-button class="account-form-submit" type="submit" [disabled]="modifyForm.invalid || !appDataService.ready || repeatPWDAdopt || modifying">
         确定修改
       </button>
     </form>
