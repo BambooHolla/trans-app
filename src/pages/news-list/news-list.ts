@@ -272,7 +272,8 @@ export class NewsListPage /* implements OnInit, OnDestroy  */ extends SecondLeve
         infiniteScroll.enable(noticeList.hasMore);
     }
 
-    toShowSearch() {
+    toShowSearch(searchInput) {
+        searchInput.value = '';
         this.showSearch = true;
         this.renderer.setElementStyle(this.searchInputWrap.nativeElement, 'width', 'unset');
     }

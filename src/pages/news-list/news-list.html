@@ -7,7 +7,7 @@
                     <span class="tab-item" (click)="tabClick(1)">新闻</span>
                     <div class="tab-tale" [ngClass]="'tab-pos-'+(tabIndex+1)"></div>
                 </ion-col>
-                <ion-buttons right padding-horizontal [style.visibility]="showSearch? 'hidden':'visible'" (click)="toShowSearch()">
+                <ion-buttons right padding-horizontal [style.visibility]="showSearch? 'hidden':'visible'" (click)="toShowSearch(searchInput)">
                     <button class="button_self" ion-button>
                         <ion-icon class="large-icon" name="search"></ion-icon>
                     </button>

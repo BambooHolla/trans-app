@@ -165,6 +165,8 @@ export class TradeInterfaceV2Page {
   tenRange = 0;
   hundredRange = 0;
 
+  buyQuantityMax:any = 0;
+  saleQuantityMax:any = 0;
    // @ViewChild('quantityRange') Range: any;
   @ViewChild('oneQuantityRange') oneQuantity: any;
   @ViewChild('tenQuantityRange') tenQuantity: any;
@@ -1023,13 +1025,16 @@ export class TradeInterfaceV2Page {
 
   //快捷交易三个拉动条
   rangeQuickTradeData(data:any){
-    console.log(data)
-    this.getQuickTradeData("满仓")
+    console.log('.....',data)
+
   }
   //快捷交易 满仓等
   getQuickTradeData(index) {
+    if(index || !index){
+      return ;
+    }
     console.log('getQuickTradeData')
-    debugger 
+    
     const rate = this._cards[Object.keys(this._cards)[index]]||1
     const traders = this.traderId.split('-')
     let priceProduct, productProduct
@@ -1054,6 +1059,8 @@ export class TradeInterfaceV2Page {
           if (data) {
             this.buyTotalQuantity = data.forecastAmount
             this.buyTotalAmount = data.forecastPrice
+            this.buyQuantityMax =  data.forecastAmount/1e8;
+            console.log('........',this.buyQuantityMax)
           } 
           // else {
           //   this.buyTotalQuantity = 0
@@ -1068,6 +1075,10 @@ export class TradeInterfaceV2Page {
           if (data) {
             this.saleTotalQuantity = data.forecastAmount
             this.saleTotalAmount = data.forecastPrice
+            this.saleQuantityMax = data.forecastAmount/1e8;
+           
+
+            console.log('........',this.saleQuantityMax)
           } 
           // else {
           //   this.saleTotalQuantity = 0
