@@ -85,13 +85,18 @@ export class ModifyPwdPage {
 		);
 	}
 
+	repeatPWDAdopt = false;
 	validatePWDDiff() {
 		if (this.modifyForm) {
 			const oldPassword = this.modifyForm.get('oldPassword').value;
 			const newPassword = this.modifyForm.get('newPassword').value;
-			return newPassword && oldPassword === newPassword
-				? { sameError: true }
-				: null;
+			if(newPassword && oldPassword === newPassword){
+				this.repeatPWDAdopt = true;
+				return { sameError: true };
+			}else{
+				this.repeatPWDAdopt = newPassword.length < 3 ? true : false;
+				return null
+			}
 		}
 	}
 	validatePWD() {

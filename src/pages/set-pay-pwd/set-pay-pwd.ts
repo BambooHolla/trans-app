@@ -85,11 +85,11 @@ export class SetPayPwdPage extends SecondLevelPage {
 		);
 	}
 	get canSubmit() {
-		// 表单中所有的值都不能为空
-		return (
+		// 表单中所有的值都不能为空,检验标识需通过
+		return ( 
 			this.protocolAgree &&
 			Object.keys(this.formData).every(k => this.formData[k]) &&
-			!this.hasError(this.errors)
+			!this.hasError(this.errors) && !this.payPWD && !this.confirmPayPWD
 		);
 	}
 	protocolAgree = true;
@@ -116,6 +116,8 @@ export class SetPayPwdPage extends SecondLevelPage {
 	}
 
 	pwdAgreementPass = false;
+	payPWD = false;
+	confirmPayPWD = false;
 	pwdAgreement(){
 		const { formData } = this;
 		if(formData.payPWD && formData.confirmPayPWD && (formData.payPWD == formData.confirmPayPWD)){
@@ -123,5 +125,16 @@ export class SetPayPwdPage extends SecondLevelPage {
 		} else {
 			this.pwdAgreementPass = false;
 		}
+		if(formData.payPWD  && (formData.payPWD.length < 6)){
+			this.payPWD = true;
+		} else {
+			this.payPWD = false;
+		}
+		if(formData.confirmPayPWD  && (formData.confirmPayPWD.length < 6)){
+			this.confirmPayPWD = true;
+		} else {
+			this.confirmPayPWD = false;
+		}
 	}
+
 }

@@ -14,6 +14,9 @@
         <ion-item>
             <ion-label class="form-label with-left-baseline" color="primary">交易密码</ion-label>
             <ion-input type="password" [(ngModel)]="formData.payPWD" set-input-status="payPWD" placeholder="请输入您的交易密码" (input)="pwdAgreement()"></ion-input>
+            <div item-right class="error-tip" *ngIf="(formData.payPWD  && payPWD)">
+               密码至少6位
+            </div>
             <div item-right class="error-tip" *ngIf="(formData.payPWD && formData.confirmPayPWD && !pwdAgreementPass)">
                 两次密码不一致
             </div>
@@ -21,6 +24,9 @@
         <ion-item>
             <ion-label class="form-label with-left-baseline" color="primary">确认密码</ion-label>
             <ion-input type="password" [(ngModel)]="formData.confirmPayPWD" set-input-status="confirmPayPWD" [watch-input-keys]="['payPWD']" placeholder="请再次输入您的交易密码" (input)="pwdAgreement()"></ion-input>
+            <div item-right class="error-tip" *ngIf="(formData.confirmPayPWD && confirmPayPWD)">
+                密码至少6位
+            </div>
             <div item-right class="error-tip" *ngIf="(formData.confirmPayPWD && formData.payPWD && !pwdAgreementPass)">
                 两次密码不一致
             </div>
@@ -37,7 +43,7 @@
         <ion-item>
             <ion-label class="form-label with-left-baseline" color="primary">验证码</ion-label>
             <ion-input [(ngModel)]="formData.vcode" placeholder="请填写验证码"></ion-input>
-            <button (vcode-sender)="$event.waitFor(sendValidate())" [disabled]="(!formData.check_method || !pwdAgreementPass)" ion-button item-end color="special">获取验证码</button>
+            <button (vcode-sender)="$event.waitFor(sendValidate())" [disabled]="(!formData.check_method || !pwdAgreementPass || payPWD || confirmPayPWD)" ion-button item-end color="special">获取验证码</button>
         </ion-item>
 
         <ion-item>
