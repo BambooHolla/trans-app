@@ -607,9 +607,11 @@ export class TradeInterfaceV2Page {
   ionViewWillLeave(){
     this.activeBack =true;
   }
+ 
   ionViewDidEnter(){
     // window["confirmChangeTradingMode"] = this.confirmChangeTradingMode
     this.viewDidLeave.next(false);
+    this.activeBack = false;
     // console.log('pricetarget', this.PriceInputer)
     // console.log('pricetarget', this.PriceInputer.getElementRef())
     // console.log('pricetarget', this.PriceInputer.getNativeElement())
@@ -744,9 +746,11 @@ export class TradeInterfaceV2Page {
     }
   }
 
-  gotoHistory($event){
+  gotoHistory($event){ 
     this.navCtrl.push(HistoryRecordPage, {
       traderId: this.traderId,
+    }).then(()=>{
+      this.activeBack = false;
     })
   }
 

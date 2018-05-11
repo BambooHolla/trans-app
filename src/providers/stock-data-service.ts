@@ -460,7 +460,7 @@ export class StockDataService {
     if (!this._stockObservableMap.has(eventName)){
       this._stockObservableMap.set(eventName, new Map());
     }
-
+    
     const realtimeData = this._stockRealtimeData.getValue()
     if (this.appSettings.SIM_DATA){
       this.getSimStartData(code);
