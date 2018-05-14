@@ -1,7 +1,7 @@
 import { NgModule, ErrorHandler } from '@angular/core';
 // import { RouterModule, Routes } from '@angular/router';
 import { BrowserModule } from '@angular/platform-browser';
-// import { HttpModule, Http } from '@angular/http';
+import { HttpClient, HttpClientModule } from "@angular/common/http";
 import { HttpModule } from '@angular/http';
 
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
@@ -21,8 +21,8 @@ import 'rxjs/add/operator/toPromise';
 import 'rxjs/add/operator/timeout';
 import 'rxjs/add/operator/delay';
 
-// import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
-// import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
 import { PicassoApp } from './app.component';
 
@@ -172,11 +172,9 @@ import { PromptControlleService } from '../providers/prompt-controlle-service';
 // import { BankCode2NamePipe } from '..\pipes\bank-code2-name/bank-code2-name';
 // import { FileService } from '../providers/file.service';
 // import { IsLoadingDirective } from '../directives/is-loading/is-loading';
-
-// export function createTranslateLoader(http: Http) {
-//   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
-// }
-
+export function createTranslateLoader(http: HttpClient) {
+    return new TranslateHttpLoader(http, "./assets/i18n/", ".json");
+  }
 // const appRoutes: Routes = [
 //   {
 //     path: '',
@@ -281,6 +279,7 @@ import { PromptControlleService } from '../providers/prompt-controlle-service';
     ],
     imports: [
         // NewsContentModule,
+        
         IonicModule.forRoot(
             PicassoApp,
             {
@@ -365,13 +364,14 @@ import { PromptControlleService } from '../providers/prompt-controlle-service';
         ModifyPwdPageModule,
         BrowserModule,
         HttpModule,
-        // TranslateModule.forRoot({
-        //   loader: {
-        //     provide: TranslateLoader,
-        //     useFactory: (createTranslateLoader),
-        //     deps: [Http]
-        //   }
-        // }),
+        HttpClientModule,
+        TranslateModule.forRoot({
+            loader: {
+              provide: TranslateLoader,
+              useFactory: createTranslateLoader,
+              deps: [HttpClient],
+            },
+          }),
         ListSharedModule,
         InformationModule,
         BaseSharedModule,

@@ -15,7 +15,7 @@ import {
   ModalController,
 } from "ionic-angular";
 
-// import { TranslateService } from '@ngx-translate/core';
+import { TranslateService } from '@ngx-translate/core';
 
 // import { LoadingPage } from '../pages/loading/loading';
 import { TabsPage } from "../pages/tabs/tabs";
@@ -80,7 +80,7 @@ export class PicassoApp {
     public loadingCtrl: LoadingController,
     public toastCtrl: ToastController,
     public modalController: ModalController,
-    // translate: TranslateService,
+    public translate: TranslateService,
     public renderer2: Renderer2,
   ) {
     window["platform"] = platform;
@@ -89,7 +89,7 @@ export class PicassoApp {
     window["toastCtrl"] = toastCtrl;
     window["modalCtrl"] = modalController;
     window["clipboard"] = clipboard;
-
+    window["translate"] = translate;
     if (!navigator["clipboard"]) {
       navigator["clipboard"] = {
         writeText: text => clipboard.copy(text),

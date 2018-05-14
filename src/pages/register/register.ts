@@ -192,6 +192,7 @@ export class RegisterPage {
   }
 
   showModal(agreementName = 'registAgreement') {
+    console.log("获取语言",window["translate"].getBrowserCultureLang());
     if (agreementName in this.appSettings.agreementData) {
       const { title, agreementFirst } = this.appSettings.agreementData[agreementName];
       const informationModal = this.modalCtrl.create(InformationModal, {
