@@ -43,7 +43,7 @@ export class LoginPage implements OnInit{
     // myContry: new FormControl('1002'),
     customerId: new FormControl({ value: '' }, Validators.required),
     password: new FormControl({ value: '' }, Validators.required),
-    savePassword: new FormControl({ value: true })
+    savePassword: new FormControl({ value: false })
   });
 
   get customerId(){
@@ -120,14 +120,16 @@ export class LoginPage implements OnInit{
       await appDataService.dataReady;
 
       const controls = this.loginForm.controls;
-
       for (const prop in controls) {
         // controls[prop].enable();
         if (prop in appDataService) {
+          
           // console.log(prop, appDataService[prop]);
           controls[prop].setValue(appDataService[prop]);
         }
+
       }
+
     } catch (err) {
       console.log(err.message);
     }
@@ -141,7 +143,7 @@ export class LoginPage implements OnInit{
       customerId = customerId.replace(/(\s*$)/g, "");
     }
     const password = controls['password'].value;
-    const savePassword = true;//controls['savePassword'].value;
+    const savePassword = false;//controls['savePassword'].value;
     const type = this.appSettings.accountType(customerId);
 
     this.logining = true;
@@ -153,7 +155,7 @@ export class LoginPage implements OnInit{
         // this.tabsPage.tabs.select(tabIndex);
         cb();
       }
-    }
+    } 
     this.logining = false;
   }
 
