@@ -6,7 +6,7 @@
 -->
 <ion-header>
     <ion-navbar>
-        <ion-title>{{productInfo?.productDetail}}提现</ion-title>
+        <ion-title>{{productInfo?.productName}}提现</ion-title>
     </ion-navbar>
 </ion-header>
 <ion-content>
@@ -14,7 +14,7 @@
         <ion-item>从
             <button item-end class="account-selector" [title]="access_info?.balance">
                 <div class="account-info">
-                    <div class="account-name">{{productInfo?.productDetail}}{{productInfo?.cryptoCurrencyCode}}</div>
+                    <div class="account-name">{{productInfo?.productName}}{{productInfo?.cryptoCurrencyCode}}</div>
                     <div class="account-amount">可用{{access_info?.balance/1e8|number:'1.4-4'}}{{productInfo?.cryptoCurrencyCode}}</div>
                 </div>
             </button>
@@ -77,7 +77,7 @@
         </ion-item-divider>
         <ion-item>
             网络转账费用
-            <span item-end class="transfer-expenses">{{(rate_info?.rateNumber||0)|number:'1.4-4'}} {{productInfo?.productDetail}}</span>
+            <span item-end class="transfer-expenses">{{(rate_info?.rateNumber||0)|number:'1.4-4'}} {{productInfo?.productName}}</span>
         </ion-item>
         <!-- <ion-item class="bg-transparent"> -->
         <!-- <div class="transfer-tip">以太坊网络转账费用为每笔0.0100ETH,用于支付给矿工的手续费。以太坊网络转账费用是不固定的,取决于转账时矿工计算需要消耗的算力,当转账费用超过90000gas(目前折合为0.018个ETH),此次转账会失败,并将余额退回到您的原账户。</div> -->
