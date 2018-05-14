@@ -60,45 +60,34 @@ export class LoginService {
         const token = this.appDataService.token;
         var token_use_able = false;
         
-        // if (token) {
-        //   // FIXME ：即使缓存中有 token ，也不应当直接使用！
-        //   // 因为有可能是之前登录留下的，
-        //   // 而一段时间后服务端有变更（例如服务器重启、用户更改密码等）！
-        //   // 因此需要在启动时检测一下 token 是否可用，
-        //   // 若不可用，则需要拿已存的用户名与密码重新进行一次登录；
-        //   // 或者也可以考虑不检测 token 的有效性，直接进行登录尝试。
-        //   try {
-        //     //检测一下 token 是否可用，
-        //     const loginerInfo = await this.appService.request(
-        //       RequestMethod.Get,
-        //       this.GET_CUSTOMER_DATA,
-        //       void 0,
-        //       true,
-        //     );
-        //     console.log(loginerInfo);
-        //     token_use_able = true;
-        //   } catch (err) {
-        //     console.warn('Token过期不可用');
-        //     try {
-        //       if (this.appDataService.password) {
-        //         console.log('尝试帐号密码登录更新Token');
-        //         const loginRes = await this._doLogin(
-        //           this.appDataService.customerId,
-        //           this.appDataService.password,
-        //           this.appDataService.savePassword,
-        //         );
-        //         console.log('loginRes', loginRes);
-        //         token_use_able = true;
-        //       }
-        //     } catch (err) {
-        //       console.error('尝试帐号密码登录更新Token失败\n', err);
-        //       this.doLogout()
-        //     }
-        //   }
-        // }
-        // this.setToken(token_use_able ? token : '');
-        //每次进来都需要登录
-        this.doLogout();
+        if (token) {
+          // FIXME ：即使缓存中有 token ，也不应当直接使用！
+          // 因为有可能是之前登录留下的，
+          // 而一段时间后服务端有变更（例如服务器重启、用户更改密码等）！
+          // 因此需要在启动时检测一下 token 是否可用，
+          try {
+            //检测一下 token 是否可用，
+            const loginerInfo = await this.appService.request(
+              RequestMethod.Get,
+              this.GET_CUSTOMER_DATA,
+              void 0,
+              true,
+            );
+            console.log(loginerInfo);
+            token_use_able = true;
+          } catch (err) {
+            console.warn('Token过期不可用');
+            //获取保存的用户账号
+            let customerId = this.appDataService.customerId;
+            //清空登入信息,保留用户账号
+            this.doLogout().then(success => {
+              this.appDataService.customerId = customerId;
+            });
+          }
+        }
+        this.setToken(token_use_able ? token : '');
+       
+       
       })
       .catch(err => {
         console.log(err);
@@ -148,7 +137,7 @@ export class LoginService {
   public doLogin(
     customerId: string,
     password: string,
-    savePassword: boolean = true,
+    savePassword: boolean = false,
     type?: number,
   ): Promise<boolean | string> {
     return this._doLogin(customerId, password, savePassword, type)
@@ -157,14 +146,14 @@ export class LoginService {
         Object.assign(this.appDataService, {
           token: data.token,
           customerId,
-          password,
+          // password,
           savePassword,
         });
-
+ 
         this.setLoginData(data);
         return true;
       })
-      .catch(error => {
+      .catch(error => { 
         //将error转为对象,
         const body = error.json() || error;
         //提取error
@@ -172,16 +161,18 @@ export class LoginService {
         console.log('login err:', err);
         const message = err.message || err.statusText || '登录失败！';
         this.alertService.showAlert('警告', message);
+        //清空登入信息
+        this.doLogout();
         return err.message || err.statusText || err;
       });
   }
 
   public doLogout() {
     document.cookie = `X-AUTH-TOKEN=;expires=Thu, 01 Jan 1970 00:00:00 GMT`;
-    this.bnlcAppSetting.clearUserToken();
+    this.bnlcAppSetting.clearUserToken();  
     return new Promise(resolve => {
       this.appDataService.resetCustomization();
-
+ 
       this.userToken.next('');
 
       resolve(true);
