@@ -6,14 +6,16 @@ import {
 	IonicPage,
 	LoadingController,
 	NavController,
-	NavParams
+	NavParams,
+	Events,
+	ModalController,
 } from 'ionic-angular';
 
 import { RegisterService } from '../../providers/register-service';
 import { LoginService } from '../../providers/login-service';
 import { AppDataService } from '../../providers/app-data-service';
 import { AppSettings } from '../../providers/app-settings';
-
+import { LoginPage } from "../login/login";
 /**
  * Generated class for the ModifyPwdPage page.
  *
@@ -62,7 +64,9 @@ export class ModifyPwdPage {
 		public registerService: RegisterService,
 		public loginService: LoginService,
 		public appDataService: AppDataService,
-		public appSettings: AppSettings
+		public appSettings: AppSettings,
+		public events: Events,
+		public modalController: ModalController,
 	) {
 		window['midifyPWDPage'] = this;
 	}
@@ -120,14 +124,27 @@ export class ModifyPwdPage {
 			this.alertCtrl
 				.create({
 					title: '修改成功',
-					message: '是否要返回上一页',
+					message: '请重新登入',
 					buttons: [
 						{
 							text: '确定',
 							handler: () => {
 								const views = this.navCtrl.getViews();
 								if (views.length > 1) {
-									this.navCtrl.pop();
+									this.navCtrl.popToRoot({
+										animate:false
+									}).then(() => {
+										//清空登入信息,保留用户账号,跳转到登入页
+										let customerId = this.appDataService.customerId;
+																		
+										this.loginService.doLogout().then(success => {
+											this.appDataService.customerId = customerId;
+											// this.routeTo('quotations')
+											//先把路由跳转到行情也，并触发登录事件,登入成功跳转到“我的”页面
+											this.navCtrl.parent.select(0);
+											this.events.publish('show login', 'login', () => { this.navCtrl.parent.select(3);});
+										});
+									})
 								}
 							}
 						}
