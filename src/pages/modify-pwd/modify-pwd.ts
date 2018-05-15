@@ -38,11 +38,12 @@ export class ModifyPwdPage {
 		newPassword: new FormControl({ value: '', disabled: false }, [
 			Validators.required,
 			Validators.minLength(3),
-			this.validatePWDDiff.bind(this)
+			this.validatePWDDiff.bind(this),
+			this.validatePWDDStrength.bind(this,'newPassword')
 		]),
 		confirmNewPassword: new FormControl({ value: '', disabled: false }, [
 			Validators.required,
-			this.validatePWD.bind(this)
+			this.validatePWD.bind(this),
 		])
 	});
 	get oldPassword() {
@@ -79,6 +80,7 @@ export class ModifyPwdPage {
 		const newPassword = this.newPassword;
 		this.newPassword.setErrors(this.validatePWDDiff());
 		console.log('sameError', this.newPassword.getError('sameError'));
+		
 	}
 	onNewPasswordInput(e) {
 		const confirmNewPassword = this.confirmNewPassword;
@@ -103,6 +105,7 @@ export class ModifyPwdPage {
 			}
 		}
 	}
+
 	validatePWD() {
 		if (this.modifyForm) {
 			const password = this.modifyForm.get('newPassword').value;
@@ -111,6 +114,20 @@ export class ModifyPwdPage {
 			return password !== confirPassword ? { confirmError: true } : null;
 		}
 	}
+
+
+	validatePWDDStrength(pwdType){
+		if (this.modifyForm) {
+			const password = this.modifyForm.get(pwdType).value;
+			if(!password) return null;
+			//密码至少包含一个大写，一个小写，一个数字
+			let pattern = new RegExp( /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{3,}$/);
+			return pattern.test(password) ? null	 :  { strengthError: true };
+		}
+		
+	}
+
+
 
 	modifying = false;
 	async modify() {

@@ -202,6 +202,11 @@ page-modify-pwd {
                 transform: scale(1.02);
                 font-weight: 400;
             }
+            .pwd-strength{
+                color: #c1b17f; // font-weight: bolder;
+                margin: 0.5rem 0;
+                font-size: 1rem;
+            }
         }
     }
     // 表单校验的样式
