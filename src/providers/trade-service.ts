@@ -22,7 +22,7 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
 import { Observable } from 'rxjs/Observable';
 import { StockDataService } from './stock-data-service';
-
+import { BigNumber } from "bignumber.js";
 @Injectable()
 export class TradeService {
   public purchase(
@@ -66,13 +66,9 @@ export class TradeService {
         productId: equityCode.split('-')[1], //equityCode,
         priceProductId: equityCode.split('-')[0], //string,标的（标价产品id），产品对产品交易时有
         price: consignmentPrice, // 价格
-        amount: +consignmentCount * this.appSettings.Product_Price_Rate // 数量
+        amount: new BigNumber(consignmentCount).multipliedBy(this.appSettings.Product_Price_Rate).toString() // 数量
       };
-
-      //为了能先交易完成
-      data.amount = '' + data.amount;
-      data.price = '' + data.price;
-      
+ 
       promise = this.http
         .post(url, data, options)
         .toPromise()
@@ -246,7 +242,7 @@ export class TradeService {
       params['saleTotalAmount'] = ''+amount
       params['saleProductId'] = productId
     }
-
+    debugger
     return this.appService
       .request(RequestMethod.Post, path, params, true)
       .then(data => {
