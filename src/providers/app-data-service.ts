@@ -1,9 +1,27 @@
 import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage';
-
+import { Device } from '@ionic-native/device';
 @Injectable()
 export class AppDataService {
-  constructor(public storage: Storage) {
+
+  //记录设备信息
+  // cordova 获取在设备上运行的Cordova版本。
+  // model device.model返回设备型号或产品的名称。该值由设备制造商设置，并可能在同一产品的不同版本中有所不同。 
+  // platform 获取设备的操作系统名称。
+  // uuid 获取设备的通用唯一标识符（UUID）。
+  // version 获取操作系统版本。
+  // manufacturer 获取设备的制造商。
+  // isVirtual 设备是否在模拟器上运行。
+  // serial 获取设备硬件序列号。
+  public DEVICE_DATA:any = {
+    uuid:'',
+  }
+
+
+  constructor(
+    public storage: Storage,
+    private device: Device,
+  ) {
     this.initProperties();
     this.getDataFromStorage();
     window['appdata'] = this;

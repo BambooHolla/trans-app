@@ -139,6 +139,7 @@ import { AndroidPermissions } from '@ionic-native/android-permissions';
 import { ScreenOrientation } from '@ionic-native/screen-orientation';
 import { AndroidFullScreen } from '@ionic-native/android-full-screen';
 import { Clipboard } from '@ionic-native/clipboard';
+import { Device } from '@ionic-native/device';
 //引入资讯模块
 import { InformationModule } from '../pages/information/information.module';
 
@@ -169,6 +170,7 @@ import { WorkOrderServiceProvider } from '../providers/work-order-service/work-o
 import { InviteCommissionPage } from '../pages/invite-commission/invite-commission';
 import { QuotationsPage } from '../pages/quotations/quotations';
 import { PromptControlleService } from '../providers/prompt-controlle-service';
+
 // import { BankCode2NamePipe } from '..\pipes\bank-code2-name/bank-code2-name';
 // import { FileService } from '../providers/file.service';
 // import { IsLoadingDirective } from '../directives/is-loading/is-loading';
@@ -275,7 +277,8 @@ export function createTranslateLoader(http: HttpClient) {
         // IsLoadingDirective,
         CommonAlert,
         InviteCommissionPage,
-        CustomizeAlert
+        CustomizeAlert,
+      
     ],
     imports: [
         // NewsContentModule,
@@ -379,7 +382,8 @@ export function createTranslateLoader(http: HttpClient) {
         SearchItemPageModule,
         ComponentsModule,
         BNLC_DirectivesModule,
-        DirectivesModule
+        DirectivesModule,
+      
         // InformationSlideModule,
         // RouterModule.forChild(appRoutes),
     ],
@@ -480,6 +484,7 @@ export function createTranslateLoader(http: HttpClient) {
         StockDataService,
         PersonalDataService,
         TradeService,
+        Device,
         // CameraModal,
         ImageTakerController,
         // FileService,
