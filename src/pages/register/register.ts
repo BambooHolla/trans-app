@@ -13,6 +13,7 @@ import {
 import { RegisterService } from '../../providers/register-service';
 import { AppDataService } from '../../providers/app-data-service';
 import { AppSettings } from '../../providers/app-settings';
+import { IdentificationNumberCheckerProvider } from '../../providers/identification-number-checker/identification-number-checker';
 
 import { InformationModal } from '../../modals/information-modal/information-modal';
 import { PromptControlleService } from "../../providers/prompt-controlle-service";
@@ -30,22 +31,47 @@ import { PromptControlleService } from "../../providers/prompt-controlle-service
 export class RegisterPage {
   registerForm: FormGroup = new FormGroup({
     // myContry: new FormControl('1002'),
-    customerId: new FormControl({ value: '', disabled: false }),
+    customerId: new FormControl({ value: '', disabled: false }, [
+			Validators.required,
+			(data => {
+        this.check_sending_vcode = false;
+        if(!data.value){
+          this.check_sending_vcode = true;
+          return null;
+        }
+				//如果用this.IDtye去获取，在这边会报错，get is not function
+				if (!this.idNumberChecker.checkIphone(data.value)) {
+          this.check_sending_vcode = true;
+					return {
+						wrongCustomerId: true
+					};
+        }
+				return null;
+			}).bind(this)
+		]),
     vcode: new FormControl({ value: '', disabled: false },Validators.required),
     password: new FormControl({ value: '', disabled: false },[Validators.minLength(3),Validators.required]),
     confirPassword: new FormControl({ value: '', disabled: false },[Validators.required,this.validatePWD.bind(this)]),
-    protocolAgree: new FormControl({ value: true, disabled: false })
+    protocolAgree: new FormControl({ value: true, disabled: false }),
+    recommendCode: new FormControl({ value: '', disabled: false }),
   });
   get form_password(){
     return this.registerForm.get("password");
+  }
+  get form_customerId(){
+    return this.registerForm.get("customerId");
+  }
+  get form_confirPassword(){
+    return this.registerForm.get("confirPassword");
   }
   validatePWD(){
     if(this.registerForm){
       const password  = this.registerForm.get("password").value;
       const confirPassword  = this.registerForm.get("confirPassword").value;
-      return password!==confirPassword?{zz:"zzz"}:null
+      return password!==confirPassword?{ confirmError: true } : null;
     }
   }
+
   // protocolAgree = false;
 
   toggleProtocolAgree() {
@@ -65,7 +91,8 @@ export class RegisterPage {
     public elementRef: ElementRef,
     public registerService: RegisterService,
     public appDataService: AppDataService,
-    public appSettings: AppSettings
+    public appSettings: AppSettings,
+    public idNumberChecker: IdentificationNumberCheckerProvider,
   ) {
     const rawVal = this.registerForm.getRawValue();
     // console.log(navParams.get('raw'), navParams)
@@ -102,6 +129,7 @@ export class RegisterPage {
 
   sending_vcode = false;
   resend_time_clock = 0;
+  check_sending_vcode = true;
   _resend_time_clock_ti: any;
   tickResendTimeClock() {
     this.resend_time_clock = 60;
@@ -113,8 +141,9 @@ export class RegisterPage {
       }
     }, 1000);
   }
-
+  blur_register_step1 = true;
   async register_step1() {
+    if(!this.blur_register_step1) return;
     this.sending_vcode = true;
     try {
       if (!this.registerForm.get('customerId').value) {
@@ -148,14 +177,15 @@ export class RegisterPage {
       const customerId = controls.customerId;
       const password = controls.password;
       const vcode = controls.vcode;
+      const recommendCode = controls.recommendCode;
       const timeZone = (-new Date().getTimezoneOffset() / 60).toString() || "8";
-
+   
       const type = this.appSettings.accountType(customerId)
-      if(type !== 0 && type !== 1){
+      if(type !== 0 && type !== 1){ 
         throw { message:'请使用中国大陆手机号码或电子邮箱地址注册'}
       }
-
-      this.registerService.doAuthRegister(customerId, vcode, password, timeZone)
+ 
+      this.registerService.doAuthRegister(customerId, vcode, password, recommendCode,timeZone)
         .then(()=>{
           const toast = this.promptCtrl.toastCtrl({
             message:'注册成功',
@@ -197,9 +227,40 @@ export class RegisterPage {
       const { title, agreementFirst } = this.appSettings.agreementData[agreementName];
       const informationModal = this.modalCtrl.create(InformationModal, {
         title,
-        agreementFirst,
+        agreementFirst, 
       });
       informationModal.present();
     }
   }
+
+  focusCustomerId(){
+    this.blur_register_step1 = false;
+  }
+  async checkRegister(){
+    const controls = this.registerForm.getRawValue();
+    const customerId = controls.customerId;
+    if(!this.check_sending_vcode && customerId){
+      try {
+        this.registerService.doCheckRegister(customerId)
+        .then((data)=>{
+          //账户不存在
+          if(data.status == "error"){
+            this.blur_register_step1 = true;
+            this.form_customerId.setErrors({registerCustomerId:null})
+            this.register_step1()
+          }
+          //账户存在
+          if(data.status == "ok"){
+            this.form_customerId.setErrors({registerCustomerId:true})
+          }
+
+        })
+      } catch(err) {
+        this.blur_register_step1 = true;
+        console.log('register checkRegister',err)
+      }
+    }
+    
+  }
+
 }

@@ -18,7 +18,7 @@ import { LoginService } from './login-service';
 export class RegisterService {
   constructor(
     public http: Http,
-    public appSettings: AppSettings,
+    public appSettings: AppSettings, 
     public appDataService: AppDataService,
     public alertService: AlertService,
     public appService: AppService,
@@ -28,7 +28,7 @@ export class RegisterService {
   SEND_EMAIL_CODE_URL = `/user/sendEmailCode`;
   CREATE_ACCOUNT = `/user/register`;
   AUTH_REGISTER = `/user/authRegister`;
-
+  CHECK_REGISTER = `/user/checkregaccount`;
   sendSMSCode(telephone: string, type = '201', templateType ='2001') {
     // 如果是邮箱
     if (this.appSettings.accountType(telephone) === 0) {
@@ -64,20 +64,29 @@ export class RegisterService {
         return data;
       });
   }
-  doAuthRegister(account: string, code: string, password: string, timeZone?:string) {
+  doCheckRegister(account: string) {
+    let parameter = /^([0-9A-Za-z\-_\.]+)@([0-9a-z]+\.[a-z]{2,3}(\.[a-z]{2})?)$/.test(account) ?
+    'email=' + account : 'telephone=' + account;
+    return this.appService
+    .request(RequestMethod.Get, this.CHECK_REGISTER,parameter);
+  }
+  doAuthRegister(account: string, code: string, password: string,recommendCode:string,timeZone?:string) {
     return this.appService
       .request(RequestMethod.Post, this.AUTH_REGISTER, {
         //type:int 0表示邮箱,1表示手机
-        type: this.appSettings.accountType(account),
+        type: this.appSettings.accountType(account), 
         account,
         code,
         password,
-        timeZone
+        timeZone,
+        deviceNum: this.appDataService.DEVICE_DATA.uuid,
+        recommendCode,
       })
       .then(data => {
         const { token } = data;
         this.appDataService.customerId = account;
-        this.appDataService.password = password;
+        //不保存密码
+        // this.appDataService.password = password;
         this.loginService.setLoginData(data);
         return data;
       });

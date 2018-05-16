@@ -702,7 +702,6 @@ export class TradeInterfaceV2Page {
           this.marketPrice = data.price
           this.buyRate = data.buyRate
           this.sellRate = data.sellRate
-          console.log('......',data)
         })
       // this.stockDataService.stockBaseData$.map(data => data[stockCode])
       //   .do(data => console.log('final data:', stockCode, data))
