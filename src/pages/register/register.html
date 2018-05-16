@@ -24,7 +24,7 @@
                 <div item-right class="error-tip" *ngIf="form_customerId.errors?.wrongCustomerId">
                     账号格式错误/邮箱
                 </div>
-                <div item-right class="error-tip" *ngIf="form_customerId.errors?.registerCustomerId">
+                <div item-right class="error-tip" *ngIf="!form_customerId.errors?.wrongCustomerId && registerCustomerId">
                     账号已存在
                 </div>
             </ion-item>

@@ -36,7 +36,6 @@ import { BigNumber } from "bignumber.js";
   templateUrl: 'trade-interface-v2.html'
 })
 export class TradeInterfaceV2Page {
-  activeBack:boolean = false;
   quickTrading: boolean = false;
   trading: boolean = false;
   marketPrice: any;
@@ -332,7 +331,6 @@ export class TradeInterfaceV2Page {
     })
   }
 
-  // 修改bignumber
   checkMax(price = this.price){
 
     const traders = this.traderId.split('-')
@@ -345,10 +343,8 @@ export class TradeInterfaceV2Page {
         .filter(({ stockCode }) => stockCode === traders[0]);
       
       // 旧方法使用Number计算，会导致计算数据出错
-      let aaaa:any = (target && target.length != 0 ? target : [{ saleableQuantity:0}])[0]
-        .saleableQuantity / this.appSettings.Product_Price_Rate;
-      this.maxAmount = Number(price) ? aaaa/Number(price) : "0";
-
+      // let saleableQuantity:any = (target && target.length != 0 ? target : [{ saleableQuantity:0}])[0]
+      //   .saleableQuantity / this.appSettings.Product_Price_Rate;
       let saleableQuantity:any =  new BigNumber((target && target.length != 0 ? target : [{ saleableQuantity:0}])[0]
       .saleableQuantity).div( this.appSettings.Product_Price_Rate);
       this.maxAmount = Number(price) ? saleableQuantity.div(price).toString() : "0";
@@ -631,13 +627,13 @@ export class TradeInterfaceV2Page {
       .then(() => refresher ? refresher.complete() : void 0)
   }
   ionViewWillLeave(){
-    this.activeBack =true;
+    
   }
  
   ionViewDidEnter(){
     // window["confirmChangeTradingMode"] = this.confirmChangeTradingMode
     this.viewDidLeave.next(false);
-    this.activeBack = false;
+   
     // console.log('pricetarget', this.PriceInputer)
     // console.log('pricetarget', this.PriceInputer.getElementRef())
     // console.log('pricetarget', this.PriceInputer.getNativeElement())
@@ -783,7 +779,7 @@ export class TradeInterfaceV2Page {
     this.navCtrl.push(HistoryRecordPage, {
       traderId: this.traderId,
     }).then(()=>{
-      this.activeBack = false;
+     
     })
   }
 

@@ -94,13 +94,14 @@ export class RegisterPage {
     public appSettings: AppSettings,
     public idNumberChecker: IdentificationNumberCheckerProvider,
   ) {
-    const rawVal = this.registerForm.getRawValue();
-    // console.log(navParams.get('raw'), navParams)
-    const customerId = navParams.get('raw').customerId//.get('customerId');
-    if (customerId) {
-      rawVal.customerId = customerId;
-      this.registerForm.setValue(rawVal);
-    }
+    // 
+    // const rawVal = this.registerForm.getRawValue();
+    // // console.log(navParams.get('raw'), navParams)
+    // const customerId = navParams.get('raw').customerId//.get('customerId');
+    // if (customerId) {
+    //   rawVal.customerId = customerId;
+    //   this.registerForm.setValue(rawVal);
+    // }
   }
 
   ionViewDidLoad() {
@@ -178,14 +179,14 @@ export class RegisterPage {
       const password = controls.password;
       const vcode = controls.vcode;
       const recommendCode = controls.recommendCode;
-      const timeZone = (-new Date().getTimezoneOffset() / 60).toString() || "8";
-   
-      const type = this.appSettings.accountType(customerId)
-      if(type !== 0 && type !== 1){ 
-        throw { message:'请使用中国大陆手机号码或电子邮箱地址注册'}
-      }
+      // const timeZone = (-new Date().getTimezoneOffset() / 60).toString() || "8";
+      // 旧的校验方式，现在以及在输入的时候检验
+      // const type = this.appSettings.accountType(customerId)
+      // if(type !== 0 && type !== 1){ 
+      //   throw { message:'请使用中国大陆手机号码或电子邮箱地址注册'}
+      // }
  
-      this.registerService.doAuthRegister(customerId, vcode, password, recommendCode,timeZone)
+      this.registerService.doAuthRegister(customerId, vcode, password, recommendCode)
         .then(()=>{
           const toast = this.promptCtrl.toastCtrl({
             message:'注册成功',
@@ -236,22 +237,25 @@ export class RegisterPage {
   focusCustomerId(){
     this.blur_register_step1 = false;
   }
+
+  registerCustomerId = false ;
   async checkRegister(){
     const controls = this.registerForm.getRawValue();
     const customerId = controls.customerId;
-    if(!this.check_sending_vcode && customerId){
+    if(!this.check_sending_vcode && customerId && !this.resend_time_clock){
       try {
+
         this.registerService.doCheckRegister(customerId)
         .then((data)=>{
           //账户不存在
           if(data.status == "error"){
             this.blur_register_step1 = true;
-            this.form_customerId.setErrors({registerCustomerId:null})
+            this.registerCustomerId = false;
             this.register_step1()
           }
           //账户存在
           if(data.status == "ok"){
-            this.form_customerId.setErrors({registerCustomerId:true})
+            this.registerCustomerId = true;
           }
 
         })

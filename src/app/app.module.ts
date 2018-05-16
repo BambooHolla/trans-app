@@ -140,6 +140,7 @@ import { ScreenOrientation } from '@ionic-native/screen-orientation';
 import { AndroidFullScreen } from '@ionic-native/android-full-screen';
 import { Clipboard } from '@ionic-native/clipboard';
 import { Device } from '@ionic-native/device';
+import { Geolocation } from '@ionic-native/geolocation';
 //引入资讯模块
 import { InformationModule } from '../pages/information/information.module';
 
@@ -485,6 +486,7 @@ export function createTranslateLoader(http: HttpClient) {
         PersonalDataService,
         TradeService,
         Device,
+        Geolocation,
         // CameraModal,
         ImageTakerController,
         // FileService,

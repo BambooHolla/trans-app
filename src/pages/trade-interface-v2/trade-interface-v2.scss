@@ -3,12 +3,6 @@ page-trade-interface-v2 {
 	ion-header{
 	
 	}
-	ion-header.active-back{
-		transform: translateX(100%);
-		will-change: transform,-webkit-transform;
-		transition-duration: 500ms;
-		transition-timing-function: cubic-bezier(0.36,0.66,0.04,1)
-	}
 	ion-header.header{
 		background-color: color($colors,background-darker);
 		.item-select{ 
