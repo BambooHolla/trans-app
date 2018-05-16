@@ -14,9 +14,14 @@ export class AppDataService {
   // isVirtual 设备是否在模拟器上运行。
   // serial 获取设备硬件序列号。
   public DEVICE_DATA:any = {
-    uuid:'',
+    "uuid":"",
+    "model":"",
+    "platform":"",
+    "version":"",
+    "manufacturer":"",
+    "serial":""
   }
-
+  public APP_VERSION = "v0.1.4";
 
   constructor(
     public storage: Storage,
@@ -24,6 +29,7 @@ export class AppDataService {
   ) {
     this.initProperties();
     this.getDataFromStorage();
+    this.getAppDevice();
     window['appdata'] = this;
   }
 
@@ -49,7 +55,8 @@ export class AppDataService {
     show_onestep_trade: false,
     show_onestep_warning: true,
     products: new Map(),
-    traderList: new Map()
+    traderList: new Map(),
+    version:""
   };
   private _in_storage_keys = ['products', 'traderList'];
 
@@ -62,6 +69,7 @@ export class AppDataService {
   public mainproducts;
   public show_onestep_trade;
   public show_onestep_warning;
+  public version ;
 
   //缓存产品信息
   public products: Map<string, AnyObject>;
@@ -106,6 +114,13 @@ export class AppDataService {
     }
     return str   
   }
+
+  getAppDevice(){
+    Object.keys(this.DEVICE_DATA).forEach(key => {
+      this.DEVICE_DATA[key] = this.device[key]
+    })
+  }
+
   readonly APPDATASERVICE_PREIX = 'App-Data-Service:';
   private getDataFromStorage() {
     Object.keys(this._data).forEach(key => {
@@ -120,7 +135,7 @@ export class AppDataService {
     });
 
     
-
+    
 
 
     // // 没有为 storage 的失败进行处理。
