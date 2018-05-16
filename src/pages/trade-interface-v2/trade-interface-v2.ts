@@ -1291,11 +1291,14 @@ export class TradeInterfaceV2Page {
       number[0] =  number[0].replace(/\b(0+)/gi,"");
       number[0] = number[0] == ''? "0": number[0];
     }
-    if(number[1]){
+    
+    if(number[1]) {
       number[0] =  number[0].length > 10? number[0].substr(-10) : number[0];
       number[1] =  number[1].length > 8? number[1].substr(0,8) : number[1];
       return number[0]+'.'+number[1];
-    }else{
+    } if(number[1] == '') {
+      return number[0]+'.';
+    } else {
       return number[0].length > 18? number[0].substr(-18) : number[0];
     }
     

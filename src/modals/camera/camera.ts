@@ -179,6 +179,7 @@ export class CameraModal {
 
     takePicture() {
         if (this.cameraActive) {
+            this.cameraActive = false;
             // picture options
             const pictureOpts: CameraPreviewPictureOptions = {
                 width: 1000,
