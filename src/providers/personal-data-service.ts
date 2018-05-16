@@ -267,6 +267,32 @@ export class PersonalDataService {
         } else if (data.status === '102' || data.status === '104' || data.status === '103'){
           this._certifiedMsg = data.message
         }
+
+
+        
+        // CertifiedStatusResponse {
+        //   data:
+        //   CertifiedStatusResponseData {
+        //     status:
+        //     string *
+        //       认证状态：0未认证，1审核中，2已认证，3审核不通过
+        //     message:
+        //     string
+        //     返回结果具体描述
+        //     name:
+        //     string
+        //     认证名称
+        //   }
+        // }
+        // this._certifiedStatus = data.status
+        // if (data.status === '2'){
+        //   this._realname = data.name
+        // } else if (data.status === '0' || data.status === '1' || data.status === '3'){
+        //   this._certifiedMsg = data.message
+        // }
+
+
+
       })
       .catch(err => {
         console.log('requestCertifiedStatus error: ', err);
