@@ -269,7 +269,6 @@ export class TradeInterfaceV2Page {
   }
 
   changeByStep(target: string, sign: string = '+', step?: any, precision: number = -8) {
-
     const invBase = Math.pow(10, -(precision));
     // 浮点数四则运算存在精度误差问题.尽量用整数运算
     // 例如 602 * 0.01 = 6.0200000000000005 ，
@@ -308,7 +307,7 @@ export class TradeInterfaceV2Page {
       this[target] = this[target] == ''?"0":this[target];
       result = new BigNumber(this[target]).plus(step).toNumber() < 0 ? '0' : new BigNumber(this[target]).plus(step).toString();
     }
-
+    
     result = this.numberFormat(result);
     // if(typeof this[target] == "string" ){
     //   result = this[target].split('.');
@@ -320,14 +319,14 @@ export class TradeInterfaceV2Page {
     // } else {
     //   result = Math.max(0, Math.floor(+this[target] * invBase + step * invBase) / invBase);
     // }
-
-
-  
-    //强制刷新数据hack处理
+    
     this[target] = result;
+    this[this.inputGroup[target]].value = this[target];
+    
+    //强制刷新数据hack处理
     this.platform.raf(()=>{      
       this[target] = result;
-      this[this.inputGroup[target]].value = this[target];
+      
     })
   }
 
