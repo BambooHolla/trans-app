@@ -10,7 +10,7 @@ import { AppSettings } from './app-settings';
 import { AppDataService } from './app-data-service';
 import { AlertService } from './alert-service';
 import { LoginService } from './login-service';
-import { Geolocation } from '@ionic-native/geolocation';
+
 // 使用 @Injectable 才能让所声明的类用于依赖注入，
 // 而 @Component 是 @Injectable 的派生类型，不需要重复使用 @Injectable 。
 // 注意在 @Injectable 后面必须使用括号。
@@ -23,16 +23,8 @@ export class RegisterService {
     public alertService: AlertService,
     public appService: AppService,
     public loginService: LoginService,
-    private geolocation: Geolocation,
   ) {
-    //获取地理位置
-    this.geolocation.getCurrentPosition().then((resp) => {
-      this.GEOLOCATION.latitude = resp.coords.latitude;
-      this.GEOLOCATION.location = resp.coords.longitude;
-      console.log(' getting location',resp)
-     }).catch((error) => {
-       console.log('Error getting location', error);
-     });
+    
   }
   SEND_SMS_CODE_URL = `/user/sendSmsToAppointed`;
   SEND_EMAIL_CODE_URL = `/user/sendEmailCode`;
@@ -40,11 +32,7 @@ export class RegisterService {
   AUTH_REGISTER = `/user/authRegister`;
   CHECK_REGISTER = `/user/checkregaccount`;
 
-  GEOLOCATION:any = {
-    "latitude":"",
-    "longitude":"",
-  }
-  APP_IP:any = "192.168.0.1";
+  
 
   sendSMSCode(telephone: string, type = '201', templateType ='2001') {
     // 如果是邮箱
@@ -93,14 +81,14 @@ export class RegisterService {
         //type:int 0表示邮箱,1表示手机
         type: this.appSettings.accountType(account), 
         account,
-        code,
+        code, 
         password,
         timeZone,
         deviceNum: this.appDataService.DEVICE_DATA.uuid,
         recommendCode,
         deviceInfo:this.appDataService.DEVICE_DATA,
-        ip:this.APP_IP,
-        location:this.GEOLOCATION,
+        ip:this.appDataService.APP_IP,
+        location:this.appDataService.GEOLOCATION,
       })
       .then(data => {
         const { token } = data;

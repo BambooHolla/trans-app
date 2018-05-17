@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage';
 import { Device } from '@ionic-native/device';
+import { Geolocation } from '@ionic-native/geolocation';
 @Injectable()
 export class AppDataService {
 
@@ -21,11 +22,22 @@ export class AppDataService {
     "manufacturer":"",
     "serial":""
   }
+  //版本校验
   public APP_VERSION = "v0.1.4";
+  // 经纬度
+  public GEOLOCATION:any = {
+    "latitude":"",
+    "longitude":"",
+  }
+  //IP
+  public APP_IP:any = "192.168.0.1";
+
+
 
   constructor(
     public storage: Storage,
     private device: Device,
+    private geolocation: Geolocation,
   ) {
     this.initProperties();
     this.getDataFromStorage();
@@ -115,10 +127,18 @@ export class AppDataService {
     return str   
   }
 
-  getAppDevice(){
+  async getAppDevice(){
     Object.keys(this.DEVICE_DATA).forEach(key => {
       this.DEVICE_DATA[key] = this.device[key]
     })
+    //获取地理位置
+    await this.geolocation.getCurrentPosition().then((resp) => {
+      this.GEOLOCATION.latitude = resp.coords.latitude;
+      this.GEOLOCATION.location = resp.coords.longitude;
+      console.log(' getting location',resp)
+     }).catch((error) => {
+       console.log('Error getting location', error);
+     });
   }
 
   readonly APPDATASERVICE_PREIX = 'App-Data-Service:';
