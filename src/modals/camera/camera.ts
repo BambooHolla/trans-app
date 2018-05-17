@@ -18,7 +18,7 @@ import { KeyboardService } from '../../providers/keyboard-service';
     templateUrl: 'camera.html'
 })
 export class CameraModal {
-
+    onceActive:boolean = true;
     cameraActive: boolean = true;
 
     pictureValid: boolean = false;
@@ -179,7 +179,7 @@ export class CameraModal {
 
     takePicture() {
         if (this.cameraActive) {
-            this.cameraActive = false;
+            this.onceActive = false;
             // picture options
             const pictureOpts: CameraPreviewPictureOptions = {
                 width: 1000,
@@ -196,13 +196,15 @@ export class CameraModal {
                 this.pictureValid = true;
                 this.imageScale = 1;
                 this.nonePhoto = false;
+                this.onceActive = true;
             }, (err) => {
                 console.log(err);
                 this.pictureValid = false;
                 this.nonePhoto = true;
+                this.onceActive = true;
                 // this.picture = 'assets/images/no-record.png';
             });
-        } else {
+        } else if(this.onceActive) {
             this.startCamera();
             this.nonePhoto = true;
         }
