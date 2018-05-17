@@ -131,6 +131,10 @@ export class LoginService {
         type: type,
         account: customerId,
         password,
+        deviceNum: this.appDataService.DEVICE_DATA.uuid,
+        deviceInfo: this.appDataService.DEVICE_DATA,
+        ip: this.appDataService.APP_IP,
+        location: this.appDataService.GEOLOCATION,
       },options)
       .map(res => res.json())
       .toPromise()
@@ -155,7 +159,7 @@ export class LoginService {
   ): Promise<boolean | string> {
     return this._doLogin(customerId, password, savePassword, type)
       .then(data => {
-        debugger
+        debugger 
         Object.assign(this.appDataService, {
           token: data.token,
           customerId,
