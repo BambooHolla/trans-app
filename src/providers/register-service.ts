@@ -75,7 +75,9 @@ export class RegisterService {
     return this.appService
     .request(RequestMethod.Get, this.CHECK_REGISTER,parameter);
   }
-  doAuthRegister(account: string, code: string, password: string,recommendCode:string,timeZone?:string) {
+  async doAuthRegister(account: string, code: string, password: string,recommendCode:string,timeZone?:string) {
+    let app_geolocation:any = await this.appDataService.getAppCoords();
+
     return this.appService
       .request(RequestMethod.Post, this.AUTH_REGISTER, {
         //type:int 0表示邮箱,1表示手机
@@ -88,7 +90,13 @@ export class RegisterService {
         recommendCode,
         deviceInfo:this.appDataService.DEVICE_DATA,
         ip:this.appDataService.APP_IP,
-        location:this.appDataService.GEOLOCATION,
+        location: app_geolocation.status == "success" ? {
+            latitude : app_geolocation.coords.latitude,
+            longitude : app_geolocation.coords.longitude
+          } : {
+            latitude : "",
+            longitude : ""
+          },
       })
       .then(data => {
         const { token } = data;

@@ -262,9 +262,10 @@ export class PersonalDataService {
         //   }
         // }
         this._certifiedStatus = data.status
-        if (data.status === '101'){
+        if (data.status === '101'|| data.status === '2'){
           this._realname = data.name
-        } else if (data.status === '102' || data.status === '104' || data.status === '103'){
+        } else if (data.status === '102' || data.status === '104' || data.status === '103'
+          || data.status === '0' || data.status === '1' || data.status === '3'){
           this._certifiedMsg = data.message
         }
 

@@ -110,7 +110,7 @@ export class LoginService {
       });
   }
 
-  private _doLogin(
+  private async _doLogin(
     customerId: string,
     password: string,
     savePassword: boolean = true,
@@ -126,6 +126,8 @@ export class LoginService {
         'x-bnqkl-platform': this.appSettings.Platform_Type,
       }) });
 
+    let app_geolocation:any = await this.appDataService.getAppCoords();
+
     promise = this.http
       .post(this.appSettings.LOGIN_URL, {
         type: type,
@@ -134,7 +136,13 @@ export class LoginService {
         deviceNum: this.appDataService.DEVICE_DATA.uuid,
         deviceInfo: this.appDataService.DEVICE_DATA,
         ip: this.appDataService.APP_IP,
-        location: this.appDataService.GEOLOCATION,
+        location: app_geolocation.status == "success" ? {
+            latitude : app_geolocation.coords.latitude,
+            longitude : app_geolocation.coords.longitude
+          } : {
+            latitude : "",
+            longitude : ""
+          },
       },options)
       .map(res => res.json())
       .toPromise()
