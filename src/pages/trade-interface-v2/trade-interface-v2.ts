@@ -103,9 +103,9 @@ export class TradeInterfaceV2Page {
   private sellRate
   private fee
 
-  private buyTotalAmount
+  private buyTotalAmount: any = '--';
   private buyTotalQuantity:any = "0";
-  private saleTotalAmount
+  private saleTotalAmount: any = '--';
   private saleTotalQuantity:any = "0";
 
   private _saleableQuantity$: Observable<number>;
@@ -160,13 +160,16 @@ export class TradeInterfaceV2Page {
   }
   amount: string = '0';
   maxAmount: string | number ;
+  holdAmount: string | number ;
   range = 0;
   oneRange = 0;
   tenRange = 0;
   hundredRange = 0;
+  oneRange_buy_old = 0;
+  oneRange_sale_old
+  tenRange_old = 0;
+  hundredRange_old = 0;
 
-  buyQuantityMax:any = 0;
-  saleQuantityMax:any = 0;
    // @ViewChild('quantityRange') Range: any;
   @ViewChild('oneQuantityRange') oneQuantity: any;
   @ViewChild('tenQuantityRange') tenQuantity: any;
@@ -346,7 +349,7 @@ export class TradeInterfaceV2Page {
       //   .saleableQuantity / this.appSettings.Product_Price_Rate;
       let saleableQuantity:any =  new BigNumber((target && target.length != 0 ? target : [{ saleableQuantity:0}])[0]
       .saleableQuantity).div( this.appSettings.Product_Price_Rate);
-      this.maxAmount = Number(price) ? saleableQuantity.div(price).toString() : "0";
+      this.maxAmount = Number(price) ? this.numberFormat(saleableQuantity.div(price).toString(),false,false) : "0";
    
       if(this.maxAmount == "0"){
         this.maxAmount = 0;
@@ -363,8 +366,13 @@ export class TradeInterfaceV2Page {
         console.log(target)
         let saleableQuantity:any =  new BigNumber((target && target.length != 0 ? target : [{ saleableQuantity:0}])[0]
         .saleableQuantity.toString()).div(this.appSettings.Product_Price_Rate); 
-        this.maxAmount = Number(price) ? saleableQuantity.toString() : "0";
-  
+        this.maxAmount = Number(price) ?  this.numberFormat(saleableQuantity.div(price).toString(),false,false)  : "0";
+        if(this.maxAmount == "0"){
+          this.maxAmount = 0;
+        }
+        if(!this.appSetting.getUserToken()){
+          this.maxAmount = '--';
+        }
         // if(this.maxAmount == "0"){
         //   this.maxAmount = 0;
         // }
@@ -1059,11 +1067,93 @@ export class TradeInterfaceV2Page {
 
 
   //快捷交易三个拉动条
-  rangeQuickTradeData(data:any){
-    console.log('.....',data,this.buyQuantityMax,this.saleQuantityMax)
+  oneRangeQuickTradeData(data:any){
+    if(!this.appSetting.getUserToken()){
+      return ;
+    }
+    if(!this.maxAmount){
+      this.maxAmount = "0";
+    }
+    if(!this.holdAmount){
+      this.holdAmount = "0";
+    }
+    if(new BigNumber(data).comparedTo(this.maxAmount) != 1){
+      let buy_amount:any = this.oneRange > this.oneRange_buy_old ? new BigNumber(this.buyTotalAmount).plus(this.oneRange - this.oneRange_buy_old)
+        : new BigNumber(this.buyTotalAmount).minus(this.oneRange_buy_old - this.oneRange);
+      
+        buy_amount = buy_amount.comparedTo(0) == 1 ? buy_amount : new BigNumber(0);
 
+      this.oneRange_buy_old = this.oneRange;
+
+      this.buyTotalAmount = data == 0 ? "0" : buy_amount.toString();
+    } else {
+      this.buyTotalAmount = this.maxAmount;
+    }
+
+    if(new BigNumber(data).comparedTo(this.holdAmount) != 1){
+      let sale_amount:any = this.oneRange > this.oneRange_sale_old ? new BigNumber(this.saleTotalAmount).plus(this.oneRange - this.oneRange_sale_old)
+        : new BigNumber(this.saleTotalAmount).minus(this.oneRange_sale_old - this.oneRange);
+      
+        sale_amount = sale_amount.comparedTo(0) == 1 ? sale_amount : new BigNumber(0);
+
+      this.oneRange_sale_old = this.oneRange;
+
+      this.saleTotalAmount = data == 0 ? "0" : sale_amount.toString();
+    } else {
+      this.saleTotalAmount = this.holdAmount;
+    }
+
+
+
+
+    this.tenRange = this.rangeMaxNumber(data,10);
+    this.hundredRange = this.rangeMaxNumber(data,100);
+      // one = this.oneRange - this.oneRange_old;
+      // this.oneRange_old = this.oneRange;
+   
+      // one = this.oneRange - this.oneRange_old;
+   
+    // console.log('.....',data,this.buyQuantityMax,this.saleQuantityMax)
+   
+    // this.maxAmount > this.holdAmount?this.maxAmount:this.holdAmount;
     
+   
   }
+  tenRangeQuickTradeData(data:any){
+    if(!this.appSetting.getUserToken()){
+      return ;
+    }
+    // console.log(data)
+    // if(new BigNumber(data).comparedTo(this.maxAmount) != 1){
+    //   let amount:any = this.tenRange > this.tenRange_old ? new BigNumber(this.buyTotalAmount).plus(this.tenRange - this.tenRange_old)
+    //     : new BigNumber(this.buyTotalAmount).minus(this.tenRange - this.tenRange_old);
+    //     amount = amount.comparedTo(this.maxAmount) != 1 ? amount : new BigNumber(0);
+    //   amount = amount.comparedTo(0) == 1 ? amount : new BigNumber(0);
+
+    //   this.tenRange_old = this.tenRange;
+
+    //   this.buyTotalAmount = amount.toString();
+    // } else {
+    //   this.buyTotalAmount = this.maxAmount;
+    // }
+   
+  }
+  hundredRangeQuickTradeData(data:any){
+    if(!this.appSetting.getUserToken()){
+      return ;
+    }
+  
+   
+   
+      
+   
+  }
+
+
+
+
+
+
   //快捷交易 满仓等
   getQuickTradeData(index) {
     console.log('getQuickTradeData')
@@ -1082,16 +1172,16 @@ export class TradeInterfaceV2Page {
 
     if (priceProduct) {
       //可买数量
-      this.buyTotalQuantity = priceProduct.saleableQuantity * rate
-      this.buyTotalAmount = undefined
+      this.buyTotalQuantity =undefined
+      this.buyTotalAmount = '0';
       // priceid productid totalprice
-      this.tradeService.getQuickTradeData('001', traders[1], traders[0], this.buyTotalQuantity)
+      this.tradeService.getQuickTradeData('001', traders[1], traders[0], priceProduct.saleableQuantity * rate)
         .then(data => {
           if (data) {
             // 等待二兵排查
             // this.buyTotalQuantity = data.forecastAmount
             // this.buyTotalAmount = data.forecastPrice
-            // this.buyQuantityMax =  data.forecastAmount/1e8;
+           
           } 
           // else {
           //   this.buyTotalQuantity = 0
@@ -1101,14 +1191,14 @@ export class TradeInterfaceV2Page {
     if (productProduct) {
       //卖出总持仓
       // this.saleTotalQuantity = productProduct.saleableQuantity * rate
-      this.saleTotalAmount = undefined
+      this.saleTotalAmount = '0';
       this.tradeService.getQuickTradeData('002', traders[1], traders[0], this.saleTotalQuantity)
         .then(data => {
           if (data) {
              // 等待二兵排查
             // this.saleTotalQuantity = data.forecastAmount
             // this.saleTotalAmount = data.forecastPrice
-            // this.saleQuantityMax = data.forecastAmount/1e8;
+           
           } 
           // else {
           //   this.saleTotalQuantity = 0
@@ -1201,7 +1291,8 @@ export class TradeInterfaceV2Page {
       if (item.stockCode === traders[0]) {
         this.trader_target = item
       } else if (item.stockCode === traders[1]) {
-        this.trader_product = item
+        this.trader_product = item;
+        this.holdAmount = this.numberFormat( new BigNumber(item.restQuantity?item.restQuantity:"0").div(1e8).toString(),false,false);
       }
     
     })
@@ -1279,23 +1370,30 @@ export class TradeInterfaceV2Page {
   }
   
   //格式处理18位，整数18，小数10+8
-  numberFormat(number:any = "0",delete0?:boolean){
-  
+  numberFormat(number:any = "0",delete0:boolean = false,input:boolean = true){
+    let saveNumber = number;
     number = typeof number == "string" ? number : number.toString();
     if(delete0){
       number = this.numberFormatDelete0(number);
     }
     number = number.split('.');
+    
+    if(!number[0]){
+      return saveNumber;
+    }
     if(number[0].length > 1){
       number[0] =  number[0].replace(/\b(0+)/gi,"");
       number[0] = number[0] == ''? "0": number[0];
     }
-    
+    if(!input && number[1]){
+      number[1] =  number[1].length > 8? number[1].substr(0,8) : number[1];
+      return number[0]+'.'+number[1];
+    }
     if(number[1]) {
       number[0] =  number[0].length > 10? number[0].substr(-10) : number[0];
       number[1] =  number[1].length > 8? number[1].substr(0,8) : number[1];
       return number[0]+'.'+number[1];
-    } if(number[1] == '') {
+    } else if(number[1] == '') {
       return number[0]+'.';
     } else {
       return number[0].length > 18? number[0].substr(-18) : number[0];
@@ -1318,13 +1416,19 @@ export class TradeInterfaceV2Page {
     }
     return number;
   }
-  rangeMaxNumber(number){
+  rangeMaxNumber(number,base:number = 1){
+    
     if(isNaN(number)) {
       return 0;
     }
     if(typeof number == "string") {
       number =  parseFloat(number);
     }
-    return Math.ceil(number);
+    //进位处理，123.3 ->124 or 130 or 200
+    //         base = 1 or 10 or 100 
+   
+   return  parseInt( 
+      (Math.ceil(number) / base).toString()
+    ) * base;
   }
 }
