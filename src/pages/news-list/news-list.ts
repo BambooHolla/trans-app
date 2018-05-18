@@ -51,10 +51,12 @@ export class NewsListPage /* implements OnInit, OnDestroy  */ extends SecondLeve
 
     @ViewChild('searchInputWrap', { read: ElementRef }) searchInputWrap;
     private showSearch = false;
+    private useSearch = false;
     private query:string = '';
     private searchTermStream = new BehaviorSubject<string>('');
     search(term: string) {
         this.searchTermStream.next(term);
+        this.useSearch = true;
     }
 
     // reqType = 0//数据请求类型,0为初始化列表数据,1为添加
@@ -240,7 +242,7 @@ export class NewsListPage /* implements OnInit, OnDestroy  */ extends SecondLeve
             console.log(this.newsList);
             refresher.complete();
         } else {
-            this.newsList.list = await this._getNewsList(true);
+            this.newsList.list = await this._getNewsList();
         }
     }
     async initNoticeList(refresher?: Refresher) {
@@ -251,7 +253,7 @@ export class NewsListPage /* implements OnInit, OnDestroy  */ extends SecondLeve
             console.log(this.noticeList);
             refresher.complete();
         } else {
-            this.noticeList.list = await this._getNoticeList(true);
+            this.noticeList.list = await this._getNoticeList();
         }
     }
 
@@ -281,11 +283,12 @@ export class NewsListPage /* implements OnInit, OnDestroy  */ extends SecondLeve
     cancelFilter() {
         this.showSearch = false;
         this.query = '';
-        if (this.tabIndex == 0) {
+        if (this.tabIndex == 0 && this.useSearch) {
             this.initNoticeList();
-        } else if (this.tabIndex == 1) {
+        } else if (this.tabIndex == 1 && this.useSearch) {
             this.initNewsList();
         }
+        this.useSearch = false;
     }
 
     async searchNews(str:string){
