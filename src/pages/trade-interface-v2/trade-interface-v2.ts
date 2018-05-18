@@ -784,7 +784,8 @@ export class TradeInterfaceV2Page {
 
   gotoHistory($event){ 
     this.navCtrl.push(HistoryRecordPage, {
-      traderId: this.traderId,
+      traderId: this.traderId, 
+      getInfoCb:this.refreshPersonalData.bind(this),
     }).then(()=>{
      
     })
