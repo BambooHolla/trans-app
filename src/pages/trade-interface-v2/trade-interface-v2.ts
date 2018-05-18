@@ -782,7 +782,15 @@ export class TradeInterfaceV2Page {
     }
   }
 
+  async gotoHistoryLogin(){
+    await this.refreshPersonalData();
+    this.gotoHistory(undefined);
+  }
   gotoHistory($event){ 
+    const token = this.appDataService.token;
+    if (!token) {
+      return this.events.publish('show login', 'login',this.gotoHistory.bind(this));
+    }
     this.navCtrl.push(HistoryRecordPage, {
       traderId: this.traderId, 
       getInfoCb:this.refreshPersonalData.bind(this),
