@@ -1077,7 +1077,7 @@ export class TradeInterfaceV2Page {
 
   //快捷交易三个拉动条
   oneRangeQuickTradeData(data:any){
-    if(!this.appSetting.getUserToken()){
+    if(!this.appSetting.getUserToken() || data >= 0){
       return ;
     }
     if(!this.maxAmount){

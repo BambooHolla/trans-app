@@ -242,10 +242,10 @@
 				<!-- <div class="svgcont" (click)="quickTrade('sale')"> -->
 				<div class="svgcont">
 					<div class="blank"></div>
-					<div>预估卖出价</div>
-					<p id="salesum">{{saleTotalQuantity | numberUnitFormat}}</p>
+					<div>升级中...</div>
+					<!-- <p id="salesum">{{saleTotalQuantity | numberUnitFormat}}</p>
 					<span>卖出数量</span>
-					<label id="salenum">{{saleTotalAmount | numberFilter:true}}</label>
+					<label id="salenum">{{saleTotalAmount | numberFilter:true}}</label> -->
 				</div>
 			</ion-col>
 			<ion-col col-6>
@@ -255,10 +255,10 @@
 				<!-- <div class="svgcont" (click)="quickTrade('buy')"> -->
 				<div class="svgcont">
 					<div class="blank"></div>
-					<div>预估买入价</div>
-					<p id="buysum">{{buyTotalQuantity | numberUnitFormat}}</p>
+					<div>升级中...</div>
+					<!-- <p id="buysum">{{buyTotalQuantity | numberUnitFormat}}</p>
 					<span>买入数量</span>
-					<label id="buynum">{{buyTotalAmount  | numberFilter:true}}</label>
+					<label id="buynum">{{buyTotalAmount  | numberFilter:true}}</label> -->
 				</div>
 			</ion-col>
 			
@@ -280,11 +280,11 @@
 				<ion-range #oneQuantityRange
 					 [class.issale]="true"
 					 [(ngModel)]="oneRange"
-					 [max]='rangeMaxNumber(maxAmount > holdAmount?maxAmount:holdAmount,1)'
+					 [max]='true?0:rangeMaxNumber(maxAmount > holdAmount?maxAmount:holdAmount,1)'
 					 min='0'
 					 step='1'
 					 (ionChange)="oneRangeQuickTradeData(oneRange)" 
-					 pin="true"></ion-range>
+					 pin="false"></ion-range>
 			</ion-item>
 			<div class="range-mark">
 				<div class="left"></div>
@@ -296,11 +296,11 @@
 				<ion-range #tenQuantityRange
 					 [class.issale]="true"
 					 [(ngModel)]="tenRange" 
-					 [max]='rangeMaxNumber(maxAmount > holdAmount?maxAmount:holdAmount,10)'
+					 [max]='true?0:rangeMaxNumber(maxAmount > holdAmount?maxAmount:holdAmount,10)'
 					 min='0'
 					 step='10'
 					 (ionChange)="tenRangeQuickTradeData(tenRange)" 
-					 pin="true"></ion-range>
+					 pin="false"></ion-range>
 			</ion-item>
 			<div class="range-mark"> 
 				<div class="left"></div>
@@ -312,7 +312,7 @@
 				<ion-range #hundredQuantityRange
 					 [class.issale]="true"
 					 [(ngModel)]="hundredRange" 
-					 [max]='rangeMaxNumber(maxAmount > holdAmount?maxAmount:holdAmount,100)'
+					 [max]='true?0:rangeMaxNumber(maxAmount > holdAmount?maxAmount:holdAmount,100)'
 					 min='0'
 					 step='100'
 					 (ionChange)="hundredRangeQuickTradeData(hundredRange)" 
