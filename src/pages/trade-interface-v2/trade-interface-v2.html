@@ -21,7 +21,7 @@
 		<div class="trader">
 			<div>
 				<span class="label">可用{{productName || '--'}}&nbsp;</span>
-				<span>{{hiddentext || (trader_product?.restQuantity || '--' | quantityConversion | numberUnitFormat:true:false:13)}}</span>
+				<span>{{hiddentext || (trader_product?.restQuantity || '--' | quantityConversion  | numberUnitFormat:true:false:13)}}</span>
 			</div>
 			<div> 
 				<span class="label">可用{{priceName || '--'}}&nbsp;</span>
@@ -48,15 +48,15 @@
 			<div>
 				<div class="market-items">
 					<span class="market-label">高</span>
-					<span>{{(_baseData$ | async)?.max | priceConversion | numberFilter:true}}</span>
+					<span>{{(_baseData$ | async)?.max | priceConversion:6 | numberFilter:true}}</span>
 				</div>
 				<div class="market-items">
 					<span class="market-label">低</span>
-					<span>{{(_baseData$ | async)?.min | priceConversion | numberFilter:true}}</span>
+					<span>{{(_baseData$ | async)?.min | priceConversion:6 | numberFilter:true}}</span>
 				</div>
 			</div>
 			<div class="price {{(_baseData$ | async)?.range | riseOrFall}}">
-				{{(_baseData$ | async)?.price | priceConversion | numberFilter}}
+				{{(_baseData$ | async)?.price | priceConversion:5 | numberFilter}}
 			</div>
 			<div>
 				<div class="market-items right">
