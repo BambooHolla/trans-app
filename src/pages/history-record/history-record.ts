@@ -46,16 +46,24 @@ export class HistoryRecordPage {
       })
   }
 
-  getTradeHistory(){
+  refreshData() {
+    const getInfoCb = this.navParams.data ? this.navParams.data.getInfoCb : undefined;
+    if(getInfoCb){
+      getInfoCb();
+    }
+    this.initData();
+  }
+
+  async getTradeHistory(){
 
     const token = this.appDataService.token;
-
+    const traderId = this.navParams.data ? this.navParams.data.traderId : undefined;
     if (!token) {
-      return Promise.reject(this.events.publish('show login', 'login'))
+      return Promise.reject(this.events.publish('show login', 'login',this.refreshData.bind(this)));
     }
 
-    const traderId = this.navParams.data ? this.navParams.data.traderId : undefined
-
+    // const traderId = this.navParams.data ? this.navParams.data.traderId : undefined;
+    // const getInfoCb = this.navParams.data ? this.navParams.data.getInfoCb : undefined;
     return this.entrustServiceProvider.getDeliveryList(traderId,this.page,this.pageSize)
       .then(data => {
         console.log('getTradeHistory data:', data)
