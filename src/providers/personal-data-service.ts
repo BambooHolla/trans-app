@@ -236,7 +236,7 @@ export class PersonalDataService {
   requestCertifiedStatus(){
     const path = `/user/certifiedStatus`
     const params = new URLSearchParams()
-    params.set('category', '006')//001手机号、002邮箱、003指纹、004声音、005人脸、006二代身份证、007护照
+    params.set('category', '006,007')//001手机号、002邮箱、003指纹、004声音、005人脸、006二代身份证、007护照
     params.set('type', '002')//类别 001 账号 002 身份
 
     return this.appService.request(RequestMethod.Get, path, params, true)
