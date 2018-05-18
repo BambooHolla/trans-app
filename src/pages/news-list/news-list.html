@@ -89,7 +89,7 @@
                         <div class="card-item" [style.backgroundImage]="'url('+serverUrl+data_item.cover+')'">
                             <div class="wrapper">
                                 <div class="news-title">{{data_item.newsTitle}}</div>
-                                <div class="news-abstract">{{data_item.abstract}}</div>
+                                <div class="news-abstract" [innerHTML] = "data_item.abstract"></div>
                                 <div class="news-date">{{data_item.crtDateTime|date:"y年M月d日 H:mm"}}</div>
                             </div>
                         </div>
