@@ -125,7 +125,6 @@ export class QuotationsPageV2 {
 		area: {},
 		showLineRangeColor:true,
 	};
-
 	constructor(
 		public navCtrl: NavController,
 		public appSettings: AppSettings,
@@ -135,7 +134,7 @@ export class QuotationsPageV2 {
 		public tradeService: TradeService,
 		public renderer:Renderer,
 	) {
-		// this.changeActive(0);
+		// this.changeActive(0
 	}
 
 	ngOnInit() {
@@ -166,6 +165,7 @@ export class QuotationsPageV2 {
 		// 然后再用延时的 _thisPageActive = true ，在一定时间后重新渲染这些元素。
 		setTimeout(() => {
 			this._thisPageActive = true;
+			this.appDataService.getAppCoords();
 		}, 200);
 	}
 

@@ -35,11 +35,11 @@ export class AccountCenterPage extends SecondLevelPage {
       this.login_status = status 
       if(status) {
         this.checkHasAccountPWD();
-        if(this.personalDataService.certifiedStatus === '103'){
-          this.personalDataService.requestCertifiedStatus()
-        }
       }
-    })
+    });
+    if(this.personalDataService.certifiedStatus == '103' || this.personalDataService.certifiedStatus == '1'){
+      this.personalDataService.requestCertifiedStatus()
+    }
   }
 
   has_account_pwd = false;
@@ -58,7 +58,9 @@ export class AccountCenterPage extends SecondLevelPage {
   }
 
   identify() {
-    if (this.personalDataService.certifiedStatus === '101' || this.personalDataService.certifiedStatus === '103'){
+    if (this.personalDataService.certifiedStatus === '101' || this.personalDataService.certifiedStatus === '103'
+    || this.personalDataService.certifiedStatus == '1' || this.personalDataService.certifiedStatus == '2'
+  ){
       return void 0
     }
     this.navCtrl.push('submit-real-info');

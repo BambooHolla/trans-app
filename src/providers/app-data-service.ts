@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage';
 import { Device } from '@ionic-native/device';
 import { Geolocation } from '@ionic-native/geolocation';
+import { Platform } from "ionic-angular";
 @Injectable()
 export class AppDataService {
 
@@ -23,7 +24,7 @@ export class AppDataService {
     "serial":""
   }
   //版本校验
-  public APP_VERSION = "v0.1.4";
+  public APP_VERSION = "v0.1.14";
   // 经纬度
   public GEOLOCATION:any = {
     "latitude":"",
@@ -31,7 +32,6 @@ export class AppDataService {
   }
   //IP
   public APP_IP:any = "192.168.0.1";
-
 
 
   constructor(
@@ -127,18 +127,26 @@ export class AppDataService {
     return str   
   }
 
-  async getAppDevice(){
+  getAppDevice(){
+    //获取手机信息
     Object.keys(this.DEVICE_DATA).forEach(key => {
       this.DEVICE_DATA[key] = this.device[key]
     })
-    //获取地理位置
-    await this.geolocation.getCurrentPosition().then((resp) => {
-      this.GEOLOCATION.latitude = resp.coords.latitude;
-      this.GEOLOCATION.location = resp.coords.longitude;
-      console.log(' getting location',resp)
-     }).catch((error) => {
-       console.log('Error getting location', error);
-     });
+  }
+
+  getAppCoords(){
+    //获取地理位置 
+    return  this.geolocation.getCurrentPosition({timeout:500}).then((resp) => {
+      return {
+        status: "success", 
+        coords: resp.coords
+      }
+    }).catch((error) => {
+      return {
+        status: "err",
+        message: error
+      }
+    });
   }
 
   readonly APPDATASERVICE_PREIX = 'App-Data-Service:';
