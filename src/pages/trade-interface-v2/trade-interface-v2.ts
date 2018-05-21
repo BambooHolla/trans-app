@@ -1075,13 +1075,8 @@ export class TradeInterfaceV2Page {
 
 
   //快捷交易三个拉动条
-<<<<<<< HEAD
-  oneRangeQuickTradeData(data:any){
-    if(!this.appSetting.getUserToken() || data >= 0){
-=======
   rangeQuickTradeData(dataRange:any , rangeType:Number){
     if(!this.appSetting.getUserToken()){
->>>>>>> lsy
       return ;
     }
     if(!this.maxAmount){
@@ -1105,7 +1100,7 @@ export class TradeInterfaceV2Page {
       this.buyTotalAmount = this.maxAmount;
     }
 
-    
+
         // 快捷交易  卖
     if(new BigNumber(dataRange).comparedTo(this.holdAmount) != 1){
       let sale_amount:any = this.oneRange > this.range_sale_old ? new BigNumber(this.saleTotalAmount).plus(this.oneRange - this.range_sale_old)
