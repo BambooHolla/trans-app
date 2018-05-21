@@ -243,7 +243,12 @@
 				<div class="svgcont">
 					<div class="blank"></div>
 					<div>升级中...</div>
+<<<<<<< HEAD
 					<!-- <p id="salesum">{{saleTotalQuantity | numberUnitFormat}}</p>
+=======
+					<!-- <div>预估卖出价</div>
+					<p id="salesum">{{saleTotalQuantity | numberUnitFormat}}</p>
+>>>>>>> lsy
 					<span>卖出数量</span>
 					<label id="salenum">{{saleTotalAmount | numberFilter:true}}</label> -->
 				</div>
@@ -256,7 +261,12 @@
 				<div class="svgcont">
 					<div class="blank"></div>
 					<div>升级中...</div>
+<<<<<<< HEAD
 					<!-- <p id="buysum">{{buyTotalQuantity | numberUnitFormat}}</p>
+=======
+					<!-- <div>预估买入价</div>
+					<p id="buysum">{{buyTotalQuantity | numberUnitFormat}}</p>
+>>>>>>> lsy
 					<span>买入数量</span>
 					<label id="buynum">{{buyTotalAmount  | numberFilter:true}}</label> -->
 				</div>
@@ -283,7 +293,11 @@
 					 [max]='true?0:rangeMaxNumber(maxAmount > holdAmount?maxAmount:holdAmount,1)'
 					 min='0'
 					 step='1'
+<<<<<<< HEAD
 					 (ionChange)="oneRangeQuickTradeData(oneRange)" 
+=======
+					 (ionChange)="rangeQuickTradeData(oneRange,1)" 
+>>>>>>> lsy
 					 pin="false"></ion-range>
 			</ion-item>
 			<div class="range-mark">
@@ -299,7 +313,11 @@
 					 [max]='true?0:rangeMaxNumber(maxAmount > holdAmount?maxAmount:holdAmount,10)'
 					 min='0'
 					 step='10'
+<<<<<<< HEAD
 					 (ionChange)="tenRangeQuickTradeData(tenRange)" 
+=======
+					 (ionChange)="rangeQuickTradeData(tenRange,10)" 
+>>>>>>> lsy
 					 pin="false"></ion-range>
 			</ion-item>
 			<div class="range-mark"> 
@@ -315,7 +333,7 @@
 					 [max]='true?0:rangeMaxNumber(maxAmount > holdAmount?maxAmount:holdAmount,100)'
 					 min='0'
 					 step='100'
-					 (ionChange)="hundredRangeQuickTradeData(hundredRange)" 
+					 (ionChange)="rangeQuickTradeData(hundredRange,100)" 
 					 pin="false"></ion-range>
 			</ion-item>
 			<div class="range-mark">

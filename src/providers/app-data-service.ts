@@ -24,7 +24,7 @@ export class AppDataService {
     "serial":""
   }
   //版本校验
-  public APP_VERSION = "v0.1.14";
+  public APP_VERSION = "v0.1.15";
   // 经纬度
   public GEOLOCATION:any = {
     "latitude":"",
@@ -130,7 +130,7 @@ export class AppDataService {
   getAppDevice(){
     //获取手机信息
     Object.keys(this.DEVICE_DATA).forEach(key => {
-      this.DEVICE_DATA[key] = this.device[key]
+      this.DEVICE_DATA[key] = this.device[key] || ' ';
     })
   }
 
