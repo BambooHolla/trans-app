@@ -239,28 +239,28 @@
 				<svg class="circle-svg sale" viewBox="0,0,298,252">
 					<path class="svg-path" d='M 52 252 A 143 143 0 1 1 246 252' fill='none' stroke-width='12' stroke-linecap='round' />
 				</svg>
-				<!-- <div class="svgcont" (click)="quickTrade('sale')"> -->
-				<div class="svgcont">
-					<div class="blank"></div>
-					<div>升级中...</div>
-					<!-- <div>预估卖出价</div>
-					<p id="salesum">{{saleTotalQuantity | numberUnitFormat}}</p>
-					<span>卖出数量</span>
-					<label id="salenum">{{saleTotalAmount | numberFilter:true}}</label> -->
+				<div class="svgcont" (click)="quickTrade('sale')">
+					<div class="svgcont">
+						<div class="blank"></div>
+						<div>预估卖出价</div>
+						<p id="salesum">{{saleTotalQuantity | numberUnitFormat}}</p>
+						<span>卖出数量</span>
+						<label id="salenum">{{saleTotalAmount | numberFilter:true}}</label>
+					</div>
 				</div>
 			</ion-col>
 			<ion-col col-6>
 				<svg class="circle-svg buy" viewBox="0,0,298,252">
 					<path class="svg-path" d='M 52 252 A 143 143 0 1 1 246 252' fill='none' stroke-width='12' stroke-linecap='round' />
 				</svg>
-				<!-- <div class="svgcont" (click)="quickTrade('buy')"> -->
-				<div class="svgcont">
-					<div class="blank"></div>
-					<div>升级中...</div>
-					<!-- <div>预估买入价</div>
-					<p id="buysum">{{buyTotalQuantity | numberUnitFormat}}</p>
-					<span>买入数量</span>
-					<label id="buynum">{{buyTotalAmount  | numberFilter:true}}</label> -->
+				<div class="svgcont" (click)="quickTrade('buy')">
+					<div class="svgcont">
+						<div class="blank"></div>
+						<div>预估买入价</div>
+						<p id="buysum">{{buyTotalQuantity | numberUnitFormat}}</p>
+						<span>买入数量</span>
+						<label id="buynum">{{buyTotalAmount  | numberFilter:true}}</label>
+					</div>
 				</div>
 			</ion-col>
 			
@@ -282,11 +282,12 @@
 				<ion-range #oneQuantityRange
 					 [class.issale]="true"
 					 [(ngModel)]="oneRange"
-					 [max]='true?0:rangeMaxNumber(maxAmount > holdAmount?maxAmount:holdAmount,1)'
+					 [max]='rangeMaxNumber(maxAmount > holdAmount?maxAmount:holdAmount,1)'
 					 min='0'
 					 step='1'
+					 [disabled] = "rangeMaxNumber(maxAmount > holdAmount?maxAmount:holdAmount,1) < 1"
 					 (ionChange)="rangeQuickTradeData(oneRange,1)" 
-					 pin="false"></ion-range>
+					 pin="true"></ion-range>
 			</ion-item>
 			<div class="range-mark">
 				<div class="left"></div>
@@ -298,11 +299,12 @@
 				<ion-range #tenQuantityRange
 					 [class.issale]="true"
 					 [(ngModel)]="tenRange" 
-					 [max]='true?0:rangeMaxNumber(maxAmount > holdAmount?maxAmount:holdAmount,10)'
+					 [max]='rangeMaxNumber(maxAmount > holdAmount?maxAmount:holdAmount,10)'
 					 min='0'
 					 step='10'
+					 [disabled] = "rangeMaxNumber(maxAmount > holdAmount?maxAmount:holdAmount,10) < 10"
 					 (ionChange)="rangeQuickTradeData(tenRange,10)" 
-					 pin="false"></ion-range>
+					 pin="true"></ion-range>
 			</ion-item>
 			<div class="range-mark"> 
 				<div class="left"></div>
@@ -314,9 +316,10 @@
 				<ion-range #hundredQuantityRange
 					 [class.issale]="true"
 					 [(ngModel)]="hundredRange" 
-					 [max]='true?0:rangeMaxNumber(maxAmount > holdAmount?maxAmount:holdAmount,100)'
+					 [max]='rangeMaxNumber(maxAmount > holdAmount?maxAmount:holdAmount,100)'
 					 min='0'
 					 step='100'
+					 [disabled] = "rangeMaxNumber(maxAmount > holdAmount?maxAmount:holdAmount,100) < 100"
 					 (ionChange)="rangeQuickTradeData(hundredRange,100)" 
 					 pin="false"></ion-range>
 			</ion-item>

@@ -96,7 +96,7 @@ export class TradeInterfaceV2Page {
     .takeUntil(this.viewDidLeave$)
     .distinctUntilChanged()
     .do(index => {
-      this.getQuickTradeData(index)
+      this.getQuickTradeData()
     })
 
   private buyRate
@@ -165,9 +165,12 @@ export class TradeInterfaceV2Page {
   oneRange = 0;
   tenRange = 0;
   hundredRange = 0;
-  range_buy_old = 0;
-  range_sale_old = 0;
- 
+  oneRange_buy_old = 0;
+  oneRange_sale_old = 0;
+  tenRange_buy_old = 0;
+  tenRange_sale_old = 0;
+  hundredRange_buy_old = 0;
+  hundredRange_sale_old = 0;
 
    // @ViewChild('quantityRange') Range: any;
   @ViewChild('oneQuantityRange') oneQuantity: any;
@@ -781,14 +784,18 @@ export class TradeInterfaceV2Page {
     }
   }
 
-  async gotoHistoryLogin(){
+  async gotoHistoryLogin(goHistory:boolean = false){
     await this.refreshPersonalData();
-    this.gotoHistory(undefined);
+    debugger
+    this.getQuickTradeData();
+    if(goHistory){
+      this.gotoHistory(undefined);
+    }
   }
   gotoHistory($event){ 
     const token = this.appDataService.token;
     if (!token) {
-      return this.events.publish('show login', 'login',this.gotoHistoryLogin.bind(this));
+      return this.events.publish('show login', 'login',this.gotoHistoryLogin.bind(this,true));
     }
     this.navCtrl.push(HistoryRecordPage, {
       traderId: this.traderId, 
@@ -1087,30 +1094,51 @@ export class TradeInterfaceV2Page {
     }
 
     // 快捷交易  买
-    if(new BigNumber(dataRange).comparedTo(this.maxAmount) != 1 && new BigNumber(this.buyTotalAmount).comparedTo(this.maxAmount) != 1){
-      let buy_amount:any = this.oneRange > this.range_buy_old ? new BigNumber(this.buyTotalAmount).plus(this.oneRange - this.range_buy_old)
-        : new BigNumber(this.buyTotalAmount).minus(this.range_buy_old - this.oneRange);
+    if(new BigNumber(dataRange).comparedTo(this.maxAmount) != 1){
+      let buy_amount:any ;
+      if(rangeType == 1) {
+        buy_amount = this.oneRange > this.oneRange_buy_old ? new BigNumber(this.buyTotalAmount).plus(1)
+        : new BigNumber(this.buyTotalAmount).minus(1);
+        this.oneRange_buy_old = this.oneRange;
+      } else if(rangeType == 10) {
+        buy_amount = this.tenRange > this.tenRange_buy_old ? new BigNumber(this.buyTotalAmount).plus(10)
+        : new BigNumber(this.buyTotalAmount).minus(10);
+        this.tenRange_buy_old = this.tenRange;
+      } else if(rangeType == 100) {
+        buy_amount = this.hundredRange > this.hundredRange_buy_old ? new BigNumber(this.buyTotalAmount).plus(100)
+        : new BigNumber(this.buyTotalAmount).minus(100);
+        this.hundredRange_buy_old = this.hundredRange;
+      }
+      if(buy_amount.comparedTo(this.maxAmount) != 1){
+        buy_amount = buy_amount.comparedTo(0) == 1 ? buy_amount : new BigNumber(0);  
+        this.buyTotalAmount = dataRange == 0 ? "0" : buy_amount.toString();
+      }
       
-        buy_amount = buy_amount.comparedTo(0) == 1 ? buy_amount : new BigNumber(0);
-
-      this.range_buy_old = this.oneRange;
-
-      this.buyTotalAmount = dataRange == 0 ? "0" : buy_amount.toString();
     } else {
       this.buyTotalAmount = this.maxAmount;
     }
 
-
+     
         // 快捷交易  卖
     if(new BigNumber(dataRange).comparedTo(this.holdAmount) != 1){
-      let sale_amount:any = this.oneRange > this.range_sale_old ? new BigNumber(this.saleTotalAmount).plus(this.oneRange - this.range_sale_old)
-        : new BigNumber(this.saleTotalAmount).minus(this.range_sale_old - this.oneRange);
-      
-        sale_amount = sale_amount.comparedTo(0) == 1 ? sale_amount : new BigNumber(0);
-
-      this.range_sale_old = this.oneRange;
-
-      this.saleTotalAmount = dataRange == 0 ? "0" : sale_amount.toString();
+      let sale_amount:any ;
+      if(rangeType == 1) {
+        sale_amount = this.oneRange > this.oneRange_sale_old ? new BigNumber(this.saleTotalAmount).plus(1)
+        : new BigNumber(this.saleTotalAmount).minus(1);
+        this.oneRange_sale_old = this.oneRange;
+      } else if(rangeType == 10) {
+        sale_amount = this.tenRange > this.tenRange_sale_old ? new BigNumber(this.saleTotalAmount).plus(10)
+        : new BigNumber(this.saleTotalAmount).minus(10);
+        this.tenRange_sale_old = this.tenRange;
+      } else if(rangeType == 100) {
+        sale_amount = this.hundredRange > this.hundredRange_sale_old ? new BigNumber(this.saleTotalAmount).plus(100)
+        : new BigNumber(this.saleTotalAmount).minus(100);
+        this.hundredRange_sale_old = this.hundredRange;
+      }
+      if(sale_amount.comparedTo(this.holdAmount) != 1){
+        sale_amount = sale_amount.comparedTo(0) == 1 ? sale_amount : new BigNumber(0);  
+        this.saleTotalAmount = dataRange == 0 ? "0" : sale_amount.toString();
+      }
     } else {
       this.saleTotalAmount = this.holdAmount;
     }
@@ -1123,9 +1151,9 @@ export class TradeInterfaceV2Page {
 
 
   //快捷交易 满仓等
-  getQuickTradeData(index) {
+  getQuickTradeData() {
     console.log('getQuickTradeData')
-    const rate = this._cards[Object.keys(this._cards)[index]]||1
+    const rate = 1;
     const traders = this.traderId.split('-')
     let priceProduct, productProduct
 
@@ -1136,50 +1164,57 @@ export class TradeInterfaceV2Page {
       } else if (item.stockCode === traders[1]) {
         productProduct = item
       }
+     
     })
-
-    if (priceProduct) {
-      //可买数量
-      this.buyTotalQuantity =undefined
+    if(this.appSetting.getUserToken()){
       this.buyTotalAmount = '0';
-      // priceid productid totalprice
-      this.tradeService.getQuickTradeData('001', traders[1], traders[0], priceProduct.saleableQuantity * rate)
-        .then(data => {
-          if (data) {
-            // 等待二兵排查
-            // this.buyTotalQuantity = data.forecastAmount
-            // this.buyTotalAmount = data.forecastPrice
-           
-          } 
-          // else {
-          //   this.buyTotalQuantity = 0
-          // }
-        })
-    }
-    if (productProduct) {
-      //卖出总持仓
-      // this.saleTotalQuantity = productProduct.saleableQuantity * rate
       this.saleTotalAmount = '0';
-      this.tradeService.getQuickTradeData('002', traders[1], traders[0], this.saleTotalQuantity)
-        .then(data => {
-          if (data) {
-             // 等待二兵排查
-            // this.saleTotalQuantity = data.forecastAmount
-            // this.saleTotalAmount = data.forecastPrice
-           
-          } 
-          // else {
-          //   this.saleTotalQuantity = 0
-          // }
-        })
+      return ;
     }
+    
+    //下面代码 已废弃
+    // if (priceProduct) {
+    //   //可买数量
+    //   debugger
+    //   this.buyTotalAmount = '0';
+    //   // priceid productid totalprice
+    //   this.tradeService.getQuickTradeData('001', traders[1], traders[0], priceProduct.saleableQuantity * rate)
+    //     .then(data => {
+    //       if (data) {
+    //         // 等待二兵排查
+    //         // this.buyTotalQuantity = data.forecastAmount
+    //         // this.buyTotalAmount = data.forecastPrice
+           
+    //       } 
+    //       // else {
+    //       //   this.buyTotalQuantity = 0
+    //       // }
+    //     })
+    // }
+    // if (productProduct) {
+    //   //卖出总持仓
+    //   // this.saleTotalQuantity = productProduct.saleableQuantity * rate
+    //   this.saleTotalAmount = '0';
+    //   this.tradeService.getQuickTradeData('002', traders[1], traders[0], this.saleTotalQuantity)
+    //     .then(data => {
+    //       if (data) {
+    //          // 等待二兵排查
+    //         // this.saleTotalQuantity = data.forecastAmount
+    //         // this.saleTotalAmount = data.forecastPrice
+           
+    //       } 
+    //       // else {
+    //       //   this.saleTotalQuantity = 0
+    //       // }
+    //     })
+    // }
   }
 
   async quickTrade(tradeType){
     if(!this.appSetting.getUserToken()){
       return this.goLogin();
     }
-    await this.personalDataService.requestCertifiedStatus();
+    await this.personalDataService.requestCertifiedStatus(); 
     if(!(this.personalDataService.certifiedStatus == '101'  || this.personalDataService.certifiedStatus == '2')){
       return this.validateIdentify();
     }
@@ -1191,19 +1226,18 @@ export class TradeInterfaceV2Page {
     let amount:any = 0
     if (tradeType === 'buy') {
       transactionType = '001'
-      amount = this.buyTotalQuantity
+      amount = new BigNumber(this.buyTotalAmount).multipliedBy('100000000').toNumber();
     }else if (tradeType === 'sale') {
       transactionType = '002'
-      amount = this.saleTotalQuantity
+      amount = new BigNumber(this.saleTotalAmount).multipliedBy('100000000').toNumber();
     }else {
       return void 0
     }
-
+    debugger
     if(!Number(amount)){
-      this.alertService.showAlert('下单失败', '预计成交额为0')
       return void 0
     }
-
+ 
     this.alertService.presentLoading('')
 
     try{
@@ -1219,10 +1253,10 @@ export class TradeInterfaceV2Page {
           if (!data.realityAmount){
             return Promise.reject({message:'无委托提交'})
           }
-          //刷新账户信息
+          //刷新账户信息 
           await this.personalDataService.requestFundData().catch(() => { });
           await this.personalDataService.requestEquityDeposit().catch(() => { });
-          this.getQuickTradeData(index)          
+          this.getQuickTradeData();         
 
           this.alertService.dismissLoading()
 
@@ -1285,7 +1319,7 @@ export class TradeInterfaceV2Page {
   }
   
   goLogin(){
-    this.events.publish('show login', 'login', this.refreshPersonalData.bind(this)); 
+    this.events.publish('show login', 'login', this.gotoHistoryLogin.bind(this)); 
   }
 
  
@@ -1293,8 +1327,8 @@ export class TradeInterfaceV2Page {
 		if(this.personalDataService.certifiedStatus == '101'  || this.personalDataService.certifiedStatus == '2'){
 			return ;
 		}
-		let options:any = {};
-		//title 不能设置在初始化中，会没掉
+		let alert:any = {};
+    //title 不能设置在初始化中，会没掉
     if(this.personalDataService.certifiedStatus == '102'|| this.personalDataService.certifiedStatus == '104' 
     || this.personalDataService.certifiedStatus == '0'|| this.personalDataService.certifiedStatus == '3' 
   ){
@@ -1315,8 +1349,7 @@ export class TradeInterfaceV2Page {
 					}
 				}
 			];
-		} 
-		if(this.personalDataService.certifiedStatus == '103' || this.personalDataService.certifiedStatus == '1' ){
+		} else if(this.personalDataService.certifiedStatus == '103' || this.personalDataService.certifiedStatus == '1' ){
 			alert['title'] = "交易失败";
 			alert['message'] = `实名认证${this.personalDataService.realname|| this.personalDataService.certifiedMsg}`;
 			alert['buttons'] = [
@@ -1328,7 +1361,19 @@ export class TradeInterfaceV2Page {
 					}
 				}
 			];
-		}
+		} else {
+      alert['title'] = "交易失败";
+			alert['message'] = `获取用户状态出错`;
+			alert['buttons'] = [
+				{
+					text: '确认',
+					role: 'cancel',
+					handler: () => {
+						// console.log('Cancel clicked')
+					}
+				}
+			];
+    }
 		// 避免空白提示
 		if(!(JSON.stringify(alert) == "{}")){
 			this.alertCtrl.create(
@@ -1386,8 +1431,8 @@ export class TradeInterfaceV2Page {
     }
     return number;
   }
-  rangeMaxNumber(number,base:number = 1){
-    
+  rangeMaxNumber(number:any,base:number = 1){
+    let rangNumber:any;
     if(isNaN(number)) {
       return 0;
     }
@@ -1396,9 +1441,13 @@ export class TradeInterfaceV2Page {
     }
     //进位处理，123.3 ->124 or 130 or 200
     //         base = 1 or 10 or 100 
-   
-   return  parseInt( 
-      (Math.ceil(number) / base).toString()
-    ) * base;
+    rangNumber =  base == 1 ? parseInt( 
+      (Math.ceil(number/ base)).toString()
+    ) * base 
+    : parseInt( 
+      (Math.ceil((number/ base) < 1 ? 0 : number/ base)).toString()
+    ) * base ;
+    
+   return  rangNumber;
   }
 }
