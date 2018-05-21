@@ -165,10 +165,9 @@ export class TradeInterfaceV2Page {
   oneRange = 0;
   tenRange = 0;
   hundredRange = 0;
-  oneRange_buy_old = 0;
-  oneRange_sale_old
-  tenRange_old = 0;
-  hundredRange_old = 0;
+  range_buy_old = 0;
+  range_sale_old = 0;
+ 
 
    // @ViewChild('quantityRange') Range: any;
   @ViewChild('oneQuantityRange') oneQuantity: any;
@@ -789,7 +788,7 @@ export class TradeInterfaceV2Page {
   gotoHistory($event){ 
     const token = this.appDataService.token;
     if (!token) {
-      return this.events.publish('show login', 'login',this.gotoHistory.bind(this));
+      return this.events.publish('show login', 'login',this.gotoHistoryLogin.bind(this));
     }
     this.navCtrl.push(HistoryRecordPage, {
       traderId: this.traderId, 
@@ -1076,7 +1075,7 @@ export class TradeInterfaceV2Page {
 
 
   //快捷交易三个拉动条
-  oneRangeQuickTradeData(data:any){
+  rangeQuickTradeData(dataRange:any , rangeType:Number){
     if(!this.appSetting.getUserToken()){
       return ;
     }
@@ -1086,78 +1085,38 @@ export class TradeInterfaceV2Page {
     if(!this.holdAmount){
       this.holdAmount = "0";
     }
-    if(new BigNumber(data).comparedTo(this.maxAmount) != 1){
-      let buy_amount:any = this.oneRange > this.oneRange_buy_old ? new BigNumber(this.buyTotalAmount).plus(this.oneRange - this.oneRange_buy_old)
-        : new BigNumber(this.buyTotalAmount).minus(this.oneRange_buy_old - this.oneRange);
+
+    // 快捷交易  买
+    if(new BigNumber(dataRange).comparedTo(this.maxAmount) != 1 && new BigNumber(this.buyTotalAmount).comparedTo(this.maxAmount) != 1){
+      let buy_amount:any = this.oneRange > this.range_buy_old ? new BigNumber(this.buyTotalAmount).plus(this.oneRange - this.range_buy_old)
+        : new BigNumber(this.buyTotalAmount).minus(this.range_buy_old - this.oneRange);
       
         buy_amount = buy_amount.comparedTo(0) == 1 ? buy_amount : new BigNumber(0);
 
-      this.oneRange_buy_old = this.oneRange;
+      this.range_buy_old = this.oneRange;
 
-      this.buyTotalAmount = data == 0 ? "0" : buy_amount.toString();
+      this.buyTotalAmount = dataRange == 0 ? "0" : buy_amount.toString();
     } else {
       this.buyTotalAmount = this.maxAmount;
     }
 
-    if(new BigNumber(data).comparedTo(this.holdAmount) != 1){
-      let sale_amount:any = this.oneRange > this.oneRange_sale_old ? new BigNumber(this.saleTotalAmount).plus(this.oneRange - this.oneRange_sale_old)
-        : new BigNumber(this.saleTotalAmount).minus(this.oneRange_sale_old - this.oneRange);
+    
+        // 快捷交易  卖
+    if(new BigNumber(dataRange).comparedTo(this.holdAmount) != 1){
+      let sale_amount:any = this.oneRange > this.range_sale_old ? new BigNumber(this.saleTotalAmount).plus(this.oneRange - this.range_sale_old)
+        : new BigNumber(this.saleTotalAmount).minus(this.range_sale_old - this.oneRange);
       
         sale_amount = sale_amount.comparedTo(0) == 1 ? sale_amount : new BigNumber(0);
 
-      this.oneRange_sale_old = this.oneRange;
+      this.range_sale_old = this.oneRange;
 
-      this.saleTotalAmount = data == 0 ? "0" : sale_amount.toString();
+      this.saleTotalAmount = dataRange == 0 ? "0" : sale_amount.toString();
     } else {
       this.saleTotalAmount = this.holdAmount;
     }
-
-
-
-
-    this.tenRange = this.rangeMaxNumber(data,10);
-    this.hundredRange = this.rangeMaxNumber(data,100);
-      // one = this.oneRange - this.oneRange_old;
-      // this.oneRange_old = this.oneRange;
-   
-      // one = this.oneRange - this.oneRange_old;
-   
-    // console.log('.....',data,this.buyQuantityMax,this.saleQuantityMax)
-   
-    // this.maxAmount > this.holdAmount?this.maxAmount:this.holdAmount;
-    
    
   }
-  tenRangeQuickTradeData(data:any){
-    if(!this.appSetting.getUserToken()){
-      return ;
-    }
-    // console.log(data)
-    // if(new BigNumber(data).comparedTo(this.maxAmount) != 1){
-    //   let amount:any = this.tenRange > this.tenRange_old ? new BigNumber(this.buyTotalAmount).plus(this.tenRange - this.tenRange_old)
-    //     : new BigNumber(this.buyTotalAmount).minus(this.tenRange - this.tenRange_old);
-    //     amount = amount.comparedTo(this.maxAmount) != 1 ? amount : new BigNumber(0);
-    //   amount = amount.comparedTo(0) == 1 ? amount : new BigNumber(0);
-
-    //   this.tenRange_old = this.tenRange;
-
-    //   this.buyTotalAmount = amount.toString();
-    // } else {
-    //   this.buyTotalAmount = this.maxAmount;
-    // }
-   
-  }
-  hundredRangeQuickTradeData(data:any){
-    if(!this.appSetting.getUserToken()){
-      return ;
-    }
-  
-   
-   
-      
-   
-  }
-
+ 
 
 
 

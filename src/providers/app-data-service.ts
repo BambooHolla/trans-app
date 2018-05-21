@@ -130,7 +130,7 @@ export class AppDataService {
   getAppDevice(){
     //获取手机信息
     Object.keys(this.DEVICE_DATA).forEach(key => {
-      this.DEVICE_DATA[key] = this.device[key]
+      this.DEVICE_DATA[key] = this.device[key] || ' ';
     })
   }
 

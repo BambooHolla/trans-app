@@ -77,12 +77,12 @@ export class PromptControlleService {
                                     name,
                                     data: URL.createObjectURL(inputEle.files[0])
                                 }).then(() => {
-                                    this.activeNav.pop();
+                                    // this.activeNav.pop();
                                 });                 
                             } else {
-                                
+                                 
                                 actionSheet.dismiss(null).then(() => {
-                                    this.activeNav.pop();
+                                    // this.activeNav.pop();
                                 });
                             }
                         };
@@ -93,7 +93,7 @@ export class PromptControlleService {
                     text: '马上拍一张',
                     handler: () => {
                         this.hideSheet();
-                        
+                         
                         let cameraModal = this.modalCtrl.create(CameraModal);
                         cameraModal.onDidDismiss((data, role) => {
                             _unRegisterBackButton();
@@ -101,7 +101,7 @@ export class PromptControlleService {
                                 name,
                                 data
                             }).then(() => {
-                                this.activeNav.pop();
+                                // this.activeNav.pop();
                             });
                         });
                         
@@ -115,7 +115,7 @@ export class PromptControlleService {
                     handler: () => {
                         _unRegisterBackButton();
                         actionSheet.dismiss(null).then(() => {
-                            this.activeNav.pop();
+                            // this.activeNav.pop();
                         });
                         return false;
                     }
@@ -126,7 +126,7 @@ export class PromptControlleService {
          let _unRegisterBackButton = this.platform.registerBackButtonAction(() => {
             _unRegisterBackButton();
              actionSheet.dismiss(null).then(() => {
-                 this.activeNav.pop();
+                //  this.activeNav.pop();
              });
              
         })

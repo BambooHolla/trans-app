@@ -133,8 +133,10 @@ export class LoginService {
         type: type,
         account: customerId,
         password,
-        deviceNum: this.appDataService.DEVICE_DATA.uuid,
+        deviceNum: this.appDataService.DEVICE_DATA.uuid || '',
         deviceInfo: this.appDataService.DEVICE_DATA,
+        deviceType: this.appDataService.DEVICE_DATA.model || '',
+        operateSystem: this.appDataService.DEVICE_DATA.platform || '',
         ip: this.appDataService.APP_IP,
         location: app_geolocation.status == "success" ? {
             latitude : app_geolocation.coords.latitude,
