@@ -273,11 +273,11 @@ export class TradeService {
     //交易类型： '001'买， '002'卖
     if (transactionType === "001") {
       params['buyPriceId'] = priceId
-      params['buyTotalPrice'] = ''+amount
+      params['buyTotalPrice'] = amount
       params['buyProductId'] = productId
     } else if (transactionType === "002") {
       params['salePriceId'] = priceId
-      params['saleTotalAmount'] = ''+amount
+      params['saleTotalAmount'] = amount
       params['saleProductId'] = productId
     }
 
