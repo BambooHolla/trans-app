@@ -30,14 +30,14 @@
 </ion-header>
 <!-- <ion-content class="card-background-page bg-in"> -->
 <ion-content #content>
-    <ion-slides (ionSlideWillChange)="slideChanged()">
+    <ion-slides (ionSlideWillChange)="slideChanged()" (ionSlideDrag) = "slideDrag($event)">
         <ion-slide>
             <!-- [style.height.px]="slideHeight"不知道干嘛的，先放着 -->
             <!-- <ion-content class="child-content" [style.height.px]="slideHeight"> -->
             <ion-content class="child-content">
                 <ion-spinner name="ios" *ngIf="initing"></ion-spinner>
                 <!--下拉刷新-->
-                <ion-refresher (ionRefresh)="initNoticeList($event)">
+                <ion-refresher (ionRefresh)="initNoticeList($event)" *ngIf="refresherEnabled">
                     <ion-refresher-content refreshingText="正在刷新...">
                     </ion-refresher-content>
                 </ion-refresher>
@@ -79,7 +79,7 @@
             <ion-content class="child-content">
                 <ion-spinner name="ios" *ngIf="initing"></ion-spinner>
                 <!--下拉刷新-->
-                <ion-refresher (ionRefresh)="initNewsList($event)">
+                <ion-refresher (ionRefresh)="initNewsList($event)" *ngIf="refresherEnabled">
                     <ion-refresher-content refreshingText="正在刷新...">
                     </ion-refresher-content>
                 </ion-refresher>

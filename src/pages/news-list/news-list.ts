@@ -120,10 +120,26 @@ export class NewsListPage /* implements OnInit, OnDestroy  */ extends SecondLeve
         }
         this.slides.slideTo(index);
     }
+
+    //用于控制 是否启用下拉刷新
+    refresherEnabled:boolean = true;
+    refresherSwitch:any;
+    slideDrag($event){
+        clearTimeout(this.refresherSwitch);
+        this.refresherEnabled = false;
+        if($event) {
+            setTimeout(() => {
+                this.refresherEnabled = true;
+            }, 1000);
+        }
+        
+    }
     slideChanged() {
+        this.refresherEnabled = true;
         console.log('Q!!!!!!', this.slides.realIndex);
         this.tabIndex = this.slides.realIndex;
         this.getCurrentContent();
+       
     }
     getCurrentContent() {
         if (this.tabIndex == 0) {
