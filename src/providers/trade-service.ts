@@ -269,7 +269,6 @@ export class TradeService {
       controllerType: "002",
       transactionType,
     }
-
     //交易类型： '001'买， '002'卖
     if (transactionType === "001") {
       params['buyPriceId'] = priceId

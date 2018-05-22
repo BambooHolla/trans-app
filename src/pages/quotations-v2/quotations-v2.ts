@@ -35,7 +35,7 @@ export class QuotationsPageV2 {
 		// console.log('searched');
 	
 		this.searchTermStream.next(term);
-		this.activeProduct = term;
+		this.activeProduct = term; 
 		this.mainFilter.next('');
 	}
 
@@ -281,12 +281,37 @@ export class QuotationsPageV2 {
 				} else {
 					return item.priceName.toLowerCase().indexOf(product) !== -1
 				}
-				
 			}).sort((a: any, b: any) => {
 				return a.priceId - b.priceId
+			});
+			this.traderList.filter((item: any, index, arr) => {
+				if(search){
+					if(item.traderName.toLowerCase().indexOf(product) !== -1) {
+						item.hidden = false;
+					} else {
+						item.hidden = true;
+					}
+					return ;
+				} else {
+					if(item.priceName.toLowerCase().indexOf(product) !== -1) {
+						item.hidden = false;
+					} else {
+						item.hidden = true;
+					}
+					return ;
+				}
 			})
 		} else {
 			this.traderList_show = this.traderList;
+			this.traderList.filter((item: any, index, arr) => {
+				if(search){
+					item.hidden = false;
+					return ;
+				} else {
+					item.hidden = false;
+					return ;
+				}
+			})
 		}
 	
 	}

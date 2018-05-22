@@ -786,7 +786,8 @@ export class TradeInterfaceV2Page {
 
   async gotoHistoryLogin(goHistory:boolean = false){
     await this.refreshPersonalData();
-    debugger
+    this.buyTotalAmount = '0';
+    this.saleTotalAmount = '0';
     this.getQuickTradeData();
     if(goHistory){
       this.gotoHistory(undefined);
@@ -1226,10 +1227,10 @@ export class TradeInterfaceV2Page {
     let amount:any = 0
     if (tradeType === 'buy') {
       transactionType = '001'
-      amount = new BigNumber(this.buyTotalAmount).multipliedBy('100000000').toNumber();
+      amount = new BigNumber(this.buyTotalAmount).multipliedBy('100000000').toString();
     }else if (tradeType === 'sale') {
       transactionType = '002'
-      amount = new BigNumber(this.saleTotalAmount).multipliedBy('100000000').toNumber();
+      amount = new BigNumber(this.saleTotalAmount).multipliedBy('100000000').toString();
     }else {
       return void 0
     }
