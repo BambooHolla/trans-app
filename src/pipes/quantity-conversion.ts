@@ -28,7 +28,7 @@ export class QuantityConversionPipe implements PipeTransform {
       number[0] = number[0] == ''? "0": number[0];
     }
     if(number[1]){
-      number[0] =  number[0].length > 10? number[0].substr(-10) : number[0];
+      // number[0] =  number[0].length > 10? number[0].substr(-10) : number[0];
       number[1] =  number[1].length > 8? number[1].substr(0,8) : number[1];
       return number[0]+'.'+number[1];
     }

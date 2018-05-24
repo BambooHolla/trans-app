@@ -25,6 +25,9 @@ import { AppSettingProvider } from '../../bnlc-framework/providers/app-setting/a
 export class OptionalPage extends SecondLevelPage {
   optionalStockDetailList: any[] = [];
   personalAssets: object = {};
+  // 日盈亏
+  dayTotal:any = 0;
+  dayTotalArr:any = [];
 
   private viewDidLeave: BehaviorSubject<boolean> = new BehaviorSubject(false);
   private viewDidLeave$ = this.viewDidLeave
@@ -74,6 +77,9 @@ export class OptionalPage extends SecondLevelPage {
       .then(() => {
         this.upDate = true;
         return refresher ? refresher.complete() : void 0;
+      }).catch(() => {
+        this.upDate = true;
+        return refresher ? refresher.complete() : void 0;
       })
     }
    
@@ -86,9 +92,13 @@ export class OptionalPage extends SecondLevelPage {
 
   @OptionalPage.didEnter
   onIonViewDidEnter() {
-    
+    if(this.appSetting.getUserToken()){
+      this.initData()
+    }else{
+      this.resetData()
+    }
     this.viewDidLeave.next(false);
-
+    
     // this.personalDataService.requestFundData();
 
     // this.doSubscribe();
@@ -177,7 +187,21 @@ export class OptionalPage extends SecondLevelPage {
                 return item;
               }
             })
-        })))
+        })));
+
+      //计算每日盈亏,持仓 * 涨幅 * 最新价 
+      for(let i = 0 ; i < this.optionalStockDetailList.length; i++) {
+        this.optionalStockDetailList[i].realtimePrice.subscribe( val => {
+          if(val && this.optionalStockDetailList[i].personalData.restQuantity) {
+            this.dayTotalArr[i] =  this.optionalStockDetailList[i].personalData.restQuantity * ( val.range || 0) * (val.price || 1);
+            this.dayTotal = 0;
+            for(let j = 0; j < this.dayTotalArr.length; j++) {
+              this.dayTotal += this.dayTotalArr[j] || 0;
+            }
+          }
+        })
+      }
+      
       this.lastRealtimeStockList = this.realtimeStockList.getValue().concat();
       this.realtimeStockList.next(data.map(({ stockCode }) => stockCode));
       this.doSubscribe();
@@ -205,7 +229,7 @@ export class OptionalPage extends SecondLevelPage {
           item.priceName = priceName;
         }
         console.log('requestAssets', data);
-        this.personalAssets = data;
+        this.personalAssets = data; 
         return Promise.resolve();
       })
       .catch(err => {
