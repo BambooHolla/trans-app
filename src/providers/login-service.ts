@@ -221,13 +221,27 @@ export class LoginService {
 
   MODIFY_PASSWORD = `/user/modifyLoginPassword`;
   // 修改密码
-  doModifyPWD(oldPassword: string, newPassword: string) {
+  async doModifyPWD(oldPassword: string, newPassword: string) {
+    let app_geolocation:any = await this.appDataService.getAppCoords();
     return this.appService.request(
       RequestMethod.Post,
       this.MODIFY_PASSWORD,
       {
         oldPassword,
         newPassword,
+        deviceNum: this.appDataService.DEVICE_DATA.uuid || ' ',
+        deviceInfo: this.appDataService.DEVICE_DATA,
+        deviceType: this.appDataService.DEVICE_DATA.model || ' ',
+        operateSystem: this.appDataService.DEVICE_DATA.platform || ' ',
+        
+        ip: this.appDataService.APP_IP,
+        location: app_geolocation.status == "success" ? {
+            latitude : app_geolocation.coords.latitude,
+            longitude : app_geolocation.coords.longitude
+          } : {
+            latitude : "",
+            longitude : ""
+          },
       },
       true,
     );
