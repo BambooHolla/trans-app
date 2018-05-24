@@ -50,7 +50,7 @@ export class RegisterPage {
 			}).bind(this)
 		]),
     vcode: new FormControl({ value: '', disabled: false },Validators.required),
-    password: new FormControl({ value: '', disabled: false },[Validators.minLength(3),Validators.required]),
+    password: new FormControl({ value: '', disabled: false },[Validators.minLength(3),Validators.required,this.validatePWDDStrength.bind(this,'password')]),
     confirPassword: new FormControl({ value: '', disabled: false },[Validators.required,this.validatePWD.bind(this)]),
     protocolAgree: new FormControl({ value: true, disabled: false }),
     recommendCode: new FormControl({ value: '', disabled: false }),
@@ -72,6 +72,16 @@ export class RegisterPage {
     }
   }
 
+  validatePWDDStrength(pwdType){
+		if (this.registerForm) {
+			const password = this.registerForm.get(pwdType).value;
+			if(!password) return null;
+			//密码至少包含一个大写，一个小写，一个数字
+			let pattern = new RegExp( /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{3,}$/);
+			return pattern.test(password) ? null	 :  { strengthError: true };
+		}
+		
+	}
   // protocolAgree = false;
 
   toggleProtocolAgree() {

@@ -17,7 +17,7 @@ page-register {
         background-color: transparent;
         border: none; // transform: scale(0.9);
         // transform-origin: 0;
-        margin-top: 1.5rem;
+        margin-top: 1rem;
         .item-inner {
             border: none;
         } 
@@ -123,8 +123,8 @@ page-register {
                 height: 100%;
             }
         }
-        .register-form-container {
-            padding: 5vh 12.5vw;
+        .register-form-container { 
+            padding: 4vh 12.5vw 5vh;
             display: flex;
             flex-direction: column;
             .register-form-item {
@@ -199,6 +199,11 @@ page-register {
                 transform: scale(1.02);
                 font-weight: 400;
             }
+            .pwd-strength{
+                color: #c1b17f; // font-weight: bolder;
+                margin: 0.5rem 0 0;
+                font-size: 1rem;
+            } 
         }
     }
     // 表单校验的样式
