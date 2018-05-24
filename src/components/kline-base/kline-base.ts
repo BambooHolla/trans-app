@@ -58,18 +58,21 @@ export class KlineEchartsBaseComponent implements OnChanges, OnDestroy {
     //做
     private _RUN_LOADING:boolean = false ;
     private _FIRST_ECHART:boolean = true;
+    private _LOADING_CTRL:any ;
     firstCallEchartsCreator() {
         if( this._RUN_LOADING ) {
             return void 0;
         }
         this._RUN_LOADING = true;
-        this.loadingCtrl.create({
+        this._LOADING_CTRL = this.loadingCtrl.create({
             content: "",
-            duration: 1000
-        }).present().then( e => {
+            cssClass: 'enableBackdropDismiss',
+            dismissOnPageChange: true
+        });
+        this._LOADING_CTRL.present().then( e => {
             this._RUN_LOADING = false;
+            this._FIRST_ECHART = false;
             if (this.echartsData && this.inputDataValid()) {
-                this._FIRST_ECHART = false;
                 setTimeout(() => {
                     if (this.chartInstance) {
                         this.createCharts()
@@ -80,8 +83,6 @@ export class KlineEchartsBaseComponent implements OnChanges, OnDestroy {
                         this.callEchartsCreator();
                     }
                 }, 500);
-            } else {
-                this.firstCallEchartsCreator();
             }
         })
 
@@ -92,11 +93,13 @@ export class KlineEchartsBaseComponent implements OnChanges, OnDestroy {
     
     callEchartsCreator() {
    
-        if( this._FIRST_ECHART || this._RUN_LOADING) {
+        if( this._FIRST_ECHART) {
             return void 0;
         }
+
         if (this.echartsData && this.inputDataValid()) {
             this._RUN_LOADING = false;
+           
             setTimeout(() => {
                 if (this.chartInstance) {
                     this.createCharts()

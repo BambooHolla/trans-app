@@ -21,7 +21,7 @@ export class AppService {
     private http: Http,
     // private events: Events,
     private appSettings: AppSettings,
-    private appDataService: AppDataService // private loginService: LoginService,
+    private appDataService: AppDataService // private loginService: LoginService, 
   ) {}
   //{cache:true,minute:3,key:''}
   request(
@@ -83,7 +83,7 @@ export class AppService {
         break;
     }
 
-    return requestMethod
+    return requestMethod.timeout(this.appDataService.timeOut || 5000)
       .map(res => res.json())
       .toPromise()
       .then(data => {
@@ -129,7 +129,11 @@ export class AppService {
 
   private _errorHandler(error, static_return = false) {
     if (error instanceof Error) {
-      error = { code: '999', message: error.message };
+      if( error.message.indexOf('Timeout') != -1){
+        error = { code: '999', message: '请求超时' };
+      } else {
+        error = { code: '999', message: error.message };
+      }
     } else if (
       error && error instanceof ProgressEvent 
       || error.constructor.name === 'ProgressEvent'
