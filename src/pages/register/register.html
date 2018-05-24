@@ -24,7 +24,7 @@
                 <div item-right class="error-tip" *ngIf="form_customerId.errors?.wrongCustomerId">
                     账号格式错误/邮箱
                 </div>
-                <div item-right class="error-tip" *ngIf="!form_customerId.errors?.wrongCustomerId && registerCustomerId">
+                <div item-right class="error-tip" *ngIf="!form_customerId.errors?.wrongCustomerId && registerCustomerId"> 
                     账号已存在
                 </div>
             </ion-item>
@@ -40,6 +40,9 @@
                 <div item-right class="error-tip" *ngIf="form_password.errors?.minlength">
                     密码至少3位
                 </div>
+                <div item-right class="error-tip" *ngIf="!form_password.errors?.minlength && form_password.errors?.strengthError">
+                    密码强度不符
+                </div>
             </ion-item>
             <ion-item class="register-form-item">
                 <ion-input formControlName="confirPassword" class="password" type="password" placeholder="确认密码">
@@ -52,6 +55,9 @@
                 <ion-input formControlName="recommendCode" class="password" placeholder="选填：推荐人">
                 </ion-input>
             </ion-item>
+            <div item-right class="pwd-strength">
+                * 密码需包含大写字母，小写字母和数字
+              </div>
             <div class="register-agree-protocol">
                 <ion-checkbox color="dark" formControlName="protocolAgree" #agreement></ion-checkbox>
                 <p class="protocol-checkbox" >

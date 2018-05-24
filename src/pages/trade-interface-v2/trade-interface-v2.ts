@@ -766,7 +766,6 @@ export class TradeInterfaceV2Page {
             if (data.sale) {
               //遍历数据，剔除掉数量为0的数据
               for(let i = 0; i < data.sale.length; i++){
-                debugger
                 if( data.sale[i].amount && (data.sale[i].amount * 1) == 0) {
                   data.sale.shift();
                   --i;
