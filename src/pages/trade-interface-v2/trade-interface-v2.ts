@@ -31,11 +31,14 @@ import { PromptControlleService } from "../../providers/prompt-controlle-service
 import { LoginService } from '../../providers/login-service';
 import { BigNumber } from "bignumber.js";
 
+import { TradeChartV2Page } from '../trade-chart-v2/trade-chart-v2';
 @Component({
   selector: 'page-trade-interface-v2',
   templateUrl: 'trade-interface-v2.html'
 })
 export class TradeInterfaceV2Page {
+  tradeChart = TradeChartV2Page;
+
   quickTrading: boolean = false;
   trading: boolean = false;
   marketPrice: any;
@@ -350,7 +353,7 @@ export class TradeInterfaceV2Page {
       // let saleableQuantity:any = (target && target.length != 0 ? target : [{ saleableQuantity:0}])[0]
       //   .saleableQuantity / this.appSettings.Product_Price_Rate;
       let saleableQuantity:any =  new BigNumber((target && target.length != 0 ? target : [{ saleableQuantity:0}])[0]
-      .saleableQuantity).div( this.appSettings.Product_Price_Rate);
+      .saleableQuantity).div( this.appSettings.Product_Price_Rate); 
       this.maxAmount = Number(price) ? this.numberFormat(saleableQuantity.div(price).toString(),false,false) : "0";
    
       if(this.maxAmount == "0"){
@@ -703,7 +706,7 @@ export class TradeInterfaceV2Page {
         .do(data => {
           // console.log('doSubscribe do')
           if(!data) return false
-          if(!this.price) this.price = new BigNumber(data.price).toString();
+          if(!this.price) this.price = new BigNumber(data.price?data.price:"0").toString();
           this.marketPrice = data.price
           this.buyRate = data.buyRate
           this.sellRate = data.sellRate

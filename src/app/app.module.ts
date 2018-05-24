@@ -82,6 +82,7 @@ import { HistoryRecordPage } from '../pages/history-record/history-record';
 import { QuotationsPageV2 } from '../pages/quotations-v2/quotations-v2';
 import { TradeInterfacePage } from '../pages/trade-interface/trade-interface';
 import { TradeInterfaceV2Page } from '../pages/trade-interface-v2/trade-interface-v2';
+import { TradeChartV2Page } from '../pages/trade-chart-v2/trade-chart-v2';
 import { StockDetailPage } from '../pages/stock-detail/stock-detail';
 
 import { InputModal } from '../modals/input/input';
@@ -120,6 +121,7 @@ import { QuantityConversionPipe } from '../pipes/quantity-conversion';
 import { PriceConversionPipe } from '../pipes/price-conversion';
 
 import { EchartsBaseComponent } from '../components/echarts-base/echarts-base';
+import { KlineEchartsBaseComponent } from '../components/kline-base/kline-base'; 
 import { SmoothlineComponent } from '../components/smoothline/smoothline';
 import { PieComponent } from '../components/pie/pie';
 import { BarComponent } from '../components/bar/bar';
@@ -160,6 +162,7 @@ import { ForgetPwdPageModule } from '../pages/forget-pwd/forget-pwd.module';
 import { ModifyPwdPageModule } from '../pages/modify-pwd/modify-pwd.module';
 import { RegisterPageModule } from '../pages/register/register.module';
 import { RealtimeReportComponent } from '../components/realtime-report/realtime-report';
+import { KlineReportComponent } from '../components/kline-report/kline-report'; 
 import { AccountServiceProvider } from '../providers/account-service/account-service';
 import { KjuaQrcodeComponent } from '../components/kjua-qrcode/kjua-qrcode';
 import { EntrustServiceProvider } from '../providers/entrust-service';
@@ -241,6 +244,7 @@ export function createTranslateLoader(http: HttpClient) {
         QuotationsPageV2,
         TradeInterfacePage,
         TradeInterfaceV2Page,
+        TradeChartV2Page,
         StockDetailPage,
         // NoticeListPage,
         // NoticePage,
@@ -258,6 +262,7 @@ export function createTranslateLoader(http: HttpClient) {
         RecommendPage,
         // RichText,
         EchartsBaseComponent,
+        KlineEchartsBaseComponent,
         SmoothlineComponent,
         PieComponent,
         BarComponent,
@@ -270,6 +275,7 @@ export function createTranslateLoader(http: HttpClient) {
         ImageTakerCmp,
         LoopSlidesBetaComponent,
         RealtimeReportComponent,
+        KlineReportComponent,
         QuantityConversionPipe,
         PriceConversionPipe,
         ProductId2namePipe,
@@ -432,6 +438,7 @@ export function createTranslateLoader(http: HttpClient) {
         QuotationsPageV2,
         TradeInterfacePage,
         TradeInterfaceV2Page,
+        TradeChartV2Page,
         StockDetailPage,
         OptionalPage,
         // SearchItemPage,
@@ -448,6 +455,7 @@ export function createTranslateLoader(http: HttpClient) {
         BnHeaderComponent,
         BnMenuComponent,
         EchartsBaseComponent,
+        KlineEchartsBaseComponent, 
         SmoothlineComponent,
         PieComponent,
         BarComponent,

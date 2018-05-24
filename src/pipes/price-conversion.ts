@@ -16,33 +16,32 @@ export class PriceConversionPipe implements PipeTransform {
     private appSettings: AppSettings,
   ) {}
 
-  transform(value: any, tradeRetainLength: number = 8) {
+  transform(value: any, tradeRetainLength: number = 5) {
     // / this.appSettings.Price_Rate
     if(isNaN(value)) return value;
-   
+    value = ""+value;
     let number:any = value;
-    number = new BigNumber(number).toString();
+    
    
     number = number.split('.');
-    
     if(number[0].length > 1){
       number[0] =  number[0].replace(/\b(0+)/gi,"");
       number[0] = number[0] == ''? "0": number[0];
     } else {
-      return value;
+      return this.numberFormatDelete0(value);
     }
    
     if(number[1]) {
       number[1] =  number[1].length > tradeRetainLength? number[1].substr(0,tradeRetainLength) : number[1];
       return this.numberFormatDelete0(number[0]+'.'+number[1]);
-    }  {
+    } else {
       return  number[0];
     }
   }
 
   numberFormatDelete0(number:string|number){
     let arrExp:any ;
-    if(typeof number == "number") number = number.toString();
+    if(typeof number == "number") number = ""+number;
     number = number.split("").reverse().join("");
     arrExp = /[1-9|\.]/ig.exec(number)
     if(arrExp){
