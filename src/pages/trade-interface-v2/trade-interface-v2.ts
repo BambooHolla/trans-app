@@ -726,6 +726,8 @@ export class TradeInterfaceV2Page {
       // if(!this._depth$){
         this._depthSource$ = this.socketioService.subscribeEquity(traderId, 'depth')
           .do(data => console.log('trade-interface-v2:depth:', data))
+
+        //旧的行情图 所需要的数据，已不需要
         this._depth$ = this._depthSource$
           // .map(data =>data.data)
           .map(data => {
@@ -747,6 +749,13 @@ export class TradeInterfaceV2Page {
         this._depthSource$.subscribe(data=>{
           if(data){
             if(data.buy){
+              //遍历数据，剔除掉数量为0的数据
+              for(let i = 0; i < data.buy.length; i++){
+                if( data.buy[i].amount && (data.buy[i].amount * 1) == 0) {
+                  data.buy.shift();
+                  --i;
+                }
+              }
               this.buy_depth = data.buy; 
               if(this.buy_depth[0] && this._tradeType$.getValue() == 1){
                 this.buyTotalQuantity = this.price = this.numberFormatDelete0(this.buy_depth[0].price);
@@ -755,6 +764,14 @@ export class TradeInterfaceV2Page {
               this.buyTotalQuantity = this.buy_depth[0] ? this.numberFormatDelete0(this.buy_depth[0].price): ''+this.marketPrice;
             }
             if (data.sale) {
+              //遍历数据，剔除掉数量为0的数据
+              for(let i = 0; i < data.sale.length; i++){
+                debugger
+                if( data.sale[i].amount && (data.sale[i].amount * 1) == 0) {
+                  data.sale.shift();
+                  --i;
+                }
+              }
               this.sale_depth = data.sale;
               if(this.sale_depth[0] && this._tradeType$.getValue() == 0){
                 this.saleTotalQuantity = this.price = this.numberFormatDelete0(this.sale_depth[0].price);
