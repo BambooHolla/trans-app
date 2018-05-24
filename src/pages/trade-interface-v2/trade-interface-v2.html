@@ -8,7 +8,10 @@
 			</ion-select>
 		</ion-item>
 		<ion-buttons class="chart-button" right>
-			<button ion-button ion-only (click)="switchOrientation(false)">
+			<!-- <button ion-button ion-only (click)="switchOrientation(false)">
+
+			</button> -->
+			<button ion-button ion-only [navPush]="tradeChart" [navParams]="traderId" >
 			</button>
 			<!-- <ion-icon class="sresize" (click)="switchOrientation(false)"></ion-icon> -->
 		</ion-buttons>
@@ -375,7 +378,7 @@
 </ion-content>
 
 <!-- 横屏k线图表 -->
-<div class="home-contain sim-landscape" [class.show]="!isPortrait">
+<div class="home-contain sim-landscape" [class.show]="false">
 	<ion-grid class="sft child-span-padding-left-1">
 		<ion-row justify-content-around>
 			<ion-col col-3 no-padding>
@@ -411,6 +414,8 @@
 			</ion-col>
 		</ion-row>
 	</ion-grid>
+
+
 	<div class="sfull">
 		<div class="charts">
 			<realtime-report 
@@ -441,6 +446,8 @@
 			</div>
 		</div>
 	</div>
+
+
 	<ion-grid class="sfulltab">
 		<ion-row col-8>
 			<ion-col col-3 *ngFor="let title of timeArray; let i = index;" (click)="changeTime(i)" [class.active]="activeIndex === i">{{title}}</ion-col>

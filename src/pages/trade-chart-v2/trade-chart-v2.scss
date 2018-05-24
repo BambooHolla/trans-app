@@ -1,0 +1,121 @@
+page-trade-chart-v2 {
+    ion-navbar {
+        padding-bottom: 0rem;
+    }
+    .scroll-content {
+        background-color: rgba(0, 0, 0, 0.34); 
+    }
+    .market{
+		margin: 0 0 1rem; 
+		&-head{
+			background-color: color($colors,background-darker);
+			display: flex;
+		    box-shadow: 0px 6px 8px 0px rgba(0, 0, 0, 0.12);
+			height: 4.4rem;
+			align-items: center;
+			&>div{
+				flex:1;
+				&:nth-child(1){
+					flex-grow: 1.5;
+					font-size: 2.6rem;
+					text-align: center;
+				}
+				padding: 0 1.4rem;
+			}
+			.market-label{
+				white-space: nowrap;
+				color: color($colors,middark);
+			}
+			.market-items{
+				&.left{
+					text-align: left;
+				}
+				&+.market-items{
+					margin-top: .8rem;
+					padding-bottom: 0rem;
+				}
+			}
+        }
+    }
+    .charts { 
+        height:calc(100vh - 22.4rem); 
+        .echarts-placeholder {
+            height:calc(100vh - 22.4rem); 
+            width: 100%;
+         
+        }
+    }
+    .time-interval {
+        height: 4rem;
+        display: flex;
+        background-color: color($colors,background-darker);
+        color: color($colors,middark); 
+        justify-content: space-around; 
+        border-top: 0.1rem solid rgba(60, 60, 60, 0.96);  
+        box-sizing: border-box; 
+        div {
+            font-size: 1.2rem;
+            line-height: 4rem;
+            width: 11.4%;
+            text-align: center;
+        }
+        .norm {
+            width: 20.2%;
+            text-align: center;
+            background-color: rgba(0, 0, 0, 0.32); 
+            position: relative;
+            span {
+                z-index: 1;
+                width:0px;
+                height:0px;
+                display: inline-block;
+                position: relative;
+                top: -0.22rem;
+                margin-left: 0.4rem;
+                border-right:0.4rem solid rgba(0,0,0,0);
+                border-bottom:0.4rem solid color($colors,middark); 
+                border-left:0.4rem solid  rgba(0,0,0,0);
+            }
+            
+        }
+        .active{
+            color:#c1b17f;
+            position: relative;
+            // font-size: 2.25rem;
+            &:before{
+                content:"";
+                position: absolute;
+                z-index: 1;
+                bottom: 0rem; 
+                width: 70%;
+                height: 0.2rem;
+                background-color:  #c1b17f;
+                // box-shadow:0 0 1.5rem 0 color($colors,primary);
+                left:15%;
+            }
+        } 
+    }
+    
+    .transaction-btn {
+        position: fixed;
+        bottom: 0rem;
+        width: 100%;
+        display: flex;
+        height: 4.4rem; 
+        div {
+            width: 50%; 
+            margin: 0rem;
+            padding: 0rem;
+            line-height: 4.4rem;
+            font-size: 1.6rem; 
+            text-align: center;
+            &.buy{
+                background-color: color($colors,special); 
+            }
+            &.sale{
+                background-color: color($colors,middark); 
+                color: black;
+            }
+        }
+    }
+}
