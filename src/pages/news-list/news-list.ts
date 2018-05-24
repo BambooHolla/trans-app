@@ -125,6 +125,9 @@ export class NewsListPage /* implements OnInit, OnDestroy  */ extends SecondLeve
     refresherEnabled:boolean = true;
     refresherSwitch:any;
     slideDrag($event){
+        if(!this.noticeList.list || !this.newsList.list){
+            return ;
+        }
         clearTimeout(this.refresherSwitch);
         this.refresherEnabled = false;
         if($event) {

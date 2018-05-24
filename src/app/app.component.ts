@@ -8,6 +8,7 @@ import { Clipboard } from "@ionic-native/clipboard";
 // import { App, NavController, LoadingController, Loading } from 'ionic-angular';
 import {
   App,
+  Config,
   LoadingController,
   Loading,
   AlertController,
@@ -31,6 +32,9 @@ import { StockDataService } from "../providers/stock-data-service";
 import { TradeService } from "../providers/trade-service";
 import { PersonalDataService } from "../providers/personal-data-service";
 
+import { CommonTransition } from "./common-transition";
+
+ 
 @Component({
   templateUrl: "app.html",
 })
@@ -82,6 +86,7 @@ export class PicassoApp {
     public modalController: ModalController,
     public translate: TranslateService,
     public renderer2: Renderer2,
+    public config: Config,
   ) {
     window["platform"] = platform;
     window["alertCtrl"] = alertCtrl;
@@ -96,6 +101,10 @@ export class PicassoApp {
         readText: () => clipboard.paste(),
       };
     }
+
+    config.setTransition("common-transition", CommonTransition);
+   
+
     this.screenOrientation
       .lock(this.screenOrientation.ORIENTATIONS.PORTRAIT)
       .catch(err => {

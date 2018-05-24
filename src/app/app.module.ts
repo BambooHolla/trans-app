@@ -174,7 +174,6 @@ import { WorkOrderServiceProvider } from '../providers/work-order-service/work-o
 import { InviteCommissionPage } from '../pages/invite-commission/invite-commission';
 import { QuotationsPage } from '../pages/quotations/quotations';
 import { PromptControlleService } from '../providers/prompt-controlle-service';
-
 // import { BankCode2NamePipe } from '..\pipes\bank-code2-name/bank-code2-name';
 // import { FileService } from '../providers/file.service';
 // import { IsLoadingDirective } from '../directives/is-loading/is-loading';
@@ -300,6 +299,7 @@ export function createTranslateLoader(http: HttpClient) {
                 //modalLeave: 'modal-slide-out',
                 // tabsPlacement: 'bottom',
                 // pageTransition: 'ios-transition',
+                pageTransition: "common-transition",
                 statusbarPadding: true,
                 tabsHideOnSubPages: true
             },
