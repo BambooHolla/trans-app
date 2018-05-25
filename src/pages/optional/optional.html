@@ -14,7 +14,7 @@
     <ion-row class="info-row">
       <ion-col>
         <!-- <h6 no-margin-bottom>{{personalAssets?.dayProfit?.total | quantityConversion | numberUnitFormat:true:true:8 | positiveSign}}</h6> -->
-        <h6 no-margin-bottom>{{dayTotal | quantityConversion | numberUnitFormat:true:true:8 }}</h6>
+        <h6 no-margin-bottom>{{dayTotal || "0" | quantityConversion | numberUnitFormat:true:true:8 }}</h6>
         <span class="h7">今日盈亏</span>
       </ion-col>
       <ion-col class="split-line">

@@ -192,7 +192,7 @@ calculateMA(dayCount) {
             type: 'category',
             data: this.data0.times,
             scale: true,
-            boundaryGap: false,
+            boundaryGap: true,
             splitNumber: 5,
             axisLine: { 
                 onZero: false,
@@ -237,7 +237,7 @@ calculateMA(dayCount) {
         yAxis: [{
             scale: true,
             show :true,
-            boundaryGap: false,
+            boundaryGap: true,
             position: "right",
             splitNumber: 5,
             splitArea: {

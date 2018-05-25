@@ -150,7 +150,7 @@ export class OptionalPage extends SecondLevelPage {
     await this.appDataService.productsPromise;
     // 当个人中心的股票持仓列表变化时，重新进行订阅
     this.personalDataService.personalStockList$.subscribe(async data => {
-      console.log('initPersonalStockListSubscriber', data);
+      console.log('initPersonalStockListSubscriber', data); 
       // 个人中心的股票持仓列表变化时，才刷新当前页股票列表的数据源
       // console.log('initPersonalStockListSubscriber: ', data)
       this.optionalStockDetailList = await Promise.all(data
@@ -193,6 +193,7 @@ export class OptionalPage extends SecondLevelPage {
       for(let i = 0 ; i < this.optionalStockDetailList.length; i++) {
         this.optionalStockDetailList[i].realtimePrice.subscribe( val => {
           if(val && this.optionalStockDetailList[i].personalData.restQuantity) {
+            debugger
             this.dayTotalArr[i] =  this.optionalStockDetailList[i].personalData.restQuantity * ( val.range || 0) * (val.price || 1);
             this.dayTotal = 0;
             for(let j = 0; j < this.dayTotalArr.length; j++) {
