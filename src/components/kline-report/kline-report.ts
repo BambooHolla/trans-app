@@ -39,7 +39,6 @@ private data0:any = this.splitData([
 
 //数组处理
 splitData(rawData) {
-    console.log('.....原始',rawData)
   var datas = [];
   var times = [];
   var vols = [];
@@ -52,14 +51,6 @@ splitData(rawData) {
 	  difs.push(rawData[i][7]);
 	  deas.push(rawData[i][8]);
   }
-  console.log('.....新',{
-    datas: datas,
-    times: times,
-    vols: vols,
-    macds: macds,
-    difs: difs,
-    deas: deas
-})
   return {
       datas: datas,
       times: times,
@@ -91,23 +82,24 @@ splitData(rawData) {
   
   
     createCharts() {
-        // console.log('......',this.echartsData)
-        // let aData:any;
-        
-        //     for(let item of this.echartsData){
-               
-        //         aData['time'].push(item.beginTime);
-        //         aData['data'].push(item.value.start,item.value.max,item.value.min,item.value.end);
-        //     }
-        //     console.log('......111',aData)
+        console.log('......',this.echartsData)
+        let time:any = [];
+        let aData: any = [];
+            for(let item of this.echartsData){
+                
+                time.push(item.beginTime);
+                aData.push([item.value.start*1,item.value.max*1,item.value.min*1,item.value.end*1]);
+            }
+            console.log('......111',time,aData)
 
+            console.log('.....2',this.data0.datas)
       let that = this;
       let  option = {
         backgroundColor: "#262739",
         animation: false,
         tooltip: {
             trigger: 'axis',
-            // triggerOn: 'none',
+            triggerOn: 'none',
             confine: true,
             axisPointer: {
                 type: 'cross'
@@ -152,7 +144,6 @@ splitData(rawData) {
                 let val_max:any;
                 let val_min:any;
                 for(let i = 1, length = datas[candlestick_index].data.length - 1; i < length; i++) {
-                    
                     val_max = datas[candlestick_index].data[i] > datas[candlestick_index].data[i+1] ? 
                         datas[candlestick_index].data[i] : datas[candlestick_index].data[i+1];
 
@@ -210,6 +201,7 @@ splitData(rawData) {
         xAxis: [{
             type: 'category',
             data: this.data0.times,
+            // data: time,
             scale: true,
             boundaryGap: true,
             splitNumber: 5,
@@ -233,6 +225,7 @@ splitData(rawData) {
             type: 'category',
             gridIndex: 1,
             data: this.data0.times,
+            // data: time,
             axisLabel: {show: false},
             axisPointer: {
                 show: false,
@@ -245,6 +238,7 @@ splitData(rawData) {
             type: 'category',
             gridIndex: 2,
             data: this.data0.times,
+            // data: time,
             axisLabel: {show: false},
             axisPointer: {
                 show: false,
@@ -353,6 +347,7 @@ splitData(rawData) {
         series: [{
                 type: 'candlestick',
                 data: this.data0.datas,
+                // data: aData,
                 itemStyle: {
                     normal: {
                         color: '#c1b17f', // 阳线填充颜色
@@ -364,11 +359,13 @@ splitData(rawData) {
             }, {
                 name: 'MA5',
                 type: 'line',
+                symbol: 'none',
                 data: this.calculateMA(5),
                 smooth: true,
                 lineStyle: {
                     normal: {
-                        opacity: 0.5
+                        opacity: 0.6,
+                        color: '#808a70'
                     }
                 }
             },{
