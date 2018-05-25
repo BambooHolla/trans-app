@@ -42,7 +42,7 @@ export class WorkOrderAddPage extends SecondLevelPage {
 			Validators.pattern(/^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/)
 		]),
 		category: new FormControl('', [Validators.required]),
-		detail: new FormControl('', [Validators.required]),
+		detail: new FormControl('', [Validators.required,this.getDetailLength.bind(this)]),
 		files: new FormControl('', [])
 	});
 	
@@ -83,6 +83,26 @@ export class WorkOrderAddPage extends SecondLevelPage {
 			text: '意见反馈'
 		}
 	];
+
+
+	private detailContent:string ='';
+	private detailLength: number = 0;
+	//详情内容长度,ionic FormGroup自定义校验 bug不能在这使用this.detail.value去获取内容
+	getDetailLength() { 
+		let length = 0;
+		let contentLength = this.detailContent ? this.detailContent.length : 0;
+		console.log(this.detailContent)
+		for (let i = 0; i < contentLength; i++) {
+			if (new RegExp(/[^\x00-\xff]/ig).test(this.detailContent[i])) {
+				length += 2;
+			} else {
+				length += 1;
+			}
+		}
+		this.detailLength = length;
+	}
+
+
 
 	public telOrEmail = true;
 	requiredTelOrEmail(){
@@ -271,8 +291,11 @@ export class WorkOrderAddPage extends SecondLevelPage {
 	@asyncCtrlGenerator.error('工单提交失败')
 	@asyncCtrlGenerator.success('工单提交成功')
 	submitForm() {
-		if(this.telOrEmail){
-			return Promise.reject("电话和邮箱至少填写一个")
+		if(this.telOrEmail) {
+			return Promise.reject("电话和邮箱至少填写一个");
+		}
+		if(this.detailLength > 64) {
+			return Promise.reject("描述内容字数超出限制");
 		}
 		return this.workOrderService.addWorkOrder({
 			name: this.realName.value,

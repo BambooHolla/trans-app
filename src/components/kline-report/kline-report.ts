@@ -39,6 +39,7 @@ private data0:any = this.splitData([
 
 //数组处理
 splitData(rawData) {
+    console.log('.....原始',rawData)
   var datas = [];
   var times = [];
   var vols = [];
@@ -51,6 +52,14 @@ splitData(rawData) {
 	  difs.push(rawData[i][7]);
 	  deas.push(rawData[i][8]);
   }
+  console.log('.....新',{
+    datas: datas,
+    times: times,
+    vols: vols,
+    macds: macds,
+    difs: difs,
+    deas: deas
+})
   return {
       datas: datas,
       times: times,
@@ -63,26 +72,35 @@ splitData(rawData) {
 
 
 
-//MA计算公式
-calculateMA(dayCount) {
-  var result = [];
-  for (var i = 0, len = this.data0.times.length; i < len; i++) {
-      if (i < dayCount) {
-          result.push('-');
-          continue;
-      }
-      var sum = 0;
-      for (var j = 0; j < dayCount; j++) {
-          sum += this.data0.datas[i - j][1];
-      }
-      result.push((sum / dayCount).toFixed(2));
-  }
-  return result;
-}
+    //MA计算公式
+    calculateMA(dayCount) {
+    var result = [];
+    for (var i = 0, len = this.data0.times.length; i < len; i++) {
+        if (i < dayCount) {
+            result.push('-');
+            continue;
+        }
+        var sum = 0;
+        for (var j = 0; j < dayCount; j++) {
+            sum += this.data0.datas[i - j][1];
+        }
+        result.push((sum / dayCount).toFixed(2));
+    }
+    return result;
+    }
   
   
     createCharts() {
-        console.log('......',this.echartsData)
+        // console.log('......',this.echartsData)
+        // let aData:any;
+        
+        //     for(let item of this.echartsData){
+               
+        //         aData['time'].push(item.beginTime);
+        //         aData['data'].push(item.value.start,item.value.max,item.value.min,item.value.end);
+        //     }
+        //     console.log('......111',aData)
+
       let that = this;
       let  option = {
         backgroundColor: "#262739",
@@ -133,7 +151,8 @@ calculateMA(dayCount) {
                         </tr>`;
                 let val_max:any;
                 let val_min:any;
-                for(let i = 0, length = datas[candlestick_index].data.length - 1; i < length; i++) {
+                for(let i = 1, length = datas[candlestick_index].data.length - 1; i < length; i++) {
+                    
                     val_max = datas[candlestick_index].data[i] > datas[candlestick_index].data[i+1] ? 
                         datas[candlestick_index].data[i] : datas[candlestick_index].data[i+1];
 
