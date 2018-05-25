@@ -53,7 +53,9 @@ export class WithdrawDetailPage extends SecondLevelPage {
 		public promptCtrl: PromptControlleService,
 		public personalDataService: PersonalDataService,
 	) {
+
 		super(navCtrl, navParams);
+		BigNumber.config({ EXPONENTIAL_AT: [-8, 20] })
 		this.productInfo = this.navParams.get("productInfo");
 		
 	}

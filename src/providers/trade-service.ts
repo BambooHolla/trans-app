@@ -133,7 +133,9 @@ export class TradeService {
     public stockDataService: StockDataService,
     public socketioService: SocketioService,
     public alertService: AlertService
-  ) {}
+  ) {
+    BigNumber.config({ EXPONENTIAL_AT: [-8, 20] })
+  }
 
   private last_time_getTradeList
 

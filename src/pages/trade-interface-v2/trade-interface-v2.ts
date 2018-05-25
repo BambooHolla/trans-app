@@ -241,6 +241,7 @@ export class TradeInterfaceV2Page {
     private promptCtrl: PromptControlleService,
     private loginService: LoginService,
   ) {    
+    BigNumber.config({ EXPONENTIAL_AT: [-8, 20] })
     // debugger
     // window['TradeInterfacePage'] = this 
     this.traderId = this.navParams.get('stockCode') || this.navParams.data || this.traderId;

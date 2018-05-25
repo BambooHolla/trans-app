@@ -657,7 +657,7 @@ export class PersonalDataService {
 
     let params = new URLSearchParams()
     params.set('type', '002')
-    params.set('instId', '8545236f-0e18-4102-8705-fa5ee777b270')
+    params.set('instId', this.appSettings.Platform_Type)
     params.set('code', 'PRICE_PRODUCT_ID')
 
     return this.appService.request(RequestMethod.Get, path, params, true)

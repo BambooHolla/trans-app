@@ -14,7 +14,9 @@ export class PriceConversionPipe implements PipeTransform {
 
   constructor(
     private appSettings: AppSettings,
-  ) {}
+  ) {
+    BigNumber.config({ EXPONENTIAL_AT: [-8, 20] })
+  }
 
   transform(value: any, tradeRetainLength: number = 5) {
     // / this.appSettings.Price_Rate
