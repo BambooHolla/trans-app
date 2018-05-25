@@ -58,7 +58,7 @@ export class AppDataService {
     return this._ready;
   }
 
-  public timeOut = 5000; 
+  public timeOut = 10000; 
 
   private _data = {
     token: '',

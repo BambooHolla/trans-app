@@ -39,6 +39,8 @@ export function asyncErrorWrapGenerator(
           var err_msg;
           if (err instanceof Error) {
             err_msg = err.message;
+          } else if(err.message) { 
+            err_msg = err.message;
           } else {
             err_msg = err + '';
           }
