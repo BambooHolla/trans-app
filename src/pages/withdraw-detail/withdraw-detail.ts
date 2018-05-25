@@ -28,6 +28,9 @@ import { CommonAlert } from "../../components/common-alert/common-alert";
 import { StockDataService } from "../../providers/stock-data-service";
 import { PromptControlleService } from "../../providers/prompt-controlle-service";
 import { PersonalDataService } from '../../providers/personal-data-service';
+
+import { BigNumber } from "bignumber.js";
+
 /**
  * Generated class for the WithdrawDetailPage page.
  *
@@ -202,7 +205,7 @@ export class WithdrawDetailPage extends SecondLevelPage {
 
 	@WithdrawDetailPage.willEnter
 	@asyncCtrlGenerator.loading()
-	@asyncCtrlGenerator.error("获取数据出错")
+	@asyncCtrlGenerator.error("获取数据出错") 
 	async getAccountsInfo() {
 		this.productInfo = this.navParams.get("productInfo");
 		if (this.productInfo) {
@@ -303,7 +306,7 @@ export class WithdrawDetailPage extends SecondLevelPage {
 				{
 					transactionType: TransactionType.WithdrawProduct,
 					productId: this.productInfo.productId,
-					amount: parseFloat(this.formData.amount) * 1e8,
+					amount: new BigNumber(this.formData.amount).multipliedBy('100000000').toString(), 
 					paymentId: this.formData.selected_withdraw_address_id + "",
 				},
 				this.formData.password,

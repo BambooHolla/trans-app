@@ -268,7 +268,7 @@ export class AccountServiceProvider {
 		body: {
 			transactionType: TransactionType;
 			productId: string;
-			amount: number;
+			amount: string;
 
 			accountId?: string;
 			accountType?: AccountType;

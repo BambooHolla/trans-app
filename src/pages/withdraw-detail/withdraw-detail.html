@@ -67,10 +67,10 @@
         <ion-item-divider class="left-link" (click)="describeModal()">
             <ion-icon name="￥✏"></ion-icon>
             限额说明
-            <div item-right class="error-number" *ngIf="((formData.amount||0) * 1e8) > access_info?.balance">
+            <div item-right class="error-number" *ngIf="((formData?.amount||0) * 1e8) > access_info?.balance">
                 提币数量大于持有数量
             </div>
-            <div item-right class="error-number" *ngIf="((formData.amount||0) * 1e8) < access_info?.balance && formData.amount && (formData.amount||0) <= (rate_info.rateNumber||0)">
+            <div item-right class="error-number" *ngIf="((formData?.amount||0) * 1e8) < access_info?.balance && formData?.amount && (formData?.amount||0) <= (rate_info?.rateNumber||0)">
                 提币数量需大于手续费
             </div>
 
@@ -88,7 +88,7 @@
             <button item-end *ngIf="!has_account_pwd" (click)="routeTo('set-pay-pwd')" ion-button color="special">去设置</button>
         </ion-item>
         <ion-item class="follow-pre-item">
-            <button class="submit-btn" [disabled]="!canSubmit || (((formData.amount||0) * 1e8) > access_info?.balance) || (formData.amount||0) <= (rate_info.rateNumber||0)" ion-button color="special" (click)="submitWithdrawAppply()">确认提现</button>
+            <button class="submit-btn" [disabled]="!canSubmit || (((formData?.amount||0) * 1e8) > access_info?.balance) || (formData?.amount||0) <= (rate_info?.rateNumber||0)" ion-button color="special" (click)="submitWithdrawAppply()">确认提现</button>
         </ion-item>
     </ion-list>
     <div class="withdraw-logs">
