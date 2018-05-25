@@ -86,6 +86,9 @@ customize-alert {
             color: #000;
             margin-top: .5rem;
         }
+        .input-text {
+            min-height: 3rem;
+        }
         .button-inner {
             color: color($colors, 'special');
             font-size: 1.6rem;

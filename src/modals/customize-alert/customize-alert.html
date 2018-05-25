@@ -1,10 +1,10 @@
 <ion-content>
     <div class="title">
-        <img src="../assets/icon/recommend.jpg" alt="">
+        <img src="./assets/icon/recommend.jpg" alt="">
     </div>
     <div class="message">
         <span class="tip">{{tip}}</span>
-        <input type="text" [(ngModel)]="recommendCode">
+        <input type="text" [(ngModel)]="recommendCode" class="input-text">
         <div class="alert-button-group">
             <button ion-button="alert-button" (click)="dismiss()">
                     <span class="button-inner">取消</span>
