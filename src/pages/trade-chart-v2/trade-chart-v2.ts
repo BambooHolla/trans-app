@@ -18,7 +18,7 @@ import { SocketioService } from "../../providers/socketio-service";
 import { AppSettings } from '../../providers/app-settings';
 import * as echarts from 'echarts';
 
-
+// 未完成，完成后整理代码格式与调用逻辑
 @Component({
   selector: 'page-trade-chart-v2',
   templateUrl: 'trade-chart-v2.html'
@@ -57,7 +57,26 @@ realtimeOptions = {
         public appDataService: AppDataService,
         private socketioService: SocketioService,
         public appSettings: AppSettings,
+        public alertCtrl: AlertController,
+        public navCtrl: NavController,
     ) { 
+
+
+      alertCtrl.create({
+        title:'k线图数据对接中',
+        message:"当前页面仅供样式观看",
+        buttons:[
+            {
+                text: '确定',
+                role: 'cancel',
+                handler: () => {
+                // console.log('Cancel clicked')
+                }
+            }
+
+        ]
+    }).present();
+
         this.traderId = this.navParams.get('stockCode') || this.navParams.data ;
         this.product = this.appDataService.traderList.get(this.traderId) ;
         const traderId = this.traderId;
@@ -85,10 +104,13 @@ realtimeOptions = {
         })
     }
 }
-activeIndex = 0;
-changeTime(index) {
- this.activeIndex = index;
-}
+  activeIndex = 0;
+  changeTime(index) {
+  this.activeIndex = index;
+  }
+  backPage() {
+    this.navCtrl.pop()
+  }
 }
 
 
