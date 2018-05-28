@@ -355,7 +355,7 @@ export class TradeInterfaceV2Page {
       //   .saleableQuantity / this.appSettings.Product_Price_Rate;
       let saleableQuantity:any =  new BigNumber((target && target.length != 0 ? target : [{ saleableQuantity:0}])[0]
       .saleableQuantity).div( this.appSettings.Product_Price_Rate); 
-      this.maxAmount = Number(price) ? this.numberFormat(saleableQuantity.div(price).toString(),false,false) : "0";
+      this.maxAmount = Number(price) ? this.numberFormat(saleableQuantity.toString(),false,false) : "0";
    
       if(this.maxAmount == "0"){
         this.maxAmount = 0;

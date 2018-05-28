@@ -164,7 +164,7 @@ export class RegisterPage {
       if (!this.registerForm.get('customerId').value) {
         throw new RangeError('请填写手机号/邮箱');
       }
-      await this.registerService.sendSMSCode(
+      await this.registerService.sendSMSCode( 
         this.registerForm.get('customerId').value,
         undefined,
         '1001',
@@ -182,6 +182,29 @@ export class RegisterPage {
     } finally {
       this.sending_vcode = false;
     }
+  }
+
+  filterRegister() {
+    const customerId = this.form_customerId.value;
+    debugger
+    if( this.appSettings.accountType(customerId) === 0 &&  !this.appSettings.accountEmailProposal(customerId)){
+      return this.alertCtrl.create({
+        title:'警告',
+        subTitle:'qq.com,163.com,sina.com',
+        message:'为我们推荐注册的邮箱',
+        buttons:[{
+          text:'返回'
+        },{
+          text:'继续注册',
+          cssClass:'alter-right-button', 
+          handler:()=>{
+            this.register()
+          }
+        }]
+      }).present();
+    }
+    return this.register();
+   
   }
 
   async register() {

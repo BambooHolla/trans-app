@@ -741,4 +741,19 @@ o   3.2.4 对识别最终受益人和账户控制权的要求是确定哪些个�
       return 2;
     }
   }
+
+  //是否为推荐邮箱
+  public accountEmailProposal(email) {
+    let emailType = /@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$/.exec(email);
+    let _proposals:any = {
+      "@qq.com": true,
+      "@163.com": true,
+      "@sina.com": true,
+    };
+    if( emailType ){
+      return _proposals[emailType[0]]
+    } else {
+      return false;
+    }
+  }
 }
