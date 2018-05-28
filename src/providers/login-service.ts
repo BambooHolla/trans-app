@@ -210,12 +210,26 @@ export class LoginService {
   // 重置密码
   RESET_PASSWORD = `/user/resetPassword`;
 
-  doResetPWD(account: string, code: string, resetPwd: string) {
+  async doResetPWD(account: string, code: string, resetPwd: string) {
+    let app_geolocation:any = await this.appDataService.getAppCoords();
     return this.appService.request(RequestMethod.Post, this.RESET_PASSWORD, {
       type: this.appSettings.accountType(account),
       account,
       code,
       resetPwd,
+      deviceNum: this.appDataService.DEVICE_DATA.uuid || ' ',
+        deviceInfo: this.appDataService.DEVICE_DATA,
+        deviceType: this.appDataService.DEVICE_DATA.model || ' ',
+        operateSystem: this.appDataService.DEVICE_DATA.platform || ' ',
+        
+        ip: this.appDataService.APP_IP,
+        location: app_geolocation.status == "success" ? {
+            latitude : app_geolocation.coords.latitude,
+            longitude : app_geolocation.coords.longitude
+          } : {
+            latitude : "",
+            longitude : ""
+          },
     });
   }
 

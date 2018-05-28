@@ -90,9 +90,6 @@ splitData(rawData) {
                 time.push(item.beginTime);
                 aData.push([item.value.start*1,item.value.max*1,item.value.min*1,item.value.end*1]);
             }
-            console.log('......111',time,aData)
-
-            console.log('.....2',this.data0.datas)
       let that = this;
       let  option = {
         backgroundColor: "#262739",
