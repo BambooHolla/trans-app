@@ -32,7 +32,8 @@ export class RegisterPage {
   registerForm: FormGroup = new FormGroup({
     // myContry: new FormControl('1002'),
     customerId: new FormControl({ value: '', disabled: false }, [
-			Validators.required,
+      Validators.required,
+      Validators.maxLength(256),
 			(data => {
         this.check_sending_vcode = false;
         if(!data.value){
@@ -49,9 +50,9 @@ export class RegisterPage {
 				return null;
 			}).bind(this)
 		]),
-    vcode: new FormControl({ value: '', disabled: false },Validators.required),
-    password: new FormControl({ value: '', disabled: false },[Validators.minLength(3),Validators.required,this.validatePWDDStrength.bind(this,'password')]),
-    confirPassword: new FormControl({ value: '', disabled: false },[Validators.required,this.validatePWD.bind(this)]),
+    vcode: new FormControl({ value: '', disabled: false },[Validators.required,Validators.maxLength(6)]),
+    password: new FormControl({ value: '', disabled: false },[Validators.minLength(3),Validators.maxLength(64),Validators.required,this.validatePWDDStrength.bind(this,'password')]),
+    confirPassword: new FormControl({ value: '', disabled: false },[Validators.required,Validators.maxLength(64),this.validatePWD.bind(this)]),
     protocolAgree: new FormControl({ value: true, disabled: false }),
     recommendCode: new FormControl({ value: '', disabled: false }),
   });
@@ -63,6 +64,9 @@ export class RegisterPage {
   }
   get form_confirPassword(){
     return this.registerForm.get("confirPassword");
+  }
+  get form_vcode(){
+    return this.registerForm.get("vcode");
   }
   validatePWD(){
     if(this.registerForm){
