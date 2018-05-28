@@ -128,7 +128,7 @@ export class ForgetPwdPage {
 				.create({
 					title: '警告',
 					message: err.message,
-					buttons: ['OK']
+					buttons: ['确定']
 				})
 				.present();
 		} finally {

@@ -108,7 +108,7 @@ export class WithdrawDetailPage extends SecondLevelPage {
 			selected_data:
 				this.selected_withdraw_address &&
 				this.selected_withdraw_address.id,
-			withdraw_address_list,
+			withdraw_address_list, 
 		});
 		selector.onWillDismiss(data => {
 			console.log("selected result:", data);
@@ -247,7 +247,7 @@ export class WithdrawDetailPage extends SecondLevelPage {
 					rateMainType: RateMainType.withdraw,
 				})
 				.then(data => {
-					console.log("手续非：", data);
+					console.log("手续费：", data);
 					this.rate_info = data[0];
 					console.log(this.productInfo)
 				});

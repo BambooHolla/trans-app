@@ -172,7 +172,7 @@ export class RegisterPage {
         .create({
           title: '警告',
           message: err.message || err,
-          buttons: ['OK']
+          buttons: ['确认']
         })
         .present();
     } finally {
