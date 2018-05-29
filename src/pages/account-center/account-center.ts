@@ -45,7 +45,7 @@ export class AccountCenterPage extends SecondLevelPage {
   has_account_pwd = false;
   loading_has_account_pwd = true;
 
-  // @AccountCenterPage.willEnter
+  @AccountCenterPage.willEnter
   @asyncCtrlGenerator.error('获取交易密码信息出错')
   async checkHasAccountPWD() {
     this.loading_has_account_pwd = true;
