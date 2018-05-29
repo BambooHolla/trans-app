@@ -37,10 +37,30 @@ page-trade-chart-v2 {
 			}
         }
     }
+    .charts-MA{
+        height: 1rem;
+        line-height: 1rem;
+        font-size: 0.8rem;
+        display: -webkit-box;
+        display: -webkit-flex;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-flex: 1;
+        -webkit-flex-grow: 1;
+        -ms-flex-positive: 1;
+        flex-grow: 1; 
+        background-color: color($colors,background-darker);
+        padding-left: 3%;
+        .MA{
+            margin: 0;
+            padding: 0;
+            width: 30vw; 
+        }
+    }
     .charts { 
-        height:calc(100vh - 22.4rem); 
+        height:calc(100vh - 23.4rem);
         .echarts-placeholder {
-            height:calc(100vh - 22.4rem); 
+            height:calc(100vh - 23.4rem);  
             width: 100%;
          
         }

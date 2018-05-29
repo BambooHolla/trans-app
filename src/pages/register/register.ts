@@ -186,7 +186,6 @@ export class RegisterPage {
 
   filterRegister() {
     const customerId = this.form_customerId.value;
-    debugger
     if( this.appSettings.accountType(customerId) === 0 &&  !this.appSettings.accountEmailProposal(customerId)){
       return this.alertCtrl.create({
         title:'警告',

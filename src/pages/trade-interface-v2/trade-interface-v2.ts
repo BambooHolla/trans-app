@@ -64,7 +64,7 @@ export class TradeInterfaceV2Page {
       }else if (type === 1){
         rateSrc = this.buyRate
       }
-      this.getFee(rateSrc).then(data => this.fee = data)
+      this.getFee(rateSrc).then(data => this.fee = data) 
     })
 
   private hiddentext = ''
@@ -420,8 +420,9 @@ export class TradeInterfaceV2Page {
   async getFee(rate) {
     if(!rate) return ''
     
-    // const rate = this.buyRate
+    // const rate = this.buyRate  
     const traders = this.traderId
+
     const rateTarget = rate.targetType === '001' ? await this.stockDataService.getProduct(traders[1]) : 
       rate.targetType === '002' ? await this.stockDataService.getProduct(traders[0]) : void 0
     const rateStr = rate ?
@@ -695,22 +696,22 @@ export class TradeInterfaceV2Page {
     console.log('trade-interface-v2:(doSubscribe) ', traderId)
     if (traderId){
       const traderList = await this.appDataService.traderListPromise;
-      const trader = this.appDataService.traderList.get(traderId)
+      const trader = this.appDataService.traderList.get(traderId) 
       if(!trader) return void 0 
-      const names = trader.traderName.split(' / ')
+      const names = trader.traderName.split(' / ') 
       this.productName = this.targetName = names[0]
       this.priceName = names[1]
       // this._baseData$ = this.stockDataService.subscibeRealtimeData(traderId, 'price', this.viewDidLeave$)
-      this._baseData$ = trader.marketRef
+      this._baseData$ = trader.marketRef 
         .do(data => console.log('trade-interface-v2:1', data))
         //初始化买卖价格
-        .do(data => {
+        .do(data => { 
           // console.log('doSubscribe do')
           if(!data) return false
           if(!this.price) this.price = new BigNumber(data.price?data.price:"0").toString();
           this.marketPrice = data.price
           this.buyRate = data.buyRate
-          this.sellRate = data.sellRate
+          this.sellRate = data.sellRate 
         })
       // this.stockDataService.stockBaseData$.map(data => data[stockCode])
       //   .do(data => console.log('final data:', stockCode, data))

@@ -43,9 +43,10 @@ splitData(rawData) {
   var times = [];
   var vols = [];
   var macds = []; var difs = []; var deas = [];
+  
   for (var i = 0; i < rawData.length; i++) {
 	  datas.push(rawData[i]);
-	  times.push(rawData[i].splice(0, 1)[0]);
+        times.push(rawData[i].splice(0, 1)[0]);
 	  vols.push(rawData[i][4]);
 	  macds.push(rawData[i][6]);
 	  difs.push(rawData[i][7]);
@@ -96,7 +97,7 @@ splitData(rawData) {
         animation: false,
         tooltip: {
             trigger: 'axis',
-            triggerOn: 'none',
+            // triggerOn: 'none',
             confine: true,
             axisPointer: {
                 type: 'cross'
@@ -109,7 +110,7 @@ splitData(rawData) {
                 color: '#000'
             },
             position: function (pos, params, el, elRect, size) {
-                var obj = {top: 0};
+                var obj = {top: '1%'};
                 obj[['left', 'right'][+(pos[0] < size.viewSize[0] / 2)]] = 5;
                 return obj;
             },
@@ -160,6 +161,7 @@ splitData(rawData) {
                         <td>${datas[candlestick_index].data[datas[candlestick_index].data.length-1]}</td>
                         </tr>
                     </table>`
+                    debugger
                 return res;
             }
         },
@@ -175,7 +177,7 @@ splitData(rawData) {
         grid: [           {
             left: '3%',
             right: '3%',
-            top:"3%",
+            top:"1%",
             height: '60%'
         },{
             left: '3%',
@@ -197,32 +199,39 @@ splitData(rawData) {
         }],
         xAxis: [{
             type: 'category',
-            data: this.data0.times,
-            // data: time,
+            // data: this.data0.times,
+            data: time,
             scale: true,
             boundaryGap: true,
-            splitNumber: 5,
+            
             axisLine: { 
                 onZero: false,
                 lineStyle:{
                     color:'#6b6b6b',
                 },
+                
             },
             splitLine: { 
                 show: true,
+                interval: 10,
                 lineStyle: {
                     color: 'rgba(107,107,107,0.32)'
                 }
             }, 
             axisLabel: {
-                showMinLabel: false,
+                showMinLabel: true,
                 showMaxLabel: true,
-            }    
+                fontSize:10,
+            },
+            axisTick: {
+                
+            }
         },{
             type: 'category',
             gridIndex: 1,
-            data: this.data0.times,
-            // data: time,
+            boundaryGap: true,
+            // data: this.data0.times,
+            data: time,
             axisLabel: {show: false},
             axisPointer: {
                 show: false,
@@ -234,8 +243,9 @@ splitData(rawData) {
         },{
             type: 'category',
             gridIndex: 2,
-            data: this.data0.times,
-            // data: time,
+            boundaryGap: true,
+            // data: this.data0.times,
+            data: time,
             axisLabel: {show: false},
             axisPointer: {
                 show: false,
@@ -271,6 +281,7 @@ splitData(rawData) {
                 inside: true,
                 showMinLabel: false,
                 showMaxLabel: false,
+                fontSize:10
             }
         },{
             gridIndex: 1,
@@ -325,21 +336,28 @@ splitData(rawData) {
         dataZoom: [{
                 type: 'inside',
                 xAxisIndex: [0, 0],
-                start: 80,
-                end: 100
+                start: 90,
+                end: 100,
+                maxSpan:100,
+                minSpan: 10
+                
             },{
                 show: false,
                 xAxisIndex: [0, 1],
                 type: 'slider',
                 top: '97%',
-                start: 80,
-                end: 100
+                start: 90,
+                end: 100,
+                maxSpan:100,
+                minSpan: 10
             },{
             show: false,
             xAxisIndex: [0, 2],
             type: 'slider',
-            start: 80,
-            end: 100
+            start: 90,
+            end: 100,
+            maxSpan:100,
+            minSpan: 10
         }],
         series: [{
                 type: 'candlestick',
