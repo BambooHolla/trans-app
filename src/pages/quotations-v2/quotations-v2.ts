@@ -381,7 +381,7 @@ export class QuotationsPageV2 {
 		}
 		srcTraderList.forEach((value,key,map)=>{
 			// traderList.push(value);
-			// traderIdList.push(key);
+			// traderIdList.push(key); 
 			traderList[value.index] = value;
 			traderIdList[value.index] = key;
 		})
@@ -389,7 +389,7 @@ export class QuotationsPageV2 {
 		
 		this.traderList_show = this.traderList;
 		
-		console.log('teee', this.viewDidLeave.getValue())
+		console.log('teee', this.viewDidLeave.getValue()) 
 		this.realtimeReports$ = this.socketioService.subscribeRealtimeReports(traderIdList)
 			.do(() => console.log('realtimeReports$ success'))
 			// .takeUntil(this.viewDidLeave$)
@@ -445,7 +445,8 @@ export class QuotationsPageV2 {
 			
 			this.subscribeRealtimeReports(true).then(()=>{
 				if(!!this.activeProduct.trim().toLowerCase()){
-					this._filterProduct(this.activeProduct,false);
+					
+					this._filterProduct(this.activeProduct,this.showSearch);
 				}
 				if(!this.appDataService.mainproducts){
 					this.tradeService.getMainProducts().then((mainproducts:AnyObject[]) =>{

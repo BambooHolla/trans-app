@@ -161,7 +161,6 @@ splitData(rawData) {
                         <td>${datas[candlestick_index].data[datas[candlestick_index].data.length-1]}</td>
                         </tr>
                     </table>`
-                    debugger
                 return res;
             }
         },
