@@ -193,7 +193,6 @@ export class OptionalPage extends SecondLevelPage {
       for(let i = 0 ; i < this.optionalStockDetailList.length; i++) {
         this.optionalStockDetailList[i].realtimePrice.subscribe( val => {
           if(val && this.optionalStockDetailList[i].personalData.restQuantity) {
-            debugger
             this.dayTotalArr[i] =  this.optionalStockDetailList[i].personalData.restQuantity * ( val.range || 0) * (val.price || 1);
             this.dayTotal = 0;
             for(let j = 0; j < this.dayTotalArr.length; j++) {

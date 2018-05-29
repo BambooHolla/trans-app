@@ -18,6 +18,7 @@ import {
 } from '../../providers/account-service/account-service';
 import { StockDataService } from '../../providers/stock-data-service';
 import { PromptControlleService } from "../../providers/prompt-controlle-service";
+import { BigNumber } from "bignumber.js";
 /**
  * Generated class for the RechargeDetailPage page.
  *
@@ -67,7 +68,12 @@ export class RechargeDetailPage extends SecondLevelPage {
 					productId: this.productInfo.productId,
 					accountType: AccountType.Product,
 				})
-				.then(data => (this.access_info = data));
+				.then(data => {
+					data['balance'] = new BigNumber(data['balance']).div('100000000').toString();
+					data['freezeBalance'] = new BigNumber(data['freezeBalance']).div('100000000').toString();
+					this.access_info = data
+					console.log('....',data)
+				});
 			// 获取充值记录
 			tasks[tasks.length] = this.getTransactionLogs();
 			// 获取充值限额
