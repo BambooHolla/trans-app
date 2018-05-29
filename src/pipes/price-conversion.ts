@@ -1,6 +1,7 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { AppSettings } from "../providers/app-settings";
 import { BigNumber } from "bignumber.js";
+import { getNonHydratedSegmentIfLinkAndUrlMatch } from 'ionic-angular/navigation/url-serializer';
 /**
  * Generated class for the PriceConversionPipe pipe.
  *
@@ -18,9 +19,9 @@ export class PriceConversionPipe implements PipeTransform {
     BigNumber.config({ EXPONENTIAL_AT: [-8, 20] })
   }
 
-  transform(value: any, tradeRetainLength: number = 5) {
+  transform(value: any, tradeRetainLength: number = 5,decimalFormat:number = 0) {
     // / this.appSettings.Price_Rate
-    if(isNaN(value)) return value;
+    if(isNaN(value)) value = '0';
     value = ""+value;
     let number:any = value;
     
@@ -30,20 +31,22 @@ export class PriceConversionPipe implements PipeTransform {
       number[0] =  number[0].replace(/\b(0+)/gi,"");
       number[0] = number[0] == ''? "0": number[0];
     } else {
-      return this.numberFormatDelete0(value);
+      return this.numberFormat0(value,decimalFormat);
     }
    
     if(number[1]) {
       number[1] =  number[1].length > tradeRetainLength? number[1].substr(0,tradeRetainLength) : number[1];
-      return this.numberFormatDelete0(number[0]+'.'+number[1]);
+      return this.numberFormat0(number[0]+'.'+number[1],decimalFormat);
     } else {
-      return  number[0];
+      return  this.numberFormat0(number[0],decimalFormat);
     }
   }
 
-  numberFormatDelete0(number:string|number){
+  numberFormat0(number:any,decimalFormat:number){
     let arrExp:any ;
-    if(typeof number == "number") number = ""+number;
+    number += '';
+    if(isNaN(number)) number = '0';
+    number = number || number == 0 ? ""+number: "0";
     number = number.split("").reverse().join("");
     arrExp = /[1-9|\.]/ig.exec(number)
     if(arrExp){
@@ -52,8 +55,31 @@ export class PriceConversionPipe implements PipeTransform {
         } else {
           number = number.substring(arrExp.index)
         }
-        return  number.split("").reverse().join("")
     }
-    return number;
+    number = number.split("").reverse().join("")
+    if(decimalFormat > 0) {
+      let numberArr = number.split('.');
+      let zero:string = '';
+      if(numberArr.length > 1) {
+        
+        for(let i = 0; i < (decimalFormat - numberArr[1].length); i++) {
+          zero += '0';
+        }
+        return number + zero;
+
+      } else {
+        zero = '.';
+        for(let i = 0; i < decimalFormat; i++) {
+          zero += '0';
+        }
+        return number + zero;
+      }
+    } else {
+      return number;
+    }
+
+
+    
   }
+ 
 }
