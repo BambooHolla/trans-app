@@ -690,8 +690,10 @@ page-trade-interface-v2 {
 					flex-grow: 1.5;
 					font-size: 2.6rem;
 					text-align: center;
+					overflow: hidden;
+					white-space:nowrap; 
 				}
-				padding: 0 1.4rem;
+				padding: 0 1.3rem;
 			}
 			.market-label{
 				white-space: nowrap;

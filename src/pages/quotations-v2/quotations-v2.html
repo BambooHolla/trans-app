@@ -71,7 +71,7 @@
                 <span class="product-name">{{trader?.productName}}</span><span class="price-name"> / {{trader?.priceName}}</span>
             </div>
             <div class="price {{(trader.marketRef | async)?.range|riseOrFall}}">
-                {{(trader.marketRef | async)?.price | number:'.2-5'}}
+                {{(trader.marketRef | async)?.price | priceConversion:5:2}}
             </div>
             <div class="range">
                 <div class="box bg-{{(trader.marketRef | async)?.range|riseOrFall}}">
@@ -84,13 +84,13 @@
                 <div class="market">
                     <span class="key">高</span>
                     <span class="value">
-                        {{(trader.marketRef | async)?.max | number:'.2-5'}}
+                        {{(trader.marketRef | async)?.max | priceConversion:5:2}}
                     </span>
                 </div>
                 <div class="market">
                     <span class="key">低</span>
                     <span class="value">
-                        {{(trader.marketRef | async)?.min | number:'.2-5'}}
+                        {{(trader.marketRef | async)?.min |priceConversion:5:2}}
                     </span>
                 </div>
             </div>
@@ -106,7 +106,7 @@
                 <div class="market">
                     <span class="key">量</span>
                     <span class="value">
-                        {{(trader.marketRef | async)?.amount | quantityConversion | number:'.2-5'}}
+                        {{(trader.marketRef | async)?.amount | quantityConversion | priceConversion:5:2}}
                     </span>
                 </div>
             </div>

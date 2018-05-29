@@ -248,7 +248,7 @@ export class WithdrawDetailPage extends SecondLevelPage {
 				})
 				.then(data => {
 					console.log("手续费：", data);
-					this.rate_info = data[0];
+					this.rate_info = data[0] || 0;
 					console.log(this.productInfo)
 				});
 			// 获取提现限额
