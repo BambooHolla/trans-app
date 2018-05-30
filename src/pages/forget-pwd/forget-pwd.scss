@@ -1,5 +1,4 @@
 page-forget-pwd {
-
     .paddingfix{
         padding-top: $cordova-ios-statusbar-padding;
     }
@@ -13,6 +12,12 @@ page-forget-pwd {
             color: #c1b17f;
         }
     }
+    .pwd-strength{
+        color: #c1b17f!important;
+        margin: 8px 0 11px 0!important;
+        font-size: 1rem!important;
+        background-color: transparent!important;
+    } 
     .forgetPWD-agree-protocol {
         display: flex;
         align-items: center;
@@ -179,7 +184,9 @@ page-forget-pwd {
                 transform: scale(1.02);
                 font-weight: 400;
             }
+            
         }
+        
     }
     // 表单校验的样式
     ion-item {
@@ -233,7 +240,7 @@ page-forget-pwd {
                 line-height: 16px;
                 margin: 16px;
                 display: inline-block;
-                color: darkred;
+                color: red;
                 font-size: 1.2rem;
                 text-shadow: 0 0 1rem #000;
             }

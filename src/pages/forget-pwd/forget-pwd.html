@@ -10,14 +10,17 @@
         <form class="forgetPWD-form-container" [formGroup]="forgetPWDForm" (ngSubmit)="forgetPWD()" novalidate>
             <ion-row class="bottom-line">
                 <ion-col padding class="vertical-center">
-                    <ion-input formControlName="customerId" class="account" placeholder="手机号/邮箱"></ion-input>
+                    <ion-input formControlName="customerId" class="account" placeholder="手机号/邮箱" (blur)='checkRegister()'></ion-input>
                 </ion-col>
+                <div item-right class="error-tip" *ngIf="!customerId_existence"> 
+                    账号不存在
+                </div>
             </ion-row>
             <ion-row class="bottom-line">
                 <ion-col padding class="vertical-center i-col">
                     <ion-input formControlName="vcode" class="number" placeholder="验证码">
                     </ion-input>
-                    <button item-right type="button" style="z-index:9999" class="send-vcode" [disabled]="sending_vcode||resend_time_clock" (click)="forgetPWD_step1()">
+                    <button item-right type="button" style="z-index:9999" class="send-vcode" [disabled]=" !customerId_existence  || ( !!sending_vcode||!!resend_time_clock) " (click)="forgetPWD_step1()">
                           {{sending_vcode?'发送中':(resend_time_clock?(resend_time_clock+'s'):'获取验证码')}}</button>
                 </ion-col>
             </ion-row>
@@ -26,21 +29,30 @@
                     <ion-input formControlName="password" class="password" type="password" placeholder="登录密码" (input)="validatePWD()">
                     </ion-input>
                 </ion-col>
+                <div item-right class="error-tip" *ngIf="form_password.errors?.minlength">
+                    密码至少3位
+                </div>
+                <div item-right class="error-tip" *ngIf="!form_password.errors?.minlength && form_password.errors?.strengthError">
+                    密码强度不符
+                </div>
             </ion-row>
-            <div item-right class="error-tip" *ngIf="form_password.errors?.minlength">
-                密码至少3位
-            </div>
-
             <ion-row class="bottom-line">
                 <ion-col padding class="vertical-center">
                     <ion-input formControlName="confirPassword" class="password" type="password" placeholder="确认密码" (input)="validatePWD()">
                     </ion-input>
                 </ion-col>
+                <div item-right class="error-tip" *ngIf="form_password?.value && form_confirPassword?.value  &&  pwdAgreementPass">
+                    两次密码不一致
+                </div>
             </ion-row>
-
-            <div item-right class="error-tip" *ngIf="form_password?.value && form_confirPassword?.value  &&  pwdAgreementPass">
-                两次密码不一致
-            </div>
+           <ion-row   class="pwd-strength">
+                <div>
+                    * 密码需包含大写字母，小写字母和数字
+                </div>
+           </ion-row>
+            
+                
+           
             <ion-row tappable class="account-exit" style="background:none">
                 <ion-col padding class="exit-center">
                     <button ion-button class="trbtn forgetPWD-form-submit" type="submit" [disabled]="forgetPWDForm.invalid || !appDataService.ready || forgetPWDing || pwdAgreementPass">

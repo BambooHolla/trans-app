@@ -36,6 +36,7 @@ export class ForgetPwdPage {
 		password: new FormControl({ value: '', disabled: false }, [
 			Validators.minLength(3),
 			Validators.required,
+			this.validatePWDDStrength.bind(this,'password')
 			
 		]),
 		confirPassword: new FormControl(
@@ -45,6 +46,9 @@ export class ForgetPwdPage {
 		]),
 		protocolAgree: new FormControl({ value: true, disabled: false })
 	});
+	get form_customerId() {
+		return this.forgetPWDForm.get('customerId');
+	}
 	get form_password() {
 		
 		return this.forgetPWDForm.get('password');
@@ -180,4 +184,40 @@ export class ForgetPwdPage {
 			this.forgetPWDing = false;
 		}
 	}
+
+	customerId_existence = true ;
+  async checkRegister(){
+
+    const controls = this.forgetPWDForm.getRawValue();
+	const customerId = controls.customerId;
+	if(!customerId) return;
+      try {
+
+        this.registerService.doCheckRegister(customerId)
+        .then((data)=>{
+          //账户不存在
+          if(data.status == "error"){
+            this.customerId_existence = false;
+        
+          }
+          //账户存在
+          if(data.status == "ok"){
+            this.customerId_existence = true;
+          }
+
+        })
+      } catch(err) {
+        console.log('register checkRegister',err)
+      }
+  }
+  validatePWDDStrength(pwd){
+	if (this.forgetPWDForm) {
+		const password = this.forgetPWDForm.get(pwd).value;
+		if(!password) return null;
+		//密码至少包含一个大写，一个小写，一个数字
+		let pattern = new RegExp( /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{3,}$/);
+		return pattern.test(password) ? null	 :  { strengthError: true };
+	}
+	
+}
 }
