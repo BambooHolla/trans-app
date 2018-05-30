@@ -498,9 +498,9 @@ export class TradeInterfaceV2Page {
         }
     }
 
-    if(isNaNData.price || price.comparedTo(0) == -1){ 
+    if(isNaNData.price || price.comparedTo(0) != 1){ 
       toast.setMessage(`请输入正确的${tradeText}价格`)
-    }else if(isNaNData.amount || amount.comparedTo(0) == -1){
+    }else if(isNaNData.amount || amount.comparedTo(0) != 1){
       toast.setMessage(`请输入正确的${tradeText}数量`)
     }else if(amount.comparedTo(this.maxAmount) == 1){
       toast.setMessage(`${tradeText}数量超过可${tradeText}上限`)
@@ -783,7 +783,7 @@ export class TradeInterfaceV2Page {
           }
         })
       // }
-
+ 
       // this._realtimeData$ = this.stockDataService.stockRealtimeData$.map(data => data[stockCode]);
       console.log('trade-interface-v2_realtimeData:reportArr: ', this.reportArr)
       this._realtimeData$ = this.socketioService.subscribeRealtimeReports([this.traderId])
@@ -1050,7 +1050,7 @@ export class TradeInterfaceV2Page {
           timespan = '5m';
           startTime = theDate.setDate(theDate.getDate() - 5);
           break;
-      }
+      } 
       this._candlestickData$ = this.socketioService.subscribeRealtimeReports([this.traderId],undefined,{
         // var reportType = {
         //   Year: '1y',//年报
