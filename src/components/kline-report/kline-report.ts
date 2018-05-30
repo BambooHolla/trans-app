@@ -450,14 +450,23 @@ splitData(rawData) {
       this.chartInstance.setOption(option);
       // this.chartInstance.resize();
     }
-    integrationData() {
-
-    }
     inputDataValid() {
-      return !!Array.isArray(this.echartsData);
+        return !!Array.isArray(this.echartsData);
     }
+    
+    integrationData() {
+        
+        if(!Array.isArray(this.echartsData)) {
+            return ;
+        }
+        // 数据整合
+       this.echartsData.forEach( item => {
+            this.arrTimes.push(item.beginTime);
+            this.arrDatas.push([item.value.start*1,item.value.max*1,item.value.min*1,item.value.end*1]);
+       });
 
+    }
     funcTimeFormat(time:any,type) {
-
+       
     } 
   }
