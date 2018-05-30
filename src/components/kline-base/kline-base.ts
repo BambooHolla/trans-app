@@ -17,7 +17,7 @@ export class KlineEchartsBaseComponent implements OnChanges, OnDestroy {
 
     @Input() echartsData: any;
     @Input() options: any;
-
+    @Input() timeType: any;
     @ViewChild('echartsPlaceholder') chartElem;
 
     chartInstance: echarts.ECharts;
@@ -30,7 +30,13 @@ export class KlineEchartsBaseComponent implements OnChanges, OnDestroy {
     ngOnChanges(changes) {
         // console.log('chart ngOnChanges', Object.keys(changes));
         // console.log('charts changed:ngOnChanges', changes)   
-        this.callEchartsCreator();
+        if( changes.echartsData ) {
+            this.callEchartsCreator();
+        } else {
+
+        }
+        
+        
     }
 
     ngOnDestroy() {
