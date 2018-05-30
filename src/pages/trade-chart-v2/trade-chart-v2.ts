@@ -29,7 +29,8 @@ export class TradeChartV2Page {
   private traderId:any;
 
   private timeArray: string[] = ['1分', '5分','15分','30分', '1小时', '1天', '1周'];
-  private timeType: string[] = ['1m','5m','15m','30m','1h','1d','1w'];
+  private timeTypeArr: string[] = ['1m','5m','15m','30m','1h','1d','1w'];
+  public timeType: string = '1m';
 
   private _baseData$: Observable<any>;
   private _realtimeData$: Observable<any> = Observable.of([])
@@ -40,15 +41,7 @@ export class TradeChartV2Page {
   .distinctUntilChanged()
   .filter(value => value === true);
 
-  realtimeOptions = {
-    xAxisShow: true, 
-    axisLabelShow: false, 
-    yAxisStyle: {
-      color: 'rgba(255, 255, 255, 0.2)',
-      type: 'dashed',
-    },
-    textColor: 'rgba(255, 255, 255, 1)'
-  };
+  realtimeOptions =1;
 
   @ViewChild('largeRealtimeChart') largeRealtimeChart;
     
@@ -100,7 +93,7 @@ export class TradeChartV2Page {
   }
 
   changeReportType(index) {
-    this._realtimeData$ = this.socketioService.subscribeRealtimeReports([this.traderId],undefined,{timespan:this.timeType[index]})
+    this._realtimeData$ = this.socketioService.subscribeRealtimeReports([this.traderId],undefined,{timespan:this.timeTypeArr[index]})
       .do(data => console.log('trade-interface-v2_realtimeData: ',data))
       .takeUntil(this.viewDidLeave$)
       .filter(({ type }) => type === this.traderId)

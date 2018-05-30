@@ -1,6 +1,6 @@
 import { Component, Input, Output, EventEmitter, } from '@angular/core';
 import { KlineEchartsBaseComponent } from "../kline-base/kline-base";
-
+import * as moment from 'moment';
 /**
  * Generated class for the RealtimeReportComponent component.
  *
@@ -16,6 +16,10 @@ export class KlineReportComponent extends KlineEchartsBaseComponent {
     @Input() riseOrFall: any = '';
     @Output() tooltipEmitted: any = new EventEmitter();
   
+    private arrTimes:any = [];
+    private arrDatas: any = [];
+
+
     computeAvgPrice(realTimeData: any[]) {
       let sum = 0,
         arrTemp = [],
@@ -83,365 +87,361 @@ splitData(rawData) {
   
   
     createCharts() {
-        console.log('......',this.echartsData)
-        let time:any = [];
-        let aData: any = [];
-            for(let item of this.echartsData){
-                
-                time.push(item.beginTime);
-                aData.push([item.value.start*1,item.value.max*1,item.value.min*1,item.value.end*1]);
-            }
-      let that = this;
-      let  option = {
-        backgroundColor: "#262739",
-        animation: false,
-        tooltip: {
-            trigger: 'axis',
-            // triggerOn: 'none',
-            confine: true,
-            axisPointer: {
-                type: 'cross'
-            },
-            backgroundColor: 'rgba(245, 245, 245, 0.8)',
-            borderWidth: 1,
-            borderColor: '#ccc',
-            padding: 2,
-            textStyle: {
-                color: '#000'
-            },
-            position: function (pos, params, el, elRect, size) {
-                var obj = {top: '1%'};
-                obj[['left', 'right'][+(pos[0] < size.viewSize[0] / 2)]] = 5;
-                return obj;
-            },
-            formatter: function(datas) {
-                console.log('echart data',datas);
-                if(!(datas.length > 0)) {
-                    return ;
-                }
-                let candlestick_index:number = 0;
-                for( let length = datas.length ; candlestick_index < length ; candlestick_index++) {
-                    if( datas[candlestick_index].seriesType == 'candlestick') {
-                        break ;
-                    }
-                }
-                if( candlestick_index >= datas.length) {
-                    return ;
-                }
-
-                let res:any = `
-                    <table >
-                        <tr>
-                        <td>时间</td>
-                        <td>${datas[candlestick_index].name}</td>
-                        </tr>
-                        <tr>
-                        <td>开</td>
-                        <td>${datas[candlestick_index].data[0]}</td>
-                        </tr>`;
-                let val_max:any;
-                let val_min:any;
-                for(let i = 1, length = datas[candlestick_index].data.length - 1; i < length; i++) {
-                    val_max = datas[candlestick_index].data[i] > datas[candlestick_index].data[i+1] ? 
-                        datas[candlestick_index].data[i] : datas[candlestick_index].data[i+1];
-
-                    val_min = datas[candlestick_index].data[i] < datas[candlestick_index].data[i+1] ? 
-                        datas[candlestick_index].data[i] : datas[candlestick_index].data[i+1];
-                }
-                res += `<tr>
-                        <td>高</td>
-                        <td>${val_max}</td>
-                        </tr>
-                        <tr>
-                        <td>低</td>
-                        <td>${val_min}</td>
-                        </tr>
-                        <tr>
-                        <td>收</td>
-                        <td>${datas[candlestick_index].data[datas[candlestick_index].data.length-1]}</td>
-                        </tr>
-                    </table>`
-                return res;
-            }
-        },
-        axisPointer: {
-            link: {
-                xAxisIndex: 'all'
-            },
-            label: {
-                backgroundColor: '#777'
-            }
-        },
+    //    this.splitData();
+        console.log('..1',moment().format('YYYY-MM-DD hh:mm:ss'));
+        this.integrationData();
         
-        grid: [           {
-            left: '3%',
-            right: '3%',
-            top:"1%",
-            height: '60%'
-        },{
-            left: '3%',
-            right: '3%',
-            top: '70%',
-            height: '10%',
+        let that = this;
+        let  option = {
+            backgroundColor: "#262739",
+            animation: false,
             tooltip: {
-                show: true
-            }
-            
-        },{
-            left: '3%',
-            right: '3%',
-            top: '82%',
-            height: '14%',
-            tooltip: {
-                show: true
-            }
-        }],
-        xAxis: [{
-            type: 'category',
-            // data: this.data0.times,
-            data: time,
-            scale: true,
-            boundaryGap: true,
-            
-            axisLine: { 
-                onZero: false,
-                lineStyle:{
-                    color:'#6b6b6b',
+                trigger: 'axis',
+                // triggerOn: 'none',
+                confine: true,
+                axisPointer: {
+                    type: 'cross'
                 },
-                
-            },
-            splitLine: { 
-                show: true,
-                interval: 10,
-                lineStyle: {
-                    color: 'rgba(107,107,107,0.32)'
+                backgroundColor: 'rgba(245, 245, 245, 0.8)',
+                borderWidth: 1,
+                borderColor: '#ccc',
+                padding: 2,
+                textStyle: {
+                    color: '#000'
+                },
+                position: function (pos, params, el, elRect, size) {
+                    var obj = {top: '1%'};
+                    obj[['left', 'right'][+(pos[0] < size.viewSize[0] / 2)]] = 5;
+                    return obj;
+                },
+                formatter: function(datas) {
+                    console.log('echart data',datas);
+                    if(!(datas.length > 0)) {
+                        return ;
+                    }
+                    let candlestick_index:number = 0;
+                    for( let length = datas.length ; candlestick_index < length ; candlestick_index++) {
+                        if( datas[candlestick_index].seriesType == 'candlestick') {
+                            break ;
+                        }
+                    }
+                    if( candlestick_index >= datas.length) {
+                        return ;
+                    }
+
+                    let res:any = `
+                        <table >
+                            <tr>
+                            <td>时间</td>
+                            <td>${datas[candlestick_index].name}</td>
+                            </tr>
+                            <tr>
+                            <td>开</td>
+                            <td>${datas[candlestick_index].data[0]}</td>
+                            </tr>`;
+                    let val_max:any;
+                    let val_min:any;
+                    for(let i = 1, length = datas[candlestick_index].data.length - 1; i < length; i++) {
+                        val_max = datas[candlestick_index].data[i] > datas[candlestick_index].data[i+1] ? 
+                            datas[candlestick_index].data[i] : datas[candlestick_index].data[i+1];
+
+                        val_min = datas[candlestick_index].data[i] < datas[candlestick_index].data[i+1] ? 
+                            datas[candlestick_index].data[i] : datas[candlestick_index].data[i+1];
+                    }
+                    res += `<tr>
+                            <td>高</td>
+                            <td>${val_max}</td>
+                            </tr>
+                            <tr>
+                            <td>低</td>
+                            <td>${val_min}</td>
+                            </tr>
+                            <tr>
+                            <td>收</td>
+                            <td>${datas[candlestick_index].data[datas[candlestick_index].data.length-1]}</td>
+                            </tr>
+                        </table>`
+                    return res;
                 }
-            }, 
-            axisLabel: {
-                showMinLabel: true,
-                showMaxLabel: true,
-                fontSize:10,
             },
-            axisTick: {
-                
-            }
-        },{
-            type: 'category',
-            gridIndex: 1,
-            boundaryGap: true,
-            // data: this.data0.times,
-            data: time,
-            axisLabel: {show: false},
             axisPointer: {
-                show: false,
+                link: {
+                    xAxisIndex: 'all'
+                },
                 label: {
-                    show: false
+                    backgroundColor: '#777'
                 }
-            }
+            },
             
-        },{
-            type: 'category',
-            gridIndex: 2,
-            boundaryGap: true,
-            // data: this.data0.times,
-            data: time,
-            axisLabel: {show: false},
-            axisPointer: {
-                show: false,
-                label: {
-                    show: false
+            grid: [           {
+                left: '3%',
+                right: '3%',
+                top:"1%",
+                height: '60%'
+            },{
+                left: '3%',
+                right: '3%',
+                top: '70%',
+                height: '10%',
+                tooltip: {
+                    show: true
                 }
-            }
-        }],
-        yAxis: [{
-            scale: true,
-            show :true,
-            boundaryGap: true,
-            position: "right",
-            splitNumber: 5,
-            splitArea: {
-                show: false
-            },
-            axisLine: {
-                onZero: false,
-                show:true,
-                lineStyle:{
-                    color:'#6b6b6b',
-                }
-            },
-            axisTick: {show:true},
-            splitLine:{
-                show:true,
-                lineStyle: {
-                    color: 'rgba(107,107,107,0.32)'
-                }
-            },
-            axisLabel: {
-                inside: true,
-                showMinLabel: false,
-                showMaxLabel: false,
-                fontSize:10
-            }
-        },{
-            gridIndex: 1,
-            splitNumber: 3,
-            position: "right",
-            silent: true,
-            axisLine: {
-                onZero: false,
-                show:false,
-                lineStyle:{
-                    color:'#6b6b6b',
-                }
-            },
-            axisTick: {
-                show: false
-            },
-            splitLine: {show: false},
-            axisLabel: {
-                show: false,
-                
-            },
-            axisPointer: {
-                show: false,
-                label: {
-                    show: false
-                }
-            }
-        },{
-            gridIndex: 2,
-            splitNumber: 4,
-            position: "right",
-            silent: true,
-            axisLine: {
-                onZero: false,
-                show:false,
-                lineStyle:{
-                    color:'#6b6b6b',
-                }
-            },
-            axisTick: {show: false},
-            splitLine: {show: false},
-            axisLabel: {
-                show: false
-            },
-            axisPointer: {
-                show: false,
-                label: {
-                    show: false
-                }
-            }
-        }],
-        dataZoom: [{
-                type: 'inside',
-                xAxisIndex: [0, 0],
-                start: 90,
-                end: 100,
-                maxSpan:100,
-                minSpan: 10
                 
             },{
+                left: '3%',
+                right: '3%',
+                top: '82%',
+                height: '14%',
+                tooltip: {
+                    show: true
+                }
+            }],
+            xAxis: [{
+                type: 'category',
+                data: this.data0.times,
+                // data: time,
+                scale: true,
+                boundaryGap: ['20%','20%'],
+                
+                axisLine: { 
+                    onZero: false,
+                    lineStyle:{
+                        color:'#6b6b6b',
+                    },
+                    
+                },
+                splitLine: { 
+                    show: true,
+                    
+                    lineStyle: {
+                        color: 'rgba(107,107,107,0.32)'
+                    }
+                }, 
+                axisLabel: {
+                    showMinLabel: true,
+                    showMaxLabel: true,
+                    fontSize:10,
+                },
+                axisTick: {
+                    
+                }
+            },{
+                type: 'category',
+                gridIndex: 1,
+                boundaryGap: ['20%','20%'],
+                data: this.data0.times,
+                // data: time,
+                axisLabel: {show: false},
+                axisPointer: {
+                    show: false,
+                    label: {
+                        show: false
+                    }
+                }
+                
+            },{
+                type: 'category',
+                gridIndex: 2,
+                boundaryGap: ['20%','20%'],
+                data: this.data0.times,
+                // data: time,
+                axisLabel: {show: false},
+                axisPointer: {
+                    show: false,
+                    label: {
+                        show: false
+                    }
+                }
+            }],
+            yAxis: [{
+                scale: true,
+                show :true,
+                boundaryGap: ['20%','20%'],
+                position: "right",
+                splitNumber: 5,
+                splitArea: {
+                    show: false
+                },
+                axisLine: {
+                    onZero: false,
+                    show:true,
+                    lineStyle:{
+                        color:'#6b6b6b',
+                    }
+                },
+                axisTick: {show:true},
+                splitLine:{
+                    show:true,
+                    lineStyle: {
+                        color: 'rgba(107,107,107,0.32)'
+                    }
+                },
+                axisLabel: {
+                    inside: true,
+                    showMinLabel: false,
+                    showMaxLabel: false,
+                    fontSize:10
+                }
+            },{
+                gridIndex: 1,
+                splitNumber: 3,
+                position: "right",
+                silent: true,
+                axisLine: {
+                    onZero: false,
+                    show:false,
+                    lineStyle:{
+                        color:'#6b6b6b',
+                    }
+                },
+                axisTick: {
+                    show: false
+                },
+                splitLine: {show: false},
+                axisLabel: {
+                    show: false,
+                    
+                },
+                axisPointer: {
+                    show: false,
+                    label: {
+                        show: false
+                    }
+                }
+            },{
+                gridIndex: 2,
+                splitNumber: 4,
+                position: "right",
+                silent: true,
+                axisLine: {
+                    onZero: false,
+                    show:false,
+                    lineStyle:{
+                        color:'#6b6b6b',
+                    }
+                },
+                axisTick: {show: false},
+                splitLine: {show: false},
+                axisLabel: {
+                    show: false
+                },
+                axisPointer: {
+                    show: false,
+                    label: {
+                        show: false
+                    }
+                }
+            }],
+            dataZoom: [{
+                    type: 'inside',
+                    xAxisIndex: [0, 0],
+                    start: 90,
+                    end: 100,
+                    maxSpan:100,
+                    minSpan: 10
+                    
+                },{
+                    show: false,
+                    xAxisIndex: [0, 1],
+                    type: 'slider',
+                    top: '97%',
+                    start: 90,
+                    end: 100,
+                    maxSpan:100,
+                    minSpan: 10
+                },{
                 show: false,
-                xAxisIndex: [0, 1],
+                xAxisIndex: [0, 2],
                 type: 'slider',
-                top: '97%',
                 start: 90,
                 end: 100,
                 maxSpan:100,
                 minSpan: 10
-            },{
-            show: false,
-            xAxisIndex: [0, 2],
-            type: 'slider',
-            start: 90,
-            end: 100,
-            maxSpan:100,
-            minSpan: 10
-        }],
-        series: [{
-                type: 'candlestick',
-                data: this.data0.datas,
-                // data: aData,
-                itemStyle: {
-                    normal: {
-                        color: '#c1b17f', // 阳线填充颜色
-                        color0: '#ef5454', // 阴线填充颜色
-                        borderColor:  '#c1b17f',
-                        borderColor0: '#ef5454',    
+            }],
+            series: [{
+                    type: 'candlestick',
+                    data: this.data0.datas,
+                    // data: aData,
+                    itemStyle: {
+                        normal: {
+                            color: '#c1b17f', // 阳线填充颜色
+                            color0: '#ef5454', // 阴线填充颜色
+                            borderColor:  '#c1b17f',
+                            borderColor0: '#ef5454',    
+                        }
+                    },
+                }, {
+                    name: 'MA5',
+                    type: 'line',
+                    symbol: 'none',
+                    data: this.calculateMA(5),
+                    smooth: true,
+                    lineStyle: {
+                        normal: {
+                            opacity: 0.6,
+                            color: '#808a70'
+                        }
                     }
-                },
-            }, {
-                name: 'MA5',
-                type: 'line',
-                symbol: 'none',
-                data: this.calculateMA(5),
-                smooth: true,
-                lineStyle: {
-                    normal: {
-                        opacity: 0.6,
-                        color: '#808a70'
+                },{
+                    name: 'Volumn',
+                    type: 'bar',
+                    xAxisIndex: 1,
+                    yAxisIndex: 1,
+                    data: this.data0.vols,
+                    itemStyle: {
+                        normal: {
+                            color: function(params) {
+                                var colorList;
+                                if (that.data0.datas[params.dataIndex][1]>that.data0.datas[params.dataIndex][0]) {
+                                    colorList = '#c1b17f';
+                                } else {
+                                    colorList = '#ef5454';
+                                }
+                                return colorList;
+                            },
+                        }
                     }
+                },{
+                    name: 'MACD',
+                    type: 'bar',
+                    xAxisIndex: 2,
+                    yAxisIndex: 2,
+                    data: this.data0.macds,
+                    itemStyle: {
+                        normal: {
+                            color: function(params) {
+                                var colorList;
+                                if (params.data >= 0) {
+                                    colorList = '#c1b17f';
+                                } else {
+                                    colorList = '#ef5454';
+                                }
+                                return colorList;
+                            },
+                        }
+                    }
+                },{
+                    name: 'DIF',
+                    type: 'line',
+                    xAxisIndex: 2,
+                    yAxisIndex: 2,
+                    symbol: 'none',
+                    lineStyle: {
+                        width: 1,
+                    },
+                    data: this.data0.difs
+                },{
+                    name: 'DEA',
+                    type: 'line',
+                    symbol: 'none',
+                    xAxisIndex: 2,
+                    yAxisIndex: 2,
+                    lineStyle: {
+                        width: 1,
+                    },
+                    data: this.data0.deas
                 }
-            },{
-                name: 'Volumn',
-                type: 'bar',
-                xAxisIndex: 1,
-                yAxisIndex: 1,
-                data: this.data0.vols,
-                itemStyle: {
-                    normal: {
-                        color: function(params) {
-                            var colorList;
-                            if (that.data0.datas[params.dataIndex][1]>that.data0.datas[params.dataIndex][0]) {
-                                colorList = '#c1b17f';
-                            } else {
-                                colorList = '#ef5454';
-                            }
-                            return colorList;
-                        },
-                    }
-                }
-            },{
-                name: 'MACD',
-                type: 'bar',
-                xAxisIndex: 2,
-                yAxisIndex: 2,
-                data: this.data0.macds,
-                itemStyle: {
-                    normal: {
-                        color: function(params) {
-                            var colorList;
-                            if (params.data >= 0) {
-                                colorList = '#c1b17f';
-                            } else {
-                                colorList = '#ef5454';
-                            }
-                            return colorList;
-                        },
-                    }
-                }
-            },{
-                name: 'DIF',
-                type: 'line',
-                xAxisIndex: 2,
-                yAxisIndex: 2,
-                symbol: 'none',
-                lineStyle: {
-                    width: 1,
-                },
-                data: this.data0.difs
-            },{
-                name: 'DEA',
-                type: 'line',
-                symbol: 'none',
-                xAxisIndex: 2,
-                yAxisIndex: 2,
-                lineStyle: {
-                    width: 1,
-                },
-                data: this.data0.deas
-            }
-        ]
+            ]
       };	
       
       console.log('kline-report:showLineRangeColor', true)
@@ -450,9 +450,14 @@ splitData(rawData) {
       this.chartInstance.setOption(option);
       // this.chartInstance.resize();
     }
-  
+    integrationData() {
+
+    }
     inputDataValid() {
       return !!Array.isArray(this.echartsData);
     }
-  
+
+    funcTimeFormat(time:any,type) {
+
+    } 
   }
