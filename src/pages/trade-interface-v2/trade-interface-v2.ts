@@ -355,8 +355,7 @@ export class TradeInterfaceV2Page {
       //   .saleableQuantity / this.appSettings.Product_Price_Rate;
       let saleableQuantity:any =  new BigNumber((target && target.length != 0 ? target : [{ saleableQuantity:0}])[0]
       .saleableQuantity).div( this.appSettings.Product_Price_Rate); 
-      this.maxAmount = Number(price) ? this.numberFormat(saleableQuantity.toString(),false,false) : "0";
-   
+      this.maxAmount = Number(price) ? this.numberFormat(saleableQuantity.div(price).toString(),false,false) : "0";
       if(this.maxAmount == "0"){
         this.maxAmount = 0;
       }
@@ -372,12 +371,12 @@ export class TradeInterfaceV2Page {
         console.log(target)
         let saleableQuantity:any =  new BigNumber((target && target.length != 0 ? target : [{ saleableQuantity:0}])[0]
         .saleableQuantity.toString()).div(this.appSettings.Product_Price_Rate); 
-        this.maxAmount = Number(price) ?  this.numberFormat(saleableQuantity.div(price).toString(),false,false)  : "0";
-        if(this.maxAmount == "0"){
-          this.maxAmount = 0;
+        this.holdAmount = Number(price) ?  this.numberFormat(saleableQuantity.toString(),false,false)  : "0";
+        if(this.holdAmount == "0"){
+          this.holdAmount = 0;
         }
         if(!this.appSetting.getUserToken()){
-          this.maxAmount = '--';
+          this.holdAmount = '--';
         }
         // if(this.maxAmount == "0"){
         //   this.maxAmount = 0;
@@ -502,7 +501,7 @@ export class TradeInterfaceV2Page {
       toast.setMessage(`请输入正确的${tradeText}价格`)
     }else if(isNaNData.amount || amount.comparedTo(0) != 1){
       toast.setMessage(`请输入正确的${tradeText}数量`)
-    }else if(amount.comparedTo(this.maxAmount) == 1){
+    }else if(amount.comparedTo(tradeType == 1 ? this.maxAmount : this.holdAmount) == 1){
       toast.setMessage(`${tradeText}数量超过可${tradeText}上限`)
     }else{
       show_warning = false
@@ -1453,14 +1452,14 @@ export class TradeInterfaceV2Page {
     }
     return number;
   }
-  rangeMaxNumber(number:any,base:number = 1){
+  rangeMaxNumber(base:number = 1){
     let rangNumber:any;
-    if(isNaN(number)) {
-      return 0;
-    }
-    if(typeof number == "string") {
-      number =  parseFloat(number);
-    }
+    let buy:any = this.maxAmount;
+    let sale:any = this.holdAmount;
+    let number:number;
+    buy = isNaN(buy) ? 0 : parseFloat(buy);
+    sale = isNaN(sale) ? 0 : parseFloat(sale);
+    number = buy > sale ? buy : sale;
     //进位处理，123.3 ->124 or 130 or 200
     //         base = 1 or 10 or 100 
     rangNumber =  base == 1 ? parseInt( 
