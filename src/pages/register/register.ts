@@ -207,6 +207,16 @@ export class RegisterPage {
   }
 
   async register() {
+    // 判断当然是否已经注册了 10 个 账户
+    if( this.appDataService.getAppRegisterLength() > 10) {
+      return this.alertCtrl.create({
+        title:'警告',
+        message:'每日注册账户不得超过10个',
+        buttons:[{
+          text:'确定'
+        }]
+      }).present();
+    }
     this.registering = true;
     try {
       const controls = this.registerForm.getRawValue();
@@ -224,6 +234,9 @@ export class RegisterPage {
  
       this.registerService.doAuthRegister(customerId, vcode, password, recommendCode)
         .then(()=>{
+          //注册成功，记录
+          this.appDataService.setAppRegisterLength(customerId)
+
           const toast = this.promptCtrl.toastCtrl({
             message:'注册成功',
             duration:1e3,

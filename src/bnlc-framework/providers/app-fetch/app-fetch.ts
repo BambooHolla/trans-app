@@ -89,7 +89,6 @@ export class AppFetchProvider {
       data.__source_err__ && (data.data.__source_err__ = data.__source_err__);
       return data.data;
     } else {
-      debugger;
       if (err.code === -1) {
         // this.events.publish('show login', 'login');
       }
@@ -99,6 +98,9 @@ export class AppFetchProvider {
     }
   }
   private _handleResCatch(res) {
+    if( res.name == "TimeoutError") {
+      return Promise.reject('请求超时');
+    }
     const data = res.json();
     const error = res.json().error;
     debugger;
@@ -222,7 +224,7 @@ export class AppFetchProvider {
         req = this.http[method](reqInfo.url, body, reqInfo.options);
         break;
     }
-    return this._handlePromise(req.toPromise(), auto_cache, catch_key);
+    return this._handlePromise(req.timeout(5000).toPromise(), auto_cache, catch_key);
   }
   get<T>(
     url: string,

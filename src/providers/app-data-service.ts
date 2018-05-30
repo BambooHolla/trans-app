@@ -3,6 +3,7 @@ import { Storage } from '@ionic/storage';
 import { Device } from '@ionic-native/device';
 import { Geolocation } from '@ionic-native/geolocation';
 import { Platform } from "ionic-angular";
+import { ArrayType } from '@angular/compiler/src/output/output_ast';
 @Injectable()
 export class AppDataService {
 
@@ -42,6 +43,7 @@ export class AppDataService {
     this.initProperties();
     this.getDataFromStorage();
     this.getAppDevice();
+    this.initAppRegister()
     window['appdata'] = this;
   }
 
@@ -70,7 +72,11 @@ export class AppDataService {
     show_onestep_warning: true,
     products: new Map(),
     traderList: new Map(),
-    version:""
+    version:"",
+    register_number:{
+      validity:new Date(),
+      content:[]
+    }
   };
   private _in_storage_keys = ['products', 'traderList'];
 
@@ -84,6 +90,9 @@ export class AppDataService {
   public show_onestep_trade;
   public show_onestep_warning;
   public version ;
+  public register_number;
+
+
 
   //缓存产品信息
   public products: Map<string, AnyObject>;
@@ -149,6 +158,38 @@ export class AppDataService {
         message: error
       }
     });
+  }
+
+  // 初始化本机记录的注册手机号
+  initAppRegister() {
+    var appRegister = this.register_number;
+    var time = new Date(appRegister.validity);
+    // 如果没记录，初始化
+    if(!appRegister) {
+      this.register_number = {
+        validity:new Date(),
+        content:[]
+      };
+    } else {
+      // 如果是新的一天，初始化
+     if(((new Date().getTime() - time.getTime()) > 86400000) 
+      || (new Date().getDay() != time.getDay())) {
+        this.register_number = {
+          validity:new Date(),
+          content:[]
+        };
+      }
+    }
+  }
+  // 获取每日注册的账户个数
+  getAppRegisterLength() {
+    return this.register_number.content.length;
+  }
+  // 注册成功，记录
+  setAppRegisterLength(account) {
+    this.register_number.content.push(account);
+    this.register_number = this.register_number;
+    
   }
 
   readonly APPDATASERVICE_PREIX = 'App-Data-Service:';
@@ -230,7 +271,7 @@ export class AppDataService {
   // 初始化当前类的特定属性，
   // 将它们从值属性修改为访问器属性，
   // 代理读写属性的操作，在写入属性时设置 storage 的相应值。
-  initProperties() {
+  initProperties() { 
     this._dataReady = this.storage.ready();
     Object.keys(this._data).forEach(key => {
       if (this._in_storage_keys.indexOf(key) === -1) {
