@@ -86,9 +86,11 @@ export class TradeChartV2Page {
     this.changeTime(0)
   }
 
-  activeIndex = 0;
+  activeIndex;
   changeTime(index) {
+    if( this.activeIndex == index) return ;
     this.activeIndex = index;
+    this.timeType = this.timeTypeArr[index];
     this.changeReportType(index);
   }
 
@@ -103,7 +105,7 @@ export class TradeChartV2Page {
         const srcArr = []
         srcArr.push(...data)//使用push+解构赋值,预期echarts动画实现
         const length = srcArr.length
-        if (length > this.appSettings.Charts_Array_Length) {
+        if (length > this.appSettings.Charts_Array_Length) { 
           srcArr.splice(0, length - this.appSettings.Charts_Array_Length)
         }
         console.log('trade- interface_realtimeData:srcArr:', srcArr)

@@ -114,7 +114,7 @@ export class HomePage extends FirstLevelPage implements OnInit{
   }
 
 ngOnInit(){
-
+  
     this.loginService.status$
       .subscribe(async status => {
         this.login_status = status
@@ -132,14 +132,14 @@ ngOnInit(){
 
   } 
 
-//  async ionViewDidEnter() {
-//     if(this.appSetting.getUserToken()){
-//       await Promise.all([
-//         this.personalDataService.requestFundData(),
-//         this.requestAssets(), 
-//       ])
-//     }
-// }
+ async ionViewDidEnter() {
+    if(this.appSetting.getUserToken()){
+      await Promise.all([
+        this.personalDataService.requestFundData(),
+        this.requestAssets(), 
+      ])
+    }
+}
 
   requestAssets() {
     return this.personalDataService

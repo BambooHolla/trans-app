@@ -51,7 +51,7 @@ export class AppSettings {
   public readonly Product_Price_Rate: number = 1e8;
   public readonly Price_Rate: number = 1e2;
 
-  public readonly Charts_Array_Length: number = 60 * 24;
+  public readonly Charts_Array_Length: number = 400 ;
 
   // 虚假登录开关
   public readonly FAKE_LOGIN: boolean = false;

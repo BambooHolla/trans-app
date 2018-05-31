@@ -188,7 +188,7 @@ export class OptionalPage extends SecondLevelPage {
               }
             })
         })));
-
+  
       //计算每日盈亏,持仓 * 涨幅 * 最新价 
       for(let i = 0 ; i < this.optionalStockDetailList.length; i++) {
         this.optionalStockDetailList[i].realtimePrice.subscribe( val => {
