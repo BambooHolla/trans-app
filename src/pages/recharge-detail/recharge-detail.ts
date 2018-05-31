@@ -69,10 +69,9 @@ export class RechargeDetailPage extends SecondLevelPage {
 					accountType: AccountType.Product,
 				})
 				.then(data => {
-					data['balance'] = new BigNumber(data['balance']).div('100000000').toString();
-					data['freezeBalance'] = new BigNumber(data['freezeBalance']).div('100000000').toString();
+					data['balance'] = new BigNumber(data['balance']+'').div('100000000').toString();
+					data['freezeBalance'] = new BigNumber(data['freezeBalance']+'').div('100000000').toString();
 					this.access_info = data
-					console.log('....',data)
 				});
 			// 获取充值记录
 			tasks[tasks.length] = this.getTransactionLogs();
