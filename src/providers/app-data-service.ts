@@ -162,8 +162,8 @@ export class AppDataService {
 
   // 初始化本机记录的注册手机号
   initAppRegister() {
-    var appRegister = this.register_number;
-    var time = new Date(appRegister.validity);
+    let appRegister = this.register_number;
+   
     // 如果没记录，初始化
     if(!appRegister) {
       this.register_number = {
@@ -172,6 +172,7 @@ export class AppDataService {
       };
     } else {
       // 如果是新的一天，初始化
+      let time = appRegister.validity ? new Date(appRegister.validity) : new Date();
      if(((new Date().getTime() - time.getTime()) > 86400000) 
       || (new Date().getDay() != time.getDay())) {
         this.register_number = {
