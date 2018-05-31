@@ -31,11 +31,16 @@ export class KlineEchartsBaseComponent implements OnChanges, OnDestroy {
         // console.log('chart ngOnChanges', Object.keys(changes));
         // console.log('charts changed:ngOnChanges', changes)   
         if( changes.echartsData ) {
-            this.callEchartsCreator();
+            if( !this._FIRST_ECHART && changes.echartsData.currentValue && changes.echartsData.currentValue.length == 1) {
+                this.pushEchartsData()
+            } else if(changes.echartsData.currentValue && changes.echartsData.currentValue.length >= 1){
+                this.callEchartsCreator();
+            }
+            
         } else {
 
         }
-        
+         
         
     }
 
@@ -78,7 +83,7 @@ export class KlineEchartsBaseComponent implements OnChanges, OnDestroy {
         this._LOADING_CTRL.present().then( e => {
             this._RUN_LOADING = false;
             this._FIRST_ECHART = false;
-            if (this.echartsData && this.inputDataValid()) {
+            if (this.echartsData && this.echartsData.length > 0 && this.inputDataValid()) {
                 setTimeout(() => {
                     if (this.chartInstance) {
                         this.createCharts()
@@ -89,12 +94,21 @@ export class KlineEchartsBaseComponent implements OnChanges, OnDestroy {
                         this.callEchartsCreator();
                     }
                 }, 500);
+            } else if(!this.echartsData || this.echartsData.length <= 0) {
+                setTimeout(() => {
+                    this.callEchartsCreator();
+                }, 500);
             }
         })
 
     }
 
-
+    pushEchartsData() {
+        if( this._FIRST_ECHART) {
+            return void 0;
+        }
+        throw new Error('createCharts method must called within derived class!');
+    }
 
     
     callEchartsCreator() {

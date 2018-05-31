@@ -22,8 +22,9 @@
     </ion-row>
     <ion-row>
       <ion-col>
-        <div class="assets-title">总资产{{personalAssets?.asset?.priceName}}</div>
+        <div class="assets-title">可用总资产{{personalAssets?.asset?.priceName}}</div>
         <div class="assets-amount">{{personalAssets?.asset?.total | quantityConversion}}</div>
+
       </ion-col>
     </ion-row>
     <ion-row class="notice" *ngIf="false">
