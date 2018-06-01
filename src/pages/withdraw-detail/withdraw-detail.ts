@@ -300,7 +300,7 @@ export class WithdrawDetailPage extends SecondLevelPage {
 	@asyncCtrlGenerator.success("提现成功")
 	async submitWithdrawAppply() {
 		await this.personalDataService.requestCertifiedStatus();
-		if(!(this.personalDataService.certifiedStatus == '101' || this.personalDataService.certifiedStatus == '2' )){
+		if(!(this.personalDataService.certifiedStatus == '101' || !(this.personalDataService.certifiedStatus == '2') )){
 			return Promise.reject(new Error(`实名认证${this.personalDataService.realname|| this.personalDataService.certifiedMsg}`));
 		}
 		return this.accountService

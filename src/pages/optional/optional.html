@@ -9,7 +9,7 @@
       <ion-col class="title-col">
         <h1>{{personalAssets?.asset?.total | quantityConversion}}</h1>
         <h6>可用总资产{{personalAssets?.asset?.priceName}}</h6>
-        <h5>冻结：0</h5>
+        <h5>冻结：服务升级中</h5>
       </ion-col>
     </ion-row>
     <ion-row class="info-row">
@@ -66,7 +66,7 @@
           <h5 class="color-eye-catching">{{data?.personalData?.restQuantity| quantityConversion | numberUnitFormat:true:false:10}}</h5>
           <div class="frozen">
             <span class="font-smaller">冻结</span>
-            <span class="color-rise">{{(data?.realtimePrice | async)?.price | priceConversion | numberFilter:true}}</span>
+            <span class="color-rise">服务升级中</span>
           </div>
           <!-- <h6 *ngIf="false">换手率：{{(data?.baseData | async)?.marketInfo?.turnoverRate | percent:'.2-2'}}</h6> -->
         </div>

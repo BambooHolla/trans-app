@@ -442,7 +442,6 @@ export class QuotationsPageV2 {
 
 	async initTraderList(refresher?: Refresher) {
         if (refresher) {
-			
 			this.subscribeRealtimeReports(true).then(()=>{
 				if(!!this.activeProduct.trim().toLowerCase()){
 					

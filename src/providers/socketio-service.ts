@@ -55,7 +55,7 @@ export class SocketioService {
   ])
 
   private path(source) {
-    return this.appSettings.SOCKET_PREFIX + source + '/socket.io'
+    return this.appSettings.SOCKET_PREFIX + source + '/socket.io' 
   }
   private _socketUrl(target): string {
     return this.appSettings.SERVER_URL + target
@@ -153,15 +153,15 @@ export class SocketioService {
     });
 
     socket.on('data', function (data) {
-      // console.log(`${api}Socket on data: `,data);
+      console.log(`${api}Socket on data: `,data);
     });
 
     socket.on('error', function (err) {
-      // console.log(`${api}Socket on err: `,err);
+      console.log(`${api}Socket on err: `,err);
     });
 
     socket.on('failed', function (err) {
-      // console.log(`${api}Socket on failed: `, err);
+      console.log(`${api}Socket on failed: `, err);
     });
     // socket.on('authenticated', () => {
     //  // console.log('authenticated');
@@ -362,7 +362,7 @@ export class SocketioService {
       // };
       // 对于所有订阅都已取消的 refCount 重新进行订阅时，
       // 这个函数会被重新调用一次，并传入新的 observer 。
-      this.socketReady(api)
+      this.socketReady(api) 
         .then(() => {
           this.report_getObservableFromMap(api, `${equityCodes}`)
             .subscribe(observer)
