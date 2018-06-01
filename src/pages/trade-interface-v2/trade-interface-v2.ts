@@ -449,7 +449,7 @@ export class TradeInterfaceV2Page {
 
   async doTrade(tradeType: number = this._tradeType$.getValue()){
     await this.personalDataService.requestCertifiedStatus(); 
-    if(!(this.personalDataService.certifiedStatus == '101' || this.personalDataService.certifiedStatus == '2')){
+    if(!(this.personalDataService.certifiedStatus == '101' || !(this.personalDataService.certifiedStatus == '2'))){
       return this.validateIdentify();
     }
     
@@ -1236,7 +1236,7 @@ export class TradeInterfaceV2Page {
       return this.goLogin();
     }
     await this.personalDataService.requestCertifiedStatus(); 
-    if(!(this.personalDataService.certifiedStatus == '101'  || this.personalDataService.certifiedStatus == '2')){
+    if(!(this.personalDataService.certifiedStatus == '101'  || !(this.personalDataService.certifiedStatus == '2'))){
       return this.validateIdentify();
     }
   
