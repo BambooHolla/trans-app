@@ -37,7 +37,7 @@ export class AccountCenterPage extends SecondLevelPage {
         this.checkHasAccountPWD();
       }
     });
-    if(this.personalDataService.certifiedStatus == '103' || this.personalDataService.certifiedStatus == '1'){
+    if(this.personalDataService.certifiedStatus == '1'){
       this.personalDataService.requestCertifiedStatus()
     }
   }
@@ -58,9 +58,7 @@ export class AccountCenterPage extends SecondLevelPage {
   }
 
   identify() {
-    if (this.personalDataService.certifiedStatus === '101' || this.personalDataService.certifiedStatus === '103'
-    || this.personalDataService.certifiedStatus == '1' || this.personalDataService.certifiedStatus == '2'
-  ){
+    if ( this.personalDataService.certifiedStatus == '1' || this.personalDataService.certifiedStatus == '2'){
       return void 0
     }
     this.navCtrl.push('submit-real-info');

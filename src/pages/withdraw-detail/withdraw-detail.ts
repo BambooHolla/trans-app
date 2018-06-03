@@ -300,7 +300,7 @@ export class WithdrawDetailPage extends SecondLevelPage {
 	@asyncCtrlGenerator.success("提现成功")
 	async submitWithdrawAppply() {
 		await this.personalDataService.requestCertifiedStatus();
-		if(!(this.personalDataService.certifiedStatus == '101' || !(this.personalDataService.certifiedStatus == '2') )){
+		if( !(this.personalDataService.certifiedStatus == '2') ){
 			return Promise.reject(new Error(`实名认证${this.personalDataService.realname|| this.personalDataService.certifiedMsg}`));
 		}
 		return this.accountService
@@ -408,13 +408,12 @@ export class WithdrawDetailPage extends SecondLevelPage {
 	//做个控制，避免回来后又弹出消息
 	private validateId:boolean = true;
 	validateIdentify(){
-		if(this.personalDataService.certifiedStatus == '101'|| this.personalDataService.certifiedStatus == '2'  || !this.validateId ){
+		if(this.personalDataService.certifiedStatus == '2'  || !this.validateId ){
 			return ;
 		}
 		let options:any = {};
 		//title 不能设置在初始化中，会没掉
-		if(this.personalDataService.certifiedStatus == '102'|| this.personalDataService.certifiedStatus == '104'
-		|| this.personalDataService.certifiedStatus == '0'|| this.personalDataService.certifiedStatus == '3' ){
+		if( this.personalDataService.certifiedStatus == '0'|| this.personalDataService.certifiedStatus == '3' ){
 			alert['title'] = `无法提现`;
 			alert['message'] = `实名认证${this.personalDataService.realname || this.personalDataService.certifiedMsg}`;
 			alert['buttons'] = [
@@ -435,7 +434,7 @@ export class WithdrawDetailPage extends SecondLevelPage {
 				}
 			];
 		} 
-		if(this.personalDataService.certifiedStatus == '103' || this.personalDataService.certifiedStatus == '1'){
+		if( this.personalDataService.certifiedStatus == '1'){
 			alert['title'] = "无法提现";
 			alert['message'] = `实名认证${this.personalDataService.realname|| this.personalDataService.certifiedMsg}`;
 			alert['buttons'] = [

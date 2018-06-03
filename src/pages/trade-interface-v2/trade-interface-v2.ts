@@ -449,10 +449,9 @@ export class TradeInterfaceV2Page {
 
   async doTrade(tradeType: number = this._tradeType$.getValue()){
     await this.personalDataService.requestCertifiedStatus(); 
-    if(!(this.personalDataService.certifiedStatus == '101' || !(this.personalDataService.certifiedStatus == '2'))){
+    if(!(this.personalDataService.certifiedStatus == '2')){
       return this.validateIdentify();
     }
-    
     if(this.trading){
       return void 0
     }
@@ -624,7 +623,7 @@ export class TradeInterfaceV2Page {
   private _getRequestCertifiedStatus(){
     this.loginService.status$.subscribe(status=>{
       if(status) {
-        if(this.personalDataService.certifiedStatus === '103'  || this.personalDataService.certifiedStatus == '1'){
+        if(this.personalDataService.certifiedStatus == '1'){
           this.personalDataService.requestCertifiedStatus()
         }
       }
@@ -1236,7 +1235,7 @@ export class TradeInterfaceV2Page {
       return this.goLogin();
     }
     await this.personalDataService.requestCertifiedStatus(); 
-    if(!(this.personalDataService.certifiedStatus == '101'  || !(this.personalDataService.certifiedStatus == '2'))){
+    if(!!(this.personalDataService.certifiedStatus == '2')){
       return this.validateIdentify();
     }
   
@@ -1345,13 +1344,12 @@ export class TradeInterfaceV2Page {
 
  
 	validateIdentify(){
-		if(this.personalDataService.certifiedStatus == '101'  || this.personalDataService.certifiedStatus == '2'){
+		if( this.personalDataService.certifiedStatus == '2'){
 			return ;
 		}
 		let alert:any = {};
     //title 不能设置在初始化中，会没掉
-    if(this.personalDataService.certifiedStatus == '102'|| this.personalDataService.certifiedStatus == '104' 
-    || this.personalDataService.certifiedStatus == '0'|| this.personalDataService.certifiedStatus == '3' 
+    if( this.personalDataService.certifiedStatus == '0'|| this.personalDataService.certifiedStatus == '3' 
   ){
 			alert['title'] = `交易失败`;
 			alert['message'] = `实名认证${this.personalDataService.realname || this.personalDataService.certifiedMsg}`;
@@ -1370,7 +1368,7 @@ export class TradeInterfaceV2Page {
 					}
 				}
 			];
-		} else if(this.personalDataService.certifiedStatus == '103' || this.personalDataService.certifiedStatus == '1' ){
+		} else if( this.personalDataService.certifiedStatus == '1' ){
 			alert['title'] = "交易失败";
 			alert['message'] = `实名认证${this.personalDataService.realname|| this.personalDataService.certifiedMsg}`;
 			alert['buttons'] = [
