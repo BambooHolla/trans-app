@@ -344,8 +344,8 @@ export class SocketioService {
       var ts = "5m";//八点前显示五分钟线
       if (theDate.getHours() >= 8) {
         ts = "15m";//八点后显示15分钟线
-      }
-      const {
+      } 
+      let {
         timespan = ts,
         type = '001',
         start = startDate,
@@ -353,8 +353,10 @@ export class SocketioService {
         keepcontact = true,
         rewatch = false,
       } = options
-      //console.log('subscribeRealtimeReports options', options)
+      start = options.timespan ? this.getTimeInterval(options.timespan) : startDate;
 
+      
+      //console.log('subscribeRealtimeReports options', options)
       // const subscribeData = {
       //   channel: equityCodes,
       //   from: 'wzx',
@@ -434,5 +436,27 @@ export class SocketioService {
     return this.apiObservableMap.get(api)
     //.do(data => console.log('apiObservableMap:', data, ' & ', equityCode))
     //.do(data => console.log('apiObservableMap filter:', data))
+  }
+
+  // 获取时间段，未想到更好的 
+  private getTimeInterval(type:string) {
+    let time = new Date();
+    let timeNumber =  new Date(`${time.getFullYear()}-${time.getMonth()+1}-${time.getDate()} ${time.getHours()}:${time.getMinutes()}:00`) .getTime();
+    if( type == '1m') {
+      timeNumber = timeNumber - 21600000;
+    } else if( type == '5m') {
+      timeNumber = timeNumber - 108000000;
+    } else if( type == '15m' ) {
+      timeNumber = timeNumber - 324000000;
+    } else if( type == '30m') {
+      timeNumber = timeNumber - 324000000;
+    } else if( type == '1h') {
+      timeNumber = timeNumber - 1296000000;
+    } else if( type == '1d') {
+      timeNumber = timeNumber - 24883200000;
+    } else if( type == '1w') {
+      timeNumber = timeNumber - 174182400000;
+    }
+    return new Date(timeNumber);
   }
 }

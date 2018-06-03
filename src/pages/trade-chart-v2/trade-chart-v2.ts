@@ -78,12 +78,13 @@ export class TradeChartV2Page {
     this.traderId = this.navParams.get('stockCode') || this.navParams.data ;
     this.product = this.appDataService.traderList.get(this.traderId) ;
     const traderId = this.traderId;
-    console.log('trade-interface-v2:(doSubscribe) ', traderId)
+    console.log('trade-chart-v2:(doSubscribe) ', traderId)
     if (traderId){
       const trader = this.appDataService.traderList.get(traderId)
       this._baseData$ = trader.marketRef;
+      this.changeTime(0)
     }
-    this.changeTime(0)
+    
   }
 
   activeIndex;
@@ -92,11 +93,11 @@ export class TradeChartV2Page {
     this.activeIndex = index;
     this.timeType = this.timeTypeArr[index];
     this.changeReportType(index);
-  }
+  } 
 
   changeReportType(index) {
     this._realtimeData$ = this.socketioService.subscribeRealtimeReports([this.traderId],undefined,{timespan:this.timeTypeArr[index]})
-      .do(data => console.log('trade-interface-v2_realtimeData: ',data))
+      .do(data => console.log('trade-chart-v2_realtimeData: ',data))
       .takeUntil(this.viewDidLeave$)
       .filter(({ type }) => type === this.traderId)
       .map(data => data.data)
@@ -108,7 +109,7 @@ export class TradeChartV2Page {
         if (length > this.appSettings.Charts_Array_Length) { 
           srcArr.splice(0, length - this.appSettings.Charts_Array_Length)
         }
-        console.log('trade- interface_realtimeData:srcArr:', srcArr)
+        console.log('trade- chart_realtimeData:srcArr:', srcArr)
         return srcArr.concat()
       });
   }
