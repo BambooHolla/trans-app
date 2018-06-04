@@ -1,6 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { AppSettings } from "../providers/app-settings";
-
+import { BigNumber} from "bignumber.js";
 /**
  * Generated class for the QuantityConversionPipe pipe.
  *
@@ -14,11 +14,14 @@ export class QuantityConversionPipe implements PipeTransform {
 
   constructor(
     private appSettings: AppSettings,
-  ) { }
+  ) { 
+    BigNumber.config({ EXPONENTIAL_AT: [-8, 20] })
+  }
   
   transform(value: any, ...args) {
-    if(isNaN(value)) return value;
-    let number:any = (value / this.appSettings.Product_Price_Rate).toString();
+    console.log('......',value)
+    if(isNaN(value) || value == null || value == undefined) return value;
+    let number:any = new BigNumber(''+value).div( this.appSettings.Product_Price_Rate).toString();
     if(typeof number != "string" ){
         number = number.toString();
     }
