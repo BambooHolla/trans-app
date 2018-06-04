@@ -170,6 +170,7 @@ import { FsProvider } from '../providers/fs/fs';
 import { ProductId2namePipe } from '../pipes/product-id2name';
 import { IdentificationNumberCheckerProvider } from '../providers/identification-number-checker/identification-number-checker';
 import { NewsServiceProvider } from '../providers/news-service/news-service';
+import { InviteCommissionServiceProvider } from '../providers/invite-commission-service/invite-commission-service';
 import { WorkOrderServiceProvider } from '../providers/work-order-service/work-order-service';
 import { InviteCommissionPage } from '../pages/invite-commission/invite-commission';
 import { QuotationsPage } from '../pages/quotations/quotations';
@@ -509,6 +510,7 @@ export function createTranslateLoader(http: HttpClient) {
         FsProvider,
         IdentificationNumberCheckerProvider,
         NewsServiceProvider,
+        InviteCommissionServiceProvider,
         WorkOrderServiceProvider,
         PromptControlleService, 
     ]

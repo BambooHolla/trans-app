@@ -9,7 +9,7 @@ import {
 } from "ionic-angular";
 import { asyncCtrlGenerator } from "../../bnlc-framework/Decorator";
 import { PersonalDataService } from "../../providers/personal-data-service";
-import { AppService } from "../../providers/app.service";
+import { InviteCommissionServiceProvider } from "../../providers/invite-commission-service/invite-commission-service"
 import { Http, RequestMethod, URLSearchParams } from "@angular/http";
 import { AppDataService } from "../../providers/app-data-service";
 import { AppSettingProvider } from "../../bnlc-framework/providers/app-setting/app-setting";
@@ -42,7 +42,7 @@ export class InviteCommissionPage {
     public alertCtrl: AlertController,
     public entrustServiceProvider: EntrustServiceProvider,
     public personalDataService: PersonalDataService,
-    public appService: AppService,
+    public commissionService: InviteCommissionServiceProvider,
     public appDataService: AppDataService,
     public setting: AppSettingProvider,
     public modalCtrl: ModalController,
@@ -79,19 +79,13 @@ export class InviteCommissionPage {
   }
   //获取推荐了多少人
   requestRecommendData(): Promise<any> {
-    const path = `/user/getRecommendCount`;
-    return this.appService
-      .request(
-        RequestMethod.Get,
-        path,
-        { customerId: this.appDataService.customerId },
-        true
-      )
-      .then(data => {
+    const customerId = this.appDataService.customerId;
+    return this.commissionService.getRecommendCount(customerId)
+    .then(data => {
         if (!data) {
           return Promise.reject(new Error("data missing"));
         }
-        this.recommendCounts = data.count[0].count;
+        this.recommendCounts = data['count'][0].count;
       })
       .catch(err => {
         console.log("getCustomersData error: ", err);
@@ -100,20 +94,20 @@ export class InviteCommissionPage {
 
   //获取我的推荐人
   requestRecommender(): Promise<any> {
-    const path = `/user/getMyRecommender`;
-    return this.appService
-      .request(RequestMethod.Get, path, undefined, true)
+    
+    return this.commissionService.getMyRecommender()
       .then(data => {
         if (!data) {
           return Promise.reject(new Error("data missing"));
         }
-        if (data.realName) {
-          this.recommender = data.realName;
-        } else if (data.telephone) {
-          this.recommender = data.telephone;
-        } else if (data.email) {
-          this.recommender = data.email;
+        if (data['realName']) {
+          this.recommender = data['realName'];
+        } else if (data['telephone']) {
+          this.recommender = data['telephone'];
+        } else if (data['email']) {
+          this.recommender = data['email'];
         }
+        console.log('........',data)
       })
       .catch(err => {
         console.log("getCustomersData error: ", err);
@@ -122,15 +116,15 @@ export class InviteCommissionPage {
 
     //设置推荐人
     setRecommender(code): Promise<any> {
-      const path = `/user/setInvitationCode`;
-      return this.appService
-        .request(RequestMethod.Post, path, {code: code}, true)
+    
+      return this.commissionService.setInvitationCode(code)
         .then(data => {
           if (!data) {
             return Promise.reject(new Error("data missing"));
           }
+          console.log('......',data)
           this.alertService.dismissLoading();
-          this.alertService.alertTips(data.message);
+          this.alertService.alertTips(data['message']);
           this.requestRecommender();
         })
         .catch(err => {
