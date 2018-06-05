@@ -34,8 +34,8 @@ export class VcodeSenderDirective implements OnInit, OnChanges {
 	@Output('vcode-sender') sender = new EventEmitter();
 	@Input('auto-send') auto_send = false;
 	@Input('free-tpl') free_template_text: string;
-	@Input('sending-tpl') sending_template_text = '发送中';
-	@Input('waiting-next-tpl') waiting_next_template_text = '{s}秒后重发';
+	@Input('sending-tpl') sending_template_text = window['SENDING']||'发送中';
+	@Input('waiting-next-tpl') waiting_next_template_text = '{s}s';
 	@Input('waiting-next-second') waiting_next_second = 60;
 	@Input('waiting-next-model') waiting_next_model = 'count-down';
 

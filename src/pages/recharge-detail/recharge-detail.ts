@@ -72,6 +72,7 @@ export class RechargeDetailPage extends SecondLevelPage {
 					data['balance'] = new BigNumber(data['balance']+'').div('100000000').toString();
 					data['freezeBalance'] = new BigNumber(data['freezeBalance']+'').div('100000000').toString();
 					this.access_info = data
+					console.log('......',this.access_info)
 				});
 			// 获取充值记录
 			tasks[tasks.length] = this.getTransactionLogs();

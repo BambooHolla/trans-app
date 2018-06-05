@@ -95,6 +95,7 @@ export class PicassoApp {
     window["modalCtrl"] = modalController;
     window["clipboard"] = clipboard;
     window["translate"] = translate;
+  
     if (!navigator["clipboard"]) {
       navigator["clipboard"] = {
         writeText: text => clipboard.copy(text),
@@ -114,6 +115,8 @@ export class PicassoApp {
     this.statusBar.hide(); 
     platform.ready().then(() => {
       this.afterPlatformReady();
+        // 设置语言
+        this.initTranslate();
     });
 
     this.events.subscribe('show login', (status,cb?) => {
@@ -201,6 +204,40 @@ export class PicassoApp {
   }
 
   ionViewDidLoad() {
+  }
+
+  async initTranslate() {
+    // Set the default language for translation strings, and the current language.
+    this.translate.setDefaultLang("en");
+    const browserLang = this.translate.getBrowserLang();
+    let language:any ;
+    if (browserLang) {
+      if (browserLang === "zh") {
+        // 简体繁体判断，当前只有简体
+        // const browserCultureLang = this.translate.getBrowserCultureLang();
+        // if (browserCultureLang.match(/-TW|CHT|Hant/i)) {
+        //   this.translate.use("zh-cmn-Hant");
+        // } else {
+        //   this.translate.use("zh-cmn-Hans");
+        // }
+       language = await this.translate.use("zh").toPromise();
+        
+        
+      } else {
+        const langs = this.translate.getLangs();
+        const current_lang = this.translate.getBrowserLang();
+        if (langs.indexOf(current_lang) !== -1) {
+          this.translate.use(current_lang);
+        } else {
+          const maybe_lang =
+            langs.find(lang => current_lang.startsWith(lang)) || "en";
+          this.translate.use(maybe_lang);
+        }
+      }
+    } else {
+      language = await this.translate.use("en").toPromise(); // Set your language here
+    }
+    window['language'] = language;
   }
 
   afterPlatformReady() {

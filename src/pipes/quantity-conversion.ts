@@ -19,7 +19,6 @@ export class QuantityConversionPipe implements PipeTransform {
   }
   
   transform(value: any, ...args) {
-    console.log('......',value)
     if(isNaN(value) || value == null || value == undefined) return value;
     let number:any = new BigNumber(''+value).div( this.appSettings.Product_Price_Rate).toString();
     if(typeof number != "string" ){

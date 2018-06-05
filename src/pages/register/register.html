@@ -32,7 +32,7 @@
                 <ion-input formControlName="vcode" class="number" placeholder="验证码">
                 </ion-input>
                 <button item-right type="button" class="send-vcode credit-submit-btn" style="z-index:9999" [disabled]="sending_vcode||resend_time_clock || check_sending_vcode" (click)="register_step1()">
-          {{sending_vcode?'发送中':(resend_time_clock?(resend_time_clock+'s'):'获取验证码')}}</button>
+          {{(sending_vcode?'SENDING':(resend_time_clock?(resend_time_clock+'s'):'GAIN_VERIFICATION_CODE') )   | translate}}</button>
             </ion-item>
             <ion-item class="register-form-item">
                 <ion-input formControlName="password" class="password" type="password" placeholder="登录密码">
