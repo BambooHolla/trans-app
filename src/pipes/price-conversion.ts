@@ -21,24 +21,21 @@ export class PriceConversionPipe implements PipeTransform {
 
   transform(value: any, tradeRetainLength: number = 5,decimalFormat:number = 0) {
     // / this.appSettings.Price_Rate
-    if(isNaN(value)) value = '0';
+    if(isNaN(value) || value == null) value = '0';
     value = ""+value;
     let number:any = value;
-    
-   
+
     number = number.split('.');
     if(number[0].length > 1){
       number[0] =  number[0].replace(/\b(0+)/gi,"");
       number[0] = number[0] == ''? "0": number[0];
-    } else {
-      return this.numberFormat0(value,decimalFormat);
-    }
+    } 
    
     if(number[1]) {
       number[1] =  number[1].length > tradeRetainLength? number[1].substr(0,tradeRetainLength) : number[1];
       return this.numberFormat0(number[0]+'.'+number[1],decimalFormat);
     } else {
-      return  this.numberFormat0(number[0],decimalFormat);
+      return  number[0];
     }
   }
 

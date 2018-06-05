@@ -30,7 +30,7 @@ import { LoadingPage } from '../pages/loading/loading';
 import { NewsListPage } from '../pages/news-list/news-list';
 import { TabsPage } from '../pages/tabs/tabs';
 import { InfoTabsPage } from '../pages/info-tabs/info-tabs';
-import { AboutPage } from '../pages/about/about';
+import { AboutPageModule } from '../pages/about/about.module';
 import { HelpPage } from '../pages/help/help';
 import { AccountCenterPage } from '../pages/account-center/account-center';
 import { ChangeTradePassword } from '../pages/change-trade-password/change-trade-password';
@@ -219,7 +219,6 @@ export function createTranslateLoader(http: HttpClient) {
         LoadingPage,
         TabsPage,
         InfoTabsPage,
-        AboutPage,
         HelpPage,
         AccountCenterPage,
         ChangeTradePassword,
@@ -370,6 +369,7 @@ export function createTranslateLoader(http: HttpClient) {
         IonicStorageModule.forRoot(),
         LoginPageModule,
         RegisterPageModule,
+        AboutPageModule,
         ForgetPwdPageModule,
         ModifyPwdPageModule,
         BrowserModule,
@@ -425,7 +425,6 @@ export function createTranslateLoader(http: HttpClient) {
         LoadingPage,
         TabsPage,
         InfoTabsPage,
-        AboutPage,
         HelpPage,
         AccountCenterPage,
         ChangeTradePassword,

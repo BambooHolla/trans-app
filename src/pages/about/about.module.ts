@@ -1,17 +1,17 @@
 import { NgModule } from '@angular/core';
 import { IonicPageModule } from 'ionic-angular';
-import { ForgetPwdPage } from './forget-pwd';
+import { AboutPage } from './about';
 import { TranslateModule } from "@ngx-translate/core";
 @NgModule({
   declarations: [
-    ForgetPwdPage,
+    AboutPage,
   ],
   imports: [
-    IonicPageModule.forChild(ForgetPwdPage),
+    IonicPageModule.forChild(AboutPage),
     TranslateModule,
   ],
-  exports: [
-    ForgetPwdPage
+  exports: [ 
+    AboutPage
   ]
 })
-export class ForgetPwdPageModule {}
+export class AboutPageModule {}
