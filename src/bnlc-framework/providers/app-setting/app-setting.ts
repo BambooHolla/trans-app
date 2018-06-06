@@ -14,9 +14,9 @@ import { BehaviorSubject } from "rxjs/BehaviorSubject";
 export class AppSettingProvider {
   // static SERVER_URL = 'http://192.168.16.113:40001'; //zhiguang server
   // static SERVER_URL = 'http://bjs.bnqkl.cn'; //old www server
-  static SERVER_URL = 'https://www.picaex.com' ; //release www server
+  // static SERVER_URL = 'https://www.picaex.com' ; //release www server
   // static SERVER_URL = 'http://192.168.16.101:40001'; //company mac server
-  //  static SERVER_URL = "http://192.168.18.23:40001" 
+   static SERVER_URL = "http://192.168.18.23:40001" 
   static SERVER_PREFIX = '/api/v1/bngj';
   static Platform_Type = '10011001';
   public RECOMMEND_PREFIX = 'www.picaex.com?ref=';

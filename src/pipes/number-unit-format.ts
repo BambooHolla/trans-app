@@ -1,16 +1,19 @@
 import { Pipe, PipeTransform } from '@angular/core';
-
+import { BigNumber} from "bignumber.js";
 @Pipe({
   name: 'numberUnitFormat',
 })
 export class NumberUnitFormatPipe implements PipeTransform {
   unitArray = ['', '万', '亿', '万亿', '亿亿'];
 
+  constructor() { 
+    BigNumber.config({ EXPONENTIAL_AT: [-8, 20] })
+  }
+
   transform(value: any, retainZero: boolean = false, retainTailZeroAfterDigit: boolean | number = true, retainLength: number = 6): string {
     if (isNaN(value)) {
       return '--';
     }
-
     const prefix = value < 0 ? '-' : '';
     value = Math.abs(value);
 
@@ -33,7 +36,7 @@ export class NumberUnitFormatPipe implements PipeTransform {
     //   .slice(0, retainLength - this.unitArray[count].length)
     //   .replace(replacer, '');
 
-    const strs = value.toFixed(retainLength).split('.')
+    const strs = this.numberFormat(value,retainLength).split('.');
     let result = strs[0]
     const digLength = retainLength - strs[0].length - this.unitArray[count].length - 1
     if (digLength > 0) {
@@ -51,4 +54,19 @@ export class NumberUnitFormatPipe implements PipeTransform {
 
     return prefix + result + this.unitArray[count];
   }
+
+  numberFormat(number:any = 0,length:number=6){
+    number = new BigNumber(number).toString();
+    number = number.split('.');
+    if(number[0].length > 1){
+      number[0] =  number[0].replace(/\b(0+)/gi,"");
+      number[0] = number[0] == ''? "0": number[0];
+    }
+    if(number[1]){
+      // number[0] =  number[0].length > 10? number[0].substr(-10) : number[0];
+      number[1] =  number[1].length > length? number[1].substr(0,length) : number[1];
+      return number[1] ? number[0]+'.'+ number[1] : number[0];
+    }
+    return number[0];
+}
 }
