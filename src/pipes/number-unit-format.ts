@@ -9,11 +9,11 @@ export class NumberUnitFormatPipe implements PipeTransform {
   constructor() { 
     BigNumber.config({ EXPONENTIAL_AT: [-8, 20] })
   }
-
   transform(value: any, retainZero: boolean = false, retainTailZeroAfterDigit: boolean | number = true, retainLength: number = 6): string {
     if (isNaN(value)) {
       return '--';
     }
+    debugger
     const prefix = value < 0 ? '-' : '';
     value = Math.abs(value);
 
@@ -56,7 +56,7 @@ export class NumberUnitFormatPipe implements PipeTransform {
   }
 
   numberFormat(number:any = 0,length:number=6){
-    number = new BigNumber(number).toString();
+    number = new BigNumber(''+number).toString();
     number = number.split('.');
     if(number[0].length > 1){
       number[0] =  number[0].replace(/\b(0+)/gi,"");
