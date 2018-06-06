@@ -13,7 +13,6 @@ export class NumberUnitFormatPipe implements PipeTransform {
     if (isNaN(value)) {
       return '--';
     }
-    debugger
     const prefix = value < 0 ? '-' : '';
     value = Math.abs(value);
 
@@ -35,13 +34,14 @@ export class NumberUnitFormatPipe implements PipeTransform {
     // const result = value.toFixed(4)
     //   .slice(0, retainLength - this.unitArray[count].length)
     //   .replace(replacer, '');
-
     const strs = this.numberFormat(value,retainLength).split('.');
     let result = strs[0]
     const digLength = retainLength - strs[0].length - this.unitArray[count].length - 1
     if (digLength > 0) {
       // console.log('numberunitformat:result ',result)
-      result += '.' + strs[1].slice(0, digLength)
+      if(strs[1] && strs[1].length > 0){
+        result += '.' + strs[1].slice(0, digLength)
+      }
       // console.log('numberunitformat:result ', result)
       // console.log('numberunitformat:replacer ', replacer)
       result = result.replace(replacer, '$1')
