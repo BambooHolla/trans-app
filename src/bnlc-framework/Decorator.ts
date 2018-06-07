@@ -13,7 +13,7 @@ import { PromptControlleService } from "../providers/prompt-controlle-service";
 export const ERROR_FROM_ASYNCERROR = { NAME: 'CATCHED_ERROR' };
 
 export function asyncErrorWrapGenerator(
-  error_title: any = '错误',
+  error_title: any = 'ERROR',
   opts?: AlertOptions,
   hidden_when_page_leaved = true
 ) {
@@ -67,10 +67,10 @@ export function asyncErrorWrapGenerator(
               .create(
                 Object.assign(
                   {
-                    title: String(error_title),
+                    title: window['language'][String(error_title)]||String('错误'),
                     subTitle: err_msg,
                     buttons: [{
-                      text:'确定'
+                      text:window['language']['COFIRM']||'确定'
                     }] 
                   },
                   opts
@@ -85,7 +85,7 @@ export function asyncErrorWrapGenerator(
   };
 }
 export function asyncSuccessWrapGenerator(
-  success_msg: any = '成功',
+  success_msg: any = 'SUCCESS',
   position = 'bottom',
   duration = 3000,
   hidden_when_page_leaved = true
@@ -106,7 +106,7 @@ export function asyncSuccessWrapGenerator(
           console.log('不弹出成功提示因为页面的切换');
           return data;
         }
-        const message = String(success_msg);
+        const message = window['language'][String(success_msg)]||'成功';
         if ('plugins' in window && 'toast' in window['plugins']) {
           const toast = window['toast'] as Toast;
           toast.show(message, duration + '', position).toPromise();
@@ -146,7 +146,7 @@ const loadingIdLock = (window['loadingIdLock'] = new Map<
   }
 >());
 export function asyncLoadingWrapGenerator(
-  loading_msg: any = '请稍后',
+  loading_msg: any = 'PLEASE_WAIT_1',
   check_prop_before_present?: string,
   opts?: LoadingOptions,
   id?: string
@@ -184,7 +184,7 @@ export function asyncLoadingWrapGenerator(
       const loading = loadingCtrl.create(
         Object.assign(
           {
-            content: String(loading_msg),
+            content: window['language'][String(loading_msg)]||String('请稍后'),
             cssClass: 'can-goback'
           },
           opts

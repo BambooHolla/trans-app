@@ -1,11 +1,11 @@
 <ion-header>
     <ion-navbar>
-        <ion-title *ngIf="newsType == 0">公告</ion-title>
-        <ion-title *ngIf="newsType == 1">新闻</ion-title>
+        <ion-title *ngIf="newsType == 0">{{'NOTIFICATION'|translate}}</ion-title>
+        <ion-title *ngIf="newsType == 1">{{'NEWS'|translate}}</ion-title>
     </ion-navbar>
 </ion-header>
 
-
+ 
 <ion-content class="bg-in">
     <rich-text [dataSource]="news"></rich-text>
     <!--<ion-item no-lines>

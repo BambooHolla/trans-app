@@ -67,15 +67,15 @@ export class WorkOrderDetailPage extends SecondLevelPage
 	chat_logs: ChatLog[] = [];
 	contact_list:any;
 	contact_status_list:any = {
-		"001":"已提交",
-		"002":"跟进中",
-		"003":"已反馈",
-		"010":"已处理",
+		"001":window['language']['SUBMITTED']||"已提交",
+		"002":window['language']['FOLLOWING']||"跟进中",
+		"003":window['language']['FEEDBACKED']||"已反馈",
+		"010":window['language']['HANDLED']||"已处理",
 	};
 	contact_status:string = "";
 	@WorkOrderDetailPage.willEnter
 	@asyncCtrlGenerator.loading()
-	@asyncCtrlGenerator.error('获取工单内容出错')
+	@asyncCtrlGenerator.error('WORK_ORDER_CONTENT_ERROR ')
 	async getChatLogs() {
 		this.work_order = this.navParams.get('work_order');
 		if (this.work_order) {
@@ -128,7 +128,7 @@ export class WorkOrderDetailPage extends SecondLevelPage
 
 
 
-	@asyncCtrlGenerator.error('加载历史记录出错')
+	@asyncCtrlGenerator.error('LOADING_HISTORY_RECORD_ERROR')
 	async loadMoreHistoryReplyList(ref?: Refresher) {
 		this.page += 1;
 		const contact_reply_list = await this._getContactReplyList();
@@ -187,13 +187,13 @@ export class WorkOrderDetailPage extends SecondLevelPage
 	// is_force_to_bottom = false;
 
 	@asyncCtrlGenerator.loading()
-	@asyncCtrlGenerator.error('发送出错')
+	@asyncCtrlGenerator.error('SENDING_ERROR')
 	async sendChat() {
 		const { chat_content } = this;
 		let list = (await this._getContactList());
 		let status = list["contact"]? list["contact"]["status"]:"001";
 		if(status == "010"){
-			return Promise.reject("工单已处理完成")
+			return Promise.reject("WORK_ORDER_HAS_BEEN_DEALT")
 		}
 		this.chat_content = chat_content.trim();
 		if (chat_content) {

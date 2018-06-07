@@ -132,8 +132,9 @@ page-trade-chart-v2 {
                 background-color: color($colors,special); 
             }
             &.sale{
-                background-color: color($colors,middark); 
-                color: black;
+                // background-color: color($colors,middark); 
+                // color: black;
+                background-color: rgba(color($colors,eye-catching),1);
             }
         }
     }

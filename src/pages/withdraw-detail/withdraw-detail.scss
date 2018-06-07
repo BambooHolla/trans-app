@@ -65,15 +65,20 @@
                     margin-right: 0.3rem;
                 }
             }
-            .error-number {
-                display: inline-block;
-                position: absolute;
-                margin: 0 8px !important;
-                color: red;
-                right: 0;
-                font-size: 1.2rem;
-                text-shadow: 0 0 1rem #000;
+            .err-box{
+                padding-top: 0.5rem;
+                height: 1.2rem;
+                .error-number {
+                    display: inline-block;
+                    position: absolute;
+                    margin: 0 8px !important;
+                    color: red;
+                    right: 0;
+                    font-size: 1.2rem;
+                    text-shadow: 0 0 1rem #000;
+                }
             }
+            
             ion-item.item-block {
                 background-color: color($colors, alpha-dark);
                 margin-top: 0.55px;

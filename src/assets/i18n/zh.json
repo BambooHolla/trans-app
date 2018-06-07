@@ -39,7 +39,11 @@
     "EDIT_LOGIN_PASSWORD":"修改登录密码",										
     "RESET":"重置",										
     "SETTING":"设置",										
-    "TRANSACTION_PASSWORD":"交易密码",										
+    "TRANSACTION_PASSWORD":"交易密码",
+    "TRANSACTION_PASSWORD_1":" 交易密码",	
+    "TRANSACTION_PASSWORD_2":" 交易密码",
+    "ACCOUNT_TRANSACTION_PASSWORD":"交易密码",
+    "NEW_TRANSACTION_PASSWORD":"新交易密码",									
     "LOGOUT":"退出账号",										
     "LOGINS":"登录账号",										
     "GAIN_TRANSACTION_PASSWORD_ERROR":"获取交易密码信息出错",										
@@ -97,7 +101,8 @@
     "LOGIN_PASSWORD":"登录密码",										
     "PASSWORD_AT_LEAST_3_DIGITS":"密码至少3位",										
     "TWO_PASSWORDS_ARE_NOT_IDENTICAL":"两次密码不一致",										
-    "CONFIRM_PASSWORD":"确认密码",										
+    "CONFIRM_PASSWORD":"确认密码",									
+    "SET_CONFIRM_PASSWORD":"确认密码",	
    									
     "PLEASE_INPUT_MOBILE_PHONE_NUMBER_EMAIL":"请填写手机号/邮箱",										
  										
@@ -108,7 +113,11 @@
     "TRANSACTION_TIME":"成交时间",										
     "TRANSACTION_PRICE":"成交价",										
     "TRANSACTION_VOLUME":"成交量",										
-    "TRANSACTION_AMOUNT":"成交额",										
+    "TRANSACTION_AMOUNT":"成交额",	
+    "HISTORY_TIME":"成交时间",										
+    "HISTORY_PRICE":"成交价",										
+    "HISTORY_VOLUME":"成交量",										
+    "HISTORY_AMOUNT":"成交额",										
     "RENEWING":"正在刷新",										
     "NO_FINISHED_DELEGATION_ORDER":"没有成交的委托单",										
     "BUY":"买",										
@@ -130,8 +139,8 @@
     										
     "ID_PHOTO_MUST_BE_CLEAR":"身份证拍摄务必清晰不得模糊",										
     "SUBMIT_PHOTO":"提交照片",										
-    "FRONT_SIDE":"正　面",										
-    "REVERSE_SIDE":"反　面",										
+    "FRONT_SIDE":"正 面",										
+    "REVERSE_SIDE":"反 面",										
     "ID_SUBMIT_FAIL":"身份证提交失败",										
    								
     "NOTIFICATION":"公告",										
@@ -160,7 +169,7 @@
     "COPY_SUCCESSFULLY":"复制成功",										
     "COPY_FAIL":"复制失败",										
     "NO_AVAILABLE_ADDRESS":"无可用地址",										
-										
+								
     "INPUT_INVITATION_CODE":"请输入邀请码",										
     "PASSWORD":"密码",										
     "FORGET_PASSWORD":"忘记密码",										
@@ -177,15 +186,17 @@
     "PASSWORD_STRENGTH_DISCREPENCY":"密码强度不符",										
     "CONFIRM_NEW_PASSWORD":"确认新密码",										
     "TWO_PASSWORDS_ARE_NOT_IDENTICAL_INPUT":"两次密码填写不一致",						
-    "NEW_PASSWORD_MUST_INCLUDE_CAPITAL_LETTER,_LOWERCASE_AND_NUMBER":"* 新密码需包含大写字母，小写字母和数字",										
+    "NEW_PASSWORD_PROMPT":"* 新密码需包含大写字母，小写字母和数字",		"PASSWORD_PROMPT":"* 密码需包含大写字母，小写字母和数字",							
     "CONFIRMS":"确定修改",										
     "MODIFY_SUCCESSFULLY":"修改成功",										
-    "PLEASE_RE-LOGIN":"请重新登入",										
+    "PLEASE_RE_LOGIN":"请重新登入",										
    										
     "NO_NOTIFICATION":"暂无公告",										
     "YEAR_MONTH_DATE":"y年M月d日",										
     "GAIN_NEWS_ERROR":"获取新闻出错",										
-    "GAIN_NOTIFICATION_ERROR":"获取公告出错",										
+    "GAIN_NOTIFICATION_ERROR":"获取公告出错",
+    "GAIN_INFO_ERROR":"获取公告出错",
+    									
     "READ_THE_FULL_ARTICLE":"阅读全文",										
     "PROFIT_AND_LOSS_TODAY":"今日盈亏",										
     "MONTLY_PROFIT_AND_LOSS":"每月盈亏",										
@@ -194,7 +205,7 @@
     "AMOUNT_OF_INCREASE":"涨幅",										
     "LATEST_PRICE":"最新价",										
     "GAIN_POSITION_ERROR":"获取持仓出错",										
-   									
+    "OPTIONAL_PRICE":"最新价",
     "COFIRM":"确定",										
     "MARKET_PRICE":"行情",										
 										
@@ -208,7 +219,8 @@
     "FREEZE_BALANCE":"冻结余额",										
 									
   										
-    "IT_IS_PROHIBITED_TO_DEPOSIT_ANY_ASSETS_OTHER_THAN_XXX,_AND_ANY_NON-XXX_ASSETS WILL_NOT_BE_RECOVERED._XXXX_NEEDS_TO WAIT_FOR_BLOCK_CONFIRMATION_AFTER_DEPOSIT._IN_ORDER_TO_SPEED_UP_TRANSACTION_CONFIRMATION,_THE_FEE_CAN_BE_APPROPRIATELY_INCREASED.":"禁止充值除xxx以外的其他资产,任何非xxx资产将不可被找回。xxxx充值后需要等待区块确认,为了快速到账,可适当提高充值手续费。",										
+  
+
     "DEPOSIT_RECORDS":"充值记录",										
     "NO_DEPOSIT_RECORDS":"暂无充值记录",										
     "DEPOSIT_QUANTITY":"充值数量",										
@@ -218,9 +230,12 @@
     "COPY_THE_ADDRESS_FAILED":"地址复制失败",										
   										
     "COPY_PLUGIN_ERROR":"复制插件异常",										
-    "THE_MINIMUM_AMOUNT_OF_DEPOSIT_IS_XXX,_AND_THE_MAXIMUM_AMOUNT_OF_DEPOSIT_IS_XXX._IT WILL_NOT_BE_ABLE_TO_REACH_YOUR_ACCOUNT_EITHER_THE_AMOUNT_OF_DEPOSIT_IS_LESS_THAN_OR_GREATER_THAN_THE_AMOUNT_OF_DEPOSIT.":"最小充值金额为xxx,最大充值金额为xxx,小于或大于充值金额的充值将无法到账。",										
-    "THE_MINIMUM_AMOUNT_OF_DEPOSIT_IS_XXX,_ANDIT WILL_NOT_BE_ABLE_TO_REACH_YOUR_ACCOUNT WHEN_THE_AMOUNT_OF_DEPOSIT_IS_SMALLER_THAN_THE_MINIMUM_AMOUNT_OF_DEPOSIT.":"最小充值金额为xxx,小于最小充值金额的充值将无法到账。",										
-    "THE_MAXIMUM_AMOUNT_OF_DEPOSIT_IS_XXX,_ANDIT WILL_NOT_BE_ABLE_TO_REACH_YOUR_ACCOUNT WHEN_THE_AMOUNT_OF_DEPOSIT_IS_GREATER_THAN_THE_MAXIMUM_AMOUNT_OF_DEPOSIT.":"最大充值金额为xxx,大于最大充值金额的充值将无法到账。",										
+    							
+    "RECHARGE_MINI":"最小充值金额为",
+    "RECHARGE_MAX":"最大充值金额为",
+    "RECHARGE_ERR_MINI_MAX":"小于或大于充值金额的充值将无法到账。",
+    "RECHARGE_ERR_MINI":"小于最小充值金额的充值将无法到账。",
+    "RECHATGE_ERR_MAX":"大于最大充值金额的充值将无法到账。",
 										
     "LOAD_PRODUCT_LIST_ERROR":"产品列表加载出错",										
     "ACCOUNT_FORMAT_EROOR_EMAIL":" 账号格式错误/邮箱",										
@@ -242,10 +257,10 @@
    									
    										
     										
-   										
+    "VALIDATE":"登录密码",
    										
     "PLEASE_INPUT_YOUR_LOGIN_PASSWORD":"请输入您的登录密码",										
-    "SUBMIT/SUBMISSION":"提交",										
+    "SUBMIT":"提交",										
     "GAIN_TRANSACTION_CODE_ERROR":"获取交易密码信息出错",										
    										
    									
@@ -277,7 +292,9 @@
     "30M":"30分",										
     "1H":"1小时",										
     "2H":"2小时",										
-    "4H":"4小时",										
+    "4H":"4小时",
+    "1D":"1天",										
+    "1W":"1周",									
     "FEE_RATE_STANDARDS":"费率标准",										
     "DELEGATE_SELL":"委托卖出",										
     "DELEGATE_BUY":"委托买入",										
@@ -293,7 +310,7 @@
     "PLEASE_INPUT_CORRECT_BUY_QUANTITY":"请输入正确的购买数量",										
     "BUY_QUANTITY_IS_OVER_BUY_CEILING":"购买数量超过可购买上限",										
     "DELEGATED_ORDER_HAS_BEEN_SUBMITTED":"委托单已提交",										
-									
+    "REVOKE":"撤单",
     "ARE_YOU_SURE_TO_REVOKE_XXX_DELEGATED_ORDER.":"确定要撤回xxx委托单",										
 										
     "REVOKE_ORDER_SUCCESSFULLY":"撤单成功",										
@@ -305,8 +322,7 @@
     "ORDER_FAILED":"下单失败",	
     "ESTIMATED_TURNOVER":"预计成交额为0",							
     "NO_DELEGATION_FOR_SUBMISSION":"无委托提交",										
-    "QUICK_ORDER_SUCCESS":"快捷下单成功",										
-   										
+    "QUICK_ORDER_SUCCESS":"快捷下单成功",																		
     "AVAILABLE":"可用",										
     "UPDATING":"正在刷新",										
 									
@@ -329,7 +345,8 @@
     "SELL_4":"卖4",
     "SELL_5":"卖5",
     
-   					
+    "BUY_IN":"买入",
+    "SELL_OUT":"卖出",			
    										
     "PLEAES_INPUT_CORRECT_PRICE_OF_XXX":"请输入正确的xxx价格",										
     "PLEASE_INPUT_CORRECT_QUANTITY_OF_XXX":"请输入正确的xxx数量",										
@@ -359,7 +376,8 @@
     "HAVEN'T_VERIFIED_REAL_NAME.":"实名认证未认证",										
     "VERIFYING_REAL_NAME":"实名认证审核中",										
     "REAL_NAME_VERIFICATION_FAIL":"实名认证审核不通过",										
-    "REAL_NAME_VERIFICATION":"实名认证",										
+    "REAL_NAME_VERIFICATION":"实名认证",
+    "VERIFICATION":"实名认证",										
     "VERIFICATION_1":"认证",										
     "SELECT_USER_STATE_ERROR":"获取用户状态出错",										
     "SELECT":"选择",										
@@ -369,12 +387,13 @@
     "DELETE_ADDRESS_FAIL":"地址删除失败",										
     "DELETE_ADDRESS_SUCCESSFULLY":"地址删除成功",										
   										
-    "FROM_XXX":"从 xxx",										
+    "FROM":"从",										
 								
-    "WITHDRAW_TO_XXX":"提现到 xxx",										
+    "WITHDRAW_TO":"提现到",										
     "PLEASE_SELECT":"请选择",										
     "CLICK_TO_ADD":"点击添加",										
-    "WITHDRAWAL_ADDRESS":"提现地址",										
+    "WITHDRAWAL_ADDRESS":"提现地址",
+    "WITHDRAWAL_ADDRESS_1":"提现地址",										
     "ADD_NEW_ADDRESS":"添加新地址",										
     "ADD":"添加",										
     "DEPOSIT_AMOUNT":"提币数额",										
@@ -387,10 +406,10 @@
     "PLEASE_INPUT_TRANSACTION_PASSWORD":"请输入交易密码",										
     "GO_TO_SETTINGS":"去设置 ",										
     "WITHDRAWAL_RECORDS":"提现记录",										
-    "NO WITHDRAWAL_RECORDS_UNTIL_NOW":"暂无提现记录",										
+    "WITHDRAWAL_RECORDS_UNTIL_NOW":"暂无提现记录",										
     "CANCEL_btn":" (取消)",										
     "WITHDRAWAL_QUANTITY":"提现数量",										
- 										
+    "WITHDRAWAL_QUANTITY_1":"提现数量",								
     "WITHDRAWAL_ADDRESS_MANAGEMENT":"提现地址管理",										
     "CANCEL_ORDER":"取消订单",										
     "WITHDRAWAL_ORDER":"确定取消这条提现订单吗？",										
@@ -399,53 +418,66 @@
 									
     "GAIN_DATA_ERROR":"获取数据出错",										
     "FEE":"手续费：",										
-    "NO_LIMIT_FOR WITHDRAWAL_AMOUNT":"没有提现金额限制",										
-    "EACH WITHDRAWAL_AMOUNT_NOT_LESS_THAN …":"单次提现金额不得小于...",										
-    "EACH WITHDRAWAL_AMOUNT_NOT_BIGGER_THAN …":"单次提现金额不得大于... ",										
-    "EACH WITHDRAWAL_AMOUNT_NOT_LESS_THAN …,_NOT_BIGGER_THAN...":"单次提现金额不得小于...,不得大于...",										
+    "NO_WITHDRAWAL_AMOUNT":"没有提现金额限制",										
+    "EACH_WITHDRAWAL_AMOUNT_NOT_LESS_THAN":"单次提现金额不得小于...",										
+    "EACH_WITHDRAWAL_AMOUNT_NOT_BIGGER_THAN":"单次提现金额不得大于... ",										
+    "EACH_WITHDRAWAL_AMOUNT_NOT_LESS_THAN …,_NOT_BIGGER_THAN...":"单次提现金额不得小于...,不得大于...",										
+    "EACH_WITHDRAWAL_AMOUNT_1":"单次提现金额不得小于",
+    "EACH_WITHDRAWAL_AMOUNT_2":"不得大于",
     "WITHDRAW_FAIL":"提现失败",										
     "WITHDRAW_SUCCESS":"提现成功",										
     "CAN'T WITHDRAW":"无法提现",										
-    "WITHDRAW":"提现",										
+    "WITHDRAW":"提现",
+    "WITHDRAW_1":"提现",								
     "LOADING_PRODUCT_LIST_FAIL":"产品列表加载出错",										
-    "SUBMIT WORK_ORDER":"提交工单",										
+    "SUBMIT_WORK_ORDER":"提交工单",
+    "WORK_ORDER":"提交工单",										
     "REAL_NAME":"真实姓名",										
-    "PLEASE_INPUT_YOUR_NAME":"请输入您的姓名",										
-    "TELEPHONE":"电话",										
+    "PLEASE_INPUT_YOUR_NAME":"请输入您的姓名",						
+    "NAME":"真实姓名",			
+    "TELEPHONE":"电话",
+    "TEL":"电话",										
     "EITHER_TELEPHONE_OR_EMAIL":"电话和邮箱至少填写一个",										
     "EMAIL":"邮箱",										
   									
     "CATEGORY":"分类",										
  										
     "DESCRIPTION":"描述",										
-    "PLEASE_INPUT_DETAILS_OF WORK_ORDER":"请输入工单详情",										
+    "PLEASE_INPUT_DETAILS_OF":"请输入工单详情",										
     "ATTACHMENT":"附件",										
 									
     "FQAS":"常见问题",										
     "FEEDBACKS":"意见反馈",										
-    										
+    
+    "常见问题":"常见问题",
+    "意见反馈":"意见反馈",
     "UPLOAD_PHOTO_FAIL":"图片上传失败",										
-    "SUBMIT WORK_ORDER_FAIL":"工单提交失败",										
-    "SUBMIT WORK_ORDER_SUCCESSFULLY":"工单提交成功",										
+    "SUBMIT_WORK_ORDER_FAIL":"工单提交失败",										
+    "SUBMIT_WORK_ORDER_SUCCESSFULLY":"工单提交成功",										
     "EITHER_TELEPHONE_NUMBER_OR_EMAIL":"电话和邮箱至少填写一个",										
-    "DESCRIPTION_LENGTH_IS_BEYOND WORD_LIMIT":"描述内容字数超出限制",										
-    "DETAILS_OF WORK_ORDER":"工单详情信息",										
+    "DESCRIPTION_LENGTH_IS_BEYOND":"描述内容字数超出限制",										
+    "DETAILS_OF_WORK_ORDER":"工单详情信息",										
     "LOAD_HISTORY_RECORDS":"加载历史记录",										
     "LOADING":"加载中",										
     "SEND":"发送",										
     "SUBMITTED":"已提交",										
     "FOLLOWING":"跟进中",										
     "FEEDBACKED":"已反馈",										
-    "HANDLED":"已处理",										
+    "HANDLED":"已处理",	
+    "已提交":"已提交",										
+    "跟进中":"跟进中",										
+    "已反馈":"已反馈",										
+    "已处理":"已处理",	
+    
     "GAIN WORK_ORDER_CONTENT_ERROR ":"获取工单内容出错",										
     "LOADING_HISTORY_RECORD_ERROR":"加载历史记录出错",										
     "SENDING_ERROR":"发送出错",										
     "WORK_ORDER_HAS_BEEN_DEALT":"工单已处理完成",										
-    "MY WORK_ORDER":"我的工单",										
+    "MY_WORK_ORDER":"我的工单",										
     "WELCOME_TO_CONSULT_US":"欢迎咨询",										
     "PLEASED_TO_ANSWER_ANY_OF_YOUR_QUESTIONS":"任何问题为您解答",										
-    "LOADING WORK_ORDER_FAIL":"工单列表加载失败",										
-    "LOADING_MORE WORK_ORDERS_FAIL":"更多工单列表加载失败",										
+    "LOADING_WORK_ORDER_FAIL":"工单列表加载失败",										
+    "LOADING_MORE_WORK_ORDERS_FAIL":"更多工单列表加载失败",										
     "UNKNOWN_TIME":"未知时间",										
     "X_YEAR/YEARS_AGO":"年前",										
     "X_MONTH/MONTHS_AGO":"月前",										
@@ -457,7 +489,7 @@
     "TODAYS":"今天",										
   									
  										
-    "CREDENTIAL_TYPE":"证件类型",										
+    "CREDENTIAL_TYPE":"证件类型",									"TYPE":"证件类型",	
    										
     "CREDENTIAL_NUMBER":"证件号码",										
     "PLEASE_INPUT_YOUR_CREDENTIAL_NUMBER":"请输入证件号码",										
@@ -471,8 +503,9 @@
     "SUBMIT_VERIFYING_APPLICATION_SUCCESSFULLY":"认证申请提交成功",										
     "PLEASE_UPLOAD_CREDENTIAL":"请上传证件",										
  										
-    "INFO":"资讯",										
-										
+    "INFO":"资讯",
+    "INFO_NEW":"公告",										
+	"NO_INFO":"没有公告",								
     "MINE":"我的",										
     "PREPARING":"准备中",										
     "VERIFYING":"审核中",										
@@ -497,7 +530,7 @@
     "CUSTOMER_SERVICES":"客服",										
     "CUSTOMER":"客戶",										
     "REQUEST_OVERTIME":"请求超时",										
- 									
+    "ERROR":"错误",					
     "RANDOM_ERROR":"随机错误",										
     "APPLY_FOR_AUTHORIZATION":"申请权限",										
     "LOGIN_FAILED":"登录失败！",										
@@ -506,7 +539,7 @@
     "GAIN_MARKET_PRICE_ERROR":"获取行情出错",										
     "NETWORK_CONNECTION_ERROR":"网络连接错误,请稍后再试",										
     "HAVE_BEEN_CERTIFIED":"已认证",										
-    "HAVEN'T_BEEN_CERTIFIED":"未认证",										
+    "NOT_BEEN_CERTIFIED":"未认证",										
     "IN_REVIEWING":"审核中",										
     "FAIL_THE_REVIEW":"审核不通过"
 }

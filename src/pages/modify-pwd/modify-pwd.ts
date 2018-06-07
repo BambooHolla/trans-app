@@ -140,11 +140,11 @@ export class ModifyPwdPage {
 
 			this.alertCtrl
 				.create({
-					title: '修改成功',
-					message: '请重新登入',
+					title: window['language']['MODIFY_SUCCESSFULLY']||'修改成功',
+					message: window['language']['PLEASE_RE_LOGIN']||'请重新登入',
 					buttons: [
 						{
-							text: '确定',
+							text: window['language']['COFIRM']||'确定',
 							handler: () => {
 								const views = this.navCtrl.getViews();
 								if (views.length > 1) {
@@ -172,9 +172,9 @@ export class ModifyPwdPage {
 		} catch (err) {
 			this.alertCtrl
 				.create({
-					title: '警告',
+					title: window['language']['WARNING']||'警告',
 					message: err.message,
-					buttons: ['确定']
+					buttons: [window['language']['COFIRM']||'确定']
 				})
 				.present();
 		} finally {

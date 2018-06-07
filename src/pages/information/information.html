@@ -3,10 +3,10 @@
       <ion-row padding-horizontal>
         <ion-col></ion-col>
         <ion-col text-center (click)="changeToNotice()">
-          <span [class.active-underline]="currentPage==='notice'">公告</span>
+          <span [class.active-underline]="currentPage==='notice'">{{'NOTIFICATION'|translate}}</span>
         </ion-col>
         <ion-col text-center (click)="changeToNews()">
-          <span [class.active-underline]="currentPage==='news'">新闻</span>
+          <span [class.active-underline]="currentPage==='news'">{{'NEWS'|translate}}</span>
         </ion-col>
         <ion-col class="fix-button-position" [navPush]="searchItemPage">
           <ion-buttons right>

@@ -15,7 +15,7 @@ export class QuantityConversionPipe implements PipeTransform {
   constructor(
     private appSettings: AppSettings,
   ) { 
-    BigNumber.config({ EXPONENTIAL_AT: [-8, 20] })
+    BigNumber.config({ EXPONENTIAL_AT: [-20, 20] })
   }
   
   transform(value: any, ...args) {
@@ -24,6 +24,7 @@ export class QuantityConversionPipe implements PipeTransform {
     if(typeof number != "string" ){
         number = number.toString();
     }
+    // debugger
     number = number.split('.');
     if(number[0].length > 1){
       number[0] =  number[0].replace(/\b(0+)/gi,"");

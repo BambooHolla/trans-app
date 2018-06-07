@@ -76,7 +76,7 @@ export class HistoryRecordPage {
         console.log('getTradeHistory err')
         this.alertCtrl
           .create({
-            title: '获取记录出错',
+            title: window['language']['GAIN_RECORDS_ERROR']||'获取记录出错',
             subTitle: err? err.message||'':err,
           })
           .present();

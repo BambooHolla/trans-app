@@ -6,46 +6,46 @@
 -->
 <ion-header>
     <ion-navbar>
-        <ion-title>提交工单</ion-title>
+        <ion-title>{{'WORK_ORDER'|translate}}</ion-title>
     </ion-navbar>
 </ion-header>
 <ion-content>
     <form [formGroup]="formData" class="form-container">
         <div class="form-item with-bottom-division">
-            <div class="label label-required">真实姓名</div>
+            <div class="label label-required">{{'NAME'|translate}}</div>
             <div class="input-container">
-                <input placeholder="请输入您的姓名" [formControl]="realName" required/>
+                <input placeholder="{{'PLEASE_INPUT_YOUR_NAME'|translate}}" [formControl]="realName" required/>
             </div>
         </div>
         <div class="form-item with-bottom-division">
-            <div class="label">电话</div>
+            <div  [class]='userLanguage =="en"?"label-tel label":"label"'>{{'TEL'|translate}}</div>
             <div class="input-container">
-                <input placeholder="电话和邮箱至少填写一个" type="tel" [formControl]="phoneNumber" (input)="requiredTelOrEmail()" />
+                <input placeholder="{{'EITHER_TELEPHONE_OR_EMAIL'|translate}}" type="tel" [formControl]="phoneNumber" (input)="requiredTelOrEmail()" />
             </div>
         </div>
         <div class="form-item with-bottom-division">
-            <div class="label">邮箱</div>
+            <div class="label">{{'EMAIL'|translate}}</div>
             <div class="input-container">
-                <input placeholder="电话和邮箱至少填写一个" type="email" [formControl]="email" (input)="requiredTelOrEmail()" />
+                <input placeholder="{{'EITHER_TELEPHONE_OR_EMAIL'|translate}}" type="email" [formControl]="email" (input)="requiredTelOrEmail()" />
             </div>
         </div>
         <div class="form-item with-bottom-division">
-            <div class="label label-required">分类</div>
+            <div class="label label-required">{{'CATEGORY'|translate}}</div>
             <div class="input-container">
-                <ion-select [formControl]="category" required interface="action-sheet" placeholder="请选择" multiple="false" cancelText="取消">
+                <ion-select [formControl]="category" required interface="action-sheet" placeholder="{{'PLEASE_SELECT'|translate}}" multiple="false" cancelText="{{'CANCEL'|translate}}">
                     <ion-option *ngFor="let category of category_list" [value]="category.value">{{category.text}}</ion-option>
                 </ion-select>
             </div>
         </div>
         <div class="form-item with-bottom-division top-label">
-            <div class="label label-required">描述</div>
+            <div class="label label-required">{{'DESCRIPTION'|translate}}</div>
             <div class="input-container input-detail">
-                <ion-textarea placeholder="请输入工单详情" [formControl]="detail" [(ngModel)]="detailContent"></ion-textarea>
+                <ion-textarea placeholder="{{'PLEASE_INPUT_DETAILS_OF'|translate}}" [formControl]="detail" [(ngModel)]="detailContent"></ion-textarea>
                 <p class="detail-length"><span class="{{ detailLength > 64 ? 'length-beyond' : ''}}">{{ detailLength }}</span> / 64</p>
             </div>
         </div>
         <div class="form-item file-picker-list top-label">
-            <div class="label">附件</div>
+            <div class="label">{{'ATTACHMENT'|translate}}</div>
             <div class="input-container">
                 <div *ngFor="let imageData of images" class="img-picker" (click)="upload(imageData.name)">
                     <!-- <input type="file"> -->
@@ -63,7 +63,7 @@
         </div>
         <div class="submit-container">
             <button ion-button type="submit" (click)="submitForm()" [disabled]="formData.invalid">
-                提交工单
+                {{'SUBMIT_WORK_ORDER'|translate}}
             </button>
         </div>
     </form>

@@ -3,7 +3,7 @@
         <ion-grid no-padding>
             <ion-row class="title-header">
                 <ion-col class="title" no-padding text-center>
-                    行情
+                    {{'MARKET_PRICE' | translate}}
                 </ion-col>
                 <ion-buttons [hidden]="showSearch" right padding-horizontal (click)="toShowSearch()" class="button_self">
                     <button ion-button>
@@ -18,7 +18,7 @@
                         </ion-item>
                     </div>
                     <ion-buttons right (click)="cancelFilter()">
-                        <button ion-button>取消</button>
+                        <button ion-button>{{'CANCEL'|translate}}</button>
                     </ion-buttons>
                 </ion-toolbar>
             </ion-row>
@@ -61,7 +61,7 @@
     </div> -->
 
     <ion-refresher (ionRefresh)="initTraderList($event)">
-        <ion-refresher-content refreshingText="正在刷新...">
+        <ion-refresher-content refreshingText="{{'UPDATING'|translate}}...">
         </ion-refresher-content>
     </ion-refresher>
     <div *ngFor="let trader of traderList" tappable [navPush]="tradeInterface" [navParams]="trader?.traderId" class="trader-item" [hidden]="trader.hidden">
@@ -82,13 +82,13 @@
         <div class="body">
             <div>
                 <div class="market">
-                    <span class="key">高</span>
+                    <span class="key">{{'HIGH'|translate}}</span>
                     <span class="value">
                         {{(trader.marketRef | async)?.max | priceConversion:5:2}}
                     </span>
                 </div>
                 <div class="market">
-                    <span class="key">低</span>
+                    <span class="key">{{'LOW'|translate}}</span>
                     <span class="value">
                         {{(trader.marketRef | async)?.min |priceConversion:5:2}}
                     </span>
@@ -97,14 +97,14 @@
             <div>
                 <div class="market">
                     <span class="key">
-                        {{(trader.marketRef | async)?.instSymbol || '价'}}
+                        {{((trader.marketRef | async)?.instSymbol || 'PRICE') |translate}}
                     </span>
                     <span class="value {{(trader.marketRef | async)?.range|riseOrFall}}">
                         {{(trader.marketRef | async)?.instPrice | numberUnitFormat:false:2:10}}
                     </span>
                 </div>
                 <div class="market">
-                    <span class="key">量</span>
+                    <span class="key">{{'VOL'|translate}}</span>
                     <span class="value">
                         {{(trader.marketRef | async)?.amount | quantityConversion | priceConversion:5:2}}
                     </span>

@@ -6,13 +6,13 @@
 -->
 <ion-header>
     <ion-navbar>
-        <ion-title>工单详情信息</ion-title>
+        <ion-title>{{'DETAILS_OF_WORK_ORDER'|translate}}</ion-title>
     </ion-navbar>
     <div class="work-order-detail">
         <div class="base-info">
             <div class="category">
                 <ali-icon name="icon-financial-problems"></ali-icon>
-                {{work_order?.typeDetail}}
+                {{work_order?.typeDetail | translate}}
             </div>
             <div class="time">
                 <ali-icon name="icon-time-3-clock"></ali-icon>
@@ -32,7 +32,7 @@
 </ion-header>
 <ion-content>
     <ion-refresher [enabled]="enableMore" (ionRefresh)="loadMoreHistoryReplyList($event)">
-        <ion-refresher-content pullingIcon="arrow-dropdown" pullingText="加载历史记录" refreshingSpinner="circles" refreshingText="加载中……">
+        <ion-refresher-content pullingIcon="arrow-dropdown" pullingText="{{'LOAD_HISTORY_RECORDS'|translate}}" refreshingSpinner="circles" refreshingText="{{'LOADING'|translate}}...">
         </ion-refresher-content>
     </ion-refresher>
     <div class="chat-logs" #chatLogs list-ani>
@@ -49,6 +49,6 @@
         <div class="chat-input-container">
             <ion-textarea [(ngModel)]="chat_content"></ion-textarea>
         </div>
-        <button ion-button class="send-btn" (click)="sendChat()">发送</button>
+        <button ion-button class="send-btn" (click)="sendChat()">{{'SEND'|translate}}</button>
     </div>
 </ion-footer>

@@ -15,7 +15,7 @@
         <div class="mobile">{{personalDataService.mobile}}</div>
         <div class="email">{{personalDataService.email}}</div>
         <div class="bedge">
-          <button *ngIf="!login_status" (click)="showLogin()">登录</button>
+          <button *ngIf="!login_status" (click)="showLogin()">{{'LOGIN'|translate}}</button>
           <img *ngIf="login_status" tappable src="assets/icon/home-beage.png" alt="">
         </div>
       </ion-col>
@@ -30,7 +30,7 @@
     <ion-row class="notice" *ngIf="false">
       <ion-col class="vertical-center">
         <ion-icon name="gnotice" ios color="important" class="vertical-center"></ion-icon>
-        <span>这里是一条公告~</span>
+        <span>{{'THIS_IS_AN_ADVERTISEMENT'|translate}}~</span>
       </ion-col>
     </ion-row>
   </ion-grid>
@@ -42,17 +42,17 @@
     <ion-row class="main-button" text-center>
       <ion-col col-6 (click)="navPush('recharge-gateway',true)">
         <img src="assets/icon/充值.png" alt="">
-        <span>充值</span>
+        <span>{{'DEPOSIT'|translate}}</span>
       </ion-col>
       <ion-col col-6 (click)="navPush('withdraw-gateway',true)">
         <img src="assets/icon/提现.png" alt="">
-        <span>提现</span>
+        <span>{{'WITHDRAW'|translate}}</span>
       </ion-col>
     </ion-row>
     <ion-row *ngFor="let data of commandData" tappable (click)="navPush(data.href,data.needLogin)" class="dark-8-transparent bottom-hr" [class.bottom-space]="data.bottomSpace">
       <ion-col padding class="vertical-center">
         <ion-icon name="{{data.icon}}" ios color="important" class="vertical-center"></ion-icon>
-        <span>{{data.name}}</span>
+        <span>{{data.name|translate}}</span>
       </ion-col>
     </ion-row>
   </ion-grid>

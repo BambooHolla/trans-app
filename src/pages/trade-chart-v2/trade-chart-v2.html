@@ -12,21 +12,21 @@
             </div>
             <div>
                 <div class="market-items left">
-                    <span class="market-label" >幅</span>
+                    <span class="market-label" >{{'RANGE'|translate}}</span>
                     <span class="{{(_baseData$ | async)?.range | riseOrFall}}">{{(_baseData$ | async)?.range | percent:'1.0-2' | positiveSign}}</span>
                 </div>
                 <div class="market-items left">
-                    <span class="market-label">量</span>
+                    <span class="market-label">{{'VOL'|translate}}</span>
                     <span>{{(_baseData$ | async)?.amount | quantityConversion | numberUnitFormat:true:true:6}}</span>
                 </div>
             </div>
             <div>
                     <div class="market-items"> 
-                        <span class="market-label">高</span>
+                        <span class="market-label">{{'HIGH'|translate}}</span>
                         <span>{{(_baseData$ | async)?.max | priceConversion:6 | numberFilter:true}}</span>
                     </div>
                     <div class="market-items">
-                        <span class="market-label">低</span>
+                        <span class="market-label">{{'LOW'|translate}}</span>
                         <span>{{(_baseData$ | async)?.min | priceConversion:6 | numberFilter:true}}</span>
                     </div>
                 </div>
@@ -50,15 +50,15 @@
     </div>
     <div class="time-interval">
         <div class="time" *ngFor="let title of timeArray; let i = index;" (click)="changeTime(i)" [class.active]="activeIndex === i">{{title}}</div>
-        <div class="norm">指标<span></span></div>
+        <div class="norm">{{'INDEX'|translate}}<span></span></div>
     </div>
    
     <div class="transaction-btn" (click)="backPage()">
             <div class="buy">
-                买
+                {{'BUY'|translate}}
             </div>
             <div class="sale">
-                卖
+                {{'SELL'|translate}}
             </div>
     </div>
 </ion-content>

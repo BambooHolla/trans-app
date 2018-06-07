@@ -123,16 +123,16 @@ export class ForgetPwdPage {
 				.get('customerId')
 				.value.trim();
 			if (!customerId) {
-				throw new RangeError('请填写手机号/邮箱');
+				throw new RangeError(window['language']['PLEASE_INPUT_MOBILE_PHONE_NUMBER_EMAIL']||'请填写手机号/邮箱');
 			}
 				await this.registerService.sendSMSCode(customerId,undefined,'1004');
 				this.tickResendTimeClock(); // 开始倒计时重新发送短信的按钮
 		} catch (err) {
 			this.alertCtrl
 				.create({
-					title: '警告',
+					title: window['language']['WARNING']||'警告',
 					message: err.message,
-					buttons: ['确定']
+					buttons: [window['language']['COFIRM']||'确定']
 				})
 				.present();
 		} finally {
@@ -155,11 +155,11 @@ export class ForgetPwdPage {
 			this.appDataService.customerId = customerId;
 			this.alertCtrl
 				.create({
-					title: '重置密码成功',
-					message: '是否要回到登录页面',
+					title: window['language']['RESET_PASSWORD_SUCCESSFULLY']||'重置密码成功',
+					message: window['language']['RETURN_TO_LOGIN_PAGE']||'是否要回到登录页面',
 					buttons: [
 						{
-							text: '去登录',
+							text: window['language']['GO_TO_LOGIN']||'去登录',
 							handler: () => {
 								//跳转到重置密码页面，是用过navPush的
 								//所以之后返回需要使用pop()
@@ -175,9 +175,9 @@ export class ForgetPwdPage {
 		} catch (err) {
 			this.alertCtrl
 				.create({
-					title: '警告',
+					title: window['language']['WARNING']||'警告',
 					message: err.message,
-					buttons: ['确定']
+					buttons: window['language']['COFIRM']||['确定']
 				})
 				.present();
 		} finally {

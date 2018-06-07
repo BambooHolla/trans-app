@@ -30,7 +30,7 @@ export class WithdrawGatewayPage extends SecondLevelPage {
 
 	@WithdrawGatewayPage.willEnter
 	@asyncCtrlGenerator.loading()
-	@asyncCtrlGenerator.error('产品列表加载出错')
+	@asyncCtrlGenerator.error('LOAD_PRODUCT_LIST_ERROR')
 	async getProducts() {
 		this.product_list = await this.accountService.productList.getPromise();
 	}

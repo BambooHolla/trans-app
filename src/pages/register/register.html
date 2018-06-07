@@ -20,35 +20,35 @@
         </div>
         <form class="register-form-container" [formGroup]="registerForm" (ngSubmit)="filterRegister()" novalidate>
             <ion-item class="register-form-item">
-                <ion-input formControlName="customerId" class="account" placeholder="手机号/邮箱" (blur)='checkRegister()' (focus)="focusCustomerId()"></ion-input>
+                <ion-input formControlName="customerId" class="account" placeholder="{{'MOBILE_PHONE_NUMBER_EMAIL'|translate}}" (blur)='checkRegister()' (focus)="focusCustomerId()"></ion-input>
                 <div item-right class="error-tip" *ngIf="form_customerId.errors?.wrongCustomerId">
-                    账号格式错误/邮箱
+                   {{'ACCOUNT_FORMAT_EROOR_EMAIL'|translate}}
                 </div>
                 <div item-right class="error-tip" *ngIf="!form_customerId.errors?.wrongCustomerId && registerCustomerId"> 
-                    账号已存在
+                    {{'ACCOUNT_HAS_EXISTED'|translate}}
                 </div>
             </ion-item>
             <ion-item class="register-form-item">
-                <ion-input formControlName="vcode" class="number" placeholder="验证码">
+                <ion-input formControlName="vcode" class="number" placeholder="{{'VERIFICATION_CODE'|translate}}">
                 </ion-input>
                 <button item-right type="button" class="send-vcode credit-submit-btn" style="z-index:9999" [disabled]="sending_vcode||resend_time_clock || check_sending_vcode" (click)="register_step1()">
           {{(sending_vcode?'SENDING':(resend_time_clock?(resend_time_clock+'s'):'GAIN_VERIFICATION_CODE') )   | translate}}</button>
             </ion-item>
             <ion-item class="register-form-item">
-                <ion-input formControlName="password" class="password" type="password" placeholder="登录密码">
+                <ion-input formControlName="password" class="password" type="password" placeholder="{{'LOGIN_PASSWORD'|translate}}">
                 </ion-input>
                 <div item-right class="error-tip" *ngIf="form_password.errors?.minlength">
-                    密码至少3位
+                    {{'PASSWORD_AT_LEAST_3_DIGITS'|translate}}
                 </div>
                 <div item-right class="error-tip" *ngIf="!form_password.errors?.minlength && form_password.errors?.strengthError">
-                    密码强度不符
+                    {{'PASSWORD_STRENGTH_DISCREPANCY'|translate}}
                 </div>
             </ion-item>
             <ion-item class="register-form-item">
-                <ion-input formControlName="confirPassword" class="password" type="password" placeholder="确认密码">
+                <ion-input formControlName="confirPassword" class="password" type="password" placeholder="{{'CONFIRM_PASSWORD'|translate}}">
                 </ion-input>
                 <div item-right class="error-tip" *ngIf="form_confirPassword.errors?.confirmError">
-                    两次密码填写不一致
+                    {{'TWO_PASSWORDS_ARE_NOT_IDENTICAL_INPUT'|translate}}
                 </div>
             </ion-item>
             <ion-item class="register-form-item">
@@ -56,16 +56,16 @@
                 </ion-input>
             </ion-item>
             <div item-right class="pwd-strength">
-                * 密码需包含大写字母，小写字母和数字
+                {{'PASSWORD_PROMPT'|translate}}
             </div>
             <div class="register-agree-protocol">
                 <ion-checkbox color="dark" formControlName="protocolAgree" #agreement></ion-checkbox>
                 <p class="protocol-checkbox" >
-                    <a (click)="showModal()">币加所用户协议</a>
+                    <a (click)="showModal()">{{'PICASSO_USER_AGREEMENT'|translate}}</a>
                 </p>
             </div>
             <button ion-button class="register-form-submit" type="submit" [disabled]="registerForm.invalid || !agreement.value || !appDataService.ready || registering">
-        注册
+        {{'REGISTER'|translate}}
       </button>
         </form>
     </div>

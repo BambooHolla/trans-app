@@ -7,15 +7,15 @@
 <ion-header>
     <div class="hdbg header-with-bg" [class.bg-color-dark-alpha]="!(hide_loading_and_use_welcome&&show_welcome)">
         <ion-navbar>
-            <ion-title>我的工单</ion-title>
+            <ion-title>{{'MY_WORK_ORDER'|translate}}</ion-title>
         </ion-navbar>
     </div>
     <div *ngIf="hide_loading_and_use_welcome" class="welcome" [class.show-welcome]="show_welcome">
         <div class="bg-image-cover"></div>
         <div class="bg-image"></div>
-        <div class="title">欢迎咨询</div>
-        <div class="sub-title">任何问题为您解答</div>
-        <div class="sub-title-decoration"></div>
+        <div class="title">{{'WELCOME_TO_CONSULT_US'|translate}}</div>
+        <div class="sub-title">{{'PLEASED_TO_ANSWER_ANY_OF_YOUR_QUESTIONS'|translate}}</div>
+        <!-- <div class="sub-title-decoration"></div> -->
     </div>
 </ion-header>
 <ion-content no-bounce>
@@ -24,7 +24,7 @@
             <div class="base-info">
                 <div class="category">
                     <ali-icon name="icon-financial-problems"></ali-icon>
-                    {{work_order.typeDetail}}
+                    {{work_order.typeDetail | translate}}
                 </div>
                 <div class="time">
                     <ali-icon name="icon-time-3-clock"></ali-icon>
@@ -33,7 +33,7 @@
             </div>
             <div class="detail">
                 <div class="question">{{work_order.content}}</div>
-                <div class="status">{{work_order.statusDetail}}</div>
+                <div class="status">{{work_order.statusDetail | translate}}</div>
             </div>
         </div>
         <ion-infinite-scroll (ionInfinite)="$event.waitFor(loadMoreWorkOrderList($event))" [enabled]="hasMore">
@@ -42,6 +42,6 @@
     </div>
 </ion-content>
 <ion-footer>
-    <button *ngIf="!login_status" (click)="showLogin()" [class.with-welcome-page-ani]="hide_loading_and_use_welcome&&show_welcome" ion-button class="new-work-order" color="special">登陆</button>
-    <button *ngIf="login_status" (click)="routeTo('work-order-add')" [class.with-welcome-page-ani]="hide_loading_and_use_welcome&&show_welcome" ion-button class="new-work-order" color="special">提交工单</button>
+    <button *ngIf="!login_status" (click)="showLogin()" [class.with-welcome-page-ani]="hide_loading_and_use_welcome&&show_welcome" ion-button class="new-work-order" color="special">{{'LOGIN'|translate}}</button>
+    <button *ngIf="login_status" (click)="routeTo('work-order-add')" [class.with-welcome-page-ani]="hide_loading_and_use_welcome&&show_welcome" ion-button class="new-work-order" color="special">{{'SUBMIT_WORK_ORDER'|translate}}</button>
 </ion-footer>

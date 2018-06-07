@@ -64,14 +64,14 @@ export class HomePage extends FirstLevelPage implements OnInit{
     // },
     {
       icon: "gdoc",
-      name: '历史成交',
+      name: 'HISTORICAL_TRANSACTION',
       href: HistoryRecordPage,
       needLogin: true,
       // bottomSpace: true,
     },
     {
       icon: "ginvite",
-      name: '邀请返佣',
+      name: 'INVITATION_COMMISSION',
       href: InviteCommissionPage,
       needLogin: true,
     },
@@ -89,13 +89,13 @@ export class HomePage extends FirstLevelPage implements OnInit{
     // },
     {
       icon: "ghelp",
-      name: '反馈与帮助',
+      name: 'FEEDBACK_AND_HELP',
       href: 'work-order-list',
       needLogin: true,
     },
     {
       icon: "gabout",
-      name: '关于我们',
+      name: 'ABOUT_US',
       href: AboutPage,
       needLogin: false,
     },
@@ -160,10 +160,10 @@ ngOnInit(){
       .catch(err => {
         console.log('requestAssets:', err);
           this.alertCtrl.create({
-            title:"获取信息出错",
-            message:err.message||"未知错误",
+            title: window['language']['GAIN_INFO_FAIL']||"获取信息出错",
+            message:err.message||window['language']['UNKNOWN_ERROR']||"未知错误",
             buttons:[{
-              text:"确定"
+              text:window['language']['COFIRM']||"确定"
             }]
           }).present();
         // return Promise.reject(err);

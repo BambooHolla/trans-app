@@ -11,21 +11,21 @@
                     <ion-icon name="arrow-back" left class="withdraw-back"></ion-icon>
                 </button>
         </ion-buttons>
-        <ion-title>添加地址</ion-title>
+        <ion-title>{{'ADD_ADDRESS'|translate}}</ion-title>
     </ion-navbar>
 </ion-header>
 <ion-content>
     <ion-list class="common-form">
         <ion-item>
-            <ion-label class="form-label with-left-baseline" color="primary" style="width:6rem;">地址名称</ion-label>
-            <ion-input [(ngModel)]="formData.name" placeholder="请填写地址名称"></ion-input>
+            <ion-label class="form-label with-left-baseline" color="primary" style="width:6rem;">{{'NAME_OF_ADDRESS'|translate}}</ion-label>
+            <ion-input [(ngModel)]="formData.name" placeholder="{{'PLEASE_INPUT_NAME_OF_ADDRESS'|translate}}"></ion-input>
         </ion-item>
         <ion-item>
-            <ion-label class="form-label with-left-baseline" color="primary">地址</ion-label>
-            <ion-input [(ngModel)]="formData.address" placeholder="请填写地址"></ion-input>
+            <ion-label class="form-label with-left-baseline" color="primary">{{'ADDRESS'|translate}}</ion-label>
+            <ion-input [(ngModel)]="formData.address" placeholder="{{'PLEASE_INPUT_ADDRESS'|translate}}"></ion-input>
         </ion-item>
         <ion-item class="val">
-            <ion-label class="form-label" color="primary">验证</ion-label>
+            <ion-label class="form-label" color="primary">{{'VERIFICATION_2'|translate}}</ion-label>
             <ion-list item-end *ngIf="check_method_options" class="radio-list" radio-group [(ngModel)]="formData.check_method">
                 <ion-item *ngFor="let check_method_opt of check_method_options">
                     <ion-label>{{check_method_opt.value}}</ion-label>
@@ -34,12 +34,12 @@
             </ion-list>
         </ion-item>
         <ion-item>
-            <ion-label class="form-label with-left-baseline" color="primary">验证码</ion-label>
-            <ion-input [(ngModel)]="formData.vcode" placeholder="请填写验证码"></ion-input>
-            <button (vcode-sender)="$event.waitFor(sendValidate())" [disabled]="!formData.check_method" ion-button item-end color="special">获取验证码</button>
+            <ion-label class="form-label with-left-baseline" color="primary">{{'VERIFICATION_CODE'|translate}}</ion-label>
+            <ion-input [(ngModel)]="formData.vcode" placeholder="{{'PLEASE_INPUT_VERIFICATION_CODE'|translate}}"></ion-input>
+            <button (vcode-sender)="$event.waitFor(sendValidate())" [disabled]="!formData.check_method" ion-button item-end color="special"></button>
         </ion-item>
     </ion-list>
     <div class="submit-wrapper">
-        <button block ion-button color="special" [disabled]="!canSubmit" (click)="submitAddAddress()">完成添加</button>
+        <button block ion-button color="special" [disabled]="!canSubmit" (click)="submitAddAddress()">{{'COMPLETE_ADDITION'|translate}}</button>
     </div>
 </ion-content>

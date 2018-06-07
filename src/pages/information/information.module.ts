@@ -16,7 +16,7 @@ import { AlertService } from '../../providers/alert-service';
 import { BaseSharedModule } from "../../shared/base-shared.module";
 import { InfoSharedModule } from "../../shared/info-shared.module";
 import { NewsService } from "../news-content/news.service";
-
+import { TranslateModule } from "@ngx-translate/core";
 @NgModule({
   declarations: [
     InformationPage,
@@ -37,6 +37,7 @@ import { NewsService } from "../news-content/news.service";
   imports: [
     BaseSharedModule,
     InfoSharedModule,
+    TranslateModule,
     // CommonModule,
     // NewsContentModule,
     // NoticeModule,

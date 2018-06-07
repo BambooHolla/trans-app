@@ -25,7 +25,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import {AppSettingProvider} from "../../bnlc-framework/providers/app-setting/app-setting";
 import { PersonalDataService } from '../../providers/personal-data-service';
 import { PromptControlleService } from '../../providers/prompt-controlle-service';
-
+import { AppDataService } from '../../providers/app-data-service';
 @Component({
 	selector: 'page-submit-real-info',
 	templateUrl: 'submit-real-info.html'
@@ -33,6 +33,7 @@ import { PromptControlleService } from '../../providers/prompt-controlle-service
 export class SubmitRealInfoPage extends SecondLevelPage {
 	@ViewChild('selectIDtype') selectIDtype:ElementRef;
 	@ViewChild('typeIDnumber') typeIDnumber:ElementRef;
+	private userLanguage:any = 'zh';
 	constructor(
 		public navCtrl: NavController,
 		public navParams: NavParams,
@@ -46,13 +47,15 @@ export class SubmitRealInfoPage extends SecondLevelPage {
 		public appSetting:AppSettingProvider,
 		public personalDataService: PersonalDataService,
 		public promptCtrl: PromptControlleService,
+		public appDataService: AppDataService,
 	) { 
 		super(navCtrl, navParams);
+		this.userLanguage = appDataService.LANGUAGE||'zh';
 	}
 
 	certificate_type_list = [
-		{ value: CertificateType.二代身份证, text: '二代身份证' },
-		{ value: CertificateType.护照, text: '护照' }
+		{ value: CertificateType.二代身份证, text: window['language']['2ND_GENERATION_ID_CARD']||'二代身份证' },
+		{ value: CertificateType.护照, text: window['language']['PASSPORT']||'护照' }
 	];
 	
 	checkIDtype = CertificateType.二代身份证;
@@ -98,8 +101,8 @@ export class SubmitRealInfoPage extends SecondLevelPage {
 		return this.appSetting.APP_URL('file/read/')
 	}
 	private images = [
-		{ name: 'front', text: '正 面', image: null, fid: '', uploading: false },
-		{ name: 'back', text: '反 面', image: null, fid: '', uploading: false }
+		{ name: 'front', text: window['language']['FRONT_SIDE']||'正 面', image: null, fid: '', uploading: false },
+		{ name: 'back', text:  window['language']['REVERSE_SIDE']||'反 面', image: null, fid: '', uploading: false }
 	];
 
 
@@ -111,7 +114,7 @@ export class SubmitRealInfoPage extends SecondLevelPage {
 			message: msg,
 			buttons: [
 				{
-					text: '确定',
+					text: window['language']['COFIRM']||'确定',
 					handler: () => {}
 				}]
 		});
@@ -165,8 +168,8 @@ export class SubmitRealInfoPage extends SecondLevelPage {
 		});
 		imageTaker.present();
 	}
-	@asyncCtrlGenerator.loading('图片上传中')
-	@asyncCtrlGenerator.error('图片上传失败')
+	@asyncCtrlGenerator.loading('UPLOAD_PHOTO')
+	@asyncCtrlGenerator.error('UPLOAD_PHOTO_FAIL')
 	async updateImage(
 		fid_promise: Promise<any>,
 		image: typeof SubmitRealInfoPage.prototype.images[0],
@@ -215,12 +218,12 @@ export class SubmitRealInfoPage extends SecondLevelPage {
 	}
 
 	@asyncCtrlGenerator.loading()
-	@asyncCtrlGenerator.error('提交出错')
-	@asyncCtrlGenerator.success('认证申请提交成功')
+	@asyncCtrlGenerator.error('SUBMIT_FAIL')
+	@asyncCtrlGenerator.success('SUBMIT_VERIFYING_APPLICATION_SUCCESSFULLY')
 	submitForm() {
 		let media = this.images.map(im => im.fid).filter(v => v);
 		if (media.length !== this.images.length) {
-			throw new Error('请上传证件');
+			throw new Error(window['language']['PLEASE_UPLOAD_CREDENTIAL']||'请上传证件');
 		}
 		media = [media.join('|')]
 		console.log('0',CertificationCertificateType.身份)

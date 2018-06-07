@@ -24,11 +24,11 @@ export class ChangeTradePassword {
         const controls = this.PasswordForm.controls;
         for(const field in controls){
             if(controls[field].value.length < 6){
-                return this.toastAlert('请确认密码长度');
+                return this.toastAlert(window['language']['PLEASE_CONFIRM_THE_LENGTH_OF_PASSWORD']||'请确认密码长度'); 
             }
         }
         if (controls.newPassword.value !== controls.newPasswordConfirm.value){
-            return this.toastAlert('您两次输入的密码不相同！');
+            return this.toastAlert(window['language']['THE_TWO_PASSWORDS_YOU_INPUT_ARE_DIFFERENT']||'您两次输入的密码不相同！');
         }
         console.log('ready service') 
     }

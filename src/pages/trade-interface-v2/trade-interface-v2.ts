@@ -37,7 +37,11 @@ import { TradeChartV2Page } from '../trade-chart-v2/trade-chart-v2';
   templateUrl: 'trade-interface-v2.html'
 })
 export class TradeInterfaceV2Page {
+
   tradeChart = TradeChartV2Page;
+
+  // 因为语言结构有很多不同的顺序，现在分开单独处理，以后看能不能弄更优化的办法
+  private userLanguage:any = 'zh';
 
   quickTrading: boolean = false;
   trading: boolean = false;
@@ -118,14 +122,15 @@ export class TradeInterfaceV2Page {
   private _depthSource$: Observable<any>;
   public buy_depth: AnyObject[] = [];
   public sale_depth: AnyObject[] = [];
-  public buyer = ['买1', '买2', '买3', '买4', '买5'];
-  public saler = ['卖1', '卖2', '卖3', '卖4', '卖5'];
+  public buyer = [window['language']['BUY_1']||'买1', window['language']['BUY_2']||'买2', window['language']['BUY_3']||'买3', window['language']['BUY_4']||'买4', window['language']['BUY_5']||'买5'];
+  public saler = [window['language']['SELL_1']||'卖1', window['language']['SELL_2']||'卖2', window['language']['SELL_3']||'卖3', window['language']['SELL_4']||'卖4', window['language']['SELL_5']||'卖5'];
 
   private _realtimeData$: Observable<any> = Observable.of([])
   private _candlestickData$: Observable<any> = Observable.of([])
 
   private isPortrait: boolean = true
   private activeIndex: number = 0
+  
   private timeArray: string[] = ['分时', '5分', '30分', '1小时']
 
   private betsHidden: boolean = false;
@@ -242,6 +247,7 @@ export class TradeInterfaceV2Page {
     private loginService: LoginService,
   ) {    
     BigNumber.config({ EXPONENTIAL_AT: [-8, 20] })
+    this.userLanguage = appDataService.LANGUAGE||'zh';
     // debugger
     // window['TradeInterfacePage'] = this 
     this.traderId = this.navParams.get('stockCode') || this.navParams.data || this.traderId;
@@ -461,8 +467,46 @@ export class TradeInterfaceV2Page {
 
     // const amount =new BigNumber(this.amount);
 
-    let tradeText = tradeType === 1 ? '买入':
-                    tradeType === 0 ? '卖出': '委托'
+    // let tradeText = tradeType === 1 ? '买入':
+    //                 tradeType === 0 ? '卖出': '委托'
+    let tradeText:string = '';
+    if(tradeType === 1) {
+      switch(this.userLanguage) {
+        case 'zh':
+        tradeText = '买入';
+          break;
+
+        case 'en':
+        tradeText = 'buy';
+          break;
+
+        default:  tradeText = '买入';
+      }
+    } else if (tradeType === 0) {
+      switch(this.userLanguage) {
+        case 'zh':
+        tradeText = '卖出';
+          break;
+
+        case 'en':
+        tradeText = 'sell';
+          break;
+
+        default:  tradeText = '卖出';
+      }
+    } else { 
+      switch(this.userLanguage) {
+        case 'zh':
+        tradeText = '委托';
+          break;
+
+        case 'en':
+        tradeText = 'delegate';
+          break;
+
+        default:  tradeText = '委托';
+      }
+    }
 
     let show_warning = true;
     let toast = this.promptCtrl.toastCtrl({
@@ -496,12 +540,41 @@ export class TradeInterfaceV2Page {
         }
     }
 
-    if(isNaNData.price || price.comparedTo(0) != 1){ 
-      toast.setMessage(`请输入正确的${tradeText}价格`)
+    if(isNaNData.price || price.comparedTo(0) != 1){
+      // toast.setMessage(`请输入正确的${tradeText}价格`)
+      switch(this.userLanguage) {
+        case 'zh':
+          toast.setMessage(`请输入正确的${tradeText}价格`);
+          break;
+        case 'en':
+          toast.setMessage(`Please input correct ${tradeText} price`);
+          break;
+        default: toast.setMessage(`请输入正确的${tradeText}价格`);
+      }
+      
     }else if(isNaNData.amount || amount.comparedTo(0) != 1){
-      toast.setMessage(`请输入正确的${tradeText}数量`)
+      // toast.setMessage(`请输入正确的${tradeText}数量`)
+      switch(this.userLanguage) {
+        case 'zh':
+          toast.setMessage(`请输入正确的${tradeText}数量`);
+          break;
+        case 'en':
+          toast.setMessage(`Please input correct ${tradeText} price`);
+          break;
+        default: toast.setMessage(`Please input correct ${tradeText} quantity`);
+      }
     }else if(amount.comparedTo(tradeType == 1 ? this.maxAmount : this.holdAmount) == 1){
-      toast.setMessage(`${tradeText}数量超过可${tradeText}上限`)
+      // toast.setMessage(`${tradeText}数量超过可${tradeText}上限`)
+
+      switch(this.userLanguage) {
+        case 'zh':
+         toast.setMessage(`${tradeText}数量超过可${tradeText}上限`)
+          break;
+        case 'en':
+          toast.setMessage(`${tradeText} quantity is beyond ${tradeText} ceiling`);
+          break;
+        default: toast.setMessage(`${tradeText}数量超过可${tradeText}上限`)
+      }
     }else{
       show_warning = false
     }
@@ -518,8 +591,47 @@ export class TradeInterfaceV2Page {
       price, 
     )
 
-    let thanText = tradeType === 1 ? '高于' :
-                   tradeType === 0 ? '低于' : '超出'
+    // let thanText = tradeType === 1 ? '高于' :
+    //                tradeType === 0 ? '低于' : '超出'
+
+    let thanText:string = '';
+    if(tradeType === 1) {
+      switch(this.userLanguage) {
+        case 'zh':
+        thanText = '高于';
+          break;
+
+        case 'en':
+        thanText = 'higher';
+          break;
+
+        default:  thanText = '高于';
+      }
+    } else if (tradeType === 0) {
+      switch(this.userLanguage) {
+        case 'zh':
+        thanText = '低于';
+          break;
+
+        case 'en':
+        thanText = 'lower';
+          break;
+
+        default:  thanText = '低于';
+      }
+    } else { 
+      switch(this.userLanguage) {
+        case 'zh':
+        thanText = '超出';
+          break;
+
+        case 'en':
+        thanText = 'beyond';
+          break;
+
+        default:  thanText = '超出';
+      }
+    }
 
     let flag = false
     if (tradeType === 1 && price.comparedTo((1.1 * this.marketPrice).toString()) == 1 ) {
@@ -529,19 +641,29 @@ export class TradeInterfaceV2Page {
     }
 
     if (flag){
+      let message:string = '';
+      switch(this.userLanguage) {
+        case 'zh':
+          message = `您的${tradeText}价格${thanText}当前市场价10%,确认提交委托？`;
+          break;
+        case 'en':
+          message = `Your ${tradeText}ing price is 10% ${thanText} than the current market price, confirm the submission?`;
+          break;
+        default: message = `您的${tradeText}价格${thanText}当前市场价10%,确认提交委托？`;
+      }
       let alert = this.alertCtrl.create({
-        title: '价格确认',
-        message: `您的${tradeText}价格${thanText}当前市场价10%,确认提交委托？`,
+        title: window['language']['PRICE_CONFIRMATION']||'价格确认',
+        message: message,
         buttons: [
           {
-            text: '取消',
+            text: window['language']['CANCEL']||'取消',
             role: 'cancel',
             handler: () => {
               // console.log('Cancel clicked')
             }
           },
           {
-            text: '确认',
+            text: window['language']['CONFIRM']||'确认',
             handler: () => {
               this._doTrade(
                 this.traderId,
@@ -585,7 +707,7 @@ export class TradeInterfaceV2Page {
 
         if (typeof result === 'object' && result.id) {
           let toast = this.promptCtrl.toastCtrl({
-            message: '委托单已提交',//`${result.id}`,
+            message: window['language']['DELEGATED_ORDER_HAS_BEEN_SUBMITTED']||'委托单已提交',//`${result.id}`,
             duration: 3000,
             position: 'middle'
           })
@@ -829,19 +951,29 @@ export class TradeInterfaceV2Page {
     entrustCategory =  entrustCategory == '001' ? '买入' : entrustCategory == '002' ? '卖出' : '' 
     entrustTime = new Date(entrustTime)
     entrustTime = `${entrustTime.getFullYear()}-${entrustTime.getMonth()+1}-${entrustTime.getDate()}`
+    let message:string ='';
+    switch(this.userLanguage) {
+      case 'zh':
+        message = `确定要撤回${entrustTime}的${entrustCategory}委托单?`;
+        break;
+      case 'en':
+        message = `Are you sure to withdraw your ${window['language'][entrustCategory]||''}order?`;
+        break;
+      default: message = `确定要撤回${entrustTime}的${entrustCategory}委托单?`;
+    }
     let alert = this.alertCtrl.create({
-      title: '撤回委托',
-      message: `确定要撤回${entrustTime}的${entrustCategory}委托单?`,
+      title: window['language']['REVOKE_DELEGATION']||'撤回委托',
+      message: message,
       buttons: [
         {
-          text: '取消',
+          text: window['language']['CANCEL']||'取消',
           role: 'cancel',
           handler: () => {
             // console.log('Cancel clicked')
           }
         },
         {
-          text: '确认',
+          text: window['language']['CONFIRM']||'确认',
           handler: () => {
             this.cancelEntrust(entrustId)
           }
@@ -861,7 +993,7 @@ export class TradeInterfaceV2Page {
 
         if (data && data.status) {
           this.promptCtrl.toastCtrl({
-            message: `撤单成功`,
+            message: window['language']['WITHDRAW_ORDER_SUCCESSFULLY']||`撤单成功`,
             duration: 2000,
             position: 'middle'
           }) 
@@ -930,29 +1062,29 @@ export class TradeInterfaceV2Page {
     }else{
       if (this.appDataService.show_onestep_warning){
         const alert = this.alertCtrl.create({
-          title: '风险提示',
+          title: window['language']['RISK_WARNING']||'风险提示',
           message: `
-            快捷交易会优先以当前您见到的市场上最优价格买入或卖出，但可能因为网络延迟或他人优先下单的情况导致实际成交价格与看到的价格有所差别，可能会出现更高价买入或更低价卖出的情况，为了您的资金安全，请谨慎使用快捷交易。
-            <a>查看交易规则</a><br/>
+            ${window['language']["FAST_TRADING_REMINDER"]||"快捷交易会优先以当前您见到的市场上最优价格买入或卖出，但可能因为网络延迟或他人优先下单的情况导致实际成交价格与看到的价格有所差别，可能会出现更高价买入或更低价卖出的情况，为了您的资金安全，请谨慎使用快捷交易。"}
+            <a>${window['language']['REVIEW_TRANSACTION_RULES']||"查看交易规则"}</a><br/>
           `,
           inputs: [
             {
               name: 'nowarning',
               type: 'checkbox',
-              label: '不再提醒',
+              label: window['language']['NO_REMIND_AGAIN']||'不再提醒',
               value: 'nowarning',
             },
           ],
           buttons: [
             {
-              text: '取消',
+              text: window['language']['CANCEL']||'取消',
               role: 'cancel',
               handler: () => {
                 // console.log('Cancel clicked')
               }
             },
             {
-              text: '同意',
+              text: window['language']['AGREE']||'同意',
               handler: data => {
                 this.appDataService.show_onestep_trade = true;
                 if (data.indexOf("nowarning") >= 0) {
@@ -1271,7 +1403,7 @@ export class TradeInterfaceV2Page {
       this.tradeService.quickTrade(transactionType, productId, priceId, amount)
         .then(async data => {
           if (!data.realityAmount){
-            return Promise.reject({message:'无委托提交'})
+            return Promise.reject({message:window['language']['NO_DELEGATED_ORDER']||'无委托提交'})
           }
           //刷新账户信息 
           await this.personalDataService.requestFundData().catch(() => { });
@@ -1281,7 +1413,7 @@ export class TradeInterfaceV2Page {
           this.alertService.dismissLoading()
 
           const toast = this.promptCtrl.toastCtrl({
-            message: `快捷下单成功`,
+            message: window['language']['QUICK_ORDER_SUCCESS']||`快捷下单成功`,
             duration: 3000,
             position: 'middle'
           })
@@ -1294,7 +1426,7 @@ export class TradeInterfaceV2Page {
         .catch(err => {
           this.alertService.dismissLoading()
           if(err&&err.message){
-            this.alertService.showAlert('下单失败',err.message)
+            this.alertService.showAlert(window['language']['ORDER_FAILED']||'下单失败',err.message)
           }
         })
         .then(() => this.quickTrading = false)
@@ -1351,29 +1483,31 @@ export class TradeInterfaceV2Page {
     //title 不能设置在初始化中，会没掉
     if( this.personalDataService.certifiedStatus == '0'|| this.personalDataService.certifiedStatus == '3' 
   ){
-			alert['title'] = `交易失败`;
-			alert['message'] = `实名认证${this.personalDataService.realname || this.personalDataService.certifiedMsg}`;
+      alert['title'] = window['language']['TRANSACTION_FAIL']||`交易失败`;
+      alert['subTitle'] = `${window['language']['REAL_NAME_AUTHENTICATION']||'实名认证'}`;
+			alert['message'] = `${this.personalDataService.realname || this.personalDataService.certifiedMsg}`;
 			alert['buttons'] = [
 				{
-					text: '取消',
+					text: window['language']['CANCEL']||'取消',
 					role: 'cancel',
 					handler: () => {
 						// console.log('Cancel clicked')
 					}
 				},
 				{
-					text: '认证',
+					text: window['language']['VERIFICATION_1']||'认证',
 					handler: () => {
 						this.navCtrl.push('submit-real-info');
 					}
 				}
 			];
 		} else if( this.personalDataService.certifiedStatus == '1' ){
-			alert['title'] = "交易失败";
-			alert['message'] = `实名认证${this.personalDataService.realname|| this.personalDataService.certifiedMsg}`;
+      alert['title'] = window['language']['TRANSACTION_FAIL']||`交易失败`;
+      alert['subTitle'] = `${window['language']['REAL_NAME_AUTHENTICATION']||'实名认证'}`;
+			alert['message'] = `${this.personalDataService.realname|| this.personalDataService.certifiedMsg}`;
 			alert['buttons'] = [
 				{
-					text: '确认',
+					text: window['language']['CONFIRM']||'确认',
 					role: 'cancel',
 					handler: () => {
 						// console.log('Cancel clicked')
@@ -1381,11 +1515,11 @@ export class TradeInterfaceV2Page {
 				}
 			];
 		} else {
-      alert['title'] = "交易失败";
-			alert['message'] = `获取用户状态出错`;
+      alert['title'] = window['language']['TRANSACTION_FAIL']||`交易失败`;
+			alert['message'] = window['language']['SELECT_USER_STATE_ERROR']||`获取用户状态出错`;
 			alert['buttons'] = [
 				{
-					text: '确认',
+					text: window['language']['CONFIRM']||'确认',
 					role: 'cancel',
 					handler: () => {
 						// console.log('Cancel clicked')
@@ -1393,10 +1527,11 @@ export class TradeInterfaceV2Page {
 				}
 			];
     }
-		// 避免空白提示
+    // 避免空白提示
+    alert['cssClass'] = 'trade-alert-color';
 		if(!(JSON.stringify(alert) == "{}")){
 			this.alertCtrl.create(
-				Object.assign(
+				Object.assign( 
 					alert
 				)
 			).present();

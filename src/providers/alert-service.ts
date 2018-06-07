@@ -37,7 +37,7 @@ export class AlertService {
       enableBackdropDismiss: false,
       buttons: [
         {
-          text: "确定",
+          text: window['language']['COFIRM']||"确定",
           // handler: () => {
 
           // }

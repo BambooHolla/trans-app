@@ -252,30 +252,6 @@ export class PersonalDataService {
         //   CertifiedStatusResponseData {
         //     status:
         //     string *
-        //       认证状态：101已认证，102未认证，103审核中，104审核不通过
-        //     message:
-        //     string
-        //     返回结果具体描述
-        //     name:
-        //     string
-        //     认证名称
-        //   }
-        // }
-        this._certifiedStatus = data.status
-        if (data.status === '101'|| data.status === '2'){
-          this._realname = data.name
-        } else if (data.status === '102' || data.status === '104' || data.status === '103'
-          || data.status === '0' || data.status === '1' || data.status === '3'){
-          this._certifiedMsg = data.message
-        }
-
-
-        
-        // CertifiedStatusResponse {
-        //   data:
-        //   CertifiedStatusResponseData {
-        //     status:
-        //     string *
         //       认证状态：0未认证，1审核中，2已认证，3审核不通过
         //     message:
         //     string
@@ -285,14 +261,16 @@ export class PersonalDataService {
         //     认证名称
         //   }
         // }
-        // this._certifiedStatus = data.status
-        // if (data.status === '2'){
-        //   this._realname = data.name
-        // } else if (data.status === '0' || data.status === '1' || data.status === '3'){
-        //   this._certifiedMsg = data.message
-        // }
-
-
+        this._certifiedStatus = data.status
+        if (data.status === '2'){
+          this._realname = data.name
+        } else if ( data.status === '0' || data.status === '1' || data.status === '3'){
+          this._certifiedMsg = window['language']['NOT_BEEN_CERTIFIED'] || data.message;
+        } else if ( data.status === '1' ){
+          this._certifiedMsg = window['language']['IN_REVIEWING'] || data.message;
+        } else if ( data.status === '3' ){
+          this._certifiedMsg = window['language']['FAIL_THE_REVIEW'] || data.message;
+        }
 
       })
       .catch(err => {
