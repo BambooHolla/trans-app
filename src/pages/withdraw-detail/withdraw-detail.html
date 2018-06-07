@@ -15,7 +15,7 @@
             <button item-end class="account-selector" [title]="access_info?.balance">
                 <div class="account-info">
                     <div class="account-name">{{productInfo?.productName}}{{productInfo?.cryptoCurrencyCode}}</div>
-                    <div class="account-amount">{{'AVAILABLE'|translate}}{{access_info?.balance/1e8|number:'1.4-4'}}{{productInfo?.cryptoCurrencyCode}}</div>
+                    <div class="account-amount">{{'AVAILABLE'|translate}}{{access_info?.balance/1e8|priceConversion:4:4}}{{productInfo?.cryptoCurrencyCode}}</div>
                 </div>
             </button>
         </ion-item>
@@ -138,4 +138,9 @@
             </div>
         </div>
     </div>
+    <!--加载更多-->
+	<ion-infinite-scroll [enabled]="withdraw_logs_page_info?.has_more" (ionInfinite)="loadMoreWithdrawLogs($event)">
+		<ion-infinite-scroll-content loadingText="{{'LOADING'|translate}}...">
+		</ion-infinite-scroll-content>
+	</ion-infinite-scroll>
 </ion-content>
