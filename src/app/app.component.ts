@@ -95,7 +95,8 @@ export class PicassoApp {
     window["modalCtrl"] = modalController;
     window["clipboard"] = clipboard;
     window["translate"] = translate;
-  
+  // 设置语言
+  this.initTranslate();
     if (!navigator["clipboard"]) {
       navigator["clipboard"] = {
         writeText: text => clipboard.copy(text),
@@ -115,8 +116,7 @@ export class PicassoApp {
     this.statusBar.hide(); 
     platform.ready().then(() => {
       this.afterPlatformReady();
-        // 设置语言
-        this.initTranslate();
+        
     });
 
     this.events.subscribe('show login', (status,cb?) => {

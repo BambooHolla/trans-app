@@ -381,7 +381,7 @@ export class WithdrawDetailPage extends SecondLevelPage {
 				const withdraw_address_info = await this.accountService.getPaymentById(
 					transaction.paymentId,
 				);
-
+				if(transaction.amount) transaction.amount = new BigNumber(transaction.amount).div('100000000').toString();
 				return Object.assign(transaction, {
 					dealResultDetail: AccountServiceProvider.getTransactionStatusDetail(
 						transaction.status,

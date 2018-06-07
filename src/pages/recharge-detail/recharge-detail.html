@@ -14,12 +14,12 @@
         <div class="assets-item balance">
             <ion-icon name="可用余额"></ion-icon>
             <div class="sub-title">{{'AVAILABLE_BALANCE'|translate}}</div>
-            <div class="amount">{{access_info.balance|priceConversion:8}}</div>
+            <div class="amount">{{access_info.balance|priceConversion:8:8}}</div>
         </div>
         <div class="assets-item frozen"> 
             <ion-icon name="冻结余额"></ion-icon>
             <div class="sub-title">{{'FREEZE_BALANCE'|translate}}</div> 
-            <div class="amount">{{access_info.freezeBalance|priceConversion:8}}</div>
+            <div class="amount">{{access_info.freezeBalance|priceConversion:8:8}}</div>
         </div>
     </div>
     <div class="recharge-address">
@@ -76,7 +76,7 @@
                     <div class="sub-title">
                         {{'DEPOSIT_QUANTITY'|translate}}
                     </div>
-                    <div class="value">{{tlog.amount/1e8|number:'1.4-4'}}</div>
+                    <div class="value">{{tlog.amount|priceConversion:4:4}}</div>
                 </div>
                 <!-- <div class="recharge-to">
 					<div class="sub-title">
