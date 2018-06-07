@@ -77,7 +77,7 @@ export class ForgetPwdPage {
 		rawVal.protocolAgree = !rawVal.protocolAgree;
 		this.forgetPWDForm.setValue(rawVal);
 	}
-
+	private backLoginCb:any;
 	constructor(
 		public navCtrl: NavController,
 		public navParams: NavParams,
@@ -91,6 +91,7 @@ export class ForgetPwdPage {
 	) {
 		const rawVal = this.forgetPWDForm.getRawValue();
 		const customerId = navParams.get('customerId');
+		this.backLoginCb = navParams.get("loginCb");
 		if (customerId) {
 			rawVal.customerId = customerId;
 			this.forgetPWDForm.setValue(rawVal);
@@ -139,7 +140,7 @@ export class ForgetPwdPage {
 			this.sending_vcode = false;
 		}
 	}
-
+	
 	async forgetPWD() {
 		this.forgetPWDing = true;
 		try {
@@ -166,7 +167,12 @@ export class ForgetPwdPage {
 								//而不是使用push
 								//因为登录页面是没放在正常的路由里面，而是一个模态框
 								// this.navCtrl.push('login');
-								this.navCtrl.pop();
+								this.navCtrl.pop().then( () => {
+									debugger
+									if(this.backLoginCb) {
+										this.backLoginCb()
+									}
+								});
 							}
 						}
 					]
@@ -177,7 +183,7 @@ export class ForgetPwdPage {
 				.create({
 					title: window['language']['WARNING']||'警告',
 					message: err.message,
-					buttons: window['language']['COFIRM']||['确定']
+					buttons: [window['language']['COFIRM']||'确定']
 				})
 				.present();
 		} finally {

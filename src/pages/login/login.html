@@ -21,17 +21,18 @@
         </div>
         <form class="login-form-container" [formGroup]="loginForm" (ngSubmit)="login()" novalidate>
             <ion-item class="login-form-item">
-                <ion-input formControlName="customerId" class="account" placeholder="{{'MOBILE_PHONE_NUMBER_EMAIL'|translate}}"></ion-input>
+                <ion-input formControlName="customerId" #custId class="account" placeholder="{{'MOBILE_PHONE_NUMBER_EMAIL'|translate}}"></ion-input>
             </ion-item>
             <ion-item class="login-form-item">
-                <ion-input #pwd formControlName="password" class="password" type="password" placeholder="{{'PASSWORD'|translate}}">
+                <ion-input #pwd formControlName="password"  class="password" type="password" placeholder="{{'PASSWORD'|translate}}">
                 </ion-input>
                 <div tappable item-right class="view-pwd-wrapper" (touchstart)="showPassword(pwd)" (touchend)="hidePassword(pwd)" style="z-index:9999">
                     <ion-icon name="view-pwd"></ion-icon>
                 </div>
             </ion-item>
-            <a class="forget-password" navPush="forget-pwd" [navParams]="{customerId:customerId?.value}">{{'FORGET_PASSWORD'|translate}}</a>
-            <button ion-button class="login-form-submit" type="submit" [disabled]="loginForm.invalid || !appDataService.ready || logining">
+            <!-- <a class="forget-password" navPush="forget-pwd" [navParams]="{customerId:customerId?.value}">{{'FORGET_PASSWORD'|translate}}</a> -->
+            <a class="forget-password" (click)='goForgetPwd()'>{{'FORGET_PASSWORD'|translate}}</a>
+            <button ion-button class="login-form-submit" type="submit" [disabled]=" !custId.value  || !pwd.value || logining">
         {{'LOGIN'|translate}}
       </button>
             <div class="register-line">
