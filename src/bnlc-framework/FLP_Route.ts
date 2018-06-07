@@ -94,8 +94,8 @@ export class FLP_Route extends FLP_Lifecycle {
 			this.current_routeTo_page = path;
 			// 参数重置
 			this.hide_jump_loading = true;
-			FLP_Route.jump_loading_message.msg = '请稍候';
-			FLP_Route.jump_error_title.title = '页面切换异常';
+			FLP_Route.jump_loading_message.msg = window['language']['PLEASE_WAIT_2']||'请稍候';
+			FLP_Route.jump_error_title.title = window['language']['PAGE_SWITCH_ERROR']||'页面切换异常';
 			// 开始执行
 			const checkInfo = await FLP_Route.doRouteToBeforeCheck(
 				this,

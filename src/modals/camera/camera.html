@@ -13,6 +13,6 @@
         <div class="take-button" (click)="takePicture()"></div>
         <ion-icon name="ios-arrow-down" class="exit-button" (click)="close()"></ion-icon>
         <!-- <ion-button *ngIf="pictureValid && !cameraActive">确认</ion-button> -->
-        <button ion-button *ngIf="pictureValid && !cameraActive" small class="confirm" (click)="usePicture()">确认</button>
+        <button ion-button *ngIf="pictureValid && !cameraActive" small class="confirm" (click)="usePicture()">{{'CONFIRM'|translate}}</button>
     </ion-navbar>
 </ion-footer>

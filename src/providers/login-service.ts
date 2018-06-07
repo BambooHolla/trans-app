@@ -104,7 +104,7 @@ export class LoginService {
       })
       .catch(err => {
         console.log(err);
-        this.alertService.showAlert('警告', err.message);
+        this.alertService.showAlert(window['language']['WARNING']||'警告', err.message); 
         // this.userToken.next('');
         this.setToken('');
       });
@@ -187,8 +187,8 @@ export class LoginService {
         //提取error
         const err = body.error || body || error;
         console.log('login err:', err);
-        const message = err.message || err.statusText || '登录失败！';
-        this.alertService.showAlert('警告', message);
+        const message = err.message || err.statusText || window['language']['LOGIN_FAILED']||'登录失败！';
+        this.alertService.showAlert(window['language']['WARNING']||'警告', message);
         //清空登入信息
         this.doLogout();
         return err.message || err.statusText || err;

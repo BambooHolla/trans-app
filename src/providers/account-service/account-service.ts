@@ -341,21 +341,21 @@ export class AccountServiceProvider {
 	}
 
 	static getDealResultDetail(dealResult: DealResult) {
-		if (dealResult == DealResult.Preparing) return "准备中";
-		if (dealResult == DealResult.InAudit) return "审核中";
-		if (dealResult == DealResult.InConfirmation) return "确认中";
-		if (dealResult == DealResult.Finish) return "完成";
-		if (dealResult == DealResult.Failed) return "失败";
-		if (dealResult == DealResult.Expired) return "过期";
-		if (dealResult == DealResult.Other) return "其他";
+		if (dealResult == DealResult.Preparing) return window['language']['PREPARING']||"准备中";
+		if (dealResult == DealResult.InAudit) return window['language']['VERIFYING']||"审核中";
+		if (dealResult == DealResult.InConfirmation) return window['language']['CONFIRMING']||"确认中";
+		if (dealResult == DealResult.Finish) return window['language']['FINISHED']||"完成";
+		if (dealResult == DealResult.Failed) return window['language']['FAIL']||"失败";
+		if (dealResult == DealResult.Expired) return window['language']['EXPIRE']||"过期";
+		if (dealResult == DealResult.Other) return window['language']['OTHERS']||"其他";
 	}
 	static getTransactionStatusDetail(status: TransactionStatus) {
-		if (status == TransactionStatus.Unpaied) return "待支付";
-		if (status == TransactionStatus.Paied) return "确认中"; //'已支付';
-		if (status == TransactionStatus.Confirmed) return "已确认";
-		if (status == TransactionStatus.Cancel) return "已取消";
-		if (status == TransactionStatus.InAudit) return "审核中";
-		if (status == TransactionStatus.Other) return "其他";
+		if (status == TransactionStatus.Unpaied) return window['language']['TO_BE_PAID']||"待支付";
+		if (status == TransactionStatus.Paied) return window['language']['CONFIRMING']||"确认中"; //'已支付';
+		if (status == TransactionStatus.Confirmed) return window['language']['CONFIRMED']||"已确认";
+		if (status == TransactionStatus.Cancel) return window['language']['CANCELLED']||"已取消";
+		if (status == TransactionStatus.InAudit) return window['language']['VERIFYING']||"审核中";
+		if (status == TransactionStatus.Other) return window['language']['OTHERS']||"其他";
 	}
 
 	submitCertification(body: {

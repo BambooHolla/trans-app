@@ -424,6 +424,9 @@ export class QuotationsPageV2 {
 			this.stockDataService
 				.subscibeRealtimeData(value.traderId, 'price')
 				.subscribe(value.marketRef)//, this.viewDidLeave$)
+			this.stockDataService
+				.subscibeRealtimeData(value.traderId, 'chartPrice',undefined,'1m')
+				.subscribe(value.chartRef)//, this.viewDidLeave$) 
 		})
 	}
 
