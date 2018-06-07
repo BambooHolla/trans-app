@@ -168,7 +168,7 @@ export class ForgetPwdPage {
 								//因为登录页面是没放在正常的路由里面，而是一个模态框
 								// this.navCtrl.push('login');
 								this.navCtrl.pop().then( () => {
-									debugger
+							
 									if(this.backLoginCb) {
 										this.backLoginCb()
 									}
