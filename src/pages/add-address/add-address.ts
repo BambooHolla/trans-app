@@ -51,7 +51,7 @@ export class AddAddressPage extends SecondLevelPage {
 	check_method_options: any[];
 	@AddAddressPage.willEnter
 	@asyncCtrlGenerator.loading()
-	@asyncCtrlGenerator.error('加载用户信息出错')
+	@asyncCtrlGenerator.error('LOAD_USER_INFO_ERROR')
 	async getCheckMethodOptions() {
 		this.productInfo = this.navParams.get('productInfo');
 		if (!this.productInfo) {
@@ -64,9 +64,9 @@ export class AddAddressPage extends SecondLevelPage {
 			}
 		));
 	}
-	@asyncCtrlGenerator.loading('验证码发送中')
-	@asyncCtrlGenerator.error('验证码发送出错')
-	@asyncCtrlGenerator.success('验证码发送成功')
+	@asyncCtrlGenerator.loading('SENDING_VERIFICATION_CODE')
+	@asyncCtrlGenerator.error('SEND_VERIFICATION_CODE_ERROR')
+	@asyncCtrlGenerator.success('SEND_VERIFICATION_CODE_SUCCESSFULLY')
 	sendValidate() {
 		const { check_method } = this.formData;
 		return this.accountService.sendValidateToCustomer(
@@ -83,8 +83,8 @@ export class AddAddressPage extends SecondLevelPage {
 		this.protocolAgree = !this.protocolAgree;
 	}
 	@asyncCtrlGenerator.loading()
-	@asyncCtrlGenerator.error('添加地址出错')
-	@asyncCtrlGenerator.success('地址添加成功')
+	@asyncCtrlGenerator.error('ADD_ADDRESS_ERROR')
+	@asyncCtrlGenerator.success('ADD_ADDRESS_SUCCESS')
 	async submitAddAddress() {
 		const { productInfo } = this;
 		const { name, address, check_method, vcode } = this.formData;

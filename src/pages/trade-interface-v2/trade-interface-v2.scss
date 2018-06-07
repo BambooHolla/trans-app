@@ -780,3 +780,14 @@ ion-popover .item.item-block .item-inner{
 .alert-wrapper .alert-checkbox-icon{
 	background-color: unset;
 }
+.trade-alert-color{
+	.alert-sub-title{
+		color: initial!important;
+	}
+	.alert-title{
+		padding: 1rem 0 1.5rem!important;
+	}
+	.button-inner{
+		font-weight: 400; 
+	}
+}

@@ -235,10 +235,10 @@ export class OptionalPage extends SecondLevelPage {
       .catch(err => {
         console.log('requestAssets:', err);
         this.alertCtrl.create({
-          title:"获取持仓出错",
-          message:err.message||"未知错误",
+          title:window['language']["GAIN_POSITION_ERROR"]||"获取持仓出错",
+          message:err.message||window['language']["UNKNOWN_ERROR"]||"未知错误",
           buttons:[{
-            text:"确定"
+            text:window['language']["COFIRM"]||"确定"
           }]
         }).present();
         return Promise.reject(err);

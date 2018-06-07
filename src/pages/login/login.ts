@@ -162,7 +162,7 @@ export class LoginPage implements OnInit{
   presentLoading() {
     let loader = this.loadingCtrl.create({
       // spinner: 'hide',
-      content: '正在载入',
+      content: window['language']['LOADING']||'正在载入',
       //     content: `<div class="app-content-loading">
       //   <div class="fa-spinner-loading"></div>
       // </div>`,

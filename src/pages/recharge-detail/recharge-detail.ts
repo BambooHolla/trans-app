@@ -19,6 +19,7 @@ import {
 import { StockDataService } from '../../providers/stock-data-service';
 import { PromptControlleService } from "../../providers/prompt-controlle-service";
 import { BigNumber } from "bignumber.js";
+import { AppDataService } from '../../providers/app-data-service';
 /**
  * Generated class for the RechargeDetailPage page.
  *
@@ -30,6 +31,7 @@ import { BigNumber } from "bignumber.js";
 	templateUrl: 'recharge-detail.html',
 })
 export class RechargeDetailPage extends SecondLevelPage {
+	private userLanguage:any = 'en';
 	constructor(
 		public navCtrl: NavController,
 		public viewCtrl: ViewController,
@@ -37,9 +39,11 @@ export class RechargeDetailPage extends SecondLevelPage {
 		public accountService: AccountServiceProvider,
 		public stockDataService: StockDataService,
 		public promptCtrl: PromptControlleService,
+		public appDataService: AppDataService,
 	) {
 		super(navCtrl, navParams);
 		this.productInfo = this.navParams.get('productInfo');
+		this.userLanguage = appDataService.LANGUAGE||"en";
 	}
 	productInfo: ProductModel = {} as any;
 	access_info: any = {} as any;
@@ -52,7 +56,7 @@ export class RechargeDetailPage extends SecondLevelPage {
 		undefined,
 		'recharge-detail',
 	)
-	@asyncCtrlGenerator.error('获取数据出错')
+	@asyncCtrlGenerator.error('GAIN_DATA_ERROR')
 	async getAccountsInfo() {
 		this.productInfo = this.navParams.get('productInfo');
 		if (this.productInfo) {
@@ -72,7 +76,7 @@ export class RechargeDetailPage extends SecondLevelPage {
 					data['balance'] = new BigNumber(data['balance']+'').div('100000000').toString();
 					data['freezeBalance'] = new BigNumber(data['freezeBalance']+'').div('100000000').toString();
 					this.access_info = data
-					console.log('......',this.access_info)
+					
 				});
 			// 获取充值记录
 			tasks[tasks.length] = this.getTransactionLogs();
@@ -85,14 +89,14 @@ export class RechargeDetailPage extends SecondLevelPage {
 		}
 	}
 
-	@asyncCtrlGenerator.success('地址已经成功复制到剪切板')
-	@asyncCtrlGenerator.error('地址复制失败')
+	@asyncCtrlGenerator.success('ADDRESS_HAS_BEEN_COPIED_TO_CLIPBOARD')
+	@asyncCtrlGenerator.error('COPY_THE_ADDRESS_FAILED')
 	async copyCode() {
 		if (!this.recharge_address.paymentAccountNumber) {
-			throw new Error('无可用地址');
+			throw new Error(window['language']['NO_AVAILABLE_ADDRESS']||'无可用地址');
 		}
 		if (!navigator['clipboard']) {
-			throw new Error('复制插件异常');
+			throw new Error(window['language']['COPY_PLUGIN_ERROR']||'复制插件异常');
 		}
 		navigator['clipboard'].writeText(
 			this.recharge_address.paymentAccountNumber,
@@ -129,11 +133,11 @@ export class RechargeDetailPage extends SecondLevelPage {
 			this.minRechargeText = '';
 			if(data[0] && this.productInfo.productDetail){
 				if(data[0].min && data[0].max){
-					this.minRechargeText = `最小充值金额为${data[0].min}${this.productInfo.productDetail},最大充值金额为${data[0].max}${this.productInfo.productDetail},小于或大于充值金额的充值将无法到账。`;
+					this.minRechargeText = `${window['language']['RECHARGE_MINI']}${data[0].min}${this.productInfo.productDetail}, ${window['language']['RECHARGE_MAX']}${data[0].max}${this.productInfo.productDetail}, ${window['language']['RECHARGE_ERR_MINI_MAX']}`;
 				} else if(data[0].min) {
-					this.minRechargeText = `最小充值金额为${data[0].min}${this.productInfo.productDetail},小于最小充值金额的充值将无法到账。`;
+					this.minRechargeText = `${window['language']['RECHARGE_MINI']}${data[0].min}${this.productInfo.productDetail}, ${window['language']['RECHARGE_ERR_MINI']}`;
 				} else if(data[0].max){
-					this.minRechargeText = `最大充值金额为${data[0].max}${this.productInfo.productDetail},大于最大充值金额的充值将无法到账。`;
+					this.minRechargeText = `${window['language']['RECHARGE_MAX']}${data[0].max}${this.productInfo.productDetail}, ${window['language']['RECHATGE_ERR_MAX']}`;
 				}
 			}
 			return data;

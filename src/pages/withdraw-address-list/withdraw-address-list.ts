@@ -80,16 +80,16 @@ export class WithdrawAddressListPage extends SecondLevelPage {
 
 	deleteWithdrawModel(withdraw_address: CryptoCurrencyModel){
 		this.alertCtrl.create({
-			title:"地址删除",
-			message:"确定删除吗？",
+			title:window['language']['DELETE_ADDRESS']||"地址删除",
+			message:window['language']['CONFIRM_TO_DELETE']||"确定删除吗？",
 			buttons:[{
-				text: '取消',
+				text: window['language']['CANCEL']||'取消',
 				role: 'cancel',
 				handler: () => {
 					// console.log('Cancel clicked')
 				}
 			},{
-				text: '确认',
+				text: window['language']['CONFIRM']||'确认',
 				role: 'cancel',
 				handler: () => {
 					this.deleteWithdrawAddress(withdraw_address);
@@ -101,8 +101,8 @@ export class WithdrawAddressListPage extends SecondLevelPage {
 
 
 	@asyncCtrlGenerator.loading()
-	@asyncCtrlGenerator.error('地址删除失败')
-	@asyncCtrlGenerator.success('地址删除成功')
+	@asyncCtrlGenerator.error('DELETE_ADDRESS_FAIL')
+	@asyncCtrlGenerator.success('DELETE_ADDRESS_SUCCESSFULLY')
 	async deleteWithdrawAddress(withdraw_address: CryptoCurrencyModel) {
 		await this.accountService.deleteWithdrawAddress(withdraw_address.id);
 		this.is_withdraw_address_list_changed = true;

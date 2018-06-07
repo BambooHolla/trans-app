@@ -6,33 +6,34 @@
 -->
 <ion-header>
     <ion-navbar>
-        <ion-title>{{has_account_pwd?'重置':'设置'}}交易密码</ion-title>
+        <!-- <ion-title>{{(has_account_pwd?'RESET':'SETTING')|translate}}{{'TRANSACTION_PASSWORD_1'|translate}}</ion-title> -->
+        <ion-title>{{'TRANSACTION_PASSWORD'|translate}}</ion-title>
     </ion-navbar>
 </ion-header>
 <ion-content>
     <ion-list class="common-form">
         <ion-item>
-            <ion-label class="form-label with-left-baseline" color="primary">交易密码</ion-label>
-            <ion-input type="password" [(ngModel)]="formData.payPWD" set-input-status="payPWD" placeholder="请输入您的交易密码" (input)="pwdAgreement()"></ion-input>
+            <ion-label class="form-label with-left-baseline" color="primary">{{'PASSWORD'|translate}}</ion-label>
+            <ion-input type="password" [(ngModel)]="formData.payPWD" set-input-status="payPWD" placeholder="{{'PLEASE_INPUT_YOUR_TRANSACTION_PASSWORD'|translate}}" (input)="pwdAgreement()"></ion-input>
             <div item-right class="error-tip" *ngIf="(formData.payPWD  && payPWD)">
-               密码至少6位
+               {{'AT_LEAST_6_DIGITS_FOR_PASSWORD'|translate}}
             </div>
             <div item-right class="error-tip" *ngIf="(formData.payPWD && formData.confirmPayPWD && !pwdAgreementPass)">
-                两次密码不一致
+                {{'TWO_PASSWORDS_ARE_NOT_IDENTICAL'|translate}}
             </div>
         </ion-item>
         <ion-item>
-            <ion-label class="form-label with-left-baseline" color="primary">确认密码</ion-label>
-            <ion-input type="password" [(ngModel)]="formData.confirmPayPWD" set-input-status="confirmPayPWD" [watch-input-keys]="['payPWD']" placeholder="请再次输入您的交易密码" (input)="pwdAgreement()"></ion-input>
+            <ion-label class="form-label with-left-baseline" color="primary">{{'SET_CONFIRM_PASSWORD'|translate}}</ion-label>
+            <ion-input type="password" [(ngModel)]="formData.confirmPayPWD" set-input-status="confirmPayPWD" [watch-input-keys]="['payPWD']" placeholder="{{'PLEASE_INPUT_YOUR_TRANSACTION_PASSWORD_AGAIN'|translate}}" (input)="pwdAgreement()"></ion-input>
             <div item-right class="error-tip" *ngIf="(formData.confirmPayPWD && confirmPayPWD)">
-                密码至少6位
+                {{'AT_LEAST_6_DIGITS_FOR_PASSWORD'|translate}}
             </div>
             <div item-right class="error-tip" *ngIf="(formData.confirmPayPWD && formData.payPWD && !pwdAgreementPass)">
-                两次密码不一致
+                {{'TWO_PASSWORDS_ARE_NOT_IDENTICAL'|translate}}
             </div>
         </ion-item>
         <ion-item>
-            <ion-label class="form-label with-left-baseline" color="primary">验证</ion-label>
+            <ion-label class="form-label with-left-baseline" color="primary">{{'VERIFICATION_2'|translate}}</ion-label>
             <ion-list item-end *ngIf="check_method_options" class="radio-list" radio-group [(ngModel)]="formData.check_method">
                 <ion-item *ngFor="let check_method_opt of check_method_options">
                     <ion-label>{{check_method_opt.value}}</ion-label>
@@ -41,21 +42,21 @@
             </ion-list>
         </ion-item>
         <ion-item>
-            <ion-label class="form-label with-left-baseline" color="primary">验证码</ion-label>
-            <ion-input [(ngModel)]="formData.vcode" placeholder="请填写验证码"></ion-input>
-            <button (vcode-sender)="$event.waitFor(sendValidate())" [disabled]="(!formData.check_method || !pwdAgreementPass || payPWD || confirmPayPWD)" ion-button item-end color="special">获取验证码</button>
+            <ion-label class="form-label with-left-baseline" color="primary">{{'VERIFICATION_CODE'|translate}}</ion-label>
+            <ion-input [(ngModel)]="formData.vcode" placeholder="{{'PLEASE_INPUT_VERIFICATION_CODE'|translate}}"></ion-input>
+            <button (vcode-sender)="$event.waitFor(sendValidate())" [disabled]="(!formData.check_method || !pwdAgreementPass || payPWD || confirmPayPWD)" ion-button item-end color="special">{{'GAIN_VERIFICATION_CODE'|translate}}</button>
         </ion-item>
 
         <ion-item>
-            <ion-label class="form-label with-left-baseline" color="primary">登录密码</ion-label>
-            <ion-input type="password" [(ngModel)]="formData.loginPWD" set-input-status="loginPWD" placeholder="请输入您的登录密码"></ion-input>
+            <ion-label class="form-label with-left-baseline" color="primary">{{'VALIDATE'|translate}}</ion-label>
+            <ion-input type="password" [(ngModel)]="formData.loginPWD" set-input-status="loginPWD" placeholder="{{'PLEASE_INPUT_YOUR_LOGIN_PASSWORD'|translate}}"></ion-input>
         </ion-item>
         <div class="submit-wrapper">
             <!-- <div class="agree-protocol">
                 <ion-checkbox color="dark" [(ngModel)]="protocolAgree"></ion-checkbox>
                 <div class="protocol-label" (click)="toggleProtocolAgree()">同意<a>《服务协议》</a></div>
             </div> -->
-            <button block ion-button color="special" [disabled]="!canSubmit" (click)="submitForm()">提交</button>
+            <button block ion-button color="special" [disabled]="!canSubmit" (click)="submitForm()">{{'SUBMIT'|translate}}</button>
         </div>
     </ion-list>
 </ion-content>

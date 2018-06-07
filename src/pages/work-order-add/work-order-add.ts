@@ -12,11 +12,13 @@ import {
 import { DomSanitizer } from '@angular/platform-browser';
 import { ImageTakerController } from '../../components/image-taker-controller';
 import { PromptControlleService } from "../../providers/prompt-controlle-service";
+import {AppDataService } from "../../providers/app-data-service";
 @Component({
 	selector: 'page-work-order-add',
 	templateUrl: 'work-order-add.html'
 })
 export class WorkOrderAddPage extends SecondLevelPage {
+	private userLanguage:string = 'zh';
 	constructor(
 		public navCtrl: NavController,
 		public navParams: NavParams,
@@ -26,8 +28,11 @@ export class WorkOrderAddPage extends SecondLevelPage {
 		public workOrderService: WorkOrderServiceProvider,
 		public promptCtrl: PromptControlleService,
 		public actionsheetCtrl :ActionSheetController,
+		public appDataService: AppDataService,
 	) {
 		super(navCtrl, navParams);
+		this.userLanguage = appDataService.LANGUAGE||'zh';
+
 	}
 
 	formData = new FormGroup({
@@ -75,12 +80,12 @@ export class WorkOrderAddPage extends SecondLevelPage {
 		{
 			key: ContactType[ContactType.question],
 			value: ContactType.question,
-			text: '常见问题'
+			text: window['language']['FAQS']||'常见问题'
 		},
 		{
 			key: ContactType[ContactType.advice],
 			value: ContactType.advice,
-			text: '意见反馈'
+			text: window['language']['FEEDBACKS']||'意见反馈'
 		}
 	];
 
@@ -121,7 +126,7 @@ export class WorkOrderAddPage extends SecondLevelPage {
 			message: msg,
 			buttons: [
 				{
-					text: '确定',
+					text: window['language']['COFIRM']||'确定',
 					handler: () => {
 					
 					}
@@ -191,8 +196,8 @@ export class WorkOrderAddPage extends SecondLevelPage {
 		imageTaker.present();
 	}
 
-	@asyncCtrlGenerator.loading('图片上传中')
-	@asyncCtrlGenerator.error('图片上传失败')
+	@asyncCtrlGenerator.loading('UPLOAD_PHOTO')
+	@asyncCtrlGenerator.error('UPLOAD_PHOTO_FAIL')
 	async updateImage(
 		fid_promise: Promise<any>,
 		image: typeof WorkOrderAddPage.prototype.images[0],
@@ -288,14 +293,14 @@ export class WorkOrderAddPage extends SecondLevelPage {
 		return new Blob([ia], { type: mimeString });
 	}
 	@asyncCtrlGenerator.loading()
-	@asyncCtrlGenerator.error('工单提交失败')
-	@asyncCtrlGenerator.success('工单提交成功')
+	@asyncCtrlGenerator.error('SUBMIT_WORK_ORDER_FAIL')
+	@asyncCtrlGenerator.success('SUBMIT_WORK_ORDER_SUCCESSFULLY')
 	submitForm() {
 		if(this.telOrEmail) {
-			return Promise.reject("电话和邮箱至少填写一个");
+			return Promise.reject("EITHER_TELEPHONE_NUMBER_OR_EMAIL");
 		}
 		if(this.detailLength > 64) {
-			return Promise.reject("描述内容字数超出限制");
+			return Promise.reject("DESCRIPTION_LENGTH_IS_BEYOND");
 		}
 		return this.workOrderService.addWorkOrder({
 			name: this.realName.value,

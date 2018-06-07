@@ -16,21 +16,21 @@
       <ion-col>
         <!-- <h6 no-margin-bottom>{{personalAssets?.dayProfit?.total | quantityConversion | numberUnitFormat:true:true:8 | positiveSign}}</h6> -->
         <h6 no-margin-bottom>{{dayTotal || "0" | quantityConversion | numberUnitFormat:true:true:8 }}</h6>
-        <span class="h7">今日盈亏</span>
+        <span class="h7">{{'PROFIT_AND_LOSS_TODAY'|translate}}</span>
       </ion-col>
       <ion-col class="split-line">
         <div></div>
       </ion-col>
       <ion-col>
         <h6 no-margin-bottom>{{personalAssets?.monthProfit?.total | quantityConversion | numberUnitFormat:true:true:6 | positiveSign}}</h6>
-        <span class="h7">每月盈亏</span>
+        <span class="h7">{{'MONTLY_PROFIT_AND_LOSS'|translate}}</span>
       </ion-col>
     </ion-row>
       <!-- <ion-scroll #listHeader scrollX="true" scrollY="true">   -->
       <ion-row nowrap class="list-header">
-        <ion-col col-4 padding class="title">全部</ion-col>
-        <ion-col col-4 padding class="title">持仓</ion-col>
-        <ion-col col-4 padding class="title">涨幅</ion-col>
+        <ion-col col-4 padding class="title">{{'ALL'|translate}}</ion-col>
+        <ion-col col-4 padding class="title">{{'POSITION'|translate}}</ion-col>
+        <ion-col col-4 padding class="title">{{'AMOUNT_OF_INCREASE'|translate}}</ion-col>
         <!-- <ion-col col-4 padding class="title">持仓成本</ion-col>
         <ion-col col-4 padding class="title">盈亏</ion-col> -->
       </ion-row>  
@@ -42,7 +42,7 @@
 <ion-content no-bounce>
   <!--下拉刷新-->
   <ion-refresher (ionRefresh)="initData($event)">
-    <ion-refresher-content refreshingText="正在刷新...">
+    <ion-refresher-content refreshingText="{{'RENEWING'|translate}}...">
     </ion-refresher-content>
   </ion-refresher>
   
@@ -54,7 +54,7 @@
         <div class="col1"> 
           <h5>{{(data?.baseData | async)?.name || '----'}}</h5>
           <div *ngIf="true">
-            <span class="font-smaller">最新价</span>
+            <span class="font-smaller">{{'OPTIONAL_PRICE'|translate}}</span>
             <span class="{{(data?.realtimePrice | async)?.range | riseOrFall}}">{{(data?.realtimePrice | async)?.price | priceConversion | numberFilter:true}}</span>
           </div>
           <!-- <span *ngIf="!true">{{(data?.baseData | async)?.stockCode}}</span> -->

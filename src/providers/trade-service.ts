@@ -202,7 +202,7 @@ export class TradeService {
       .catch(err => {
         console.log('getTradeList error: ', err);
         let formated_error = this._errorHandler(err, false);
-        this.alertService.showAlert("获取行情出错",formated_error.message||err.message,'')
+        this.alertService.showAlert(window['language']['GAIN_MARKET_PRICE_ERROR']||"获取行情出错",formated_error.message||err.message,'')
         // return Promise.reject(err);
       });
   }

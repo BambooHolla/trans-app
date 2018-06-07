@@ -28,7 +28,14 @@ export class TradeChartV2Page {
   private product:any = '--- / ---';
   private traderId:any;
 
-  private timeArray: string[] = ['1分', '5分','15分','30分', '1小时', '1天', '1周'];
+  private timeArray: string[] = [
+    window['language']['1M']||'1分',
+    window['language']['5M']||'5分',
+    window['language']['15M']||'15分',
+    window['language']['30M']||'30分', 
+    window['language']['1H']||'1小时', 
+    window['language']['1D']||'1天', 
+    window['language']['1W']||'1周'];
   private timeTypeArr: string[] = ['1m','5m','15m','30m','1h','1d','1w'];
   public timeType: string = '1m';
 

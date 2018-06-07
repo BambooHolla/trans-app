@@ -70,7 +70,7 @@ export class WithdrawDetailPage extends SecondLevelPage {
 	};
 	errors: any = {};
 	promptLimit: any = {
-		title1:'没有提现金额限制',
+		title1:window['language']['NO_WITHDRAWAL_AMOUNT']||'没有提现金额限制',
 		title2:''
 	};
 
@@ -103,7 +103,7 @@ export class WithdrawDetailPage extends SecondLevelPage {
 		console.log('目前的   withdraw_address_list 暂时未刷新')
 		console.log(withdraw_address_list)
 		const selector = this.modalCtrl.create(WithdrawAddressListPage, {
-			title: "提现地址管理",
+			title: window['language']['WITHDRAWAL_ADDRESS_MANAGEMENT']||"提现地址管理",
 			productInfo,
 			selected_data:
 				this.selected_withdraw_address &&
@@ -141,17 +141,17 @@ export class WithdrawDetailPage extends SecondLevelPage {
 	//取消提现订单弹出确认窗
 	cancelWithdrawModal(transactionId?:string,id?:number) {
 		let modal = this.alertCtrl.create({
-			title: '取消订单',
-			message: '确定取消这条提现订单吗？',
+			title: window['language']['CANCEL_ORDER']||'取消订单',
+			message: window['language']['WITHDRAWAL_ORDER']||'确定取消这条提现订单吗？',
 			buttons: [
 				{
-					text: '取消',
+					text: window['language']['CANCEL']||'取消',
 					handler: () => {
 					
 					}
 				},
 				{
-					text: '确定',
+					text:  window['language']['COFIRM']||'确定',
 					cssClass:'cancel-btn-confirm',
 					handler: () => {
 					this.cancelWithdrawAppply(transactionId,id)
@@ -163,8 +163,8 @@ export class WithdrawDetailPage extends SecondLevelPage {
 	}
 
 	@asyncCtrlGenerator.loading()
-	@asyncCtrlGenerator.error("取消失败")
-	@asyncCtrlGenerator.success("取消成功")
+	@asyncCtrlGenerator.error("CANCEL_FAIL")
+	@asyncCtrlGenerator.success("CANCEL_SUCCESSFULLY")
 	cancelWithdrawAppply(transactionId?:string,id?:number) {
 		return this.accountService
 			.cancelWithdrawAppply(
@@ -200,14 +200,14 @@ export class WithdrawDetailPage extends SecondLevelPage {
 
 	@WithdrawDetailPage.willEnter
 	@asyncCtrlGenerator.loading()
-	@asyncCtrlGenerator.error("获取交易密码信息出错")
+	@asyncCtrlGenerator.error("GAIN_TRANSACTION_PASSWORD_ERROR")
 	async checkHasAccountPWD() {
 		this.has_account_pwd = await this.accountService.hasAccountPwd.getPromise();
 	}
 
 	@WithdrawDetailPage.willEnter
 	@asyncCtrlGenerator.loading()
-	@asyncCtrlGenerator.error("获取数据出错") 
+	@asyncCtrlGenerator.error("GAIN_DATA_ERROR") 
 	async getAccountsInfo() {
 		this.productInfo = this.navParams.get("productInfo");
 		if (this.productInfo) {
@@ -260,21 +260,21 @@ export class WithdrawDetailPage extends SecondLevelPage {
 					//多种情况提示语
 					if(limitedQuota){
 						if(!limitedQuota['min'] && !limitedQuota['max']){
-							this.promptLimit.title1 = '没有提现金额限制';
+							this.promptLimit.title1 = window['language']["NO_WITHDRAWAL_AMOUNT"]||'没有提现金额限制';
 							this.promptLimit.title2 = '';
 						}else if(limitedQuota['min'] && !limitedQuota['max']){
-							this.promptLimit.title1 = '单次提现金额不得小于'+limitedQuota['min']+this.productInfo.productDetail;
+							this.promptLimit.title1 =(window['language']['EACH_WITHDRAWAL_AMOUNT_NOT_LESS_THAN']||'单次提现金额不得小于')+limitedQuota['min']+this.productInfo.productDetail;
 							this.promptLimit.title2 = '';
 						} else if(!limitedQuota['min'] && limitedQuota['max']){
-							this.promptLimit.title1 = '单次提现金额不得大于'+limitedQuota['max']+this.productInfo.productDetail;
+							this.promptLimit.title1 = (window['language']['EACH_WITHDRAWAL_AMOUNT_NOT_BIGGER_THAN']||'单次提现金额不得大于')+limitedQuota['max']+this.productInfo.productDetail;
 							this.promptLimit.title2 = '';
 						} else{
-							this.promptLimit.title1 = '单次提现金额不得小于'+limitedQuota['min']+this.productInfo.productDetail;
-							this.promptLimit.title2 = '不得大于'+limitedQuota['max']+this.productInfo.productDetail;
+							this.promptLimit.title1 = (window['language']['EACH_WITHDRAWAL_AMOUNT_1']||'单次提现金额不得小于')+limitedQuota['min']+this.productInfo.productDetail;
+							this.promptLimit.title2 = (window['language']['EACH_WITHDRAWAL_AMOUNT_2']||'不得大于')+limitedQuota['max']+this.productInfo.productDetail;
 						}
 					} else {
-						this.promptLimit.title1 = '没有提现金额限制';
-						this.promptLimit.title2 = '';
+						this.promptLimit.title1 = window['language']["NO_WITHDRAWAL_AMOUNT"]||'没有提现金额限制';
+							this.promptLimit.title2 = '';
 					}
 					
 				});
@@ -296,12 +296,12 @@ export class WithdrawDetailPage extends SecondLevelPage {
 		);
 	}
 	@asyncCtrlGenerator.loading()
-	@asyncCtrlGenerator.error("提现失败")
-	@asyncCtrlGenerator.success("提现成功")
+	@asyncCtrlGenerator.error("WITHDRAW_FAIL")
+	@asyncCtrlGenerator.success("WITHDRAW_SUCCESS")
 	async submitWithdrawAppply() {
 		await this.personalDataService.requestCertifiedStatus();
 		if( !(this.personalDataService.certifiedStatus == '2') ){
-			return Promise.reject(new Error(`实名认证${this.personalDataService.realname|| this.personalDataService.certifiedMsg}`));
+			return Promise.reject(new Error(`${window['language']['VERIFICATION']||'实名认证'}：${this.personalDataService.realname|| this.personalDataService.certifiedMsg}`));
 		}
 		return this.accountService
 			.submitWithdrawAppply(
@@ -414,18 +414,19 @@ export class WithdrawDetailPage extends SecondLevelPage {
 		let options:any = {};
 		//title 不能设置在初始化中，会没掉
 		if( this.personalDataService.certifiedStatus == '0'|| this.personalDataService.certifiedStatus == '3' ){
-			alert['title'] = `无法提现`;
-			alert['message'] = `实名认证${this.personalDataService.realname || this.personalDataService.certifiedMsg}`;
+			alert['title'] = window['language']['TRANSACTION_FAIL']||`交易失败`;
+			alert['subTitle'] = `${window['language']['REAL_NAME_AUTHENTICATION']||'实名认证'}`;
+			alert['message'] = `${this.personalDataService.realname || this.personalDataService.certifiedMsg}`;
 			alert['buttons'] = [
 				{
-					text: '取消',
+					text: window['language']['CANCEL']||'取消',
 					role: 'cancel',
 					handler: () => {
 						// console.log('Cancel clicked')
 					}
 				},
 				{
-					text: '认证',
+					text: window['language']['VERIFICATION_1']||'认证',
 					handler: () => {
 						this.routeTo('submit-real-info').then(e =>{
 							this.validateId = false;
@@ -435,11 +436,12 @@ export class WithdrawDetailPage extends SecondLevelPage {
 			];
 		} 
 		if( this.personalDataService.certifiedStatus == '1'){
-			alert['title'] = "无法提现";
-			alert['message'] = `实名认证${this.personalDataService.realname|| this.personalDataService.certifiedMsg}`;
+			alert['title'] = window['language']['TRANSACTION_FAIL']||`交易失败`;
+			alert['subTitle'] = `${window['language']['REAL_NAME_AUTHENTICATION']||'实名认证'}`;
+			alert['message'] = `${this.personalDataService.realname|| this.personalDataService.certifiedMsg}`;
 			alert['buttons'] = [
 				{
-					text: '确认',
+					text:  window['language']['CONFIRM']||'确认',
 					role: 'cancel',
 					handler: () => {
 						// console.log('Cancel clicked')
@@ -447,6 +449,7 @@ export class WithdrawDetailPage extends SecondLevelPage {
 				}
 			];
 		}
+		alert['cssClass'] = 'trade-alert-color';
 		// 避免空白提示
 		if(!(JSON.stringify(alert) == "{}")){
 			this.alertCtrl.create(

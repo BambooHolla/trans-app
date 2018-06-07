@@ -130,7 +130,7 @@ export class AppService {
   private _errorHandler(error, static_return = false) {
     if (error instanceof Error) {
       if( error.message.indexOf('Timeout') != -1){
-        error = { code: '999', message: '请求超时' };
+        error = { code: '999', message: window['language']['REQUEST_OVERTIME']||'请求超时' };
       } else {
         error = { code: '999', message: error.message };
       }
@@ -138,7 +138,7 @@ export class AppService {
       error && error instanceof ProgressEvent 
       || error.constructor.name === 'ProgressEvent'
       || error.constructor.name === 'XMLHttpRequestProgressEvent') {
-      error = { code: '500', message: '网络异常' };
+      error = { code: '500', message: window['language']['NETWORK_ERROR']||'网络异常' };
     } else if (static_return) {
       error = null;
     }

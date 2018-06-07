@@ -162,7 +162,7 @@ export class RegisterPage {
     this.sending_vcode = true;
     try {
       if (!this.registerForm.get('customerId').value) {
-        throw new RangeError('请填写手机号/邮箱');
+        throw new RangeError(window['language']['PLEASE_INPUT_MOBILE_PHONE_NUMBER_EMAIL']||'请填写手机号/邮箱');
       }
       await this.registerService.sendSMSCode( 
         this.registerForm.get('customerId').value,
@@ -174,9 +174,9 @@ export class RegisterPage {
     } catch (err) {
       this.alertCtrl
         .create({
-          title: '警告',
+          title: window['language']['WARNING']||'警告',
           message: err.message || err,
-          buttons: ['确认']
+          buttons: [window['language']['CONFIRM']||'确认']
         })
         .present();
     } finally {
@@ -188,11 +188,11 @@ export class RegisterPage {
     const customerId = this.form_customerId.value;
     if( this.appSettings.accountType(customerId) === 0 &&  !this.appSettings.accountEmailProposal(customerId)){
       return this.alertCtrl.create({
-        title:'警告',
+        title:window['language']['WARNING']||'警告',
         subTitle:'qq.com,163.com,sina.com',
         message:'为我们推荐注册的邮箱',
         buttons:[{
-          text:'返回'
+          text:'返回',
         },{
           text:'继续注册',
           cssClass:'alter-right-button', 
@@ -210,10 +210,10 @@ export class RegisterPage {
     // 判断当然是否已经注册了 10 个 账户
     if( this.appDataService.getAppRegisterLength() >= 10) {
       return this.alertCtrl.create({
-        title:'警告',
+        title:window['language']['WARNING']||'警告',
         message:'每日注册账户不得超过10个',
         buttons:[{
-          text:'确定'
+          text:window['language']['COFIRM']||'确定'
         }] 
       }).present();
     }
@@ -238,7 +238,7 @@ export class RegisterPage {
           this.appDataService.setAppRegisterLength(customerId)
  
           const toast = this.promptCtrl.toastCtrl({
-            message:'注册成功',
+            message:window['language']['REGISTER_SUCCESSFULLY']||'注册成功',
             duration:1e3,
             position:'middle',
           });
@@ -249,9 +249,9 @@ export class RegisterPage {
           //try -》 catch 捕获不到抛出的错误
           this.alertCtrl
           .create({
-            title: '警告',
+            title:  window['language']['WARNING']||'警告',
             message: err.message,
-            buttons: ['确定']
+            buttons: [window['language']['COFIRM']||'确定']
           })
           .present();
         })

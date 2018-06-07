@@ -1,9 +1,9 @@
 <ion-header>
 
     <ion-navbar>
-        <ion-title>身份证照</ion-title>
+        <ion-title>{{'ID_PHOTO'|translate}}</ion-title>
         <ion-buttons end>
-          <button ion-button (click)="cancelSubmit()">取消</button>
+          <button ion-button (click)="cancelSubmit()">{{'CANCEL'|translate}}</button>
         </ion-buttons>
     </ion-navbar>
 
@@ -30,9 +30,9 @@
         </div>
     </div>
 
-    <div style="margin-left: 30px;"><span class="circle"></span>&nbsp;&nbsp;&nbsp;身份证拍摄务必清晰不得模糊</div>
+    <div style="margin-left: 30px;"><span class="circle"></span>&nbsp;&nbsp;&nbsp;{{'ID_PHOTO_MUST_BE_CLEAR'|translate}}</div>
 
     <div class="input-container">
-        <button ion-button round full clear-dark color="important" type="submit" [disabled]="!canSubmit" (click)="submitPhoto()">提交照片</button>
+        <button ion-button round full clear-dark color="important" type="submit" [disabled]="!canSubmit" (click)="submitPhoto()">{{'SUBMIT_PHOTO'|translate}}</button>
     </div>
 </ion-content>

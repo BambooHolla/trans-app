@@ -23,16 +23,16 @@
 	<div class="position">
 		<div class="trader">
 			<div>
-				<span class="label">可用{{productName || '--'}}&nbsp;</span>
+				<span class="label">{{'AVAILABLE'|translate}}{{productName || '--'}}&nbsp;</span>
 				<span>{{hiddentext || (trader_product?.restQuantity || '--' | quantityConversion  | numberUnitFormat:true:false:13)}}</span>
 			</div>
 			<div> 
-				<span class="label">可用{{priceName || '--'}}&nbsp;</span>
+				<span class="label">{{'AVAILABLE'|translate}}{{priceName || '--'}}&nbsp;</span>
 				<span>{{hiddentext || (trader_target?.restQuantity || '--' | quantityConversion | numberUnitFormat:true:false:13)}}</span>
 			</div>
 		</div>
 		<div>
-			<div class="label">总资产({{personalAssets?.asset?.priceName || '--'}})</div>
+			<div class="label">{{'TOTAL_ASSETS'|translate}}({{personalAssets?.asset?.priceName || '--'}})</div>
 			<div>{{hiddentext || (personalAssets?.asset?.total || '--' | quantityConversion | numberUnitFormat:true:false:13)}}</div>
 			<div class="visible" [class.on]="!hiddentext" [class.off]="!!hiddentext" (click)="toggleVisible($event)"></div>
 		</div>
@@ -42,7 +42,7 @@
 <ion-content no-bounce class="home-contain">
 	<!--下拉刷新-->
 	<ion-refresher (ionRefresh)="refreshPersonalData($event)">
-		<ion-refresher-content refreshingText="正在刷新...">
+		<ion-refresher-content refreshingText="{{'RENEWING'|translate}}...">
 		</ion-refresher-content>
 	</ion-refresher>
 
@@ -50,11 +50,11 @@
 		<div class="market-head">
 			<div>
 				<div class="market-items">
-					<span class="market-label">高</span>
+					<span class="market-label">{{'HIGH'|translate}}</span>
 					<span>{{(_baseData$ | async)?.max | priceConversion:6 | numberFilter:true}}</span>
 				</div>
 				<div class="market-items">
-					<span class="market-label">低</span>
+					<span class="market-label">{{'LOW'|translate}}</span>
 					<span>{{(_baseData$ | async)?.min | priceConversion:6 | numberFilter:true}}</span>
 				</div>
 			</div>
@@ -64,11 +64,11 @@
 			<div>
 				<div class="market-items right">
 					<span class="{{(_baseData$ | async)?.range | riseOrFall}}">{{(_baseData$ | async)?.range | percent:'1.0-2' | positiveSign}}</span>
-					<span class="market-label">幅</span>
+					<span class="market-label">{{'RANGE'|translate}}</span>
 				</div>
 				<div class="market-items right">
 					<span>{{(_baseData$ | async)?.amount | quantityConversion | numberUnitFormat:true:true:6}}</span>
-					<span class="market-label">量</span>
+					<span class="market-label">{{'VOL'|translate}}</span>
 				</div>
 			</div>
 		</div>
@@ -133,25 +133,25 @@
 				</ion-col> -->
 			<ion-col col-3>
 				<div>
-					<label>幅</label>
+					<label>{{'RANGE'|translate}}</label>
 					<!-- <span>+23%</span> -->
 					<span class="{{(_baseData$ | async)?.range | riseOrFall}}">{{(_baseData$ | async)?.range | percent:'1.0-2'}}</span>
 				</div>
 
 				<div>
-					<label>量</label>
+					<label>{{'VOL'|translate}}</label>
 					<!-- <span>35.2314</span> -->
 					<span>{{(_baseData$ | async)?.amount | quantityConversion | numberUnitFormat:true:true:6}}</span>
 				</div>
 			</ion-col>
 			<ion-col col-3>
 				<div>
-					<label>高</label>
+					<label>{{'HIGH'|translate}}</label>
 					<!-- <span>4.23113</span> -->
 					<span>{{(_baseData$ | async)?.max | priceConversion | numberFilter:true}}</span>
 				</div>
 				<div>
-					<label>低</label>
+					<label>{{'LOW'|translate}}</label>
 					<!-- <span>3.54521</span> -->
 					<span>{{(_baseData$ | async)?.min | priceConversion | numberFilter:true}}</span>
 				</div>
@@ -161,14 +161,14 @@
 	<!-- 限价交易 -->
 	<ion-grid [hidden]="appDataService.show_onestep_trade" [scroll-fix-keyboard]="content">
 		<ion-row class="entrust-type" (click)="chooseTradeType($event)">
-			<ion-col data-trade-type="0" class="sale" [class.enabled]="!(tradeType$|async)">卖</ion-col>
-			<ion-col data-trade-type="1" class="buy" [class.enabled]="!!(tradeType$|async)">买</ion-col>
+			<ion-col data-trade-type="0" class="sale" [class.enabled]="!(tradeType$|async)">{{'SELL'|translate}}</ion-col>
+			<ion-col data-trade-type="1" class="buy" [class.enabled]="!!(tradeType$|async)">{{'BUY'|translate}}</ion-col>
 		</ion-row>
 	</ion-grid>	
 	<ion-grid [hidden]="appDataService.show_onestep_trade" class="trinp  content-block">
 		<ion-row class="fee">
 			<ion-icon ios="ios-alert-outline" md="ios-alert-outline"></ion-icon>
-			费率标准:{{fee}}
+			{{'FEE_RATE_STANDARDS'|translate}}:{{fee}}
 		</ion-row>
 		<ion-row class="input-row">
 			<ion-col col-2 tappable (click)="changeByStep('price','-')">-</ion-col>
@@ -176,7 +176,7 @@
 					<ion-icon name="ios-gprice" class="vertical-center"></ion-icon>
 				</ion-col>
 			<ion-col col-7>
-				<ion-input #priceInputer type="number" placeholder="价格"
+				<ion-input #priceInputer type="number" placeholder="{{'PRICES'|translate}}"
 					[(ngModel)]="price"
 					(ngModelChange)="formatNumber('price',-8)"
 					></ion-input>
@@ -189,7 +189,7 @@
 				<ion-icon name="ios-gamount" class="vertical-center"></ion-icon>
 			</ion-col>
 			<ion-col col-7>
-				<ion-input #amountInputer type="number" placeholder="数量" [(ngModel)]="amount" (ngModelChange)="formatNumber('amount')"></ion-input>
+				<ion-input #amountInputer type="number" placeholder="{{'QUANTITYS'|translate}}" [(ngModel)]="amount" (ngModelChange)="formatNumber('amount')"></ion-input>
 			</ion-col>
 			<ion-col col-2 tappable (click)="changeByStep('amount','+')">+</ion-col>
 		</ion-row>
@@ -222,9 +222,10 @@
 			</ion-col> -->
 			<button class="trbtn" [class.issale]="!(tradeType$|async)" 
 				block [disabled]="trading" (click)="!appSetting.getUserToken()? goLogin() : doTrade()">
-					{{!appSetting.getUserToken()?
-						'登录' :
-						 !!(tradeType$|async)?'委托买入':'委托卖出'
+					{{(!appSetting.getUserToken()?
+						'LOGIN' :
+						 !!(tradeType$|async)?'DELEGATE_BUY':'DELEGATE_SELL')
+						 | translate
 					}}
 			</button>
 			
@@ -233,7 +234,7 @@
 	<!-- 快捷交易 -->
 	<ion-grid [hidden]="!appDataService.show_onestep_trade">
 		<ion-row class="entrust-type">
-			<ion-col class="buy">快捷交易</ion-col>
+			<ion-col class="buy">{{'QUICK_TRANSACTION'|translate}}</ion-col>
 		</ion-row>
 	</ion-grid>
 	<ion-grid class="stsvg" [hidden]="!appDataService.show_onestep_trade">
@@ -245,9 +246,9 @@
 				<div class="svgcont" (click)="quickTrade('sale')">
 					<div class="svgcont">
 						<div class="blank"></div>
-						<div>预估卖出价</div>
+						<div>{{'ESTIMATED_SELL_PRICE'|translate}}</div>
 						<p id="salesum">{{saleTotalQuantity | numberUnitFormat}}</p>
-						<span>卖出数量</span>
+						<span>{{'SELL_QUANTITY'|translate}}</span>
 						<label id="salenum">{{saleTotalAmount | numberFilter:true}}</label>
 					</div>
 				</div>
@@ -259,9 +260,9 @@
 				<div class="svgcont" (click)="quickTrade('buy')">
 					<div class="svgcont">
 						<div class="blank"></div>
-						<div>预估买入价</div>
+						<div>{{'ESTIMATED_BUY_PRICE'|translate}}</div>
 						<p id="buysum">{{buyTotalQuantity | numberUnitFormat}}</p>
-						<span>买入数量</span>
+						<span>{{'BUY_QUANTITY'|translate}}</span>
 						<label id="buynum">{{buyTotalAmount  | numberFilter:true}}</label>
 					</div>
 				</div>
@@ -294,7 +295,7 @@
 			</ion-item>
 			<div class="range-mark">
 				<div class="left"></div>
-				<div class="right">数量：个</div>
+				<div class="right">{{'QUANTITY_ONE'|translate}}</div>
 			</div>
 		</ion-row>
 		<ion-row class="range-component">
@@ -311,7 +312,7 @@
 			</ion-item>
 			<div class="range-mark"> 
 				<div class="left"></div>
-				<div class="right">数量：十</div>
+				<div class="right">{{'QUANTITY_TEN'|translate}}</div>
 			</div>
 		</ion-row>
 		<ion-row class="range-component">
@@ -328,40 +329,40 @@
 			</ion-item>
 			<div class="range-mark">
 				<div class="left"></div>
-				<div class="right">数量：百</div>
+				<div class="right">{{'QUANTITY_HUNDRED'|translate}}</div>
 			</div>
 		</ion-row>
 	</ion-grid>
 
 	<div class="entrusts">
 		<div class="header">
-			<span class="title">委托单</span>
+			<span class="title">{{'DELEGATION_ORDER'|translate}}</span>
 			<span (click)="gotoHistory($event)" class="goto-history">
 				<ion-icon class="history-icon"></ion-icon>
-				<font>历史记录</font>
+				<font>{{'HISTORY_RECORDS'|translate}}</font>
 			</span>
 		</div>
-		<div class="no-entrust" *ngIf="!entrusts || entrusts.length == 0">暂时还没有挂单哦~</div>
+		<div class="no-entrust" *ngIf="!entrusts || entrusts.length == 0">{{'NO_PENDING_ORDERS_UNTIL_NOW'|translate}}</div>
 		<div *ngFor="let item of entrusts">
 			<div class="entrust">
 				<div class="header">
 					<div class="type" [class.buy]="item.operationType == '001'" [class.sale]="item.operationType == '002'">
-						{{item.operationType == '001'? '买': item.operationType == '002'? '卖':'' }}
+						{{(item.operationType == '001'? 'BUY': item.operationType == '002'? 'SELL':'' )|translate}}
 					</div>
 					<div class="date">{{item.entrustTime | date:'yyyy-MM-dd'}}</div>
-					<button (click)="confirmCancel(item.id,item.entrustTime,item.operationType)">撤单</button>
+					<button (click)="confirmCancel(item.id,item.entrustTime,item.operationType)">{{'REVOKE'|translate}}</button>
 				</div>
 				<div class="params">
 					<div class="col">
-						<span class="name">委托价格</span>
+						<span class="name">{{'DELEGATED_PRICE'|translate}}</span>
 						<span class="value">{{item.commitPrice}}</span>
 					</div>
 					<div class="col">
-						<span class="name">委托量</span>
+						<span class="name">{{'DELEGATED_QUANTITY'|translate}}</span>
 						<span class="value">{{item.commitAmount |quantityConversion}}</span>
 					</div>
 					<div class="col">
-						<span class="name">剩余量</span>
+						<span class="name">{{'BALANCE_QUANTITY'|translate}}</span>
 						<span class="value">{{item.surplusAmount |quantityConversion}}</span>
 					</div>
 				</div>
@@ -370,7 +371,7 @@
 		
 		<!--加载更多-->
 		<ion-infinite-scroll [enabled]="hasMore" (ionInfinite)="loadMoreHistory($event)">
-			<ion-infinite-scroll-content loadingText="正在加载...">
+			<ion-infinite-scroll-content loadingText="{{'LOADING'|translate}}...">
 			</ion-infinite-scroll-content>
 		</ion-infinite-scroll>
 

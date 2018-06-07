@@ -34,6 +34,8 @@ export class AppDataService {
   //IP
   public APP_IP:any = "192.168.0.1";
 
+  //语言
+  public LANGUAGE:any = "en";
 
   constructor(
     public storage: Storage,

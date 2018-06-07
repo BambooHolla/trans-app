@@ -203,7 +203,7 @@ export class NewsListPage /* implements OnInit, OnDestroy  */ extends SecondLeve
 
     @ViewChild('newsIS', { read: InfiniteScroll })
     newsInfiniteScroll: InfiniteScroll;
-    @asyncCtrlGenerator.error('获取新闻出错')
+    @asyncCtrlGenerator.error('GAIN_NEWS_ERROR')
     async _getNewsList(show_loading = false) {
         this.news_loading_handler.is_loading = true;
         if (show_loading) {
@@ -229,7 +229,7 @@ export class NewsListPage /* implements OnInit, OnDestroy  */ extends SecondLeve
 
     @ViewChild('noticeIS', { read: InfiniteScroll })
     noticeInfiniteScroll: InfiniteScroll;
-    @asyncCtrlGenerator.error('获取公告出错')
+    @asyncCtrlGenerator.error('GAIN_INFO_ERROR')
     async _getNoticeList(show_loading = false) {
         this.notice_loading_handler.is_loading = true;
         if (show_loading) {

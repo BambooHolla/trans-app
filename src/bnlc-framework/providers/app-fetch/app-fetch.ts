@@ -99,7 +99,7 @@ export class AppFetchProvider {
   }
   private _handleResCatch(res) {
     if( res.name == "TimeoutError") {
-      return Promise.reject('请求超时');
+      return Promise.reject(window['language']['REQUEST_OVERTIME']||'请求超时');
     }
     const data = res.json();
     const error = res.json().error;

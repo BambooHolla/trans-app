@@ -1,13 +1,13 @@
 <ion-header>
   <ion-navbar>
-    <ion-title>账户中心</ion-title>
+    <ion-title>{{'ACCOUNT_CENTER'|translate}}</ion-title>
   </ion-navbar>
 </ion-header>
 <ion-content no-bounce class="account-contain">
   <ion-grid *ngIf="login_status" no-padding>
     <ion-row class="bottom-line" (click)="identify()">
       <ion-col padding class="vertical-center">
-        实名认证<span class="f-right" [class.no-identify]="!personalDataService.realname">{{personalDataService.realname || personalDataService.certifiedMsg}}</span>
+        {{'REAL_NAME_VERIFICATION'|translate}}<span class="f-right" [class.no-identify]="!personalDataService.realname">{{personalDataService.realname || personalDataService.certifiedMsg}}</span>
       </ion-col>
     </ion-row>
     <!-- <ion-row class="bottom-line" *ngIf="false">
@@ -17,36 +17,36 @@
     </ion-row> -->
     <ion-row class="bottom-line" *ngIf="personalDataService.mobile">
       <ion-col padding class="vertical-center">
-        手机号码<span class="f-right">{{personalDataService.mobile | numMask}}</span>
+        {{'MOBILE_PHONE_NUMBER'|translate}}<span class="f-right">{{personalDataService.mobile | numMask}}</span>
       </ion-col>
     </ion-row>
     <ion-row class="bottom-line" *ngIf="personalDataService.email">
       <ion-col padding class="vertical-center">
-        邮箱地址
+        {{'EMAIL_ADDRESS'|translate}}
         <span class="f-right">{{personalDataService.email}}</span>
       </ion-col>
     </ion-row>
     <ion-row class="bottom-line" navPush="modify-pwd">
       <ion-col padding class="vertical-center">
-        修改登录密码
+        {{'EDIT_LOGIN_PASSWORD'|translate}}
       </ion-col>
     </ion-row>
     <ng-container *ngIf="!loading_has_account_pwd">
       <ion-row class="bottom-line" (click)="routeTo('set-pay-pwd')">
         <ion-col padding class="vertical-center">
-          {{has_account_pwd?'重置':'设置'}}交易密码
+          {{(has_account_pwd?'RESET':'SETTING') | translate}}{{'ACCOUNT_TRANSACTION_PASSWORD'|translate}}
         </ion-col>
       </ion-row>
     </ng-container>
   </ion-grid>
   <ion-row *ngIf="login_status" tappable class="account-exit" (click)="doLogout()">
     <ion-col padding class="exit-center">
-      退出账号
+      {{'LOGOUT'|translate}}
     </ion-col>
   </ion-row>
   <ion-row *ngIf="!login_status" tappable class="account-exit" (click)="showLogin()">
     <ion-col padding class="exit-center">
-      登录账号
+      {{'LOGINS'|translate}}
     </ion-col>
   </ion-row>
 
