@@ -54,21 +54,21 @@ export class InviteCommissionPage {
       this.setting.RECOMMEND_PREFIX + this.personalDataService.recommendCode;
   }
 
-  @asyncCtrlGenerator.success("复制成功")
-  @asyncCtrlGenerator.error("复制失败")
+  @asyncCtrlGenerator.success("COPY_SUCCESSFULLY")
+  @asyncCtrlGenerator.error("COPY_FAIL")
   async copyCode() {
     if (!this.recharge_address.index) {
-      throw new Error("无可用地址");
+      throw new Error(window['language']['NO_AVAILABLE_ADDRESS']||"无可用地址");
     }
     if (!navigator["clipboard"]) {
-      throw new Error("复制插件异常");
+      throw new Error(window['language']['COPY_PLUGIN_ERROR']||"复制插件异常");
     }
     navigator["clipboard"].writeText(this.recharge_address.index);
   }
 
   set() {
     let modal = this.modalCtrl.create(CustomizeAlert,
-      {tip:"请输入邀请码"},
+      {tip:window['language']['PLEASE_INPUT_INVITATION_CODE']||"请输入邀请码"},
       { showBackdrop: true, enableBackdropDismiss: true });
     modal.onDidDismiss(returnData => {
       if (returnData) {
@@ -135,7 +135,7 @@ export class InviteCommissionPage {
         })
         .catch(err => {
           this.alertService.dismissLoading();
-          this.alertService.showAlert('警告', err.message?err.message:err);
+          this.alertService.showAlert(window['language']['WARNING']||'警告', err.message?err.message:err);
           console.log("getCustomersData error: ", err);
         });
     }

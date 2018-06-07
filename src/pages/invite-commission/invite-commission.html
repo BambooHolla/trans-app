@@ -6,19 +6,19 @@
 -->
 <ion-header>
         <ion-navbar>
-            <ion-title>邀请返佣</ion-title>
+            <ion-title>{{'INVITATION_COMMISSION'|translate}}</ion-title>
         </ion-navbar>
 </ion-header>
 <ion-content>
     <div class="account-assets">
         <div class="assets-item balance">
             <ion-icon name="邀请朋友"></ion-icon>
-            <div class="sub-title">已推荐的朋友</div>
+            <div class="sub-title">{{'RECOMEMDED_FRIEND'|translate}}</div>
             <div class="amount">{{recommendCounts || 0}}</div>
         </div>
         <div class="assets-item frozen">
             <ion-icon name="佣金"></ion-icon>
-            <div class="sub-title">已获得的佣金</div>
+            <div class="sub-title">{{'HAVE_AQUIRED_COMMISSION'|translate}}</div>
             <div class="amount">&nbsp;</div>
         </div>
     </div>
@@ -26,11 +26,11 @@
         <div class="title-bar">
             <div class="title">
                 <ion-icon name="推荐id"></ion-icon>
-                我的推荐ID
+                {{'MY_RECOMMENDED_ID'|translate}}
             </div>
             <button class="copy-button" ion-button (click)="copyCode()" [copy]="personalDataService.recommendCode">
                 <ion-icon name="复制"></ion-icon>
-                点击复制
+                {{'CLICK_AND_COPY'|translate}}
             </button>
         </div>
         <div class="invite-detail">
@@ -42,7 +42,7 @@
                     {{personalDataService.recommendCode}}
                 </ng-container>
                 <ng-template #noAddress1>
-                    <i>无可用ID</i>
+                    <i>{{'NO_AVAILABLE_ID'|translate}}</i>
                 </ng-template>
             </div>
         </div>
@@ -51,11 +51,11 @@
         <div class="title-bar">
             <div class="title">
                 <ion-icon name="推荐链接"></ion-icon>
-                推荐链接
+                {{'RECOMMENDED_LINK'|translate}}
             </div>
             <button class="copy-button" ion-button (click)="copyCode()" [copy]="ref">
                 <ion-icon name="复制"></ion-icon>
-                点击复制
+                {{'CLICK_AND_COPY'|translate}}
             </button>
         </div>
         <div class="invite-detail">
@@ -67,7 +67,7 @@
                     {{ref}}
                 </ng-container>
                 <ng-template #noAddress2>
-                    <i>无可用链接</i>
+                    <i>{{'NO_AVAILABLE_URL'|translate}}</i>
                 </ng-template>
             </div>
         </div>
@@ -76,32 +76,32 @@
         <div class="title-bar">
             <div class="title">
                 <ion-icon name="推荐人"></ion-icon>
-                我的推荐人
+                {{'MY_RECOMEMNDER'|translate}}
                 <span class="person">{{recommender}}</span>
             </div>
             <button class="copy-button set" ion-button (click)="set()" [disabled]="recommender">
                 <ion-icon name="设置"></ion-icon>
-                设置
+                {{'SETTINGS'|translate}}
             </button>
         </div>
     </div>
     <div class="invite-logs">
-        <div class="title">活动介绍</div>
+        <div class="title">{{'INTRODUCTION_TO_ACTIVITY'|translate}}</div>
         <div class="recharge-log intro">
             <div class="base-info">
-                &nbsp;&nbsp;&nbsp;&nbsp;1.活动期间可获得20%佣金返利，后续将根据实际情况对佣金比例进行调整。
+                &nbsp;&nbsp;&nbsp;&nbsp;{{'INTRODUCTION_1'|translate}}
             </div>
             <div class="base-info">
-                &nbsp;&nbsp;&nbsp;&nbsp;2.一旦您推荐的人成功完成交易，佣金就会立刻返现到您的币加所账户。
+                &nbsp;&nbsp;&nbsp;&nbsp;{{'INTRODUCTION_2'|translate}}
             </div>
             <div class="base-info">
-                &nbsp;&nbsp;&nbsp;&nbsp;3.币加所保留随时对返佣活动规则进行调整的权利，但是对您推荐的好友数量没有限制。
+                &nbsp;&nbsp;&nbsp;&nbsp;{{'INTRODUCTION_3'|translate}}
             </div>
             <div class="base-info">
-                &nbsp;&nbsp;&nbsp;&nbsp;4.被推荐人必须使用您的推荐链接、二维码或者推荐ID注册才可以。
+                &nbsp;&nbsp;&nbsp;&nbsp;{{'INTRODUCTION_4'|translate}}
             </div>
             <div class="base-info">
-                &nbsp;&nbsp;&nbsp;&nbsp;5.币加所会严查重复的或者虚假账户，一经发现，将不会支付返佣。重复账户或者共享资金是不合格的。
+                &nbsp;&nbsp;&nbsp;&nbsp;{{'INTRODUCTION_5'|translate}}
             </div>
 
         </div>

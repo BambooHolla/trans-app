@@ -108,7 +108,7 @@
     "RESET_PASSWORD_SUCCESSFULLY":"Reset password successfully",										
     "RETURN_TO_LOGIN_PAGE":"Return to login page?",										
     "GO_TO_LOGIN":"Go to login",										
-    "HISTORY_TRANSACTION_RECORDS":"History transaction records",										
+    "HISTORY_TRANSACTION_RECORDS":"Transaction records",										
     "TRANSACTION_TIME":"Transaction time",										
     "TRANSACTION_PRICE":"Transaction price",										
     "TRANSACTION_VOLUME":"Transaction volume",										
@@ -148,7 +148,7 @@
     "NEWS":"News",										
  										
     "RECOMEMDED_FRIEND":"Recomemded friend",										
-    "HAVE_AQUIRED_COMMISSION":"Have aquired commission",										
+    "HAVE_AQUIRED_COMMISSION":"Commission",										
     "RECOMMENDED_ID":"Recommended ID",										
     "MY_RECOMMENDED_ID":"My recommended ID",										
     "COPY":"Copy",										
