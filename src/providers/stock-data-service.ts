@@ -456,7 +456,7 @@ export class StockDataService {
     cancelGettingStartData$?: Observable<any>,
     timeType?:string
   ): Observable<any> {
-    console.log('subscibeRealtimeData', code);
+    console.log('subscibeRealtimeData', code); 
     const suffix = eventName === 'equityInfo' ? '-1' : '-2';
     if (!this._stockObservableMap.has(eventName)){
       this._stockObservableMap.set(eventName, new Map());
@@ -489,10 +489,10 @@ export class StockDataService {
         //bngj直接通过股票代码获取socket链接, eventName用来作为链接暂存的标识.
         source$ = this.socketioService.subscribeEquity(code, eventName,timeType)//'price');           
       }
-      console.log('source$: ',source$)
+      console.log('source$: ',source$,timeType)
       const equity$ = source$
         .do(result => {
-          console.log('data changed: '+timeType, result);
+          console.log('data changed: ', result,timeType);
 
           const transformedData = this.transformRealtimeData(code, result);
           this.parseAndSetRealtimeData(code, [transformedData], this._stockRealtimeData.getValue()[code]);

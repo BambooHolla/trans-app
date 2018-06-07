@@ -120,7 +120,7 @@
                     <div class="sub-title">
                         {{'WITHDRAWAL_QUANTITY_1'|translate}}
                     </div>
-                    <div class="value">{{tlog.amount/1e8|number:'1.4-4'}}</div>
+                    <div class="value">{{tlog.amount|priceConversion:4:4}}</div>
                 </div>
                 <div class="withdraw-to">
                     <div class="sub-title">
