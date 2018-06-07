@@ -7,11 +7,11 @@
         <input type="text" [(ngModel)]="recommendCode" class="input-text">
         <div class="alert-button-group">
             <button ion-button="alert-button" (click)="dismiss()">
-                    <span class="button-inner">取消</span>
+                    <span class="button-inner">{{'CANCEL'|translate}}</span>
                     <div class="button-effect"></div>
                 </button>
             <button ion-button="alert-button" style="transition: none;background-color: #c1b17f" (click)="submit()">
-                    <span class="button-inner submit">确认</span>
+                    <span class="button-inner submit">{{'CONFIRM'|translate}}</span>
                     <div class="button-effect"></div>
                 </button>
         </div>

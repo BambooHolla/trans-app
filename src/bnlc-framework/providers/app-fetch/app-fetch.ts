@@ -114,11 +114,11 @@ export class AppFetchProvider {
           data.constructor.name === 'ProgressEvent' ||
           data.constructor.name === 'XMLHttpRequestProgressEvent'
         ) {
-          return Promise.reject('网络异常');
+          return Promise.reject(window['language']['NETWORK_ERROR']||'网络异常');
         }
         return Promise.reject(data);
       } else {
-        return Promise.reject('未知异常');
+        return Promise.reject(window['language']['UNKNOWN_ERROR']||'未知异常');
       }
     }
   }

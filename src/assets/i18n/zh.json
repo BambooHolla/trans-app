@@ -510,7 +510,7 @@
     "PREPARING":"准备中",										
     "VERIFYING":"审核中",										
     "CONFIRMING":"确认中",										
-    "FINISH/FINISHED":"完成",										
+    "FINISHED":"完成",										
     "FAIL":"失败",										
     "EXPIRE":"过期",										
     "OTHERS":"其他",										
@@ -524,7 +524,7 @@
 									
     "SUBMMITED":"已提交",										
     "IN_FOLLOWING":"跟进中",										
-  										
+    									
    									
     "SUPER_MANAGEMENT":"超級管理",										
     "CUSTOMER_SERVICES":"客服",										

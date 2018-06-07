@@ -52,6 +52,13 @@ export class SocketioService {
       _connected: false,
       // _connected$: _connected.asObservable().distinctUntilChanged(),
     }],
+    ['chartPrice', {
+      target: '/prices',
+      source: '/transaction',
+      socket: undefined,
+      _connected: false,
+      // _connected$: _connected.asObservable().distinctUntilChanged(),
+    }],
   ])
 
   private path(source) {
@@ -245,7 +252,7 @@ export class SocketioService {
   //   }
   // }
 
-  subscribeEquity(equityCodeWithSuffix: string, api: string): Observable<any> {
+  subscribeEquity(equityCodeWithSuffix: string, api: string,timeType?:string): Observable<any> {
     // const equityCode = /^([^-]+)/.exec(equityCodeWithSuffix)[1];
     // console.log(equityCodeWithSuffix, ' & ', api)
     const observable = new Observable(observer => {
@@ -270,6 +277,8 @@ export class SocketioService {
           if (api == 'price' || api == 'depth') {
             // console.log(`watch:${api} `, `${equityCodeWithSuffix}`)
             this.socketAPIs.get(api).socket.emit('watch', [`${equityCodeWithSuffix}`])
+          } else if (api == 'chartPrice'){
+            this.socketAPIs.get(api).socket.emit('watch', [`${equityCodeWithSuffix}`],undefined,timeType)
           } else {
             this.socketAPIs.get(api).socket.emit('watch', `${equityCodeWithSuffix}`)
           }

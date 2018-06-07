@@ -62,9 +62,9 @@ export class WorkOrderServiceProvider {
 		return status;
 	}
 	static getReplyRoleDetail(role: ReplyRole) {
-		if (role == ReplyRole.admin) return '超級管理';
-		if (role == ReplyRole.service) return '客服';
-		if (role == ReplyRole.customer) return '客戶';
+		if (role == ReplyRole.admin) return window['language']["SUPER_MANAGEMENT"]||'超級管理';
+		if (role == ReplyRole.service) return window['language']["CUSTOMER_SERVICES"]||'客服';
+		if (role == ReplyRole.customer) return window['language']["CUSTOMER"]||'客戶';
 		return status;
 	}
 

@@ -63,7 +63,7 @@ export class Comments implements OnInit,OnDestroy {
       .do((data) => {
         console.log('getted')
         this.commentListLength = data.length
-        this.title = this.likedComment.length ? "热门评论" : "评论";
+        this.title = this.likedComment.length ? window['language']['HOT_COMMENTS']||"热门评论" : window['language']['COMMENTS']||"评论";
       })
       .catch((err) => this.commentService.handleError(err, true))
     setTimeout(() => this.getComments(), 0); 

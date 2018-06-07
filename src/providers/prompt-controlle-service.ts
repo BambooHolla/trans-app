@@ -56,7 +56,7 @@ export class PromptControlleService {
             // cssClass: 'action-sheets-basic-page',
             buttons: [
                 {
-                    text: '从相册中选择',
+                    text: window['language']['SELECT_FROM_ALBUM ']||'从相册中选择',
                     handler: () => {
                         this.hideSheet();
                         
@@ -90,7 +90,7 @@ export class PromptControlleService {
                     }
                 },
                 {
-                    text: '马上拍一张',
+                    text: window['language']['TAKE_PHOTO']||'马上拍一张',
                     handler: () => {
                         this.hideSheet();
                          
@@ -110,7 +110,7 @@ export class PromptControlleService {
                     }
                 },
                 {
-                    text: '取消',
+                    text: window['language']['CANCEL']||'取消',
                     role: 'cancel',
                     handler: () => {
                         _unRegisterBackButton();

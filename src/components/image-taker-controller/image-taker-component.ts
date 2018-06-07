@@ -47,7 +47,7 @@ export class ImageTakerCmp {
             // cssClass: 'action-sheets-basic-page',
             buttons: [
                 {
-                    text: '从相册中选择',
+                    text: window['language']['SELECT_FROM_ALBUM ']||'从相册中选择',
                     handler: () => {
                         const inputEle = document.createElement('input');
                         inputEle.type = 'file';
@@ -84,7 +84,7 @@ export class ImageTakerCmp {
                     }
                 },
                 {
-                    text: '马上拍一张',
+                    text: window['language']['TAKE_PHOTO']||'马上拍一张',
                     handler: () => {
                         let cameraModal = this.modalCtrl.create(CameraModal);
                         cameraModal.onDidDismiss((data, role) => {
@@ -99,7 +99,7 @@ export class ImageTakerCmp {
                     }
                 },
                 {
-                    text: '取消',
+                    text: window['language']['CANCEL']||'取消',
                     role: 'cancel'
                 }
             ]
