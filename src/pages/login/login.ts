@@ -36,13 +36,14 @@ export class LoginPage implements OnInit{
   private gridPaddingTop: string = '0';
 
   private logining: boolean = false;
-
+  private pwd:any = '';
+  private custId:any = '';
   public unregisterBackButton:any;
 
   loginForm: FormGroup = new FormGroup({
     // myContry: new FormControl('1002'),
-    customerId: new FormControl({ value: '' }, Validators.required),
-    password: new FormControl({ value: '' }, Validators.required),
+    customerId: new FormControl({ value: '' }, ),
+    password: new FormControl({ value: '' },),
     savePassword: new FormControl({ value: false })
   });
 
@@ -187,7 +188,12 @@ export class LoginPage implements OnInit{
       dismissFn: this.dismiss.bind(this)
     });
   }
-
+goForgetPwd() {
+		this.navCtrl.push('forget-pwd', {
+			customerId: this.customerId.value, 
+		  loginCb:this.init.bind(this),
+		  })
+	}
   dismiss(){
     this.unregisterBackButton();
     
