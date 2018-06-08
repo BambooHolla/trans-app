@@ -278,7 +278,7 @@ export class SocketioService {
             // console.log(`watch:${api} `, `${equityCodeWithSuffix}`)
             this.socketAPIs.get(api).socket.emit('watch', [`${equityCodeWithSuffix}`])
           } else if (api == 'chartPrice'){
-            this.socketAPIs.get(api).socket.emit('watch', [`${equityCodeWithSuffix}`],undefined,timeType)
+            this.socketAPIs.get(api).socket.emit('watch', [`${equityCodeWithSuffix}`,undefined,timeType])
           } else {
             this.socketAPIs.get(api).socket.emit('watch', `${equityCodeWithSuffix}`)
           }
@@ -298,6 +298,8 @@ export class SocketioService {
         if (api == 'price' || api == 'depth') {
           // console.log(`unwatch:${api} `, `${equityCodeWithSuffix}`)
           this.socketAPIs.get(api).socket.emit('unwatch', [`${equityCodeWithSuffix}`])
+        } else if (api == 'chartPrice'){
+          this.socketAPIs.get(api).socket.emit('watch', [`${equityCodeWithSuffix}`],undefined,timeType)
         } else {
           this.socketAPIs.get(api).socket.emit('unwatch', `${equityCodeWithSuffix}`)
         }

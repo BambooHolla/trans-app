@@ -41,7 +41,7 @@
         <div class="charts">
             <kline-report 
                 #largeRealtimeChart
-                [echartsData]="_realtimeData$ | async" 
+                [echartsData]="_reportsData$ | async" 
                 [options]="realtimeOptions"
                 [timeType] = "timeType"
                 >
