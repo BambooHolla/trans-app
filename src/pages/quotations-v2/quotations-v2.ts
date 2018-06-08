@@ -420,7 +420,6 @@ export class QuotationsPageV2 {
 					}
 					return srcArr.concat()
 				})
-				debugger
 			console.log('value.traderId',value.traderId)
 			this.stockDataService
 				.subscibeRealtimeData(value.traderId, 'chartPrice',undefined,'1m')

@@ -263,7 +263,7 @@ export class TradeInterfaceV2Page {
         .map(arr => arr.filter(item => item.stockCode === traderId))
         .map(arr => arr.length && +arr[0].saleableQuantity || 0)
         .distinctUntilChanged();
-
+ 
       this.initData()
       this.getProcessEntrusts()
       this.doSubscribe()
@@ -873,8 +873,8 @@ export class TradeInterfaceV2Page {
             if(data.buy){
               //遍历数据，剔除掉数量为0的数据
               for(let i = 0; i < data.buy.length; i++){
-                if( data.buy[i].amount && (data.buy[i].amount * 1) == 0) {
-                  data.buy.shift();
+                if( data.buy[i].amount && (data.buy[i].amount * 1) < 0.00000001) {
+                  data.buy.splice(i,1);
                   --i;
                 }
               }
@@ -888,8 +888,8 @@ export class TradeInterfaceV2Page {
             if (data.sale) {
               //遍历数据，剔除掉数量为0的数据
               for(let i = 0; i < data.sale.length; i++){
-                if( data.sale[i].amount && (data.sale[i].amount * 1) == 0) {
-                  data.sale.shift();
+                if( data.sale[i].amount && (data.sale[i].amount * 1)< 0.00000001) {
+                  data.sale.splice(i,1);
                   --i;
                 }
               }
