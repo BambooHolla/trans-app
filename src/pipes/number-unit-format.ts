@@ -1,31 +1,37 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { BigNumber} from "bignumber.js";
+import { checkBindingNoChanges } from '@angular/core/src/view/util';
 @Pipe({
   name: 'numberUnitFormat',
 })
 export class NumberUnitFormatPipe implements PipeTransform {
   unitArray = ['', '万', '亿', '万亿', '亿亿'];
-
+  
   constructor() { 
-    BigNumber.config({ EXPONENTIAL_AT: [-8, 20] })
+   
   }
   transform(value: any, retainZero: boolean = false, retainTailZeroAfterDigit: boolean | number = true, retainLength: number = 6): string {
+    BigNumber.config({ EXPONENTIAL_AT: [-9, 20] })
     if (isNaN(value)) {
       return '--';
     }
+   
     const prefix = value < 0 ? '-' : '';
-    value = Math.abs(value);
-
-    if (!value) {
+    value = new BigNumber(value||'0').abs() 
+  
+    if (value.comparedTo('0') ==  0) {
       return retainZero ? '0' : '--';
     }
 
     let count = 0;
     const replacer = retainTailZeroAfterDigit ? /\.$/ : /(?:\.0*|(\.\d+?)0+)$/
-    for ( ; value >= 1e4 && count < this.unitArray.length; count++) {
-      value /= 1e4;
+    // for ( ; value >= 1e4 && count < this.unitArray.length; count++) {
+    //   value /= 1e4;
+    // }
+    for ( ; (value.comparedTo('10000') != -1 ) && count < this.unitArray.length; count++) {
+      value.div('10000');
     }
-
+    value = value.toString();
     // Math.min() 是为了处理循环变量越界（超出数组长度）的情况。
     count = Math.min(count, this.unitArray.length - 1);
     // slice(0, 4) 用于保证数值有效位数为 4 （包括小数点及其前后的数字），

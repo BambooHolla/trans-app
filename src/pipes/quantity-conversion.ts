@@ -15,16 +15,18 @@ export class QuantityConversionPipe implements PipeTransform {
   constructor(
     private appSettings: AppSettings,
   ) { 
-    BigNumber.config({ EXPONENTIAL_AT: [-20, 20] })
+    
   }
   
   transform(value: any, ...args) {
+    BigNumber.config({ EXPONENTIAL_AT: [-9, 20] })
     if(isNaN(value) || value == null || value == undefined) return value;
-    let number:any = new BigNumber(''+value).div( this.appSettings.Product_Price_Rate).toString();
+ 
+    let number:any = new BigNumber(''+value).div( this.appSettings.Product_Price_Rate_str).toString();
     if(typeof number != "string" ){
         number = number.toString();
     }
-    // debugger
+
     number = number.split('.');
     if(number[0].length > 1){
       number[0] =  number[0].replace(/\b(0+)/gi,"");

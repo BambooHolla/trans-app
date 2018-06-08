@@ -49,6 +49,7 @@ export class AppSettings {
    * ^保留4位
    */
   public readonly Product_Price_Rate: number = 1e8;
+  public readonly Product_Price_Rate_str: string = '100000000';
   public readonly Price_Rate: number = 1e2;
 
   public readonly Charts_Array_Length: number = 400 ;
