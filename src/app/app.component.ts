@@ -96,6 +96,7 @@ export class PicassoApp {
     window["clipboard"] = clipboard;
     window["translate"] = translate;
   // 设置语言
+  window['language'] = window['language'] || {};
   this.initTranslate();
     if (!navigator["clipboard"]) {
       navigator["clipboard"] = {
@@ -327,4 +328,4 @@ export class PicassoApp {
   //   this.renderer2.addClass(rootElem, className);
   // }
 }
-window['language'] = window['language'] || {};
+// window['language'] = window['language'] || {};

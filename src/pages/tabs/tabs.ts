@@ -41,12 +41,7 @@ export class TabsPage implements OnInit, AfterViewInit, AfterContentInit {
   tradeRoot: any = TradeInterfaceV2Page;
 
   stockCode: string;
-  private tabTitle:string[] = [
-    window['language']['MARKET_PRICE']||'行情',
-    window['language']['INFO']||'资讯',
-    window['language']['POSITION']||'持仓',
-    window['language']['MINE']||'我的',
-  ]
+ 
   constructor(
     private events: Events,
     public navCtrl: NavController,
