@@ -211,37 +211,37 @@ export class PicassoApp {
     this.translate.setDefaultLang("en");
     const browserLang = this.translate.getBrowserLang();
     let language:any ;
-    language = await this.translate.use("en").toPromise(); 
-    this.appDataService.LANGUAGE = "en";
+    // language = await this.translate.use("en").toPromise(); 
+    // this.appDataService.LANGUAGE = "en";
     // language = await this.translate.use("zh").toPromise();
     // this.appDataService.LANGUAGE = "zh";
-    // if (browserLang) {
-    //   if (browserLang === "zh") {
-    //     // 简体繁体判断，当前只有简体
-    //     // const browserCultureLang = this.translate.getBrowserCultureLang();
-    //     // if (browserCultureLang.match(/-TW|CHT|Hant/i)) {
-    //     //   this.translate.use("zh-cmn-Hant");
-    //     // } else {
-    //     //   this.translate.use("zh-cmn-Hans");
-    //     // }
-    //    language = await this.translate.use("zh").toPromise();
-    //    this.appDataService.LANGUAGE = "zh";
+    if (browserLang) {
+      if (browserLang === "zh") {
+        // 简体繁体判断，当前只有简体
+        // const browserCultureLang = this.translate.getBrowserCultureLang();
+        // if (browserCultureLang.match(/-TW|CHT|Hant/i)) {
+        //   this.translate.use("zh-cmn-Hant");
+        // } else {
+        //   this.translate.use("zh-cmn-Hans");
+        // }
+       language = await this.translate.use("zh").toPromise();
+       this.appDataService.LANGUAGE = "zh";
         
-    //   } else {
-    //     const langs = this.translate.getLangs();
-    //     const current_lang = this.translate.getBrowserLang();
-    //     if (langs.indexOf(current_lang) !== -1) {
-    //       this.translate.use(current_lang);
-    //     } else {
-    //       const maybe_lang =
-    //         langs.find(lang => current_lang.startsWith(lang)) || "en";
-    //       this.translate.use(maybe_lang);
-    //     }
-    //   }
-    // } else {
-    //   language = await this.translate.use("en").toPromise(); // Set your language here
-    //   this.appDataService.LANGUAGE = "en";
-    // }
+      } else {
+        const langs = this.translate.getLangs();
+        const current_lang = this.translate.getBrowserLang();
+        if (langs.indexOf(current_lang) !== -1) {
+          this.translate.use(current_lang);
+        } else {
+          const maybe_lang =
+            langs.find(lang => current_lang.startsWith(lang)) || "en";
+          this.translate.use(maybe_lang);
+        }
+      }
+    } else {
+      language = await this.translate.use("en").toPromise(); // Set your language here
+      this.appDataService.LANGUAGE = "en";
+    }
     window['language'] = language;
   }
 
