@@ -421,9 +421,9 @@ export class QuotationsPageV2 {
 					return srcArr.concat()
 				})
 			console.log('value.traderId',value.traderId)
-			this.stockDataService
-				.subscibeRealtimeData(value.traderId, 'chartPrice',undefined,'1m')
-				.subscribe(value.chartRef)//, this.viewDidLeave$) 
+			// this.stockDataService
+			// 	.subscibeRealtimeData(value.traderId, 'chartPrice',undefined,'1m') 
+			// 	.subscribe(value.chartRef)//, this.viewDidLeave$) 
 			this.stockDataService
 				.subscibeRealtimeData(value.traderId, 'price')
 				.subscribe(value.marketRef)//, this.viewDidLeave$)

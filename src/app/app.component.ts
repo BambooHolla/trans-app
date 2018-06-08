@@ -228,15 +228,17 @@ export class PicassoApp {
        this.appDataService.LANGUAGE = "zh";
         
       } else {
-        const langs = this.translate.getLangs();
-        const current_lang = this.translate.getBrowserLang();
-        if (langs.indexOf(current_lang) !== -1) {
-          this.translate.use(current_lang);
-        } else {
-          const maybe_lang =
-            langs.find(lang => current_lang.startsWith(lang)) || "en";
-          this.translate.use(maybe_lang);
-        }
+        // const langs = this.translate.getLangs();
+        // const current_lang = this.translate.getBrowserLang();
+        // if (langs.indexOf(current_lang) !== -1) {
+        //   this.translate.use(current_lang);
+        // } else {
+        //   const maybe_lang =
+        //     langs.find(lang => current_lang.startsWith(lang)) || "en";
+        //   this.translate.use(maybe_lang);
+        // }
+        language = await this.translate.use("en").toPromise(); // Set your language here
+        this.appDataService.LANGUAGE = "en";
       }
     } else {
       language = await this.translate.use("en").toPromise(); // Set your language here
