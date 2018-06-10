@@ -184,7 +184,6 @@ export class TradeService {
                     reportRef: new Observable(), //用来存放报表中间管道
                     reportArr: [],
                     marketRef: new BehaviorSubject(undefined), //用来存放交易中间管道
-                    chartRef: new BehaviorSubject(undefined),// 用来存放交易中间管道,echart使用
                     buyFee,
                     saleFee,
                     priceId,
