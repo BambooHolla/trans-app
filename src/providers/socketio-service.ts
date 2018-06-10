@@ -52,13 +52,6 @@ export class SocketioService {
       _connected: false,
       // _connected$: _connected.asObservable().distinctUntilChanged(),
     }],
-    ['chartPrice', {
-      target: '/prices',
-      source: '/transaction',
-      socket: undefined,
-      _connected: false,
-      // _connected$: _connected.asObservable().distinctUntilChanged(),
-    }],
   ])
 
   private path(source) {
@@ -277,9 +270,7 @@ export class SocketioService {
           if (api == 'price' || api == 'depth') {
             // console.log(`watch:${api} `, `${equityCodeWithSuffix}`)
             this.socketAPIs.get(api).socket.emit('watch', [`${equityCodeWithSuffix}`])
-          } else if (api == 'chartPrice'){
-            this.socketAPIs.get(api).socket.emit('watch', [`${equityCodeWithSuffix}`,undefined,timeType])
-          } else {
+          }  else {
             this.socketAPIs.get(api).socket.emit('watch', `${equityCodeWithSuffix}`)
           }
         })
@@ -298,9 +289,7 @@ export class SocketioService {
         if (api == 'price' || api == 'depth') {
           // console.log(`unwatch:${api} `, `${equityCodeWithSuffix}`)
           this.socketAPIs.get(api).socket.emit('unwatch', [`${equityCodeWithSuffix}`])
-        } else if (api == 'chartPrice'){
-          this.socketAPIs.get(api).socket.emit('watch', [`${equityCodeWithSuffix}`],undefined,timeType)
-        } else {
+        }  else {
           this.socketAPIs.get(api).socket.emit('unwatch', `${equityCodeWithSuffix}`)
         }
         // this.socketAPIs.get(api).socket.emit(`unwatch:${api}:`, [`${equityCodeWithSuffix}`])

@@ -79,9 +79,6 @@ export class TradeChartV2Page {
           }
       ]
     }).present();
-    this.socketioService
-    .subscribeEquity(this.traderId, 'chartPrice','1m')
-    .do(data => console.log('trade-chart-v2_price: ',data)) 
     this.init();
     
   }
