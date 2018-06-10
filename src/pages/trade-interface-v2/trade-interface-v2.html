@@ -379,13 +379,13 @@
 </ion-content>
 
 <!-- 横屏k线图表 -->
-<div class="home-contain sim-landscape" [class.show]="false">
+<!-- <div class="home-contain sim-landscape" [class.show]="false">
 	<ion-grid class="sft child-span-padding-left-1">
 		<ion-row justify-content-around>
 			<ion-col col-3 no-padding>
-				<h1 class="{{(_baseData$ | async)?.range | riseOrFall}}" text-center> {{(_baseData$ | async)?.price | priceConversion | numberFilter}}</h1>
+				<h1 class="{{(_baseData$ | async)?.range | riseOrFall}}" text-center> {{(_baseData$ | async)?.price | priceConversion | numberFilter}}</h1> -->
 				<!-- <div text-center>{{showData?.datetime}}</div> -->
-			</ion-col>
+			<!-- </ion-col>
 			<ion-col col-2>
 				<div text-left>涨跌
 					<span class="{{(_baseData$ | async)?.range | riseOrFall}}">{{(_baseData$ | async)?.price||0 - (_baseData$ | async)?.start | number:'.2-2' | positiveSign}}</span>
@@ -424,10 +424,10 @@
 				[echartsData]="_realtimeData$ | async" 
 				[options]="realtimeOptions"
 				*ngIf="activeIndex === 0 && !isPortrait">
-			</realtime-report>
+			</realtime-report> -->
 			 <!-- (_kData$ | async)[kDataUnit] -->
 			 <!-- (tooltipEmitted)="showKDataCustomTooltip($event)" -->
-			<candlestick-component [echartsData]="_candlestickData$ | async" [options]="candlestickOptions"
+			<!-- <candlestick-component [echartsData]="_candlestickData$ | async" [options]="candlestickOptions"
 			 *ngIf="activeIndex !== 0 && !isPortrait">
 			</candlestick-component>
 			<div class="arrow-div" tappable (click)="toggleBets()">
@@ -454,4 +454,4 @@
 			<ion-col col-3 *ngFor="let title of timeArray; let i = index;" (click)="changeTime(i)" [class.active]="activeIndex === i">{{title}}</ion-col>
 		</ion-row>
 	</ion-grid>
-</div>
+</div> -->
