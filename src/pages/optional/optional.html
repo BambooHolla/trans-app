@@ -15,7 +15,7 @@
     <ion-row class="info-row">
       <ion-col>
         <!-- <h6 no-margin-bottom>{{personalAssets?.dayProfit?.total | quantityConversion | numberUnitFormat:true:true:8 | positiveSign}}</h6> -->
-        <h6 no-margin-bottom>{{dayTotal || "0" | quantityConversion | numberUnitFormat:true:true:8 }}</h6>
+        <h6 no-margin-bottom>{{dayTotal || "0" | quantityConversion | numberUnitFormat:true:true:4 }}</h6>
         <span class="h7">{{'PROFIT_AND_LOSS_TODAY'|translate}}</span>
       </ion-col>
       <ion-col class="split-line">
@@ -63,7 +63,7 @@
       </ion-col>
       <ion-col class="light-transparent" col-4 padding>
         <div class="col2">
-          <h5 class="color-eye-catching">{{data?.personalData?.restQuantity| quantityConversion | numberUnitFormat:true:false:10}}</h5>
+          <h5 class="color-eye-catching">{{data?.personalData?.restQuantity| quantityConversion | numberUnitFormat:true:false:4}}</h5>
           <div class="frozen">
             <span class="font-smaller">冻结</span>
             <span class="color-rise">服务升级中</span>

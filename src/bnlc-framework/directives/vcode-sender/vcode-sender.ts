@@ -41,7 +41,6 @@ export class VcodeSenderDirective implements OnInit, OnChanges {
 
 	// 数据快照
 	getSnapshot(): DataSnapShot {
-		debugger
 		return {
 			_count_down_start_time: this._count_down_start_time,
 			auto_send: this.auto_send,
