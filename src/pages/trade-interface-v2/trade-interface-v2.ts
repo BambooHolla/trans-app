@@ -1387,7 +1387,6 @@ export class TradeInterfaceV2Page {
     }else {
       return void 0
     }
-    debugger
     if(!Number(amount)){
       return void 0
     }

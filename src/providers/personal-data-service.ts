@@ -262,7 +262,6 @@ export class PersonalDataService {
         //   }
         // }
         this._certifiedStatus = data.status
-        debugger
         if (data.status === '2'){
           this._realname = data.name
         } else if ( data.status === '0'){

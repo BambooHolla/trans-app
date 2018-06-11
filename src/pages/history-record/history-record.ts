@@ -61,7 +61,6 @@ export class HistoryRecordPage {
     if (!token) {
       return Promise.reject(this.events.publish('show login', 'login',this.refreshData.bind(this))).then((res)=>{
         let a = res;
-        debugger
       });
     }
 

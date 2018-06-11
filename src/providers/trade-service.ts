@@ -244,7 +244,6 @@ export class TradeService {
       params['saleTotalAmount'] = ''+amount
       params['saleProductId'] = productId
     }
-    debugger
     return this.appService
       .request(RequestMethod.Post, path, params, true)
       .then(data => {
