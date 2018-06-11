@@ -262,14 +262,17 @@ export class PersonalDataService {
         //   }
         // }
         this._certifiedStatus = data.status
+        debugger
         if (data.status === '2'){
           this._realname = data.name
-        } else if ( data.status === '0' || data.status === '1' || data.status === '3'){
+        } else if ( data.status === '0'){
           this._certifiedMsg = window['language']['NOT_BEEN_CERTIFIED'] || data.message;
         } else if ( data.status === '1' ){
           this._certifiedMsg = window['language']['IN_REVIEWING'] || data.message;
         } else if ( data.status === '3' ){
           this._certifiedMsg = window['language']['FAIL_THE_REVIEW'] || data.message;
+        } else {
+          this._certifiedMsg =  data.message;
         }
 
       })

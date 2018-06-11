@@ -224,7 +224,7 @@ export class SubmitRealInfoPage extends SecondLevelPage {
 	submitForm() {
 		let media = this.images.map(im => im.fid).filter(v => v);
 		if (media.length !== this.images.length) {
-			throw new Error(window['language']['PLEASE_UPLOAD_CREDENTIAL']||'请上传证件');
+			return Promise.reject(window['language']['PLEASE_UPLOAD_CREDENTIAL']||'请上传证件');
 		}
 		media = [media.join('|')]
 		console.log('0',CertificationCertificateType.身份)
