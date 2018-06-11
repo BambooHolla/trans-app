@@ -753,9 +753,11 @@ export class TradeInterfaceV2Page {
   }
 
   private refreshPersonalData(refresher?: Refresher) {
+    //TODO 添加了 this.doSubscribe()，看是否可行
     Promise.all([
       this.personalDataService.requestFundData().catch(() => { }),
       this.personalDataService.requestEquityDeposit().catch(() => { }),
+      this.doSubscribe()
     ])
       .then(() => (this.checkMax(), this.requestAssets(), this.getProcessEntrusts()))
       .then(() => refresher ? refresher.complete() : void 0)
@@ -847,7 +849,7 @@ export class TradeInterfaceV2Page {
       console.log('trade-interface-v2:(doSubscribe):depth ', this._depth$)      
       // if(!this._depth$){
         this._depthSource$ = this.socketioService.subscribeEquity(traderId, 'depth')
-          .do(data => console.log('trade-interface-v2:depth:', data))
+          .do(data => console.log('trade-interface-v2:depth:', data)) 
 
         //旧的行情图 所需要的数据，已不需要
         this._depth$ = this._depthSource$

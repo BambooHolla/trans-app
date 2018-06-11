@@ -39,7 +39,7 @@ import { CommonTransition } from "./common-transition";
   templateUrl: "app.html",
 })
 export class PicassoApp {
-
+  static WINDOW_MAX_HEIGHT = 0;
   private rootPage = TabsPage    
   private loginModal = this.modalController.create(LoginPage)
 
@@ -113,11 +113,16 @@ export class PicassoApp {
       .catch(err => {
         console.log("screenOrientation error:", err.message);
       });
-    
-    this.statusBar.hide(); 
+
+     
+    this.overlaysWebView(); 
+    statusBar.hide();
     platform.ready().then(() => {
+      statusBar.show(); 
+      this.overlaysWebView();
       this.afterPlatformReady();
-        
+      this.overlaysWebView();
+         
     });
 
     this.events.subscribe('show login', (status,cb?) => {
@@ -204,6 +209,9 @@ export class PicassoApp {
         })
   }
 
+
+
+
   ionViewDidLoad() {
   }
 
@@ -252,13 +260,13 @@ export class PicassoApp {
     if (this.platform.is("android")) {
       // android 的全屏模式，顶部状态栏融入 APP 。
       // 不需要修改 java 文件
-      const androidFullScreen = this.androidFullScreen;
-      androidFullScreen
-        .isImmersiveModeSupported()
-        .then(() => androidFullScreen.immersiveMode())
-        .then(() => androidFullScreen.showSystemUI())
-        .then(() => androidFullScreen.showUnderStatusBar())
-        .catch((error: any) => console.log(error.message || error));
+      // const androidFullScreen = this.androidFullScreen;
+      // androidFullScreen
+      //   .isImmersiveModeSupported()
+      //   .then(() => androidFullScreen.immersiveMode())
+      //   .then(() => androidFullScreen.showSystemUI())
+      //   .then(() => androidFullScreen.showUnderStatusBar())
+      //   .catch((error: any) => console.log(error.message || error));
     } else if (this.platform.is("ios")) {
       // ios 设备需要在 platform ready 之后再设置方向锁定，
       // 并且锁定的方向应为 PORTRAIT_PRIMARY 。
@@ -274,46 +282,63 @@ export class PicassoApp {
       this.keyboardService.disableScroll();
     }
 
-    this.statusBar.show()
+    // this.statusBar.show()
     // Okay, so the platform is ready and our plugins are available.
     // Here you can do any higher level native things you might need.
     this.statusBar.styleLightContent();
 
     // if (this.platform.is('ios')){
     //   // let status bar overlay webview
-      this.statusBar.overlaysWebView(true);
+      this.statusBar.overlaysWebView(true); 
 
     //   // set status bar to white
-    //   this.statusBar.backgroundColorByHexString('#00ffffff');
+      // this.statusBar.backgroundColorByHexString('#00ffffff');
     // }
 
+    //开始判断，调整状态栏
+    this.tryOverlaysWebView(3);
     //使用异步保证页面元素准备就绪
-    setTimeout(()=> this.splashScreen.hide()
-      , 300) 
+    setTimeout(()=> {
+      this.splashScreen.hide()
+    }, 500)  
 
     // translate.setDefaultLang('zh_CN');
 
     // this.presentLoading();
     
-    //android页面高度不正确，调整
-    this.tryOverlaysWebVie()
   }
-  
+
+
+
+
+  _isIOS?: boolean;
+  get isIOS() {
+    if (this._isIOS === undefined) {
+      this._isIOS = this.platform.is("ios");
+    }
+    return this._isIOS;
+  }
   overlaysWebView(){
     this.statusBar.overlaysWebView(false);
-    return new Promise(function(resolve, reject){
-      resolve(this.statusBar.overlaysWebView(true))
-    })
+    setTimeout(() => {
+      this.statusBar.overlaysWebView(true);
+      this.statusBar.styleLightContent();
+    }, 50);
    
   }
-  tryOverlaysWebVie(){
-    if(this.platform.is('ios')){
-      return ;
+  tryOverlaysWebView(loop_times: number = 0){
+    if (this.isIOS) {
+      return;
     }
-    if(this.keyboardService.fullHeight > window.innerHeight){
-      this.overlaysWebView().then((result) =>{
-        this.tryOverlaysWebVie();
-      });
+    if (window.innerHeight < PicassoApp.WINDOW_MAX_HEIGHT) {
+      // 如果高度不对劲的话，尽可能重新搞一下
+      this.overlaysWebView();
+    }
+    if (loop_times > 0) {
+      // 等一下再看看是否修正正确了，不行就再来一次
+      setTimeout(() => {
+        this.tryOverlaysWebView(loop_times - 1);
+      }, 200);
     }
   }
  
@@ -328,4 +353,22 @@ export class PicassoApp {
   //   this.renderer2.addClass(rootElem, className);
   // }
 }
-// window['language'] = window['language'] || {};
+/*获取window正确的最大高度，可能对于分屏支持有问题*/
+var resizeInfo = document.createElement("div");
+function onresize() {
+  if (!resizeInfo.parentElement && document.body) {
+    resizeInfo.style.cssText =
+      "display:none;position:fixed;top:100px;left:100px;background:rgba(0,0,0,0.5);color:#FFF;opacity:0.3;pointer-events:none;";
+    document.body.appendChild(resizeInfo);
+  }
+  resizeInfo.innerHTML += `<p>${[
+    window.innerHeight,
+    document.body.clientHeight,
+  ]}</p>`;
+  PicassoApp.WINDOW_MAX_HEIGHT = Math.max(
+    PicassoApp.WINDOW_MAX_HEIGHT,
+    window.innerHeight,
+  );
+}
+onresize();
+window.addEventListener("resize", onresize);
