@@ -989,10 +989,10 @@ export class TradeInterfaceV2Page {
     this.entrustServiceProvider.cancelEntrust(entrustId)
       .then(data => {
         console.log('cancelEntrust data', data)
-
+ 
         this.page = 1
-        this.getProcessEntrusts()
-
+        this.getProcessEntrusts();
+        this.gotoHistoryLogin();
         if (data && data.status) {
           this.promptCtrl.toastCtrl({
             message: window['language']['WITHDRAW_ORDER_SUCCESSFULLY']||`撤单成功`,
