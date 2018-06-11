@@ -51,7 +51,7 @@ export class FLP_Lifecycle extends FLP_Tool
 	ionViewDidEnter() {
 		this.PAGE_STATUS = PAGE_STATUS.DID_ENTER;
 		console.log('ionViewDidEnter', this.cname);
-
+		
 		for (let fun_name of this._did_enter_funs) {
 			this[fun_name]();
 		}

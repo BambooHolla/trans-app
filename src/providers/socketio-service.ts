@@ -244,8 +244,8 @@ export class SocketioService {
   //     });
   //   }
   // }
-
-  subscribeEquity(equityCodeWithSuffix: string, api: string,timeType?:string): Observable<any> {
+ 
+  subscribeEquity(equityCodeWithSuffix: string, api: string): Observable<any> {
     // const equityCode = /^([^-]+)/.exec(equityCodeWithSuffix)[1];
     // console.log(equityCodeWithSuffix, ' & ', api)
     const observable = new Observable(observer => {
@@ -264,7 +264,7 @@ export class SocketioService {
             equityCodeWithSuffix = '-' + equityCodeWithSuffix
           }
           this.getObservableFromMap(api, `${equityCodeWithSuffix}`)
-            .subscribe(observer)
+            .subscribe(observer) 
           // this._socketioSubscribeSet.add(subscribeData);
           // this.socket.emit('subscribe', subscribeData);
           if (api == 'price' || api == 'depth') {
