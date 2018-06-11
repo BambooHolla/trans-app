@@ -40,8 +40,8 @@ export class FsProvider {
 	}
 	uploadImage(fid: string, file: any) {
 		const formData = new FormData();
-		formData.append('file', file);
-		return this.fetch.post<UploadedFileModel>(this.UPLOAD_FILE, formData, { params: { fid } }).then(data => {
+		formData.append('file', file); 
+		return this.fetch.post<UploadedFileModel>(this.UPLOAD_FILE, formData, { params: { fid } },undefined,undefined,20000).then(data => {
 			return {
 				full_url: this.READ_FILE_PREFIX + data.link,
 				...data

@@ -12,6 +12,7 @@ export class NumberUnitFormatPipe implements PipeTransform {
   }
   transform(value: any, retainZero: boolean = false, retainTailZeroAfterDigit: boolean | number = true, retainLength: number = 6): string {
     BigNumber.config({ EXPONENTIAL_AT: [-9, 20] })
+    debugger
     if (isNaN(value)) {
       return '--';
     }
@@ -24,13 +25,16 @@ export class NumberUnitFormatPipe implements PipeTransform {
     }
 
     let count = 0;
-    const replacer = retainTailZeroAfterDigit ? /\.$/ : /(?:\.0*|(\.\d+?)0+)$/
+    // 旧方法 显示单位，已不用，隐藏
+    // const replacer = retainTailZeroAfterDigit ? /\.$/ : /(?:\.0*|(\.\d+?)0+)$/
+
     // for ( ; value >= 1e4 && count < this.unitArray.length; count++) {
     //   value /= 1e4;
     // }
-    for ( ; (value.comparedTo('10000') != -1 ) && count < this.unitArray.length; count++) {
-      value.div('10000');
-    }
+    // 旧方法 显示单位，已不用，隐藏
+    // for ( ; (value.comparedTo('10000') != -1 ) && count < this.unitArray.length; count++) {
+    //  value =  value.div('10000');
+    // }
     value = value.toString();
     // Math.min() 是为了处理循环变量越界（超出数组长度）的情况。
     count = Math.min(count, this.unitArray.length - 1);
@@ -50,15 +54,18 @@ export class NumberUnitFormatPipe implements PipeTransform {
       }
       // console.log('numberunitformat:result ', result)
       // console.log('numberunitformat:replacer ', replacer)
-      result = result.replace(replacer, '$1')
+      // 旧方法 显示单位，已不用，隐藏
+      // result = result.replace(replacer, '$1')
       // console.log('numberunitformat:result ', result)
       // console.log('numberunitformat:a ',a)
-      if (typeof retainTailZeroAfterDigit == 'number' && !isNaN(result)){
-        result = (+result).toFixed(retainTailZeroAfterDigit)
-      }
+      // 旧方法 显示单位，已不用，隐藏
+      // if (typeof retainTailZeroAfterDigit == 'number' && !isNaN(result)){
+      //   result = (+result).toFixed(retainTailZeroAfterDigit)
+      // }
     }
-
-    return prefix + result + this.unitArray[count];
+    // 旧方法 显示单位，已不用，隐藏
+    // return prefix + result + this.unitArray[count];
+    return prefix + result;
   }
 
   numberFormat(number:any = 0,length:number=6){
