@@ -186,10 +186,11 @@ export class SubmitRealInfoPage extends SecondLevelPage {
 			image.image = this.san.bypassSecurityTrustUrl(blob_url);
 			const upload_res = await this.fs.uploadImage(fid, blob);
 			image.fid = fid;
-		}catch (e){
+		}catch (e){ 
 			//上传图片失败，展示失败图片
 			console.log('图片上传失败',e)
 			image.image = 'assets/images/no-record.png';
+			return Promise.reject(window['language']['REQUEST_OVERTIME'])
 		} finally {
 			image.uploading = false;
 		}

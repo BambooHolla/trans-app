@@ -4,6 +4,8 @@ import { Http, Headers, RequestOptionsArgs } from '@angular/http';
 
 import 'rxjs/add/operator/map';
 import { AppSettingProvider } from '../app-setting/app-setting';
+import { AppDataService } from '../../../providers/app-data-service';
+
 // import { Events } from 'ionic-angular';
 
 /*
@@ -56,7 +58,8 @@ export class AppFetchProvider {
     public http: Http,
     // private events: Events,
     public appSetting: AppSettingProvider,
-    public storage: Storage
+    public storage: Storage,
+    public appDataService: AppDataService,
   ) {
     console.log('Hello AppFetchProvider Provider');
     window['FETCH'] = this;
@@ -195,7 +198,8 @@ export class AppFetchProvider {
     body: any,
     options: RequestOptionsArgs = {},
     without_token?: boolean,
-    auto_cache?: boolean
+    auto_cache?: boolean,
+    timeOut?: number,
   ) {
     // 获取外部的默认值并自动重置，一定要触发getter
     const default_auto_cache = this.auto_cache;
@@ -224,7 +228,7 @@ export class AppFetchProvider {
         req = this.http[method](reqInfo.url, body, reqInfo.options);
         break;
     }
-    return this._handlePromise(req.timeout(5000).toPromise(), auto_cache, catch_key);
+    return this._handlePromise(req.timeout(timeOut||this.appDataService.timeOut).toPromise(), auto_cache, catch_key);
   }
   get<T>(
     url: string,
@@ -239,9 +243,10 @@ export class AppFetchProvider {
     body: any = {},
     options: RequestOptionsArgs = {},
     no_token?: boolean,
-    auto_cache?: boolean
+    auto_cache?: boolean,
+    timeOut?: number,
   ): Promise<T> {
-    return this._request('post', url, body, options, no_token, auto_cache);
+    return this._request('post', url, body, options, no_token, auto_cache,timeOut);
   }
   put<T>(
     url: string,
