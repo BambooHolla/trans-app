@@ -223,6 +223,7 @@ export class WorkOrderAddPage extends SecondLevelPage {
 		}catch (e){
 			//上传图片失败，展示失败图片
 			image.image = 'assets/images/no-record.png';
+			return Promise.reject(window['language']['REQUEST_OVERTIME'])
 		} finally {
 			image.uploading = false;
 		}
