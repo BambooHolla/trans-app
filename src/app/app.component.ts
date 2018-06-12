@@ -338,7 +338,7 @@ export class PicassoApp {
       // 等一下再看看是否修正正确了，不行就再来一次
       setTimeout(() => {
         this.tryOverlaysWebView(loop_times - 1);
-      }, 200);
+      }, 100);
     }
   }
  

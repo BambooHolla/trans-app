@@ -154,7 +154,7 @@ export class WithdrawDetailPage extends SecondLevelPage {
 					text:  window['language']['COFIRM']||'确定',
 					cssClass:'cancel-btn-confirm',
 					handler: () => {
-					this.cancelWithdrawAppply(transactionId,id)
+						this.cancelWithdrawAppply(transactionId,id)
 					}
 				}
 			]
@@ -180,6 +180,17 @@ export class WithdrawDetailPage extends SecondLevelPage {
 				
 				return  this.getTransactionLogs()
 
+			})
+			.then( () => {
+				return this.accountService
+				.getAccountProduct({
+					productId: this.productInfo.productId,
+					accountType: AccountType.Product,
+				})
+				.then(data => {
+					this.access_info = data;
+					this.access_info.balance = (new BigNumber(''+this.access_info.balance||'0')).div('100000000').toString()
+				});
 			});
 	}
 
@@ -232,6 +243,7 @@ export class WithdrawDetailPage extends SecondLevelPage {
 				})
 				.then(data => {
 					this.access_info = data;
+					this.access_info.balance = (new BigNumber(''+this.access_info.balance||'0')).div('100000000').toString()
 				});
 			// 获取是否有设置交易密码
 			tasks[
@@ -331,6 +343,7 @@ export class WithdrawDetailPage extends SecondLevelPage {
 					})
 					.then(data => {
 						this.access_info = data;
+						this.access_info.balance = (new BigNumber(''+this.access_info.balance||'0')).div('100000000').toString()
 						return transaction;
 					})
 				});
