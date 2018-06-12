@@ -450,19 +450,19 @@ export class SocketioService {
     let timeNumber =  nowTime - (nowTime%60000);
 
     if( type == '1m') {
-      timeNumber = timeNumber - 21600000;
+      timeNumber = timeNumber - 24000000;
     } else if( type == '5m') {
-      timeNumber = timeNumber - 108000000;
+      timeNumber = timeNumber - 120000000;
     } else if( type == '15m' ) {
-      timeNumber = timeNumber - 324000000;
+      timeNumber = timeNumber - 360000000;
     } else if( type == '30m') {
-      timeNumber = timeNumber - 324000000;
+      timeNumber = timeNumber - 720000000;
     } else if( type == '1h') {
-      timeNumber = timeNumber - 1296000000;
+      timeNumber = timeNumber - 1440000000;
     } else if( type == '1d') {
-      timeNumber = timeNumber - 24883200000;
+      timeNumber = timeNumber - 15897600000;
     } else if( type == '1w') {
-      timeNumber = timeNumber - 174182400000;
+      timeNumber = timeNumber - 14515200000;
     }
     return new Date(timeNumber);
   }
