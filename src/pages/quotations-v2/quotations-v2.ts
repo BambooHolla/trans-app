@@ -393,7 +393,7 @@ export class QuotationsPageV2 {
 		this.realtimeReports$ = this.socketioService.subscribeRealtimeReports(traderIdList)
 			.do(() => console.log('realtimeReports$ success'))
 			// .takeUntil(this.viewDidLeave$)
-		
+		 
 		console.log('teee', this.realtimeReports$)
 		
 		const refCount = this.realtimeReports$.multicast(new Subject()).refCount()		
@@ -408,6 +408,7 @@ export class QuotationsPageV2 {
 				.map(data=>data.data)
 				.map(data => {
 					//处理增量更新
+					console.log('quotations report data: ',data)
 					const srcArr = value.reportArr
 					const length = srcArr.length
 					if(length == 0){

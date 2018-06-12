@@ -346,16 +346,17 @@ export class SocketioService {
         ts = "15m";//八点后显示15分钟线
       } 
       let {
-        timespan = ts,
+        timespan = ts, 
         type = '001',
         start = startDate,
         end = theDate,
         keepcontact = true,
         rewatch = false,
       } = options
+
       start = options.timespan ? this.getTimeInterval(options.timespan) : startDate;
 
-      
+  
       //console.log('subscribeRealtimeReports options', options)
       // const subscribeData = {
       //   channel: equityCodes,
