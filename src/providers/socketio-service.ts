@@ -338,9 +338,11 @@ export class SocketioService {
   ): Observable<any> {
     const observable = new Observable(observer => {
       //console.log('subscribeRealtimeReports options', options)
-      let theDate = new Date()
-      //每日0点起
-      let startDate = new Date(theDate.getFullYear() + "-" + (theDate.getMonth() + 1) + "-" + theDate.getDate())
+      let theDate = new Date();
+      let todayTime:any = theDate.getTime();
+      todayTime = todayTime - (todayTime%86400000)
+      //每日0点起,使用数字
+      let startDate = new Date(todayTime)
       var ts = "5m";//八点前显示五分钟线
       if (theDate.getHours() >= 8) {
         ts = "15m";//八点后显示15分钟线
@@ -441,8 +443,12 @@ export class SocketioService {
 
   // 获取时间段，未想到更好的 
   private getTimeInterval(type:string) {
-    let time = new Date();
-    let timeNumber =  new Date(`${time.getFullYear()}-${time.getMonth()+1}-${time.getDate()} ${time.getHours()}:${time.getMinutes()}:00`) .getTime();
+    // 获取现在时间段
+    let nowTime = new Date().getTime();
+
+    // 获取时间段的秒数，YYYY-MM-DD hh:mm:00
+    let timeNumber =  nowTime - (nowTime%60000);
+
     if( type == '1m') {
       timeNumber = timeNumber - 21600000;
     } else if( type == '5m') {
