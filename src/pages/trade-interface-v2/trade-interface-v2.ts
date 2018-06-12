@@ -405,21 +405,29 @@ export class TradeInterfaceV2Page {
     this.formatNumber('price')
   }
 
-  chooseTradeType($event: MouseEvent){
-    const dataset = ($event.target as HTMLElement).dataset
-    if (dataset && dataset.tradeType){
-      this._tradeType$.next(Number(dataset.tradeType))
-      if(Number(dataset.tradeType)) {
-       
-        this.price = this.buy_depth[0] ? this.numberFormatDelete0(this.buy_depth[0].price)
-                     : this.marketPrice ? this.numberFormatDelete0(this.marketPrice) : "0" ;
-      } else {
-        this.price = this.sale_depth[0] ? this.numberFormatDelete0(this.sale_depth[0].price)
-                     : this.marketPrice ? this.numberFormatDelete0(this.marketPrice) : "0" ;
-      }
-     
-      this.checkMax()
+  /**
+   * 切换限价买卖类型
+   * 
+   * @param $event 鼠标点击事件，本页面做切换使用
+   * @param index k线图页面返回使用
+   */
+  chooseTradeType($event?: MouseEvent,index:number = undefined){
+    let dataset:any;
+    if( $event ){
+      dataset = ($event.target as HTMLElement).dataset ? Number(($event.target as HTMLElement).dataset.tradeType) : 1;
+    } else {
+      dataset = index == undefined ? 1 : index;
     }
+    this._tradeType$.next(dataset);    
+    if(dataset) {
+         
+      this.price = this.buy_depth[0] ? this.numberFormatDelete0(this.buy_depth[0].price)
+                   : this.marketPrice ? this.numberFormatDelete0(this.marketPrice) : "0" ;
+    } else {
+      this.price = this.sale_depth[0] ? this.numberFormatDelete0(this.sale_depth[0].price)
+                   : this.marketPrice ? this.numberFormatDelete0(this.marketPrice) : "0" ;
+    }
+    this.checkMax();
   }
 
   async getFee(rate) {
@@ -927,6 +935,12 @@ export class TradeInterfaceV2Page {
     }
   }
 
+  gotoChart($event){
+    this.navCtrl.push(TradeChartV2Page, {
+      traderId: this.traderId, 
+      changeTransaction:this.chooseTradeType.bind(this),
+    })
+  }
   async gotoHistoryLogin(goHistory:boolean = false){
     await this.refreshPersonalData();
     this.buyTotalAmount = '0';

@@ -53,11 +53,11 @@
         <div class="norm">{{'INDEX'|translate}}<span></span></div>
     </div>
    
-    <div class="transaction-btn" (click)="backPage()">
-            <div class="buy">
+    <div class="transaction-btn" >
+            <div class="buy" (click)="backPage(1)">
                 {{'BUY'|translate}}
             </div>
-            <div class="sale">
+            <div class="sale" (click)="backPage(0)">
                 {{'SELL'|translate}}
             </div>
     </div>

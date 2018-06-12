@@ -334,7 +334,7 @@ export class SocketioService {
   subscribeRealtimeReports(
     equityCodes: string[],
     api: string = 'realtimeReports',
-    options: any = {}
+    options: any = {},
   ): Observable<any> {
     const observable = new Observable(observer => {
       //console.log('subscribeRealtimeReports options', options)
@@ -356,7 +356,7 @@ export class SocketioService {
         rewatch = false,
       } = options
 
-      start = options.timespan ? this.getTimeInterval(options.timespan) : startDate;
+      start = options.timespan ? this.getTimeInterval(options.timespan) : startDate; 
 
   
       //console.log('subscribeRealtimeReports options', options)
@@ -370,7 +370,7 @@ export class SocketioService {
       this.socketReady(api) 
         .then(() => {
           this.report_getObservableFromMap(api, `${equityCodes}`)
-            .subscribe(observer)
+          .subscribe(observer)
           // this._socketioSubscribeSet.add(subscribeData);
           // console.log('watch: ', `${equityCodes}`)
           if (rewatch) {
@@ -450,19 +450,26 @@ export class SocketioService {
     let timeNumber =  nowTime - (nowTime%60000);
 
     if( type == '1m') {
-      timeNumber = timeNumber - 24000000;
+      // 240 个数据
+      timeNumber = timeNumber - 14400000;
     } else if( type == '5m') {
-      timeNumber = timeNumber - 120000000;
+      // 240 个数据
+      timeNumber = timeNumber - 72000000;
     } else if( type == '15m' ) {
-      timeNumber = timeNumber - 360000000;
+      // 240 个数据
+      timeNumber = timeNumber - 216000000;
     } else if( type == '30m') {
-      timeNumber = timeNumber - 720000000;
+      // 240 个数据
+      timeNumber = timeNumber - 432000000;
     } else if( type == '1h') {
-      timeNumber = timeNumber - 1440000000;
+      // 240 个数据
+      timeNumber = timeNumber - 864000000;
     } else if( type == '1d') {
-      timeNumber = timeNumber - 15897600000;
+      // 180 个数据
+      timeNumber = timeNumber - 15552000000;
     } else if( type == '1w') {
-      timeNumber = timeNumber - 14515200000;
+      // 34 个数据
+      timeNumber = timeNumber - 20563200000;
     }
     return new Date(timeNumber);
   }

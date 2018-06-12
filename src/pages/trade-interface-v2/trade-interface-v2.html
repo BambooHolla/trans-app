@@ -11,7 +11,7 @@
 			<!-- <button ion-button ion-only (click)="switchOrientation(false)">
 
 			</button> -->
-			<button ion-button ion-only [navPush]="tradeChart" [navParams]="traderId" >
+			<button ion-button ion-only (click)='gotoChart($event)' >
 			</button>
 			<!-- <ion-icon class="sresize" (click)="switchOrientation(false)"></ion-icon> -->
 		</ion-buttons>

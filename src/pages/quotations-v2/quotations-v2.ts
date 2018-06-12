@@ -393,7 +393,7 @@ export class QuotationsPageV2 {
 		this.realtimeReports$ = this.socketioService.subscribeRealtimeReports(traderIdList)
 			.do(() => console.log('realtimeReports$ success'))
 			// .takeUntil(this.viewDidLeave$)
-		 
+		
 		console.log('teee', this.realtimeReports$)
 		
 		const refCount = this.realtimeReports$.multicast(new Subject()).refCount()		
@@ -408,18 +408,19 @@ export class QuotationsPageV2 {
 				.map(data=>data.data)
 				.map(data => {
 					//处理增量更新
-					console.log('quotations report data: ',data)
 					const srcArr = value.reportArr
 					const length = srcArr.length
-					if(length == 0){
-						srcArr.push(...data)//使用push+解构赋值,预期echarts动画实现
-					}else{
-						srcArr.splice(0,Math.min(length,data.length),...data)
+					if(!this.appDataService.report_on_off){
+						if(length == 0){
+							srcArr.push(...data)//使用push+解构赋值,预期echarts动画实现
+						}else{
+							srcArr.splice(0,Math.min(length,data.length),...data)
+						}
+						if( length > this.appSettings.Charts_Array_Length){
+							srcArr.splice(0, length - this.appSettings.Charts_Array_Length)
+						}
+						return srcArr.concat()
 					}
-					if( length > this.appSettings.Charts_Array_Length){
-						srcArr.splice(0, length - this.appSettings.Charts_Array_Length)
-					}
-					return srcArr.concat()
 				})
 			console.log('value.traderId',value.traderId)
 			this.stockDataService

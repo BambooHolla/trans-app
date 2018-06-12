@@ -37,6 +37,9 @@ export class AppDataService {
   //语言
   public LANGUAGE:any = "en";
 
+  //report开关，false用于行情页/quotations，true用于看线图/trad-chart-v2
+  public report_on_off:boolean = false;
+
   constructor(
     public storage: Storage,
     private device: Device,
