@@ -18,9 +18,10 @@ customize-alert {
         border: 1px solid color($colors, 'special');
         width: 80%;
         margin: 1rem auto;
-        height: 1rem;
         color: #000;
         border-radius: 3px;
+        padding: 0 1rem;
+        height: 3.4rem;
     }
     .alert-button-group {
         button {
@@ -46,7 +47,6 @@ customize-alert {
     top: 25%!important;
     left: 7%!important;
     width: 86%!important;
-    height: 17rem!important;
     position: absolute;
     background: none;
     ion-header {
@@ -75,7 +75,8 @@ customize-alert {
         }
     }
     .message {
-        height: 11.6rem;
+        border-bottom-left-radius: 10px;
+        border-bottom-right-radius: 10px;
         background: #fff;
         text-align: center;
         margin: 0 auto;
