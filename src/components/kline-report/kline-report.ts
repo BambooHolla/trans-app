@@ -292,7 +292,7 @@ export class KlineReportComponent extends KlineEchartsBaseComponent {
             dataZoom: [{
                     type: 'inside',
                     xAxisIndex: [0, 0],
-                    start: 90,
+                    start: 10,
                     end: 100,
                     maxSpan:100,
                     minSpan: 10
@@ -302,7 +302,7 @@ export class KlineReportComponent extends KlineEchartsBaseComponent {
                     xAxisIndex: [0, 1],
                     type: 'slider',
                     top: '97%',
-                    start: 90,
+                    start: 10,
                     end: 100,
                     maxSpan:100,
                     minSpan: 10
@@ -310,7 +310,7 @@ export class KlineReportComponent extends KlineEchartsBaseComponent {
                 show: false,
                 xAxisIndex: [0, 2],
                 type: 'slider',
-                start: 90,
+                start: 10,
                 end: 100,
                 maxSpan:100,
                 minSpan: 10
@@ -327,6 +327,24 @@ export class KlineReportComponent extends KlineEchartsBaseComponent {
                             borderColor0: '#ef5454',    
                         }
                     },
+                    markPoint: {
+                        label: {
+                            normal: {
+                                show: true,
+                                position: 'left',
+                                formatter: 'y = 0.90x + 0.46 上午（06-12）',
+                                textStyle: {
+                                    color: '#ffffff',
+                                    fontSize: 18
+                                }
+                            }
+                        },  
+                        data: [{
+                            name:'ma5',
+                            x: '10%',
+                            y:'0%'
+                        }]
+                    }
                 }, {
                     name: 'MA5',
                     type: 'line',
