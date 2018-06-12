@@ -180,6 +180,7 @@ export class CameraModal {
     takePicture() {
         if (this.cameraActive) {
             this.onceActive = false;
+            this.cameraActive = false;
             // picture options
             const pictureOpts: CameraPreviewPictureOptions = {
                 width: 1000,
@@ -192,7 +193,6 @@ export class CameraModal {
                 this.initParams();
                 this.picture = 'data:image/jpeg;base64,' + imageData;
                 this.cameraPreview.stopCamera();
-                this.cameraActive = false;
                 this.pictureValid = true;
                 this.imageScale = 1;
                 this.nonePhoto = false;
