@@ -29,6 +29,7 @@ export class TradeChartV2Page {
 
   private product:any = '--- / ---';
   private traderId:any;
+  private changeTransaction:any;
 
   private timeArray: string[] = [
     window['language']['1M']||'1分',
@@ -65,7 +66,7 @@ export class TradeChartV2Page {
       public stockDataService: StockDataService,
   ) { 
 
-
+    appDataService.report_on_off = true;
     alertCtrl.create({
       title:'k线图数据对接中',
       message:"当前页面仅供样式观看",
@@ -84,7 +85,8 @@ export class TradeChartV2Page {
   }
 
   init() {
-    this.traderId = this.navParams.get('stockCode') || this.navParams.data ;
+    this.traderId = this.navParams.data ? this.navParams.data.traderId : undefined;
+    this.changeTransaction = this.navParams.data ? this.navParams.data.changeTransaction : undefined;
     this.product = this.appDataService.traderList.get(this.traderId) ;
     const traderId = this.traderId;
     console.log('trade-chart-v2:(doSubscribe) ', traderId)
@@ -127,9 +129,16 @@ export class TradeChartV2Page {
 				// .subscribe(value.chartRef)//, this.viewDidLeave$) 
      
   }
-
-  backPage() {
-    this.navCtrl.pop()
+  ionViewDidLeave(){
+    this.appDataService.report_on_off = false;
+  }
+  backPage(index:number = 1) {
+    if(this.changeTransaction){
+      this.changeTransaction(undefined,index)
+    }
+    this.navCtrl.pop().then(() => {
+      
+    })
   }
 }
 

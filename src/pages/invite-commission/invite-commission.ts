@@ -107,7 +107,6 @@ export class InviteCommissionPage {
         } else if (data['email']) {
           this.recommender = data['email'];
         }
-        console.log('........',data)
       })
       .catch(err => {
         console.log("getCustomersData error: ", err);
@@ -122,7 +121,6 @@ export class InviteCommissionPage {
           if (!data) {
             return Promise.reject(new Error("data missing"));
           }
-          console.log('......',data)
           this.alertService.dismissLoading();
           this.alertService.alertTips(data['message']);
           this.requestRecommender();
