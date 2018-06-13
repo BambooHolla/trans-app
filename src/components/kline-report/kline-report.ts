@@ -236,7 +236,7 @@ export class KlineReportComponent extends KlineEchartsBaseComponent {
                 axisLabel: {
                     inside: true,
                     showMinLabel: false,
-                    showMaxLabel: false,
+                    showMaxLabel: true,
                     fontSize:10
                 }
             },{

@@ -3,6 +3,7 @@ import { Http } from '@angular/http';
 // import 'rxjs/add/operator/map';
 import { AsyncBehaviorSubject, Executor } from '../RxExtends';
 import { BehaviorSubject } from "rxjs/BehaviorSubject";
+import { AppDataService } from '../../../providers/app-data-service';
 
 /*
   Generated class for the AppSettingProvider provider.
@@ -31,7 +32,10 @@ export class AppSettingProvider {
       path
     );
   }
-  constructor(public http: Http) {
+  constructor(
+    public http: Http,
+    public appDataService: AppDataService,
+  ) {
     console.log('Hello AppSettingProvider Provider');
     this.user_token = new BehaviorSubject<string>(this.getUserToken());
   }
@@ -51,7 +55,10 @@ export class AppSettingProvider {
       }
       this._token_timeout_ti = setTimeout(() => {
         console.log('User Token 过期：', obj);
-        this._setUserToken('');
+        let customerId = this.appDataService.customerId||'';
+        this.appDataService.resetCustomization();
+        this.appDataService.customerId = customerId;
+        this.clearUserToken();
       }, obj.expiredTime - Date.now());
       return obj.token || '';
     } catch (e) {
@@ -71,6 +78,28 @@ export class AppSettingProvider {
   }
   private _setUserToken(token: string) {
     this.user_token.next(this.getUserToken());
+  }
+  clearUserInfo() {
+    try {
+     
+      let tokenJson = localStorage.getItem(this.USER_TOKEN_STORE_KEY);
+      let customerId = this.appDataService.customerId||'';
+      if (!tokenJson
+         ||(JSON.parse(tokenJson).expiredTime && JSON.parse(tokenJson).expiredTime < Date.now())) {
+           debugger
+        this.appDataService.resetCustomization();
+        this.appDataService.customerId = customerId;
+        this.clearUserToken();
+      }
+      
+     
+    } catch (e) {
+      let customerId = this.appDataService.customerId||'';
+      this.appDataService.resetCustomization();
+      this.appDataService.customerId = customerId;
+      this.clearUserToken();
+     
+    }
   }
 }
 
