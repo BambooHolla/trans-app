@@ -471,6 +471,18 @@ page-trade-interface-v2 {
 				}
 			}
 		}
+		.load-more-btn{
+			margin: 1rem 0;
+			padding: 0 2rem;
+			height: 2.5rem;
+			background-color: transparent;
+			border: 1px solid color($colors,special);
+			border-radius: .5rem;
+			color: color($colors,special);
+			font-size: 1.25rem;
+		
+
+		}
 	}
 
 	.entrusts{

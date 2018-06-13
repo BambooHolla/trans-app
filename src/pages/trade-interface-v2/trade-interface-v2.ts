@@ -87,7 +87,7 @@ export class TradeInterfaceV2Page {
   private trader_product
 
   page = 1
-  pageSize = 10
+  pageSize = 20
   hasMore: boolean = false
 
   private _cards = {
@@ -1041,10 +1041,10 @@ export class TradeInterfaceV2Page {
   }
 
   getProcessEntrusts(infiniteScroll?: InfiniteScroll){ 
-    this.entrustServiceProvider.getEntrusts(this.traderId,'001,002',this.page)
+    this.entrustServiceProvider.getEntrusts(this.traderId,'001,002',this.page,this.pageSize)
       .then(data=>{ 
         console.log('getProcessEntrusts data:',data)
-
+        debugger
         if(this.page == 1){
           this.entrusts = data
         }else{
@@ -1053,7 +1053,7 @@ export class TradeInterfaceV2Page {
         this.hasMore = !(data.length < this.pageSize)
         if (infiniteScroll){ 
           infiniteScroll.complete()
-          infiniteScroll.enable(this.hasMore)
+          // infiniteScroll.enable(this.hasMore)
         }
       })
       .catch(() => {
@@ -1118,11 +1118,11 @@ export class TradeInterfaceV2Page {
       
     }
   }
-
-  loadMoreHistory(infiniteScroll: InfiniteScroll) {
+  // loadMoreHistory(infiniteScroll: InfiniteScroll) 
+  loadMoreHistory() {
     this.page += 1
-    
-    this.getProcessEntrusts(infiniteScroll)
+    //  this.getProcessEntrusts(infiniteScroll)
+    this.getProcessEntrusts()
   }
 
   //行情详情图表

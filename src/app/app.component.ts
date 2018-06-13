@@ -31,8 +31,8 @@ import { SocketioService } from "../providers/socketio-service";
 import { StockDataService } from "../providers/stock-data-service";
 import { TradeService } from "../providers/trade-service";
 import { PersonalDataService } from "../providers/personal-data-service";
-
 import { CommonTransition } from "./common-transition";
+import { AppSettingProvider } from "../bnlc-framework/providers/app-setting/app-setting";
 
  
 @Component({
@@ -87,6 +87,7 @@ export class PicassoApp {
     public translate: TranslateService,
     public renderer2: Renderer2,
     public config: Config,
+    public appSettingProvider: AppSettingProvider,
   ) {
     window["platform"] = platform;
     window["alertCtrl"] = alertCtrl;
@@ -107,7 +108,7 @@ export class PicassoApp {
 
     config.setTransition("common-transition", CommonTransition);
    
-
+    this.appSettingProvider.clearUserInfo();
     this.screenOrientation
       .lock(this.screenOrientation.ORIENTATIONS.PORTRAIT)
       .catch(err => {

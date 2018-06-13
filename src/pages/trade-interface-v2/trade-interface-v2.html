@@ -159,7 +159,8 @@
 		</ion-row>
 	</ion-grid>
 	<!-- 限价交易 -->
-	<ion-grid [hidden]="appDataService.show_onestep_trade" [scroll-fix-keyboard]="content">
+	<!-- <ion-grid [hidden]="appDataService.show_onestep_trade" [scroll-fix-keyboard]="content"> -->
+	<ion-grid [hidden]="appDataService.show_onestep_trade">
 		<ion-row class="entrust-type" (click)="chooseTradeType($event)">
 			<ion-col data-trade-type="0" class="sale" [class.enabled]="!(tradeType$|async)">{{'SELL'|translate}}</ion-col>
 			<ion-col data-trade-type="1" class="buy" [class.enabled]="!!(tradeType$|async)">{{'BUY'|translate}}</ion-col>
@@ -368,14 +369,20 @@
 				</div>
 			</div>
 		</div>
-		
-		<!--加载更多-->
-		<ion-infinite-scroll [enabled]="hasMore" (ionInfinite)="loadMoreHistory($event)">
-			<ion-infinite-scroll-content loadingText="{{'LOADING'|translate}}...">
-			</ion-infinite-scroll-content>
-		</ion-infinite-scroll>
-
 	</div>
+	<!--加载更多-->
+	<!-- <ion-infinite-scroll [enabled]="hasMore" (ionInfinite)="loadMoreHistory($event)">
+		<ion-infinite-scroll-content loadingText="{{'LOADING'|translate}}...">
+		</ion-infinite-scroll-content>
+	</ion-infinite-scroll>	 -->
+	<ion-grid *ngIf='hasMore'>
+		<ion-row justify-content-center>
+			<button class="load-more-btn" (click)="loadMoreHistory($event)">
+				加载更多
+			</button>
+		</ion-row>
+	</ion-grid>
+
 </ion-content>
 
 <!-- 横屏k线图表 -->
