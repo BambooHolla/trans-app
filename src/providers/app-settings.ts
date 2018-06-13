@@ -22,7 +22,7 @@ export class AppSettings {
   public get SERVER_URL() {
     return AppSettingProvider.SERVER_URL;
   } //test server
-  // public readonly SERVER_URL: string = 'http://192.168.16.14:40001'; //company server
+  // public readonly SERVER_URL: string = 'http://192.168.18.37:40001'; //company server
   // public readonly SERVER_URL: string = 'http://192.168.16.185:40001'; //zhiguang server
   // public readonly SERVER_URL: string = 'http://110.86.32.3:40001'; //company ip
   public get SERVER_PREFIX() {
