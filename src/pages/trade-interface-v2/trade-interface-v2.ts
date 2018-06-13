@@ -1044,7 +1044,6 @@ export class TradeInterfaceV2Page {
     this.entrustServiceProvider.getEntrusts(this.traderId,'001,002',this.page,this.pageSize)
       .then(data=>{ 
         console.log('getProcessEntrusts data:',data)
-        debugger
         if(this.page == 1){
           this.entrusts = data
         }else{

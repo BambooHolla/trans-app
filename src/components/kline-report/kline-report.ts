@@ -2,6 +2,7 @@ import { Component, Input, Output, EventEmitter, } from '@angular/core';
 import { KlineEchartsBaseComponent } from "../kline-base/kline-base";
 import * as moment from 'moment';
 import { checkNoChangesNode } from '@angular/core/src/view/view';
+import { LoadingController, } from 'ionic-angular';
 /**
  * Generated class for the RealtimeReportComponent component.
  *
@@ -16,7 +17,9 @@ export class KlineReportComponent extends KlineEchartsBaseComponent {
 
     @Input() riseOrFall: any = '';
     @Output() tooltipEmitted: any = new EventEmitter();
-  
+
+
+
     private klineDatas: any = {
         times: [],
         datas: [],
@@ -126,12 +129,16 @@ export class KlineReportComponent extends KlineEchartsBaseComponent {
                     xAxisIndex: 'all'
                 },
                 label: {
-                    backgroundColor: '#777'
-                }
+                    backgroundColor: '#777',
+                    margin:0
+                },
+                lineStyle: {
+                    type: "dashed"
+                },
             },
             
             grid: [           {
-                left: '3%',
+                left: '5%',
                 right: '3%',
                 top:"1%",
                 height: '60%'
@@ -490,7 +497,31 @@ splitData(rawData) {
             this.klineDatas.times.push(this.funcTimeFormat(item.beginTime,this.timeType));
             this.klineDatas.datas.push([item.value.start*1,item.value.max*1,item.value.min*1,item.value.end*1]);
        });
-       this.chartInstance.setOption(this.option);
+    //    this.chartInstance.setOption(this.option);
+    this.chartInstance.setOption({
+        xAxis: [{
+            data: this.klineDatas.times,
+        },{
+            data: this.klineDatas.times,
+        },{
+            data: this.klineDatas.times,
+        }],
+        series: [{
+            
+            data: this.klineDatas.datas,
+            }, {
+                data: this.calculateMA(5),
+            },{
+                data: this.data0.vols,
+            },{
+                data: this.data0.macds,
+            },{
+                data: this.data0.difs
+            },{
+                data: this.data0.deas
+            }
+        ]
+    })
     }
   
     createCharts() {
@@ -505,6 +536,7 @@ splitData(rawData) {
       // console.log('realtime-report:linecolor',option.series[0].lineStyle.normal.color)
       // 使用刚指定的配置项和数据显示图表。
       this.chartInstance.setOption(this.option);
+      this.chartInstance.hideLoading();
       // this.chartInstance.resize();
     }
     inputDataValid() {

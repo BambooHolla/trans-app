@@ -22,8 +22,16 @@ export class KlineEchartsBaseComponent implements OnChanges, OnDestroy {
 
     chartInstance: echarts.ECharts;
 
+    showLoading() {
+        this.chartInstance.showLoading('default',{
+            text: '',
+            color: '#c1b17f',
+            maskColor: 'rgba(255, 255, 255, 0)',
+        });
+    }
     ngOnInit() {
         this.chartInstance = echarts.init(this.chartElem.nativeElement as HTMLDivElement);
+        this.showLoading();
         this.firstCallEchartsCreator();
     }
 
@@ -35,6 +43,7 @@ export class KlineEchartsBaseComponent implements OnChanges, OnDestroy {
                 this.pushEchartsData()
             } else if(changes.echartsData.currentValue && changes.echartsData.currentValue.length >= 1){
                 console.log('k线图 changes.echartsData.currentValue  ' ,changes.echartsData.currentValue)
+                this.showLoading();
                 this.callEchartsCreator();
             }
             
@@ -70,37 +79,33 @@ export class KlineEchartsBaseComponent implements OnChanges, OnDestroy {
     //做
     private _RUN_LOADING:boolean = false ;
     private _FIRST_ECHART:boolean = true;
-    private _LOADING_CTRL:any ;
+ 
     firstCallEchartsCreator() {
         if( this._RUN_LOADING ) {
             return void 0;
         }
         this._RUN_LOADING = true;
-        this._LOADING_CTRL = this.loadingCtrl.create({
-            content: "",
-            cssClass: 'enableBackdropDismiss',
-            dismissOnPageChange: true
-        });
-        this._LOADING_CTRL.present().then( e => {
-            this._RUN_LOADING = false;
-            this._FIRST_ECHART = false;
-            if (this.echartsData && this.echartsData.length > 0 && this.inputDataValid()) {
-                setTimeout(() => {
-                    if (this.chartInstance) {
-                        this.createCharts()
-                        // this.ngZone.runOutsideAngular(() => {
-                        //     this.createCharts()
-                        // });
-                    } else {
-                        this.callEchartsCreator();
-                    }
-                }, 500);
-            } else if(!this.echartsData || this.echartsData.length <= 0) {
-                setTimeout(() => {
+     
+    
+        this._RUN_LOADING = false;
+        this._FIRST_ECHART = false;
+        if (this.echartsData && this.echartsData.length > 0 && this.inputDataValid()) {
+            setTimeout(() => {
+                if (this.chartInstance) {
+                    this.createCharts()
+                    // this.ngZone.runOutsideAngular(() => {
+                    //     this.createCharts()
+                    // });
+                } else {
                     this.callEchartsCreator();
-                }, 500);
-            }
-        })
+                }
+            }, 500);
+        } else if(!this.echartsData || this.echartsData.length <= 0) {
+            setTimeout(() => {
+                this.callEchartsCreator();
+            }, 500);
+        }
+       
 
     }
 
@@ -128,7 +133,7 @@ export class KlineEchartsBaseComponent implements OnChanges, OnDestroy {
                     //     this.createCharts()
                     // });
                 }
-            }, 0);
+            }, 2000);
         } 
     }
 
