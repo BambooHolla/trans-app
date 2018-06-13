@@ -86,7 +86,6 @@ export class AppSettingProvider {
       let customerId = this.appDataService.customerId||'';
       if (!tokenJson
          ||(JSON.parse(tokenJson).expiredTime && JSON.parse(tokenJson).expiredTime < Date.now())) {
-           debugger
         this.appDataService.resetCustomization();
         this.appDataService.customerId = customerId;
         this.clearUserToken();

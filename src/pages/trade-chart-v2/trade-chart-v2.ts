@@ -67,19 +67,6 @@ export class TradeChartV2Page {
   ) { 
 
     appDataService.report_on_off = true;
-    alertCtrl.create({
-      title:'k线图数据对接中',
-      message:"当前页面仅供样式观看",
-      buttons:[
-          {
-              text: '确定',
-              role: 'cancel',
-              handler: () => {
-              // console.log('Cancel clicked')
-              }
-          }
-      ]
-    }).present();
     this.init();
     
   }
@@ -131,6 +118,8 @@ export class TradeChartV2Page {
   }
   ionViewDidLeave(){
     this.appDataService.report_on_off = false;
+    this._reportsData$ = this.socketioService.subscribeRealtimeReports([this.traderId])
+  
   }
   backPage(index:number = 1) {
     if(this.changeTransaction){
