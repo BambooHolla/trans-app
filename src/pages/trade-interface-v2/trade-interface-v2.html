@@ -159,8 +159,7 @@
 		</ion-row>
 	</ion-grid>
 	<!-- 限价交易 -->
-	<!-- <ion-grid [hidden]="appDataService.show_onestep_trade" [scroll-fix-keyboard]="content"> -->
-	<ion-grid [hidden]="appDataService.show_onestep_trade">
+	<ion-grid [hidden]="appDataService.show_onestep_trade" [scroll-fix-keyboard]="content">
 		<ion-row class="entrust-type" (click)="chooseTradeType($event)">
 			<ion-col data-trade-type="0" class="sale" [class.enabled]="!(tradeType$|async)">{{'SELL'|translate}}</ion-col>
 			<ion-col data-trade-type="1" class="buy" [class.enabled]="!!(tradeType$|async)">{{'BUY'|translate}}</ion-col>
