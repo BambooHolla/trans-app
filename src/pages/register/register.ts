@@ -189,12 +189,12 @@ export class RegisterPage {
     if( this.appSettings.accountType(customerId) === 0 &&  !this.appSettings.accountEmailProposal(customerId)){
       return this.alertCtrl.create({
         title:window['language']['WARNING']||'警告',
-        subTitle:'qq.com,163.com,sina.com',
-        message:'为我们推荐注册的邮箱',
+        subTitle:window['language']['RECOMMEND_REGISTERED']||"推荐注册邮箱",
+        message:'qq.com,163.com,sina.com',
         buttons:[{
-          text:'返回',
+          text:window['language']['RETURN']||'返回',
         },{
-          text:'继续注册',
+          text:window['language']['CONTINUE']||'继续注册',
           cssClass:'alter-right-button', 
           handler:()=>{
             this.register()
@@ -211,7 +211,7 @@ export class RegisterPage {
     if( this.appDataService.getAppRegisterLength() >= 10) {
       return this.alertCtrl.create({
         title:window['language']['WARNING']||'警告',
-        message:'每日注册账户不得超过10个',
+        message:window['language']['NOT_MORE_10']||'每日注册账户不得超过10个',
         buttons:[{
           text:window['language']['COFIRM']||'确定'
         }] 

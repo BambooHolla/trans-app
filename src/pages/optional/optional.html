@@ -8,22 +8,24 @@
     <ion-row>
       <ion-col class="title-col">
         <h1>{{personalAssets?.asset?.total | quantityConversion}}</h1>
-        <h6>可用总资产{{personalAssets?.asset?.priceName}}</h6>
-        <h5>冻结：服务升级中</h5>
+        <h6>{{'TOTAL_ASSETS_AVAILABLE'|translate}}{{personalAssets?.asset?.priceName}}</h6>
+        <h5>{{'FREEZE'|translate}}服务升级中</h5>
       </ion-col>
     </ion-row>
     <ion-row class="info-row">
       <ion-col>
         <!-- <h6 no-margin-bottom>{{personalAssets?.dayProfit?.total | quantityConversion | numberUnitFormat:true:true:8 | positiveSign}}</h6> -->
-        <h6 no-margin-bottom>{{dayTotal || "0" | quantityConversion | numberUnitFormat:true:true:4 }}</h6>
-        <span class="h7">{{'PROFIT_AND_LOSS_TODAY'|translate}}</span>
+        <!-- <h6 no-margin-bottom>{{dayTotal || "0" | quantityConversion | numberUnitFormat:true:true:4 }}</h6>
+        <span class="h7">{{'PROFIT_AND_LOSS_TODAY'|translate}}</span> -->
       </ion-col>
       <ion-col class="split-line">
         <div></div>
       </ion-col>
       <ion-col>
-        <h6 no-margin-bottom>{{personalAssets?.monthProfit?.total | quantityConversion | numberUnitFormat:true:true:6 | positiveSign}}</h6>
-        <span class="h7">{{'MONTLY_PROFIT_AND_LOSS'|translate}}</span>
+        <!-- <h6 no-margin-bottom>{{personalAssets?.monthProfit?.total | quantityConversion | numberUnitFormat:true:true:6 | positiveSign}}</h6> -->
+        <!-- <span class="h7">{{'MONTLY_PROFIT_AND_LOSS'|translate}}</span> -->
+        <h6 no-margin-bottom>{{dayTotal || "0" | quantityConversion | numberUnitFormat:true:true:4 }}</h6>
+        <span class="h7">{{'PROFIT_AND_LOSS_TODAY'|translate}}</span>
       </ion-col>
     </ion-row>
       <!-- <ion-scroll #listHeader scrollX="true" scrollY="true">   -->
@@ -65,7 +67,7 @@
         <div class="col2">
           <h5 class="color-eye-catching">{{data?.personalData?.restQuantity| quantityConversion | numberUnitFormat:true:false:4}}</h5>
           <div class="frozen">
-            <span class="font-smaller">冻结</span>
+            <span class="font-smaller">{{'FREEZE_1'|translate}}</span>
             <span class="color-rise">服务升级中</span>
           </div>
           <!-- <h6 *ngIf="false">换手率：{{(data?.baseData | async)?.marketInfo?.turnoverRate | percent:'.2-2'}}</h6> -->

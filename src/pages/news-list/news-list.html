@@ -83,7 +83,7 @@
                     <ion-refresher-content refreshingText="{{'UPDATING'|translate}}...">
                     </ion-refresher-content>
                 </ion-refresher>
-                <div class="no-content" *ngIf="!newsList?.list || newsList?.list.length == 0">暂无新闻</div>
+                <div class="no-content" *ngIf="!newsList?.list || newsList?.list.length == 0">{{'NO_NEWS'|translate}}</div>
                 <ion-list class="card-background-page" *ngIf=" newsList?.list.length > 0">
                     <ion-item class="big-news-item" *ngFor="let data_item of newsList.list" (click)="viewNews(data_item.newsId)" no-lines>
                         <div class="card-item" [style.backgroundImage]="'url('+serverUrl+data_item.cover+')'">
