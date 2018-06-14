@@ -13,7 +13,7 @@
                     <ion-input formControlName="customerId" class="account" placeholder="{{'MOBILE_PHONE_NUMBER_EMAIL'|translate}}" (blur)='checkRegister()'></ion-input>
                 </ion-col>
                 <div item-right class="error-tip" *ngIf="!customerId_existence"> 
-                    账号不存在
+                    {{'ACCOUNT_DOESNOT'|translate}}
                 </div>
             </ion-row>
             <ion-row class="bottom-line">

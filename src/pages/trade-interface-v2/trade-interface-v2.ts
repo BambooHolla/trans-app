@@ -68,7 +68,7 @@ export class TradeInterfaceV2Page {
       }else if (type === 1){
         rateSrc = this.buyRate
       }
-      this.getFee(rateSrc).then(data => this.fee = data) 
+      this.getFee(rateSrc).then(data => this.fee = !data?"0%":data) 
     })
 
   private hiddentext = ''

@@ -86,9 +86,11 @@ export class TradeChartV2Page {
   }
 
   activeIndex;
+  public changeTimeEnable:boolean = true;
   changeTime(index) {
-    if( this.activeIndex == index) return ;
+    if( this.activeIndex == index || !this.changeTimeEnable) return ;
     this.activeIndex = index;
+    this.changeTimeEnable = false;
     this.timeType = this.timeTypeArr[index];
     this.changeReportType(index);
   } 

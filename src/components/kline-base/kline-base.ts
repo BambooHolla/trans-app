@@ -2,6 +2,7 @@
 import { Component, ViewChild, Input, OnChanges, OnDestroy } from '@angular/core';
 import { LoadingController, } from 'ionic-angular';
 import * as echarts from 'echarts';
+import { TradeChartV2Page } from '../../pages/trade-chart-v2/trade-chart-v2';
 
 @Component({
     selector: 'line-base-component',
@@ -11,6 +12,7 @@ export class KlineEchartsBaseComponent implements OnChanges, OnDestroy {
     constructor(
         // protected ngZone: NgZone,
         public loadingCtrl: LoadingController,
+        public tradeChartV2Page: TradeChartV2Page,
     ) {
 
     }

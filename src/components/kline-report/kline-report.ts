@@ -3,6 +3,8 @@ import { KlineEchartsBaseComponent } from "../kline-base/kline-base";
 import * as moment from 'moment';
 import { checkNoChangesNode } from '@angular/core/src/view/view';
 import { LoadingController, } from 'ionic-angular';
+
+
 /**
  * Generated class for the RealtimeReportComponent component.
  *
@@ -537,6 +539,7 @@ splitData(rawData) {
       // 使用刚指定的配置项和数据显示图表。
       this.chartInstance.setOption(this.option);
       this.chartInstance.hideLoading();
+      this.tradeChartV2Page.changeTimeEnable = true;
       // this.chartInstance.resize();
     }
     inputDataValid() {

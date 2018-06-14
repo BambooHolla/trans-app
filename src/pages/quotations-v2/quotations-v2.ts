@@ -408,6 +408,7 @@ export class QuotationsPageV2 {
 				.map(data=>data.data)
 				.map(data => {
 					//处理增量更新
+					console.log('subscribeRealtimeReports success!',data)
 					const srcArr = value.reportArr
 					const length = srcArr.length
 					if(!this.appDataService.report_on_off){
