@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-// import { Subject } from 'rxjs/Subject';
+// import { Subject } from 'rxjs/Subject'; 
 import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 // import { Subscriber } from 'rxjs/Subscriber';
@@ -139,6 +139,12 @@ export class SocketioService {
     // 断线重连后，若断线时间较长，则会使用不同的 socketio 连接，
     // 这样之前的订阅就会失效！
     // 因此需要重新进行订阅。
+    socket.on('disconnect', function() {
+      console.log("与服务其断开");
+      setTimeout(() => {
+        socket.connect();
+      }, 500);
+    });
 
     // 短时间断线（服务器端仍在运行），
     // 则在网络重新连接时，会一次性收到之前错过的数据;
@@ -153,15 +159,15 @@ export class SocketioService {
     });
 
     socket.on('data', function (data) {
-      console.log(`${api}Socket on data: `,data);
+      console.log(`${api}Socket on data1: `,data);
     });
 
     socket.on('error', function (err) {
-      console.log(`${api}Socket on err: `,err);
+      console.log(`${api}Socket on err1: `,err);
     });
 
     socket.on('failed', function (err) {
-      console.log(`${api}Socket on failed: `, err);
+      console.log(`${api}Socket on failed1: `, err);
     });
     // socket.on('authenticated', () => {
     //  // console.log('authenticated');
