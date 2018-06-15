@@ -1263,7 +1263,7 @@ export class TradeInterfaceV2Page {
     // 快捷交易  买
     if(new BigNumber(dataRange).comparedTo(this.maxAmount) != 1){
       let buy_amount:any ;
-      if(rangeType == 1) {
+      if(rangeType == 1) { 
         buy_amount = this.oneRange > this.oneRange_buy_old ? new BigNumber(this.buyTotalAmount).plus(1)
         : new BigNumber(this.buyTotalAmount).minus(1);
         this.oneRange_buy_old = this.oneRange;
@@ -1382,10 +1382,10 @@ export class TradeInterfaceV2Page {
       return this.goLogin();
     }
     await this.personalDataService.requestCertifiedStatus(); 
-    if(!!(this.personalDataService.certifiedStatus == '2')){
+    if(!(this.personalDataService.certifiedStatus == '2')){
       return this.validateIdentify();
     }
-  
+
     if (this.quickTrading) {
       return void 0
     }
