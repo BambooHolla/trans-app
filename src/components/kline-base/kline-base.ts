@@ -43,7 +43,7 @@ export class KlineEchartsBaseComponent implements OnChanges, OnDestroy {
         if( changes.echartsData ) {
             if( !this._FIRST_ECHART && changes.echartsData.currentValue && changes.echartsData.currentValue.length == 1) {
                 this.pushEchartsData()
-            } else if(changes.echartsData.currentValue && changes.echartsData.currentValue.length >= 1){
+            } else if(changes.echartsData.currentValue){
                 console.log('k线图 changes.echartsData.currentValue  ' ,changes.echartsData.currentValue)
                 this.showLoading();
                 this.callEchartsCreator();

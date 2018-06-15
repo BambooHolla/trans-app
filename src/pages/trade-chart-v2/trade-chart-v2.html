@@ -50,7 +50,10 @@
     </div>
     <div class="time-interval">
         <div class="time" *ngFor="let title of timeArray; let i = index;" (click)="changeTime(i)" [class.active]="activeIndex === i">{{title}}</div>
-        <div class="norm">{{'INDEX'|translate}}<span></span></div>
+        <div class="norm" (click)="onShowIndex()" [class.show-index]="showIndex">{{'INDEX'|translate}}<span></span></div>
+        <div class="norm-index" [class.show-index]="showIndex">
+            MA5
+        </div>
     </div>
    
     <div class="transaction-btn" >

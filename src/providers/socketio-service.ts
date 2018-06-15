@@ -198,6 +198,7 @@ export class SocketioService {
       // 并且可用于区分网络问题导致的 disconnect 与认证失败的 disconnect 。
       onresize1("connect_error",args)
       socket.disconnect();
+      socket.connect();
       this._authenticated.next(undefined);
     });
 

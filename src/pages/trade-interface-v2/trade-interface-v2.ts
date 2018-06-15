@@ -1261,7 +1261,7 @@ export class TradeInterfaceV2Page {
     }
 
     // 快捷交易  买
-    if(new BigNumber(dataRange).comparedTo(this.maxAmount) != 1){
+    if(new BigNumber(dataRange||'0').toString()){
       let buy_amount:any ;
       if(rangeType == 1) { 
         buy_amount = this.oneRange > this.oneRange_buy_old ? new BigNumber(this.buyTotalAmount).plus(1)
@@ -1279,15 +1279,14 @@ export class TradeInterfaceV2Page {
       if(buy_amount.comparedTo(this.maxAmount) != 1){
         buy_amount = buy_amount.comparedTo(0) == 1 ? buy_amount : new BigNumber(0);  
         this.buyTotalAmount = dataRange == 0 ? "0" : buy_amount.toString();
+      } else {
+        this.buyTotalAmount = this.maxAmount;
       }
-      
-    } else {
-      this.buyTotalAmount = this.maxAmount;
-    }
+    } 
 
      
         // 快捷交易  卖
-    if(new BigNumber(dataRange).comparedTo(this.holdAmount) != 1){
+    if(new BigNumber(dataRange||'0').toString()){
       let sale_amount:any ;
       if(rangeType == 1) {
         sale_amount = this.oneRange > this.oneRange_sale_old ? new BigNumber(this.saleTotalAmount).plus(1)
@@ -1305,10 +1304,10 @@ export class TradeInterfaceV2Page {
       if(sale_amount.comparedTo(this.holdAmount) != 1){
         sale_amount = sale_amount.comparedTo(0) == 1 ? sale_amount : new BigNumber(0);  
         this.saleTotalAmount = dataRange == 0 ? "0" : sale_amount.toString();
+      } else {
+        this.saleTotalAmount = this.holdAmount;
       }
-    } else {
-      this.saleTotalAmount = this.holdAmount;
-    }
+    } 
    
   }
  
