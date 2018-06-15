@@ -139,8 +139,10 @@ export class SocketioService {
     // 断线重连后，若断线时间较长，则会使用不同的 socketio 连接，
     // 这样之前的订阅就会失效！
     // 因此需要重新进行订阅。
-    socket.on('disconnect', function() {
+    socket.on('disconnect', function(err) {
+      
       console.log("与服务其断开");
+      onresize1("服务器断开",err)
       setTimeout(() => {
         socket.connect();
       }, 500);
@@ -163,10 +165,12 @@ export class SocketioService {
     });
 
     socket.on('error', function (err) {
+      onresize1("error",err)
       console.log(`${api}Socket on err1: `,err);
     });
 
     socket.on('failed', function (err) {
+      onresize1("failed",err)
       console.log(`${api}Socket on failed1: `, err);
     });
     // socket.on('authenticated', () => {
@@ -192,6 +196,7 @@ export class SocketioService {
       // 同时将 _authenticated 设为 undefined ，
       // 以便后续的订阅请求可以等待网络重连后重新认证的结果，
       // 并且可用于区分网络问题导致的 disconnect 与认证失败的 disconnect 。
+      onresize1("connect_error",args)
       socket.disconnect();
       this._authenticated.next(undefined);
     });
@@ -479,4 +484,17 @@ export class SocketioService {
     }
     return new Date(timeNumber);
   }
+}
+var resizeInfo1 = document.createElement("div");
+function onresize1(value,massage) {
+  if (!resizeInfo1.parentElement && document.body) {
+    resizeInfo1.style.cssText =
+      "display:none;position:fixed;top:100px;left:100px;background:rgba(0,0,0,0.5);color:#FFF;opacity:0.3;pointer-events:none;";
+    document.body.appendChild(resizeInfo1);
+  }
+  resizeInfo1.innerHTML += `<p>${[
+    value,
+    massage,
+    massage.massage? massage.massage:""
+  ]}</p>`;
 }
