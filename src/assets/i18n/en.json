@@ -240,7 +240,7 @@
     "RECHATGE_ERR_MAX":" andit will not be able to reach your account when the amount of deposit is greater than the maximum amount of deposit.",
 
     "LOAD_PRODUCT_LIST_ERROR":"Load product list error",										
-    "ACCOUNT_FORMAT_EROOR_EMAIL":"Account format eroor/email",										
+    "ACCOUNT_FORMAT_EROOR_EMAIL":"Account format eroor",										
     "ACCOUNT_HAS_EXISTED":"Account has existed",										
   										
     "PASSWORD_STRENGTH_DISCREPANCY":"Password strength discrepancy",										

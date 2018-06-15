@@ -142,7 +142,7 @@ export class KlineReportComponent extends KlineEchartsBaseComponent {
             grid: [           {
                 left: '5%',
                 right: '3%',
-                top:"1%",
+                top:"2%",
                 height: '60%'
             },{
                 left: '3%',
@@ -528,7 +528,7 @@ splitData(rawData) {
   
     createCharts() {
     //    this.splitData();
-
+    this.tradeChartV2Page.changeTimeEnable = true;
         console.log('......',this.echartsData)
         this.integrationData();
         
@@ -538,8 +538,9 @@ splitData(rawData) {
       // console.log('realtime-report:linecolor',option.series[0].lineStyle.normal.color)
       // 使用刚指定的配置项和数据显示图表。
       this.chartInstance.setOption(this.option);
-      this.chartInstance.hideLoading();
-      this.tradeChartV2Page.changeTimeEnable = true;
+      if(this.echartsData.length > 0) this.chartInstance.hideLoading();
+      
+     
       // this.chartInstance.resize();
     }
     inputDataValid() {

@@ -95,6 +95,11 @@ export class TradeChartV2Page {
     this.changeReportType(index);
   } 
 
+  showIndex = false;
+  onShowIndex(){
+    this.showIndex = !this.showIndex;
+  }
+
   changeReportType(index) {
     
     this._reportsData$ = this.socketioService.subscribeRealtimeReports([this.traderId],undefined,{timespan:this.timeTypeArr[index]})
@@ -109,6 +114,10 @@ export class TradeChartV2Page {
         const length = srcArr.length
         if (length > this.appSettings.Charts_Array_Length) { 
           srcArr.splice(0, length - this.appSettings.Charts_Array_Length)
+        }
+        if(data.length == 0 && !this.changeTimeEnable){
+          this.changeTimeEnable = true;
+
         }
         console.log('trade- chart_reportsData:srcArr:', srcArr)
         return srcArr.concat()

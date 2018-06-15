@@ -73,6 +73,7 @@ page-trade-chart-v2 {
         justify-content: space-around; 
         border-top: 0.1rem solid rgba(60, 60, 60, 0.96);  
         box-sizing: border-box; 
+        position: relative;
         div {
             font-size: 1.2rem;
             line-height: 4rem;
@@ -82,8 +83,11 @@ page-trade-chart-v2 {
         .norm {
             width: 20.2%;
             text-align: center;
-            background-color: rgba(0, 0, 0, 0.32); 
+            
             position: relative;
+            &.show-index {
+                background-color: rgba(0, 0, 0, 0.32); 
+            }
             span {
                 z-index: 1;
                 width:0px;
@@ -98,6 +102,19 @@ page-trade-chart-v2 {
             }
             
         }
+        .norm-index {
+            position: absolute;
+            height: 4rem;
+            width: 20.2%;
+            right: 0;
+            top: -4rem;
+            background-color: rgba(0, 0, 0, 0.62); 
+            display: none;
+            font-size: 1.4rem;
+            &.show-index {
+               display: block;
+            }
+        }   
         .active{
             color:#c1b17f;
             position: relative;

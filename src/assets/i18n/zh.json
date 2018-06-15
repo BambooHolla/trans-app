@@ -238,7 +238,7 @@
     "RECHATGE_ERR_MAX":"大于最大充值金额的充值将无法到账。",
 										
     "LOAD_PRODUCT_LIST_ERROR":"产品列表加载出错",										
-    "ACCOUNT_FORMAT_EROOR_EMAIL":" 账号格式错误/邮箱",										
+    "ACCOUNT_FORMAT_EROOR_EMAIL":" 账号格式错误",										
     "ACCOUNT_HAS_EXISTED":"账号已存在",										
    										
     "PASSWORD_STRENGTH_DISCREPANCY":"密码强度不符",										
