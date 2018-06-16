@@ -10,10 +10,10 @@ page-optional {
 
   .light-transparent{
     background: color($colors,background);
+    display: inline-block;
     .frozen{
       color:color($colors,lightdark);
       text-align: left;
-      
     }
   }
   .hold{
