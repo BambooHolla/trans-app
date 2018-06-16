@@ -1376,6 +1376,31 @@ export class TradeInterfaceV2Page {
     // }
   }
 
+  alterQuickTrade(tradeType) {
+    let type = {
+      'buy':'委托买单',
+      'sale':'委托卖单'
+    }
+    this.alertCtrl.create({
+      title:'快捷交易',
+      message:type[tradeType],
+      buttons:[
+        {
+          text: window['language']['CANCEL']||'取消',
+          role: 'cancel',
+          handler: () => {
+            // console.log('Cancel clicked')
+          }
+        },
+        {
+          text: window['language']['CONFIRM']||'确认',
+          handler: () => {
+            this.quickTrade(tradeType);
+          }
+        }
+      ]
+    }).present();
+  }
   async quickTrade(tradeType){
     if(!this.appSetting.getUserToken()){
       return this.goLogin();

@@ -66,11 +66,11 @@
       <ion-col class="light-transparent" col-4 padding>
         <div class="col2">
           <h5 class="color-eye-catching">{{data?.personalData?.restQuantity| quantityConversion | numberUnitFormat:true:false:4}}</h5>
-          <div class="frozen">
-            <!-- <span class="font-smaller">{{'FREEZE_1'|translate}}</span> -->
-            <!-- <span class="color-rise">服务升级中</span> -->
-          </div>
           <!-- <h6 *ngIf="false">换手率：{{(data?.baseData | async)?.marketInfo?.turnoverRate | percent:'.2-2'}}</h6> -->
+        </div>
+        <div class="frozen">
+          <!-- <span class="font-smaller">{{'FREEZE_1'|translate}}</span> -->
+          <!-- <span class="color-rise">服务升级中</span> -->
         </div>
       </ion-col>
       <ion-col class="light-transparent" col-4 padding>
