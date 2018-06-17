@@ -5,6 +5,7 @@ import { checkNoChangesNode } from '@angular/core/src/view/view';
 import { LoadingController, } from 'ionic-angular';
 
 
+
 /**
  * Generated class for the RealtimeReportComponent component.
  *
@@ -20,9 +21,11 @@ export class KlineReportComponent extends KlineEchartsBaseComponent {
     @Input() riseOrFall: any = '';
     @Output() tooltipEmitted: any = new EventEmitter();
 
-
-
     private klineDatas: any = {
+        times: [],
+        datas: [],
+    };
+    private showKlineDates: any = {
         times: [],
         datas: [],
     };
@@ -87,7 +90,7 @@ export class KlineReportComponent extends KlineEchartsBaseComponent {
                             <td>开</td>
                             <td>${datas[candlestick_index].data[1]}</td>
                             </tr>`;
-                    let val_max:any = datas[candlestick_index].data[2];
+                    let val_max:any = datas[candlestick_index].data[4];
                     let val_min:any = datas[candlestick_index].data[3];
                     // for(let i = 1, length = datas[candlestick_index].data.length - 1; i < length; i++) {
                     //     val_max = datas[candlestick_index].data[i] > datas[candlestick_index].data[i+1] ? 
@@ -120,7 +123,7 @@ export class KlineReportComponent extends KlineEchartsBaseComponent {
                             </tr>
                             <tr>
                             <td>收</td>
-                            <td>${datas[candlestick_index].data[4]}</td>
+                            <td>${datas[candlestick_index].data[2]}</td>
                             </tr>
                         </table>`
                     return res;
@@ -164,7 +167,7 @@ export class KlineReportComponent extends KlineEchartsBaseComponent {
             }],
             xAxis: [{
                 type: 'category',
-                data: this.klineDatas.times,
+                data: this.showKlineDates.times,
                 // data: time,
                 scale: true,
                 boundaryGap: ['20%','20%'],
@@ -195,7 +198,7 @@ export class KlineReportComponent extends KlineEchartsBaseComponent {
                 type: 'category',
                 gridIndex: 1,
                 boundaryGap: ['20%','20%'],
-                data: this.klineDatas.times,
+                data: this.showKlineDates.times,
                 // data: time,
                 axisLabel: {show: false},
                 axisPointer: {
@@ -209,7 +212,7 @@ export class KlineReportComponent extends KlineEchartsBaseComponent {
                 type: 'category',
                 gridIndex: 2,
                 boundaryGap: ['20%','20%'],
-                data: this.klineDatas.times,
+                data: this.showKlineDates.times,
                 // data: time,
                 axisLabel: {show: false},
                 axisPointer: {
@@ -326,7 +329,7 @@ export class KlineReportComponent extends KlineEchartsBaseComponent {
             }],
             series: [{
                     type: 'candlestick',
-                    data: this.klineDatas.datas,
+                    data: this.showKlineDates.datas,
                     // data: aData,
                     itemStyle: {
                         normal: {
@@ -526,7 +529,7 @@ splitData(rawData) {
     })
     }
   
-    createCharts() {
+   createCharts() {
     //    this.splitData();
     this.tradeChartV2Page.changeTimeEnable = true;
         console.log('......',this.echartsData)
@@ -537,12 +540,18 @@ splitData(rawData) {
       console.log('kline-report:showLineRangeColor', true)
       // console.log('realtime-report:linecolor',option.series[0].lineStyle.normal.color)
       // 使用刚指定的配置项和数据显示图表。
-      this.chartInstance.setOption(this.option);
-      if(this.echartsData.length > 0) this.chartInstance.hideLoading();
+     if(this.show) {
+        
+        if(this.echartsData.length > 0 || this.nowTimeArr.beginTime) {
+            this.chartInstance.setOption(this.option);
+            this.chartInstance.hideLoading();
+        }
+     }
       
      
       // this.chartInstance.resize();
     }
+
     inputDataValid() {
         return !!Array.isArray(this.echartsData);
     }
@@ -552,17 +561,66 @@ splitData(rawData) {
         if(!Array.isArray(this.echartsData)) {
             return ;
         }
+        let _length = 0;
+        let _nowPriceArr = [];
         this.klineDatas.times = [];
         this.klineDatas.datas = [];
+        this.showKlineDates.times = [];
+        this.showKlineDates.datas = [];
+        let price = Number(this.price);
         // 数据整合
        this.echartsData.forEach( item => {
             this.klineDatas.times.push(this.funcTimeFormat(item.beginTime,this.timeType));
-            this.klineDatas.datas.push([item.value.start*1,item.value.max*1,item.value.min*1,item.value.end*1]);
+            // 固定格式 [开，收，低，高]
+            this.klineDatas.datas.push([item.value.start*1,item.value.end*1,item.value.min*1,item.value.max*1]);
        });
-       console.log('......',this.klineDatas)
+       _length = this.klineDatas.datas.length;
+       this.showKlineDates.times = this.klineDatas.times.concat();
+       this.showKlineDates.datas = this.klineDatas.datas.concat();
+       debugger
+       if(this.showKlineDates.datas.length) {
+        _nowPriceArr = [this.klineDatas.datas[_length - 1][0]];
+       } else {
+            if(price) {
+                _nowPriceArr.push(price)
+            }
+       }
+       if(this.nowTimeArr.value && this.nowTimeArr.value.start) {
+            _nowPriceArr.push(this.nowTimeArr.value.start);
+        } else {
+            try{
+               
+                if(price) {
+                    _nowPriceArr.push(price)
+                }
+                if(_nowPriceArr[0] > _nowPriceArr[1]) {
+                    _nowPriceArr.push(_nowPriceArr[1])
+                    _nowPriceArr.push(_nowPriceArr[0])
+                } else {
+                    _nowPriceArr.push(_nowPriceArr[0])
+                    _nowPriceArr.push(_nowPriceArr[1])
+                }
+            } catch(e) {
+                console.log('kline price err :',e)
+            }
+        
+        }
        
+       if(this.nowTimeArr.beginTime && _nowPriceArr.length == 4) {
+        this.showKlineDates.times.push(moment(this.nowTimeArr.beginTime || moment()).add(1,('milliseconds')).format(this.FORMATS[this.timeType] || 'YYYY-MM-DD'))
+        console.log(_nowPriceArr)
+        this.showKlineDates.datas.push(_nowPriceArr)
+        // this.showKlineDates.datas = [[50,40,20,80]]
+       }
+       debugger
+       console.log('K 整合数据',this.klineDatas)
+      
     }
     funcTimeFormat(time:any,type) {
-        return moment(time || moment()).format(this.FORMATS[type] || 'YYYY-MM-DD HH:mm');
+        return moment(time || moment()).format(this.FORMATS[type] || 'YYYY-MM-DD');
     } 
+
+    ionViewWillLeave() {
+        this.chartInstance.dispose();
+    }
   }

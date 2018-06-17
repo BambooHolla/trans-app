@@ -20,6 +20,7 @@ import { StockDataService } from '../../providers/stock-data-service';
 import * as echarts from 'echarts';
 
 
+
 // 未完成，完成后整理代码格式与调用逻辑
 @Component({
   selector: 'page-trade-chart-v2',
@@ -30,6 +31,7 @@ export class TradeChartV2Page {
   private product:any = '--- / ---';
   private traderId:any;
   private changeTransaction:any;
+  public nowTimeArr:any = {};
 
   private timeArray: string[] = [
     window['language']['1M']||'1分',
@@ -64,6 +66,7 @@ export class TradeChartV2Page {
       public alertCtrl: AlertController,
       public navCtrl: NavController,
       public stockDataService: StockDataService,
+     
   ) { 
 
     appDataService.report_on_off = true;
@@ -81,6 +84,7 @@ export class TradeChartV2Page {
       const trader = this.appDataService.traderList.get(traderId)
       this._baseData$ = trader.marketRef;
       this.changeTime(0)
+      
     }
     
   }
@@ -89,9 +93,11 @@ export class TradeChartV2Page {
   public changeTimeEnable:boolean = true;
   changeTime(index) {
     if( this.activeIndex == index || !this.changeTimeEnable) return ;
+    
     this.activeIndex = index;
     this.changeTimeEnable = false;
     this.timeType = this.timeTypeArr[index];
+    
     this.changeReportType(index);
   } 
 

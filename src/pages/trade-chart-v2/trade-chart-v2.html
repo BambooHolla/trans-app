@@ -43,7 +43,9 @@
                 #largeRealtimeChart
                 [echartsData]="_reportsData$ | async" 
                 [options]="realtimeOptions"
-                [timeType] = "timeType"
+                [timeType]="timeType"
+                [traderId]="traderId"
+                [price]="(_baseData$ | async)?.price"
                 >
 			</kline-report>
         </div>

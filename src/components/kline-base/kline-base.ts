@@ -3,7 +3,7 @@ import { Component, ViewChild, Input, OnChanges, OnDestroy } from '@angular/core
 import { LoadingController, } from 'ionic-angular';
 import * as echarts from 'echarts';
 import { TradeChartV2Page } from '../../pages/trade-chart-v2/trade-chart-v2';
-
+import { AccountServiceProvider } from '../../providers/account-service/account-service';
 @Component({
     selector: 'line-base-component',
     template: `<div class="echarts-placeholder" #echartsPlaceholder></div>`,
@@ -13,15 +13,25 @@ export class KlineEchartsBaseComponent implements OnChanges, OnDestroy {
         // protected ngZone: NgZone,
         public loadingCtrl: LoadingController,
         public tradeChartV2Page: TradeChartV2Page,
+        public accountService: AccountServiceProvider,
     ) {
 
     }
+   
 
     @Input() echartsData: any;
     @Input() options: any;
     @Input() timeType: any;
+    @Input() traderId: any;
+    @Input() price: any;
+    
     @ViewChild('echartsPlaceholder') chartElem;
 
+    public show:boolean = false;
+    public nowTimeArr:any = {
+        beginTime: '',
+        value:{}
+    };
     chartInstance: echarts.ECharts;
 
     showLoading() {
@@ -31,13 +41,21 @@ export class KlineEchartsBaseComponent implements OnChanges, OnDestroy {
             maskColor: 'rgba(255, 255, 255, 0)',
         });
     }
-    ngOnInit() {
+    async ngOnInit() {
         this.chartInstance = echarts.init(this.chartElem.nativeElement as HTMLDivElement);
         this.showLoading();
+        await this.accountService.getDeliverType(this.traderId,this.timeType).then( data => {
+            console.log('1111,',this.price)
+            this.show = true;
+            this.nowTimeArr = data||  {
+                beginTime: '',
+                value:{}
+            };
+        }).catch( () => this.show = false );
         this.firstCallEchartsCreator();
     }
 
-    ngOnChanges(changes) {
+    async ngOnChanges(changes) {
         // console.log('chart ngOnChanges', Object.keys(changes));
         // console.log('charts changed:ngOnChanges', changes)   
         if( changes.echartsData ) {
@@ -45,6 +63,14 @@ export class KlineEchartsBaseComponent implements OnChanges, OnDestroy {
                 this.pushEchartsData()
             } else if(changes.echartsData.currentValue){
                 console.log('k线图 changes.echartsData.currentValue  ' ,changes.echartsData.currentValue)
+                await this.accountService.getDeliverType(this.traderId,this.timeType).then( data => {
+                    console.log('1111,',this.price)
+                    this.show = true;
+                    this.nowTimeArr = data||  {
+                        beginTime: '',
+                        value:{}
+                    };
+                }).catch( () => this.show = false );
                 this.showLoading();
                 this.callEchartsCreator();
             }
@@ -135,7 +161,7 @@ export class KlineEchartsBaseComponent implements OnChanges, OnDestroy {
                     //     this.createCharts()
                     // });
                 }
-            }, 2000);
+            }, 1000);
         } 
     }
 

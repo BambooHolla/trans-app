@@ -78,6 +78,9 @@ export class AccountServiceProvider {
 	readonly GET_PRODUCT_LIMITEQUOTA = this.appSetting.APP_URL(
 		"product/strategy/limitedQuotaByProduct",
 	);
+	readonly GET_DELIVERY_TYPE = this.appSetting.APP_URL(
+		"transaction/delivery/type",
+	);
 
 	readonly SET_ACCOUNT_PWD = this.appSetting.APP_URL("user/setAccountPwd");
 	readonly HAS_ACCOUNT_PWD = this.appSetting.APP_URL("user/hasAccountPwd");
@@ -459,6 +462,18 @@ export class AccountServiceProvider {
 				limitedQuotaType: limitedQuotaType,
 			}
 		});
+	}
+	
+	getDeliverType(
+		targetIds,
+		type
+	) {
+		return this.fetch.post(this.GET_DELIVERY_TYPE,{}, {
+			search: {
+				type,
+				targetIds,
+			}
+		})
 	}
 
 }
