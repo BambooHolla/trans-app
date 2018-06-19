@@ -21,15 +21,19 @@ export class KlineReportComponent extends KlineEchartsBaseComponent {
     @Input() riseOrFall: any = '';
     @Output() tooltipEmitted: any = new EventEmitter();
 
+    // 保存的报表数据
     private klineDatas: any = {
         times: [],
         datas: [],
     };
+
+    // k线图展示数据
     private showKlineDates: any = {
         times: [],
         datas: [],
     };
 
+    // 日期格式
     private FORMATS = {
         "1m": "HH:mm",
         "5m": "MM-DD HH:mm",
@@ -39,8 +43,31 @@ export class KlineReportComponent extends KlineEchartsBaseComponent {
         "1d": "YYYY-MM-DD",
         "1w": "YYYY-MM-DD",
     };
+
+    // 报表数据过少，moment 添加时间段
+    private MIN_TIME_LENGTH: number = 24;
+    private DATE_TYPE = {
+        "1m": [1,'m'],
+        "5m": [5,'m'],
+        "15m": [15,'m'],
+        "30m": [30,'m'],
+        "1h": [1,'h'],
+        "1d": [1,'d'],
+        "1w": [1,'w'],
+    }
+
     // private option:any ;
 
+    // 配置
+    private _echart_option = {
+        zoomLock: false,// 是否锁定选择区的大小，如果设置为 true 则锁定选择区域的大小，也就是说，只能平移，不能缩放。
+        start: 0, 
+        end: 100, // 视图显示范围 0 ~ 100 
+        minSpan: 10,
+        maxSpan: 100, // 设置最大最小 缩放 比例 0 ~ 100，
+        
+
+    }
     get option() {
         let that = this;
         return {
@@ -304,28 +331,31 @@ export class KlineReportComponent extends KlineEchartsBaseComponent {
             dataZoom: [{
                     type: 'inside',
                     xAxisIndex: [0, 0],
-                    start: 10,
-                    end: 100,
-                    maxSpan:100,
-                    minSpan: 10
+                    start: this._echart_option.start,
+                    end: this._echart_option.end,
+                    maxSpan: this._echart_option.maxSpan,
+                    minSpan: this._echart_option.minSpan,
+                    zoomLock: this._echart_option.zoomLock,
                     
                 },{
                     show: false,
                     xAxisIndex: [0, 1],
                     type: 'slider',
                     top: '97%',
-                    start: 10,
-                    end: 100,
-                    maxSpan:100,
-                    minSpan: 10
+                    start: this._echart_option.start,
+                    end: this._echart_option.end,
+                    maxSpan: this._echart_option.maxSpan,
+                    minSpan: this._echart_option.minSpan,
+                    zoomLock: this._echart_option.zoomLock,
                 },{
-                show: false,
-                xAxisIndex: [0, 2],
-                type: 'slider',
-                start: 10,
-                end: 100,
-                maxSpan:100,
-                minSpan: 10
+                    show: false,
+                    xAxisIndex: [0, 2],
+                    type: 'slider',
+                    start: this._echart_option.start,
+                    end: this._echart_option.end,
+                    maxSpan: this._echart_option.maxSpan,
+                    minSpan: this._echart_option.minSpan,
+                    zoomLock: this._echart_option.zoomLock,
             }],
             series: [{
                     type: 'candlestick',
@@ -563,11 +593,13 @@ splitData(rawData) {
         }
         let _length = 0;
         let _nowPriceArr = [];
+        let _price = Number(this.price)||0;
+        let _date = moment();
         this.klineDatas.times = [];
         this.klineDatas.datas = [];
         this.showKlineDates.times = [];
         this.showKlineDates.datas = [];
-        let price = Number(this.price);
+        
         // 数据整合
        this.echartsData.forEach( item => {
             this.klineDatas.times.push(this.funcTimeFormat(item.beginTime,this.timeType));
@@ -577,43 +609,55 @@ splitData(rawData) {
        _length = this.klineDatas.datas.length;
        this.showKlineDates.times = this.klineDatas.times.concat();
        this.showKlineDates.datas = this.klineDatas.datas.concat();
-       debugger
+      
+       // 查看是否 有过去的报表.如果有，新时间段的开 = 最后报表的收
        if(this.showKlineDates.datas.length) {
-        _nowPriceArr = [this.klineDatas.datas[_length - 1][0]];
-       } else {
-            if(price) {
-                _nowPriceArr.push(price)
-            }
+        _nowPriceArr[0] = [this.klineDatas.datas[_length - 1][0]];
        }
+
+       // 查看 新时间段的接口
+       // 如果 开有值 取开，否则 判断是否有值 ，没有的话取当前价格
        if(this.nowTimeArr.value && this.nowTimeArr.value.start) {
-            _nowPriceArr.push(this.nowTimeArr.value.start);
+            _nowPriceArr[0] = this.nowTimeArr.value.start;
         } else {
-            try{
-               
-                if(price) {
-                    _nowPriceArr.push(price)
-                }
-                if(_nowPriceArr[0] > _nowPriceArr[1]) {
-                    _nowPriceArr.push(_nowPriceArr[1])
-                    _nowPriceArr.push(_nowPriceArr[0])
-                } else {
-                    _nowPriceArr.push(_nowPriceArr[0])
-                    _nowPriceArr.push(_nowPriceArr[1])
-                }
-            } catch(e) {
-                console.log('kline price err :',e)
-            }
-        
+            _nowPriceArr[0] = _nowPriceArr[0] || _price;
+        }
+         // 如果 收有值 取收，否则取当前价格
+        if(this.nowTimeArr.value && this.nowTimeArr.value.end) {
+            _nowPriceArr[1] = this.nowTimeArr.value.end;
+        } else {
+            _nowPriceArr[1] = _price;
+        }
+
+         // 排查 高低，如果高/低 没有， 就从 开/收 取
+        _nowPriceArr[2] = this.nowTimeArr.value.min||0;
+        _nowPriceArr[3] = this.nowTimeArr.value.max||0;
+        if(!_nowPriceArr[2]) {
+            _nowPriceArr[2] = _nowPriceArr[0] > _nowPriceArr[1] ? _nowPriceArr[1] : _nowPriceArr[0];
+        }
+        if(!_nowPriceArr[3]) {
+            _nowPriceArr[3] = _nowPriceArr[0] > _nowPriceArr[1] ? _nowPriceArr[0] : _nowPriceArr[1];
+        }
+       if(this.nowTimeArr.beginTime) {
+            _date = moment(this.nowTimeArr.beginTime || moment()).add(1,('milliseconds'));
+            this.showKlineDates.times.push(moment(this.nowTimeArr.beginTime || moment()).add(1,('milliseconds')).format(this.FORMATS[this.timeType] || 'YYYY-MM-DD'))
+            console.log(_nowPriceArr)
+            this.showKlineDates.datas.push(_nowPriceArr)
+            // this.showKlineDates.datas = [[50,40,20,80]]
         }
        
-       if(this.nowTimeArr.beginTime && _nowPriceArr.length == 4) {
-        this.showKlineDates.times.push(moment(this.nowTimeArr.beginTime || moment()).add(1,('milliseconds')).format(this.FORMATS[this.timeType] || 'YYYY-MM-DD'))
-        console.log(_nowPriceArr)
-        this.showKlineDates.datas.push(_nowPriceArr)
-        // this.showKlineDates.datas = [[50,40,20,80]]
-       }
-       debugger
-       console.log('K 整合数据',this.klineDatas)
+       if(this.showKlineDates.times.length < this.MIN_TIME_LENGTH) {
+           let length = this.MIN_TIME_LENGTH - this.showKlineDates.times.length;
+           for( let i = 0; i < length; i++) {
+            this.showKlineDates.times.push(_date.add(this.DATE_TYPE[this.timeType][0],this.DATE_TYPE[this.timeType][1]).format(this.FORMATS[this.timeType] || 'YYYY-MM-DD'))
+           }
+        }
+
+        // 配置
+        this._echart_option.zoomLock = (this.showKlineDates.datas.length < this.MIN_TIME_LENGTH);
+        debugger
+        this._echart_option.start = Math.floor((1 - this.MIN_TIME_LENGTH/this.showKlineDates.times.length) * 100);
+        console.log('K 整合数据',this.klineDatas)
       
     }
     funcTimeFormat(time:any,type) {

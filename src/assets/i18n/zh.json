@@ -330,7 +330,7 @@
     "ESTIMATED_SELL_PRICE":"预估卖出价",										
     "SELL_QUANTITY":"卖出数量",										
     "ESTIMATED_BUY_PRICE":"预估买入价",										
-    "BUY_QUANTITY":"买入数量",										
+    "BUY_QUANTITY":"交易额",										
     "QUANTITY_ONE":"数量：个",										
     "QUANTITY_TEN":"数量：十",										
     "QUANTITY_HUNDRED":"数量：百",	

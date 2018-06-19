@@ -68,7 +68,7 @@ export class TradeInterfaceV2Page {
       }else if (type === 1){
         rateSrc = this.buyRate
       }
-      this.getFee(rateSrc).then(data => this.fee = !data?"0%":data) 
+      this.getFee(rateSrc).then(data => this.fee = data) 
     })
 
   private hiddentext = ''
@@ -85,6 +85,8 @@ export class TradeInterfaceV2Page {
 
   private trader_target
   private trader_product
+
+  private holePrice:any = '0';
 
   page = 1
   pageSize = 20
@@ -1276,11 +1278,11 @@ export class TradeInterfaceV2Page {
         : new BigNumber(this.buyTotalAmount).minus(100);
         this.hundredRange_buy_old = this.hundredRange;
       }
-      if(buy_amount.comparedTo(this.maxAmount) != 1){
+      if(buy_amount.comparedTo(this.holePrice) != 1){
         buy_amount = buy_amount.comparedTo(0) == 1 ? buy_amount : new BigNumber(0);  
         this.buyTotalAmount = dataRange == 0 ? "0" : buy_amount.toString();
       } else {
-        this.buyTotalAmount = this.maxAmount;
+        this.buyTotalAmount = this.holePrice;
       }
     } 
 
@@ -1459,7 +1461,8 @@ export class TradeInterfaceV2Page {
 
           //下单成功刷新委托单
           this.page = 1
-          this.getProcessEntrusts()
+          this.getProcessEntrusts();
+          
         })
         .catch(err => {
           this.alertService.dismissLoading()
@@ -1467,8 +1470,11 @@ export class TradeInterfaceV2Page {
             this.alertService.showAlert(window['language']['ORDER_FAILED']||'下单失败',err.message)
           }
         })
-        .then(() => this.quickTrading = false)
-    }finally{
+        .then(() => {
+          this.quickTrading = false
+          this.refreshPersonalData();
+        })
+    }finally{ 
       // this.alertService.dismissLoading()
     }
 
@@ -1482,6 +1488,7 @@ export class TradeInterfaceV2Page {
     this.personalDataService.personalStockList.forEach(item => {
       if (item.stockCode === traders[0]) {
         this.trader_target = item
+        this.holePrice =this.numberFormat( (new BigNumber(item.restQuantity || "0")).div( this.appSettings.Product_Price_Rate_str).toString());
       } else if (item.stockCode === traders[1]) {
         this.trader_product = item;
         this.holdAmount = this.numberFormat( new BigNumber(item.restQuantity?item.restQuantity:"0").div(1e8).toString(),false,false);
@@ -1625,7 +1632,7 @@ export class TradeInterfaceV2Page {
   }
   rangeMaxNumber(base:number = 1){
     let rangNumber:any;
-    let buy:any = this.maxAmount;
+    let buy:any = this.holePrice;
     let sale:any = this.holdAmount;
     let number:number;
     buy = isNaN(buy) ? 0 : parseFloat(buy);
