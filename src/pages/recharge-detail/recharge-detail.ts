@@ -63,16 +63,16 @@ export class RechargeDetailPage extends SecondLevelPage {
 			const tasks = [];
 			// 获取地址信息
 			tasks[tasks.length] = this.accountService
-				.getRechargeAddress(this.productInfo.productId)
+				.getRechargeAddress(this.productInfo.productHouseId)
 				.then(data => (this.recharge_address = data[0]));
 
 			// 获取账户资产
 			tasks[tasks.length] = this.accountService
 				.getAccountProduct({
-					productId: this.productInfo.productId,
+					productHouseId: this.productInfo.productHouseId,
 					accountType: AccountType.Product,
 				})
-				.then(data => {
+				.then(data => { 
 					data['balance'] = new BigNumber(data['balance']+'').div('100000000').toString();
 					data['freezeBalance'] = new BigNumber(data['freezeBalance']+'').div('100000000').toString();
 					this.access_info = data

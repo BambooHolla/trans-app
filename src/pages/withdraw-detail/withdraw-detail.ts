@@ -184,7 +184,7 @@ export class WithdrawDetailPage extends SecondLevelPage {
 			.then( () => {
 				return this.accountService
 				.getAccountProduct({
-					productId: this.productInfo.productId,
+					productHouseId: this.productInfo.productHouseId,
 					accountType: AccountType.Product,
 				})
 				.then(data => {
@@ -238,7 +238,7 @@ export class WithdrawDetailPage extends SecondLevelPage {
 			// 获取账户信息
 			tasks[tasks.length] = this.accountService
 				.getAccountProduct({
-					productId: this.productInfo.productId,
+					productHouseId: this.productInfo.productHouseId,
 					accountType: AccountType.Product,
 				})
 				.then(data => {
@@ -338,7 +338,7 @@ export class WithdrawDetailPage extends SecondLevelPage {
 				}).then(transaction => {
 					return this.accountService
 					.getAccountProduct({
-						productId: this.productInfo.productId,
+						productHouseId: this.productInfo.productHouseId,
 						accountType: AccountType.Product,
 					})
 					.then(data => {
