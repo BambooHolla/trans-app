@@ -1432,7 +1432,6 @@ export class TradeInterfaceV2Page {
     }else {
       return void 0
     }
-    debugger
     if(!Number(amount)){
       this.alertCtrl.create({
         title:'快捷交易失败',
