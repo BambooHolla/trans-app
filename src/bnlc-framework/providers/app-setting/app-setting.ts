@@ -18,9 +18,7 @@ export class AppSettingProvider {
   // static SERVER_URL = 'https://www.picaex.com' ; //release www server
   // static SERVER_URL = 'http://192.168.16.101:40001'; //company mac server
   //  static SERVER_URL = "http://192.168.18.23:40001" 
-    // static SERVER_URL = "http://192.168.16.109:40001"; // erbing 
-    // static SERVER_URL =  "http://192.168.16.192:40001"; // chenfeng
-    static SERVER_URL =  "http://192.168.16.107:40001"; // yongming
+    static SERVER_URL = "http://192.168.16.109:40001"; // erbing 
   static SERVER_PREFIX = '/api/v1/bngj';
   static Platform_Type = '10011001';
   public RECOMMEND_PREFIX = 'www.picaex.com?ref=';
