@@ -1379,6 +1379,9 @@ export class TradeInterfaceV2Page {
   }
 
   alterQuickTrade(tradeType) {
+    if(!this.appSetting.getUserToken()){
+      return this.goLogin();
+    }
     let type = {
       'buy':'委托买单',
       'sale':'委托卖单'
@@ -1416,17 +1419,33 @@ export class TradeInterfaceV2Page {
       return void 0
     }
     let transactionType = ''
-    let amount:any = 0
+    let amount:any = 0;
+    let text:string = '';
     if (tradeType === 'buy') {
       transactionType = '001'
       amount = new BigNumber(this.buyTotalAmount).multipliedBy('100000000').toString();
+      text = '请拖动选择交易额';
     }else if (tradeType === 'sale') {
       transactionType = '002'
       amount = new BigNumber(this.saleTotalAmount).multipliedBy('100000000').toString();
+      text = '请拖动选择卖出数量';
     }else {
       return void 0
     }
+    debugger
     if(!Number(amount)){
+      this.alertCtrl.create({
+        title:'快捷交易失败',
+        message:text,
+        buttons:[
+          {
+            text: window['language']['CONFIRM']||'确认',
+            handler: () => {
+          
+            }
+          }
+        ]
+      }).present();
       return void 0
     }
  
