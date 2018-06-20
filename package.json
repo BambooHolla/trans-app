@@ -66,7 +66,7 @@
         "cordova.plugins.diagnostic": "^3.9.2",
         "core-js": "~2.4.1",
         "danielsogl-cordova-plugin-clipboard": "^1.0.2",
-        "echarts": "~3.6.2",
+        "echarts": "^3.6.2",
         "echarts-liquidfill": "~1.0.5",
         "es6-promise-plugin": "^4.2.2",
         "eventemitter3": "3.0.0",

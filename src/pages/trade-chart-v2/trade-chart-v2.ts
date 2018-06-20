@@ -149,6 +149,7 @@ export class TradeChartV2Page {
   
   }
   activeQuota(index:number){
+    if( !this.changeTimeEnable) return ;
     this.quotaArr[index]['active'] = this.quotaArr[index]['active'] ? false : true;
     this.quota = Object.assign({},this.quotaArr[index]);
     this.onShowIndex();

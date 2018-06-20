@@ -86,7 +86,13 @@ export class KlineReportComponent extends KlineEchartsBaseComponent {
                 // triggerOn: 'none',
                 confine: true,
                 axisPointer: {
-                    type: 'cross'
+                    type: 'cross',
+                    label: {
+                        backgroundColor: '#262739',
+                        color: '#cccccc',
+                        borderColor: '#cccccc',
+                        borderWidth: '1',
+                    }
                 },
                 backgroundColor: 'rgba(245, 245, 245, 0.8)',
                 borderWidth: 1,
@@ -129,16 +135,16 @@ export class KlineReportComponent extends KlineEchartsBaseComponent {
                     if( candlestick_index >= datas.length) {
                         return ;
                     }
-
+                 
                     let res:any = `
-                        <table >
+                        <table class="prompt-box">
                             <tr>
-                            <td>时间</td>
-                            <td>${datas[candlestick_index].name}</td>
+                            <td class="prompt-title">时间</td>
+                            <td class="prompt-value">${datas[candlestick_index].name}</td>
                             </tr>
                             <tr>
-                            <td>开</td>
-                            <td>${numberFormatDelete0(datas[candlestick_index].data[1].toFixed(8))}</td>
+                            <td class="prompt-title">开</td>
+                            <td class="prompt-value">${numberFormatDelete0(datas[candlestick_index].data[1].toFixed(8))}</td>
                             </tr>`;
                     let val_max:any = numberFormatDelete0(datas[candlestick_index].data[4].toFixed(8));
                     let val_min:any = numberFormatDelete0(datas[candlestick_index].data[3].toFixed(8));
@@ -164,16 +170,16 @@ export class KlineReportComponent extends KlineEchartsBaseComponent {
                     //         </tr>
                     //     </table>`
                     res += `<tr>
-                            <td>高</td>
-                            <td>${val_max}</td>
+                            <td class="prompt-title">高</td>
+                            <td class="prompt-value">${val_max}</td>
                             </tr>
                             <tr>
-                            <td>低</td>
-                            <td>${val_min}</td>
+                            <td class="prompt-title">低</td>
+                            <td class="prompt-value">${val_min}</td>
                             </tr>
                             <tr>
-                            <td>收</td>
-                            <td>${numberFormatDelete0(datas[candlestick_index].data[2].toFixed(8))}</td>
+                            <td class="prompt-title">收</td>
+                            <td class="prompt-value">${numberFormatDelete0(datas[candlestick_index].data[2].toFixed(8))}</td>
                             </tr>
                         </table>`
                     return res;
@@ -300,6 +306,9 @@ export class KlineReportComponent extends KlineEchartsBaseComponent {
                     showMinLabel: false,
                     showMaxLabel: true,
                     fontSize:10
+                },
+                axisPointer: {
+                  
                 }
             },{
                 gridIndex: 1,
@@ -395,20 +404,46 @@ export class KlineReportComponent extends KlineEchartsBaseComponent {
                     markPoint: {
                         label: {
                             normal: {
-                                show: false,
-                                position: 'left',
-                                formatter: '测试',
-                                textStyle: {
-                                    color: '#ffffff',
-                                    fontSize: 18
+                                formatter: function (param) {
+                                    return param != null ? param.value : '';
                                 }
                             }
-                        },  
-                        data: [{
-                            name:'ma5',
-                            x: '10%',
-                            y:'0%'
-                        }]
+                        },
+                        data: [
+                   
+                            {
+                                name: 'highest value',
+                                type: 'max',
+                                symbol:'2',
+                                valueDim: 'highest',
+                                itemStyle: {
+                                    normal: {
+                                        color: 'none'
+                                    }
+                                },
+                                label:{
+                                    
+                                    color:'#cccccc'
+                                }
+                                    
+                            },
+                            {
+                                name: 'lowest value',
+                                type: 'min',
+                                symbol:'2',
+                                valueDim: 'lowest',
+                                itemStyle:{
+                                   normal: {
+                                       color: "none"
+                                   }
+                                },
+                                label:{
+                                    
+                                    color:'#cccccc'
+                                }
+                            },
+                          
+                        ],
                     }
                 }, {
                     name: 'MA5',
@@ -570,12 +605,12 @@ splitData(rawData) {
         if(length) {
             this.showKlineDates.times.push(nowTime.format());
             this.showKlineDates.datas.push([
-                this.klineDatas.datas[length-1][1],
-                this.klineDatas.datas[length-1][1],
-                this.klineDatas.datas[length-1][1],
-                this.klineDatas.datas[length-1][1],
+                this.klineDatas.datas[length-1][1]*1,
+                this.klineDatas.datas[length-1][1]*1,
+                this.klineDatas.datas[length-1][1]*1,
+                this.klineDatas.datas[length-1][1]*1,
             ])
-            this.showKlineDates.times.vols(0);
+            this.showKlineDates.times.vols.push(0); 
         }
 
         // 如果数据过少 本地生成
@@ -673,7 +708,7 @@ splitData(rawData) {
        this.showKlineDates.vols = this.klineDatas.vols.concat();
        // 查看是否 有过去的报表.如果有，新时间段的开 = 最后报表的收
        if(this.showKlineDates.datas.length) {
-        _nowPriceArr[0] = [this.klineDatas.datas[_length - 1][0]];
+        _nowPriceArr[0] = [this.klineDatas.datas[_length - 1][0] * 1];
        }
 
        // 查看 新时间段的接口
@@ -691,13 +726,13 @@ splitData(rawData) {
         }
 
          // 排查 高低，如果高/低 没有， 就从 开/收 取
-        _nowPriceArr[2] = this.nowTimeArr.value.min||0;
-        _nowPriceArr[3] = this.nowTimeArr.value.max||0;
+        _nowPriceArr[2] = this.nowTimeArr.value.min * 1||0;
+        _nowPriceArr[3] = this.nowTimeArr.value.max * 1||0;
         if(!_nowPriceArr[2]) {
-            _nowPriceArr[2] = _nowPriceArr[0] > _nowPriceArr[1] ? _nowPriceArr[1] * 1 : _nowPriceArr[0] * 1;
+            _nowPriceArr[2] = (_nowPriceArr[0]*1) > (_nowPriceArr[1]*1) ? _nowPriceArr[1] * 1 : _nowPriceArr[0] * 1;
         }
         if(!_nowPriceArr[3]) {
-            _nowPriceArr[3] = _nowPriceArr[0] > _nowPriceArr[1] ? _nowPriceArr[0] * 1 : _nowPriceArr[1] * 1;
+            _nowPriceArr[3] = (_nowPriceArr[0]*1) > (_nowPriceArr[1]*1) ? _nowPriceArr[0] * 1 : _nowPriceArr[1] * 1;
         }
 
         // 最新时间段
@@ -752,12 +787,12 @@ splitData(rawData) {
         let length:number = this.klineDatas.datas.length ? this.klineDatas.datas.length : 1;
         let price =  Number(this.price.price);
         let amount = this.price.amount / 1e8;
-        this.showKlineDates.datas[length - 1][1] = price||this.showKlineDates.datas[length - 1][1];
-        if(this.showKlineDates.datas[length - 1][2] > amount) {
-            this.showKlineDates.datas[length - 1][2] = amount;
+        this.showKlineDates.datas[length - 1][1] = price *1 ||this.showKlineDates.datas[length - 1][1] * 1;
+        if((this.showKlineDates.datas[length - 1][2]*1) > (amount*1)) {
+            this.showKlineDates.datas[length - 1][2] = amount * 1;
         }
-        if(this.showKlineDates.datas[length - 1][3] < amount) {
-            this.showKlineDates.datas[length - 1][3] = amount;
+        if((this.showKlineDates.datas[length - 1][3]*1) < (amount*1)) {
+            this.showKlineDates.datas[length - 1][3] = amount * 1;
         }
         this.chartInstance.setOption({
             series: [

@@ -1,0 +1,20 @@
+kline-report{
+    div{
+        width: 30%;
+        background-color: color($colors,background-darker)!important;
+        color: #cccccc!important;
+    }
+    table{
+        width: 100%;
+        td{
+            font-size: 0.8rem; 
+            &.prompt-title{
+                text-align: left;
+            }
+            &.prompt-value{
+                text-align: right;
+            }
+        }
+
+    }
+}
