@@ -24,6 +24,7 @@ export class KlineEchartsBaseComponent implements OnChanges, OnDestroy {
     @Input() timeType: any;
     @Input() traderId: any;
     @Input() price: any;
+    @Input() quota: any;
     
     @ViewChild('echartsPlaceholder') chartElem;
 
@@ -57,8 +58,10 @@ export class KlineEchartsBaseComponent implements OnChanges, OnDestroy {
 
     async ngOnChanges(changes) {
         // console.log('chart ngOnChanges', Object.keys(changes));
-        // console.log('charts changed:ngOnChanges', changes)   
+        console.log('charts changed:ngOnChanges', changes)  
+        
         if( changes.echartsData ) {
+            // 报表
             if( !this._FIRST_ECHART && changes.echartsData.currentValue && changes.echartsData.currentValue.length == 1) {
                 this.pushEchartsData()
             } else if(changes.echartsData.currentValue){
@@ -75,8 +78,11 @@ export class KlineEchartsBaseComponent implements OnChanges, OnDestroy {
                 this.callEchartsCreator();
             }
             
-        } else {
-
+        } else if( changes.quota ) {
+            // 指标
+            this.showQuotas(changes.quota.currentValue);
+        } else if( changes.price ) {
+            this.transactionChange()
         }
          
         
@@ -104,7 +110,14 @@ export class KlineEchartsBaseComponent implements OnChanges, OnDestroy {
         return true;
     }
 
-    //做
+    transactionChange() {
+        throw new Error('createCharts method must called within derived class!');
+    }
+
+    showQuotas(quota) {
+        throw new Error('createCharts method must called within derived class!');
+    }
+    
     private _RUN_LOADING:boolean = false ;
     private _FIRST_ECHART:boolean = true;
  

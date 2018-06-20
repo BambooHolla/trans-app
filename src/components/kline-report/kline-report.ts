@@ -4,14 +4,6 @@ import * as moment from 'moment';
 import { checkNoChangesNode } from '@angular/core/src/view/view';
 import { LoadingController, } from 'ionic-angular';
 
-
-
-/**
- * Generated class for the RealtimeReportComponent component.
- *
- * See https://angular.io/docs/ts/latest/api/core/index/ComponentMetadata-class.html
- * for more info on Angular Components.
- */
 @Component({
   selector: 'kline-report',
   template: `<div class="echarts-placeholder" #echartsPlaceholder></div>`,
@@ -25,12 +17,23 @@ export class KlineReportComponent extends KlineEchartsBaseComponent {
     private klineDatas: any = {
         times: [],
         datas: [],
+        vols: [],
     };
 
+    // 记录指标显示的类型
+    private saveQuotas = {
+        "MA5": true,
+    }
     // k线图展示数据
     private showKlineDates: any = {
         times: [],
         datas: [],
+        vols: [],
+        EMA12: [],
+        EMA26: [],
+        DIF: [],
+        DEA: [],
+        MACD: [],
     };
 
     // 日期格式
@@ -73,6 +76,11 @@ export class KlineReportComponent extends KlineEchartsBaseComponent {
         return {
             backgroundColor: "#262739",
             animation: false,
+            legend: {
+                selected: {
+                    'MA5': that.saveQuotas['MA5'],
+                }
+            },
             tooltip: {
                 trigger: 'axis',
                 // triggerOn: 'none',
@@ -93,6 +101,21 @@ export class KlineReportComponent extends KlineEchartsBaseComponent {
                     return obj;
                 },
                 formatter: function(datas) {
+                    function numberFormatDelete0(number:string|number){
+                        let arrExp:any ;
+                        if(typeof number == "number") number = number.toString();
+                        number = number.split("").reverse().join("");
+                        arrExp = /[1-9|\.]/ig.exec(number)
+                        if(arrExp){
+                            if(arrExp[0] == '.'){
+                              number = number.substring(arrExp.index+1)
+                            } else {
+                              number = number.substring(arrExp.index)
+                            }
+                            return  number.split("").reverse().join("")
+                        }
+                        return number;
+                      }
                     console.log('echart data',datas);
                     if(!(datas.length > 0)) {
                         return ;
@@ -115,10 +138,10 @@ export class KlineReportComponent extends KlineEchartsBaseComponent {
                             </tr>
                             <tr>
                             <td>开</td>
-                            <td>${datas[candlestick_index].data[1]}</td>
+                            <td>${numberFormatDelete0(datas[candlestick_index].data[1].toFixed(8))}</td>
                             </tr>`;
-                    let val_max:any = datas[candlestick_index].data[4];
-                    let val_min:any = datas[candlestick_index].data[3];
+                    let val_max:any = numberFormatDelete0(datas[candlestick_index].data[4].toFixed(8));
+                    let val_min:any = numberFormatDelete0(datas[candlestick_index].data[3].toFixed(8));
                     // for(let i = 1, length = datas[candlestick_index].data.length - 1; i < length; i++) {
                     //     val_max = datas[candlestick_index].data[i] > datas[candlestick_index].data[i+1] ? 
                     //         datas[candlestick_index].data[i] : datas[candlestick_index].data[i+1];
@@ -150,7 +173,7 @@ export class KlineReportComponent extends KlineEchartsBaseComponent {
                             </tr>
                             <tr>
                             <td>收</td>
-                            <td>${datas[candlestick_index].data[2]}</td>
+                            <td>${numberFormatDelete0(datas[candlestick_index].data[2].toFixed(8))}</td>
                             </tr>
                         </table>`
                     return res;
@@ -372,9 +395,9 @@ export class KlineReportComponent extends KlineEchartsBaseComponent {
                     markPoint: {
                         label: {
                             normal: {
-                                show: true,
+                                show: false,
                                 position: 'left',
-                                formatter: 'y = 0.90x + 0.46 上午（06-12）',
+                                formatter: '测试',
                                 textStyle: {
                                     color: '#ffffff',
                                     fontSize: 18
@@ -396,7 +419,7 @@ export class KlineReportComponent extends KlineEchartsBaseComponent {
                     lineStyle: {
                         normal: {
                             opacity: 0.6,
-                            color: '#808a70'
+                            color: '#FAFFF0'
                         }
                     }
                 },{
@@ -404,17 +427,17 @@ export class KlineReportComponent extends KlineEchartsBaseComponent {
                     type: 'bar',
                     xAxisIndex: 1,
                     yAxisIndex: 1,
-                    data: this.data0.vols,
+                    data: this.showKlineDates.vols,
                     itemStyle: {
                         normal: {
                             color: function(params) {
-                                var colorList;
-                                if (that.data0.datas[params.dataIndex][1]>that.data0.datas[params.dataIndex][0]) {
-                                    colorList = '#c1b17f';
+                                const index = params.dataIndex;
+                                if (that.showKlineDates.datas[index][1]>that.showKlineDates.datas[index][0]) {
+                                    return '#c1b17f';
                                 } else {
-                                    colorList = '#ef5454';
+                                    return '#ef5454';
                                 }
-                                return colorList;
+                                
                             },
                         }
                     }
@@ -423,7 +446,7 @@ export class KlineReportComponent extends KlineEchartsBaseComponent {
                     type: 'bar',
                     xAxisIndex: 2,
                     yAxisIndex: 2,
-                    data: this.data0.macds,
+                    data: this.showKlineDates.MACD,
                     itemStyle: {
                         normal: {
                             color: function(params) {
@@ -446,7 +469,7 @@ export class KlineReportComponent extends KlineEchartsBaseComponent {
                     lineStyle: {
                         width: 1,
                     },
-                    data: this.data0.difs
+                    data: this.showKlineDates.DIF,
                 },{
                     name: 'DEA',
                     type: 'line',
@@ -456,7 +479,7 @@ export class KlineReportComponent extends KlineEchartsBaseComponent {
                     lineStyle: {
                         width: 1,
                     },
-                    data: this.data0.deas
+                    data: this.showKlineDates.DEA
                 }
             ]
       }
@@ -512,51 +535,84 @@ splitData(rawData) {
 
     //MA计算公式
     calculateMA(dayCount) {
-    var result = [];
-    for (var i = 0, len = this.data0.times.length; i < len; i++) {
-        if (i < dayCount) {
-            result.push('-');
-            continue;
+        let result = [];
+        let len = this.showKlineDates.times.length > this.showKlineDates.datas.length?
+                    this.showKlineDates.datas.length : this.showKlineDates.times.length;
+        for (let i = 0; i < len; i++) {
+            if (i < dayCount) {
+                result.push('-');
+                continue;
+            }
+            let sum = 0;
+            for (let j = 0; j < dayCount; j++) {
+                sum += this.showKlineDates.datas[i - j][1];
+            }
+            result.push((sum / dayCount).toFixed(2));
         }
-        var sum = 0;
-        for (var j = 0; j < dayCount; j++) {
-            sum += this.data0.datas[i - j][1];
-        }
-        result.push((sum / dayCount).toFixed(2));
-    }
-    return result;
+        return result;
     }
     
     pushEchartsData() {
+        let nowTime:any; 
+        let length:number;
+        // 新的报表推送
         this.echartsData.forEach( item => {
+            nowTime = moment(item.beginTime).add(this.DATE_TYPE[this.timeType][0],this.DATE_TYPE[this.timeType][1]);
             this.klineDatas.times.push(this.funcTimeFormat(item.beginTime,this.timeType));
-            this.klineDatas.datas.push([item.value.start*1,item.value.max*1,item.value.min*1,item.value.end*1]);
-       });
-    //    this.chartInstance.setOption(this.option);
-    this.chartInstance.setOption({
-        xAxis: [{
-            data: this.klineDatas.times,
-        },{
-            data: this.klineDatas.times,
-        },{
-            data: this.klineDatas.times,
-        }],
-        series: [{
-            
-            data: this.klineDatas.datas,
-            }, {
-                data: this.calculateMA(5),
-            },{
-                data: this.data0.vols,
-            },{
-                data: this.data0.macds,
-            },{
-                data: this.data0.difs
-            },{
-                data: this.data0.deas
+            this.klineDatas.datas.push([item.value.start*1,item.value.end*1,item.value.min*1,item.value.max*1]);
+            this.klineDatas.vols.push(item.value.amount / 1e8);
+        });
+        length = this.klineDatas.datas.length || 0;
+        // 生成展示数据，保存的报表 + 这个时间段的
+        this.showKlineDates.times = this.klineDatas.times.concat();
+        this.showKlineDates.datas = this.klineDatas.datas.concat();
+        this.showKlineDates.vols = this.klineDatas.vols.concat();
+        if(length) {
+            this.showKlineDates.times.push(nowTime.format());
+            this.showKlineDates.datas.push([
+                this.klineDatas.datas[length-1][1],
+                this.klineDatas.datas[length-1][1],
+                this.klineDatas.datas[length-1][1],
+                this.klineDatas.datas[length-1][1],
+            ])
+            this.showKlineDates.times.vols(0);
+        }
+
+        // 如果数据过少 本地生成
+        if(this.showKlineDates.times.length < this.MIN_TIME_LENGTH) {
+            let length = this.MIN_TIME_LENGTH - this.showKlineDates.times.length;
+            for( let i = 0; i < length; i++) {
+            this.showKlineDates.times.push(nowTime.add(this.DATE_TYPE[this.timeType][0],this.DATE_TYPE[this.timeType][1]).format(this.FORMATS[this.timeType] || 'YYYY-MM-DD'))
             }
-        ]
-    })
+        }
+         // 一些指标参数生成
+         this.QUOTA(this.showKlineDates.datas);
+       
+        this.chartInstance.setOption({
+            xAxis: [
+                {
+                    data: this.showKlineDates.times,
+                },{
+                    data: this.showKlineDates.times,
+                },{
+                    data: this.showKlineDates.times,
+                }],
+            series: [
+                {
+                    data: this.showKlineDates.datas,
+                }, {
+                    data: this.calculateMA(5),
+                },{
+                    data: this.showKlineDates.vols,
+                },{
+                    data: this.showKlineDates.MACD,
+                },{
+                    data: this.showKlineDates.DIF
+                },{
+                    data: this.showKlineDates.DEA
+                }
+            ]
+        })
     }
   
    createCharts() {
@@ -593,23 +649,28 @@ splitData(rawData) {
         }
         let _length = 0;
         let _nowPriceArr = [];
-        let _price = Number(this.price)||0;
+
+        let _price = Number(this.price.price)||0;
         let _date = moment();
         this.klineDatas.times = [];
         this.klineDatas.datas = [];
-        this.showKlineDates.times = [];
-        this.showKlineDates.datas = [];
-        
+        this.klineDatas.vols = [];
+        for( let i in this.showKlineDates) {
+            this.showKlineDates[i] = [];
+        }
         // 数据整合
+      
        this.echartsData.forEach( item => {
             this.klineDatas.times.push(this.funcTimeFormat(item.beginTime,this.timeType));
             // 固定格式 [开，收，低，高]
             this.klineDatas.datas.push([item.value.start*1,item.value.end*1,item.value.min*1,item.value.max*1]);
+            this.klineDatas.vols.push(item.value.amount / 1e8);
+            
        });
        _length = this.klineDatas.datas.length;
        this.showKlineDates.times = this.klineDatas.times.concat();
        this.showKlineDates.datas = this.klineDatas.datas.concat();
-      
+       this.showKlineDates.vols = this.klineDatas.vols.concat();
        // 查看是否 有过去的报表.如果有，新时间段的开 = 最后报表的收
        if(this.showKlineDates.datas.length) {
         _nowPriceArr[0] = [this.klineDatas.datas[_length - 1][0]];
@@ -618,44 +679,49 @@ splitData(rawData) {
        // 查看 新时间段的接口
        // 如果 开有值 取开，否则 判断是否有值 ，没有的话取当前价格
        if(this.nowTimeArr.value && this.nowTimeArr.value.start) {
-            _nowPriceArr[0] = this.nowTimeArr.value.start;
+            _nowPriceArr[0] = this.nowTimeArr.value.start * 1;
         } else {
-            _nowPriceArr[0] = _nowPriceArr[0] || _price;
+            _nowPriceArr[0] = (_nowPriceArr[0] || _price) * 1;
         }
          // 如果 收有值 取收，否则取当前价格
         if(this.nowTimeArr.value && this.nowTimeArr.value.end) {
-            _nowPriceArr[1] = this.nowTimeArr.value.end;
+            _nowPriceArr[1] = this.nowTimeArr.value.end * 1;
         } else {
-            _nowPriceArr[1] = _price;
+            _nowPriceArr[1] = _price * 1;
         }
 
          // 排查 高低，如果高/低 没有， 就从 开/收 取
         _nowPriceArr[2] = this.nowTimeArr.value.min||0;
         _nowPriceArr[3] = this.nowTimeArr.value.max||0;
         if(!_nowPriceArr[2]) {
-            _nowPriceArr[2] = _nowPriceArr[0] > _nowPriceArr[1] ? _nowPriceArr[1] : _nowPriceArr[0];
+            _nowPriceArr[2] = _nowPriceArr[0] > _nowPriceArr[1] ? _nowPriceArr[1] * 1 : _nowPriceArr[0] * 1;
         }
         if(!_nowPriceArr[3]) {
-            _nowPriceArr[3] = _nowPriceArr[0] > _nowPriceArr[1] ? _nowPriceArr[0] : _nowPriceArr[1];
+            _nowPriceArr[3] = _nowPriceArr[0] > _nowPriceArr[1] ? _nowPriceArr[0] * 1 : _nowPriceArr[1] * 1;
         }
+
+        // 最新时间段
        if(this.nowTimeArr.beginTime) {
             _date = moment(this.nowTimeArr.beginTime || moment()).add(1,('milliseconds'));
             this.showKlineDates.times.push(moment(this.nowTimeArr.beginTime || moment()).add(1,('milliseconds')).format(this.FORMATS[this.timeType] || 'YYYY-MM-DD'))
             console.log(_nowPriceArr)
             this.showKlineDates.datas.push(_nowPriceArr)
             // this.showKlineDates.datas = [[50,40,20,80]]
+            this.showKlineDates.vols.push(this.nowTimeArr.value.amount / 100000000)
         }
-       
+
+       // 如果数据过少 本地生成
        if(this.showKlineDates.times.length < this.MIN_TIME_LENGTH) {
            let length = this.MIN_TIME_LENGTH - this.showKlineDates.times.length;
            for( let i = 0; i < length; i++) {
             this.showKlineDates.times.push(_date.add(this.DATE_TYPE[this.timeType][0],this.DATE_TYPE[this.timeType][1]).format(this.FORMATS[this.timeType] || 'YYYY-MM-DD'))
            }
         }
-
+        // 一些指标参数生成
+        this.QUOTA(this.showKlineDates.datas);
+        
         // 配置
         this._echart_option.zoomLock = (this.showKlineDates.datas.length < this.MIN_TIME_LENGTH);
-        debugger
         this._echart_option.start = Math.floor((1 - this.MIN_TIME_LENGTH/this.showKlineDates.times.length) * 100);
         console.log('K 整合数据',this.klineDatas)
       
@@ -667,4 +733,92 @@ splitData(rawData) {
     ionViewWillLeave() {
         this.chartInstance.dispose();
     }
+    showQuotas(quota) {
+        
+        this.saveQuotas[quota.title] = quota.active;
+        let option:any = {
+            legend: {
+                selected: {
+                    
+                }
+            },
+        };
+        if(quota.title) {
+            option.legend.selected[quota.title] = quota.active;
+        }
+        this.chartInstance.setOption(option)
+    }
+    transactionChange() {
+        let length:number = this.klineDatas.datas.length ? this.klineDatas.datas.length : 1;
+        let price =  Number(this.price.price);
+        let amount = this.price.amount / 1e8;
+        this.showKlineDates.datas[length - 1][1] = price||this.showKlineDates.datas[length - 1][1];
+        if(this.showKlineDates.datas[length - 1][2] > amount) {
+            this.showKlineDates.datas[length - 1][2] = amount;
+        }
+        if(this.showKlineDates.datas[length - 1][3] < amount) {
+            this.showKlineDates.datas[length - 1][3] = amount;
+        }
+        this.chartInstance.setOption({
+            series: [
+                {
+                    data: this.showKlineDates.datas
+                }
+            ]
+        })
+    }
+    QUOTA(dataArr){
+        this.EMA12(dataArr);
+        this.EMA26(dataArr);
+        this.DIF();
+        this.DEA();
+        this.MACD();
+    }
+    EMA12(dataArr){
+        this.showKlineDates.EMA12 = []
+        // EMA（12）=前一日EMA（12）×11/13＋今日收盘价×2/13
+        dataArr.forEach( (item,index) => {
+            let lastEMA12 = this.showKlineDates.EMA12[index - 1] || 0;
+            let EMA12 =(lastEMA12 * 11 / 13) + (item[1] * 2 / 13);
+            this.showKlineDates.EMA12.push(EMA12);
+        })
+
+    }
+    EMA26(dataArr){
+        this.showKlineDates.EMA26 = [];
+        // EMA（26）=前一日EMA（26）×25/27＋今日收盘价×2/27
+        dataArr.forEach( (item,index) => {
+            let lastEMA26 = this.showKlineDates.EMA26[index - 1] || 0;
+            let EMA26 = (lastEMA26 * 25 / 27) + (item[1] * 2 / 27);
+            this.showKlineDates.EMA26.push(EMA26);
+        })
+    }
+    DIF(){
+        this.showKlineDates.DIF = [];
+        // DIF=今日EMA（12）－今日EMA（26）
+        let length = this.showKlineDates.EMA26.length > this.showKlineDates.EMA12.length?
+                        this.showKlineDates.EMA12.length : this.showKlineDates.EMA26.length;
+        for( let i = 0; i < length; i++) {
+            this.showKlineDates.DIF.push(this.showKlineDates.EMA12[i] - this.showKlineDates.EMA26[i])
+        }
+    }
+    DEA() {
+        this.showKlineDates.DEA = [];
+        // 当日 DEA ( 9 ) = 2/ ( 9+1 ) DIFF+ ( 9-1 ) / ( 9+1 )前日 DEA
+        this.showKlineDates.DIF.forEach( (item,index)=> {
+            let lastDEA = this.showKlineDates.DEA[index - 1] || 0;
+            let DEA = (2 / 10 * item) + (8 / 10 * lastDEA)
+            this.showKlineDates.DEA.push(DEA);
+        })
+    }
+    MACD() {
+        this.showKlineDates.MACD = [];
+        // MACD=2×(DIFF - DEA)
+        let length = this.showKlineDates.DIF.length > this.showKlineDates.DEA.length?
+        this.showKlineDates.DEA.length : this.showKlineDates.DIF.length;
+        for( let i = 0; i < length; i++) {
+            this.showKlineDates.MACD.push(this.showKlineDates.DIF[i] - this.showKlineDates.DEA[i])
+        }
+    }
+
   }

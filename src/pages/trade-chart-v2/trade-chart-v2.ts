@@ -33,6 +33,16 @@ export class TradeChartV2Page {
   private changeTransaction:any;
   public nowTimeArr:any = {};
 
+  public quotaArr: Array<object> = [
+    {
+      title: "MA5",
+      active: true,
+    },
+  ];
+  public quota: any = {
+    title: "MA5",
+    active: true,
+  };
   private timeArray: string[] = [
     window['language']['1M']||'1分',
     window['language']['5M']||'5分',
@@ -137,6 +147,11 @@ export class TradeChartV2Page {
     this.appDataService.report_on_off = false;
     this._reportsData$ = this.socketioService.subscribeRealtimeReports([this.traderId])
   
+  }
+  activeQuota(index:number){
+    this.quotaArr[index]['active'] = this.quotaArr[index]['active'] ? false : true;
+    this.quota = Object.assign({},this.quotaArr[index]);
+    this.onShowIndex();
   }
   backPage(index:number = 1) {
     if(this.changeTransaction){

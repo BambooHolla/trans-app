@@ -45,7 +45,8 @@
                 [options]="realtimeOptions"
                 [timeType]="timeType"
                 [traderId]="traderId"
-                [price]="(_baseData$ | async)?.price"
+                [price]="(_baseData$ | async)"
+                [quota]="quota" 
                 >
 			</kline-report>
         </div>
@@ -54,7 +55,7 @@
         <div class="time" *ngFor="let title of timeArray; let i = index;" (click)="changeTime(i)" [class.active]="activeIndex === i">{{title}}</div>
         <div class="norm" (click)="onShowIndex()" [class.show-index]="showIndex">{{'INDEX'|translate}}<span></span></div>
         <div class="norm-index" [class.show-index]="showIndex">
-            MA5
+            <span *ngFor="let time of quotaArr; let i = index;" (click)="activeQuota(i)" [class.active-quota]=" time.active">{{time.title}}</span>
         </div>
     </div>
    
