@@ -47,6 +47,19 @@ page-login {
 			padding: 5vh 12.5vw;
 			display: flex;
 			flex-direction: column;
+			.code-box {
+				position: relative;
+				.code-img{
+					position: absolute;
+					top: 0;
+					left: 50%;
+					height: 100%;
+					width: 50%;
+					margin: 0;
+					padding: 0.4rem 1rem;
+					
+				}
+			}
 			.login-form-item {
 				background-color: rgba(0, 0, 0, 0.2);
 				border-radius: 0.4rem;
@@ -79,7 +92,15 @@ page-login {
 						width: 100%;
 					}
 				}
+				&.code-item {
+					width: 50%;
+					position: relative;
+					.item-inner {
+						padding-right: 0;
+					}
+				}
 			}
+			
 			.forget-password {
 				align-self: flex-end;
 				margin-right: 0.3rem;

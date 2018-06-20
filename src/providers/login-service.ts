@@ -115,17 +115,22 @@ export class LoginService {
     password: string,
     savePassword: boolean = true,
     type?: number,
+    codeHeader?
   ): Promise<any> {
     let promise: Promise<{ token }>;
+    let headers: any = {};
     if (type === void 0) {
       type = this.appSettings.accountType(customerId);
     }
-
+    headers['x-bnqkl-platform'] = this.appSettings.Platform_Type;
+    if(headers['x-bnqkl-captchaId']) {
+      headers['x-bnqkl-captchaId'] = codeHeader['x-bnqkl-captchaId'];
+      headers['x-bnqkl-captchaToken'] = codeHeader['x-bnqkl-captchaToken'];
+    }
     const options = new RequestOptions({
-      headers: new Headers({
-        'x-bnqkl-platform': this.appSettings.Platform_Type,
-      }) });
-
+      headers: new Headers(headers) 
+    });
+    debugger
     let app_geolocation:any = await this.appDataService.getAppCoords();
 
     promise = this.http
@@ -167,8 +172,9 @@ export class LoginService {
     password: string,
     savePassword: boolean = false,
     type?: number,
+    codeHeader?
   ): Promise<boolean | string> {
-    return this._doLogin(customerId, password, savePassword, type)
+    return this._doLogin(customerId, password, savePassword, type,codeHeader)
       .then(data => {
         debugger 
         Object.assign(this.appDataService, {
@@ -182,6 +188,7 @@ export class LoginService {
         return true;
       })
       .catch(error => { 
+        debugger
         //将error转为对象,
         const body = error.json() || error;
         //提取error
@@ -258,6 +265,21 @@ export class LoginService {
           },
       },
       true,
+    );
+  }
+
+
+  // 获取验证码
+  GETCODE_PASSWORD = `/captcha/getCaptcha`;
+  // 获取验证码
+  async getCode() {
+   
+    return this.appService.request(
+      RequestMethod.Get,
+      this.GETCODE_PASSWORD,
+      {
+       
+      },
     );
   }
 }

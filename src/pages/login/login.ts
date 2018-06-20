@@ -39,16 +39,22 @@ export class LoginPage implements OnInit{
   private pwd:any = '';
   private custId:any = '';
   public unregisterBackButton:any;
-
+  public showCode: boolean = false;
+  public codeSrc: string = '../assets/images/code_bg.png';
+  public codeId: string = '';
   loginForm: FormGroup = new FormGroup({
     // myContry: new FormControl('1002'),
     customerId: new FormControl({ value: '' }, ),
     password: new FormControl({ value: '' },),
-    savePassword: new FormControl({ value: false })
+    savePassword: new FormControl({ value: false }),
+    code: new FormControl({ value: '' },),
   });
 
   get customerId(){
     return this.loginForm.get("customerId");
+  }
+  get loginCode(){
+    return this.loginForm.get("code");
   }
 
   constructor(
@@ -146,9 +152,12 @@ export class LoginPage implements OnInit{
     const password = controls['password'].value;
     const savePassword = false;//controls['savePassword'].value;
     const type = this.appSettings.accountType(customerId);
-
+    const codeHeader = {
+      "x-bnqkl-captchaId": this.codeId,
+      "x-bnqkl-captchaToken": controls['code'].value
+    }
     this.logining = true;
-    if(await this.loginService.doLogin(customerId, password, savePassword, type) === true){
+    if(await this.loginService.doLogin(customerId, password, savePassword, type,codeHeader) === true){
       this.dismiss();
       // console.log('jumpto:',this.navParams.data)
       let cb = this.navParams.data.cb;
@@ -156,7 +165,15 @@ export class LoginPage implements OnInit{
         // this.tabsPage.tabs.select(tabIndex);
         cb();
       }
-    } 
+    } else {
+      this.showCode = true;
+      this.loginCode.setValue('');
+      this.loginService.getCode().then( data => {
+        this.codeId = data.id;
+        this.codeSrc = 'data:image/png;base64,' + data.data
+        
+      })
+    }
     this.logining = false;
   }
 

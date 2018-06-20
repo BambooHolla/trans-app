@@ -12,7 +12,7 @@ import { Content } from 'ionic-angular';
   selector: '[scroll-fix-keyboard]' // Attribute selector
 })
 export class ScrollFixKeyboardDirective implements AfterViewInit{
-
+ 
   @Input("scroll-fix-keyboard") content: Content;
 
   constructor(
@@ -28,10 +28,12 @@ export class ScrollFixKeyboardDirective implements AfterViewInit{
     //Add 'implements AfterViewInit' to the class.
     console.log('Hello ScrollFixKeyboardDirective Directive', this.content);
     this.keyboard.onKeyboardShow()
-      .subscribe(() => {
+      .subscribe(( e ) => {
+        
         let position_y = (this.el.nativeElement as HTMLElement).offsetTop;
         const scroll_parent = (this.el.nativeElement as HTMLElement).offsetParent;
-        this.content.scrollTo(undefined, position_y, 300)
+        // this.content.scrollTo(undefined, position_y, 300)
+        this.content.scrollTo(0,e.keyboardHeight)
       })
   }
 
