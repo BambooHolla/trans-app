@@ -22,7 +22,7 @@ export class KlineReportComponent extends KlineEchartsBaseComponent {
 
     // 记录指标显示的类型
     private saveQuotas = {
-        "MA5": true,
+        "MA": true,
     }
     // k线图展示数据
     private showKlineDates: any = {
@@ -78,7 +78,7 @@ export class KlineReportComponent extends KlineEchartsBaseComponent {
             animation: false,
             legend: {
                 selected: {
-                    'MA5': that.saveQuotas['MA5'],
+                    'MA': that.saveQuotas['MA'],
                 }
             },
             tooltip: {
@@ -446,7 +446,7 @@ export class KlineReportComponent extends KlineEchartsBaseComponent {
                         ],
                     }
                 }, {
-                    name: 'MA5',
+                    name: 'MA',
                     type: 'line',
                     symbol: 'none',
                     data: this.calculateMA(5),
@@ -455,6 +455,30 @@ export class KlineReportComponent extends KlineEchartsBaseComponent {
                         normal: {
                             opacity: 0.6,
                             color: '#FAFFF0'
+                        }
+                    }
+                }, {
+                    name: 'MA',
+                    type: 'line',
+                    symbol: 'none',
+                    data: this.calculateMA(10),
+                    smooth: true,
+                    lineStyle: {
+                        normal: {
+                            opacity: 0.6,
+                            color: '#EE00EE'
+                        }
+                    }
+                }, {
+                    name: 'MA',
+                    type: 'line',
+                    symbol: 'none',
+                    data: this.calculateMA(30),
+                    smooth: true,
+                    lineStyle: {
+                        normal: {
+                            opacity: 0.6,
+                            color: '#00FA9A'
                         }
                     }
                 },{
@@ -494,7 +518,8 @@ export class KlineReportComponent extends KlineEchartsBaseComponent {
                                 return colorList;
                             },
                         }
-                    }
+                    },
+                    barWidth:2
                 },{
                     name: 'DIF',
                     type: 'line',
@@ -503,6 +528,9 @@ export class KlineReportComponent extends KlineEchartsBaseComponent {
                     symbol: 'none',
                     lineStyle: {
                         width: 1,
+                        normal: {
+                            color: '#FFD700'
+                        }
                     },
                     data: this.showKlineDates.DIF,
                 },{
@@ -513,6 +541,7 @@ export class KlineReportComponent extends KlineEchartsBaseComponent {
                     yAxisIndex: 2,
                     lineStyle: {
                         width: 1,
+                       
                     },
                     data: this.showKlineDates.DEA
                 }
@@ -635,8 +664,12 @@ splitData(rawData) {
             series: [
                 {
                     data: this.showKlineDates.datas,
-                }, {
+                },{
                     data: this.calculateMA(5),
+                },{
+                    data: this.calculateMA(10),
+                },{
+                    data: this.calculateMA(30),
                 },{
                     data: this.showKlineDates.vols,
                 },{
@@ -854,6 +887,9 @@ splitData(rawData) {
         for( let i = 0; i < length; i++) {
             this.showKlineDates.MACD.push(this.showKlineDates.DIF[i] - this.showKlineDates.DEA[i])
         }
+    }
+    MAS(show){
+
     }
 
   }

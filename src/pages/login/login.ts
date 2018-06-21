@@ -47,7 +47,7 @@ export class LoginPage implements OnInit{
     customerId: new FormControl({ value: '' }, ),
     password: new FormControl({ value: '' },),
     savePassword: new FormControl({ value: false }),
-    code: new FormControl({ value: '' },),
+    code: new FormControl(),
   });
 
   get customerId(){
@@ -156,6 +156,7 @@ export class LoginPage implements OnInit{
       "x-bnqkl-captchaId": this.codeId,
       "x-bnqkl-captchaToken": controls['code'].value
     }
+    debugger
     this.logining = true;
     if(await this.loginService.doLogin(customerId, password, savePassword, type,codeHeader) === true){
       this.dismiss();
@@ -223,5 +224,14 @@ goForgetPwd() {
     });
     this.viewCtrl.dismiss();
   }
-
+  getNowCode(){
+    if(this.showCode) {
+      this.loginCode.setValue('');
+      this.loginService.getCode().then( data => {
+        this.codeId = data.id;
+        this.codeSrc = 'data:image/png;base64,' + data.data
+        
+      })
+    }
+  }
 }

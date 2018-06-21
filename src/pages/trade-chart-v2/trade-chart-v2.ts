@@ -35,12 +35,12 @@ export class TradeChartV2Page {
 
   public quotaArr: Array<object> = [
     {
-      title: "MA5",
+      title: "MA",
       active: true,
     },
   ];
   public quota: any = {
-    title: "MA5",
+    title: "MA",
     active: true,
   };
   private timeArray: string[] = [

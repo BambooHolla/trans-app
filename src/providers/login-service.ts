@@ -123,7 +123,7 @@ export class LoginService {
       type = this.appSettings.accountType(customerId);
     }
     headers['x-bnqkl-platform'] = this.appSettings.Platform_Type;
-    if(headers['x-bnqkl-captchaId']) {
+    if(codeHeader['x-bnqkl-captchaId']) {
       headers['x-bnqkl-captchaId'] = codeHeader['x-bnqkl-captchaId'];
       headers['x-bnqkl-captchaToken'] = codeHeader['x-bnqkl-captchaToken'];
     }

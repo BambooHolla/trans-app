@@ -30,18 +30,18 @@
                     <ion-icon name="view-pwd"></ion-icon>
                 </div>
             </ion-item>
-           <div class="code-box" *ngIf='showCode'>
+           <div class="code-box" [hidden]='!showCode'>
                 <ion-item class="login-form-item code-item">
-                    <ion-input #pwd formControlName="code"   type="text" placeholder="请输入验证码">
+                    <ion-input #code formControlName="code"   type="text" placeholder="请输入验证码">
                     </ion-input>
                 </ion-item>
                 <div class="code-img" style="z-index:9999;">
-                    <img [src]="codeSrc" alt="" style="width: 100%;height: 100%">
+                    <img [src]="codeSrc" alt="" style="width: 100%;height: 100%" (click)="getNowCode()">
                 </div>
            </div>
             <!-- <a class="forget-password" navPush="forget-pwd" [navParams]="{customerId:customerId?.value}">{{'FORGET_PASSWORD'|translate}}</a> -->
             <a class="forget-password" (click)='goForgetPwd()'>{{'FORGET_PASSWORD'|translate}}</a>
-            <button ion-button class="login-form-submit" type="submit" [disabled]=" !custId.value  || !pwd.value || logining">
+            <button ion-button class="login-form-submit" type="submit" [disabled]=" !custId.value  || !pwd.value || logining || (showCode&&!code.value)">
         {{'LOGIN'|translate}}
       </button>
             <div class="register-line">

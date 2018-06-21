@@ -127,11 +127,11 @@ page-trade-chart-v2 {
                 position: absolute;
                 z-index: 1;
                 bottom: 0rem; 
-                width: 70%;
+                width: 100%;
                 height: 0.2rem;
                 background-color:  #c1b17f;
                 // box-shadow:0 0 1.5rem 0 color($colors,primary);
-                left:15%;
+                left:0;
             }
         } 
     }
