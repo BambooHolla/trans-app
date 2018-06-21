@@ -57,10 +57,12 @@ export class AppSettingProvider {
       }
       this._token_timeout_ti = setTimeout(() => {
         console.log('User Token 过期：', obj);
+        document.cookie = `X-AUTH-TOKEN=;expires=Thu, 01 Jan 1970 00:00:00 GMT`;
+        this.clearUserToken();
         let customerId = this.appDataService.customerId||'';
         this.appDataService.resetCustomization();
         this.appDataService.customerId = customerId;
-        this.clearUserToken();
+       
       }, obj.expiredTime - Date.now());
       return obj.token || '';
     } catch (e) {
