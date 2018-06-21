@@ -188,7 +188,22 @@ export class OptionalPage extends SecondLevelPage {
               }
             })
         })));
-  
+        
+        console.log('initPersonalStockListSubscriber2', this.optionalStockDetailList); 
+        this.optionalStockDetailList.sort((item_1,item_2) => {
+          if(item_1.productInfo.productName == "IBT" ) {
+            return -1;
+          } else if(item_1.productInfo.productName == "USDT" ) {
+            return 1;
+          } else if(item_1.productInfo.productId > item_2.productInfo.productId) {
+            return -1
+          } else {
+            return 1
+          }
+          
+          
+        })
+        console.log('initPersonalStockListSubscriber1', this.optionalStockDetailList); 
       //计算每日盈亏,持仓 * 涨幅 * 最新价 
       for(let i = 0 ; i < this.optionalStockDetailList.length; i++) {
         this.optionalStockDetailList[i].realtimePrice.subscribe( val => {
