@@ -454,7 +454,7 @@ export class KlineReportComponent extends KlineEchartsBaseComponent {
                     lineStyle: {
                         normal: {
                             opacity: 0.6,
-                            color: '#FAFFF0'
+                            color: '#00FFFF'
                         }
                     }
                 }, {
@@ -478,7 +478,7 @@ export class KlineReportComponent extends KlineEchartsBaseComponent {
                     lineStyle: {
                         normal: {
                             opacity: 0.6,
-                            color: '#00FA9A'
+                            color: '#00FF00'
                         }
                     }
                 },{
@@ -529,7 +529,7 @@ export class KlineReportComponent extends KlineEchartsBaseComponent {
                     lineStyle: {
                         width: 1,
                         normal: {
-                            color: '#FFD700'
+                            color: '#EE6363'
                         }
                     },
                     data: this.showKlineDates.DIF,
@@ -541,7 +541,9 @@ export class KlineReportComponent extends KlineEchartsBaseComponent {
                     yAxisIndex: 2,
                     lineStyle: {
                         width: 1,
-                       
+                        normal: {
+                            color: '#D4D4D4'
+                        }
                     },
                     data: this.showKlineDates.DEA
                 }
