@@ -246,6 +246,12 @@ page-trade-interface-v2 {
 			.range-component{
 				position: relative;
 				background-color:#262739;
+				.range-item{
+					width: 95%;
+					position: relative;
+					left: 2.5%;
+				
+				}
 			}
 
 			.range-item{
