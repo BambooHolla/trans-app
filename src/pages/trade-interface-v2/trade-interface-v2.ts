@@ -1383,11 +1383,11 @@ export class TradeInterfaceV2Page {
       return this.goLogin();
     }
     let type = {
-      'buy':'委托买单',
-      'sale':'委托卖单'
+      'buy': window['language']["CONFIRM_TO_BUY"]||'委托买单',
+      'sale': window['language']["CONFIRM_TO_SELL"]||'委托卖单'
     }
     this.alertCtrl.create({
-      title:'快捷交易',
+      title: window['language']["QUICK_TRANSACTION"]||'快捷交易',
       message:type[tradeType],
       buttons:[
         {
@@ -1424,17 +1424,17 @@ export class TradeInterfaceV2Page {
     if (tradeType === 'buy') {
       transactionType = '001'
       amount = new BigNumber(this.buyTotalAmount).multipliedBy('100000000').toString();
-      text = '请拖动选择交易额';
+      text = window['language']['SET_THE_TRANSACTION']||'请拖动选择交易额';
     }else if (tradeType === 'sale') {
       transactionType = '002'
       amount = new BigNumber(this.saleTotalAmount).multipliedBy('100000000').toString();
-      text = '请拖动选择卖出数量';
+      text = window['language']['SET_THE_SELL']||'请拖动选择卖出数量';
     }else {
       return void 0
     }
     if(!Number(amount)){
       this.alertCtrl.create({
-        title:'快捷交易失败',
+        title: window['language']['QUICK_FAILS']||'快捷交易失败',
         message:text,
         buttons:[
           {

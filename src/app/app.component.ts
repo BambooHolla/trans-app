@@ -219,8 +219,8 @@ export class PicassoApp {
   async initTranslate() {
     // Set the default language for translation strings, and the current language.
     this.translate.setDefaultLang("en");
-    const browserLang = this.translate.getBrowserLang();
-    let language:any ;
+    const browserLang = 0?0:this.translate.getBrowserLang();
+    let language:any ; 
     // language = await this.translate.use("en").toPromise(); 
     // this.appDataService.LANGUAGE = "en";
     // language = await this.translate.use("zh").toPromise();

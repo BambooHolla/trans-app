@@ -24,11 +24,11 @@
 		<div class="trader">
 			<div>
 				<span class="label">{{'AVAILABLE'|translate}}{{productName || '--'}}&nbsp;</span>
-				<span>{{hiddentext || (trader_product?.restQuantity || '--' | quantityConversion  | numberUnitFormat:true:false:12)}}</span>
+				<span>{{hiddentext || (trader_product?.restQuantity || '--' | quantityConversion  | numberUnitFormat:true:false:8)}}</span>
 			</div>
 			<div> 
 				<span class="label">{{'AVAILABLE'|translate}}{{priceName || '--'}}&nbsp;</span>
-				<span>{{hiddentext || (trader_target?.restQuantity || '--' | quantityConversion | numberUnitFormat:true:false:12)}}</span>
+				<span>{{hiddentext || (trader_target?.restQuantity || '--' | quantityConversion | numberUnitFormat:true:false:8)}}</span>
 			</div>
 		</div>
 		<div>

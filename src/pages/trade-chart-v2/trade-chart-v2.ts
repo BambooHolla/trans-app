@@ -78,7 +78,7 @@ export class TradeChartV2Page {
       public stockDataService: StockDataService,
      
   ) { 
-
+   
     appDataService.report_on_off = true;
     this.init();
     

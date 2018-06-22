@@ -258,7 +258,7 @@ export class RegisterPage {
     } 
     // catch (err) {
      
-    //   this.alertCtrl
+    //   this.alertCtrl 
     //     .create({
     //       title: '警告',
     //       message: err.message,
@@ -269,15 +269,15 @@ export class RegisterPage {
     finally {
       this.registering = false;
     }
-  }
+  } 
 
   showModal(agreementName = 'registAgreement') {
-    console.log("获取语言",window["translate"].getBrowserCultureLang());
-    if (agreementName in this.appSettings.agreementData) {
-      const { title, agreementFirst } = this.appSettings.agreementData[agreementName];
+    let language:string = this.appDataService.LANGUAGE || 'ch';
+    if (language in this.appSettings.agreementData) {
+      const registAgreement = this.appSettings.agreementData;
       const informationModal = this.modalCtrl.create(InformationModal, {
-        title,
-        agreementFirst, 
+        title: registAgreement[language].title,
+        agreementFirst: registAgreement[language].agreementFirst, 
       });
       informationModal.present();
     }

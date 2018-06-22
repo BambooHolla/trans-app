@@ -317,7 +317,11 @@
     "RISK_REMINDER":"风险提示",										
     "FAST_TRADING_REMINDER":"快捷交易会优先以当前您见到的市场上最优价格买入或卖出，但可能因为网络延迟或他人优先下单的情况导致实际成交价格与看到的价格有所差别，可能会出现更高价买入或更低价卖出的情况，为了您的资金安全，请谨慎使用快捷交易。",										
     "REVIEW_TRANSACTION_RULES":"查看交易规则",										
-    										
+    "CONFIRM_TO_BUY":"委托买单",
+    "CONFIRM_TO_SELL":"委托卖单",
+    "SET_THE_SELL":"请拖动选择卖出数量",		
+    "SET_THE_TRANSACTION":"请拖动选择交易额",	
+    "QUICK_FAILS":"快捷交易失败",	
     "AGREE":"同意",										
     "ORDER_FAILED":"下单失败",	
     "ESTIMATED_TURNOVER":"预计成交额为0",							

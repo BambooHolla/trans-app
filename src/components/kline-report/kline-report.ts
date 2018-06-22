@@ -197,30 +197,31 @@ export class KlineReportComponent extends KlineEchartsBaseComponent {
                     type: "dashed"
                 },
             },
-            
-            grid: [           {
-                left: '5%',
-                right: '3%',
-                top:"2%",
-                height: '60%'
-            },{
-                left: '3%',
-                right: '3%',
-                top: '70%',
-                height: '10%',
-                tooltip: {
-                    show: true
+            grid: [        
+                {
+                    left: '5%',
+                    right: '3%',
+                    top:"2%",
+                    height: '60%'
+                },{
+                    left: '3%',
+                    right: '3%',
+                    top: '70%',
+                    height: '10%',
+                    tooltip: {
+                        show: true
+                    }
+                    
+                },{
+                    left: '3%',
+                    right: '3%',
+                    top: '82%',
+                    height: '14%',
+                    tooltip: {
+                        show: true
+                    }
                 }
-                
-            },{
-                left: '3%',
-                right: '3%',
-                top: '82%',
-                height: '14%',
-                tooltip: {
-                    show: true
-                }
-            }],
+            ],
             xAxis: [{
                 type: 'category',
                 data: this.showKlineDates.times,
@@ -454,7 +455,8 @@ export class KlineReportComponent extends KlineEchartsBaseComponent {
                     lineStyle: {
                         normal: {
                             opacity: 0.6,
-                            color: '#00FFFF'
+                            color: '#00FFFF',
+                            width: 1
                         }
                     }
                 }, {
@@ -466,7 +468,8 @@ export class KlineReportComponent extends KlineEchartsBaseComponent {
                     lineStyle: {
                         normal: {
                             opacity: 0.6,
-                            color: '#EE00EE'
+                            color: '#EE00EE',
+                            width: 1
                         }
                     }
                 }, {
@@ -478,7 +481,8 @@ export class KlineReportComponent extends KlineEchartsBaseComponent {
                     lineStyle: {
                         normal: {
                             opacity: 0.6,
-                            color: '#00FF00'
+                            color: '#00FF00',
+                            width: 1
                         }
                     }
                 },{
@@ -529,7 +533,8 @@ export class KlineReportComponent extends KlineEchartsBaseComponent {
                     lineStyle: {
                         width: 1,
                         normal: {
-                            color: '#EE6363'
+                            color: '#EE6363',
+                            width: 1
                         }
                     },
                     data: this.showKlineDates.DIF,
@@ -542,7 +547,8 @@ export class KlineReportComponent extends KlineEchartsBaseComponent {
                     lineStyle: {
                         width: 1,
                         normal: {
-                            color: '#D4D4D4'
+                            color: '#D4D4D4',
+                            width: 1
                         }
                     },
                     data: this.showKlineDates.DEA

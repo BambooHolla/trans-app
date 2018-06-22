@@ -664,7 +664,7 @@ page-trade-interface-v2 {
 		.trader{
 			font-size: 1.1rem;
 			text-align: left;
-			padding-left: 3.5rem;
+			padding-left: 1rem;
 			&>div{
 				height: 2rem;
 				line-height: 2rem;
@@ -801,6 +801,7 @@ ion-popover .item.item-block .item-inner{
 }
 .alert-wrapper .alert-checkbox-icon{
 	background-color: unset;
+	border-color: #2a2b3f!important;
 }
 .trade-alert-color{
 	.alert-sub-title{
