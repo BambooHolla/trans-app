@@ -190,7 +190,12 @@ export class LoginService {
       .catch(error => { 
         debugger
         //将error转为对象,
-        const body = error.json() || error;
+        let body:any;
+        try {
+          body  = error.json() || error;
+        } catch(e) {
+          body = error;
+        }
         //提取error
         const err = body.error || body || error;
         console.log('login err:', err);

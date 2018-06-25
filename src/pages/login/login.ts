@@ -39,7 +39,7 @@ export class LoginPage implements OnInit{
   private pwd:any = '';
   private custId:any = '';
   public unregisterBackButton:any;
-  public showCode: boolean = false;
+  public showCode: boolean = this.appDataService.show_login_code || false;
   public codeSrc: string = '../assets/images/code_bg.png';
   public codeId: string = '';
   loginForm: FormGroup = new FormGroup({
@@ -123,9 +123,10 @@ export class LoginPage implements OnInit{
 
   async init() {
     const appDataService = this.appDataService;
+    this.getLoginCode();
     try {
-      await appDataService.dataReady;
-
+      await appDataService.dataReady; 
+    
       const controls = this.loginForm.controls;
       for (const prop in controls) {
         // controls[prop].enable();
@@ -160,6 +161,7 @@ export class LoginPage implements OnInit{
     this.logining = true;
     if(await this.loginService.doLogin(customerId, password, savePassword, type,codeHeader) === true){
       this.dismiss();
+      this.appDataService.show_login_code = false;
       // console.log('jumpto:',this.navParams.data)
       let cb = this.navParams.data.cb;
       if(cb) {
@@ -168,12 +170,8 @@ export class LoginPage implements OnInit{
       }
     } else {
       this.showCode = true;
-      this.loginCode.setValue('');
-      this.loginService.getCode().then( data => {
-        this.codeId = data.id;
-        this.codeSrc = 'data:image/png;base64,' + data.data
-        
-      })
+      this.getLoginCode();
+      this.appDataService.show_login_code = true;
     }
     this.logining = false;
   }
@@ -233,5 +231,13 @@ goForgetPwd() {
         
       })
     }
+  }
+  getLoginCode(){
+    this.loginCode.setValue('');
+      this.loginService.getCode().then( data => {
+        this.codeId = data.id;
+        this.codeSrc = 'data:image/png;base64,' + data.data
+        
+      })
   }
 }

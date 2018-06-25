@@ -81,7 +81,8 @@ export class AppDataService {
     register_number:{
       validity:new Date(),
       content:[]
-    }
+    },
+    show_login_code: false,
   };
   private _in_storage_keys = ['products', 'traderList'];
 
@@ -96,6 +97,7 @@ export class AppDataService {
   public show_onestep_warning;
   public version ;
   public register_number;
+  public show_login_code;
 
 
 
