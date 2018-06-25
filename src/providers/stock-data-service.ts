@@ -1350,7 +1350,7 @@ export class StockDataService {
 
   public requestProductById(productId): Promise<any> {
     if (!productId) return Promise.reject(void 0)
-    const path = `/product/product/${productId}`
+    const path = `/product/producthouse/${productId}`
 
     return this.appService.request(RequestMethod.Get, path, undefined)
       .then(data => {

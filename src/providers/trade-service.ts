@@ -150,13 +150,15 @@ export class TradeService {
       .request(RequestMethod.Get, path, undefined)
       .then(async data => {
         console.log('getTradeList: ', data);
+        
         const traderList = await this.appDataService.traderList;
-
+        
         if (!data) {
           return Promise.reject(new Error('data missing'));
         } else if (data.error) {
           return Promise.reject(new Error(data.error));
         } else {
+         
           await Promise.all(
             (data as any[])
             // .filter(item =>
@@ -164,12 +166,13 @@ export class TradeService {
             // )
               .map(async ({ priceId, productId, buyFee, saleFee },index) => {
                 const products = await this.appDataService.productsPromise;
-                const product = await this.stockDataService.getProduct(productId)//products.get(productId);
+                const product = await this.stockDataService.getProduct(productId)//products.get(productId); 
                 const price = !priceId ? undefined : await this.stockDataService.getProduct(priceId)//products.get(priceId);
+               
                 // console.log(
                 //   '%cGGGG',
                 //   'color:red',
-                //   productId,
+                //   productId, 
                 //   priceId,
                 //   product,
                 //   price
