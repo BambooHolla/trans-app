@@ -245,7 +245,7 @@
   										
     "PASSWORD_STRENGTH_DISCREPANCY":"Password strength discrepancy",										
   										
-    									
+    "GET_CODE_ERR":"Fail to botain verification code",								
     "PICASSO_USER_AGREEMENT":"Picasso user agreement",										
     "REGISTER":"Register",										
   										

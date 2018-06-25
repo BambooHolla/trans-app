@@ -828,17 +828,39 @@ splitData(rawData) {
         let length:number = this.klineDatas.datas.length ? this.klineDatas.datas.length : 1;
         let price =  Number(this.price.price);
         let amount = this.price.amount / 1e8;
+        // 比较高低
         this.showKlineDates.datas[length - 1][1] = price *1 ||this.showKlineDates.datas[length - 1][1] * 1;
-        if((this.showKlineDates.datas[length - 1][2]*1) > (amount*1)) {
-            this.showKlineDates.datas[length - 1][2] = amount * 1;
+        if((this.showKlineDates.datas[length - 1][2]*1) > (price*1)) {
+            this.showKlineDates.datas[length - 1][2] = price * 1;
         }
-        if((this.showKlineDates.datas[length - 1][3]*1) < (amount*1)) {
-            this.showKlineDates.datas[length - 1][3] = amount * 1;
+        if((this.showKlineDates.datas[length - 1][3]*1) < (price*1)) {
+            this.showKlineDates.datas[length - 1][3] = price * 1;
         }
+
+        // 数据量增加
+        this.showKlineDates.vols[length - 1] = this.showKlineDates.vols[length - 1] + (amount >= 0 ? amount : 0 - amount);
+
+        // 一些指标参数生成
+        this.QUOTA(this.showKlineDates.datas);
+       
         this.chartInstance.setOption({
             series: [
                 {
-                    data: this.showKlineDates.datas
+                    data: this.showKlineDates.datas,
+                },{
+                    data: this.calculateMA(5),
+                },{
+                    data: this.calculateMA(10),
+                },{
+                    data: this.calculateMA(30),
+                },{
+                    data: this.showKlineDates.vols,
+                },{
+                    data: this.showKlineDates.MACD,
+                },{
+                    data: this.showKlineDates.DIF
+                },{
+                    data: this.showKlineDates.DEA
                 }
             ]
         })

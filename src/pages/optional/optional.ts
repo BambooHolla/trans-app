@@ -189,7 +189,6 @@ export class OptionalPage extends SecondLevelPage {
             })
         })));
         
-        console.log('initPersonalStockListSubscriber2', this.optionalStockDetailList); 
         this.optionalStockDetailList.sort((item_1,item_2) => {
           if(item_1.productInfo.productName == "IBT" ) {
             return -1;

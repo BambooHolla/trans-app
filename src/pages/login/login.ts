@@ -123,7 +123,9 @@ export class LoginPage implements OnInit{
 
   async init() {
     const appDataService = this.appDataService;
-    this.getLoginCode();
+    if(this.showCode){
+      this.getLoginCode();
+    }
     try {
       await appDataService.dataReady; 
     
@@ -235,9 +237,10 @@ goForgetPwd() {
   getLoginCode(){
     this.loginCode.setValue('');
       this.loginService.getCode().then( data => {
-        this.codeId = data.id;
-        this.codeSrc = 'data:image/png;base64,' + data.data
-        
+        if(data.id){
+          this.codeId = data.id || '';
+          this.codeSrc = data.data ? 'data:image/png;base64,' + data.data : '../assets/images/code_bg.png';
+        }
       })
   }
 }

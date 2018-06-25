@@ -96,7 +96,7 @@
     "RESET_PASSWORD":"重置密码",										
     "MOBILE_PHONE_NUMBER_EMAIL":"手机号/邮箱",										
     										
-										
+	"GET_CODE_ERR":"获取验证码失败",								
 										
     "LOGIN_PASSWORD":"登录密码",										
     "PASSWORD_AT_LEAST_3_DIGITS":"密码至少3位",										

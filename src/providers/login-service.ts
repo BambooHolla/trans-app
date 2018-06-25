@@ -285,6 +285,19 @@ export class LoginService {
       {
        
       },
-    );
+    ).catch(error => {
+      //将error转为对象,
+      let body:any;
+      try {
+        body  = error.json() || error;
+      } catch(e) {
+        body = error;
+      }
+      //提取error
+      const err = body.error || body || error;
+      const message = err.message || err.statusText || window['language']['GET_CODE_ERR']||'获取验证码失败';
+      this.alertService.showAlert(window['language']['WARNING']||'警告', message);
+      return err.message || err.statusText || err;
+    });
   }
 }
