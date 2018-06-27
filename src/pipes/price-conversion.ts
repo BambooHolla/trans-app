@@ -22,7 +22,7 @@ export class PriceConversionPipe implements PipeTransform {
   transform(value: any, tradeRetainLength: number = 5,decimalFormat:number = 0) {
     // / this.appSettings.Price_Rate
     BigNumber.config({ EXPONENTIAL_AT: [-9, 20] })
-    if(isNaN(value) || value == null) value = '0';
+    if(isNaN(value) || value == null) return '--';
     value = ""+value;
     let number:any = value;
 

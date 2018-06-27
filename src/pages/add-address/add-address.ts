@@ -48,7 +48,7 @@ export class AddAddressPage extends SecondLevelPage {
 
 	productInfo: ProductModel;
 	// check_method: AuthenticationModel;
-	check_method_options: any[];
+	check_method_options: any;
 	@AddAddressPage.willEnter
 	@asyncCtrlGenerator.loading()
 	@asyncCtrlGenerator.error('LOAD_USER_INFO_ERROR')
@@ -57,12 +57,12 @@ export class AddAddressPage extends SecondLevelPage {
 		if (!this.productInfo) {
 			this.navCtrl.removeView(this.viewCtrl);
 		}
-
+		 
 		return (this.check_method_options = await this.accountService.getAuthenticateDetail(
 			{
 				type: CertificationCertificateType.账号
 			}
-		));
+		).then(a => console.log('1111111111111111111',a)));
 	}
 	@asyncCtrlGenerator.loading('SENDING_VERIFICATION_CODE')
 	@asyncCtrlGenerator.error('SEND_VERIFICATION_CODE_ERROR')

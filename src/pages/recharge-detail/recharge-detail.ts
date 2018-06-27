@@ -128,7 +128,7 @@ export class RechargeDetailPage extends SecondLevelPage {
 	// @asyncCtrlGenerator.error('获取充值限额出错')
 	async _getLimitedQuota(){
 		return await this.accountService
-		.getLimitedQuota(this.productInfo.productId,'001')
+		.getLimitedQuota(this.productInfo.productHouseId,'001')
 		.then(data => {
 			this.minRechargeText = '';
 			if(data[0] && this.productInfo.productDetail){
@@ -150,7 +150,7 @@ export class RechargeDetailPage extends SecondLevelPage {
 		const transaction_logs = await this.accountService.getRechargeLogs({
 			page: recharge_logs_page_info.page,
 			pageSize: recharge_logs_page_info.page_size,
-			targetId: this.productInfo.productId,
+			targetId: this.productInfo.productHouseId,
 		});
 		recharge_logs_page_info.has_more =
 			transaction_logs.length === recharge_logs_page_info.page_size;
@@ -170,7 +170,7 @@ export class RechargeDetailPage extends SecondLevelPage {
 					productDetail: product
 						? product.productDetail
 							? product.productDetail
-							: product.productId
+							: product.productHouseId
 						: '',
 					rechargeName: recharge_address_info
 						? recharge_address_info.paymentAccountRemark

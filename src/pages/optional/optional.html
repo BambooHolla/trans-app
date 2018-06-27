@@ -9,7 +9,7 @@
       <ion-col class="title-col">
         <h1>{{personalAssets?.asset?.total | quantityConversion}}</h1>
         <h6>{{'TOTAL_ASSETS_AVAILABLE'|translate}}{{personalAssets?.asset?.priceName}}</h6>
-        <!-- <h5>{{'FREEZE'|translate}}服务升级中</h5> -->
+        <h5>{{'FREEZE'|translate}}{{personalAssets?.freezeAsset?.total | quantityConversion}} {{personalAssets?.freezeAsset?.priceName}}</h5>
       </ion-col>
     </ion-row>
     <ion-row class="info-row">
@@ -69,8 +69,8 @@
           <!-- <h6 *ngIf="false">换手率：{{(data?.baseData | async)?.marketInfo?.turnoverRate | percent:'.2-2'}}</h6> -->
         </div>
         <div class="frozen">
-          <!-- <span class="font-smaller">{{'FREEZE_1'|translate}}</span> -->
-          <!-- <span class="color-rise">服务升级中</span> -->
+          <span class="font-smaller">{{'FREEZE_1'|translate}}</span>
+          <span class="color-rise">{{data?.personalData?.freezeQuantity| quantityConversion | numberUnitFormat:true:false:8}}</span>
         </div>
       </ion-col>
       <ion-col class="light-transparent" col-4 padding>

@@ -58,6 +58,8 @@ export class HistoryRecordPage {
 
     const token = this.appDataService.token;
     const traderId = this.navParams.data ? this.navParams.data.traderId : undefined;
+    const productHouseId = this.navParams.data ? this.navParams.data.productHouseId : undefined;
+    const priceProductHouseId = this.navParams.data ? this.navParams.data.priceProductHouseId : undefined;
     if (!token) {
       return Promise.reject(this.events.publish('show login', 'login',this.refreshData.bind(this))).then((res)=>{
         let a = res;
@@ -66,7 +68,7 @@ export class HistoryRecordPage {
 
     // const traderId = this.navParams.data ? this.navParams.data.traderId : undefined;
     // const getInfoCb = this.navParams.data ? this.navParams.data.getInfoCb : undefined;
-    return this.entrustServiceProvider.getDeliveryList(traderId,this.page,this.pageSize)
+    return this.entrustServiceProvider.getDeliveryList(traderId,productHouseId,priceProductHouseId,this.page,this.pageSize)
       .then(data => {
         console.log('getTradeHistory data:', data)
         return data

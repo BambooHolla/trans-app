@@ -126,17 +126,15 @@ export class EntrustServiceProvider {
    * @param traderId {priceId-productId}
    * @param entrustStatus //委托状态（001挂单中、002部分成交、003已成交、004已撤单）
    */
-  getDeliveryList(traderId?, page?, pageSize = 10) {
+  getDeliveryList(traderId?,productHouseId?,priceProductHouseId?,page?, pageSize = 10) {
     const path = `/transaction/deliveryList`
 
     let params = new URLSearchParams();
 
-    if (traderId) {
-      const productId = traderId.split('-')[1]
-      const priceId = traderId.split('-')[0]
-
-      params.set('productId', productId);
-      params.set('priceId', priceId);
+    if (traderId || productHouseId || priceProductHouseId) {
+      params.set('productId', traderId);
+      params.set('productHouseId', productHouseId);
+      params.set('priceProductHouseId', priceProductHouseId);
     }
     
     if (page) {

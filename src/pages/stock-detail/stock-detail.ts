@@ -411,6 +411,8 @@ export class StockDetailPage {
           tradeType,
           this[`${trade}TotalQuantity`],
           this[`${trade}TempPrice`],
+          1,
+          2
         )
         .then(resData => {
           console.log(resData)

@@ -30,7 +30,9 @@ export class TradeService {
     password,
     consignmentType,
     consignmentCount,
-    consignmentPrice
+    consignmentPrice,
+    productHouseId,
+    priceProductHouseId,
   ): Promise<string | boolean | AnyObject> {
     let promise: Promise<any>;
     if (!this.appSettings.SIM_DATA) {
@@ -63,10 +65,11 @@ export class TradeService {
       let data:any = {
         type: '00' + (consignmentType ? '1' : '2'), // 001买入，002卖出
         operationType: '002', //string *001现金对产品交易、002产品对产品交易
-        productId: equityCode.split('-')[1], //equityCode,
-        priceProductId: equityCode.split('-')[0], //string,标的（标价产品id），产品对产品交易时有
+        productId: equityCode, //equityCode,
         price: consignmentPrice, // 价格
-        amount: new BigNumber(consignmentCount).multipliedBy(this.appSettings.Product_Price_Rate).toString() // 数量
+        amount: new BigNumber(consignmentCount).multipliedBy(this.appSettings.Product_Price_Rate).toString(), // 数量
+        productHouseId: productHouseId,
+        priceProductHouseId: priceProductHouseId,
       };
  
       promise = this.http
@@ -141,7 +144,7 @@ export class TradeService {
 
   public getTradeList(upDate?:boolean) {
  
-    const path = `/transactionengine/traders`;
+    const path = `/transaction/traders`;
     
     const requestTime = new Date()
     const shouldUpdate = upDate ? true : (+requestTime - this.last_time_getTradeList) > 3e2;
@@ -164,10 +167,10 @@ export class TradeService {
             // .filter(item =>
             //   item
             // )
-              .map(async ({ priceId, productId, buyFee, saleFee },index) => {
+              .map(async ({ priceProductHouseId, productHouseId, buyFee, saleFee, productId },index) => { 
                 const products = await this.appDataService.productsPromise;
-                const product = await this.stockDataService.getProduct(productId)//products.get(productId); 
-                const price = !priceId ? undefined : await this.stockDataService.getProduct(priceId)//products.get(priceId);
+                const product = await this.stockDataService.getProduct(productHouseId)//products.get(productId); 
+                const price = !priceProductHouseId ? undefined : await this.stockDataService.getProduct(priceProductHouseId)//products.get(priceId);
                
                 // console.log(
                 //   '%cGGGG',
@@ -179,21 +182,26 @@ export class TradeService {
                 // );
                 // if (product) {
                  
-                if (!traderList.has(`${priceId}-${productId}`) || shouldUpdate ){  
-                  traderList.set(`${priceId}-${productId}`, {
-                    traderId: `${priceId}-${productId}`,
-                    traderName: !priceId ? `${product ? product.productName ?product.productName:'--' : '--'}` :
+
+                  // if (!traderList.has(`${priceProductHouseId}-${productHouseId}`) || shouldUpdate ){  
+                  //   traderList.set(`${priceProductHouseId}-${productHouseId}`, {
+                if (!traderList.has(`${productId}`) || shouldUpdate ){  
+                  traderList.set(`${productId}`, {
+                    // traderId: `${priceProductHouseId}-${productHouseId}`,
+                    traderId: `${productId}`,
+                    traderName: !priceProductHouseId ? `${product ? product.productName ?product.productName:'--' : '--'}` :
                       `${product ? product.productName?product.productName:'--' : '--'} / ${product ? price.productName?price.productName:'--' : '--'}`,
                     reportRef: new Observable(), //用来存放报表中间管道
                     reportArr: [],
                     marketRef: new BehaviorSubject(undefined), //用来存放交易中间管道
+                    holdRef: new BehaviorSubject(undefined),// TODO:新增的，用于持仓页面，现有的交易对已不能跟过去一样的逻辑，不知道后面是否会做更改调整
                     buyFee,
                     saleFee,
-                    priceId,
-                    productId,
+                    priceProductHouseId,
+                    productHouseId,
                     index,
-                    productName:!priceId ? `${product ? product.productName ?product.productName:'--' : '--'}` :`${product ? product.productName?product.productName:'--' : '--'}`,
-                    priceName:!priceId ? "":`${product ? price.productName?price.productName:'--' : '--'}`,
+                    productName:!priceProductHouseId ? `${product ? product.productName ?product.productName:'--' : '--'}` :`${product ? product.productName?product.productName:'--' : '--'}`,
+                    priceName:!priceProductHouseId ? "":`${product ? price.productName?price.productName:'--' : '--'}`,
                   });
                 }
                 // }

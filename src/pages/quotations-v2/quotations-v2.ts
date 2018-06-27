@@ -384,7 +384,7 @@ export class QuotationsPageV2 {
 			// traderIdList.push(key); 
 			traderList[value.index] = value;
 			traderIdList[value.index] = key;
-		})
+		}) 
 		this.traderList = traderList;
 		
 		this.traderList_show = this.traderList;
@@ -424,11 +424,11 @@ export class QuotationsPageV2 {
 					}
 				})
 			console.log('value.traderId',value.traderId)
+			console.log('value.productHouseId',value.productHouseId)
+			// 行情页面
 			this.stockDataService
 				.subscibeRealtimeData(value.traderId, 'price')
 				.subscribe(value.marketRef)//, this.viewDidLeave$)
-
-			
 		})
 	}
 

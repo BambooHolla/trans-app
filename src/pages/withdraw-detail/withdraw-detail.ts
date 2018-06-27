@@ -90,7 +90,6 @@ export class WithdrawDetailPage extends SecondLevelPage {
 
 	@WithdrawDetailPage.watchChange(
 		(self: WithdrawDetailPage, value: CryptoCurrencyModel) => {
-			debugger;
 			self.formData.selected_withdraw_address_id = value
 				? value.id
 				: undefined;
@@ -355,7 +354,10 @@ export class WithdrawDetailPage extends SecondLevelPage {
 	getTransactionLogs() {
 		this.withdraw_logs_page_info.page = 1;
 		return this._getWithdrawLogs().then(
-			data => (this.transaction_logs = data),
+			data => {
+				console.log('123123123',data)
+				this.transaction_logs = data
+			}
 		);
 	}
 	withdraw_logs_page_info = {

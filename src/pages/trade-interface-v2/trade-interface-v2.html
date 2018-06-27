@@ -59,7 +59,7 @@
 				</div>
 			</div>
 			<div class="price {{(_baseData$ | async)?.range | riseOrFall}}">
-				{{(_baseData$ | async)?.price | priceConversion:5 | numberFilter}}
+				{{(_baseData$ | async)?.price | priceConversion:5 | numberFilter:true}}
 			</div>
 			<div>
 				<div class="market-items right">

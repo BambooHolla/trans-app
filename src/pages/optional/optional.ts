@@ -1,4 +1,4 @@
-import { Component, ViewChild, OnDestroy, AfterViewInit } from '@angular/core';
+import { Component, ViewChild, OnDestroy, AfterViewInit, COMPILER_OPTIONS } from '@angular/core';
 
 import { NavController, NavParams, Refresher, AlertController } from 'ionic-angular';
 
@@ -148,9 +148,10 @@ export class OptionalPage extends SecondLevelPage {
 
   async initPersonalStockListSubscriber() {
     await this.appDataService.productsPromise;
-    // 当个人中心的股票持仓列表变化时，重新进行订阅
+    // 当个人中心的股票持仓列表变化时，重新进行订阅 
     this.personalDataService.personalStockList$.subscribe(async data => {
       console.log('initPersonalStockListSubscriber', data); 
+      
       // 个人中心的股票持仓列表变化时，才刷新当前页股票列表的数据源
       // console.log('initPersonalStockListSubscriber: ', data)
       this.optionalStockDetailList = await Promise.all(data
@@ -162,33 +163,39 @@ export class OptionalPage extends SecondLevelPage {
         //     return this.appDataService.products.has(stockCode);
         //   }
         // })
-        .map(async ({ stockCode, restQuantity, cost }) => ({
-          productInfo: await this.stockDataService.getProduct(stockCode),
-          personalData: {
-            stockCode,
-            restQuantity,
-            cost
-          },
-          baseData: this.stockDataService.stockBaseData$.map(
-            data => data[stockCode]
-          ),
-          realtimePrice: this.stockDataService
-            .subscibeRealtimeData(
-              `${this.appDataService.productId}-${stockCode}`,
-              'price'
-            )
-            .map(item => {
-              if (this.appDataService.productId == stockCode) {
-                return {
-                  ...item,
-                  price: 1
-                };
-              } else {
-                return item;
-              }
-            })
-        })));
+        .map(async ({ stockCode, restQuantity, cost , freezeQuantity }) => (
+          
+           {
+            productInfo: await this.stockDataService.getProduct(stockCode),
+            personalData: {
+              stockCode,
+              restQuantity,
+              cost,
+              freezeQuantity
+            },
+            baseData: this.stockDataService.stockBaseData$.map(
+              data => data[stockCode]
+            ),
+            realtimePrice: this.stockDataService
+              .subscibeRealtimeData(
+                `${stockCode}-${this.appSetting.Platform_Type}`,
+                'holdPrice'
+              )
+              .do(a => console.log('222222',a))
+              .map( item => { 
+                if (this.appDataService.productId == stockCode) {
+                  return {
+                    ...item,
+                    price: 1
+                  };
+                } else {
+                  return item ;
+                }
+              })
+          }
         
+      )));
+        console.log('3333333',this.optionalStockDetailList)
         this.optionalStockDetailList.sort((item_1,item_2) => {
           if(item_1.productInfo.productName == "IBT" ) {
             return -1;
@@ -202,7 +209,6 @@ export class OptionalPage extends SecondLevelPage {
           
           
         })
-        console.log('initPersonalStockListSubscriber1', this.optionalStockDetailList); 
       //计算每日盈亏,持仓 * 涨幅 * 最新价 
       for(let i = 0 ; i < this.optionalStockDetailList.length; i++) {
         this.optionalStockDetailList[i].realtimePrice.subscribe( val => {
@@ -237,8 +243,8 @@ export class OptionalPage extends SecondLevelPage {
         for (let key in data) {
           const item = data[key];
           let priceName = '';
-          const product = await this.stockDataService.getProduct(item.priceId)
-
+          const product = await this.stockDataService.getProduct(item.instPriceProductHouseId)
+ 
           if (product) priceName = `(${product.productName})`;
           item.priceName = priceName;
         }

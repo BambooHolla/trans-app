@@ -64,7 +64,7 @@
         <ion-refresher-content refreshingText="{{'UPDATING'|translate}}...">
         </ion-refresher-content>
     </ion-refresher>
-    <div *ngFor="let trader of traderList" tappable [navPush]="tradeInterface" [navParams]="trader?.traderId" class="trader-item" [hidden]="trader.hidden">
+    <div *ngFor="let trader of traderList" tappable [navPush]="tradeInterface" [navParams]="trader" class="trader-item" [hidden]="trader.hidden">
         <div class="header">
             <div class="name">
                 <!-- {{trader?.traderName}} -->
