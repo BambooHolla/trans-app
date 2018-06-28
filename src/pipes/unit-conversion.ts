@@ -27,8 +27,7 @@ export class unitConversionPipe implements PipeTransform {
     // 小数，整数分开
     let numberArr = number.split('.');
     let length = numberArr[0].length;
-
-    if( length < 3 || !numberArr[0]) return number;
+    if( length < 3 || !numberArr[0]) return value;
     for( let i = 0; length > 4; i++) {
         numberArr[0] = numberArr[0].substring(0,length - 3);
         length = numberArr[0].length;

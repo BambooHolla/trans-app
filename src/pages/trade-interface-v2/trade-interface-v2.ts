@@ -68,6 +68,7 @@ export class TradeInterfaceV2Page {
       }else if (type === 1){
         rateSrc = this.buyRate
       }
+      
       this.getFee(rateSrc).then(data => this.fee = data) 
     })
 
@@ -441,16 +442,19 @@ export class TradeInterfaceV2Page {
   }
 
   async getFee(rate) {
-    if(!rate) return ''
     
+    
+    if(!rate) return ''
     // const rate = this.buyRate  
     // const traders = this.traderId
-    const rateTarget = rate.calculateType === '001' ? await this.stockDataService.getProduct(rate.tragetType) : 
-      rate.calculateType === '002' ? await this.stockDataService.getProduct(rate.tragetType) : void 0
+    let rateTarget:any;
+    if(rate.tragetType) {
+      rateTarget = await this.stockDataService.getProduct(rate.tragetType);
+    }
      
     const rateStr = rate ?
-      rate.calculateType === '001' ? `${rate.rate * 100}%${rateTarget.productName}` :
-        rate.calculateType === '002' ? `${rate.rate + rateTarget.productName}` : void 0
+      rate.calculateType === '001' ? `${rate.rate * 100}%${rateTarget?rateTarget.productName:""}` :
+        rate.calculateType === '002' ? `${rate.rate + (rateTarget?rateTarget.productName:"")}` : void 0
       : void 0
       
     // const sellRate = this.sellRate
@@ -460,7 +464,6 @@ export class TradeInterfaceV2Page {
     //   sellRate.calculateType === '001' ? `${sellRate.rate * 100}%` :
     //     sellRate.calculateType === '002' ? `${sellRate.rate + sellrateTarget}` : void 0
     //   : void 0
-    debugger
     return rateStr
 
     // const toast = this.toastCtrl.create({

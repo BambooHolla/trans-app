@@ -405,7 +405,6 @@ export class SocketioService {
         keepcontact = true,
         rewatch = false,
       } = options
-
       start = options.timespan ? this.getTimeInterval(options.timespan) : startDate; 
 
   
@@ -452,8 +451,8 @@ export class SocketioService {
         // this.socketAPIs.get(api).socket.emit('unsubscribe', subscribeData);
       }
     });
-
-    return observable
+    debugger
+    return observable.do( a => console.log(',.,,,,,,,,,,,,,,,',a))
   }
 
   private getObservableFromMap(api: string, equityCode: string) {
