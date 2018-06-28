@@ -163,9 +163,9 @@ export class OptionalPage extends SecondLevelPage {
         //     return this.appDataService.products.has(stockCode);
         //   }
         // })
-        .map(async ({ stockCode, restQuantity, cost , freezeQuantity }) => (
+        .map(async ({ stockCode, restQuantity, cost , freezeQuantity }) => {
           
-           {
+           return {
             productInfo: await this.stockDataService.getProduct(stockCode),
             personalData: {
               stockCode,
@@ -194,7 +194,7 @@ export class OptionalPage extends SecondLevelPage {
               })
           }
         
-      )));
+    }));
         console.log('3333333',this.optionalStockDetailList)
         this.optionalStockDetailList.sort((item_1,item_2) => {
           if(item_1.productInfo.productName == "IBT" ) {
@@ -240,11 +240,12 @@ export class OptionalPage extends SecondLevelPage {
     return this.personalDataService
       .personalAssets()
       .then(async data => {
+        console.log('allAssets: ',data)
         for (let key in data) {
+          console.log(key)
           const item = data[key];
           let priceName = '';
           const product = await this.stockDataService.getProduct(item.instPriceProductHouseId)
- 
           if (product) priceName = `(${product.productName})`;
           item.priceName = priceName;
         }

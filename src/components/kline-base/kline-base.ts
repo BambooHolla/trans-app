@@ -140,11 +140,11 @@ export class KlineEchartsBaseComponent implements OnChanges, OnDestroy {
                 } else {
                     this.callEchartsCreator();
                 }
-            }, 500);
+            }, 0);
         } else if(!this.echartsData || this.echartsData.length <= 0) {
             setTimeout(() => {
                 this.callEchartsCreator();
-            }, 500);
+            }, 0);
         }
        
 
@@ -174,7 +174,7 @@ export class KlineEchartsBaseComponent implements OnChanges, OnDestroy {
                     //     this.createCharts()
                     // });
                 }
-            }, 1000);
+            }, 0);
         } 
     }
 

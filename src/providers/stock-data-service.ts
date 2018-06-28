@@ -1348,13 +1348,14 @@ export class StockDataService {
       });
   }
 
-  public requestProductById(productId): Promise<any> {
-    if (!productId) return Promise.reject(void 0)
-    const path = `/product/producthouse/${productId}`
+  public requestProductById(productHouseId): Promise<any> {
+    if (!productHouseId) return Promise.reject(void 0)
+    const path = `/product/producthouse/${productHouseId}`
 
     return this.appService.request(RequestMethod.Get, path, undefined)
       .then(data => {
         console.log('requestProductById: ', data)
+        data['productType'] = "001";
         this.parseStockListData([data])
         return data
       })
@@ -1379,10 +1380,12 @@ export class StockDataService {
       //   baseDataChanged = true;
       // }
       //获取成功更新列表缓存
-      this.appDataService.products.set(product.productId, { 
-        ...product,
-        expire: new Date().getTime()+this.appSettings.EXPIRE_TIME_SPAN,
-      })
+      if(product.productType == "001") {
+        this.appDataService.products.set(product.productHouseId, { 
+          ...product,
+          expire: new Date().getTime()+this.appSettings.EXPIRE_TIME_SPAN,
+        })
+      }
     }))
 
     // if (baseDataChanged) {

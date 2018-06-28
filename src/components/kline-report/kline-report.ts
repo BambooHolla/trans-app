@@ -706,7 +706,9 @@ splitData(rawData) {
         
         if(this.echartsData.length > 0 || this.nowTimeArr.beginTime) {
             this.chartInstance.setOption(this.option);
-            this.chartInstance.hideLoading();
+            setTimeout(() => {
+                this.chartInstance.hideLoading();
+            }, 500);
         }
      }
       

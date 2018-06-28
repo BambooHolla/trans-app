@@ -273,7 +273,7 @@ export class AccountServiceProvider {
 			transactionType: TransactionType;
 			productId: string;
 			amount: string;
-
+			productName: string;
 			accountId?: string;
 			accountType?: AccountType;
 			paymentId?: string;
