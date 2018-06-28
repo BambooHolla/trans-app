@@ -453,7 +453,7 @@ export class SocketioService {
       }
     });
 
-    return observable;
+    return observable
   }
 
   private getObservableFromMap(api: string, equityCode: string) {

@@ -10,10 +10,10 @@ export class NumberUnitFormatPipe implements PipeTransform {
   constructor() { 
    
   }
-  transform(value: any, retainZero: boolean = false, retainTailZeroAfterDigit: boolean | number = true, retainLength: number = 6): string {
+  transform(value: any, retainZero: boolean = false, retainTailZeroAfterDigit: boolean | number = true, retainLength: number = 6, showLength: number = 12): string {
     BigNumber.config({ EXPONENTIAL_AT: [-9, 20] })
     // 显示位数，为了避免数据显示溢出，进行处理
-    let showLength = 12;
+
     if (isNaN(value)) {
       return '--';
     } 

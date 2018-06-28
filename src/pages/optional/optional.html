@@ -57,7 +57,7 @@
           <h5>{{(data?.baseData | async)?.name || '----'}}</h5>
           <div *ngIf="true">
             <span class="font-smaller">{{'OPTIONAL_PRICE'|translate}}</span>
-            <span class="{{(data?.realtimePrice | async)?.range | riseOrFall}}">{{(data?.realtimePrice | async)?.price | priceConversion | numberFilter:true}}</span>
+            <span class="{{(data?.realtimePrice | async)?.range | riseOrFall}}">{{(data?.realtimePrice | async)?.price | priceConversion | numberFilter:false}}</span>
           </div>
           <!-- <span *ngIf="!true">{{(data?.baseData | async)?.stockCode}}</span> -->
           <!-- <h6 *ngIf="false">总市价：{{(data?.baseData | async)?.marketInfo?.marketValue /this.appSettings.Price_Rate}}</h6> -->

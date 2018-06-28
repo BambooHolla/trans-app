@@ -528,7 +528,7 @@ export class TradeInterfaceV2Page {
 
     let show_warning = true;
     let toast = this.promptCtrl.toastCtrl({
-      duration: 3000,
+      duration: 1000,
       position: 'middle'
     });
 
@@ -732,7 +732,7 @@ export class TradeInterfaceV2Page {
         if (typeof result === 'object' && result.id) {
           let toast = this.promptCtrl.toastCtrl({
             message: window['language']['DELEGATED_ORDER_HAS_BEEN_SUBMITTED']||'委托单已提交',//`${result.id}`,
-            duration: 3000,
+            duration: 1000,
             position: 'middle'
           })
           toast.present()
@@ -752,7 +752,7 @@ export class TradeInterfaceV2Page {
         if (err && err.message) {
           let toast = this.promptCtrl.toastCtrl({
             message: `${err.message}`,
-            duration: 3000,
+            duration: 1000,
             position: 'middle'
           })
           this.alertService.dismissLoading()
@@ -1028,7 +1028,7 @@ export class TradeInterfaceV2Page {
         if (data && data.status) {
           this.promptCtrl.toastCtrl({
             message: window['language']['WITHDRAW_ORDER_SUCCESSFULLY']||`撤单成功`,
-            duration: 2000,
+            duration: 1000,
             position: 'middle'
           }) 
           .present();
@@ -1045,7 +1045,7 @@ export class TradeInterfaceV2Page {
         if (err && err.message) {
           let toast = this.promptCtrl.toastCtrl({
             message: `${err.message}`,
-            duration: 3000,
+            duration: 1000,
             position: 'middle'
           })
           toast.present()
@@ -1479,12 +1479,12 @@ export class TradeInterfaceV2Page {
     try{
       const index = this.buySaleActiveIndex.getValue()
       const rate = this._cards[Object.keys(this._cards)[index]]
-      const traders = this.traderId.split('-')
-      const priceId = traders[0]
-      const productId = traders[1]
+      const traders = this.traderId;
+      const priceProductHouseId = this.priceProductHouseId;
+      const productHouseId = this.productHouseId;
 
-      this.quickTrading = true
-      this.tradeService.quickTrade(transactionType, productId, priceId, amount)
+      this.quickTrading = true 
+      this.tradeService.quickTrade(transactionType,traders, productHouseId, priceProductHouseId, amount)
         .then(async data => {
           if (!data.realityAmount){
             return Promise.reject({message:window['language']['NO_DELEGATED_ORDER']||'无委托提交'})
@@ -1498,7 +1498,7 @@ export class TradeInterfaceV2Page {
 
           const toast = this.promptCtrl.toastCtrl({
             message: window['language']['QUICK_ORDER_SUCCESS']||`快捷下单成功`,
-            duration: 3000,
+            duration: 1000,
             position: 'middle'
           })
           toast.present()

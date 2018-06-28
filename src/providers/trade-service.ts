@@ -274,22 +274,23 @@ export class TradeService {
       });
   }
 
-  public quickTrade(transactionType, productId, priceId, amount) {
+  public quickTrade(transactionType,productId, productHouseId, priceProductHouseId, amount) {
     const path = `/transaction/quickTransaction`;
 
     const params = {
       controllerType: "002",
       transactionType,
+      productId,
     }
     //交易类型： '001'买， '002'卖
     if (transactionType === "001") {
-      params['buyPriceId'] = priceId
-      params['buyTotalPrice'] = amount
-      params['buyProductId'] = productId
+      params['buyPriceProductHouseId'] = priceProductHouseId;
+      params['buyTotalPrice'] = amount;
+      params['buyProductHouseId'] = productHouseId;
     } else if (transactionType === "002") {
-      params['salePriceId'] = priceId
-      params['saleTotalAmount'] = amount
-      params['saleProductId'] = productId
+      params['salePriceProductHouseId'] = priceProductHouseId;
+      params['saleTotalAmount'] = amount;
+      params['saleProductHouseId'] = productHouseId;
     }
 
     return this.appService

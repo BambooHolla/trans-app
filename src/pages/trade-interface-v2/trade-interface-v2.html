@@ -59,7 +59,7 @@
 				</div>
 			</div>
 			<div class="price {{(_baseData$ | async)?.range | riseOrFall}}">
-				{{(_baseData$ | async)?.price | priceConversion:5 | numberFilter:true}}
+				{{(_baseData$ | async)?.price | priceConversion:5 | numberFilter:false}}
 			</div>
 			<div>
 				<div class="market-items right">
@@ -99,7 +99,7 @@
 				 tappable (click)="setPrice(sale_depth[i]?.price)">
 				<div class="bet-label sale">{{item}}</div>
 					<div class="bet-price sale">{{sale_depth[i]?.price || '--' | priceConversion | numberUnitFormat:true:false:4}}</div>
-					<div class="bet-amount">{{sale_depth[i]?.amount || '--' | quantityConversion | numberUnitFormat:false:true:4}}</div>
+					<div class="bet-amount">{{sale_depth[i]?.amount || '--' | quantityConversion | numberUnitFormat:false:true:4:5 | unitConversion }}</div>
 				</div>
 			</div>
 			<div class="bets-group">
@@ -107,7 +107,7 @@
 				 tappable (click)="setPrice(buy_depth[i]?.price)"> 
 					<div class="bet-label buy">{{item}}</div>
 					<div class="bet-price buy">{{buy_depth[i]?.price || '--' | priceConversion | numberUnitFormat:true:false:4}}</div>
-					<div class="bet-amount">{{buy_depth[i]?.amount || '--' | quantityConversion | numberUnitFormat:false:true:4}}</div>
+					<div class="bet-amount">{{buy_depth[i]?.amount || '--' | quantityConversion | numberUnitFormat:false:true:4:5 | unitConversion}}</div>
 				</div>
 			</div>
 			
@@ -247,7 +247,7 @@
 					<div class="svgcont">
 						<div class="blank"></div>
 						<div>{{'ESTIMATED_SELL_PRICE'|translate}}</div>
-						<p id="salesum">{{saleTotalQuantity | numberUnitFormat:false:true:4}}</p>
+						<p id="salesum">{{saleTotalQuantity | numberUnitFormat:false:true:8}}</p>
 						<span>{{'SELL_QUANTITY'|translate}}</span>
 						<label id="salenum">{{saleTotalAmount | numberFilter:true}}</label>
 					</div>
@@ -261,7 +261,7 @@
 					<div class="svgcont">
 						<div class="blank"></div>
 						<div>{{'ESTIMATED_BUY_PRICE'|translate}}</div>
-						<p id="buysum">{{buyTotalQuantity | numberUnitFormat:false:true:4}}</p>
+						<p id="buysum">{{buyTotalQuantity | numberUnitFormat:false:true:8}}</p>
 						<span>{{'BUY_QUANTITY'|translate}}</span>
 						<label id="buynum">{{buyTotalAmount  | numberFilter:true}}</label>
 					</div>

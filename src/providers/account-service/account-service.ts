@@ -466,13 +466,13 @@ export class AccountServiceProvider {
 	}
 	
 	getDeliverType(
-		targetIds,
+		productIds,
 		type
 	) {
 		return this.fetch.post(this.GET_DELIVERY_TYPE,{}, {
 			search: {
 				type,
-				targetIds,
+				productIds,
 			}
 		})
 	}

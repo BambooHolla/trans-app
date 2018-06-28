@@ -640,14 +640,15 @@ splitData(rawData) {
         this.showKlineDates.datas = this.klineDatas.datas.concat();
         this.showKlineDates.vols = this.klineDatas.vols.concat();
         if(length) {
-            this.showKlineDates.times.push(nowTime.format());
+            this.showKlineDates.times.push(nowTime.format(this.FORMATS[this.timeType] || 'YYYY-MM-DD'));
             this.showKlineDates.datas.push([
                 this.klineDatas.datas[length-1][1]*1,
                 this.klineDatas.datas[length-1][1]*1,
                 this.klineDatas.datas[length-1][1]*1,
                 this.klineDatas.datas[length-1][1]*1,
             ])
-            this.showKlineDates.times.vols.push(0); 
+            debugger
+            this.showKlineDates.vols.push(0); 
         }
 
         // 如果数据过少 本地生成

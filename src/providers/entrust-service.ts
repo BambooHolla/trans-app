@@ -34,11 +34,7 @@ export class EntrustServiceProvider {
     let params = new URLSearchParams();
 
     if(traderId){
-      const productId = traderId.split('-')[1]
-      const priceId = traderId.split('-')[0]
-
-      params.set('productId', productId);
-      params.set('priceId', priceId);
+      params.set('productId', traderId);
     }
     
     if (entrustStatus){

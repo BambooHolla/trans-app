@@ -884,35 +884,35 @@ export class TradeInterfacePage {
       const priceId = traders[0]
       const productId = traders[1]
 
-      this.tradeService.quickTrade(transactionType, productId, priceId, amount)
-        .then(async data => {
-          if (!data.realityAmount){
-            return Promise.reject({message:'无委托提交'})
-          }
-          //刷新账户信息
-          await this.personalDataService.requestFundData().catch(() => { });
-          await this.personalDataService.requestEquityDeposit().catch(() => { });
-          this.getQuickTradeData(index)          
+      // this.tradeService.quickTrade(transactionType, productId, priceId, amount)
+      //   .then(async data => {
+      //     if (!data.realityAmount){
+      //       return Promise.reject({message:'无委托提交'})
+      //     }
+      //     //刷新账户信息
+      //     await this.personalDataService.requestFundData().catch(() => { });
+      //     await this.personalDataService.requestEquityDeposit().catch(() => { });
+      //     this.getQuickTradeData(index)          
 
-          this.alertService.dismissLoading()
+      //     this.alertService.dismissLoading()
 
-          const toast = this.promptCtrl.toastCtrl({
-            message: `快捷下单成功`,
-            duration: 3000,
-            position: 'middle'
-          })
-          toast.present()
+      //     const toast = this.promptCtrl.toastCtrl({
+      //       message: `快捷下单成功`,
+      //       duration: 3000,
+      //       position: 'middle'
+      //     })
+      //     toast.present()
 
-          //下单成功刷新委托单
-          this.page = 1
-          this.getProcessEntrusts()
-        })
-        .catch(err => {
-          this.alertService.dismissLoading()
-          if(err&&err.message){
-            this.alertService.showAlert('下单失败',err.message)
-          }
-        })
+      //     //下单成功刷新委托单
+      //     this.page = 1
+      //     this.getProcessEntrusts()
+      //   })
+      //   .catch(err => {
+      //     this.alertService.dismissLoading()
+      //     if(err&&err.message){
+      //       this.alertService.showAlert('下单失败',err.message)
+      //     }
+      //   })
     }finally{
       // this.alertService.dismissLoading()
     }
