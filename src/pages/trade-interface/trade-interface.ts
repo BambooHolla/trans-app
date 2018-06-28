@@ -353,51 +353,51 @@ export class TradeInterfacePage {
       amount, ' | ',
       price, )
 
-    this.tradeService
-      .purchase(
-        this.traderId,
-        '',
-        tradeType,
-        amount,
-        price,
-      )
-      .then(resData => {
-        console.log('doTrade:',resData)
-        // [{ "FID_CODE": "1", "FID_MESSAGE": "委托成功,您这笔委托的合同号是:201" }]
-        const result = resData instanceof Array ? resData[0] : resData
+    // this.tradeService
+    //   .purchase(
+    //     this.traderId,
+    //     '',
+    //     tradeType,
+    //     amount,
+    //     price,
+    //   )
+    //   .then(resData => {
+    //     console.log('doTrade:',resData)
+    //     // [{ "FID_CODE": "1", "FID_MESSAGE": "委托成功,您这笔委托的合同号是:201" }]
+    //     const result = resData instanceof Array ? resData[0] : resData
         
-        if (typeof result === 'object' && result.id) {
-          let toast = this.promptCtrl.toastCtrl({
-            message: '委托单已提交',//`${result.id}`,
-            duration: 3000,
-            position: 'middle'
-          })
-          toast.present()
-          //初始化数据
-          this.amount = '0';
-          //下单成功刷新委托单
-          this.page = 1
-          this.getProcessEntrusts()
-        }else{
-          return Promise.reject(result);
-        }
-        console.log('doTrade done:', result.id)
-        this.alertService.dismissLoading()
-      })
-      .catch(err => {
-        console.log('doTrade err:', err);
-        if(err && err.message){
-          let toast = this.promptCtrl.toastCtrl({
-            message: `${err.message}`,
-            duration: 3000,
-            position: 'middle'
-          })
-          this.alertService.dismissLoading()          
-          toast.present()
-        }
-        console.log(err.statusText || err.message || err)
-      })
-      .then(()=>this.checkMax())
+    //     if (typeof result === 'object' && result.id) {
+    //       let toast = this.promptCtrl.toastCtrl({
+    //         message: '委托单已提交',//`${result.id}`,
+    //         duration: 3000,
+    //         position: 'middle'
+    //       })
+    //       toast.present()
+    //       //初始化数据
+    //       this.amount = '0';
+    //       //下单成功刷新委托单
+    //       this.page = 1
+    //       this.getProcessEntrusts()
+    //     }else{
+    //       return Promise.reject(result);
+    //     }
+    //     console.log('doTrade done:', result.id)
+    //     this.alertService.dismissLoading()
+    //   })
+    //   .catch(err => {
+    //     console.log('doTrade err:', err);
+    //     if(err && err.message){
+    //       let toast = this.promptCtrl.toastCtrl({
+    //         message: `${err.message}`,
+    //         duration: 3000,
+    //         position: 'middle'
+    //       })
+    //       this.alertService.dismissLoading()          
+    //       toast.present()
+    //     }
+    //     console.log(err.statusText || err.message || err)
+    //   })
+    //   .then(()=>this.checkMax())
   }
 
   ionViewDidEnter(){
