@@ -469,7 +469,7 @@ export class StockDataService {
       if (!realtimeData[code]) {
         this.parseAndSetRealtimeData(code, []);
       }
-
+ 
       if (needData) {
         //此方法只获取昨日收盘价 故废弃
         // this.requestRealtimeStartData(code, cancelGettingStartData$)
@@ -482,16 +482,16 @@ export class StockDataService {
       let source$: Observable<any>;
       if (this.appSettings.SIM_DATA) {
         source$ = this.simSubscribeEquity(code, this.SOCKETIO_SUBSCRIBE_STOCK_EVENT);
-      } else {
+      } else  {
         // //gjs
         // source$ = this.socketioService.subscribeEquity(code + suffix, eventName);
         //bngj直接通过股票代码获取socket链接, eventName用来作为链接暂存的标识.
         source$ = this.socketioService.subscribeEquity(code, eventName)//'price');           
       }
-      console.log('source$: ',source$)
+      console.log('source$: '+ eventName,source$)
       const equity$ = source$
         .do(result => {
-          console.log('data changed: ', result);
+          console.log('data changed: '+ eventName, result);
 
           const transformedData = this.transformRealtimeData(code, result);
           this.parseAndSetRealtimeData(code, [transformedData], this._stockRealtimeData.getValue()[code]);
@@ -1348,13 +1348,14 @@ export class StockDataService {
       });
   }
 
-  public requestProductById(productId): Promise<any> {
-    if (!productId) return Promise.reject(void 0)
-    const path = `/product/product/${productId}`
+  public requestProductById(productHouseId): Promise<any> {
+    if (!productHouseId) return Promise.reject(void 0)
+    const path = `/product/producthouse/${productHouseId}`
 
     return this.appService.request(RequestMethod.Get, path, undefined)
       .then(data => {
         console.log('requestProductById: ', data)
+        data['productType'] = "001";
         this.parseStockListData([data])
         return data
       })
@@ -1379,10 +1380,12 @@ export class StockDataService {
       //   baseDataChanged = true;
       // }
       //获取成功更新列表缓存
-      this.appDataService.products.set(product.productId, { 
-        ...product,
-        expire: new Date().getTime()+this.appSettings.EXPIRE_TIME_SPAN,
-      })
+      if(product.productType == "001") {
+        this.appDataService.products.set(product.productHouseId, { 
+          ...product,
+          expire: new Date().getTime()+this.appSettings.EXPIRE_TIME_SPAN,
+        })
+      }
     }))
 
     // if (baseDataChanged) {

@@ -79,6 +79,11 @@ export class TradeInterfaceV2Page {
   //traderId可以做成subject, 用setter 和getter改变 作为源头触发其他改动.
   private traderId: string = this.appSettings.SIM_DATA ?
     '000001' : undefined;
+  // 交易对
+  private productPair: string = undefined;
+  private productHouseId: string = undefined;
+  private priceProductHouseId: string = undefined;
+
   private reportArr = []
   private candlestickArr = []
   private entrusts = []
@@ -252,8 +257,11 @@ export class TradeInterfaceV2Page {
     this.userLanguage = appDataService.LANGUAGE||'zh';
     // debugger
     // window['TradeInterfacePage'] = this 
-    this.traderId = this.navParams.get('stockCode') || this.navParams.data || this.traderId;
-
+    this.traderId = this.navParams.get('stockCode') || this.navParams.data.traderId || this.traderId;
+    this.productHouseId = this.navParams.data.productHouseId || '';
+    this.priceProductHouseId = this.navParams.data.priceProductHouseId || '';
+    this.productPair = this.priceProductHouseId && this.productHouseId ?
+        this.priceProductHouseId + '-' + this.productHouseId : undefined;
     // if (!this.traderId) this.appDataService.products.forEach((value, key, map) => {
     //   this.traderId = key;
     //   return;
@@ -349,14 +357,14 @@ export class TradeInterfaceV2Page {
 
   checkMax(price = this.price){
 
-    const traders = this.traderId.split('-')
-    console.log('checkMax', this.personalDataService.personalStockList, ' & ', traders)
+    const productPairs = this.productPair.split('-')
+    console.log('checkMax', this.personalDataService.personalStockList, ' & ', productPairs)
     const personalStockList = this.personalDataService.personalStockList
     if (this._tradeType$.getValue() === 1) { 
       //可用资金/价格  
     
       const target = personalStockList
-        .filter(({ stockCode }) => stockCode === traders[0]);
+        .filter(({ stockCode }) => stockCode === productPairs[0]);
       
       // 旧方法使用Number计算，会导致计算数据出错
       // let saleableQuantity:any = (target && target.length != 0 ? target : [{ saleableQuantity:0}])[0]
@@ -375,7 +383,7 @@ export class TradeInterfaceV2Page {
       //最大持仓
     
       const target = personalStockList
-        .filter(({ stockCode }) => stockCode === traders[1]);
+        .filter(({ stockCode }) => stockCode === productPairs[1]);
         console.log(target)
         let saleableQuantity:any =  new BigNumber((target && target.length != 0 ? target : [{ saleableQuantity:0}])[0]
         .saleableQuantity.toString()).div(this.appSettings.Product_Price_Rate); 
@@ -436,15 +444,15 @@ export class TradeInterfaceV2Page {
     if(!rate) return ''
     
     // const rate = this.buyRate  
-    const traders = this.traderId
-
-    const rateTarget = rate.targetType === '001' ? await this.stockDataService.getProduct(traders[1]) : 
-      rate.targetType === '002' ? await this.stockDataService.getProduct(traders[0]) : void 0
+    // const traders = this.traderId
+    const rateTarget = rate.calculateType === '001' ? await this.stockDataService.getProduct(rate.tragetType) : 
+      rate.calculateType === '002' ? await this.stockDataService.getProduct(rate.tragetType) : void 0
+     
     const rateStr = rate ?
-      rate.calculateType === '001' ? `${rate.rate * 100}%` :
+      rate.calculateType === '001' ? `${rate.rate * 100}%${rateTarget.productName}` :
         rate.calculateType === '002' ? `${rate.rate + rateTarget.productName}` : void 0
       : void 0
-
+      
     // const sellRate = this.sellRate
     // const sellrateTarget = sellRate.targetType === '001' ? await this.stockDataService.getProduct(traders[1]) :
     //   sellRate.targetType === '002' ? await this.stockDataService.getProduct(traders[0]) : void 0
@@ -452,7 +460,7 @@ export class TradeInterfaceV2Page {
     //   sellRate.calculateType === '001' ? `${sellRate.rate * 100}%` :
     //     sellRate.calculateType === '002' ? `${sellRate.rate + sellrateTarget}` : void 0
     //   : void 0
-
+    debugger
     return rateStr
 
     // const toast = this.toastCtrl.create({
@@ -520,7 +528,7 @@ export class TradeInterfaceV2Page {
 
     let show_warning = true;
     let toast = this.promptCtrl.toastCtrl({
-      duration: 3000,
+      duration: 1000,
       position: 'middle'
     });
 
@@ -681,6 +689,8 @@ export class TradeInterfaceV2Page {
                 tradeType,
                 amount.toString(),
                 price.toString(),
+                this.productHouseId,
+                this.priceProductHouseId,
               )
             }
           }
@@ -696,11 +706,13 @@ export class TradeInterfaceV2Page {
       tradeType,
       amount.toString(),
       price.toString(), 
+      this.productHouseId,
+      this.priceProductHouseId,
     )
  
   }
 
-  _doTrade(traderId, password, tradeType, amount, price) {
+  _doTrade(traderId, password, tradeType, amount, price,productHouseId,priceProductHouseId) {
     this.trading = true
     this.tradeService
       .purchase( 
@@ -709,6 +721,8 @@ export class TradeInterfaceV2Page {
         tradeType,
         amount,
         price,
+        productHouseId,
+        priceProductHouseId,
       )
       .then(resData => {
         console.log('doTrade:', resData)
@@ -718,7 +732,7 @@ export class TradeInterfaceV2Page {
         if (typeof result === 'object' && result.id) {
           let toast = this.promptCtrl.toastCtrl({
             message: window['language']['DELEGATED_ORDER_HAS_BEEN_SUBMITTED']||'委托单已提交',//`${result.id}`,
-            duration: 3000,
+            duration: 1000,
             position: 'middle'
           })
           toast.present()
@@ -738,7 +752,7 @@ export class TradeInterfaceV2Page {
         if (err && err.message) {
           let toast = this.promptCtrl.toastCtrl({
             message: `${err.message}`,
-            duration: 3000,
+            duration: 1000,
             position: 'middle'
           })
           this.alertService.dismissLoading()
@@ -860,25 +874,25 @@ export class TradeInterfaceV2Page {
       // if(!this._depth$){
         this._depthSource$ = this.socketioService.subscribeEquity(traderId, 'depth')
           .do(data => console.log('trade-interface-v2:depth:', data)) 
-
+ 
         //旧的行情图 所需要的数据，已不需要
-        this._depth$ = this._depthSource$
-          // .map(data =>data.data)
-          .map(data => {
-            let arr = []
-            const length = 5
-            //todo:买五卖五档数据处理,需要知道后端返回顺序.
-            //{buy: Array(0), sale: Array(0)}
-            if(!data.sale || !data.buy){
-              return arr = Array.from({length:length*2})
-            }
+        // this._depth$ = this._depthSource$
+        //   // .map(data =>data.data)
+        //   .map(data => {
+        //     let arr = []
+        //     const length = 5
+        //     //todo:买五卖五档数据处理,需要知道后端返回顺序.
+        //     //{buy: Array(0), sale: Array(0)}
+        //     if(!data.sale || !data.buy){
+        //       return arr = Array.from({length:length*2})
+        //     }
 
-            for (let i = 0; i < length; i++) {
-              arr[i] = data.sale[length - 1 - i]
-              arr[i + length] = data.buy[i]
-            }
-            return arr
-          })
+        //     for (let i = 0; i < length; i++) {
+        //       arr[i] = data.sale[length - 1 - i]
+        //       arr[i + length] = data.buy[i]
+        //     }
+        //     return arr
+        //   })
         // this._depth$.subscribe()
         this._depthSource$.subscribe(data=>{
           if(data){
@@ -918,22 +932,22 @@ export class TradeInterfaceV2Page {
  
       // this._realtimeData$ = this.stockDataService.stockRealtimeData$.map(data => data[stockCode]);
       console.log('trade-interface-v2_realtimeData:reportArr: ', this.reportArr)
-      this._realtimeData$ = this.socketioService.subscribeRealtimeReports([this.traderId])
-        .do(data => console.log('trade-interface-v2_realtimeData: ',data))
-        .takeUntil(this.viewDidLeave$)
-        .filter(({ type }) => type === this.traderId)
-        .map(data => data.data)
-        .map(data => {
-          //处理增量更新
-          const srcArr = this.reportArr
-          srcArr.push(...data)//使用push+解构赋值,预期echarts动画实现
-          const length = srcArr.length
-          if (length > this.appSettings.Charts_Array_Length) {
-            srcArr.splice(0, length - this.appSettings.Charts_Array_Length)
-          }
-          console.log('trade- interface_realtimeData:srcArr:', srcArr)
-          return srcArr.concat()
-        })
+      // this._realtimeData$ = this.socketioService.subscribeRealtimeReports([this.traderId])
+      //   .do(data => console.log('trade-interface-v2_realtimeData: ',data))
+      //   .takeUntil(this.viewDidLeave$)
+      //   .filter(({ type }) => type === this.traderId)
+      //   .map(data => data.data)
+      //   .map(data => {
+      //     //处理增量更新
+      //     const srcArr = this.reportArr
+      //     srcArr.push(...data)//使用push+解构赋值,预期echarts动画实现
+      //     const length = srcArr.length
+      //     if (length > this.appSettings.Charts_Array_Length) {
+      //       srcArr.splice(0, length - this.appSettings.Charts_Array_Length)
+      //     }
+      //     console.log('trade- interface_realtimeData:srcArr:', srcArr)
+      //     return srcArr.concat()
+      //   })
     }
   }
 
@@ -959,6 +973,8 @@ export class TradeInterfaceV2Page {
     }
     this.navCtrl.push(HistoryRecordPage, {
       traderId: this.traderId, 
+      productHouseId: this.productHouseId,
+      priceProductHouseId: this.priceProductHouseId,
       getInfoCb:this.refreshPersonalData.bind(this),
     }).then(()=>{
      
@@ -1012,7 +1028,7 @@ export class TradeInterfaceV2Page {
         if (data && data.status) {
           this.promptCtrl.toastCtrl({
             message: window['language']['WITHDRAW_ORDER_SUCCESSFULLY']||`撤单成功`,
-            duration: 2000,
+            duration: 1000,
             position: 'middle'
           }) 
           .present();
@@ -1029,7 +1045,7 @@ export class TradeInterfaceV2Page {
         if (err && err.message) {
           let toast = this.promptCtrl.toastCtrl({
             message: `${err.message}`,
-            duration: 3000,
+            duration: 1000,
             position: 'middle'
           })
           toast.present()
@@ -1065,8 +1081,18 @@ export class TradeInterfaceV2Page {
   }
 
   changeTrader($event){
-    console.log('traderChanged', this.traderId)
-    this.reportArr = []
+    console.log('traderChanged', this.traderId,this.traderList)
+    this.traderList.find( item => {
+      if(item.traderId == this.traderId) {
+        this.productHouseId = item.productHouseId || '';
+        this.priceProductHouseId = item.priceProductHouseId || '';
+        this.productPair = this.priceProductHouseId && this.productHouseId ?
+          this.priceProductHouseId + '-' + this.productHouseId : undefined;
+        return true;
+      }
+      return false;
+    })
+    this.reportArr = [] 
     this.doSubscribe()
     this.getProcessEntrusts()
     
@@ -1322,14 +1348,14 @@ export class TradeInterfaceV2Page {
   getQuickTradeData() {
     console.log('getQuickTradeData')
     const rate = 1;
-    const traders = this.traderId.split('-')
-    let priceProduct, productProduct
-
+    const productPairs = this.productPair.split('-')
+    let priceProduct, productProduct;
+ 
     this.personalDataService.personalStockList.forEach(item => {
       //获取交易信息
-      if (item.stockCode === traders[0]) {
+      if (item.stockCode === productPairs[0]) {
         priceProduct = item
-      } else if (item.stockCode === traders[1]) {
+      } else if (item.stockCode === productPairs[1]) {
         productProduct = item
       }
      
@@ -1453,12 +1479,12 @@ export class TradeInterfaceV2Page {
     try{
       const index = this.buySaleActiveIndex.getValue()
       const rate = this._cards[Object.keys(this._cards)[index]]
-      const traders = this.traderId.split('-')
-      const priceId = traders[0]
-      const productId = traders[1]
+      const traders = this.traderId;
+      const priceProductHouseId = this.priceProductHouseId;
+      const productHouseId = this.productHouseId;
 
-      this.quickTrading = true
-      this.tradeService.quickTrade(transactionType, productId, priceId, amount)
+      this.quickTrading = true 
+      this.tradeService.quickTrade(transactionType,traders, productHouseId, priceProductHouseId, amount)
         .then(async data => {
           if (!data.realityAmount){
             return Promise.reject({message:window['language']['NO_DELEGATED_ORDER']||'无委托提交'})
@@ -1472,7 +1498,7 @@ export class TradeInterfaceV2Page {
 
           const toast = this.promptCtrl.toastCtrl({
             message: window['language']['QUICK_ORDER_SUCCESS']||`快捷下单成功`,
-            duration: 3000,
+            duration: 1000,
             position: 'middle'
           })
           toast.present()
@@ -1501,15 +1527,14 @@ export class TradeInterfaceV2Page {
 
   private personalAssets: object = {};
   requestAssets() {
-    const traders = this.traderId.split('-')
-
+    const productPairs = this.productPair.split('-')
     this.personalDataService.personalStockList.forEach(item => {
-      if (item.stockCode === traders[0]) {
+      if (item.stockCode === productPairs[0]) {
         this.trader_target = item
         this.holePrice =this.numberFormat( (new BigNumber(item.restQuantity || "0")).div( this.appSettings.Product_Price_Rate_str).toString());
-      } else if (item.stockCode === traders[1]) {
+      } else if (item.stockCode === productPairs[1]) {
         this.trader_product = item;
-        this.holdAmount = this.numberFormat( new BigNumber(item.restQuantity?item.restQuantity:"0").div(1e8).toString(),false,false);
+        this.holdAmount = this.numberFormat( new BigNumber(item.restQuantity?item.restQuantity:"0").div(this.appSettings.Product_Price_Rate_str).toString(),false,false);
       }
     
     })
@@ -1520,7 +1545,7 @@ export class TradeInterfaceV2Page {
         for (let key in data) {
           const item = data[key];
           let priceName = '';
-          const product = await this.stockDataService.getProduct(item.priceId)
+          const product = await this.stockDataService.getProduct(item.instPriceProductHouseId)
 
           if (product) priceName = `${product.productName}`;
           item.priceName = priceName;

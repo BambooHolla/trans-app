@@ -64,14 +64,14 @@
         <ion-refresher-content refreshingText="{{'UPDATING'|translate}}...">
         </ion-refresher-content>
     </ion-refresher>
-    <div *ngFor="let trader of traderList" tappable [navPush]="tradeInterface" [navParams]="trader?.traderId" class="trader-item" [hidden]="trader.hidden">
+    <div *ngFor="let trader of traderList" tappable [navPush]="tradeInterface" [navParams]="trader" class="trader-item" [hidden]="trader.hidden">
         <div class="header">
             <div class="name">
                 <!-- {{trader?.traderName}} -->
                 <span class="product-name">{{trader?.productName}}</span><span class="price-name"> / {{trader?.priceName}}</span>
             </div>
             <div class="price {{(trader.marketRef | async)?.range|riseOrFall}}">
-                {{(trader.marketRef | async)?.price | priceConversion:5:2}}
+                {{(trader.marketRef | async)?.price | priceConversion:5:2 | numberFilter:false}}
             </div>
             <div class="range">
                 <div class="box bg-{{(trader.marketRef | async)?.range|riseOrFall}}">

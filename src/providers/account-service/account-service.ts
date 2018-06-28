@@ -103,7 +103,7 @@ export class AccountServiceProvider {
 	getAccountProduct(search: {
 		accountId?: string;
 		accountType?: AccountType;
-		productId?: string;
+		productHouseId?: string;
 		customerId?: string;
 	}) {
 		return this.fetch.get(this.GET_ACCOUNT_PRODUCT, {
@@ -111,11 +111,11 @@ export class AccountServiceProvider {
 		});
 	}
 
-	getRechargeAddress(productId: string) {
+	getRechargeAddress(productHouseId: string) {
 		return this.fetch
 			.autoCache(true)
 			.get<CryptoCurrencyModel[]>(this.GET_CRYPTO_CURRENCY, {
-				search: { productId },
+				search: { productHouseId },
 			});
 	}
 
@@ -169,10 +169,11 @@ export class AccountServiceProvider {
 	getProducts(
 		page: number,
 		pageSize: number = 10,
-		productType?: ProductType,
+		productType: ProductType = ProductType.singleProduct,
 		productStatus?: ProductStatus,
 		productName?: string,
 		productIdArr?: string,
+		
 	) {
 		return this.fetch.post<ProductModel[]>(this.GET_PRODUCTS, {
 			page,
@@ -272,7 +273,7 @@ export class AccountServiceProvider {
 			transactionType: TransactionType;
 			productId: string;
 			amount: string;
-
+			productName: string;
 			accountId?: string;
 			accountType?: AccountType;
 			paymentId?: string;
@@ -465,13 +466,13 @@ export class AccountServiceProvider {
 	}
 	
 	getDeliverType(
-		targetIds,
+		productIds,
 		type
 	) {
 		return this.fetch.post(this.GET_DELIVERY_TYPE,{}, {
 			search: {
 				type,
-				targetIds,
+				productIds,
 			}
 		})
 	}
@@ -522,7 +523,8 @@ export enum ProductType {
 	//本能理财产品类型 3开头
 	"bnlc_main" = "301", //首页主产品
 	"bnlc_increaseInterest" = "302", //加息计划
-
+	"singleProduct"="001",//单一产品
+    "pairProduct"="002",//交易对产品
 	"others" = "999", //"其他"
 }
 export enum ProductStatus {

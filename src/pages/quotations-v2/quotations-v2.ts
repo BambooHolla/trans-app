@@ -384,7 +384,7 @@ export class QuotationsPageV2 {
 			// traderIdList.push(key); 
 			traderList[value.index] = value;
 			traderIdList[value.index] = key;
-		})
+		}) 
 		this.traderList = traderList;
 		
 		this.traderList_show = this.traderList;
@@ -424,11 +424,11 @@ export class QuotationsPageV2 {
 					}
 				})
 			console.log('value.traderId',value.traderId)
+			console.log('value.productHouseId',value.productHouseId)
+			// 行情页面
 			this.stockDataService
 				.subscibeRealtimeData(value.traderId, 'price')
 				.subscribe(value.marketRef)//, this.viewDidLeave$)
-
-			
 		})
 	}
 
@@ -452,14 +452,14 @@ export class QuotationsPageV2 {
 					
 					this._filterProduct(this.activeProduct,this.showSearch);
 				}
-				if(!this.appDataService.mainproducts){
+				if(!this.appDataService.mainproducts){ 
 					this.tradeService.getMainProducts().then((mainproducts:AnyObject[]) =>{
 						for (const product of mainproducts){
-						  if (product.productId){
+						  if (product.productHouseId){
 							console.log('mainproducts:', product)
-							this.socketioService.subscribeHeaderPrice(product.productId)
+							this.socketioService.subscribeHeaderPrice(product.productHouseId)
 							  .do(data => console.log('mainproducts:::?', data))
-							  .filter(data=>data.type === product.productId)
+							  .filter(data=>data.type === product.productHouseId)
 							  .map(data => data.data || data)
 							  .do(data => console.log('mainproducts:::!',data))
 							  .subscribe(data=>{

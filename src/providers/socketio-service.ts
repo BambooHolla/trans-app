@@ -24,6 +24,13 @@ import { LoginService } from './login-service';
 export class SocketioService {
 
   private socketAPIs = new Map([
+    ['holdPrice', {
+      target: '/prices',
+      source: '/transaction',
+      socket: undefined,
+      _connected: false,
+      // _connected$: _connected.asObservable().distinctUntilChanged(),
+    }],
     ['price', {
       target: '/prices',
       source: '/transaction',
@@ -265,12 +272,12 @@ export class SocketioService {
       // 对于所有订阅都已取消的 refCount 重新进行订阅时，
       // 这个函数会被重新调用一次，并传入新的 observer 。
       // console.log('equityCode socket api:',api)
-      this.socketReady(api)
+      this.socketReady(api)  
         .then(() => {
           // console.log('equityCode socket api:ready', api)
-          if (equityCodeWithSuffix.indexOf('-') === -1) {
-            equityCodeWithSuffix = '-' + equityCodeWithSuffix
-          }
+          // if (equityCodeWithSuffix.indexOf('-') === -1) {
+          //   equityCodeWithSuffix = '-' + equityCodeWithSuffix
+          // }
           this.getObservableFromMap(api, `${equityCodeWithSuffix}`)
             .subscribe(observer) 
           // this._socketioSubscribeSet.add(subscribeData);
@@ -278,7 +285,9 @@ export class SocketioService {
           if (api == 'price' || api == 'depth') {
             // console.log(`watch:${api} `, `${equityCodeWithSuffix}`)
             this.socketAPIs.get(api).socket.emit('watch', [`${equityCodeWithSuffix}`])
-          }  else {
+          }  else if(api == "holdPrice") {
+            this.socketAPIs.get(api).socket.emit('watch' + '-inst', [`${equityCodeWithSuffix}`])
+          } else {
             this.socketAPIs.get(api).socket.emit('watch', `${equityCodeWithSuffix}`)
           }
         })
@@ -297,7 +306,9 @@ export class SocketioService {
         if (api == 'price' || api == 'depth') {
           // console.log(`unwatch:${api} `, `${equityCodeWithSuffix}`)
           this.socketAPIs.get(api).socket.emit('unwatch', [`${equityCodeWithSuffix}`])
-        }  else {
+        } else if(api == "holdPrice") {
+          this.socketAPIs.get(api).socket.emit('unwatch' + '-inst', [`${equityCodeWithSuffix}`])
+        } else {
           this.socketAPIs.get(api).socket.emit('unwatch', `${equityCodeWithSuffix}`)
         }
         // this.socketAPIs.get(api).socket.emit(`unwatch:${api}:`, [`${equityCodeWithSuffix}`])
@@ -339,6 +350,37 @@ export class SocketioService {
     return observable;
   }
 
+  subscribeHoldPrice(equityCodeWithSuffix: string, api: string = 'holdPrice'): Observable<any> {
+    const observable = new Observable(observer => {
+      this.socketReady(api) 
+        .then(() => {
+          ((api, equityCode) => {
+            if (!this.apiObservableMap.has(api + '-inst')) {
+              this.apiObservableMap.set(api + '-inst',
+                Observable.fromEvent(this.socketAPIs.get(api).socket, 'data' + '-inst')
+              );
+            }
+            return this.apiObservableMap.get(api + '-inst')
+              // .filter(data => equityCode === data.type || data.ec === equityCode || data.n === equityCode)
+              // .map(data => data.data || data)
+              .do(data => console.log('subscribeHoldPrice', data))
+          })(api, `${equityCodeWithSuffix}`)
+            .subscribe(observer)
+          this.socketAPIs.get(api).socket.emit('watch' + '-inst', [`${equityCodeWithSuffix}`])
+        })
+        .catch(err => {
+          // console.log(err)
+        });
+
+      // 在 multicast refCount 上的所有订阅都取消时，
+      // 会调用此方法取消 observer 的订阅。
+      return () => {
+        this.socketAPIs.get(api).socket.emit('unwatch' + '-inst', [`${equityCodeWithSuffix}`])
+      }
+    });
+
+    return observable;
+  }
   subscribeRealtimeReports(
     equityCodes: string[],
     api: string = 'realtimeReports',
@@ -411,7 +453,7 @@ export class SocketioService {
       }
     });
 
-    return observable;
+    return observable
   }
 
   private getObservableFromMap(api: string, equityCode: string) {

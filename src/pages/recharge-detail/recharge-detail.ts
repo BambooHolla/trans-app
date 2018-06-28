@@ -63,16 +63,16 @@ export class RechargeDetailPage extends SecondLevelPage {
 			const tasks = [];
 			// 获取地址信息
 			tasks[tasks.length] = this.accountService
-				.getRechargeAddress(this.productInfo.productId)
+				.getRechargeAddress(this.productInfo.productHouseId)
 				.then(data => (this.recharge_address = data[0]));
 
 			// 获取账户资产
 			tasks[tasks.length] = this.accountService
 				.getAccountProduct({
-					productId: this.productInfo.productId,
+					productHouseId: this.productInfo.productHouseId,
 					accountType: AccountType.Product,
 				})
-				.then(data => {
+				.then(data => { 
 					data['balance'] = new BigNumber(data['balance']+'').div('100000000').toString();
 					data['freezeBalance'] = new BigNumber(data['freezeBalance']+'').div('100000000').toString();
 					this.access_info = data
@@ -128,7 +128,7 @@ export class RechargeDetailPage extends SecondLevelPage {
 	// @asyncCtrlGenerator.error('获取充值限额出错')
 	async _getLimitedQuota(){
 		return await this.accountService
-		.getLimitedQuota(this.productInfo.productId,'001')
+		.getLimitedQuota(this.productInfo.productHouseId,'001')
 		.then(data => {
 			this.minRechargeText = '';
 			if(data[0] && this.productInfo.productDetail){
@@ -150,7 +150,7 @@ export class RechargeDetailPage extends SecondLevelPage {
 		const transaction_logs = await this.accountService.getRechargeLogs({
 			page: recharge_logs_page_info.page,
 			pageSize: recharge_logs_page_info.page_size,
-			targetId: this.productInfo.productId,
+			targetId: this.productInfo.productHouseId,
 		});
 		recharge_logs_page_info.has_more =
 			transaction_logs.length === recharge_logs_page_info.page_size;
@@ -170,7 +170,7 @@ export class RechargeDetailPage extends SecondLevelPage {
 					productDetail: product
 						? product.productDetail
 							? product.productDetail
-							: product.productId
+							: product.productHouseId
 						: '',
 					rechargeName: recharge_address_info
 						? recharge_address_info.paymentAccountRemark

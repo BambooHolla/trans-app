@@ -193,11 +193,11 @@ export class PicassoApp {
         .then((mainproducts:AnyObject[]) =>{
           console.log('mainproducts::')
           for (const product of mainproducts){
-            if (product.productId){
-              console.log('mainproducts:', product)
-              this.socketioService.subscribeHeaderPrice(product.productId)
+            if (product.productHouseId){
+              console.log('mainproducts:', product) 
+              this.socketioService.subscribeHeaderPrice(product.productHouseId)
                 .do(data => console.log('mainproducts:::?', data))
-                .filter(data=>data.type === product.productId)
+                .filter(data=>data.type === product.productHouseId)
                 .map(data => data.data || data)
                 .do(data => console.log('mainproducts:::!',data))
                 .subscribe(data=>{

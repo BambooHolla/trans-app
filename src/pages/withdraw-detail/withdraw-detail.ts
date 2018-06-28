@@ -90,7 +90,6 @@ export class WithdrawDetailPage extends SecondLevelPage {
 
 	@WithdrawDetailPage.watchChange(
 		(self: WithdrawDetailPage, value: CryptoCurrencyModel) => {
-			debugger;
 			self.formData.selected_withdraw_address_id = value
 				? value.id
 				: undefined;
@@ -184,7 +183,7 @@ export class WithdrawDetailPage extends SecondLevelPage {
 			.then( () => {
 				return this.accountService
 				.getAccountProduct({
-					productId: this.productInfo.productId,
+					productHouseId: this.productInfo.productHouseId,
 					accountType: AccountType.Product,
 				})
 				.then(data => {
@@ -225,7 +224,7 @@ export class WithdrawDetailPage extends SecondLevelPage {
 			const tasks = [];
 			// 获取可用的提现地址
 			tasks[tasks.length] = this.accountService
-				.getWithdrawAddress(this.productInfo.productId)
+				.getWithdrawAddress(this.productInfo.productHouseId)
 				.then(data => {
 					this.withdraw_address_list = data;
 					if (this.selected_withdraw_address) {
@@ -238,7 +237,7 @@ export class WithdrawDetailPage extends SecondLevelPage {
 			// 获取账户信息
 			tasks[tasks.length] = this.accountService
 				.getAccountProduct({
-					productId: this.productInfo.productId,
+					productHouseId: this.productInfo.productHouseId,
 					accountType: AccountType.Product,
 				})
 				.then(data => {
@@ -314,6 +313,21 @@ export class WithdrawDetailPage extends SecondLevelPage {
 		await this.personalDataService.requestCertifiedStatus();
 		if( !(this.personalDataService.certifiedStatus == '2') ){
 			return Promise.reject(new Error(`${window['language']['VERIFICATION']||'实名认证'}：${this.personalDataService.realname|| this.personalDataService.certifiedMsg}`));
+		} 
+		let msServer: string;
+		switch (this.productInfo.productName) {
+			case "BTC":
+				msServer = 'ms-btc';
+				break;
+			case "USDT":
+				msServer = 'ms-usdt';
+				break;
+			case "IBT":
+				msServer = 'ms-ifmt';
+				break;
+			case "ETH":
+				msServer = 'ms-eth';
+				break;
 		}
 		return this.accountService
 			.submitWithdrawAppply(
@@ -321,6 +335,7 @@ export class WithdrawDetailPage extends SecondLevelPage {
 					transactionType: TransactionType.WithdrawProduct,
 					productId: this.productInfo.productId,
 					amount: new BigNumber(this.formData.amount).multipliedBy('100000000').toString(), 
+					productName: msServer,
 					paymentId: this.formData.selected_withdraw_address_id + "",
 				},
 				this.formData.password,
@@ -338,7 +353,7 @@ export class WithdrawDetailPage extends SecondLevelPage {
 				}).then(transaction => {
 					return this.accountService
 					.getAccountProduct({
-						productId: this.productInfo.productId,
+						productHouseId: this.productInfo.productHouseId,
 						accountType: AccountType.Product,
 					})
 					.then(data => {
@@ -355,7 +370,9 @@ export class WithdrawDetailPage extends SecondLevelPage {
 	getTransactionLogs() {
 		this.withdraw_logs_page_info.page = 1;
 		return this._getWithdrawLogs().then(
-			data => (this.transaction_logs = data),
+			data => {
+				this.transaction_logs = data
+			}
 		);
 	}
 	withdraw_logs_page_info = {

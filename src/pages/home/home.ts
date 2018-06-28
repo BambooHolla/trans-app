@@ -148,7 +148,7 @@ ngOnInit(){
         for (let key in data) {
           const item = data[key];
           let priceName = '';
-          const product = await this.stockDataService.getProduct(item.priceId)
+          const product = await this.stockDataService.getProduct(item.instPriceProductHouseId)
 
           if (product) priceName = `(${product.productName})`;
           item.priceName = priceName;
