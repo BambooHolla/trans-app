@@ -228,6 +228,7 @@ page-recharge-detail {
                     font-size: 1.5rem;
                     color: color($colors, 'special');
                     width: 28vw;
+                    text-align: center;
                 }
                 .time-at {
                     flex: 1;
@@ -272,7 +273,7 @@ page-recharge-detail {
                     margin: 0.6rem 0;
                     padding: 0 1rem;
                     /* min-width: 33vw; */
-                    flex-basis: 33vw;
+                    // flex-basis: 28vw;
                     flex-grow: 1;
                     flex-shrink: 0;
                     display: flex;
