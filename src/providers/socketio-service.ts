@@ -416,43 +416,43 @@ export class SocketioService {
       // };
       // 对于所有订阅都已取消的 refCount 重新进行订阅时，
       // 这个函数会被重新调用一次，并传入新的 observer 。
-      this.socketReady(api) 
-        .then(() => {
-          this.report_getObservableFromMap(api, `${equityCodes}`)
-          .subscribe(observer)
-          // this._socketioSubscribeSet.add(subscribeData);
-          // console.log('watch: ', `${equityCodes}`)
-          if (rewatch) {
-            this.socketAPIs.get(api).socket
-              .emit('unwatch', equityCodes,ts)
-          }
-          this.socketAPIs.get(api).socket
-            .emit('watch', timespan, type, equityCodes,
-            //todo:默认以当前时间倒退24小时获取数据.(24小时数据量可能过多.4小时?)
-            // new Date('2017-11-13 00:00:00'),
-            // new Date('2017-11-14 00:00:00'),
-            start,
-            end,
-            keepcontact
-            )
-          // console.log(theDate)
-        })
-        .catch(err => {
-          // console.log(err)
-        });
+      // this.socketReady(api) 
+      //   .then(() => {
+      //     this.report_getObservableFromMap(api, `${equityCodes}`)
+      //     .subscribe(observer)
+      //     // this._socketioSubscribeSet.add(subscribeData);
+      //     // console.log('watch: ', `${equityCodes}`)
+      //     if (rewatch) {
+      //       this.socketAPIs.get(api).socket
+      //         .emit('unwatch', equityCodes,ts)
+      //     }
+      //     this.socketAPIs.get(api).socket
+      //       .emit('watch', timespan, type, equityCodes,
+      //       //todo:默认以当前时间倒退24小时获取数据.(24小时数据量可能过多.4小时?)
+      //       // new Date('2017-11-13 00:00:00'),
+      //       // new Date('2017-11-14 00:00:00'),
+      //       start,
+      //       end,
+      //       keepcontact
+      //       )
+      //     // console.log(theDate)
+      //   })
+      //   .catch(err => {
+      //     // console.log(err)
+      //   });
 
-      // 在 multicast refCount 上的所有订阅都取消时，
-      // 会调用此方法取消 observer 的订阅。
-      return () => {
-        // console.log('socketio unsubscribe: ', equityCodes);
+      // // 在 multicast refCount 上的所有订阅都取消时，
+      // // 会调用此方法取消 observer 的订阅。
+      // return () => {
+      //   // console.log('socketio unsubscribe: ', equityCodes);
 
-        // this._socketioSubscribeSet.delete(subscribeData);
-        this.socketAPIs.get(api).socket.emit('unwatch', [`${equityCodes}`,ts])
-        // this.socketAPIs.get(api).socket.emit('unsubscribe', subscribeData);
-      }
+      //   // this._socketioSubscribeSet.delete(subscribeData);
+      //   this.socketAPIs.get(api).socket.emit('unwatch', [`${equityCodes}`,ts])
+      //   // this.socketAPIs.get(api).socket.emit('unsubscribe', subscribeData);
+      // }
     });
-    debugger
-    return observable.do( a => console.log(',.,,,,,,,,,,,,,,,',a))
+    
+    return observable;
   }
 
   private getObservableFromMap(api: string, equityCode: string) {
