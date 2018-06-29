@@ -169,8 +169,8 @@ export class RechargeDetailPage extends SecondLevelPage {
 						transaction.status,
 					),
 					productDetail: product
-						? product.productDetail
-							? product.productDetail
+						? product.productName
+							? product.productName
 							: product.productHouseId
 						: '',
 					rechargeName: recharge_address_info
