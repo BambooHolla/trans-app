@@ -152,13 +152,14 @@ export class RechargeDetailPage extends SecondLevelPage {
 			pageSize: recharge_logs_page_info.page_size,
 			targetId: this.productInfo.productId,
 		});
+
 		recharge_logs_page_info.has_more =
 			transaction_logs.length === recharge_logs_page_info.page_size;
 		this.infiniteScroll &&
 			this.infiniteScroll.enable(recharge_logs_page_info.has_more);
 		const formated_transaction_logs = await Promise.all(
 			transaction_logs.map(async transaction => {
-				const product = await this.stockDataService.getProduct(transaction.targetId);
+				const product = await this.stockDataService.getProduct(transaction.productHouseId);
 				const recharge_address_info = await this.accountService.getPaymentById(
 					transaction.paymentId,
 				);

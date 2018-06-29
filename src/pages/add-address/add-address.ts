@@ -88,6 +88,23 @@ export class AddAddressPage extends SecondLevelPage {
 	async submitAddAddress() {
 		const { productInfo } = this;
 		const { name, address, check_method, vcode } = this.formData;
+		let msServer: string;
+		switch (this.productInfo.productName) {
+			case "BTC":
+				msServer = 'ms-btc';
+				break;
+			case "USDT":
+				msServer = 'ms-usdt';
+				break;
+			case "IBT":
+				msServer = 'ms-ifmt';
+				break;
+			case "ETH":
+				msServer = 'ms-eth';
+				break;
+			default:
+				msServer = '';
+		}
 		return this.accountService
 			.createValidate({
 				paymentCategory: PaymentCategory.Withdraw,
@@ -97,7 +114,8 @@ export class AddAddressPage extends SecondLevelPage {
 				realname: name,
 				paymentAccountNumber: address,
 				code: vcode,
-				category: check_method.category
+				category: check_method.category,
+				productName: msServer,
 			})
 			.then((returnData) => {
 				console.log('add-address return data')

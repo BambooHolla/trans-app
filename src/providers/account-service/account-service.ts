@@ -273,7 +273,6 @@ export class AccountServiceProvider {
 			transactionType: TransactionType;
 			productId: string;
 			amount: string;
-			productName: string;
 			accountId?: string;
 			accountType?: AccountType;
 			paymentId?: string;
@@ -403,7 +402,9 @@ export class AccountServiceProvider {
 		paymentAccountNumber: string;
 		code: string;
 		category: CertificateType;
+		productName: string;
 		paymentAccountRemark?: string;
+		
 	}) {
 		return this.fetch.post(this.CREATE_VALIDATE, body);
 	}
@@ -707,4 +708,5 @@ export type TransactionModel = {
 	remark: string;
 	createdAt: string;
 	updatedAt: string;
+	productHouseId: string;
 };
