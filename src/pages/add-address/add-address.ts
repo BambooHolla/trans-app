@@ -62,7 +62,7 @@ export class AddAddressPage extends SecondLevelPage {
 			{
 				type: CertificationCertificateType.账号
 			}
-		).then(a => console.log('1111111111111111111',a)));
+		).then( value => value[0]? value : value))
 	}
 	@asyncCtrlGenerator.loading('SENDING_VERIFICATION_CODE')
 	@asyncCtrlGenerator.error('SEND_VERIFICATION_CODE_ERROR')

@@ -385,6 +385,7 @@ export class SocketioService {
     equityCodes: string[],
     api: string = 'realtimeReports',
     options: any = {},
+    watchKline: boolean = false,
   ): Observable<any> {
     const observable = new Observable(observer => {
       //console.log('subscribeRealtimeReports options', options)
@@ -426,7 +427,18 @@ export class SocketioService {
             this.socketAPIs.get(api).socket
               .emit('unwatch', equityCodes,ts)
           }
-          this.socketAPIs.get(api).socket
+          if(watchKline) {
+            this.socketAPIs.get(api).socket
+            .emit('watch-kline', timespan, type, equityCodes,
+            //todo:默认以当前时间倒退24小时获取数据.(24小时数据量可能过多.4小时?)
+            // new Date('2017-11-13 00:00:00'),
+            // new Date('2017-11-14 00:00:00'),
+            start,
+            end,
+            keepcontact
+            );
+          } else {
+            this.socketAPIs.get(api).socket
             .emit('watch', timespan, type, equityCodes,
             //todo:默认以当前时间倒退24小时获取数据.(24小时数据量可能过多.4小时?)
             // new Date('2017-11-13 00:00:00'),
@@ -434,7 +446,9 @@ export class SocketioService {
             start,
             end,
             keepcontact
-            )
+            );
+          }
+         
           // console.log(theDate)
         })
         .catch(err => {
@@ -443,12 +457,14 @@ export class SocketioService {
 
       // 在 multicast refCount 上的所有订阅都取消时，
       // 会调用此方法取消 observer 的订阅。
-      return () => {
-        // console.log('socketio unsubscribe: ', equityCodes);
-
-        // this._socketioSubscribeSet.delete(subscribeData);
-        this.socketAPIs.get(api).socket.emit('unwatch', [`${equityCodes}`,ts])
-        // this.socketAPIs.get(api).socket.emit('unsubscribe', subscribeData);
+      if(watchKline) {
+        return () => {
+          this.socketAPIs.get(api).socket.emit('unwatch-kline', [`${equityCodes}`,ts])
+        }
+      } else {
+        return () => {
+          this.socketAPIs.get(api).socket.emit('unwatch', [`${equityCodes}`,ts])
+        }
       }
     });
     

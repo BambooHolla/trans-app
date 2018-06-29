@@ -134,7 +134,7 @@ export class TradeInterfaceV2Page {
   public saler = [window['language']['SELL_1']||'卖1', window['language']['SELL_2']||'卖2', window['language']['SELL_3']||'卖3', window['language']['SELL_4']||'卖4', window['language']['SELL_5']||'卖5'];
 
   private _realtimeData$: Observable<any> = Observable.of([])
-  private _candlestickData$: Observable<any> = Observable.of([])
+  // private _candlestickData$: Observable<any> = Observable.of([])
 
   private isPortrait: boolean = true
   private activeIndex: number = 0
@@ -1227,54 +1227,54 @@ export class TradeInterfaceV2Page {
           startTime = theDate.setDate(theDate.getDate() - 5);
           break;
       } 
-      this._candlestickData$ = this.socketioService.subscribeRealtimeReports([this.traderId],undefined,{
-        // var reportType = {
-        //   Year: '1y',//年报
-        //   HalfYear: '6M',//半年报
-        //   Quarter: '1q',//季报
-        //   Month: '1M',//月报
-        //   Week: '1w',//周报
-        //   Day: '1d',//日报
-        //   Hour: '1h',//时报
-        //   HalfHour: '30m',//30分报
-        //   FifteenMinute: '15m',//15分报
-        //   FiveMinute: '5m',//5分报
-        //   Minute: '1m'//1分报
-        // }
-        timespan: timespan,
-        type: '001',
-        start: startTime,
-        keepcontact : false,
-        rewatch : true,
-      })
-        .takeUntil(this.viewDidLeave$)
-        .filter(({ type }) => type === this.traderId)
-        .map(data => data.data)
-        .map(data => {
-          //处理增量更新
-          const srcArr = this.candlestickArr
-          const resData = data.map(item => {
-            const value = item.value
-            const time = new Date(item.beginTime)
-            return{
-              startPrice: value.start,
-              endPrice: value.end,
-              minPrice: value.min,
-              maxPrice: value.max,
-              date: `${time.getFullYear()}/${time.getMonth() + 1}/${time.getDate()} ${time.getHours()}:${time.getMinutes()}`,
-              turnoverAmount: value.amount * value.avg / this.appSettings.Product_Price_Rate,
-              turnoverQuantity: value.amount / this.appSettings.Product_Price_Rate,
-              // yesterdayPrice:4.78,
-            }    
-          })
-          srcArr.push(...resData)//使用push+解构赋值,预期echarts动画实现
-          const length = srcArr.length
-          if (length > this.appSettings.Charts_Array_Length) {
-            srcArr.splice(0, length - this.appSettings.Charts_Array_Length)
-          }
-          console.log('trade- interface_candlestickData:srcArr:', srcArr)
-          return srcArr.concat()
-        })      
+      // this._candlestickData$ = this.socketioService.subscribeRealtimeReports([this.traderId],undefined,{
+      //   // var reportType = {
+      //   //   Year: '1y',//年报
+      //   //   HalfYear: '6M',//半年报
+      //   //   Quarter: '1q',//季报
+      //   //   Month: '1M',//月报
+      //   //   Week: '1w',//周报
+      //   //   Day: '1d',//日报
+      //   //   Hour: '1h',//时报
+      //   //   HalfHour: '30m',//30分报
+      //   //   FifteenMinute: '15m',//15分报
+      //   //   FiveMinute: '5m',//5分报
+      //   //   Minute: '1m'//1分报
+      //   // }
+      //   timespan: timespan,
+      //   type: '001',
+      //   start: startTime,
+      //   keepcontact : false,
+      //   rewatch : true,
+      // })
+      //   .takeUntil(this.viewDidLeave$)
+      //   .filter(({ type }) => type === this.traderId)
+      //   .map(data => data.data)
+      //   .map(data => {
+      //     //处理增量更新
+      //     const srcArr = this.candlestickArr
+      //     const resData = data.map(item => {
+      //       const value = item.value
+      //       const time = new Date(item.beginTime)
+      //       return{
+      //         startPrice: value.start,
+      //         endPrice: value.end,
+      //         minPrice: value.min,
+      //         maxPrice: value.max,
+      //         date: `${time.getFullYear()}/${time.getMonth() + 1}/${time.getDate()} ${time.getHours()}:${time.getMinutes()}`,
+      //         turnoverAmount: value.amount * value.avg / this.appSettings.Product_Price_Rate,
+      //         turnoverQuantity: value.amount / this.appSettings.Product_Price_Rate,
+      //         // yesterdayPrice:4.78,
+      //       }    
+      //     })
+      //     srcArr.push(...resData)//使用push+解构赋值,预期echarts动画实现
+      //     const length = srcArr.length
+      //     if (length > this.appSettings.Charts_Array_Length) {
+      //       srcArr.splice(0, length - this.appSettings.Charts_Array_Length)
+      //     }
+      //     console.log('trade- interface_candlestickData:srcArr:', srcArr)
+      //     return srcArr.concat()
+      //   })      
     }
   }
 

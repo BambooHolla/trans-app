@@ -118,7 +118,7 @@ export class TradeChartV2Page {
 
   changeReportType(index) {
     
-    this._reportsData$ = this.socketioService.subscribeRealtimeReports([this.traderId],undefined,{timespan:this.timeTypeArr[index]})
+    this._reportsData$ = this.socketioService.subscribeRealtimeReports([this.traderId],"realtimeReports",{timespan:this.timeTypeArr[index]},true)
       .do(data => console.log('trade-chart-v2_reportsData: ',data)) 
       .takeUntil(this.viewDidLeave$)
       .filter(({ type }) => type === this.traderId)
@@ -145,7 +145,6 @@ export class TradeChartV2Page {
   }
   ionViewDidLeave(){
     this.appDataService.report_on_off = false;
-    this._reportsData$ = this.socketioService.subscribeRealtimeReports([this.traderId])
   
   }
   activeQuota(index:number){
