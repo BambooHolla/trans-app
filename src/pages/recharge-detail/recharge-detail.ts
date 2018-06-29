@@ -150,7 +150,7 @@ export class RechargeDetailPage extends SecondLevelPage {
 		const transaction_logs = await this.accountService.getRechargeLogs({
 			page: recharge_logs_page_info.page,
 			pageSize: recharge_logs_page_info.page_size,
-			targetId: this.productInfo.productHouseId,
+			targetId: this.productInfo.productId,
 		});
 		recharge_logs_page_info.has_more =
 			transaction_logs.length === recharge_logs_page_info.page_size;
