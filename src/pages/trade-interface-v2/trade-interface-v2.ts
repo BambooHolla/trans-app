@@ -781,10 +781,10 @@ export class TradeInterfaceV2Page {
 
   private refreshPersonalData(refresher?: Refresher) {
     //TODO 添加了 this.doSubscribe()，看是否可行
-    Promise.all([
+    Promise.all([ 
       this.personalDataService.requestFundData().catch(() => { }),
       this.personalDataService.requestEquityDeposit().catch(() => { }),
-      this.doSubscribe()
+      this.doSubscribe() 
     ])
       .then(() => (this.checkMax(), this.requestAssets(), this.getProcessEntrusts()))
       .then(() => refresher ? refresher.complete() : void 0)
@@ -966,7 +966,7 @@ export class TradeInterfaceV2Page {
     this.saleTotalAmount = '0';
     this.getQuickTradeData();
     if(goHistory){
-      this.gotoHistory(undefined);
+      this.gotoHistory(undefined); 
     }
   }
   gotoHistory($event){ 
@@ -1026,8 +1026,8 @@ export class TradeInterfaceV2Page {
         console.log('cancelEntrust data', data)
  
         this.page = 1
-        this.getProcessEntrusts();
-        this.gotoHistoryLogin();
+        this.getProcessEntrusts(); 
+        this.gotoHistoryLogin(); 
         if (data && data.status) {
           this.promptCtrl.toastCtrl({
             message: window['language']['WITHDRAW_ORDER_SUCCESSFULLY']||`撤单成功`,

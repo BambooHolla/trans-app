@@ -80,7 +80,7 @@
         </ion-item-divider>
         <ion-item>
             {{'NETWORK_TRANSFER_FEE'|translate}}
-            <span item-end class="transfer-expenses">{{(rate_info?.rateNumber||0)|priceConversion:4:4}} {{productInfo?.productName}}</span>
+            <span item-end class="transfer-expenses">{{(rate_info?.rateNumber||0)|priceConversion:8:0}} {{productInfo?.productName}}</span>
         </ion-item>
         <!-- <ion-item class="bg-transparent"> -->
         <!-- <div class="transfer-tip">以太坊网络转账费用为每笔0.0100ETH,用于支付给矿工的手续费。以太坊网络转账费用是不固定的,取决于转账时矿工计算需要消耗的算力,当转账费用超过90000gas(目前折合为0.018个ETH),此次转账会失败,并将余额退回到您的原账户。</div> -->

@@ -647,7 +647,6 @@ splitData(rawData) {
                 this.klineDatas.datas[length-1][1]*1,
                 this.klineDatas.datas[length-1][1]*1,
             ])
-            debugger
             this.showKlineDates.vols.push(0); 
         }
 

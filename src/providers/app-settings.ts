@@ -649,6 +649,8 @@ o   3.2.4 对识别最终受益人和账户控制权的要求是确定哪些个�
       "@qq.com": true,
       "@163.com": true,
       "@sina.com": true,
+      "@gmail.com": true,
+      "@126.com": true,
     };
     if( emailType ){
       return _proposals[emailType[0]]

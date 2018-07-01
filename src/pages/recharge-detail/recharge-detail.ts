@@ -164,7 +164,6 @@ export class RechargeDetailPage extends SecondLevelPage {
 					transaction.paymentId,
 				);
 				if(transaction.amount) transaction.amount = new BigNumber(transaction.amount).div('100000000').toString();
-				debugger
 				return Object.assign(transaction, {
 					dealResultDetail: AccountServiceProvider.getTransactionStatusDetail(
 						transaction.status,

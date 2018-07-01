@@ -190,7 +190,7 @@ export class RegisterPage {
       return this.alertCtrl.create({
         title:window['language']['WARNING']||'警告',
         subTitle:window['language']['RECOMMEND_REGISTERED']||"推荐注册邮箱",
-        message:'qq.com,163.com,sina.com',
+        message:'126,163,qq,sina,gmail',
         buttons:[{
           text:window['language']['RETURN']||'返回',
         },{

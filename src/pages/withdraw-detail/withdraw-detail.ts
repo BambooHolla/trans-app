@@ -222,7 +222,7 @@ export class WithdrawDetailPage extends SecondLevelPage {
 		this.productInfo = this.navParams.get("productInfo");
 		if (this.productInfo) {
 			const tasks = [];
-			// 获取可用的提现地址
+			// 获取可用的提现地址 
 			tasks[tasks.length] = this.accountService
 				.getWithdrawAddress(this.productInfo.productHouseId)
 				.then(data => {
@@ -395,16 +395,17 @@ export class WithdrawDetailPage extends SecondLevelPage {
 				const withdraw_address_info = await this.accountService.getPaymentById(
 					transaction.paymentId,
 				);
+				debugger
 				if(transaction.amount) transaction.amount = new BigNumber(transaction.amount).div('100000000').toString();
 				return Object.assign(transaction, {
 					dealResultDetail: AccountServiceProvider.getTransactionStatusDetail(
 						transaction.status,
 					),
 					productDetail: product
-						? product.productDetail
-							? product.productDetail
-							: product.productId
-						: "",
+						? product.productName
+							? product.productName
+							: product.productHouseId
+						: '',
 					withdrawName: withdraw_address_info
 						? withdraw_address_info.paymentAccountRemark
 						: "",
