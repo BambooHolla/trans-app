@@ -449,6 +449,7 @@ export class TradeInterfaceV2Page {
     // const traders = this.traderId
     let rateTarget:any;
     if(rate.tragetType) {
+      debugger
       rateTarget = await this.stockDataService.getProduct(rate.tragetType);
     }
      
@@ -1534,7 +1535,7 @@ export class TradeInterfaceV2Page {
     this.personalDataService.personalStockList.forEach(item => {
       if (item.stockCode === productPairs[0]) {
         this.trader_target = item
-        this.holePrice =this.numberFormat( (new BigNumber(item.restQuantity || "0")).div( this.appSettings.Product_Price_Rate_str).toString());
+        this.holePrice = this.numberFormat( (new BigNumber(item.restQuantity || "0")).div( this.appSettings.Product_Price_Rate_str).toString());
       } else if (item.stockCode === productPairs[1]) {
         this.trader_product = item;
         this.holdAmount = this.numberFormat( new BigNumber(item.restQuantity?item.restQuantity:"0").div(this.appSettings.Product_Price_Rate_str).toString(),false,false);

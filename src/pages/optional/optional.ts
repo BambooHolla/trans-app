@@ -181,7 +181,6 @@ export class OptionalPage extends SecondLevelPage {
                 `${stockCode}-${this.appSetting.Platform_Type}`,
                 'holdPrice'
               )
-              .do(a => console.log('222222',a))
               .map( item => { 
                 if (this.appDataService.productId == stockCode) {
                   return {
