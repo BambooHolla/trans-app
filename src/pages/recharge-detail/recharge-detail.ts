@@ -43,6 +43,7 @@ export class RechargeDetailPage extends SecondLevelPage {
 	) {
 		super(navCtrl, navParams);
 		this.productInfo = this.navParams.get('productInfo');
+		
 		this.userLanguage = appDataService.LANGUAGE||"en";
 	}
 	productInfo: ProductModel = {} as any;
@@ -150,7 +151,7 @@ export class RechargeDetailPage extends SecondLevelPage {
 		const transaction_logs = await this.accountService.getRechargeLogs({
 			page: recharge_logs_page_info.page,
 			pageSize: recharge_logs_page_info.page_size,
-			targetId: this.productInfo.productId,
+			targetId: this.productInfo.productId||this.productInfo.productHouseId,
 		});
 
 		recharge_logs_page_info.has_more =

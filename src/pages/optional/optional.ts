@@ -264,4 +264,12 @@ export class OptionalPage extends SecondLevelPage {
         return Promise.reject(err);
       });
   }
+  goRechargeDetail(productInfo?:any){
+    if(!productInfo || !productInfo.productHouseId) return void 0;
+    return this.accountService.getProduct(productInfo.productHouseId).then( data => {
+      this.routeTo('recharge-detail',{productInfo:data[0]?data[0]:data})
+    }).catch(err => {
+      console.log("持仓页面 调整 充值页面 error:",err)
+    })
+  }
 }

@@ -173,7 +173,6 @@ export class AccountServiceProvider {
 		productStatus?: ProductStatus,
 		productName?: string,
 		productIdArr?: string,
-		
 	) {
 		return this.fetch.post<ProductModel[]>(this.GET_PRODUCTS, {
 			page,
@@ -182,6 +181,17 @@ export class AccountServiceProvider {
 			productStatus,
 			productName,
 			productIdArr,
+		});
+	}
+	getProduct(
+		productHouseId?: string,
+		productType: ProductType = ProductType.singleProduct,
+		
+		
+	) {
+		return this.fetch.post<ProductModel[]>(this.GET_PRODUCTS, {
+			productType,
+			productHouseId,
 		});
 	}
 	getTransactionLogs(

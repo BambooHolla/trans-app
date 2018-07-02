@@ -68,11 +68,16 @@ export class RegisterPage {
   get form_vcode(){
     return this.registerForm.get("vcode");
   }
+  validatePWD_switch = false ;
   validatePWD(){
     if(this.registerForm){
       const password  = this.registerForm.get("password").value;
       const confirPassword  = this.registerForm.get("confirPassword").value;
-      return password!==confirPassword?{ confirmError: true } : null;
+      if(password && confirPassword && password !== confirPassword) {
+        this.validatePWD_switch = true 
+      } else {
+        this.validatePWD_switch = false  
+      }
     }
   }
 
