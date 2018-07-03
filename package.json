@@ -65,6 +65,7 @@
         "cordova-sqlite-storage": "^2.3.0",
         "cordova.plugins.diagnostic": "^3.9.2",
         "core-js": "~2.4.1",
+        "crypto-js": "^3.1.9-1",
         "danielsogl-cordova-plugin-clipboard": "^1.0.2",
         "echarts": "^3.6.2",
         "echarts-liquidfill": "~1.0.5",

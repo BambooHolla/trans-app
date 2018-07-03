@@ -60,6 +60,7 @@ export class HistoryRecordPage {
     const traderId = this.navParams.data ? this.navParams.data.traderId : undefined;
     const productHouseId = this.navParams.data ? this.navParams.data.productHouseId : undefined;
     const priceProductHouseId = this.navParams.data ? this.navParams.data.priceProductHouseId : undefined;
+    
     if (!token) {
       return Promise.reject(this.events.publish('show login', 'login',this.refreshData.bind(this))).then((res)=>{
         let a = res;

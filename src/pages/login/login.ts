@@ -17,7 +17,7 @@ import {
 import { LoginService } from '../../providers/login-service';
 import { AppDataService } from '../../providers/app-data-service';
 import { AppSettings } from '../../providers/app-settings';
-
+import { CryptoService } from '../../providers/crypto-service';
 
 // import { TabsPage } from '../tabs/tabs';
 /**
@@ -70,6 +70,7 @@ export class LoginPage implements OnInit{
     public appDataService: AppDataService,
     public appSettings: AppSettings,
     public platform: Platform,
+    public cryptoService: CryptoService
     // // public tabsPage:TabsPage,
   ) {
     // this.presentLoading();
@@ -152,7 +153,9 @@ export class LoginPage implements OnInit{
     if (customerId.indexOf(" ") >= 0) {
       customerId = customerId.replace(/(\s*$)/g, "");
     }
-    const password = controls['password'].value;
+    // md5加密
+    // const password = controls['password'].value;
+    const password = this.cryptoService.MD5(controls['password'].value);
     const savePassword = false;//controls['savePassword'].value;
     const type = this.appSettings.accountType(customerId);
     const codeHeader = {

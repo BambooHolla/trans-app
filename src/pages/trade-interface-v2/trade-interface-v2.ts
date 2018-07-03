@@ -980,7 +980,7 @@ export class TradeInterfaceV2Page {
       productHouseId: this.productHouseId,
       priceProductHouseId: this.priceProductHouseId,
       getInfoCb:this.refreshPersonalData.bind(this),
-    }).then(()=>{
+    }).then(()=>{ 
      
     })
   }

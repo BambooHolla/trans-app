@@ -17,6 +17,7 @@ import { IdentificationNumberCheckerProvider } from '../../providers/identificat
 
 import { InformationModal } from '../../modals/information-modal/information-modal';
 import { PromptControlleService } from "../../providers/prompt-controlle-service";
+import { CryptoService } from '../../providers/crypto-service';
 /**
  * Generated class for the RegisterPage page.
  *
@@ -112,6 +113,7 @@ export class RegisterPage {
     public appDataService: AppDataService,
     public appSettings: AppSettings,
     public idNumberChecker: IdentificationNumberCheckerProvider,
+    public cryptoService: CryptoService,
   ) {
     // 
     // const rawVal = this.registerForm.getRawValue();
@@ -227,7 +229,7 @@ export class RegisterPage {
       const controls = this.registerForm.getRawValue();
 
       const customerId = controls.customerId;
-      const password = controls.password;
+      const password = this.cryptoService.MD5(controls.password);
       const vcode = controls.vcode;
       const recommendCode = controls.recommendCode;
       // const timeZone = (-new Date().getTimezoneOffset() / 60).toString() || "8";
