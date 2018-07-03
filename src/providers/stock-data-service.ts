@@ -1334,6 +1334,7 @@ export class StockDataService {
     const path = `/product/product`
     const params = {
       instid: platformType,
+      pageSize: 50,
     }
     return this.productRequestPromise = this.appService.request(RequestMethod.Post, path, params)
       .then(async data => {
@@ -1354,8 +1355,9 @@ export class StockDataService {
 
     return this.appService.request(RequestMethod.Get, path, undefined)
       .then(data => {
-        console.log('requestProductById: ', data)
         data['productType'] = "001";
+        console.log('requestProductById: ', data)
+        
         this.parseStockListData([data])
         return data
       })

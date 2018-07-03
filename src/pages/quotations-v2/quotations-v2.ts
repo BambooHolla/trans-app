@@ -238,7 +238,6 @@ export class QuotationsPageV2 {
 		const _target = this._findTarget(target)
 		
 		let product;
-	
 		if (_target) {
 			console.log(target)
 			product = _target.innerText
@@ -279,11 +278,15 @@ export class QuotationsPageV2 {
 				if(search){
 					return item.traderName.toLowerCase().indexOf(product) !== -1
 				} else {
-					return item.priceName.toLowerCase().indexOf(product) !== -1
+					if(item.priceName.trim().toLowerCase() == product || item.productName.trim().toLowerCase() == product) {
+						return true;
+					}
+					// return item.priceName.toLowerCase().indexOf(product) !== -1
 				}
 			}).sort((a: any, b: any) => {
 				return a.priceId - b.priceId
 			});
+
 			this.traderList.filter((item: any, index, arr) => {
 				if(search){
 					if(item.traderName.toLowerCase().indexOf(product) !== -1) {
@@ -293,7 +296,7 @@ export class QuotationsPageV2 {
 					}
 					return ;
 				} else {
-					if(item.priceName.toLowerCase().indexOf(product) !== -1) {
+					if(item.priceName.trim().toLowerCase() == product || item.productName.trim().toLowerCase() == product) {
 						item.hidden = false;
 					} else {
 						item.hidden = true;

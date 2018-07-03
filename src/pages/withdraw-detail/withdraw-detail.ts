@@ -429,9 +429,8 @@ export class WithdrawDetailPage extends SecondLevelPage {
 		let options:any = {};
 		//title 不能设置在初始化中，会没掉
 		if( this.personalDataService.certifiedStatus == '0'|| this.personalDataService.certifiedStatus == '3' ){
-			alert['title'] = window['language']['TRANSACTION_FAIL']||`交易失败`;
-			alert['subTitle'] = `${window['language']['REAL_NAME_AUTHENTICATION']||'实名认证'}`;
-			alert['message'] = `${this.personalDataService.realname || this.personalDataService.certifiedMsg}`;
+			alert['title'] = `${window['language']['REAL_NAME_AUTHENTICATION']||'实名认证'}`;
+			alert['subTitle'] = `${this.personalDataService.realname || this.personalDataService.certifiedMsg}`;
 			alert['buttons'] = [
 				{
 					text: window['language']['CANCEL']||'取消',
@@ -451,9 +450,8 @@ export class WithdrawDetailPage extends SecondLevelPage {
 			];
 		} 
 		if( this.personalDataService.certifiedStatus == '1'){
-			alert['title'] = window['language']['TRANSACTION_FAIL']||`交易失败`;
-			alert['subTitle'] = `${window['language']['REAL_NAME_AUTHENTICATION']||'实名认证'}`;
-			alert['message'] = `${this.personalDataService.realname|| this.personalDataService.certifiedMsg}`;
+			alert['title'] = `${window['language']['REAL_NAME_AUTHENTICATION']||'实名认证'}`;
+			alert['subTitle'] = `${this.personalDataService.realname|| this.personalDataService.certifiedMsg}`;
 			alert['buttons'] = [
 				{
 					text:  window['language']['CONFIRM']||'确认',
