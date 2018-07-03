@@ -1408,7 +1408,11 @@ export class TradeInterfaceV2Page {
     // }
   }
 
+  
   alterQuickTrade(tradeType) {
+    if (this.quickTrading) {
+      return void 0
+    }
     if(!this.appSetting.getUserToken()){
       return this.goLogin();
     }
