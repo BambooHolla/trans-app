@@ -154,8 +154,8 @@ export class LoginPage implements OnInit{
       customerId = customerId.replace(/(\s*$)/g, "");
     }
     // md5加密
-    const password = controls['password'].value;
-    // const password = this.cryptoService.MD5(controls['password'].value);
+    // const password = controls['password'].value;
+    const password = this.cryptoService.MD5(controls['password'].value);
     const savePassword = false;//controls['savePassword'].value;
     const type = this.appSettings.accountType(customerId);
     const codeHeader = {
@@ -227,23 +227,18 @@ goForgetPwd() {
     });
     this.viewCtrl.dismiss();
   }
-  getNowCode(){
-    if(this.showCode) {
-      this.loginCode.setValue('');
-      this.loginService.getCode().then( data => {
-        this.codeId = data.id;
-        this.codeSrc = 'data:image/png;base64,' + data.data
-        
-      })
-    }
-  }
+
+  codeSwitch: boolean = true;
   getLoginCode(){
+    if( !this.codeSwitch ) return;
+    this.codeSwitch = false ;
     this.loginCode.setValue('');
       this.loginService.getCode().then( data => {
         if(data.id){
           this.codeId = data.id || '';
           this.codeSrc = data.data ? 'data:image/png;base64,' + data.data : '../assets/images/code_bg.png';
         }
+        this.codeSwitch = true ;
       })
   }
 }

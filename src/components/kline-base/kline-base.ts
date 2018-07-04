@@ -47,7 +47,7 @@ export class KlineEchartsBaseComponent implements OnChanges, OnDestroy {
         this.chartInstance = echarts.init(this.chartElem.nativeElement as HTMLDivElement);
         this.showLoading();
         await this.accountService.getDeliverType(this.traderId,this.timeType).then( data => {
-            console.log('222222,',data)
+            console.log('k线图 初始化onInit:,',data)
             this.show = true;
             this.nowTimeArr = data||  {
                 beginTime: '',
@@ -67,7 +67,7 @@ export class KlineEchartsBaseComponent implements OnChanges, OnDestroy {
             } else if(changes.echartsData.currentValue){
                 console.log('k线图 changes.echartsData.currentValue  ' ,changes.echartsData.currentValue)
                 await this.accountService.getDeliverType(this.traderId,this.timeType).then( data => {
-                    console.log('22222222,',data)
+                    console.log('k线图 过去时间段数据：,',data)
                     this.show = true;
                     this.nowTimeArr = data||  {
                         beginTime: '',
