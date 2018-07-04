@@ -154,8 +154,8 @@ export class LoginPage implements OnInit{
       customerId = customerId.replace(/(\s*$)/g, "");
     }
     // md5加密
-    // const password = controls['password'].value;
-    const password = this.cryptoService.MD5(controls['password'].value);
+    const password = controls['password'].value;
+    // const password = this.cryptoService.MD5(controls['password'].value);
     const savePassword = false;//controls['savePassword'].value;
     const type = this.appSettings.accountType(customerId);
     const codeHeader = {

@@ -251,7 +251,7 @@ export class WithdrawDetailPage extends SecondLevelPage {
 				.getPromise()
 				.then(data => (this.has_account_pwd = data));
 			// 获取提现记录
-			tasks[tasks.length] = this.getTransactionLogs();
+			tasks[tasks.length] = this.getTransactionLogs(); 
 			// 获取手续费
 			tasks[tasks.length] = this.accountService
 				.getProductRate(this.productInfo.productId, {
@@ -259,7 +259,12 @@ export class WithdrawDetailPage extends SecondLevelPage {
 				})
 				.then(data => {
 					console.log("手续费：", data);
-					this.rate_info = data[0] || 0;
+					if(data && data[0]){
+						data[0].rateNumber = data[0].rateTargetType === '001' ? `${data[0].rateNumber * 100}%` :
+							data[0].rateTargetType === '002' ? `${data[0].rateNumber}` : '';
+
+					} 
+					this.rate_info = data[0];
 					console.log(this.productInfo)
 				});
 			// 获取提现限额

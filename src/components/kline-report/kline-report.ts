@@ -12,7 +12,9 @@ export class KlineReportComponent extends KlineEchartsBaseComponent {
 
     @Input() riseOrFall: any = '';
     @Output() tooltipEmitted: any = new EventEmitter();
-
+    
+    // 记录报表的最后一个时间，用于判断推送的数据，是旧数据还是新数据，如果没有，就取现在的时间，注：时间格式要对应
+    private _LAST_TIME: any;
     // 保存的报表数据
     private klineDatas: any = {
         times: [],
@@ -627,68 +629,78 @@ splitData(rawData) {
     pushEchartsData() {
         let nowTime:any; 
         let length:number;
+        let updateSwitch: boolean = true;
         // 新的报表推送
         this.echartsData.forEach( item => {
+            let newTime = (new Date(this.funcTimeFormat(item.beginTime))).getTime();
+            let lastTime = (new Date(this.funcTimeFormat(this._LAST_TIME))).getTime();
+            if(!updateSwitch || (newTime < lastTime)) {
+                updateSwitch = false;
+                return ;
+            }
             nowTime = moment(item.beginTime).add(this.DATE_TYPE[this.timeType][0],this.DATE_TYPE[this.timeType][1]);
             this.klineDatas.times.push(this.funcTimeFormat(item.beginTime,this.timeType));
             this.klineDatas.datas.push([item.value.start*1,item.value.end*1,item.value.min*1,item.value.max*1]);
             this.klineDatas.vols.push(item.value.amount / 1e8);
         });
-        length = this.klineDatas.datas.length || 0;
-        // 生成展示数据，保存的报表 + 这个时间段的
-        this.showKlineDates.times = this.klineDatas.times.concat();
-        this.showKlineDates.datas = this.klineDatas.datas.concat();
-        this.showKlineDates.vols = this.klineDatas.vols.concat();
-        if(length) {
-            this.showKlineDates.times.push(nowTime.format(this.FORMATS[this.timeType] || 'YYYY-MM-DD'));
-            this.showKlineDates.datas.push([
-                this.klineDatas.datas[length-1][1]*1,
-                this.klineDatas.datas[length-1][1]*1,
-                this.klineDatas.datas[length-1][1]*1,
-                this.klineDatas.datas[length-1][1]*1,
-            ])
-            this.showKlineDates.vols.push(0); 
-        }
-
-        // 如果数据过少 本地生成
-        if(this.showKlineDates.times.length < this.MIN_TIME_LENGTH) {
-            let length = this.MIN_TIME_LENGTH - this.showKlineDates.times.length;
-            for( let i = 0; i < length; i++) {
-            this.showKlineDates.times.push(nowTime.add(this.DATE_TYPE[this.timeType][0],this.DATE_TYPE[this.timeType][1]).format(this.FORMATS[this.timeType] || 'YYYY-MM-DD'))
+        if(updateSwitch) {
+                
+            length = this.klineDatas.datas.length || 0;
+            // 生成展示数据，保存的报表 + 这个时间段的
+            this.showKlineDates.times = this.klineDatas.times.concat();
+            this.showKlineDates.datas = this.klineDatas.datas.concat();
+            this.showKlineDates.vols = this.klineDatas.vols.concat();
+            if(length) {
+                this.showKlineDates.times.push(nowTime.format(this.FORMATS[this.timeType] || 'YYYY-MM-DD'));
+                this.showKlineDates.datas.push([
+                    this.klineDatas.datas[length-1][1]*1,
+                    this.klineDatas.datas[length-1][1]*1,
+                    this.klineDatas.datas[length-1][1]*1,
+                    this.klineDatas.datas[length-1][1]*1,
+                ])
+                this.showKlineDates.vols.push(0); 
             }
-        }
-         // 一些指标参数生成
-         this.QUOTA(this.showKlineDates.datas);
-       
-        this.chartInstance.setOption({
-            xAxis: [
-                {
-                    data: this.showKlineDates.times,
-                },{
-                    data: this.showKlineDates.times,
-                },{
-                    data: this.showKlineDates.times,
-                }],
-            series: [
-                {
-                    data: this.showKlineDates.datas,
-                },{
-                    data: this.calculateMA(5),
-                },{
-                    data: this.calculateMA(10),
-                },{
-                    data: this.calculateMA(30),
-                },{
-                    data: this.showKlineDates.vols,
-                },{
-                    data: this.showKlineDates.MACD,
-                },{
-                    data: this.showKlineDates.DIF
-                },{
-                    data: this.showKlineDates.DEA
+
+            // 如果数据过少 本地生成
+            if(this.showKlineDates.times.length < this.MIN_TIME_LENGTH) {
+                let length = this.MIN_TIME_LENGTH - this.showKlineDates.times.length;
+                for( let i = 0; i < length; i++) {
+                this.showKlineDates.times.push(nowTime.add(this.DATE_TYPE[this.timeType][0],this.DATE_TYPE[this.timeType][1]).format(this.FORMATS[this.timeType] || 'YYYY-MM-DD'))
                 }
-            ]
-        })
+            }
+            // 一些指标参数生成
+            this.QUOTA(this.showKlineDates.datas);
+        
+            this.chartInstance.setOption({
+                xAxis: [
+                    {
+                        data: this.showKlineDates.times,
+                    },{
+                        data: this.showKlineDates.times,
+                    },{
+                        data: this.showKlineDates.times,
+                    }],
+                series: [
+                    {
+                        data: this.showKlineDates.datas,
+                    },{
+                        data: this.calculateMA(5),
+                    },{
+                        data: this.calculateMA(10),
+                    },{
+                        data: this.calculateMA(30),
+                    },{
+                        data: this.showKlineDates.vols,
+                    },{
+                        data: this.showKlineDates.MACD,
+                    },{
+                        data: this.showKlineDates.DIF
+                    },{
+                        data: this.showKlineDates.DEA
+                    }
+                ]
+            })
+        }
     }
   
    createCharts() {
@@ -702,6 +714,7 @@ splitData(rawData) {
       console.log('kline-report:showLineRangeColor', true)
       // console.log('realtime-report:linecolor',option.series[0].lineStyle.normal.color)
       // 使用刚指定的配置项和数据显示图表。
+      
      if(this.show) {
         
         if(this.echartsData.length > 0 || this.nowTimeArr.beginTime) {
@@ -739,12 +752,19 @@ splitData(rawData) {
         // 数据整合
       
        this.echartsData.forEach( item => {
-            this.klineDatas.times.push(this.funcTimeFormat(item.beginTime,this.timeType));
-            // 固定格式 [开，收，低，高]
-            this.klineDatas.datas.push([item.value.start*1,item.value.end*1,item.value.min*1,item.value.max*1]);
-            this.klineDatas.vols.push(item.value.amount / 1e8);
+            if(item.beginTime != item.endTime) {
+                this.klineDatas.times.push(this.funcTimeFormat(item.beginTime,this.timeType));
+                // 固定格式 [开，收，低，高]
+                this.klineDatas.datas.push([item.value.start*1,item.value.end*1,item.value.min*1,item.value.max*1]);
+                this.klineDatas.vols.push(item.value.amount / 1e8);
+            }
             
        });
+       this._LAST_TIME = this.echartsData[this.echartsData.length - 1] ? 
+        this.echartsData[this.echartsData.length - 1].beginTime ? 
+            this.echartsData[this.echartsData.length - 1].beginTime 
+            : this.funcTimeFormat()
+                : this.funcTimeFormat();
        _length = this.klineDatas.datas.length;
        this.showKlineDates.times = this.klineDatas.times.concat();
        this.showKlineDates.datas = this.klineDatas.datas.concat();
@@ -804,8 +824,8 @@ splitData(rawData) {
         console.log('K 整合数据',this.klineDatas)
       
     }
-    funcTimeFormat(time:any,type) {
-        return moment(time || moment()).format(this.FORMATS[type] || 'YYYY-MM-DD');
+    funcTimeFormat(time?:any,type?:any) {
+        return moment(time || moment()).format(this.FORMATS[type] || 'YYYY-MM-DD HH:mm');
     } 
 
     ionViewWillLeave() {
@@ -920,8 +940,4 @@ splitData(rawData) {
             this.showKlineDates.MACD.push(this.showKlineDates.DIF[i] - this.showKlineDates.DEA[i])
         }
     }
-    MAS(show){
-
-    }
-
   }

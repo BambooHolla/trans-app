@@ -36,7 +36,7 @@ export class PriceConversionPipe implements PipeTransform {
       number[1] =  number[1].length > tradeRetainLength? number[1].substr(0,tradeRetainLength) : number[1];
       return this.numberFormat0(number[0]+'.'+number[1],decimalFormat);
     } else {
-      return  number[0];
+      return  decimalFormat ? this.numberFormat0(number[0],decimalFormat):number[0];
     }
   }
 

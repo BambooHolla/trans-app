@@ -4,6 +4,7 @@ import { LoadingController, } from 'ionic-angular';
 import * as echarts from 'echarts';
 import { TradeChartV2Page } from '../../pages/trade-chart-v2/trade-chart-v2';
 import { AccountServiceProvider } from '../../providers/account-service/account-service';
+
 @Component({
     selector: 'line-base-component',
     template: `<div class="echarts-placeholder" #echartsPlaceholder></div>`,
@@ -46,7 +47,7 @@ export class KlineEchartsBaseComponent implements OnChanges, OnDestroy {
         this.chartInstance = echarts.init(this.chartElem.nativeElement as HTMLDivElement);
         this.showLoading();
         await this.accountService.getDeliverType(this.traderId,this.timeType).then( data => {
-            console.log('1111,',this.price)
+            console.log('222222,',data)
             this.show = true;
             this.nowTimeArr = data||  {
                 beginTime: '',
@@ -59,21 +60,22 @@ export class KlineEchartsBaseComponent implements OnChanges, OnDestroy {
     async ngOnChanges(changes) {
         // console.log('chart ngOnChanges', Object.keys(changes));
         console.log('charts changed:ngOnChanges', changes)  
-        
         if( changes.echartsData ) {
-            // 报表
-            if( !this._FIRST_ECHART && changes.echartsData.currentValue && changes.echartsData.currentValue.length == 1) {
+            // 报表 
+            if( !this.tradeChartV2Page._first_time_report && !this._FIRST_ECHART && changes.echartsData.currentValue && changes.echartsData.currentValue.length == 1) {
                 this.pushEchartsData()
             } else if(changes.echartsData.currentValue){
                 console.log('k线图 changes.echartsData.currentValue  ' ,changes.echartsData.currentValue)
                 await this.accountService.getDeliverType(this.traderId,this.timeType).then( data => {
-                    console.log('1111,',this.price)
+                    console.log('22222222,',data)
                     this.show = true;
                     this.nowTimeArr = data||  {
                         beginTime: '',
                         value:{}
                     };
                 }).catch( () => this.show = false );
+                
+                this.tradeChartV2Page._first_time_report = false;
                 this.showLoading();
                 this.callEchartsCreator();
             }

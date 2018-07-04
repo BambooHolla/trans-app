@@ -58,8 +58,8 @@ export class HistoryRecordPage {
 
     const token = this.appDataService.token;
     const traderId = this.navParams.data ? this.navParams.data.traderId : undefined;
-    const productHouseId = this.navParams.data ? this.navParams.data.productHouseId : undefined;
-    const priceProductHouseId = this.navParams.data ? this.navParams.data.priceProductHouseId : undefined;
+    const productHouseId = false && this.navParams.data ? this.navParams.data.productHouseId : undefined;
+    const priceProductHouseId = false&&this.navParams.data ? this.navParams.data.priceProductHouseId : undefined;
     
     if (!token) {
       return Promise.reject(this.events.publish('show login', 'login',this.refreshData.bind(this))).then((res)=>{

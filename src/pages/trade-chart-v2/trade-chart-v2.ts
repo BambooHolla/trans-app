@@ -63,8 +63,8 @@ export class TradeChartV2Page {
   .distinctUntilChanged()
   .filter(value => value === true);
 
-  realtimeOptions =1;
-
+  realtimeOptions = 1;
+  _first_time_report:boolean = true; 
   @ViewChild('largeRealtimeChart') largeRealtimeChart;
     
 
@@ -103,7 +103,7 @@ export class TradeChartV2Page {
   public changeTimeEnable:boolean = true;
   changeTime(index) {
     if( this.activeIndex == index || !this.changeTimeEnable) return ;
-    
+    this._first_time_report = true;
     this.activeIndex = index;
     this.changeTimeEnable = false;
     this.timeType = this.timeTypeArr[index];
@@ -117,7 +117,7 @@ export class TradeChartV2Page {
   }
 
   changeReportType(index) {
-    
+    this._first_time_report = true;
     this._reportsData$ = this.socketioService.subscribeRealtimeReports([this.traderId],"realtimeReports",{timespan:this.timeTypeArr[index]},true)
       .do(data => console.log('trade-chart-v2_reportsData: ',data)) 
       .takeUntil(this.viewDidLeave$)

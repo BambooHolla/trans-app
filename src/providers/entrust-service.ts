@@ -127,9 +127,13 @@ export class EntrustServiceProvider {
 
     let params = new URLSearchParams();
 
-    if (traderId || productHouseId || priceProductHouseId) {
+    if (traderId) {
       params.set('productId', traderId);
+    }
+    if (productHouseId) {
       params.set('productHouseId', productHouseId);
+    }
+    if (priceProductHouseId) {
       params.set('priceProductHouseId', priceProductHouseId);
     }
     

@@ -80,14 +80,14 @@ const OFF_OPACITY = 0.8;
 const SHOW_BACK_BTN_CSS = "show-back-button";
 
 export class CommonTransition extends PageTransition {
-  init() {
+  init() { 
     super.init();
 
     const plt = this.plt;
     const OFF_RIGHT = plt.isRTL ? "-99.5%" : "99.5%";
     const OFF_LEFT = plt.isRTL ? "33%" : "-33%";
-    const enteringView = this.enteringView;
-    const leavingView = this.leavingView;
+    const enteringView:any = this.enteringView;
+    const leavingView:any = this.leavingView;
     const opts = this.opts;
     this.duration(
       opts.duration && isPresent(opts.duration) ? opts.duration : DURATION,

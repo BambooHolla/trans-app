@@ -449,10 +449,10 @@ export class TradeInterfaceV2Page {
     // const traders = this.traderId
     let rateTarget:any;
     if(rate.tragetType) {
-      debugger
+      
       rateTarget = await this.stockDataService.getProduct(rate.tragetType);
     }
-     
+    
     const rateStr = rate ?
       rate.calculateType === '001' ? `${rate.rate * 100}%${rateTarget?rateTarget.productName:""}` :
         rate.calculateType === '002' ? `${rate.rate + (rateTarget?rateTarget.productName:"")}` : void 0
