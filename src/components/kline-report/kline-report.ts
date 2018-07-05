@@ -632,7 +632,7 @@ splitData(rawData) {
         let updateSwitch: boolean = true;
         // 新的报表推送
         this.echartsData.forEach( item => {
-            let newTime = (new Date(this.funcTimeFormat(item.beginTime))).getTime();
+            let newTime = (new Date(this.funcTimeFormat(item.endTime))).getTime();
             let lastTime = (new Date(this.funcTimeFormat(this._LAST_TIME))).getTime();
             if(!updateSwitch || (newTime < lastTime)) {
                 updateSwitch = false;
