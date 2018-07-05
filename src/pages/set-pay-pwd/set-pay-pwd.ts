@@ -16,6 +16,7 @@ import {
 	AuthenticationModel
 } from '../../providers/account-service/account-service';
 import { PromptControlleService } from "../../providers/prompt-controlle-service";
+import { CryptoService } from '../../providers/crypto-service';
 @Component({
 	selector: 'page-set-pay-pwd',
 	templateUrl: 'set-pay-pwd.html'
@@ -26,6 +27,7 @@ export class SetPayPwdPage extends SecondLevelPage {
 		public navParams: NavParams,
 		public accountService: AccountServiceProvider,
 		public promptCtrl: PromptControlleService,
+		public cryptoService: CryptoService,
 	) {
 		super(navCtrl, navParams);
 	}
@@ -104,8 +106,8 @@ export class SetPayPwdPage extends SecondLevelPage {
 		const { formData } = this;
 		return this.accountService
 			.setAccountPWD(
-				formData.payPWD,
-				formData.loginPWD,
+				this.cryptoService.MD5(formData.payPWD),
+				this.cryptoService.MD5(formData.loginPWD),
 				formData.check_method.category,
 				formData.vcode
 			)

@@ -207,9 +207,9 @@ export class LoginService {
       });
   }
 
-  public doLogout() {
+  public async doLogout() {
     document.cookie = `X-AUTH-TOKEN=;expires=Thu, 01 Jan 1970 00:00:00 GMT`;
-    this.bnlcAppSetting.clearUserToken();  
+    await this.bnlcAppSetting.clearUserToken();  
     return new Promise(resolve => {
       this.appDataService.resetCustomization();
  

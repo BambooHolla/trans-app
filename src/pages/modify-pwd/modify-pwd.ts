@@ -16,6 +16,7 @@ import { LoginService } from '../../providers/login-service';
 import { AppDataService } from '../../providers/app-data-service';
 import { AppSettings } from '../../providers/app-settings';
 import { LoginPage } from "../login/login";
+import { CryptoService } from '../../providers/crypto-service';
 /**
  * Generated class for the ModifyPwdPage page.
  *
@@ -68,6 +69,7 @@ export class ModifyPwdPage {
 		public appSettings: AppSettings,
 		public events: Events,
 		public modalController: ModalController,
+		public cryptoService: CryptoService,
 	) {
 		window['midifyPWDPage'] = this;
 	}
@@ -134,8 +136,8 @@ export class ModifyPwdPage {
 		this.modifying = true;
 		try {
 			await this.loginService.doModifyPWD(
-				this.oldPassword.value,
-				this.newPassword.value
+				this.cryptoService.MD5(this.oldPassword.value),
+				this.cryptoService.MD5(this.newPassword.value),
 			);
 
 			this.alertCtrl

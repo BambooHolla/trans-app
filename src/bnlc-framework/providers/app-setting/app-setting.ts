@@ -72,15 +72,15 @@ export class AppSettingProvider {
       return '';
     }
   }
-  setUserToken(obj: any) {
+  async setUserToken(obj: any) {
     if (typeof obj !== 'string') {
       obj = JSON.stringify(obj);
     }
-    localStorage.setItem(this.USER_TOKEN_STORE_KEY, obj);
+    await localStorage.setItem(this.USER_TOKEN_STORE_KEY, obj);
     this._setUserToken(this.getUserToken());
   }
-  clearUserToken() {
-    localStorage.removeItem(this.USER_TOKEN_STORE_KEY);
+  async clearUserToken() {
+    await localStorage.removeItem(this.USER_TOKEN_STORE_KEY);
     this._setUserToken(this.getUserToken());
   }
   private _setUserToken(token: string) {

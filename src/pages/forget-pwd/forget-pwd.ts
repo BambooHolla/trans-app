@@ -13,7 +13,7 @@ import { LoginService } from '../../providers/login-service';
 import { RegisterService } from '../../providers/register-service';
 import { AppDataService } from '../../providers/app-data-service';
 import { AppSettings } from '../../providers/app-settings';
-
+import { CryptoService } from '../../providers/crypto-service';
 /**
  * Generated class for the ForgetPwdPage page.
  *
@@ -87,7 +87,8 @@ export class ForgetPwdPage {
 		public loginService: LoginService,
 		public registerService: RegisterService,
 		public appDataService: AppDataService,
-		public appSettings: AppSettings
+		public appSettings: AppSettings,
+		public cryptoService: CryptoService,
 	) {
 		const rawVal = this.forgetPWDForm.getRawValue();
 		const customerId = navParams.get('customerId');
@@ -150,7 +151,7 @@ export class ForgetPwdPage {
 			const resetPwd = controls.password;
 			const vcode = controls.vcode;
 
-			await this.loginService.doResetPWD(customerId, vcode, resetPwd);
+			await this.loginService.doResetPWD(customerId, vcode, this.cryptoService.MD5(resetPwd));
 
 			this.appDataService.password = ''; // 清空已经保存的密码，要求用户手动输入
 			this.appDataService.customerId = customerId;
