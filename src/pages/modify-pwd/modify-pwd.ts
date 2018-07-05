@@ -143,7 +143,7 @@ export class ModifyPwdPage {
 			this.alertCtrl
 				.create({
 					title: window['language']['MODIFY_SUCCESSFULLY']||'修改成功',
-					message: window['language']['PLEASE_RE_LOGIN']||'请重新登入',
+					message: window['language']['PLEASE_RE_LOGIN']||'请重新登录',
 					buttons: [
 						{
 							text: window['language']['COFIRM']||'确定',

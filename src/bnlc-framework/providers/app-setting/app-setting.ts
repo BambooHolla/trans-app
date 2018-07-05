@@ -15,7 +15,8 @@ import { AppDataService } from '../../../providers/app-data-service';
 export class AppSettingProvider {
   // static SERVER_URL = 'http://192.168.16.113:40001'; //zhiguang server
   // static SERVER_URL = 'http://bjs.bnqkl.cn'; //old www server
-  // static SERVER_URL = 'https://www.picaex.com' ; //release www server
+  // static SERVER_URL = 'https://www.picaex.com'; // 正式网络
+  // static SERVER_URL = "https://test.picaex.com"; // 测试网络 
   // static SERVER_URL = 'http://192.168.16.101:40001'; //company mac server
    static SERVER_URL = "http://192.168.18.23:40001" 
   // static SERVER_URL = "http://192.168.16.175:40001"; // erbing 
