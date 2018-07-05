@@ -172,7 +172,7 @@ export class WithdrawDetailPage extends SecondLevelPage {
 					id: id,
 					status: '005',
 					freeze: 'true',
-				}
+				} 
 				
 			)
 			.then((data) => {
@@ -190,6 +190,10 @@ export class WithdrawDetailPage extends SecondLevelPage {
 					this.access_info = data;
 					this.access_info.balance = (new BigNumber(''+this.access_info.balance||'0')).div('100000000').toString()
 				});
+			})
+			.catch(err => {
+				this.getTransactionLogs()
+				return Promise.reject(err)
 			});
 	}
 
