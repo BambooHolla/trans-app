@@ -139,6 +139,7 @@ export class SocketioService {
       //   }
       // },
       // extraHeaders: {'X-AUTH-TOKEN': this.appDataService.token},
+      'force new connection':true
     });
 
     const socket = targetSocket.socket;
