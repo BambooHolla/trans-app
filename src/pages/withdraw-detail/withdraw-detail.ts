@@ -434,7 +434,10 @@ export class WithdrawDetailPage extends SecondLevelPage {
 
 	//做个控制，避免回来后又弹出消息
 	private validateId:boolean = true;
-	validateIdentify(){
+	async validateIdentify(){
+		if(!(this.personalDataService.certifiedStatus == '2') && this.validateId){
+			await this.personalDataService.requestCertifiedStatus(); 
+		  }
 		if(this.personalDataService.certifiedStatus == '2'  || !this.validateId ){
 			return ;
 		}

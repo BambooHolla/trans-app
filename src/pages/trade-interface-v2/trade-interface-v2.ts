@@ -476,7 +476,9 @@ export class TradeInterfaceV2Page {
   }
 
   async doTrade(tradeType: number = this._tradeType$.getValue()){
-    await this.personalDataService.requestCertifiedStatus(); 
+    if(!(this.personalDataService.certifiedStatus == '2')){
+      await this.personalDataService.requestCertifiedStatus(); 
+    }
     if(!(this.personalDataService.certifiedStatus == '2')){
       return this.validateIdentify();
     }
