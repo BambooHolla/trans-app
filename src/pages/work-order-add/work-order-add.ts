@@ -298,10 +298,10 @@ export class WorkOrderAddPage extends SecondLevelPage {
 	@asyncCtrlGenerator.success('SUBMIT_WORK_ORDER_SUCCESSFULLY')
 	submitForm() {
 		if(this.telOrEmail) {
-			return Promise.reject("EITHER_TELEPHONE_NUMBER_OR_EMAIL");
+			return Promise.reject(window["EITHER_TELEPHONE_NUMBER_OR_EMAIL"]||"电话和邮箱至少填写一个");
 		}
 		if(this.detailLength > 64) {
-			return Promise.reject("DESCRIPTION_LENGTH_IS_BEYOND");
+			return Promise.reject(window["DESCRIPTION_LENGTH_IS_BEYOND"]||"描述内容字数超出限制");
 		}
 		return this.workOrderService.addWorkOrder({
 			name: this.realName.value,
