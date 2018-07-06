@@ -303,7 +303,7 @@ export class RealtimeReportComponent extends EchartsBaseComponent {
                 : seriesColor
             }
           },
-          areaStyle: area,//折线包围面积颜色
+          // areaStyle: area,//折线包围面积颜色
           symbol: "none",
           data: priceData
         },

@@ -79,6 +79,7 @@ export class KlineReportComponent extends KlineEchartsBaseComponent {
             backgroundColor: "#262739",
             animation: false,
             legend: {
+                show:false,
                 selected: {
                     'MA': that.saveQuotas['MA'],
                 }
@@ -100,9 +101,7 @@ export class KlineReportComponent extends KlineEchartsBaseComponent {
                 borderWidth: 1,
                 borderColor: '#ccc',
                 padding: 2,
-                textStyle: {
-                    color: '#000'
-                },
+               
                 position: function (pos, params, el, elRect, size) {
                     var obj = {top: '1%'};
                     obj[['left', 'right'][+(pos[0] < size.viewSize[0] / 2)]] = 5;
@@ -248,11 +247,7 @@ export class KlineReportComponent extends KlineEchartsBaseComponent {
                 axisLabel: {
                     showMinLabel: true,
                     showMaxLabel: true,
-                    fontSize:10,
-                    normal: {
-                        color: "#6b6b6b"  
-                    },
-                    color: "#6b6b6b" 
+                    fontSize:12,
                 },
                 axisTick: {
                     
@@ -312,7 +307,7 @@ export class KlineReportComponent extends KlineEchartsBaseComponent {
                     inside: true,
                     showMinLabel: false,
                     showMaxLabel: true,
-                    fontSize:10
+                    fontSize:12
                 },
                 axisPointer: {
                   
@@ -840,6 +835,7 @@ splitData(rawData) {
         this.saveQuotas[quota.title] = quota.active;
         let option:any = {
             legend: {
+                show:false,
                 selected: {
                     
                 }

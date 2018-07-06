@@ -59,6 +59,18 @@ export class WithdrawDetailPage extends SecondLevelPage {
 		super(navCtrl, navParams);
 		BigNumber.config({ EXPONENTIAL_AT: [-8, 20] })
 		this.productInfo = this.navParams.get("productInfo");
+		this.alertCtrl.create({
+			title: "提示",
+			message: "提现功能暂时关闭",
+			buttons: [
+				{
+					text: "确定",
+					handler: () => {
+					
+					}
+				}
+			]
+		}).present();
 		
 	}
 	formData: {
@@ -304,7 +316,8 @@ export class WithdrawDetailPage extends SecondLevelPage {
 				});
 			await Promise.all(tasks).then(() =>{
 					setTimeout(() => {
-						this.validateIdentify();
+						// todo:暂时关闭
+						// this.validateIdentify();
 					}, 600);
 			});
 		} else {
