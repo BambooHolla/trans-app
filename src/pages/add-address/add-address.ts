@@ -122,6 +122,10 @@ export class AddAddressPage extends SecondLevelPage {
 				console.log(returnData)
 				this.viewCtrl.dismiss(returnData);
 				// this.finishJob(true);
+			})
+			.catch( err => {
+
+				return Promise.reject(err);
 			});
 	}
 

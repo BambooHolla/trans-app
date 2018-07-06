@@ -33,5 +33,6 @@ export class WithdrawGatewayPage extends SecondLevelPage {
 	@asyncCtrlGenerator.error('LOAD_PRODUCT_LIST_ERROR')
 	async getProducts() {
 		this.product_list = await this.accountService.productList.getPromise();
+		debugger
 	}
 }

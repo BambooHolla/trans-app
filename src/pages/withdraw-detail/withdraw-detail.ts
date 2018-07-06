@@ -98,7 +98,7 @@ export class WithdrawDetailPage extends SecondLevelPage {
 	)
 	selected_withdraw_address: CryptoCurrencyModel;
 	access_info: any;
-	openWithdrawAddressSelector() {
+	openWithdrawAddressSelector() { 
 		const { withdraw_address_list, productInfo } = this;
 		console.log('目前的   withdraw_address_list 暂时未刷新')
 		console.log(withdraw_address_list)
@@ -229,7 +229,7 @@ export class WithdrawDetailPage extends SecondLevelPage {
 			const tasks = [];
 			// 获取可用的提现地址 
 			tasks[tasks.length] = this.accountService
-				.getWithdrawAddress(this.productInfo.productHouseId)
+				.getWithdrawAddress(this.productInfo.productId) 
 				.then(data => {
 					this.withdraw_address_list = data;
 					if (this.selected_withdraw_address) {
@@ -244,7 +244,7 @@ export class WithdrawDetailPage extends SecondLevelPage {
 				.getAccountProduct({
 					productHouseId: this.productInfo.productHouseId,
 					accountType: AccountType.Product,
-				})
+				}) 
 				.then(data => {
 					this.access_info = data;
 					this.access_info.balance = (new BigNumber(''+this.access_info.balance||'0')).div('100000000').toString()
@@ -403,11 +403,11 @@ export class WithdrawDetailPage extends SecondLevelPage {
 	private async _formatWithdrawLogs(transaction_logs: TransactionModel[]) {
 		const formated_transaction_logs = await Promise.all(
 			transaction_logs.map(async transaction => {
-				const product = await this.stockDataService.getProduct(transaction.targetId);
+				const product = await this.stockDataService.getProduct(transaction.productHouseId);
 				const withdraw_address_info = await this.accountService.getPaymentById(
 					transaction.paymentId,
 				);
-				debugger
+				
 				if(transaction.amount) transaction.amount = new BigNumber(transaction.amount).div('100000000').toString();
 				return Object.assign(transaction, {
 					dealResultDetail: AccountServiceProvider.getTransactionStatusDetail(

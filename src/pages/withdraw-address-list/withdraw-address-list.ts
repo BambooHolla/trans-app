@@ -122,14 +122,14 @@ export class WithdrawAddressListPage extends SecondLevelPage {
 		// return this.routeTo("add-address", {
 		// 	productInfo: this.productInfo,
 		// });
-		
+		 
 		const selector = this.modalCtrl.create(AddAddressPage, {
 			productInfo: this.productInfo,
 		});
 		selector.onDidDismiss(returnData => {
 			if(!returnData){
 				return ;
-			}
+			} 
 			this.formData.withdraw_address_id = returnData.id
 			this.withdraw_address_list.push(returnData ? returnData : {})
 		  });
