@@ -36,25 +36,28 @@ export class PriceConversionPipe implements PipeTransform {
       number[1] =  number[1].length > tradeRetainLength? number[1].substr(0,tradeRetainLength) : number[1];
       return this.numberFormat0(number[0]+'.'+number[1],decimalFormat);
     } else {
-      return  decimalFormat ? this.numberFormat0(number[0],decimalFormat):number[0];
+      return  decimalFormat ? this.numberFormat0(number[0],decimalFormat,true):number[0];
     }
   }
 
-  numberFormat0(number:any,decimalFormat:number){
+  numberFormat0(number:any,decimalFormat:number,isInteger:boolean = false){
     let arrExp:any ;
     number += '';
     if(isNaN(number)) number = '0';
     number = number || number == 0 ? ""+number: "0";
-    number = number.split("").reverse().join("");
-    arrExp = /[1-9|\.]/ig.exec(number)
-    if(arrExp){
-        if(arrExp[0] == '.'){
-          number = number.substring(arrExp.index+1)
-        } else {
-          number = number.substring(arrExp.index)
-        }
+    if(!isInteger) {
+      number = number.split("").reverse().join("");
+      arrExp = /[1-9|\.]/ig.exec(number)
+      if(arrExp){
+          if(arrExp[0] == '.'){
+            number = number.substring(arrExp.index+1)
+          } else {
+            number = number.substring(arrExp.index)
+          }
+      }
+      number = number.split("").reverse().join("")
     }
-    number = number.split("").reverse().join("")
+    
     if(decimalFormat > 0) {
       let numberArr = number.split('.');
       let zero:string = '';

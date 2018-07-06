@@ -91,19 +91,19 @@ export class PicassoApp {
     public alertService: AlertService,
     
   ) {
-    let title:string = '';
-    let message: string ='';
-    let type:boolean = false;
-    if(/www/.test(AppSettingProvider.SERVER_URL)) {
-      title = '当前使用正式网络'
-      message = "是否重启切换到测试网络"
-      type = true;
-    } else {
-      title = '当前使用测试网络'
-      message = "是否重启切换到正式网络"
-      type = false;
-    }
-    this.alertService.show(title,message,type)
+    // let title:string = '';
+    // let message: string ='';
+    // let type:boolean = false;
+    // if(/www/.test(AppSettingProvider.SERVER_URL)) {
+    //   title = '当前使用正式网络'
+    //   message = "是否重启切换到测试网络"
+    //   type = true;
+    // } else {
+    //   title = '当前使用测试网络'
+    //   message = "是否重启切换到正式网络"
+    //   type = false;
+    // }
+    // this.alertService.show(title,message,type)
     window["platform"] = platform;
     window["alertCtrl"] = alertCtrl;
     window["loadingCtrl"] = loadingCtrl;

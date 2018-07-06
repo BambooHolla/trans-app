@@ -338,9 +338,12 @@ export class WithdrawDetailPage extends SecondLevelPage {
 				this.cryptoService.MD5(this.formData.password),
 			)
 			.then((transaction: TransactionModel) => {
+				debugger
 				return this._formatWithdrawLogs([
 					transaction,
 				]).then(format_transaction_list => {
+		debugger
+					
 					const format_transaction = format_transaction_list[0];
 					this.transaction_logs.unshift(format_transaction);
 					this.formData.amount = '';
@@ -397,18 +400,20 @@ export class WithdrawDetailPage extends SecondLevelPage {
 			transaction_logs.length === withdraw_logs_page_info.page_size;
 		this.infiniteScroll &&
 			this.infiniteScroll.enable(withdraw_logs_page_info.has_more);
-
 		return this._formatWithdrawLogs(transaction_logs);
 	}
 
 	private async _formatWithdrawLogs(transaction_logs: TransactionModel[]) {
+		debugger
 		const formated_transaction_logs = await Promise.all(
 			transaction_logs.map(async transaction => {
+				debugger
 				const product = await this.stockDataService.getProduct(transaction.productHouseId);
+				debugger
 				const withdraw_address_info = await this.accountService.getPaymentById(
 					transaction.paymentId,
 				);
-				
+				debugger
 				if(transaction.amount) transaction.amount = new BigNumber(transaction.amount).div('100000000').toString();
 				return Object.assign(transaction, {
 					dealResultDetail: AccountServiceProvider.getTransactionStatusDetail(
@@ -428,6 +433,7 @@ export class WithdrawDetailPage extends SecondLevelPage {
 				});
 			}),
 		);
+		debugger
 		console.log("formated_transaction_logs", formated_transaction_logs);
 		return formated_transaction_logs;
 	}
