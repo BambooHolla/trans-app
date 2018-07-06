@@ -249,6 +249,10 @@ export class KlineReportComponent extends KlineEchartsBaseComponent {
                     showMinLabel: true,
                     showMaxLabel: true,
                     fontSize:10,
+                    normal: {
+                        color: "#6b6b6b"  
+                    },
+                    color: "#6b6b6b" 
                 },
                 axisTick: {
                     
@@ -295,7 +299,7 @@ export class KlineReportComponent extends KlineEchartsBaseComponent {
                     show:true,
                     lineStyle:{
                         color:'#6b6b6b',
-                    }
+                    },
                 },
                 axisTick: {show:true},
                 splitLine:{
