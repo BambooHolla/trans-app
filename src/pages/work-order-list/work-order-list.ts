@@ -64,7 +64,7 @@ export class WorkOrderListPage extends SecondLevelPage {
 				WorkOrderListPage._first_init_page = false;
 			}, 2500);
 		}
-
+		
 		if (!this.disable_init_list_when_enter) {
 			this.page = 1;
 			const work_order_list = await this._getWorkOrderList();
@@ -84,7 +84,7 @@ export class WorkOrderListPage extends SecondLevelPage {
 		const { page, pageSize } = this;
 		const list = (await this.workOrderService.getWorkOrderList({
 			page,
-			pageSize
+			pageSize 
 		})).map(work_order_item => {
 			return {
 				...work_order_item,

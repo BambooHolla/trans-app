@@ -66,7 +66,7 @@ export class AppFetchProvider {
     this.appSetting.user_token.subscribe(val => {
       this._user_token = val;
     });
-
+ 
     const methods = [
       'get',
       'delete',
@@ -180,7 +180,7 @@ export class AppFetchProvider {
     headers.append('x-bnqkl-platform', this.appSetting.Platform_Type);
     if (!without_token) {
       // if (!this._user_token) this.events.publish('show login', 'login')
-      headers.append('X-AUTH-TOKEN', this._user_token);
+      headers.append('X-AUTH-TOKEN', this._user_token||this.appDataService.token);
     }
     const params = options.params as { [key: string]: any };
     if (params && params.constructor === Object) {
