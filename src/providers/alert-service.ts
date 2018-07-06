@@ -1,7 +1,8 @@
-import { Injectable } from '@angular/core';
+import { Injectable} from '@angular/core';
 
 import { AlertController/*, Alert*/,LoadingController, Loading } from 'ionic-angular';
 import { PromptControlleService } from "../providers/prompt-controlle-service";
+import { LoginService } from './login-service';
 
 @Injectable()
 export class AlertService {
@@ -46,12 +47,38 @@ export class AlertService {
     });
     confirm.present();
   }
-
+  show(title, message, type){
+    let confirm = this.alertCtrl.create({
+      title,
+      message,
+      enableBackdropDismiss: false,
+      buttons: [
+        {
+          text: '取消',
+          role: 'cancel',
+          handler: () => {
+            // console.log('Cancel clicked')
+          }
+        },
+        {
+          text:'重启',
+          handler: data => {
+            if(type) {
+              localStorage.setItem("SERVER_URL_APP",JSON.stringify('https://test.picaex.com'))
+            } else {
+              localStorage.setItem("SERVER_URL_APP",JSON.stringify('https://www.picaex.com'))
+            }
+              location.reload();
+          }
+        }
+      ]
+    });
+    confirm.present();
+  }
   constructor(
     public alertCtrl: AlertController,
     public loadingCtrl: LoadingController,
-    public promptCtrl: PromptControlleService
-
+    public promptCtrl: PromptControlleService,
   ){
 
   }

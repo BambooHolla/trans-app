@@ -33,7 +33,7 @@ import { TradeService } from "../providers/trade-service";
 import { PersonalDataService } from "../providers/personal-data-service";
 import { CommonTransition } from "./common-transition";
 import { AppSettingProvider } from "../bnlc-framework/providers/app-setting/app-setting";
-
+import { AlertService } from "../providers/alert-service";
  
 @Component({
   templateUrl: "app.html",
@@ -88,7 +88,22 @@ export class PicassoApp {
     public renderer2: Renderer2,
     public config: Config,
     public appSettingProvider: AppSettingProvider,
+    public alertService: AlertService,
+    
   ) {
+    let title:string = '';
+    let message: string ='';
+    let type:boolean = false;
+    if(/www/.test(AppSettingProvider.SERVER_URL)) {
+      title = '当前使用正式网络'
+      message = "是否重启切换到测试网络"
+      type = true;
+    } else {
+      title = '当前使用测试网络'
+      message = "是否重启切换到正式网络"
+      type = false;
+    }
+    this.alertService.show(title,message,type)
     window["platform"] = platform;
     window["alertCtrl"] = alertCtrl;
     window["loadingCtrl"] = loadingCtrl;

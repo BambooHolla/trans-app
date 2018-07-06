@@ -15,8 +15,9 @@ import { AppDataService } from '../../../providers/app-data-service';
 export class AppSettingProvider {
   // static SERVER_URL = 'http://192.168.16.113:40001'; //zhiguang server
   // static SERVER_URL = 'http://bjs.bnqkl.cn'; //old www server
-  // static SERVER_URL = 'https://www.picaex.com'; // 正式网络
-  static SERVER_URL = "https://test.picaex.com"; // 测试网络 
+  static SERVER_URL = 'https://www.picaex.com'; // 正式网络
+  // public SERVER_URL =  JSON.parse(localStorage.getItem('SERVER_URL_APP')||JSON.stringify("https://test.picaex.com")); // 测试网络 
+  static SERVER_URL_1 = "https://test.picaex.com";
   // static SERVER_URL = 'http://192.168.16.101:40001'; //company mac server
   //  static SERVER_URL = "http://192.168.18.23:40001" 
   // static SERVER_URL = "http://192.168.16.175:40001"; // erbing 
@@ -42,6 +43,7 @@ export class AppSettingProvider {
     public http: Http,
     public appDataService: AppDataService,
   ) {
+    AppSettingProvider.SERVER_URL = JSON.parse(localStorage.getItem('SERVER_URL_APP')||JSON.stringify("https://test.picaex.com")); // 测试网络 
     console.log('Hello AppSettingProvider Provider');
     this.user_token = new BehaviorSubject<string>(this.getUserToken());
   }
@@ -125,20 +127,20 @@ function getQueryVariable(variable) {
 const server_host =
   getQueryVariable('SERVER_HOST') || localStorage.getItem('SERVER_HOST') || '';
 if (location.hostname === 'dev-bnlc.bnqkl.cn') {
-  AppSettingProvider.SERVER_URL = 'http://dev-bnlc.bnqkl.cn:40001';
+  AppSettingProvider.SERVER_URL_1 = 'http://dev-bnlc.bnqkl.cn:40001';
 } else if (server_host.startsWith('HOME')) {
   let home_ip = location.hostname;
   if (server_host.startsWith('HOME:')) {
     home_ip = server_host.replace('HOME:', '').trim();
   }
-  AppSettingProvider.SERVER_URL = `http://${home_ip}:40001`;
+  AppSettingProvider.SERVER_URL_1 = `http://${home_ip}:40001`;
 } else if (location.hostname === 'wzx-bnlc.bnqkl.cn' || server_host === 'WZX') {
-  AppSettingProvider.SERVER_URL = 'http://192.168.16.216:40001';
+  AppSettingProvider.SERVER_URL_1 = 'http://192.168.16.216:40001';
 }
 console.log(
   '%cSERVER_URL:',
   'font-size:2em;color:green;background-color:#DDD',
-  AppSettingProvider.SERVER_URL
+  AppSettingProvider.SERVER_URL_1
 );
 /**
  * 基于token的AsyncBehaviorSubjuet类型的属性/方法生成器
