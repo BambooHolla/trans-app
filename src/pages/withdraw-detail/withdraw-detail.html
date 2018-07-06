@@ -68,7 +68,7 @@
             <div item-right class="error-number" *ngIf="((formData?.amount||0) * 1) > access_info?.balance">
                 {{'WITHDRAWAL_BIGGER_THAN_POSITION'|translate}}
             </div>
-            <div item-right class="error-number" *ngIf="((formData?.amount||0) * 1) < access_info?.balance && formData?.amount && (formData?.amount||0) <= (rate_info?.rateNumber||0)">
+            <div item-right class="error-number" *ngIf="((formData?.amount||0) * 1) < access_info?.balance && formData?.amount && (freeSwitch && (formData?.amount||0) <= (rate_info?.rateNumber||0))">
                 {{'WITHDRAWAL_BIGGER_THAN_FEE'|translate}}
             </div>
         </div>

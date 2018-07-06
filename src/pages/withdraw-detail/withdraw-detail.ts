@@ -42,6 +42,7 @@ import { BigNumber } from "bignumber.js";
 	templateUrl: "withdraw-detail.html",
 })
 export class WithdrawDetailPage extends SecondLevelPage {
+	public freeSwitch:boolean = true;
 	constructor(
 		public navCtrl: NavController,
 		public viewCtrl: ViewController,
@@ -266,6 +267,8 @@ export class WithdrawDetailPage extends SecondLevelPage {
 					if(data && data[0]){
 						data[0].rateNumber = data[0].rateTargetType === '001' ? `${data[0].rateNumber * 100}%` :
 							data[0].rateTargetType === '002' ? `${data[0].rateNumber}` : '';
+						this.freeSwitch =  data[0].rateTargetType === '001' ? false:
+						data[0].rateTargetType === '002' ? true : true;
 
 					} 
 					this.rate_info = data[0];
