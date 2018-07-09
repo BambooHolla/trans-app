@@ -16,11 +16,11 @@ export class AppSettingProvider {
   // static SERVER_URL = 'http://192.168.16.113:40001'; //zhiguang server
   // static SERVER_URL = 'http://bjs.bnqkl.cn'; //old www server
   // static SERVER_URL = 'https://www.picaex.com'; // 正式网络
-  static SERVER_URL =  "https://test.picaex.com"; // 测试网络 
+  // static SERVER_URL =  "https://test.picaex.com"; // 测试网络 
   // static SERVER_URL = 'http://192.168.16.101:40001'; //company mac server
-  //  static SERVER_URL = "http://192.168.18.23:40001" 
+   static SERVER_URL = JSON.parse(localStorage.getItem('SERVER_URL_APP'))||"http://192.168.18.23:40001" 
   // static SERVER_URL = "http://192.168.16.175:40001"; // erbing 
-  // static SERVER_URL =  "http://192.168.16.197:40001"; // chenfeng 
+  // static SERVER_URL =  "http://192.168.16.197:40001"; // chenfeng  
   // static SERVER_URL =  "http://192.168.16.107:40001"; // yongming
   // static SERVER_URL = "http://192.168.16.183:40001"; // yanhui
   // static SERVER_URL = "http://192.168.16.122:40001"; // lsy
@@ -42,7 +42,7 @@ export class AppSettingProvider {
     public http: Http,
     public appDataService: AppDataService,
   ) {
-    // AppSettingProvider.SERVER_URL = JSON.parse(localStorage.getItem('SERVER_URL_APP')||JSON.stringify("https://test.picaex.com")); // 测试网络 
+    AppSettingProvider.SERVER_URL = JSON.parse(localStorage.getItem('SERVER_URL_APP')||JSON.stringify("https://test.picaex.com")); // 测试网络 
     console.log('Hello AppSettingProvider Provider');
     this.user_token = new BehaviorSubject<string>(this.getUserToken());
   }

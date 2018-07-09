@@ -326,8 +326,7 @@ export class WithdrawDetailPage extends SecondLevelPage {
 				});
 			await Promise.all(tasks).then(() =>{
 					setTimeout(() => {
-						// todo:暂时关闭
-						// this.validateIdentify();
+						this.validateIdentify();
 					}, 600);
 			});
 		} else {

@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 
 import { NavController, NavParams, Events } from 'ionic-angular';
 import { ChangeTradePassword } from '../change-trade-password/change-trade-password';
-
+ 
 import { LoginService } from '../../providers/login-service';
 import { AppDataService } from '../../providers/app-data-service';
 import { PersonalDataService } from '../../providers/personal-data-service';
@@ -12,7 +12,7 @@ import { CreateAccountStepThirdPage } from '../create-account-step-third/create-
 import { AccountServiceProvider } from '../../providers/account-service/account-service';
 import { SecondLevelPage } from '../../bnlc-framework/SecondLevelPage';
 import { asyncCtrlGenerator } from '../../bnlc-framework/Decorator';
-
+import { SwitchNetworkPage } from '../switch-network/switch-network';
 @Component({
   selector: 'account-center',
   templateUrl: 'account-center.html'
@@ -57,6 +57,9 @@ export class AccountCenterPage extends SecondLevelPage {
     this.navCtrl.push(ChangeTradePassword);
   }
 
+  network() {
+    this.navCtrl.push(SwitchNetworkPage);
+  }
   identify() {
     if ( this.personalDataService.certifiedStatus == '1' || this.personalDataService.certifiedStatus == '2'){
       return void 0
