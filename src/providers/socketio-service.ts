@@ -517,25 +517,25 @@ export class SocketioService {
 
     if( type == '1m') {
       // 240 个数据
-      timeNumber = timeNumber - 14400000;
+      timeNumber = timeNumber - 10080000;
     } else if( type == '5m') {
       // 240 个数据
-      timeNumber = timeNumber - 72000000;
+      timeNumber = timeNumber - 50400000;
     } else if( type == '15m' ) {
       // 240 个数据
-      timeNumber = timeNumber - 216000000;
+      timeNumber = timeNumber - 151200000;
     } else if( type == '30m') {
       // 240 个数据
-      timeNumber = timeNumber - 432000000;
+      timeNumber = timeNumber - 302400000;
     } else if( type == '1h') {
       // 240 个数据
-      timeNumber = timeNumber - 864000000;
+      timeNumber = timeNumber - 604800000;
     } else if( type == '1d') {
       // 180 个数据
-      timeNumber = timeNumber - 15552000000;
+      timeNumber = timeNumber - 14515200000;
     } else if( type == '1w') {
       // 34 个数据
-      timeNumber = timeNumber - 20563200000;
+      timeNumber = timeNumber - 101606400000;
     }
     return new Date(timeNumber);
   }
