@@ -279,12 +279,12 @@ export class RegisterPage {
   } 
 
   showModal(agreementName = 'registAgreement') {
-    let language:string = this.appDataService.LANGUAGE || 'ch';
+    let language:string = this.appDataService.LANGUAGE || 'en';
     if (language in this.appSettings.agreementData) {
       const registAgreement = this.appSettings.agreementData;
       const informationModal = this.modalCtrl.create(InformationModal, {
-        title: registAgreement[language].title,
-        agreementFirst: registAgreement[language].agreementFirst, 
+        title: registAgreement[language].title, 
+        agreementFirst: registAgreement[language].agreementFirst,  
       });
       informationModal.present();
     }

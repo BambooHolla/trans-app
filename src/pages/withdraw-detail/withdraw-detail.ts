@@ -299,8 +299,6 @@ export class WithdrawDetailPage extends SecondLevelPage {
 					let limitedQuota:any = data[0]
 					limitedQuota = {}
 					
-					limitedQuota['min']  = 1
-					limitedQuota['max'] = 5
 					//多种情况提示语
 					if(limitedQuota){
 						if(!limitedQuota['min'] && !limitedQuota['max']){
