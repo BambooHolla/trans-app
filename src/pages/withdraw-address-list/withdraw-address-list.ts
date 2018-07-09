@@ -16,7 +16,7 @@ import {
 } from '../../providers/account-service/account-service';
 import { SecondLevelPage } from '../../bnlc-framework/SecondLevelPage';
 import { asyncCtrlGenerator } from '../../bnlc-framework/Decorator';
-import { AddAddressPage } from '../add-address/add-address';
+import { AddAddressPage } from '../add-address/add-address'; 
 import { PromptControlleService } from "../../providers/prompt-controlle-service";
 /**
  * Generated class for the WithdrawAddressListPage page.
@@ -125,9 +125,9 @@ export class WithdrawAddressListPage extends SecondLevelPage {
 		 
 		const selector = this.modalCtrl.create(AddAddressPage, {
 			productInfo: this.productInfo,
-		});
+		}); 
 		selector.onDidDismiss(returnData => {
-			if(!returnData){
+			if(!returnData || JSON.stringify(returnData) == "{}" || !returnData.length){
 				return ;
 			} 
 			this.formData.withdraw_address_id = returnData.id

@@ -64,12 +64,18 @@
             <ion-label color="primary">{{'DEPOSIT_AMOUNT'|translate}}</ion-label>
             <ion-input class="rtl" [(ngModel)]="formData.amount" set-input-status="amount" placeholder="{{'PLEASE_INPUT_DEPOSIT_AMOUNT'|translate}}" min=0 [max]="access_info?.balance" type="number"></ion-input>
         </ion-item>
-        <div class="err-box" *ngIf="(((formData?.amount||0) * 1) < access_info?.balance && formData?.amount && (formData?.amount||0) <= (rate_info?.rateNumber||0))||(((formData?.amount||0) * 1) > access_info?.balance)">
+        <div class="err-box" >
             <div item-right class="error-number" *ngIf="((formData?.amount||0) * 1) > access_info?.balance">
                 {{'WITHDRAWAL_BIGGER_THAN_POSITION'|translate}}
             </div>
             <div item-right class="error-number" *ngIf="((formData?.amount||0) * 1) < access_info?.balance && formData?.amount && (freeSwitch && (formData?.amount||0) <= (rate_info?.rateNumber||0))">
                 {{'WITHDRAWAL_BIGGER_THAN_FEE'|translate}}
+            </div>
+            <div item-right class="error-number" *ngIf="((formData?.amount||0) * 1) < access_info?.balance && formData?.amount && !((freeSwitch && (formData?.amount||0) <= (rate_info?.rateNumber||0))) && promptAmount?.min > formData?.amount">
+                最小提币数额为{{promptAmount?.min}} {{productInfo?.productName}}{{productInfo?.cryptoCurrencyCode}}
+            </div>
+            <div item-right class="error-number" *ngIf="((formData?.amount||0) * 1) < access_info?.balance && formData?.amount && !((freeSwitch && (formData?.amount||0) <= (rate_info?.rateNumber||0))) && promptAmount?.max < formData?.amount">
+                最大提币数额为{{promptAmount?.max}} {{productInfo?.productName}}{{productInfo?.cryptoCurrencyCode}}
             </div>
         </div>
           
@@ -91,8 +97,8 @@
             <ion-input *ngIf="has_account_pwd" class="rtl" [(ngModel)]="formData.password" placeholder="{{'PLEASE_INPUT_TRANSACTION_PASSWORD'|translate}}" type="password"></ion-input>
             <button item-end *ngIf="!has_account_pwd" (click)="routeTo('set-pay-pwd')" ion-button color="special">{{'GO_TO_SETTINGS'|translate}}</button>
         </ion-item>
-        <ion-item class="follow-pre-item">
-            <button class="submit-btn" [disabled]="true || !canSubmit || (((formData?.amount||0) * 1) > access_info?.balance) || (formData?.amount||0) <= (rate_info?.rateNumber||0)" ion-button color="special" (click)="submitWithdrawAppply()">{{'CONFIRM_WITHDRAWAL'|translate}}</button>
+        <ion-item class="follow-pre-item"> 
+            <button class="submit-btn" [disabled]="false || !canSubmit || (freeSwitch&&(((formData?.amount||0) * 1) > access_info?.balance)) || (formData?.amount||0) <= (rate_info?.rateNumber||0) || (((formData?.amount||0) * 1) > access_info?.balance) || promptAmount?.min > formData?.amount || promptAmount?.max < formData?.amount" ion-button color="special" (click)="submitWithdrawAppply()">{{'CONFIRM_WITHDRAWAL'|translate}}</button>
         </ion-item>
     </ion-list>
     <div class="withdraw-logs">
@@ -102,7 +108,7 @@
             <div class="base-info">
                 <div class="type-name">{{tlog.productDetail}}</div>
                 <div class="time-at">
-                    <span style="opacity:0;">(占位) </span>
+                    <!-- <span style="opacity:0;">(占位) </span> -->
                     <ion-icon name="ios-time-outline"></ion-icon>
                     {{tlog.createdAt|date:'y-M-d H:mm:ss'}}
                 </div>
