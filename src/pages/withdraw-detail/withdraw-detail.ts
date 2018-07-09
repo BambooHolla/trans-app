@@ -297,7 +297,7 @@ export class WithdrawDetailPage extends SecondLevelPage {
 				.then(data => {
 
 					let limitedQuota:any = data[0]
-					limitedQuota = {}
+	
 					
 					//多种情况提示语
 					if(limitedQuota){
