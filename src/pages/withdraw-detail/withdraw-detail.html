@@ -72,10 +72,10 @@
                 {{'WITHDRAWAL_BIGGER_THAN_FEE'|translate}}
             </div>
             <div item-right class="error-number" *ngIf="((formData?.amount||0) * 1) < access_info?.balance && formData?.amount && !((freeSwitch && (formData?.amount||0) <= (rate_info?.rateNumber||0))) && promptAmount?.min > formData?.amount">
-                最小提币数额为{{promptAmount?.min}} {{productInfo?.productName}}{{productInfo?.cryptoCurrencyCode}}
+                {{'EACH_WITHDRAWAL_AMOUNT_NOT_LESS_THAN'|translate}}{{promptAmount?.min}} {{productInfo?.productName}}{{productInfo?.cryptoCurrencyCode}}
             </div>
             <div item-right class="error-number" *ngIf="((formData?.amount||0) * 1) < access_info?.balance && formData?.amount && !((freeSwitch && (formData?.amount||0) <= (rate_info?.rateNumber||0))) && promptAmount?.max < formData?.amount">
-                最大提币数额为{{promptAmount?.max}} {{productInfo?.productName}}{{productInfo?.cryptoCurrencyCode}}
+                {{'EACH_WITHDRAWAL_AMOUNT_NOT_BIGGER_THAN'|translate}}{{promptAmount?.max}} {{productInfo?.productName}}{{productInfo?.cryptoCurrencyCode}}
             </div>
         </div>
           
