@@ -51,7 +51,7 @@ export class TabsPage implements OnInit, AfterViewInit, AfterContentInit {
     public appSetting: AppSettingProvider
   ) {
     // FIXME ：如何获取推荐的股票列表？
-    // 后续处理的调用暂时注释掉。
+    // 后续处理的调用暂时注释掉。 
     // this.checkPersonalStockListIsNull();
     window['TB'] = this;
   }
@@ -61,6 +61,7 @@ export class TabsPage implements OnInit, AfterViewInit, AfterContentInit {
   @ViewChild(Tabs) tabs: Tabs;
   @ViewChild('optionalTab') optionalTab: Tab;
   @ViewChild('quotationsTab') quotationsTab: Tab;
+  @ViewChild('exchangeTab') tradeInterfaceTab: Tab;
   @ViewChild('newsTab') newsTab: Tab;
   @ViewChild('homeTab') homeTab: Tab;
   tab_list: any[];
@@ -75,7 +76,7 @@ export class TabsPage implements OnInit, AfterViewInit, AfterContentInit {
       this.optionalTab,
       this.homeTab
     ];
-    this.tab_names = ['quotations', 'news', 'optional', 'home'];
+    this.tab_names = ['quotations', "exchange", 'news', 'optional', 'home'];
     this.tab_should_login = [
       'optional', 
       'home',
@@ -83,6 +84,7 @@ export class TabsPage implements OnInit, AfterViewInit, AfterContentInit {
     this.tab_map = new Map();
     this.tab_map.set('optionalTab', this.optionalTab);
     this.tab_map.set('quotationsTab', this.quotationsTab);
+    this.tab_map.set('exchangeTab',this.tradeInterfaceTab)
     this.tab_map.set('newsTab', this.newsTab);
     this.tab_map.set('homeTab', this.homeTab);
   }

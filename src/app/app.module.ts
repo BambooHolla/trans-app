@@ -316,6 +316,11 @@ export function createTranslateLoader(http: HttpClient) {
                         defaultHistory: [TabsPage]
                     },
                     {
+                        component: TradeInterfaceV2Page,
+                        name: 'exchange',
+                        defaultHistory: [TabsPage]
+                    },
+                    {
                         component: QuotationsPageV2,
                         name: 'quotations',
                         defaultHistory: [TabsPage]

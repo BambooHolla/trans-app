@@ -55,16 +55,17 @@
         <div class="time" *ngFor="let title of timeArray; let i = index;" (click)="changeTime(i)" [class.active]="activeIndex === i">{{title}}</div>
         <div class="norm" (click)="onShowIndex()" [class.show-index]="showIndex">{{'INDEX'|translate}}<span></span></div>
         <div class="norm-index" [class.show-index]="showIndex">
-            <span *ngFor="let time of quotaArr; let i = index;" (click)="activeQuota(i)" [class.active-quota]=" time.active">{{time.title}}</span>
+            <span *ngFor="let time of quotaArr; let i = index;" (click)="activeQuota(i,time.title)" [class.active-quota]=" time.active">{{time.title}}</span>
         </div>
     </div>
    
     <div class="transaction-btn" >
-            <div class="buy" (click)="backPage(1)">
-                {{'BUY'|translate}}
+            <div class="sale" (click)="goExchangePage(0)">
+                    {{'SELL'|translate}}
             </div>
-            <div class="sale" (click)="backPage(0)">
-                {{'SELL'|translate}}
+            <div class="buy" (click)="goExchangePage(1)">
+                    {{'BUY'|translate}}
+                
             </div>
     </div>
 </ion-content>

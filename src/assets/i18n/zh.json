@@ -490,7 +490,7 @@
     "跟进中":"跟进中",										
     "已反馈":"已反馈",										
     "已处理":"已处理",	
-    
+    "EXCHANGE":"交易",
     "GAIN WORK_ORDER_CONTENT_ERROR ":"获取工单内容出错",										
     "LOADING_HISTORY_RECORD_ERROR":"加载历史记录出错",										
     "SENDING_ERROR":"发送出错",										

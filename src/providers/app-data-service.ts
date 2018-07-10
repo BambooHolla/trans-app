@@ -4,6 +4,7 @@ import { Device } from '@ionic-native/device';
 import { Geolocation } from '@ionic-native/geolocation';
 import { Platform } from "ionic-angular";
 import { ArrayType } from '@angular/compiler/src/output/output_ast';
+import { BehaviorSubject,Observable } from 'rxjs';
 @Injectable()
 export class AppDataService {
 
@@ -37,8 +38,20 @@ export class AppDataService {
   //语言
   public LANGUAGE:any = "en";
 
-  //report开关，false用于行情页/quotations，true用于看线图/trad-chart-v2
-  public report_on_off:boolean = false;
+  //保存最后一次查看的交易对，初始化的时候为第一个交易对
+  public LAST_TRADER = new BehaviorSubject<string>(undefined);
+  public LAST_TRADER$: Observable<any> = this.LAST_TRADER
+    // 在值被设置时，
+    // 使用 distinctUntilChanged() 方法保证只处理真正变化了的值
+    .map(v => v)
+    .distinctUntilChanged();
+  
+  //k线图参数
+  public KlineParameter:any = {
+    timeType: 0,
+    MA: true,
+  }
+
 
   constructor(
     public storage: Storage,
@@ -83,6 +96,7 @@ export class AppDataService {
       content:[]
     },
     show_login_code: false,
+    exchangeType:1,
   };
   private _in_storage_keys = ['products', 'traderList'];
 
@@ -98,6 +112,7 @@ export class AppDataService {
   public version ;
   public register_number;
   public show_login_code;
+  public exchangeType;
 
 
 

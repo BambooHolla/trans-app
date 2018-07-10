@@ -1,7 +1,9 @@
 page-trade-interface-v2 {
 	//reset grid padding
 	ion-header{
-	
+		.button-space{
+			padding-left: 6rem;
+		}
 	}
 
 	ion-header.header{

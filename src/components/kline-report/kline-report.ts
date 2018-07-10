@@ -24,7 +24,7 @@ export class KlineReportComponent extends KlineEchartsBaseComponent {
 
     // 记录指标显示的类型
     private saveQuotas = {
-        "MA": true,
+        "MA": this.appDataService.KlineParameter.MA,
     }
     // k线图展示数据
     private showKlineDates: any = {

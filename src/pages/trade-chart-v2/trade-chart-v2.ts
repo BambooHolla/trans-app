@@ -30,18 +30,17 @@ export class TradeChartV2Page {
 
   private product:any = '--- / ---';
   private traderId:any;
-  private changeTransaction:any;
   public nowTimeArr:any = {};
 
   public quotaArr: Array<object> = [
     {
       title: "MA",
-      active: true,
+      active: this.appDataService.KlineParameter.MA,
     },
   ];
   public quota: any = {
     title: "MA",
-    active: true,
+    active: this.appDataService.KlineParameter.MA,
   };
   private timeArray: string[] = [
     window['language']['1M']||'1分',
@@ -78,22 +77,19 @@ export class TradeChartV2Page {
       public stockDataService: StockDataService,
      
   ) { 
-   
-    appDataService.report_on_off = true;
     this.init();
     
   }
 
   init() {
     this.traderId = this.navParams.data ? this.navParams.data.traderId : undefined;
-    this.changeTransaction = this.navParams.data ? this.navParams.data.changeTransaction : undefined;
     this.product = this.appDataService.traderList.get(this.traderId) ;
     const traderId = this.traderId;
     console.log('trade-chart-v2:(doSubscribe) ', traderId)
     if (traderId){
       const trader = this.appDataService.traderList.get(traderId)
       this._baseData$ = trader.marketRef;
-      this.changeTime(0)
+      this.changeTime(this.appDataService.KlineParameter.timeType)
       
     }
     
@@ -103,6 +99,7 @@ export class TradeChartV2Page {
   public changeTimeEnable:boolean = true;
   changeTime(index) {
     if( this.activeIndex == index || !this.changeTimeEnable) return ;
+    this.appDataService.KlineParameter.timeType = index;
     this._first_time_report = true;
     this.activeIndex = index;
     this.changeTimeEnable = false;
@@ -118,7 +115,7 @@ export class TradeChartV2Page {
 
   changeReportType(index) {
     this._first_time_report = true;
-    this._reportsData$ = this.socketioService.subscribeRealtimeReports([this.traderId],"realtimeReports",{timespan:this.timeTypeArr[index]},true)
+    this._reportsData$ = this.socketioService.subscribeRealtimeReports([this.traderId],"reportK",{timespan:this.timeTypeArr[index]},true)
       .do(data => console.log('trade-chart-v2_reportsData: ',data)) 
       .takeUntil(this.viewDidLeave$)
       .filter(({ type }) => type === this.traderId)
@@ -144,22 +141,23 @@ export class TradeChartV2Page {
      
   }
   ionViewDidLeave(){
-    this.appDataService.report_on_off = false;
   
   }
-  activeQuota(index:number){
+  activeQuota(index:number,type:string){
     if( !this.changeTimeEnable) return ;
     this.quotaArr[index]['active'] = this.quotaArr[index]['active'] ? false : true;
+    this.appDataService.KlineParameter[type] = this.quotaArr[index]['active'];
     this.quota = Object.assign({},this.quotaArr[index]);
     this.onShowIndex();
   }
-  backPage(index:number = 1) {
-    if(this.changeTransaction){
-      this.changeTransaction(undefined,index)
-    }
-    this.navCtrl.pop().then(() => {
-      
+  goExchangePage(index:number = 1) {
+    this.navCtrl.pop({
+      animate: true,
+      direction: 'back',
+      animation: 'ios-transition',
     })
+    this.appDataService.exchangeType = index
+    this.navCtrl.parent.select(1);
   }
 }
 

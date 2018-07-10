@@ -1,5 +1,9 @@
 component-tabs {
 	> ion-tabs {
+		.ion-ios-交易::before, .ion-ios-交易-outline::before{
+			width: 1.8rem;
+			height: 1.8rem;
+		}
 		.show-tabbar {
 			padding: 0 0.6rem;
 		}

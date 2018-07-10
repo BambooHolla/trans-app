@@ -4,7 +4,7 @@ import { LoadingController, } from 'ionic-angular';
 import * as echarts from 'echarts';
 import { TradeChartV2Page } from '../../pages/trade-chart-v2/trade-chart-v2';
 import { AccountServiceProvider } from '../../providers/account-service/account-service';
-
+import { AppDataService } from '../../providers/app-data-service';
 @Component({
     selector: 'line-base-component',
     template: `<div class="echarts-placeholder" #echartsPlaceholder></div>`,
@@ -15,6 +15,7 @@ export class KlineEchartsBaseComponent implements OnChanges, OnDestroy {
         public loadingCtrl: LoadingController,
         public tradeChartV2Page: TradeChartV2Page,
         public accountService: AccountServiceProvider,
+        public appDataService: AppDataService,
     ) {
 
     }

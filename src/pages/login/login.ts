@@ -40,7 +40,7 @@ export class LoginPage implements OnInit{
   private custId:any = '';
   public unregisterBackButton:any;
   public showCode: boolean = this.appDataService.show_login_code || false;
-  public codeSrc: string = '../assets/images/code_bg.png';
+  public codeSrc: string = '../assets/images/code_bg.jpg';
   public codeId: string = '';
   loginForm: FormGroup = new FormGroup({
     // myContry: new FormControl('1002'),
@@ -162,7 +162,7 @@ export class LoginPage implements OnInit{
       "x-bnqkl-captchaId": this.codeId,
       "x-bnqkl-captchaToken": controls['code'].value
     }
-    debugger
+    
     this.logining = true;
     if(await this.loginService.doLogin(customerId, password, savePassword, type,codeHeader) === true){
       this.dismiss();
@@ -236,7 +236,7 @@ goForgetPwd() {
       this.loginService.getCode().then( data => {
         if(data.id){
           this.codeId = data.id || '';
-          this.codeSrc = data.data ? 'data:image/png;base64,' + data.data : '../assets/images/code_bg.png';
+          this.codeSrc = data.data ? 'data:image/png;base64,' + data.data : '../assets/images/code_bg.jpg';
         }
         this.codeSwitch = true ;
       })

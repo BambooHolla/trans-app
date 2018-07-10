@@ -45,8 +45,8 @@ export class SocketioService {
       _connected: false,
       // _connected$: _connected.asObservable().distinctUntilChanged(),
     }],
-    ['report', {
-      target: '/report',
+    ['reportK', {
+      target: '/reports',
       source: '/report',
       socket: undefined,
       _connected: false,
@@ -59,6 +59,7 @@ export class SocketioService {
       _connected: false,
       // _connected$: _connected.asObservable().distinctUntilChanged(),
     }],
+    
   ])
 
   private path(source) {
@@ -464,7 +465,7 @@ export class SocketioService {
         }
       } else {
         return () => {
-          this.socketAPIs.get(api).socket.emit('unwatch', [`${equityCodes}`,ts])
+          this.socketAPIs.get(api).socket.emit('unwatch', [`${equityCodes}`,timespan])
         }
       }
     });
@@ -474,8 +475,10 @@ export class SocketioService {
 
   private getObservableFromMap(api: string, equityCode: string) {
     if (!this.apiObservableMap.has(api)) {
+      
       this.apiObservableMap.set(api,
-        Observable.fromEvent(this.socketAPIs.get(api).socket, 'data')
+        api == "reportK"? Observable.fromEvent(this.socketAPIs.get(api).socket, 'data-kline')
+          : Observable.fromEvent(this.socketAPIs.get(api).socket, 'data')
         // .takeUntil(this.loginService.status$.filter(is_login_in=>!is_login_in))
       );
       // this.socketAPIs.get('price').socket.on(eventName, this.onData.bind(this, { eventName, equityCode}));
@@ -498,7 +501,8 @@ export class SocketioService {
   private report_getObservableFromMap(api: string, equityCode: string) {
     if (!this.apiObservableMap.has(api)) {
       this.apiObservableMap.set(api,
-        Observable.fromEvent(this.socketAPIs.get(api).socket, 'data')
+        api == "reportK"? Observable.fromEvent(this.socketAPIs.get(api).socket, 'data-kline')
+        : Observable.fromEvent(this.socketAPIs.get(api).socket, 'data')
         // .takeUntil(this.loginService.status$.filter(is_login_in=>!is_login_in))
       );
     }

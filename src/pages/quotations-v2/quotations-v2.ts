@@ -18,6 +18,7 @@ import { AppDataService } from '../../providers/app-data-service';
 import { Subject } from 'rxjs/Subject';
 import { TradeInterfaceV2Page } from '../trade-interface-v2/trade-interface-v2';
 import { TradeService } from '../../providers/trade-service';
+import { TradeChartV2Page } from '../trade-chart-v2/trade-chart-v2';
 
 @Component({
 	selector: 'page-quotations-v2',
@@ -387,7 +388,12 @@ export class QuotationsPageV2 {
 			// traderIdList.push(key); 
 			traderList[value.index] = value;
 			traderIdList[value.index] = key;
+			if(value.index == 0) {
+				this.appDataService.LAST_TRADER.next(value);
+			}
+			
 		}) 
+		
 		this.traderList = traderList;
 		
 		this.traderList_show = this.traderList;
@@ -414,17 +420,17 @@ export class QuotationsPageV2 {
 					console.log('subscribeRealtimeReports success!',data)
 					const srcArr = value.reportArr
 					const length = srcArr.length
-					if(!this.appDataService.report_on_off){
-						if(length == 0){
-							srcArr.push(...data)//使用push+解构赋值,预期echarts动画实现
-						}else{
-							srcArr.splice(0,Math.min(length,data.length),...data)
-						}
-						if( length > this.appSettings.Charts_Array_Length){
-							srcArr.splice(0, length - this.appSettings.Charts_Array_Length)
-						}
-						return srcArr.concat()
+					
+					if(length == 0){
+						srcArr.push(...data)//使用push+解构赋值,预期echarts动画实现
+					}else{
+						srcArr.splice(0,Math.min(length,data.length),...data)
 					}
+					if( length > this.appSettings.Charts_Array_Length){
+						srcArr.splice(0, length - this.appSettings.Charts_Array_Length)
+					}
+					return srcArr.concat()
+					
 				})
 			console.log('value.traderId',value.traderId)
 			console.log('value.productHouseId',value.productHouseId)
@@ -493,5 +499,14 @@ export class QuotationsPageV2 {
 			});
         }
         
-    }
+	}
+	saveLastTrader(trader:any) {
+		this.appDataService.LAST_TRADER.next(trader);
+		this.gotoChart(trader)
+	}
+	gotoChart(trader){
+		this.navCtrl.push(TradeChartV2Page, {
+		  traderId: trader.traderId,
+		})
+	  }
 }

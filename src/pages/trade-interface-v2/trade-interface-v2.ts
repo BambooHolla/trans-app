@@ -55,11 +55,10 @@ export class TradeInterfaceV2Page {
     .asObservable()
     .distinctUntilChanged()
     .filter(value => value === true);
-
-  private _tradeType$: BehaviorSubject<number> = new BehaviorSubject(1);
+  private tradeType:number = this.appDataService.exchangeType? 1:this.appDataService.exchangeType == 0?0:1;
+  private _tradeType$: BehaviorSubject<number> = new BehaviorSubject(this.appDataService.exchangeType? 1:this.appDataService.exchangeType == 0?0:1);
   public tradeType$: Observable<number> = this._tradeType$
     .asObservable()
-    .distinctUntilChanged()
     .do(type=>{
       let rateSrc
       this.targetName = this.productName
@@ -255,12 +254,23 @@ export class TradeInterfaceV2Page {
     private loginService: LoginService,
   ) {    
     BigNumber.config({ EXPONENTIAL_AT: [-8, 20] })
-    this.userLanguage = appDataService.LANGUAGE||'zh';
+    this.userLanguage = this.appDataService.LANGUAGE||'zh';
+    this.appDataService.LAST_TRADER$.subscribe( trader => {
+      if(trader) this.initTrader(trader);
+    })
+  }
+ 
+  
+
+  initTrader(trader) {
+
     // debugger
-    // window['TradeInterfacePage'] = this 
-    this.traderId = this.navParams.get('stockCode') || this.navParams.data.traderId || this.traderId;
-    this.productHouseId = this.navParams.data.productHouseId || '';
-    this.priceProductHouseId = this.navParams.data.priceProductHouseId || '';
+    // window['TradeInterfacePage'] = this
+    this.traderId = trader.traderId;
+    this.productHouseId = trader.productHouseId || '';
+    this.priceProductHouseId = trader.priceProductHouseId || '';
+    
+    
     this.productPair = this.priceProductHouseId && this.productHouseId ?
         this.priceProductHouseId + '-' + this.productHouseId : undefined;
     // if (!this.traderId) this.appDataService.products.forEach((value, key, map) => {
@@ -280,7 +290,7 @@ export class TradeInterfaceV2Page {
       this.doSubscribe()
 
       this.requestAssets()
-
+      
       this.quickTradeSelector.subscribe();
      
     }
@@ -430,6 +440,7 @@ export class TradeInterfaceV2Page {
       dataset = index == undefined ? 1 : index;
     }
     this._tradeType$.next(dataset);    
+    this.appDataService.exchangeType = dataset;
     if(dataset) {
          
       this.price = this.buy_depth[0] ? this.numberFormatDelete0(this.buy_depth[0].price)
@@ -503,8 +514,10 @@ export class TradeInterfaceV2Page {
         case 'en':
         tradeText = 'buy';
           break;
-
-        default:  tradeText = '买入';
+        case 'ja':
+          tradeText = 'buy';
+          break;
+        default:  tradeText = '購入';
       }
     } else if (tradeType === 0) {
       switch(this.userLanguage) {
@@ -514,6 +527,9 @@ export class TradeInterfaceV2Page {
 
         case 'en':
         tradeText = 'sell';
+          break;
+        case 'ja':
+          tradeText = "販売"
           break;
 
         default:  tradeText = '卖出';
@@ -528,7 +544,7 @@ export class TradeInterfaceV2Page {
         tradeText = 'delegate';
           break;
 
-        default:  tradeText = '委托';
+        default:  tradeText = '委託';
       }
     }
 
@@ -573,6 +589,9 @@ export class TradeInterfaceV2Page {
         case 'en':
           toast.setMessage(`Please input correct ${tradeText} price`);
           break;
+        case 'ja':
+          toast.setMessage(`正しい${tradeText}価格を入力して下さい`);
+          break;
         default: toast.setMessage(`请输入正确的${tradeText}价格`);
       }
       
@@ -585,6 +604,9 @@ export class TradeInterfaceV2Page {
         case 'en':
           toast.setMessage(`Please input correct ${tradeText} price`);
           break;
+        case 'ja':
+          toast.setMessage(`正しい${tradeText}数量を入力して下さい`);
+          break;
         default: toast.setMessage(`Please input correct ${tradeText} quantity`);
       }
     }else if(amount.comparedTo(tradeType == 1 ? this.maxAmount : this.holdAmount) == 1){
@@ -593,6 +615,9 @@ export class TradeInterfaceV2Page {
       switch(this.userLanguage) {
         case 'zh':
          toast.setMessage(`${tradeText}数量超过可${tradeText}上限`)
+          break;
+        case 'ja':
+          toast.setMessage(`${tradeText}可能数量が${tradeText}可能数量の上限を越えています`);
           break;
         case 'en':
           toast.setMessage(`${tradeText} quantity is beyond ${tradeText} ceiling`);
@@ -628,7 +653,9 @@ export class TradeInterfaceV2Page {
         case 'en':
         thanText = 'higher';
           break;
-
+        case "ja":
+          thanText = 'より高い';
+          break;
         default:  thanText = '高于';
       }
     } else if (tradeType === 0) {
@@ -636,7 +663,9 @@ export class TradeInterfaceV2Page {
         case 'zh':
         thanText = '低于';
           break;
-
+          case "ja":
+          thanText = 'より低い';
+          break;
         case 'en':
         thanText = 'lower';
           break;
@@ -652,7 +681,9 @@ export class TradeInterfaceV2Page {
         case 'en':
         thanText = 'beyond';
           break;
-
+        case "ja":
+          thanText = "超えた";
+          break;
         default:  thanText = '超出';
       }
     }
@@ -672,6 +703,9 @@ export class TradeInterfaceV2Page {
           break;
         case 'en':
           message = `Your ${tradeText}ing price is 10% ${thanText} than the current market price, confirm the submission?`;
+          break;
+        case 'ja':
+          message = `あなたの${tradeText}の価格は現在の市場価格より10%${thanText}、委託を提出しますか？`;
           break;
         default: message = `您的${tradeText}价格${thanText}当前市场价10%,确认提交委托？`;
       }
@@ -796,10 +830,17 @@ export class TradeInterfaceV2Page {
     
   }
  
+  ionViewDidLeave() {
+   
+  }
   ionViewDidEnter(){
     // window["confirmChangeTradingMode"] = this.confirmChangeTradingMode
     this.viewDidLeave.next(false);
-   
+    
+    if(this.tradeType != this.appDataService.exchangeType) {
+      this.chooseTradeType(undefined,this.appDataService.exchangeType? 1:this.appDataService.exchangeType == 0?0:1);
+    }
+    
     // console.log('pricetarget', this.PriceInputer)
     // console.log('pricetarget', this.PriceInputer.getElementRef())
     // console.log('pricetarget', this.PriceInputer.getNativeElement())
@@ -864,6 +905,7 @@ export class TradeInterfaceV2Page {
           this.marketPrice = data.price
           this.buyRate = data.buyRate
           this.sellRate = data.sellRate 
+          this._tradeType$.next(this._tradeType$.getValue());
         })
       // this.stockDataService.stockBaseData$.map(data => data[stockCode])
       //   .do(data => console.log('final data:', stockCode, data))
@@ -911,11 +953,14 @@ export class TradeInterfaceV2Page {
                 }
               }
               this.buy_depth = data.buy; 
-              if(this.buy_depth[0] && this._tradeType$.getValue() == 1){
-                this.buyTotalQuantity = this.price = this.numberFormatDelete0(this.buy_depth[0].price);
+              if(this._tradeType$.getValue() == 1){
+                this.price = ''+this.marketPrice;
+                if(this.buy_depth[0]) {
+                  this.buyTotalQuantity = this.price = this.numberFormatDelete0(this.buy_depth[0].price);
+                }
               }
               // 快捷交易 0 的时候
-              this.buyTotalQuantity = this.buy_depth[0] ? this.numberFormatDelete0(this.buy_depth[0].price): ''+this.marketPrice;
+              this.buyTotalQuantity  = this.buy_depth[0] ? this.numberFormatDelete0(this.buy_depth[0].price): ''+this.marketPrice;
             }
             if (data.sale) {
               //遍历数据，剔除掉数量为0的数据
@@ -926,8 +971,11 @@ export class TradeInterfaceV2Page {
                 }
               }
               this.sale_depth = data.sale;
-              if(this.sale_depth[0] && this._tradeType$.getValue() == 0){
-                this.saleTotalQuantity = this.price = this.numberFormatDelete0(this.sale_depth[0].price);
+              if(this._tradeType$.getValue() == 0){
+                this.price = ''+this.marketPrice;
+                if(this.sale_depth[0]) {
+                  this.saleTotalQuantity = this.price = this.numberFormatDelete0(this.sale_depth[0].price);
+                }
               }
               // 快捷交易 0 的时候
               this.saleTotalQuantity = this.sale_depth[0] ? this.numberFormatDelete0(this.sale_depth[0].price): ''+this.marketPrice;
@@ -1098,11 +1146,17 @@ export class TradeInterfaceV2Page {
       }
       return false;
     })
-    this.reportArr = [] 
-    this.doSubscribe()
-    this.getProcessEntrusts()
     
+    this.reportArr = [] 
+    this._saleableQuantity$ = this.personalDataService.personalStockList$
+      .map(arr => arr.filter(item => item.stockCode === this.traderId))
+      .map(arr => arr.length && +arr[0].saleableQuantity || 0)
+      .distinctUntilChanged();
+    this.initData()
+    this.getProcessEntrusts()
+    this.doSubscribe()
     this.requestAssets()
+    this.quickTradeSelector.subscribe();
   }
   confirmChangeTradingMode(){
     console.log('confirmChangeTradingMode')
@@ -1670,10 +1724,13 @@ export class TradeInterfaceV2Page {
 
   numberFormatDelete0(number:string|number){
     let arrExp:any ;
+    let numberArr: Array<string>;
     if(typeof number == "number") number = number.toString();
+    numberArr = number.split('.');
     number = number.split("").reverse().join("");
     arrExp = /[1-9|\.]/ig.exec(number)
-    if(arrExp){
+    
+    if(arrExp && numberArr.length == 2){
         if(arrExp[0] == '.'){
           number = number.substring(arrExp.index+1)
         } else {
@@ -1681,7 +1738,7 @@ export class TradeInterfaceV2Page {
         }
         return  number.split("").reverse().join("")
     }
-    return number;
+    return number.split("").reverse().join("");
   }
   rangeMaxNumber(base:number = 1){
     let rangNumber:any;
