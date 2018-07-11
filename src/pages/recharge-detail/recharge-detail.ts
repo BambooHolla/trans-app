@@ -74,8 +74,8 @@ export class RechargeDetailPage extends SecondLevelPage {
 					accountType: AccountType.Product,
 				})
 				.then(data => { 
-					data['balance'] = new BigNumber(data['balance']+'').div('100000000').toString();
-					data['freezeBalance'] = new BigNumber(data['freezeBalance']+'').div('100000000').toString();
+					data['balance'] = new BigNumber(data['balance']+'').toString();
+					data['freezeBalance'] = new BigNumber(data['freezeBalance']+'').toString();
 					this.access_info = data
 					
 				});
@@ -164,7 +164,7 @@ export class RechargeDetailPage extends SecondLevelPage {
 				const recharge_address_info = await this.accountService.getPaymentById(
 					transaction.paymentId,
 				);
-				if(transaction.amount) transaction.amount = new BigNumber(transaction.amount).div('100000000').toString();
+				if(transaction.amount) transaction.amount = new BigNumber(transaction.amount).toString();
 				return Object.assign(transaction, {
 					dealResultDetail: AccountServiceProvider.getTransactionStatusDetail(
 						transaction.status,

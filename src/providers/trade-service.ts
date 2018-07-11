@@ -67,7 +67,7 @@ export class TradeService {
         operationType: '002', //string *001现金对产品交易、002产品对产品交易
         productId: equityCode, //equityCode,
         price: consignmentPrice, // 价格
-        amount: new BigNumber(consignmentCount).multipliedBy(this.appSettings.Product_Price_Rate).toString(), // 数量
+        amount: new BigNumber(consignmentCount).toString(), // 数量
         productHouseId: productHouseId,
         priceProductHouseId: priceProductHouseId,
       };

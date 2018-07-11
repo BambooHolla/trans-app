@@ -640,7 +640,7 @@ splitData(rawData) {
             nowTime = moment(item.beginTime).add(this.DATE_TYPE[this.timeType][0],this.DATE_TYPE[this.timeType][1]);
             this.klineDatas.times.push(this.funcTimeFormat(item.beginTime,this.timeType));
             this.klineDatas.datas.push([item.value.start*1,item.value.end*1,item.value.min*1,item.value.max*1]);
-            this.klineDatas.vols.push(item.value.amount / 1e8);
+            this.klineDatas.vols.push(item.value.amount / 1);
         });
         if(updateSwitch) {
                 
@@ -755,7 +755,7 @@ splitData(rawData) {
                 this.klineDatas.times.push(this.funcTimeFormat(item.beginTime,this.timeType));
                 // 固定格式 [开，收，低，高]
                 this.klineDatas.datas.push([item.value.start*1,item.value.end*1,item.value.min*1,item.value.max*1]);
-                this.klineDatas.vols.push(item.value.amount / 1e8);
+                this.klineDatas.vols.push(item.value.amount / 1);
             }
             
        });
@@ -804,7 +804,7 @@ splitData(rawData) {
             console.log(_nowPriceArr)
             this.showKlineDates.datas.push(_nowPriceArr)
             // this.showKlineDates.datas = [[50,40,20,80]]
-            this.showKlineDates.vols.push(this.nowTimeArr.value.amount / 100000000)
+            this.showKlineDates.vols.push(this.nowTimeArr.value.amount / 1)
         }
 
        // 如果数据过少 本地生成
@@ -849,7 +849,7 @@ splitData(rawData) {
     transactionChange() {
         let length:number = this.klineDatas.datas.length ? this.klineDatas.datas.length : 1;
         let price =  Number(this.price.price);
-        let amount = this.price.amount / 1e8;
+        let amount = this.price.amount / 1;
         // 比较高低
         this.showKlineDates.datas[length - 1][1] = price *1 ||this.showKlineDates.datas[length - 1][1] * 1;
         if((this.showKlineDates.datas[length - 1][2]*1) > (price*1)) {

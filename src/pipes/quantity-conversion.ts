@@ -22,7 +22,7 @@ export class QuantityConversionPipe implements PipeTransform {
     BigNumber.config({ EXPONENTIAL_AT: [-15, 20] })
     if(isNaN(value) || value == null || value == undefined || value == NaN) return '--'
  
-    let number:any = new BigNumber(''+value).div( this.appSettings.Product_Price_Rate_str).toString();
+    let number:any = new BigNumber(''+value).toString();
     if(typeof number != "string" ){
         number = number.toString();
     }

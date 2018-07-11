@@ -206,7 +206,7 @@ export class WithdrawDetailPage extends SecondLevelPage {
 				})
 				.then(data => {
 					this.access_info = data;
-					this.access_info.balance = (new BigNumber(''+this.access_info.balance||'0')).div('100000000').toString()
+					this.access_info.balance = (new BigNumber(''+this.access_info.balance||'0')).toString()
 				});
 			})
 			.catch(err => {
@@ -264,7 +264,7 @@ export class WithdrawDetailPage extends SecondLevelPage {
 				}) 
 				.then(data => {
 					this.access_info = data;
-					this.access_info.balance = (new BigNumber(''+this.access_info.balance||'0')).div('100000000').toString()
+					this.access_info.balance = (new BigNumber(''+this.access_info.balance||'0')).toString()
 				});
 			// 获取是否有设置交易密码
 			tasks[
@@ -354,7 +354,7 @@ export class WithdrawDetailPage extends SecondLevelPage {
 				{
 					transactionType: TransactionType.WithdrawProduct,
 					productId: this.productInfo.productId,
-					amount: new BigNumber(this.formData.amount).multipliedBy('100000000').toString(), 
+					amount: new BigNumber(this.formData.amount).toString(), 
 					paymentId: this.formData.selected_withdraw_address_id + "",
 				},
 				this.cryptoService.MD5(this.formData.password),
@@ -380,7 +380,7 @@ export class WithdrawDetailPage extends SecondLevelPage {
 					})
 					.then(data => {
 						this.access_info = data;
-						this.access_info.balance = (new BigNumber(''+this.access_info.balance||'0')).div('100000000').toString()
+						this.access_info.balance = (new BigNumber(''+this.access_info.balance||'0')).toString()
 						return transaction;
 					})
 				});
@@ -438,7 +438,7 @@ export class WithdrawDetailPage extends SecondLevelPage {
 					transaction.paymentId,
 				);
 				
-				if(transaction.amount) transaction.amount = new BigNumber(transaction.amount).div('100000000').toString();
+				if(transaction.amount) transaction.amount = new BigNumber(transaction.amount).toString();
 				return Object.assign(transaction, {
 					dealResultDetail: AccountServiceProvider.getTransactionStatusDetail(
 						transaction.status,

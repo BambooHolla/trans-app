@@ -381,7 +381,7 @@ export class TradeInterfaceV2Page {
       // let saleableQuantity:any = (target && target.length != 0 ? target : [{ saleableQuantity:0}])[0]
       //   .saleableQuantity / this.appSettings.Product_Price_Rate;
       let saleableQuantity:any =  new BigNumber((target && target.length != 0 ? target : [{ saleableQuantity:0}])[0]
-      .saleableQuantity).div( this.appSettings.Product_Price_Rate); 
+      .saleableQuantity); 
       this.maxAmount = Number(price) ? this.numberFormat(saleableQuantity.div(price).toString(),false,false) : "0";
       if(this.maxAmount == "0"){
         this.maxAmount = 0;
@@ -397,7 +397,7 @@ export class TradeInterfaceV2Page {
         .filter(({ stockCode }) => stockCode === productPairs[1]);
         console.log(target)
         let saleableQuantity:any =  new BigNumber((target && target.length != 0 ? target : [{ saleableQuantity:0}])[0]
-        .saleableQuantity.toString()).div(this.appSettings.Product_Price_Rate); 
+        .saleableQuantity.toString()); 
         this.holdAmount = Number(price) ?  this.numberFormat(saleableQuantity.toString(),false,false)  : "0";
         if(this.holdAmount == "0"){
           this.holdAmount = 0;
@@ -1513,11 +1513,11 @@ export class TradeInterfaceV2Page {
     let text:string = '';
     if (tradeType === 'buy') {
       transactionType = '001'
-      amount = new BigNumber(this.buyTotalAmount).multipliedBy('100000000').toString();
+      amount = new BigNumber(this.buyTotalAmount).toString();
       text = window['language']['SET_THE_TRANSACTION']||'请拖动选择交易额';
     }else if (tradeType === 'sale') {
       transactionType = '002'
-      amount = new BigNumber(this.saleTotalAmount).multipliedBy('100000000').toString();
+      amount = new BigNumber(this.saleTotalAmount).toString();
       text = window['language']['SET_THE_SELL']||'请拖动选择卖出数量';
     }else {
       return void 0
@@ -1595,10 +1595,10 @@ export class TradeInterfaceV2Page {
     this.personalDataService.personalStockList.forEach(item => {
       if (item.stockCode === productPairs[0]) {
         this.trader_target = item
-        this.holePrice = this.numberFormat( (new BigNumber(item.restQuantity || "0")).div( this.appSettings.Product_Price_Rate_str).toString());
+        this.holePrice = this.numberFormat( (new BigNumber(item.restQuantity || "0")).toString());
       } else if (item.stockCode === productPairs[1]) {
         this.trader_product = item;
-        this.holdAmount = this.numberFormat( new BigNumber(item.restQuantity?item.restQuantity:"0").div(this.appSettings.Product_Price_Rate_str).toString(),false,false);
+        this.holdAmount = this.numberFormat( new BigNumber(item.restQuantity?item.restQuantity:"0").toString(),false,false);
       }
     
     })
