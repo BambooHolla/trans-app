@@ -1,12 +1,18 @@
 // import { Component, ViewChild, Input, OnChanges, OnDestroy, NgZone } from '@angular/core';
-import { Component, ViewChild, Input, OnChanges, OnDestroy } from '@angular/core';
-import { LoadingController, } from 'ionic-angular';
-import * as echarts from 'echarts';
-import { TradeChartV2Page } from '../../pages/trade-chart-v2/trade-chart-v2';
-import { AccountServiceProvider } from '../../providers/account-service/account-service';
-import { AppDataService } from '../../providers/app-data-service';
+import {
+    Component,
+    ViewChild,
+    Input,
+    OnChanges,
+    OnDestroy,
+} from "@angular/core";
+import { LoadingController } from "ionic-angular";
+import * as echarts from "echarts";
+import { TradeChartV2Page } from "../../pages/trade-chart-v2/trade-chart-v2";
+import { AccountServiceProvider } from "../../providers/account-service/account-service";
+import { AppDataService } from "../../providers/app-data-service";
 @Component({
-    selector: 'line-base-component',
+    selector: "line-base-component",
     template: `<div class="echarts-placeholder" #echartsPlaceholder></div>`,
 })
 export class KlineEchartsBaseComponent implements OnChanges, OnDestroy {
@@ -16,10 +22,7 @@ export class KlineEchartsBaseComponent implements OnChanges, OnDestroy {
         public tradeChartV2Page: TradeChartV2Page,
         public accountService: AccountServiceProvider,
         public appDataService: AppDataService,
-    ) {
-
-    }
-   
+    ) {}
 
     @Input() echartsData: any;
     @Input() options: any;
@@ -27,73 +30,85 @@ export class KlineEchartsBaseComponent implements OnChanges, OnDestroy {
     @Input() traderId: any;
     @Input() price: any;
     @Input() quota: any;
-    
-    @ViewChild('echartsPlaceholder') chartElem;
 
-    public show:boolean = false;
-    public nowTimeArr:any = {
-        beginTime: '',
-        value:{}
+    @ViewChild("echartsPlaceholder") chartElem;
+
+    public show: boolean = false;
+    public nowTimeArr: any = {
+        beginTime: "",
+        value: {},
     };
     chartInstance: echarts.ECharts;
 
     showLoading() {
-        this.chartInstance.showLoading('default',{
-            text: '',
-            color: '#c1b17f',
-            maskColor: 'rgba(255, 255, 255, 0)',
+        this.chartInstance.showLoading("default", {
+            text: "",
+            color: "#c1b17f",
+            maskColor: "rgba(255, 255, 255, 0)",
         });
     }
     async ngOnInit() {
-        this.chartInstance = echarts.init(this.chartElem.nativeElement as HTMLDivElement);
+        this.chartInstance = echarts.init(this.chartElem
+            .nativeElement as HTMLDivElement);
         this.showLoading();
-        await this.accountService.getDeliverType(this.traderId,this.timeType).then( data => {
-            console.log('k线图 初始化onInit:,',data)
-            this.show = true;
-            this.nowTimeArr = data||  {
-                beginTime: '',
-                value:{}
-            };
-        }).catch( () => this.show = false );
+        await this.accountService
+            .getDeliverType(this.traderId, this.timeType)
+            .then(data => {
+                console.log("k线图 初始化onInit:,", data);
+                this.show = true;
+                this.nowTimeArr = data || {
+                    beginTime: "",
+                    value: {},
+                };
+            })
+            .catch(() => (this.show = false));
         this.firstCallEchartsCreator();
     }
 
     async ngOnChanges(changes) {
         // console.log('chart ngOnChanges', Object.keys(changes));
-        console.log('charts changed:ngOnChanges', changes)  
-        if( changes.echartsData ) {
-            // 报表 
-            if( !this.tradeChartV2Page._first_time_report && !this._FIRST_ECHART && changes.echartsData.currentValue && changes.echartsData.currentValue.length == 1) {
-                this.pushEchartsData()
-            } else if(changes.echartsData.currentValue){
-                console.log('k线图 changes.echartsData.currentValue  ' ,changes.echartsData.currentValue)
-                await this.accountService.getDeliverType(this.traderId,this.timeType).then( data => {
-                    console.log('k线图 过去时间段数据：,',data)
-                    this.show = true;
-                    this.nowTimeArr = data||  {
-                        beginTime: '',
-                        value:{}
-                    };
-                }).catch( () => this.show = false );
-                
+        console.log("charts changed:ngOnChanges", changes);
+        if (changes.echartsData) {
+            // 报表
+            if (
+                !this.tradeChartV2Page._first_time_report &&
+                !this._FIRST_ECHART &&
+                changes.echartsData.currentValue &&
+                changes.echartsData.currentValue.length == 1
+            ) {
+                this.pushEchartsData();
+            } else if (changes.echartsData.currentValue) {
+                console.log(
+                    "k线图 changes.echartsData.currentValue  ",
+                    changes.echartsData.currentValue,
+                );
+                await this.accountService
+                    .getDeliverType(this.traderId, this.timeType)
+                    .then(data => {
+                        console.log("k线图 过去时间段数据：,", data);
+                        this.show = true;
+                        this.nowTimeArr = data || {
+                            beginTime: "",
+                            value: {},
+                        };
+                    })
+                    .catch(() => (this.show = false));
+
                 this.tradeChartV2Page._first_time_report = false;
                 this.showLoading();
                 this.callEchartsCreator();
             }
-            
-        } else if( changes.quota ) {
+        } else if (changes.quota) {
             // 指标
             this.showQuotas(changes.quota.currentValue);
-        } else if( changes.price ) {
-            this.transactionChange()
+        } else if (changes.price) {
+            this.transactionChange();
         }
-         
-        
     }
 
     ngOnDestroy() {
         // console.log('chart destroy');
-        if (this.chartInstance){
+        if (this.chartInstance) {
             this.chartInstance.dispose();
             this.chartInstance = null;
         }
@@ -106,7 +121,9 @@ export class KlineEchartsBaseComponent implements OnChanges, OnDestroy {
 
     createCharts() {
         // this.myChart.resize();
-        throw new Error('createCharts method must called within derived class!');
+        throw new Error(
+            "createCharts method must called within derived class!",
+        );
     }
 
     inputDataValid(): boolean {
@@ -114,29 +131,36 @@ export class KlineEchartsBaseComponent implements OnChanges, OnDestroy {
     }
 
     transactionChange() {
-        throw new Error('createCharts method must called within derived class!');
+        throw new Error(
+            "createCharts method must called within derived class!",
+        );
     }
 
     showQuotas(quota) {
-        throw new Error('createCharts method must called within derived class!');
+        throw new Error(
+            "createCharts method must called within derived class!",
+        );
     }
-    
-    private _RUN_LOADING:boolean = false ;
-    private _FIRST_ECHART:boolean = true;
- 
+
+    private _RUN_LOADING: boolean = false;
+    private _FIRST_ECHART: boolean = true;
+
     firstCallEchartsCreator() {
-        if( this._RUN_LOADING ) {
+        if (this._RUN_LOADING) {
             return void 0;
         }
         this._RUN_LOADING = true;
-     
-    
+
         this._RUN_LOADING = false;
         this._FIRST_ECHART = false;
-        if (this.echartsData && this.echartsData.length > 0 && this.inputDataValid()) {
+        if (
+            this.echartsData &&
+            this.echartsData.length > 0 &&
+            this.inputDataValid()
+        ) {
             setTimeout(() => {
                 if (this.chartInstance) {
-                    this.createCharts()
+                    this.createCharts();
                     // this.ngZone.runOutsideAngular(() => {
                     //     this.createCharts()
                     // });
@@ -144,57 +168,56 @@ export class KlineEchartsBaseComponent implements OnChanges, OnDestroy {
                     this.callEchartsCreator();
                 }
             }, 0);
-        } else if(!this.echartsData || this.echartsData.length <= 0) {
+        } else if (!this.echartsData || this.echartsData.length <= 0) {
             setTimeout(() => {
                 this.callEchartsCreator();
             }, 0);
         }
-       
-
     }
 
     pushEchartsData() {
-        if( this._FIRST_ECHART) {
+        if (this._FIRST_ECHART) {
             return void 0;
         }
-        throw new Error('createCharts method must called within derived class!');
+        throw new Error(
+            "createCharts method must called within derived class!",
+        );
     }
 
-    
     callEchartsCreator() {
-   
-        if( this._FIRST_ECHART) {
+        if (this._FIRST_ECHART) {
             return void 0;
         }
 
         if (this.echartsData && this.inputDataValid()) {
             this._RUN_LOADING = false;
-           
+
             setTimeout(() => {
                 if (this.chartInstance) {
-                    this.createCharts()
+                    this.createCharts();
                     // this.ngZone.runOutsideAngular(() => {
                     //     this.createCharts()
                     // });
                 }
             }, 0);
-        } 
+        }
     }
 
-    resize(){
+    resize() {
         // 图表的缩放处理。
         // 需要将 svg 的容器宽度样式先删除，否则从宽缩到窄时，
         // 外层的界面会无法自适应。
         // 使用了 setTimeout 进行样式的异步处理！
         // 此处暂时只处理了宽度问题，未处理高度。
-        if (this.chartElem){
+        if (this.chartElem) {
             const chartElem = this.chartElem.nativeElement as HTMLElement;
             const container = chartElem.firstChild as HTMLElement;
-            container.style.width = '';
+            container.style.width = "";
             setTimeout(() => {
-                (<any>this.chartInstance).resize({width: window.getComputedStyle(chartElem).width});
+                (<any>this.chartInstance).resize({
+                    width: window.getComputedStyle(chartElem).width,
+                });
             }, 0);
         }
     }
-
 }

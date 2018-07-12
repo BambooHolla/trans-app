@@ -1,70 +1,74 @@
 page-about {
-    .top-banner{
+    .top-banner {
         position: relative;
         margin-bottom: 1.2rem;
-        img{
-            width:100%;
+        img {
+            width: 100%;
         }
-        ion-col{
+        ion-col {
             font-size: 1.4rem;
             position: absolute;
             left: 0;
             bottom: 8%;
             text-align: center;
-            color: color($colors,lightgrey);
+            color: color($colors, lightgrey);
         }
     }
     ion-grid {
         ion-row {
             min-height: 5.5rem;
             // line-height: 5.5rem;
-            background-color:rgba(#242535,.3);
+            background-color: rgba(#242535, 0.3);
             margin: 0 !important;
-            &+ion-row {
-                border-top: 1px solid rgba(#535353,.3);
+            & + ion-row {
+                border-top: 1px solid rgba(#535353, 0.3);
             }
             ion-col {
                 display: flex;
-                align-items:center;
+                align-items: center;
                 font-size: 1.4rem;
-                color: color($colors,lightgrey);
+                color: color($colors, lightgrey);
                 padding: 0 1.6rem !important;
             }
-            ion-icon{
+            ion-icon {
                 float: left;
-                margin-right: .6rem;
+                margin-right: 0.6rem;
             }
-            span{
+            span {
             }
         }
     }
 }
 
-	.ion-ios-gemail::before{
-        content: '';
-        display: block;
-        width: 1.8rem;
-        height: 1.3rem;
-        background:url('../assets/icon/email.png') center center/1.8rem 1.3rem no-repeat;
-    }
-    .ion-ios-gphone::before{
-        content: '';
-        display: block;
-        width: 1.7rem;
-        height: 1.8rem;
-        background:url('../assets/icon/phone.png') center center/1.7rem 1.8rem no-repeat;
-    }
-    .ion-ios-gcompany::before{
-        content: '';
-        display: block;
-        width: 1.7rem;
-        height: 1.6rem;
-        background:url('../assets/icon/company.png') center center/1.7rem 1.6rem no-repeat;
-    }
-    .ion-ios-gaddress::before{
-        content: '';
-        display: block;
-        width: 1.9rem;
-        height: 1.9rem;
-        background:url('../assets/icon/location.png') center center/1.9rem 1.9rem no-repeat;
-	}
+.ion-ios-gemail::before {
+    content: "";
+    display: block;
+    width: 1.8rem;
+    height: 1.3rem;
+    background: url("../assets/icon/email.png") center center/1.8rem 1.3rem
+        no-repeat;
+}
+.ion-ios-gphone::before {
+    content: "";
+    display: block;
+    width: 1.7rem;
+    height: 1.8rem;
+    background: url("../assets/icon/phone.png") center center/1.7rem 1.8rem
+        no-repeat;
+}
+.ion-ios-gcompany::before {
+    content: "";
+    display: block;
+    width: 1.7rem;
+    height: 1.6rem;
+    background: url("../assets/icon/company.png") center center/1.7rem 1.6rem
+        no-repeat;
+}
+.ion-ios-gaddress::before {
+    content: "";
+    display: block;
+    width: 1.9rem;
+    height: 1.9rem;
+    background: url("../assets/icon/location.png") center center/1.9rem 1.9rem
+        no-repeat;
+}

@@ -7,15 +7,15 @@ import * as Clipboard from "clipboard";
  * Directives.
  */
 @Directive({
-  selector: "[copy]" // Attribute selector
+    selector: "[copy]", // Attribute selector
 })
 export class CopyDirective implements OnInit {
-  constructor(public elementRef: ElementRef) {}
-  @Input("copy")text =""
-  clip: any;
-  ngOnInit() {
-    this.clip = new Clipboard(this.elementRef.nativeElement, {
-      text: ()=>this.text
-    });
-  }
+    constructor(public elementRef: ElementRef) {}
+    @Input("copy") text = "";
+    clip: any;
+    ngOnInit() {
+        this.clip = new Clipboard(this.elementRef.nativeElement, {
+            text: () => this.text,
+        });
+    }
 }

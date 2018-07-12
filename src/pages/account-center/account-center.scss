@@ -1,35 +1,34 @@
-account-center{
-  	.account-contain {
-		ion-grid {
-			ion-row {
+account-center {
+    .account-contain {
+        ion-grid {
+            ion-row {
                 padding: 0 1.5rem;
                 margin-top: 1px;
                 height: 5.2rem;
                 line-height: 5.2rem;
-                background-color: color($colors,background-darker);
-				ion-col {
-					font-size: 1.4rem;
-                    padding: 0!important;
-                    .f-right{
+                background-color: color($colors, background-darker);
+                ion-col {
+                    font-size: 1.4rem;
+                    padding: 0 !important;
+                    .f-right {
                         float: right;
-                        color: color($colors,special);
+                        color: color($colors, special);
                         font-size: 1.3rem;
-                        &.no-identify{
-                            color: color($colors,middark);
+                        &.no-identify {
+                            color: color($colors, middark);
                         }
                     }
-				}
-			}
-
-		}
-
-        .account-exit{
-            margin-top: 2rem;
-            background-color: color($colors,background-darker);
-            .exit-center{
-                text-align: center;
-				font-size: 1.4rem;
+                }
+            }
         }
-	}
-}
+
+        .account-exit {
+            margin-top: 2rem;
+            background-color: color($colors, background-darker);
+            .exit-center {
+                text-align: center;
+                font-size: 1.4rem;
+            }
+        }
+    }
 }

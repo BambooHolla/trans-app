@@ -39,12 +39,12 @@ page-recharge-detail {
                     flex-direction: column;
                     align-items: flex-end;
                     .account-name {
-                        color: color($colors, 'special');
+                        color: color($colors, "special");
                         font-size: 1.4rem;
                     }
                     .account-amount {
                         padding-top: 0.2rem;
-                        color: color($colors, 'lightdark');
+                        color: color($colors, "lightdark");
                         font-size: 1.2rem;
                     }
                     padding-right: 1rem;
@@ -55,13 +55,13 @@ page-recharge-detail {
             }
         }
     }
-    .scroll-content>.account-assets {
+    .scroll-content > .account-assets {
         display: flex;
         flex-direction: row;
         width: 100%;
         justify-content: space-between;
-        background-color: color($colors, 'alpha-dark');
-        >.assets-item {
+        background-color: color($colors, "alpha-dark");
+        > .assets-item {
             display: flex;
             align-items: center;
             justify-content: center;
@@ -76,29 +76,29 @@ page-recharge-detail {
                 background-repeat: no-repeat;
                 background-position: center;
             }
-            ion-icon[name='可用余额'] {
-                background-image: url('../assets/icon/可用余额.png');
+            ion-icon[name="可用余额"] {
+                background-image: url("../assets/icon/可用余额.png");
             }
-            ion-icon[name='冻结余额'] {
-                background-image: url('../assets/icon/冻结余额.png');
+            ion-icon[name="冻结余额"] {
+                background-image: url("../assets/icon/冻结余额.png");
             }
             .sub-title {
                 font-size: 1.4rem;
-                color: color($colors, 'lightdark');
+                color: color($colors, "lightdark");
             }
             .amount {
                 font-size: 1.6rem;
-                color: color($colors, 'special');
+                color: color($colors, "special");
             }
         }
     }
-    .scroll-content>.recharge-address {
+    .scroll-content > .recharge-address {
         margin-top: 1rem;
         display: flex;
         flex-direction: column;
         padding: 1rem;
-        background-color: color($colors, 'alpha-dark');
-        >.title-bar {
+        background-color: color($colors, "alpha-dark");
+        > .title-bar {
             width: 100%;
             display: flex;
             flex-direction: row;
@@ -110,13 +110,13 @@ page-recharge-detail {
                 padding-bottom: 0.4rem;
                 flex-direction: row;
                 align-items: center;
-                ion-icon[name='￥+'] {
+                ion-icon[name="￥+"] {
                     width: 1.8rem;
                     height: 1.8rem;
                     background-size: contain;
                     background-repeat: no-repeat;
                     background-position: center;
-                    background-image: url('../assets/icon/￥+.png');
+                    background-image: url("../assets/icon/￥+.png");
                     margin-right: 0.5rem;
                 }
             }
@@ -124,16 +124,16 @@ page-recharge-detail {
                 padding: 0.4rem;
                 border-radius: 2rem;
                 height: auto;
-                background-color: color($colors, 'special');
+                background-color: color($colors, "special");
                 font-size: 1.3rem;
                 color: #fff;
-                ion-icon[name='复制'] {
+                ion-icon[name="复制"] {
                     width: 1.2rem;
                     height: 1.2rem;
                     background-size: contain;
                     background-repeat: no-repeat;
                     background-position: center;
-                    background-image: url('../assets/icon/复制.png');
+                    background-image: url("../assets/icon/复制.png");
                     margin-right: 0.3rem;
                 }
             }
@@ -145,7 +145,7 @@ page-recharge-detail {
             flex-direction: column;
             justify-content: center;
             .qrcode-image {
-                border: 0.4rem solid color($colors, 'special');
+                border: 0.4rem solid color($colors, "special");
                 background-color: #fff;
                 border-radius: 50%;
                 width: 12rem;
@@ -183,42 +183,42 @@ page-recharge-detail {
 			} */
         }
     }
-    .scroll-content>.prompt {
-        background-color: color($colors, 'alpha-dark');
+    .scroll-content > .prompt {
+        background-color: color($colors, "alpha-dark");
         margin-top: 1rem;
         padding: 1rem;
         /* > .title {
 			font-size: 1.4rem;
 			padding-bottom: 0.4rem;
 		} */
-        ion-icon[name='警告'] {
+        ion-icon[name="警告"] {
             width: 1.2rem;
             height: 1.2rem;
             background-size: contain;
             background-repeat: no-repeat;
             background-position: center;
-            background-image: url('../assets/icon/警告.png');
+            background-image: url("../assets/icon/警告.png");
             margin-right: 0.3rem;
             line-height: 1.2rem;
             display: inline-block;
         }
         .content {
-            color: color($colors, 'lightdark');
+            color: color($colors, "lightdark");
             font-size: 1.3rem;
             line-height: 1.45rem;
         }
     }
-    .scroll-content>.recharge-logs {
+    .scroll-content > .recharge-logs {
         margin-top: 1rem;
-        >.title {
-            background-color: color($colors, 'alpha-dark');
+        > .title {
+            background-color: color($colors, "alpha-dark");
             padding: 1rem;
             font-size: 1.3rem;
             margin-bottom: 1px;
         }
         .recharge-log {
             .base-info {
-                background-color: color($colors, 'alpha-dark');
+                background-color: color($colors, "alpha-dark");
                 display: flex;
                 flex-direction: row;
                 align-items: center;
@@ -226,7 +226,7 @@ page-recharge-detail {
                 padding: 1rem;
                 .type-name {
                     font-size: 1.5rem;
-                    color: color($colors, 'special');
+                    color: color($colors, "special");
                     width: 28vw;
                     text-align: center;
                 }
@@ -240,7 +240,7 @@ page-recharge-detail {
                 }
                 .status {
                     font-size: 1.5rem;
-                    color: color($colors, 'special');
+                    color: color($colors, "special");
                 }
             }
             .detail-info {
@@ -248,11 +248,11 @@ page-recharge-detail {
                 flex-direction: row;
                 justify-content: space-between;
                 align-items: center;
-                >*:nth-child(n) {
+                > *:nth-child(n) {
                     position: relative;
                     &::after {
                         right: 0;
-                        content: '';
+                        content: "";
                         display: block;
                         width: 1px;
                         height: 80%;
@@ -261,7 +261,7 @@ page-recharge-detail {
                         background-color: #222333;
                     }
                 }
-                >*:last-child {
+                > *:last-child {
                     &::after {
                         width: 0;
                     }
@@ -283,12 +283,12 @@ page-recharge-detail {
                     overflow: hidden;
                     .sub-title {
                         font-size: 1.3rem;
-                        color: color($colors, 'lightdark');
+                        color: color($colors, "lightdark");
                         margin-bottom: 0.6rem;
                     }
                     .value {
                         font-size: 1.4rem;
-                        color: color($colors, 'special');
+                        color: color($colors, "special");
                         white-space: nowrap;
                         // text-overflow: ellipsis;
                         overflow: hidden;

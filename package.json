@@ -11,7 +11,9 @@
     "ionic:build:android": "ionic cordova build android --aot --minifycss --optimizejs",
     "ionic:build:ios": "ionic cordova build ios --aot --minifycss --optimizejs",
     "app-scripts-build": "ionic-app-scripts build --prod --platform android --target cordova --debug",
-    "ionic:serve": "ionic-app-scripts serve"
+    "ionic:serve": "ionic-app-scripts serve",
+    "format:all": "node scripts/format.js --all",
+    "format:diff": "node scripts/format.js --from-git-diff"
   },
   "dependencies": {
     "@angular/common": "5.0.3",
@@ -96,6 +98,7 @@
     "@types/angular-route": "~1.3.3",
     "@types/angular-sanitize": "~1.3.4",
     "@types/jasmine": "~2.5.47",
+    "prettier": "1.13.7",
     "typescript": "^2.6.2"
   },
   "cordovaPlugins": [

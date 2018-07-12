@@ -62,19 +62,19 @@
         </ion-item-divider>
         <ion-item>
             <ion-label color="primary">{{'DEPOSIT_AMOUNT'|translate}}</ion-label>
-            <ion-input class="rtl" [(ngModel)]="formData.amount" set-input-status="amount" placeholder="{{'PLEASE_INPUT_DEPOSIT_AMOUNT'|translate}}" min=0 [max]="access_info?.balance" type="number"></ion-input>
+            <ion-input #amountInputer class="rtl" [(ngModel)]="formData.amount" set-input-status="amount" placeholder="{{'PLEASE_INPUT_DEPOSIT_AMOUNT'|translate}}" min=0 [max]="access_info?.balance" type="number" (ngModelChange)='numberFormat()'></ion-input>
         </ion-item>
         <div class="err-box" >
-            <div item-right class="error-number" *ngIf="((formData?.amount||0) * 1) > access_info?.balance">
+            <div item-right class="error-number" *ngIf="((formData?.amount||0) * 1) > (access_info?.balance * 1)">
                 {{'WITHDRAWAL_BIGGER_THAN_POSITION'|translate}}
             </div>
-            <div item-right class="error-number" *ngIf="((formData?.amount||0) * 1) < access_info?.balance && formData?.amount && (freeSwitch && (formData?.amount||0) <= (rate_info?.rateNumber||0))">
+            <div item-right class="error-number" *ngIf="((formData?.amount||0) * 1) < access_info?.balance && formData?.amount && (freeSwitch && ((formData?.amount||0) * 1) <= ((rate_info?.rateNumber||0) *1))">
                 {{'WITHDRAWAL_BIGGER_THAN_FEE'|translate}}
             </div>
-            <div item-right class="error-number" *ngIf="((formData?.amount||0) * 1) < access_info?.balance && formData?.amount && !((freeSwitch && (formData?.amount||0) <= (rate_info?.rateNumber||0))) && promptAmount?.min > formData?.amount">
+            <div item-right class="error-number" *ngIf="((formData?.amount||0) * 1) < access_info?.balance && formData?.amount && !((freeSwitch && ((formData?.amount||0) * 1) <= ((rate_info?.rateNumber||0) * 1))) && (promptAmount?.min * 1) > (formData?.amount*1)">
                 {{'EACH_WITHDRAWAL_AMOUNT_NOT_LESS_THAN'|translate}}{{promptAmount?.min}} {{productInfo?.productName}}{{productInfo?.cryptoCurrencyCode}}
             </div>
-            <div item-right class="error-number" *ngIf="((formData?.amount||0) * 1) < access_info?.balance && formData?.amount && !((freeSwitch && (formData?.amount||0) <= (rate_info?.rateNumber||0))) && promptAmount?.max < formData?.amount">
+            <div item-right class="error-number" *ngIf="((formData?.amount||0) * 1) < access_info?.balance && formData?.amount && !((freeSwitch && ((formData?.amount||0) * 1) <= ((rate_info?.rateNumber||0) *1 ))) && (promptAmount?.max*1) < (formData?.amount*1)">
                 {{'EACH_WITHDRAWAL_AMOUNT_NOT_BIGGER_THAN'|translate}}{{promptAmount?.max}} {{productInfo?.productName}}{{productInfo?.cryptoCurrencyCode}}
             </div>
         </div>
@@ -129,11 +129,11 @@
                     </div>
                     <div class="value">{{tlog.amount|priceConversion:4:4}}</div>
                 </div>
-                <div class="withdraw-to">
+                <!-- <div class="withdraw-to">
                     <div class="sub-title">
                     </div>
                     <div class="value"></div>
-                </div>
+                </div> -->
                 <div class="withdraw-address" [title]="tlog.withdrawAddress">
                     <div class="sub-title">
                         {{'WITHDRAWAL_ADDRESS_1'|translate}}

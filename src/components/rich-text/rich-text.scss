@@ -5,20 +5,20 @@ rich-text {
         width: 100%; //375rem;
         height: 17.5rem;
         overflow: hidden;
-      
+
         img {
             max-width: 100%;
             max-height: 100%;
             position: absolute;
             top: 50%;
             left: 50%;
-            transform: translate(-50%,-50%); 
-            -webkit-transform:translate(-50%,-50%);
+            transform: translate(-50%, -50%);
+            -webkit-transform: translate(-50%, -50%);
         }
         .mask {
             @extend %absolute-full-size;
             // background-image:linear-gradient(rgba(255, 255, 255, 0),rgba(0, 0, 0, 0.88));
-            background-image: url('../assets/images/maskline.png');
+            background-image: url("../assets/images/maskline.png");
             background-size: contain;
             background-repeat: repeat-x;
         }
@@ -30,7 +30,7 @@ rich-text {
         &-author {
             width: 4.5rem;
             height: 4.5rem;
-            margin-right: .9rem;
+            margin-right: 0.9rem;
             img {
                 width: 100%;
                 height: 100%;
@@ -45,11 +45,11 @@ rich-text {
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
-            padding: .5rem 0 .7rem;
+            padding: 0.5rem 0 0.7rem;
         }
         .publishTime {
-            font-size: 1.0rem;
-            line-height: 1.0rem;
+            font-size: 1rem;
+            line-height: 1rem;
         }
         &:after {
             clear: both;
@@ -58,6 +58,6 @@ rich-text {
     .content {
         font-size: 1.4rem;
         line-height: 2.7rem;
-        padding: 2.4rem 2.3rem 3.5rem 2.0rem;
+        padding: 2.4rem 2.3rem 3.5rem 2rem;
     }
 }

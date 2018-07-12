@@ -9,18 +9,18 @@ page-home {
             .realname {
                 height: 1.6rem;
                 font-size: 1.6rem;
-                margin-bottom: .6rem;
+                margin-bottom: 0.6rem;
             }
             .mobile,
             .email,
             .bedge {
                 font-size: 1.2rem;
                 line-height: 1.2rem;
-                margin-bottom: .7rem;
+                margin-bottom: 0.7rem;
             }
             .bedge {
                 img {
-                    height: 1.9rem; 
+                    height: 1.9rem;
                     width: auto;
                     // display: inline-block;
                     // padding-left: 2.4rem;
@@ -34,7 +34,7 @@ page-home {
                     color: color($colors, primary);
                     height: 1.9rem;
                     width: 7.6rem;
-                    border-radius: .95rem;
+                    border-radius: 0.95rem;
                     background-color: color($colors, special);
                 }
             }
@@ -58,7 +58,7 @@ page-home {
                 text-align: left;
             }
             span {
-                margin-left: .5rem;
+                margin-left: 0.5rem;
                 font-size: 1.2rem;
                 color: color($colors, lightdark);
             }
@@ -68,7 +68,7 @@ page-home {
         .main-button {
             height: 6.7rem;
             background-color: color($colors, background-darker);
-            margin-bottom: .8rem;
+            margin-bottom: 0.8rem;
             img {
                 margin-top: 1.4rem;
                 width: 2.2rem;
@@ -94,30 +94,30 @@ page-home {
     }
     // 图标
     .ion-ios-gnotice::before {
-        content: '';
-        background-image: url('../assets/icon/notice.png');
+        content: "";
+        background-image: url("../assets/icon/notice.png");
     }
     .ion-ios-gcard::before {
-        background-image: url('../assets/images/mine/身份认证icon.png');
+        background-image: url("../assets/images/mine/身份认证icon.png");
     }
     .ion-ios-gdoc::before {
-        background-image: url('../assets/images/mine/历史成交记录icon.png');
+        background-image: url("../assets/images/mine/历史成交记录icon.png");
     }
     .ion-ios-gtrend::before {
-        background-image: url('../assets/images/mine/资金变动查询icon.png');
+        background-image: url("../assets/images/mine/资金变动查询icon.png");
     }
     .ion-ios-gperson::before {
-        background-image: url('../assets/images/mine/账户中心icon.png');
+        background-image: url("../assets/images/mine/账户中心icon.png");
     }
     .ion-ios-ghelp::before {
-        background-image: url('../assets/images/mine/反馈与帮助icon.png');
+        background-image: url("../assets/images/mine/反馈与帮助icon.png");
     }
     .ion-ios-gabout::before {
-        background-image: url('../assets/images/mine/关于我们icon.png');
+        background-image: url("../assets/images/mine/关于我们icon.png");
     }
     .ion-ios-ginvite::before {
-        content: '';
-        background-image: url('../assets/images/mine/邀请返佣icon.png');
+        content: "";
+        background-image: url("../assets/images/mine/邀请返佣icon.png");
     }
     .vertical-center {
         color: rgba(255, 255, 255, 0.9);
@@ -141,7 +141,7 @@ page-home {
         z-index: 1;
         font-size: 1.9rem;
         color: #fff;
-        transform: translate(-.2rem, 0.7rem);
+        transform: translate(-0.2rem, 0.7rem);
     }
     .home-settings-img {
         width: 1.9rem;

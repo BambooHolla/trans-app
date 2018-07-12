@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input } from "@angular/core";
 
 /**
  * Generated class for the AliIconComponent component.
@@ -7,9 +7,9 @@ import { Component, Input } from '@angular/core';
  * Components.
  */
 @Component({
-	selector: 'ali-icon',
-	templateUrl: 'ali-icon.html'
+    selector: "ali-icon",
+    templateUrl: "ali-icon.html",
 })
 export class AliIconComponent {
-	@Input() name: string;
+    @Input() name: string;
 }

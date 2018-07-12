@@ -36,7 +36,7 @@ page-set-pay-pwd {
             color: red;
             font-size: 1.2rem;
             text-shadow: 0 0 1rem #000;
-            +.error-tip {
+            + .error-tip {
                 display: none;
             }
         }
@@ -66,12 +66,12 @@ page-set-pay-pwd {
             width: 1.6rem;
             height: 1.6rem;
             background-color: transparent;
-            border-color: color($colors, 'special');
+            border-color: color($colors, "special");
             border-width: 0.2rem;
             border-style: solid;
             box-sizing: border-box;
             .radio-inner {
-                border-color: color($colors, 'special');
+                border-color: color($colors, "special");
                 transform: scale(1.2) rotate(45deg);
                 top: 0.15rem;
                 left: 0.4rem;
@@ -107,13 +107,13 @@ page-set-pay-pwd {
                 transform: scale(0.7);
                 .checkbox-icon {
                     background-color: transparent;
-                    border-color: color($colors, 'special');
+                    border-color: color($colors, "special");
                     border-width: 0.2rem;
                     box-sizing: border-box;
                     &.checkbox-checked {
-                        border-color: color($colors, 'special');
+                        border-color: color($colors, "special");
                         .checkbox-inner {
-                            border-color: color($colors, 'special');
+                            border-color: color($colors, "special");
                             transform: scale(1.2) rotate(45deg);
                             top: 0.15rem;
                             left: 0.45rem;
@@ -136,7 +136,7 @@ page-set-pay-pwd {
                 }
             }
             .protocol-label {
-                >a {
+                > a {
                     color: #3997ee;
                 }
             }

@@ -176,10 +176,12 @@
 					<ion-icon name="ios-gprice" class="vertical-center"></ion-icon>
 				</ion-col>
 			<ion-col col-7>
+					<ion-item class="item-background-color">
 				<ion-input #priceInputer type="number" placeholder="{{'PRICES'|translate}}"
 					[(ngModel)]="price"
 					(ngModelChange)="formatNumber('price',-8)"
 					></ion-input>
+				</ion-item>
 			</ion-col>
 			<ion-col col-2 tappable (click)="changeByStep('price','+')">+</ion-col>
 		</ion-row>
@@ -189,7 +191,8 @@
 				<ion-icon name="ios-gamount" class="vertical-center"></ion-icon>
 			</ion-col>
 			<ion-col col-7>
-				<ion-input #amountInputer type="number" placeholder="{{'QUANTITYS'|translate}}" [(ngModel)]="amount" (ngModelChange)="formatNumber('amount')"></ion-input>
+					<ion-item class="item-background-color"> <ion-input #amountInputer type="number" placeholder="{{'QUANTITYS'|translate}}" [(ngModel)]="amount" (ngModelChange)="formatNumber('amount')"></ion-input></ion-item>
+				
 			</ion-col>
 			<ion-col col-2 tappable (click)="changeByStep('amount','+')">+</ion-col>
 		</ion-row>

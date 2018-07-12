@@ -4,20 +4,20 @@ ion-modal ion-backdrop {
 }
 
 .modal-wrapper {
-    background: none!important;
+    background: none !important;
 }
 
 common-alert {
     .content-ios {
-        background: none!important;
+        background: none !important;
     }
     ion-content {
-        background: none!important;
+        background: none !important;
     }
-    top: 25%!important;
-    left: 7%!important;
-    width: 86%!important;
-    // height: 13rem!important; 
+    top: 25% !important;
+    left: 7% !important;
+    width: 86% !important;
+    // height: 13rem!important;
     position: absolute;
     background: none;
     ion-header {
@@ -34,7 +34,7 @@ common-alert {
     .title {
         width: 100%;
         height: 3.4rem;
-        background: color($colors, 'special');
+        background: color($colors, "special");
         color: #fff;
         text-align: center;
         line-height: 3.4rem;
@@ -54,7 +54,7 @@ common-alert {
         text-align: center;
         margin: 0 auto;
         span {
-            color: color($colors, 'special');
+            color: color($colors, "special");
             font-size: 1.6rem;
         }
     }
@@ -73,7 +73,7 @@ common-alert {
             font-size: 18px;
             top: -1px;
             position: relative;
-            color: color($colors, 'special');
+            color: color($colors, "special");
         }
     }
 }

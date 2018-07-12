@@ -1,169 +1,168 @@
 page-work-order-detail {
-	.work-order-detail {
-		background-color: #242535;
-		padding: 1.5rem;
-		border-radius: 0.3rem;
-		.base-info {
-			color: color($colors, 'lightdark');
-			display: flex;
-			flex-direction: row;
-			justify-content: space-between;
-			align-items: center;
-			font-size: 1.4rem;
-			line-height: 1.5rem;
-			padding: 0.4rem 0;
-			ali-icon {
-				width: 1.5rem;
-				height: 1.4rem;
-				margin-right: 0.4rem;
-			}
-			> .category,
-			.time {
-				display: flex;
-				flex-direction: row;
-				align-items: center;
-			}
-		}
-		.detail {
-			.question {
-				font-size: 1.5rem;
-				padding: 1rem 0;
-				min-height: 5rem;
-			}
+    .work-order-detail {
+        background-color: #242535;
+        padding: 1.5rem;
+        border-radius: 0.3rem;
+        .base-info {
+            color: color($colors, "lightdark");
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 1.4rem;
+            line-height: 1.5rem;
+            padding: 0.4rem 0;
+            ali-icon {
+                width: 1.5rem;
+                height: 1.4rem;
+                margin-right: 0.4rem;
+            }
+            > .category,
+            .time {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+            }
+        }
+        .detail {
+            .question {
+                font-size: 1.5rem;
+                padding: 1rem 0;
+                min-height: 5rem;
+            }
 
-			.box-attachment-wrapper{
-				overflow: hidden; 
-				.attachment-wrapper{
-					
-					float: left;
-					margin-right: 1.5rem;
-					img{
-						border-radius: 0.3rem; 
-						width: 6rem;
-						height: 6rem;
-					}
-				}
-				&::after{
-					display:block;
-					clear:both;
-					content:"";
-					visibility:hidden;
-					height:0
-				}
-			}
-			.status {
-				color: color($colors, 'special');
-				font-size: 1.4rem;
-				padding: 0.4rem 0;
-				display: flex;
-				flex-direction: row;
-				align-items: center;
-				&::before {
-					content: '';
-					display: inline-block;
-					width: 0.4rem;
-					height: 0.4rem;
-					margin: 0.5rem;
-					border-radius: 50%;
-					background-color: color($colors, 'special');
-				}
-			}
-		}
-	}
-	.chat-logs {
-		padding-top: 1rem;
-		.chat-log-item {
-			margin-top: 1px;
-			background-color: #242535;
-			display: flex;
-			flex-direction: row;
-			padding: 2rem;
-			/* justify-content: center; */
-			align-items: center;
-			.avatar {
-				flex-grow: 0;
-				flex-shrink: 0;
-			}
-			.content {
-				font-size: 1.4rem;
-			}
-			&.from-other {
-				.avatar {
-					width: 3rem;
-					height: 3rem;
-					border-radius: 50%;
-					border: 0.25rem solid color($colors, 'special');
-					padding-top: 0.2rem;
-					color: color($colors, 'special');
-					ali-icon {
-						width: 100%;
-						height: 100%;
-					}
-				}
-				.content {
-					color: color($colors, 'special');
-					padding-left: 0.8rem;
-				}
-			}
+            .box-attachment-wrapper {
+                overflow: hidden;
+                .attachment-wrapper {
+                    float: left;
+                    margin-right: 1.5rem;
+                    img {
+                        border-radius: 0.3rem;
+                        width: 6rem;
+                        height: 6rem;
+                    }
+                }
+                &::after {
+                    display: block;
+                    clear: both;
+                    content: "";
+                    visibility: hidden;
+                    height: 0;
+                }
+            }
+            .status {
+                color: color($colors, "special");
+                font-size: 1.4rem;
+                padding: 0.4rem 0;
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                &::before {
+                    content: "";
+                    display: inline-block;
+                    width: 0.4rem;
+                    height: 0.4rem;
+                    margin: 0.5rem;
+                    border-radius: 50%;
+                    background-color: color($colors, "special");
+                }
+            }
+        }
+    }
+    .chat-logs {
+        padding-top: 1rem;
+        .chat-log-item {
+            margin-top: 1px;
+            background-color: #242535;
+            display: flex;
+            flex-direction: row;
+            padding: 2rem;
+            /* justify-content: center; */
+            align-items: center;
+            .avatar {
+                flex-grow: 0;
+                flex-shrink: 0;
+            }
+            .content {
+                font-size: 1.4rem;
+            }
+            &.from-other {
+                .avatar {
+                    width: 3rem;
+                    height: 3rem;
+                    border-radius: 50%;
+                    border: 0.25rem solid color($colors, "special");
+                    padding-top: 0.2rem;
+                    color: color($colors, "special");
+                    ali-icon {
+                        width: 100%;
+                        height: 100%;
+                    }
+                }
+                .content {
+                    color: color($colors, "special");
+                    padding-left: 0.8rem;
+                }
+            }
 
-			$from-self-color: #6d6d71;
-			&.from-self {
-				flex-direction: row-reverse;
-				.avatar {
-					width: 3rem;
-					height: 3rem;
-					border-radius: 50%;
-					/* border: 0.25rem solid $from-self-color; */
-					color: $from-self-color;
-					ali-icon {
-						width: 100%;
-						height: 100%;
-					}
-				}
-				.content {
-					color: $from-self-color;
-					padding-left: 0.8rem;
-				}
-			}
-		}
-	}
-	.chat-container {
-		background-color: color($colors, 'alpha-dark');
-		display: flex;
-		flex-direction: row;
-		align-items: center;
-		padding: 0.5rem 0.8rem 0.2rem;
-		.chat-input-container {
-			flex-grow: 1;
-			padding: 0.5rem 1.5rem;
-			height: 4rem;
-			background-color: #fff;
-			border-radius: 2rem;
-			box-sizing: border-box;
-			display: flex;
-			justify-content: center;
-			align-items: center;
-			margin: 0.5rem;
-			textarea {
-				width: 100%;
-				max-height: 100%;
-				padding: 0.6rem 0rem;
-				font-size: 1.4rem;
-				border: none;
-				resize: none;
-				background-color: transparent;
-				color: #333;
-			}
-		}
-		.send-btn {
-			flex-grow: 0;
-			flex-shrink: 0;
-			width: 4rem;
-			height: 4rem;
-			font-size: 1.6rem;
-			border-radius: 2rem;
-			background-color: color($colors, 'special');
-			color: #fff;
-		}
-	}
+            $from-self-color: #6d6d71;
+            &.from-self {
+                flex-direction: row-reverse;
+                .avatar {
+                    width: 3rem;
+                    height: 3rem;
+                    border-radius: 50%;
+                    /* border: 0.25rem solid $from-self-color; */
+                    color: $from-self-color;
+                    ali-icon {
+                        width: 100%;
+                        height: 100%;
+                    }
+                }
+                .content {
+                    color: $from-self-color;
+                    padding-left: 0.8rem;
+                }
+            }
+        }
+    }
+    .chat-container {
+        background-color: color($colors, "alpha-dark");
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        padding: 0.5rem 0.8rem 0.2rem;
+        .chat-input-container {
+            flex-grow: 1;
+            padding: 0.5rem 1.5rem;
+            height: 4rem;
+            background-color: #fff;
+            border-radius: 2rem;
+            box-sizing: border-box;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0.5rem;
+            textarea {
+                width: 100%;
+                max-height: 100%;
+                padding: 0.6rem 0rem;
+                font-size: 1.4rem;
+                border: none;
+                resize: none;
+                background-color: transparent;
+                color: #333;
+            }
+        }
+        .send-btn {
+            flex-grow: 0;
+            flex-shrink: 0;
+            width: 4rem;
+            height: 4rem;
+            font-size: 1.6rem;
+            border-radius: 2rem;
+            background-color: color($colors, "special");
+            color: #fff;
+        }
+    }
 }

@@ -1,40 +1,35 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from "@angular/core";
 
-import { NavController, MenuController, Tabs } from 'ionic-angular';
+import { NavController, MenuController, Tabs } from "ionic-angular";
 
-import { LoginPage } from '../../pages/login/login';
+import { LoginPage } from "../../pages/login/login";
 
-import { LoginService } from '../../providers/login-service';
+import { LoginService } from "../../providers/login-service";
 
 @Component({
-  selector: 'bn-menu',
-  templateUrl: 'bn-menu.html'
+    selector: "bn-menu",
+    templateUrl: "bn-menu.html",
 })
 export class BnMenuComponent {
+    @Input() tabRef: Tabs;
 
-  @Input()
-  tabRef: Tabs;
+    @Output() selectTabEmitter: EventEmitter<number> = new EventEmitter();
 
-  @Output() selectTabEmitter:EventEmitter<number> = new EventEmitter();
+    selectTab(index) {
+        this.menuCtrl.close();
+        // this.tabRef.select(index);
+        this.selectTabEmitter.emit(index);
+    }
 
-  selectTab(index){
-    this.menuCtrl.close();
-    // this.tabRef.select(index);
-    this.selectTabEmitter.emit(index);
-  }
+    async logout() {
+        this.menuCtrl.close();
+        await this.loginService.doLogout();
+        this.navCtrl.setRoot(LoginPage);
+    }
 
-  async logout(){
-    this.menuCtrl.close();
-    await this.loginService.doLogout();
-    this.navCtrl.setRoot(LoginPage);
-  }
-
-  constructor(
-    public navCtrl: NavController,
-    public menuCtrl: MenuController,
-    public loginService:LoginService,
-  ) {
-
-  }
-
+    constructor(
+        public navCtrl: NavController,
+        public menuCtrl: MenuController,
+        public loginService: LoginService,
+    ) {}
 }

@@ -1,13 +1,13 @@
 page-register {
-    .paddingfix{
+    .paddingfix {
         padding-top: $cordova-ios-statusbar-padding;
-    } 
+    }
     .fixed-content,
     .scroll-content {
-        margin-top: 0!important;
+        margin-top: 0 !important;
     }
-    ion-navbar{
-        .button-inner{
+    ion-navbar {
+        .button-inner {
             color: #c1b17f;
         }
     }
@@ -20,7 +20,7 @@ page-register {
         margin-top: 1rem;
         .item-inner {
             border: none;
-        } 
+        }
         ion-checkbox {
             padding-right: 0.5em;
             background: none;
@@ -123,17 +123,17 @@ page-register {
                 height: 100%;
             }
         }
-        .register-form-container { 
+        .register-form-container {
             padding: 4vh 12.5vw 5vh;
             display: flex;
             flex-direction: column;
             .register-form-item {
                 background-color: rgba(0, 0, 0, 0.2);
                 border-radius: 0.4rem;
-                margin: 0.4rem 0 .4rem;
+                margin: 0.4rem 0 0.4rem;
                 padding: 0;
                 min-height: unset;
-                position:relative;
+                position: relative;
                 .item-inner {
                     border-bottom: none;
                 }
@@ -148,8 +148,8 @@ page-register {
                 }
                 .view-pwd-wrapper {
                     background-color: transparent;
-                    width: 2.5rem!important;
-                    height: 3rem!important;
+                    width: 2.5rem !important;
+                    height: 3rem !important;
                     padding: 0.5rem;
                     box-sizing: border-box;
                     display: inline-block;
@@ -161,11 +161,11 @@ page-register {
                     }
                 }
                 .send-vcode {
-                    background-color: color($colors,special);
-                    color: #FFF;
+                    background-color: color($colors, special);
+                    color: #fff;
                     border-radius: 0.4rem;
                     // width: 7rem!important;
-                    height: 2.4rem!important;
+                    height: 2.4rem !important;
                     box-sizing: border-box;
                     display: inline-block;
                     margin: 0;
@@ -173,10 +173,10 @@ page-register {
                     font-weight: lighter;
                     font-size: 1.2rem;
                     &[disabled] {
-                        opacity: .8;
+                        opacity: 0.8;
                     }
                 }
-                .error-tip{
+                .error-tip {
                     display: inline-block;
                     color: darkred;
                     font-size: 1.2rem;
@@ -199,24 +199,23 @@ page-register {
                 transform: scale(1.02);
                 font-weight: 400;
             }
-            .pwd-strength{
+            .pwd-strength {
                 color: #c1b17f; // font-weight: bolder;
                 margin: 0.5rem 0 0;
                 font-size: 1rem;
-            } 
+            }
         }
     }
     // 表单校验的样式
-    ion-item{
-        &.input-has-value.ng-invalid:not(.input-has-focus){
-            background-color: rgba(255, 0, 0, 0.2)!important;
+    ion-item {
+        &.input-has-value.ng-invalid:not(.input-has-focus) {
+            background-color: rgba(255, 0, 0, 0.2) !important;
         }
-        &.input-has-focus{
-            box-shadow: 0 0 0.2rem rgba(255,255,255,0.2);
+        &.input-has-focus {
+            box-shadow: 0 0 0.2rem rgba(255, 255, 255, 0.2);
         }
     }
 }
-.alter-right-button{
-        font-weight: 400!important;
-    
+.alter-right-button {
+    font-weight: 400 !important;
 }

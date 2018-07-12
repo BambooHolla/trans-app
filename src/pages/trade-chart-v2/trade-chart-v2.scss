@@ -5,39 +5,39 @@ page-trade-chart-v2 {
     .scroll-content {
         background-color: rgba(0, 0, 0, 0.34);
     }
-    .market{
-		margin: 0 0 1rem; 
-		&-head{
-			background-color: color($colors,background-darker);
-			display: flex;
-		    box-shadow: 0px 6px 8px 0px rgba(0, 0, 0, 0.12);
-			height: 4.4rem;
-			align-items: center;
-			&>div{
-				flex:1;
-				&:nth-child(1){
-					flex-grow: 1.5;
-					font-size: 2.6rem;
-					text-align: center;
-				}
-				padding: 0 0.4rem;
-			}
-			.market-label{
-				white-space: nowrap;
-				color: color($colors,middark);
-			}
-			.market-items{
-				&.left{
-					text-align: left;
-				}
-				&+.market-items{
-					margin-top: .8rem;
-					padding-bottom: 0rem;
-				}
-			}
+    .market {
+        margin: 0 0 1rem;
+        &-head {
+            background-color: color($colors, background-darker);
+            display: flex;
+            box-shadow: 0px 6px 8px 0px rgba(0, 0, 0, 0.12);
+            height: 4.4rem;
+            align-items: center;
+            & > div {
+                flex: 1;
+                &:nth-child(1) {
+                    flex-grow: 1.5;
+                    font-size: 2.6rem;
+                    text-align: center;
+                }
+                padding: 0 0.4rem;
+            }
+            .market-label {
+                white-space: nowrap;
+                color: color($colors, middark);
+            }
+            .market-items {
+                &.left {
+                    text-align: left;
+                }
+                & + .market-items {
+                    margin-top: 0.8rem;
+                    padding-bottom: 0rem;
+                }
+            }
         }
     }
-    .charts-MA{
+    .charts-MA {
         height: 1rem;
         line-height: 1rem;
         font-size: 0.8rem;
@@ -48,31 +48,30 @@ page-trade-chart-v2 {
         -webkit-box-flex: 1;
         -webkit-flex-grow: 1;
         -ms-flex-positive: 1;
-        flex-grow: 1; 
-        background-color: color($colors,background-darker);
+        flex-grow: 1;
+        background-color: color($colors, background-darker);
         padding-left: 3%;
-        .MA{
+        .MA {
             margin: 0;
             padding: 0;
-            width: 30vw; 
+            width: 30vw;
         }
     }
-    .charts { 
-        height:calc(100vh - 23.4rem);
+    .charts {
+        height: calc(100vh - 23.4rem);
         .echarts-placeholder {
-            height:calc(100vh - 23.4rem);  
+            height: calc(100vh - 23.4rem);
             width: 100%;
-         
         }
     }
     .time-interval {
         height: 4rem;
         display: flex;
-        background-color: color($colors,background-darker);
-        color: color($colors,middark); 
-        justify-content: space-around; 
-        border-top: 0.1rem solid rgba(60, 60, 60, 0.96);  
-        box-sizing: border-box; 
+        background-color: color($colors, background-darker);
+        color: color($colors, middark);
+        justify-content: space-around;
+        border-top: 0.1rem solid rgba(60, 60, 60, 0.96);
+        box-sizing: border-box;
         position: relative;
         div {
             font-size: 1.2rem;
@@ -83,24 +82,23 @@ page-trade-chart-v2 {
         .norm {
             width: 20.2%;
             text-align: center;
-            
+
             position: relative;
             &.show-index {
-                background-color: rgba(0, 0, 0, 0.32); 
+                background-color: rgba(0, 0, 0, 0.32);
             }
             span {
                 z-index: 1;
-                width:0px;
-                height:0px;
+                width: 0px;
+                height: 0px;
                 display: inline-block;
                 position: relative;
                 top: -0.22rem;
                 margin-left: 0.4rem;
-                border-right:0.4rem solid rgba(0,0,0,0);
-                border-bottom:0.4rem solid color($colors,middark); 
-                border-left:0.4rem solid  rgba(0,0,0,0);
+                border-right: 0.4rem solid rgba(0, 0, 0, 0);
+                border-bottom: 0.4rem solid color($colors, middark);
+                border-left: 0.4rem solid rgba(0, 0, 0, 0);
             }
-            
         }
         .norm-index {
             position: absolute;
@@ -108,53 +106,53 @@ page-trade-chart-v2 {
             width: 20.2%;
             right: 0;
             top: -4rem;
-            background-color: rgba(0, 0, 0, 0.62); 
+            background-color: rgba(0, 0, 0, 0.62);
             display: none;
             font-size: 1.4rem;
             &.show-index {
-               display: block;
+                display: block;
             }
             .active-quota {
                 color: #c1b17f;
             }
-        }   
-        .active{
-            color:#c1b17f;
+        }
+        .active {
+            color: #c1b17f;
             position: relative;
             // font-size: 2.25rem;
-            &:before{
-                content:"";
+            &:before {
+                content: "";
                 position: absolute;
                 z-index: 1;
-                bottom: 0rem; 
+                bottom: 0rem;
                 width: 100%;
                 height: 0.2rem;
-                background-color:  #c1b17f;
+                background-color: #c1b17f;
                 // box-shadow:0 0 1.5rem 0 color($colors,primary);
-                left:0;
+                left: 0;
             }
-        } 
+        }
     }
     .transaction-btn {
         position: fixed;
         bottom: 0rem;
         width: 100%;
         display: flex;
-        height: 4.4rem; 
+        height: 4.4rem;
         div {
-            width: 50%; 
+            width: 50%;
             margin: 0rem;
             padding: 0rem;
             line-height: 4.4rem;
-            font-size: 1.6rem; 
+            font-size: 1.6rem;
             text-align: center;
-            &.buy{
-                background-color: color($colors,special); 
+            &.buy {
+                background-color: color($colors, special);
             }
-            &.sale{
-                // background-color: color($colors,middark); 
+            &.sale {
+                // background-color: color($colors,middark);
                 // color: black;
-                background-color: rgba(color($colors,eye-catching),1);
+                background-color: rgba(color($colors, eye-catching), 1);
             }
         }
     }

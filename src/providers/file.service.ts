@@ -30,7 +30,7 @@
 //     // params.set('equityCode', term);
 //     // console.dir(params.toString())
 
-//     //return 
+//     //return
 //     this.http.get(serverUrl)
 //       .do(value => console.dir(value))
 //       .map(response => {

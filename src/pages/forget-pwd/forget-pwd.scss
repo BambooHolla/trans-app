@@ -1,5 +1,5 @@
 page-forget-pwd {
-    .paddingfix{
+    .paddingfix {
         padding-top: $cordova-ios-statusbar-padding;
     }
 
@@ -12,12 +12,12 @@ page-forget-pwd {
             color: #c1b17f;
         }
     }
-    .pwd-strength{
-        color: #c1b17f!important;
-        margin: 8px 0 11px 0!important;
-        font-size: 1rem!important;
-        background-color: transparent!important;
-    } 
+    .pwd-strength {
+        color: #c1b17f !important;
+        margin: 8px 0 11px 0 !important;
+        font-size: 1rem !important;
+        background-color: transparent !important;
+    }
     .forgetPWD-agree-protocol {
         display: flex;
         align-items: center;
@@ -137,7 +137,7 @@ page-forget-pwd {
             .forgetPWD-form-item {
                 // background-color: rgba(0, 0, 0, 0.2);
                 border-radius: 0.4rem;
-                margin: 0.4rem 0 .4rem;
+                margin: 0.4rem 0 0.4rem;
                 padding: 0;
                 min-height: unset;
                 position: relative;
@@ -155,8 +155,8 @@ page-forget-pwd {
                 }
                 .view-pwd-wrapper {
                     background-color: transparent;
-                    width: 2.5rem!important;
-                    height: 3rem!important;
+                    width: 2.5rem !important;
+                    height: 3rem !important;
                     padding: 0.5rem;
                     box-sizing: border-box;
                     display: inline-block;
@@ -184,20 +184,18 @@ page-forget-pwd {
                 transform: scale(1.02);
                 font-weight: 400;
             }
-            
         }
-        
     }
     // 表单校验的样式
     ion-item {
         &.input-has-value.ng-invalid:not(.input-has-focus) {
-            background-color: rgba(255, 0, 0, 0.2)!important;
+            background-color: rgba(255, 0, 0, 0.2) !important;
         }
         &.input-has-focus {
             box-shadow: 0 0 0.2rem rgba(255, 255, 255, 0.2);
         }
     }
-    
+
     .account-contain {
         ion-grid {
             ion-row {
@@ -207,7 +205,7 @@ page-forget-pwd {
                 background-color: color($colors, background-darker);
                 ion-col {
                     font-size: 1.4rem;
-                    padding: 0!important;
+                    padding: 0 !important;
                     .f-right {
                         float: right;
                         color: color($colors, special);
@@ -215,10 +213,10 @@ page-forget-pwd {
                     }
                     .send-vcode {
                         background-color: #c1b17f;
-                        color: #FFF;
+                        color: #fff;
                         border-radius: 0.4rem;
-                        width: 8rem!important;
-                        height: 2.4rem!important;
+                        width: 8rem !important;
+                        height: 2.4rem !important;
                         box-sizing: border-box;
                         display: inline-block;
                         margin: 0;
@@ -226,7 +224,7 @@ page-forget-pwd {
                         font-weight: lighter;
                         font-size: 1.2rem;
                         &[disabled] {
-                            opacity: .8;
+                            opacity: 0.8;
                         }
                     }
                 }
@@ -257,11 +255,11 @@ page-forget-pwd {
         height: 4.5rem;
         padding: 1.2rem 0;
         margin: 0 auto;
-        border-radius: .4rem;
+        border-radius: 0.4rem;
         text-align: center;
         width: 90%;
         font-size: 1.3rem;
-        color: #FFF;
+        color: #fff;
         background: #c1b17f;
         font-family: Microsoft YaHei;
         font-size: 16px;

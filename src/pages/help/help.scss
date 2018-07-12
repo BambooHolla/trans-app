@@ -1,12 +1,12 @@
 page-help {
     .content {
-        position: relative!important;
-        .scroll-content{
-            margin-top: 0!important;
+        position: relative !important;
+        .scroll-content {
+            margin-top: 0 !important;
         }
         .item-inner {
-            border-bottom: none!important;
-            padding-right: 0!important;
+            border-bottom: none !important;
+            padding-right: 0 !important;
         }
         .top-banner img {
             width: 100%;
@@ -15,12 +15,12 @@ page-help {
             top: 0;
             height: 19.5rem;
         }
-        .help-tip{
+        .help-tip {
             position: absolute;
             top: 14rem;
             right: 2rem;
             font-size: 3.2rem;
-            color:#2f424a;
+            color: #2f424a;
             z-index: 12;
         }
         .item.item-textarea {
@@ -33,12 +33,12 @@ page-help {
             height: 9rem;
             font-size: 1.3rem;
         }
-        .input-container{
+        .input-container {
             position: absolute;
             top: 40rem;
             left: 15%;
         }
-        .photo-container{
+        .photo-container {
             width: 100%;
             margin-top: 31.5rem;
             overflow: hidden;
@@ -49,7 +49,7 @@ page-help {
                 float: left;
                 .mask {
                     height: 5.5rem;
-                    width: 5.5rem;                    
+                    width: 5.5rem;
                     border: 1px solid #c7c7c7;
                     position: absolute;
                     left: 0;
@@ -75,5 +75,4 @@ page-help {
             }
         }
     }
-
 }

@@ -1,7 +1,7 @@
 page-withdraw-address-list {
     ion-navbar {
         .flash-trade {
-            background-image: url('../assets/icon/添加.png');
+            background-image: url("../assets/icon/添加.png");
             background-size: contain;
             height: 2rem;
             width: 2rem;
@@ -9,11 +9,11 @@ page-withdraw-address-list {
         .withdraw-add {
             font-size: 3.4rem;
             font-weight: bold;
-            margin-right: .8rem;
+            margin-right: 0.8rem;
         }
         .withdraw-back {
             font-size: 3.4rem;
-            margin-left: .8rem;
+            margin-left: 0.8rem;
         }
     }
     .radio-list {
@@ -41,12 +41,12 @@ page-withdraw-address-list {
             width: 2rem;
             height: 2rem;
             background-color: transparent;
-            border-color: color($colors, 'special');
+            border-color: color($colors, "special");
             border-width: 0.2rem;
             border-style: solid;
             box-sizing: border-box;
             .radio-inner {
-                border-color: color($colors, 'special');
+                border-color: color($colors, "special");
                 transform: scale(1.2) rotate(45deg);
                 top: 0.25rem;
                 left: 0.65rem;
@@ -60,7 +60,7 @@ page-withdraw-address-list {
             &.radio-checked {
                 background-color: color($colors, special);
                 .radio-inner {
-                    border-color: #fff!important;
+                    border-color: #fff !important;
                 }
             }
         }
@@ -80,7 +80,7 @@ page-withdraw-address-list {
             font-size: 14px;
             color: #c1b17f;
         }
-        ion-icon[name='删除'] {
+        ion-icon[name="删除"] {
             width: 10%;
             background-image: url(../assets/icon/删除.png);
             width: 1.3rem;
@@ -100,8 +100,8 @@ page-withdraw-address-list {
             padding-left: 5px;
         }
     }
-    .grid[no-padding]>.row>.col[padding] {
-        padding: .5rem 0;
+    .grid[no-padding] > .row > .col[padding] {
+        padding: 0.5rem 0;
     }
     .addressList {
         margin: 1rem 0;
@@ -116,16 +116,16 @@ page-withdraw-address-list {
         margin-left: 14px;
     }
     .exit-center {
-        padding: 16px 0!important;
+        padding: 16px 0 !important;
     }
     .trbtn {
         height: 4.5rem;
         padding: 1.2rem 0;
         margin: 0 auto;
-        border-radius: .4rem;
+        border-radius: 0.4rem;
         text-align: center;
         font-size: 1.3rem;
-        color: #FFF;
+        color: #fff;
         background: color($colors, special);
         font-family: Microsoft YaHei;
         font-size: 16px;
@@ -136,7 +136,7 @@ page-withdraw-address-list {
         height: 4.5rem;
         padding: 1.2rem 0;
         margin: 0 auto;
-        border-radius: .4rem;
+        border-radius: 0.4rem;
         text-align: center;
         font-size: 1.3rem;
         color: color($colors, special);

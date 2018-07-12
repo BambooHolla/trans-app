@@ -1,29 +1,25 @@
-import { Component } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { Component } from "@angular/core";
+import { FormControl, FormGroup } from "@angular/forms";
 
-import {
-    NavController,
-    ModalController,
-    NavParams
-} from 'ionic-angular';
+import { NavController, ModalController, NavParams } from "ionic-angular";
 
-import { IdentificationPage } from '../identification/identification';
-import { CreateAccountStepSecondPage } from '../create-account-step-second/create-account-step-second';
-import { Http, RequestOptions, Headers } from '@angular/http';
-import { AppSettings } from '../../providers/app-settings';
-import { AppDataService } from '../../providers/app-data-service';
-import { SecondLevelPage } from '../../bnlc-framework/SecondLevelPage';
+import { IdentificationPage } from "../identification/identification";
+import { CreateAccountStepSecondPage } from "../create-account-step-second/create-account-step-second";
+import { Http, RequestOptions, Headers } from "@angular/http";
+import { AppSettings } from "../../providers/app-settings";
+import { AppDataService } from "../../providers/app-data-service";
+import { SecondLevelPage } from "../../bnlc-framework/SecondLevelPage";
 import {
     AccountServiceProvider,
     CertificationCertificateType,
     CertificateType,
     CertificationPatternType,
-    CertificationCollectType
-} from '../../providers/account-service/account-service';
+    CertificationCollectType,
+} from "../../providers/account-service/account-service";
 import { PromptControlleService } from "../../providers/prompt-controlle-service";
 @Component({
-    selector: 'page-create-account-step-third',
-    templateUrl: 'create-account-step-third.html'
+    selector: "page-create-account-step-third",
+    templateUrl: "create-account-step-third.html",
     // template: '<ion-nav [root]="rootPage"></ion-nav>'
 })
 export class CreateAccountStepThirdPage extends SecondLevelPage {
@@ -31,17 +27,17 @@ export class CreateAccountStepThirdPage extends SecondLevelPage {
     private backPhoto: string;
 
     thirdForm: FormGroup = new FormGroup({
-        IDnumber: new FormControl('350204199007292040'),
-        name: new FormControl(''),
-        IDtype: new FormControl('101')
+        IDnumber: new FormControl("350204199007292040"),
+        name: new FormControl(""),
+        IDtype: new FormControl("101"),
     });
     errorMessages = {
         IDnumber: {
-            required: '证件号码不能为空'
+            required: "证件号码不能为空",
         },
         IDtype: {
-            required: '证件类型不能为空'
-        }
+            required: "证件类型不能为空",
+        },
     };
 
     constructor(
@@ -52,7 +48,7 @@ export class CreateAccountStepThirdPage extends SecondLevelPage {
         private http: Http,
         private appSettings: AppSettings,
         public accountService: AccountServiceProvider,
-        private appDataService: AppDataService
+        private appDataService: AppDataService,
     ) {
         super(navCtrl, navParams);
     }
@@ -61,7 +57,7 @@ export class CreateAccountStepThirdPage extends SecondLevelPage {
         const modal = this.modalCtrl.create(
             IdentificationPage,
             {},
-            { showBackdrop: true }
+            { showBackdrop: true },
         );
         modal.onDidDismiss((data, role) => {
             console.log(data);
@@ -74,11 +70,12 @@ export class CreateAccountStepThirdPage extends SecondLevelPage {
     }
 
     caConfirm(body: object) {
-        const url = `${this.appSettings
-            .SERVER_URL}/api/v1/bngj/user/addCertification`;
-        const headers = new Headers({ 'Content-Type': 'application/json' });
-        headers.append('X-AUTH-TOKEN', this.appDataService.token);
-        headers.append('x-bnqkl-platform', this.appSettings.Platform_Type);
+        const url = `${
+            this.appSettings.SERVER_URL
+        }/api/v1/bngj/user/addCertification`;
+        const headers = new Headers({ "Content-Type": "application/json" });
+        headers.append("X-AUTH-TOKEN", this.appDataService.token);
+        headers.append("x-bnqkl-platform", this.appSettings.Platform_Type);
 
         const options = new RequestOptions({ headers: headers });
         console.log(body);
@@ -88,34 +85,34 @@ export class CreateAccountStepThirdPage extends SecondLevelPage {
             .toPromise()
             .then(response => {
                 try {
-                    if (response.json().data.status === 'ok') {
+                    if (response.json().data.status === "ok") {
                         this.navCtrl.push(CreateAccountStepSecondPage);
                     }
                 } catch (error) {
-                    console.log('indefity try error: ', error);
-                    console.log('indefity response: ', response);
-                    this.toastAlert('请检查输入信息！');
+                    console.log("indefity try error: ", error);
+                    console.log("indefity response: ", response);
+                    this.toastAlert("请检查输入信息！");
                 }
             })
             .catch(response => {
                 try {
-                    if (response.json().error.message !== '') {
+                    if (response.json().error.message !== "") {
                         this.toastAlert(`${response.json().error.message}！`);
                     } else {
                         this.toastAlert(`未知错误,请联系管理员！`);
                     }
-                    console.log('indefity catch: ', response);
+                    console.log("indefity catch: ", response);
                 } catch (error) {
-                    console.log('indefity catch try: ', error);
-                    console.log('indefity catch: ', response);
+                    console.log("indefity catch try: ", error);
+                    console.log("indefity catch: ", response);
                     this.toastAlert(`请求错误,请稍后重试！`);
                 }
             });
     }
 
     certificate_type_list = [
-        { value: CertificateType.二代身份证, text: '二代身份证' },
-        { value: CertificateType.护照, text: '护照' }
+        { value: CertificateType.二代身份证, text: "二代身份证" },
+        { value: CertificateType.护照, text: "护照" },
     ];
     doValidate() {
         const controls = this.thirdForm.controls;
@@ -127,18 +124,18 @@ export class CreateAccountStepThirdPage extends SecondLevelPage {
                     for (const key in fieldControl.errors) {
                         allMessages.push(this.errorMessages[field][key]);
                     }
-                    return this.toastAlert(allMessages.join('\n'));
+                    return this.toastAlert(allMessages.join("\n"));
                 }
             }
         }
 
         if (
             controls.IDtype.value === CertificateType.二代身份证 &&
-            controls.IDnumber.value != ''
+            controls.IDnumber.value != ""
         ) {
             var idCardNo = controls.IDnumber.value;
             if (!this.checkIdCardNo(idCardNo)) {
-                return this.toastAlert('卡号格式错误！');
+                return this.toastAlert("卡号格式错误！");
             }
         }
 
@@ -153,7 +150,7 @@ export class CreateAccountStepThirdPage extends SecondLevelPage {
             value: controls.IDnumber.value,
             pattern: CertificationPatternType.人工审核,
             collectType: CertificationCollectType.证件照片,
-            name:controls.name.value,
+            name: controls.name.value,
         });
 
         // this.caConfirm(
@@ -165,11 +162,11 @@ export class CreateAccountStepThirdPage extends SecondLevelPage {
         // ); //, lastBody));
     }
 
-    toastAlert(message, duration = 3000, position = 'top') {
+    toastAlert(message, duration = 3000, position = "top") {
         let toast = this.promptCtrl.toastCtrl({
             message,
             duration,
-            position
+            position,
         });
 
         toast.present();
@@ -192,14 +189,14 @@ export class CreateAccountStepThirdPage extends SecondLevelPage {
     check15IdCardNo(e) {
         //15位身份证号码的基本校验
         var check = /^[1-9]\d{7}((0[1-9])|(1[0-2]))((0[1-9])|([1-2][0-9])|(3[0-1]))\d{3}$/.test(
-            e
+            e,
         );
         if (!check) return false;
         //校验地址码
         var addressCode = e.substring(0, 6);
         check = this.checkAddressCode(addressCode);
         if (!check) return false;
-        var birDayCode = '19' + e.substring(6, 12);
+        var birDayCode = "19" + e.substring(6, 12);
         //校验日期码
         return this.checkBirthDayCode(birDayCode);
     }
@@ -208,7 +205,7 @@ export class CreateAccountStepThirdPage extends SecondLevelPage {
     check18IdCardNo(e) {
         //18位身份证号码的基本格式校验
         var check = /^[1-9]\d{5}[1-9]\d{3}((0[1-9])|(1[0-2]))((0[1-9])|([1-2][0-9])|(3[0-1]))\d{3}(\d|x|X)$/.test(
-            e
+            e,
         );
         if (!check) return false;
         //校验地址码
@@ -235,7 +232,7 @@ export class CreateAccountStepThirdPage extends SecondLevelPage {
 
     checkBirthDayCode(birDayCode) {
         var check = /^[1-9]\d{3}((0[1-9])|(1[0-2]))((0[1-9])|([1-2][0-9])|(3[0-1]))$/.test(
-            birDayCode
+            birDayCode,
         );
         if (!check) return false;
         var yyyy = parseInt(birDayCode.substring(0, 4), 10);
@@ -256,41 +253,41 @@ export class CreateAccountStepThirdPage extends SecondLevelPage {
     }
 
     provinceAndCitys = {
-        11: '北京',
-        12: '天津',
-        13: '河北',
-        14: '山西',
-        15: '内蒙古',
-        21: '辽宁',
-        22: '吉林',
-        23: '黑龙江',
-        31: '上海',
-        32: '江苏',
-        33: '浙江',
-        34: '安徽',
-        35: '福建',
-        36: '江西',
-        37: '山东',
-        41: '河南',
-        42: '湖北',
-        43: '湖南',
-        44: '广东',
-        45: '广西',
-        46: '海南',
-        50: '重庆',
-        51: '四川',
-        52: '贵州',
-        53: '云南',
-        54: '西藏',
-        61: '陕西',
-        62: '甘肃',
-        63: '青海',
-        64: '宁夏',
-        65: '新疆',
-        71: '台湾',
-        81: '香港',
-        82: '澳门',
-        91: '国外'
+        11: "北京",
+        12: "天津",
+        13: "河北",
+        14: "山西",
+        15: "内蒙古",
+        21: "辽宁",
+        22: "吉林",
+        23: "黑龙江",
+        31: "上海",
+        32: "江苏",
+        33: "浙江",
+        34: "安徽",
+        35: "福建",
+        36: "江西",
+        37: "山东",
+        41: "河南",
+        42: "湖北",
+        43: "湖南",
+        44: "广东",
+        45: "广西",
+        46: "海南",
+        50: "重庆",
+        51: "四川",
+        52: "贵州",
+        53: "云南",
+        54: "西藏",
+        61: "陕西",
+        62: "甘肃",
+        63: "青海",
+        64: "宁夏",
+        65: "新疆",
+        71: "台湾",
+        81: "香港",
+        82: "澳门",
+        91: "国外",
     };
 
     checkParityBit(e) {
@@ -315,23 +312,23 @@ export class CreateAccountStepThirdPage extends SecondLevelPage {
     }
 
     powers = [
-        '7',
-        '9',
-        '10',
-        '5',
-        '8',
-        '4',
-        '2',
-        '1',
-        '6',
-        '3',
-        '7',
-        '9',
-        '10',
-        '5',
-        '8',
-        '4',
-        '2'
+        "7",
+        "9",
+        "10",
+        "5",
+        "8",
+        "4",
+        "2",
+        "1",
+        "6",
+        "3",
+        "7",
+        "9",
+        "10",
+        "5",
+        "8",
+        "4",
+        "2",
     ];
-    parityBit = ['1', '0', 'X', '9', '8', '7', '6', '5', '4', '3', '2'];
+    parityBit = ["1", "0", "X", "9", "8", "7", "6", "5", "4", "3", "2"];
 }

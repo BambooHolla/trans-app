@@ -1,4 +1,4 @@
-import { Pipe, PipeTransform } from '@angular/core';
+import { Pipe, PipeTransform } from "@angular/core";
 
 /**
  * Generated class for the RiseOrFall pipe.
@@ -7,17 +7,17 @@ import { Pipe, PipeTransform } from '@angular/core';
  * Angular Pipes.
  */
 @Pipe({
-  name: 'positiveSign',
+    name: "positiveSign",
 })
 export class PositiveSignPipe implements PipeTransform {
-  /**
-   * Takes a value and makes it lowercase.
-   */
-  transform(value: string): string {
-    if (value && !value.startsWith('-') && /[^0.%]/.test(value)){
-      return '+' + value;
-    } else {
-      return value;
+    /**
+     * Takes a value and makes it lowercase.
+     */
+    transform(value: string): string {
+        if (value && !value.startsWith("-") && /[^0.%]/.test(value)) {
+            return "+" + value;
+        } else {
+            return value;
+        }
     }
-  }
 }

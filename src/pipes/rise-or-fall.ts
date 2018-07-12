@@ -1,4 +1,4 @@
-import { Pipe, PipeTransform } from '@angular/core';
+import { Pipe, PipeTransform } from "@angular/core";
 
 /**
  * Generated class for the RiseOrFall pipe.
@@ -7,22 +7,22 @@ import { Pipe, PipeTransform } from '@angular/core';
  * Angular Pipes.
  */
 @Pipe({
-  name: 'riseOrFall',
+    name: "riseOrFall",
 })
 export class RiseOrFallPipe implements PipeTransform {
-  /**
-   * Takes a value and makes it lowercase.
-   */
-  transform(value: number): string {
-    // console.log('RiseOrFallPipe:',value)
-    if (
-      isNaN(value)
-      // || Math.abs(value) < 1e-8
-      // || Number(value) === 0
-    ) {
-      return '';
-    }
+    /**
+     * Takes a value and makes it lowercase.
+     */
+    transform(value: number): string {
+        // console.log('RiseOrFallPipe:',value)
+        if (
+            isNaN(value)
+            // || Math.abs(value) < 1e-8
+            // || Number(value) === 0
+        ) {
+            return "";
+        }
 
-    return value >= 0 ? 'color-rise' : 'color-fall';
-  }
+        return value >= 0 ? "color-rise" : "color-fall";
+    }
 }

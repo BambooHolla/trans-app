@@ -1,130 +1,127 @@
-import { Injectable } from '@angular/core';
-import { AppSettingProvider } from '../bnlc-framework/providers/app-setting/app-setting';
+import { Injectable } from "@angular/core";
+import { AppSettingProvider } from "../bnlc-framework/providers/app-setting/app-setting";
 
-import * as moment from 'moment';
+import * as moment from "moment";
 
 enum MinuteFixType {
-  // 交易开始之前（ 9:00 之前，早于集合竞价）
-  BeforeTrading,
-  // 集合竞价之前（ 9:15 之前）
-  BeforeAuction,
-  Morning,
-  Noon,
-  Afternoon,
-  AfterTrading
+    // 交易开始之前（ 9:00 之前，早于集合竞价）
+    BeforeTrading,
+    // 集合竞价之前（ 9:15 之前）
+    BeforeAuction,
+    Morning,
+    Noon,
+    Afternoon,
+    AfterTrading,
 }
 
 @Injectable()
 export class AppSettings {
-  // http://192.168.16.185:40001/api/v1/bngj/news/swagger
-  // public readonly SERVER_URL: string = 'http://119.23.68.40:11890';
-  // public readonly SERVER_URL: string = 'http://192.168.16.101:40001'; //company mac server
-  public get SERVER_URL() {
-    return AppSettingProvider.SERVER_URL;
-  } //test server
-  // public readonly SERVER_URL: string = 'http://192.168.18.37:40001'; //company server
-  // public readonly SERVER_URL: string = 'http://192.168.16.185:40001'; //zhiguang server
-  // public readonly SERVER_URL: string = 'http://110.86.32.3:40001'; //company ip
-  public get SERVER_PREFIX() {
-    return AppSettingProvider.SERVER_PREFIX;
-  }
-  // public readonly SOCKET_URL: string = 'http://192.168.16.230:10011';
-  // public readonly SOCKET_URL: string = 'http://192.168.16.235:10011';
-  public readonly SOCKET_URL: string = 'http://119.23.68.40:11880'; //原gjs,现不用
-  public readonly SOCKET_PREFIX: string = '/socket/v1/bngj';
+    // http://192.168.16.185:40001/api/v1/bngj/news/swagger
+    // public readonly SERVER_URL: string = 'http://119.23.68.40:11890';
+    // public readonly SERVER_URL: string = 'http://192.168.16.101:40001'; //company mac server
+    public get SERVER_URL() {
+        return AppSettingProvider.SERVER_URL;
+    } //test server
+    // public readonly SERVER_URL: string = 'http://192.168.18.37:40001'; //company server
+    // public readonly SERVER_URL: string = 'http://192.168.16.185:40001'; //zhiguang server
+    // public readonly SERVER_URL: string = 'http://110.86.32.3:40001'; //company ip
+    public get SERVER_PREFIX() {
+        return AppSettingProvider.SERVER_PREFIX;
+    }
+    // public readonly SOCKET_URL: string = 'http://192.168.16.230:10011';
+    // public readonly SOCKET_URL: string = 'http://192.168.16.235:10011';
+    public readonly SOCKET_URL: string = "http://119.23.68.40:11880"; //原gjs,现不用
+    public readonly SOCKET_PREFIX: string = "/socket/v1/bngj";
 
-  public readonly RegExp_Tel = [
-    /^((13[4-9])|(15([0-2]|[7-9]))|(18[2|3|4|7|8])|(178)|(147))[\d]{8}$/,//RegExp_CMCC
-    /^((13[0-2])|(145)|(15[5-6])|(176)|(18[5-6]))[\d]{8}$/,//RegExp_CUCC
-    /^((133)|(153)|(18[0|1|9])|(177))[\d]{8}$/,//RegExp_CTCC
-  ]
+    public readonly RegExp_Tel = [
+        /^((13[4-9])|(15([0-2]|[7-9]))|(18[2|3|4|7|8])|(178)|(147))[\d]{8}$/, //RegExp_CMCC
+        /^((13[0-2])|(145)|(15[5-6])|(176)|(18[5-6]))[\d]{8}$/, //RegExp_CUCC
+        /^((133)|(153)|(18[0|1|9])|(177))[\d]{8}$/, //RegExp_CTCC
+    ];
 
-  public get Platform_Type() {
-    return AppSettingProvider.Platform_Type;
-  } 
-  // public readonly Platform_Type: string = '002'; //平台类型： 001高交所、002币加所、003本能理财
-  
-  
-  
+    public get Platform_Type() {
+        return AppSettingProvider.Platform_Type;
+    }
+    // public readonly Platform_Type: string = '002'; //平台类型： 001高交所、002币加所、003本能理财
 
-  public readonly Charts_Array_Length: number = 400 ;
+    public readonly Charts_Array_Length: number = 400;
 
-  // 虚假登录开关
-  public readonly FAKE_LOGIN: boolean = false;
+    // 虚假登录开关
+    public readonly FAKE_LOGIN: boolean = false;
 
-  //模拟数据开关
-  public readonly SIM_DATA: boolean = false;
+    //模拟数据开关
+    public readonly SIM_DATA: boolean = false;
 
-  //数据过期时间
-  public readonly EXPIRE_TIME_SPAN: number = 1e3 * 60 * 60 * 24 * 30;
-  
-  // 退出某个页面后，多长时间取消对于实时数据的订阅。
-  // 避免切换页面时实时数据频繁订阅/取消订阅，
-  // 因为有时切换页面前后观看的都是同一个股票的数据。
-  // 实际效果待测试。
-  public readonly UNSUBSCRIBE_INTERVAL: number = 5e3;
+    //数据过期时间
+    public readonly EXPIRE_TIME_SPAN: number = 1e3 * 60 * 60 * 24 * 30;
 
-  private _minuteOffset = 0;
+    // 退出某个页面后，多长时间取消对于实时数据的订阅。
+    // 避免切换页面时实时数据频繁订阅/取消订阅，
+    // 因为有时切换页面前后观看的都是同一个股票的数据。
+    // 实际效果待测试。
+    public readonly UNSUBSCRIBE_INTERVAL: number = 5e3;
 
-  public get minuteOffset(): number {
-    return this._minuteOffset;
-  }
+    private _minuteOffset = 0;
 
-  private _minuteFixType: MinuteFixType = MinuteFixType.Morning;
+    public get minuteOffset(): number {
+        return this._minuteOffset;
+    }
 
-  // public readonly LOGIN_URL: string = `${this.SERVER_URL}/api/v1/gjs/auth/customers/login`;
-  public readonly LOGIN_URL: string = `${this.SERVER_URL +
-    this.SERVER_PREFIX}/user/login`;
+    private _minuteFixType: MinuteFixType = MinuteFixType.Morning;
 
-  public readonly KDATA_UNITS = ['day', 'week', 'month'];
+    // public readonly LOGIN_URL: string = `${this.SERVER_URL}/api/v1/gjs/auth/customers/login`;
+    public readonly LOGIN_URL: string = `${this.SERVER_URL +
+        this.SERVER_PREFIX}/user/login`;
 
-  // 将本地时间转换为 UTC 时间时，分钟的偏移量。
-  // 北京时间为东八区，需要扣除 8 小时。
-  private readonly TO_UTC_MINUTES_OFFSET = -8 * 60;
+    public readonly KDATA_UNITS = ["day", "week", "month"];
 
-  private _tradingTime = [
-    { start: '09:30', end: '11:30' },
-    { start: '13:00', end: '15:00' }
-  ];
+    // 将本地时间转换为 UTC 时间时，分钟的偏移量。
+    // 北京时间为东八区，需要扣除 8 小时。
+    private readonly TO_UTC_MINUTES_OFFSET = -8 * 60;
 
-  public get tradingTime() {
-    return this._tradingTime;
-  }
+    private _tradingTime = [
+        { start: "09:30", end: "11:30" },
+        { start: "13:00", end: "15:00" },
+    ];
 
-  private _tradingMinutePeriods: { start: number; end: number }[] = [];
+    public get tradingTime() {
+        return this._tradingTime;
+    }
 
-  public get tradingMinutePeriods(): { start: number; end: number }[] {
-    return this._tradingMinutePeriods;
-  }
+    private _tradingMinutePeriods: { start: number; end: number }[] = [];
 
-  private _tradingTimeArray: string[] = [];
+    public get tradingMinutePeriods(): { start: number; end: number }[] {
+        return this._tradingMinutePeriods;
+    }
 
-  public get tradingTimeArray() {
-    return this._tradingTimeArray;
-  }
+    private _tradingTimeArray: string[] = [];
 
-  // 交易日切换时间（开盘之前的分钟数）。
-  // 设置值为 30 ，即北京时间 9:00 切换交易日。
-  // 0:00 - 9:00 之间的“当前交易日”实际上指的是上一个交易日。
-  public readonly TRADE_DAY_SWITCH_MINUTES_BEFORE_TRADING = 30;
+    public get tradingTimeArray() {
+        return this._tradingTimeArray;
+    }
 
-  // 开盘之前的集合竞价时间（分钟）。
-  // 集合竞价属性设为 0 ，表示无集合竞价环节。
-  public readonly AUCTION_MINUTES_BEFORE_TRADING = 0;
+    // 交易日切换时间（开盘之前的分钟数）。
+    // 设置值为 30 ，即北京时间 9:00 切换交易日。
+    // 0:00 - 9:00 之间的“当前交易日”实际上指的是上一个交易日。
+    public readonly TRADE_DAY_SWITCH_MINUTES_BEFORE_TRADING = 30;
 
-  // 开盘之前的集合竞价结束时间（分钟）
-  public readonly AUCTION_DONE_MINUTES_BEFORE_TRADING = 0;
+    // 开盘之前的集合竞价时间（分钟）。
+    // 集合竞价属性设为 0 ，表示无集合竞价环节。
+    public readonly AUCTION_MINUTES_BEFORE_TRADING = 0;
 
-  private _betsTitle: string[] = [];
+    // 开盘之前的集合竞价结束时间（分钟）
+    public readonly AUCTION_DONE_MINUTES_BEFORE_TRADING = 0;
 
-  public get betsTitle() {
-    return this._betsTitle;
-  }
+    private _betsTitle: string[] = [];
 
-  public agreementData = {
-    zh: {
-      title: ``,
-      agreementFirst: `
+    public get betsTitle() {
+        return this._betsTitle;
+    }
+
+    public agreementData = {
+        zh: {
+            title: ``,
+            agreementFirst: `
       <p>币加所（www.picaex.com）是Picasso Blockchain Technology（Malta）Limited（以下称 “公司”）旗下的一款专门供用户进行数字资产交易和提供相关服务（以下称“该服务”或“服务”）的平台。为了本协议表述之方便，公司在本协议中合称使用“我们”或其他第一人称称呼。只要登陆该平台的自然人或其他主体均为本平台的用户，本协议表述之便利，以下使用“您”或其他第二人称。为了本协议表述之便利，我们和您在本协议中合称为“双方”，我们或您单称为“一方”。 <br>
 重要提示： <br>
 我们在此特别提醒您： <br>
@@ -310,10 +307,10 @@ o   3.2.4 对识别最终受益人和账户控制权的要求是确定哪些个�
 •   4.3我们凭借自身的判断认定为可疑交易的情况，我们可能会采取暂停该交易、拒绝该交易等限制性措施，甚至如果可能将尽快逆转该交易，同时向主管部门报告，但不会通知您; <br>
 •   4.4我们保留拒绝来自于不符合国际反洗钱标准辖区的人或可被视为政治公众人物的人的注册申请，我们保留随时暂停或终止根据我们自身判断为可疑交易的交易，但我们这样做并不违反对您的任何义务和责任。</p>
       `,
-    },
-    en:{
-        title: ``,
-        agreementFirst: `
+        },
+        en: {
+            title: ``,
+            agreementFirst: `
         <p>www.picaex.com is a platform operated by Picasso Blockchain Technology (Malta) Limited (hereinafter referred to as “the Company”) and dedicated to the transaction of digital assets and the provision of related services (hereinafter referred to as “the Services” or “Services”). For the convenience of wording in this Agreement, the Company and the Platform are referred to as “We” or other applicable forms of first-person pronouns in this Agreement. All natural persons or other subjects who log onto this Platform shall be deemed as users of this Platform. For the convenience of wording in this Agreement, the users are referred to as “You” or any other applicable forms of the second-person pronouns. For the convenience of wording in this Agreement, “You” and “We” are collectively referred to as “both parties”, and individually as “one party”.<br>
         Important Reminder:<br>
         We hereby remind you that:<br>
@@ -506,10 +503,10 @@ o   3.2.4 对识别最终受益人和账户控制权的要求是确定哪些个�
   •   4.3 If we identify a specific transaction as suspicious on the basis of our judgement, we may adopt such restrictive measures as suspending the transaction or denying the transaction, and if it is possible, we may even reverse the transaction as soon as possible, and report to the competent authorities, without, however, notifying you; <br>
   •   4.4 We reserve the right to reject registration applications by applicants that do not comply with the international standards of anti-money laundering or who may be regarded as political and public figures; we reserve the right to suspend or terminate a transaction identified as suspicious based on our own judgement, which, however, does not breach any of our obligations and duties to you.</p>
         `,
-      },
-      ja: {
-        title: ``,
-        agreementFirst: `
+        },
+        ja: {
+            title: ``,
+            agreementFirst: `
         <p>幣加所(ピカソ)（www.picaex.com）とはPicasso Blockchain Technology（Malta）Limited(以下は公司と略称する)傘下の一つのユーザーに仮想通貨資産を取引する関連サービス(以下"本サービス”もしくは"サービス”と称する)を提供するプラットフォームである。本協議表現上の便利のため、会社及び本サイトが本協議で我々と合弁して述べる。本サイトにアクセス自然人或いはその他の主体が全て本サイトのユーザーであり、便利のため、以下はあなたもしくはその他の第二人称を使用する。本協議表現の便利のため、我々とあなたが本協議では"双方”と称することとする、我々もしくはあなた単独で"一方”と称する。<br>
   重要な注意喚起： <br>
   •   1 仮想通貨資産は如何なるの金融機関、会社、本サイトより発行するではありません； <br>
@@ -694,151 +691,157 @@ o   3.2.4 对识别最终受益人和账户控制权的要求是确定哪些个�
   •   4.3我们凭借自身的判断认定为可疑交易的情况，我们可能会采取暂停该交易、拒绝该交易等限制性措施，甚至如果可能将尽快逆转该交易，同时向主管部门报告，但不会通知您; <br>
   •   4.4我们保留拒绝来自于不符合国际反洗钱标准辖区的人或可被视为政治公众人物的人的注册申请，我们保留随时暂停或终止根据我们自身判断为可疑交易的交易，但我们这样做并不违反对您的任何义务和责任。</p>
         `,
-      },
-    
-  };
-
-  constructor(public appSettings: AppSettingProvider) {
-    this.initBetsTitle();
-    this.initTradeTime();
-
-    if (this.SIM_DATA) {
-      this.initMinuteOffset();
-    }
-  }
-
-  initMinuteOffset() {
-    const dateMoment = moment.utc();
-    const currentMinute = dateMoment.hours() * 60 + dateMoment.minutes();
-    const minutePeriods = this._tradingMinutePeriods;
-
-    switch (this._minuteFixType) {
-      case MinuteFixType.BeforeTrading:
-        // 设置为上午开盘之前 31 分钟
-        // （北京时间 8:59 ，实时数据清除之前 1 分钟）。
-        this._minuteOffset =
-          currentMinute -
-          minutePeriods[0].start +
-          this.TRADE_DAY_SWITCH_MINUTES_BEFORE_TRADING +
-          1;
-        break;
-      case MinuteFixType.BeforeAuction:
-        this._minuteOffset =
-          currentMinute -
-          minutePeriods[0].start +
-          this.AUCTION_MINUTES_BEFORE_TRADING +
-          1;
-        break;
-      case MinuteFixType.Morning:
-        // 设定为早上开盘后一小时左右。
-        this._minuteOffset =
-          Math.round(currentMinute / 30) * 30 - minutePeriods[0].start - 60;
-        break;
-      case MinuteFixType.Noon:
-        // 设置为下午开盘之前 2 分钟
-        this._minuteOffset = currentMinute - minutePeriods[1].start + 2;
-        break;
-      case MinuteFixType.Afternoon:
-        // 设置为下午开盘后一小时左右。
-        this._minuteOffset =
-          Math.round(currentMinute / 30) * 30 - minutePeriods[1].start - 60;
-        break;
-      case MinuteFixType.AfterTrading:
-        break;
-    }
-
-    // console.log(this._minuteOffset);
-  }
-
-  initTradeTime() {
-    const regTime = /^([01]\d|2[0-4]):([0-5]\d|60)$/;
-    const dateMoment = moment.utc();
-    const timeArray = [];
-    const minutePeriods = [];
-
-    if (this.tradingTime.length !== 2) {
-      throw 'tradingTime setting error!';
-    }
-
-    this.tradingTime.forEach(({ start, end }) => {
-      // 注意此处需要将 start 的检测放在后面，
-      // 这样下面才可以直接使用 RegExp.$1 与 RegExp.$2 。
-      if (!regTime.test(end) || !regTime.test(start) || start > end) {
-        throw 'tradingTime setting error!';
-      }
-
-      let hour = +RegExp.$1;
-      let minute = +RegExp.$2;
-      dateMoment.hours(hour);
-      dateMoment.minutes(minute);
-
-      let timeString;
-      while ((timeString = dateMoment.format('HH:mm')) <= end) {
-        timeArray.push(timeString);
-        dateMoment.add(1, 'minutes');
-      }
-
-      const startMinutes = hour * 60 + minute + this.TO_UTC_MINUTES_OFFSET;
-      const endMinutes =
-        dateMoment.hours() * 60 +
-        dateMoment.minutes() -
-        1 +
-        this.TO_UTC_MINUTES_OFFSET;
-      minutePeriods.push({
-        start: startMinutes,
-        end: endMinutes
-      });
-    });
-
-    this._tradingTimeArray = timeArray;
-    this._tradingMinutePeriods = minutePeriods;
-
-    console.log('inittradetime:', timeArray);
-  }
-
-  private initBetsTitle() {
-    for (let i = 5; i >= -5; i--) {
-      if (i === 0) {
-        continue;
-      }
-
-      this._betsTitle.push(`${i > 0 ? '卖' : '买'}${Math.abs(i)}`);
-    }
-  }
-
-  /**
-   * accountType
-   * 判断用户账号类型.
-   * 邮箱 0 手机 1 客户号 2
-   */
-  public accountType(str) {
-    if (
-      /^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$/.test(
-        str
-      )
-    ) {
-      return 0;
-    } else if (this.RegExp_Tel.findIndex(reg => reg.test(str)) !== -1) {
-      return 1;
-    } else {
-      return 2;
-    }
-  }
-
-  //是否为推荐邮箱
-  public accountEmailProposal(email) {
-    let emailType = /@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$/.exec(email);
-    let _proposals:any = {
-      "@qq.com": true,
-      "@163.com": true,
-      "@sina.com": true,
-      "@gmail.com": true,
-      "@126.com": true,
+        },
     };
-    if( emailType ){
-      return _proposals[emailType[0]]
-    } else {
-      return false;
+
+    constructor(public appSettings: AppSettingProvider) {
+        this.initBetsTitle();
+        this.initTradeTime();
+
+        if (this.SIM_DATA) {
+            this.initMinuteOffset();
+        }
     }
-  }
+
+    initMinuteOffset() {
+        const dateMoment = moment.utc();
+        const currentMinute = dateMoment.hours() * 60 + dateMoment.minutes();
+        const minutePeriods = this._tradingMinutePeriods;
+
+        switch (this._minuteFixType) {
+            case MinuteFixType.BeforeTrading:
+                // 设置为上午开盘之前 31 分钟
+                // （北京时间 8:59 ，实时数据清除之前 1 分钟）。
+                this._minuteOffset =
+                    currentMinute -
+                    minutePeriods[0].start +
+                    this.TRADE_DAY_SWITCH_MINUTES_BEFORE_TRADING +
+                    1;
+                break;
+            case MinuteFixType.BeforeAuction:
+                this._minuteOffset =
+                    currentMinute -
+                    minutePeriods[0].start +
+                    this.AUCTION_MINUTES_BEFORE_TRADING +
+                    1;
+                break;
+            case MinuteFixType.Morning:
+                // 设定为早上开盘后一小时左右。
+                this._minuteOffset =
+                    Math.round(currentMinute / 30) * 30 -
+                    minutePeriods[0].start -
+                    60;
+                break;
+            case MinuteFixType.Noon:
+                // 设置为下午开盘之前 2 分钟
+                this._minuteOffset = currentMinute - minutePeriods[1].start + 2;
+                break;
+            case MinuteFixType.Afternoon:
+                // 设置为下午开盘后一小时左右。
+                this._minuteOffset =
+                    Math.round(currentMinute / 30) * 30 -
+                    minutePeriods[1].start -
+                    60;
+                break;
+            case MinuteFixType.AfterTrading:
+                break;
+        }
+
+        // console.log(this._minuteOffset);
+    }
+
+    initTradeTime() {
+        const regTime = /^([01]\d|2[0-4]):([0-5]\d|60)$/;
+        const dateMoment = moment.utc();
+        const timeArray = [];
+        const minutePeriods = [];
+
+        if (this.tradingTime.length !== 2) {
+            throw "tradingTime setting error!";
+        }
+
+        this.tradingTime.forEach(({ start, end }) => {
+            // 注意此处需要将 start 的检测放在后面，
+            // 这样下面才可以直接使用 RegExp.$1 与 RegExp.$2 。
+            if (!regTime.test(end) || !regTime.test(start) || start > end) {
+                throw "tradingTime setting error!";
+            }
+
+            let hour = +RegExp.$1;
+            let minute = +RegExp.$2;
+            dateMoment.hours(hour);
+            dateMoment.minutes(minute);
+
+            let timeString;
+            while ((timeString = dateMoment.format("HH:mm")) <= end) {
+                timeArray.push(timeString);
+                dateMoment.add(1, "minutes");
+            }
+
+            const startMinutes =
+                hour * 60 + minute + this.TO_UTC_MINUTES_OFFSET;
+            const endMinutes =
+                dateMoment.hours() * 60 +
+                dateMoment.minutes() -
+                1 +
+                this.TO_UTC_MINUTES_OFFSET;
+            minutePeriods.push({
+                start: startMinutes,
+                end: endMinutes,
+            });
+        });
+
+        this._tradingTimeArray = timeArray;
+        this._tradingMinutePeriods = minutePeriods;
+
+        console.log("inittradetime:", timeArray);
+    }
+
+    private initBetsTitle() {
+        for (let i = 5; i >= -5; i--) {
+            if (i === 0) {
+                continue;
+            }
+
+            this._betsTitle.push(`${i > 0 ? "卖" : "买"}${Math.abs(i)}`);
+        }
+    }
+
+    /**
+     * accountType
+     * 判断用户账号类型.
+     * 邮箱 0 手机 1 客户号 2
+     */
+    public accountType(str) {
+        if (
+            /^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$/.test(
+                str,
+            )
+        ) {
+            return 0;
+        } else if (this.RegExp_Tel.findIndex(reg => reg.test(str)) !== -1) {
+            return 1;
+        } else {
+            return 2;
+        }
+    }
+
+    //是否为推荐邮箱
+    public accountEmailProposal(email) {
+        let emailType = /@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$/.exec(
+            email,
+        );
+        let _proposals: any = {
+            "@qq.com": true,
+            "@163.com": true,
+            "@sina.com": true,
+            "@gmail.com": true,
+            "@126.com": true,
+        };
+        if (emailType) {
+            return _proposals[emailType[0]];
+        } else {
+            return false;
+        }
+    }
 }

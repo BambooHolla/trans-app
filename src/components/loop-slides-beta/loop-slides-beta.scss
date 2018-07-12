@@ -1,140 +1,140 @@
 loop-slides-beta {
-  .warpper{
-    width: 100%;//35.5rem;
-    height: 23.6rem;// height: 20rem;// 17.1rem;
-    // overflow: hidden;
-    position: relative;
+    .warpper {
+        width: 100%; //35.5rem;
+        height: 23.6rem; // height: 20rem;// 17.1rem;
+        // overflow: hidden;
+        position: relative;
 
-    // text-align: center;
-  }  
-
-  .mask {
-    @extend %absolute-full-size;
-    // z-index: 10;
-    // background-color: rgba(0, 0, 0, 0.12);
-  }
-    
-  .customizedSlides{
-    height:20rem;//17.1rem;
-  }
-
-  .cards{
-    position: relative;
-    width:35.55rem;  
-    // width: 28.4rem;
-    // display: inline-block;
-    margin: 0 auto; 
-
-    // transform:scale(0.8);
-    
-    // /*
-    // 小tips: zoom和transform:scale的区别 « 张鑫旭-鑫空间-鑫生活
-    // http://www.zhangxinxu.com/wordpress/2015/11/zoom-transform-scale-diff/
-    // */
-    // // transform: scale(0.9);
-    // zoom: 0.9;
-  }
-
-  .bgCard , .infoCard{
-    // transform: translateX(-50%);
-  }
-
-  .bgCard{
-    position: absolute;
-    border-radius: 0.4rem;
-  }
-  .bg-1{
-    height: 20.7rem;
-    width:34.7rem;
-    top: 1.5rem;
-    left: .4rem;
-    background-color: rgba(85, 173, 197, 0.8);
-  }
-
-  .bg-2{    
-    height: 23.6rem;
-    width:33.25rem;
-    top:0;
-    left: 1.1rem;
-    background-color: rgba(48, 149, 176, 0.8);
-  }
-
-  .infoCard{
-    position: absolute;
-    overflow: hidden;
-    padding: 1.7rem 0 0 1.4rem;
-    width:35.55rem;
-    height: 17.15rem;
-    border-radius: 0.4rem;
-    background: #7dcee4;
-    text-align: left;
-
-    top:3.2rem;
-
-    &.backCard{
-      position: absolute;
+        // text-align: center;
     }
 
-    .infoTitle{
-      display: inline-block;
-      font-size: 1.6rem;
+    .mask {
+        @extend %absolute-full-size;
+        // z-index: 10;
+        // background-color: rgba(0, 0, 0, 0.12);
     }
 
-    .infoTime{
-      display: inline-block;
-      margin-left: 1.0rem;
-      vertical-align: middle;
-      font-size: 1.0rem;
+    .customizedSlides {
+        height: 20rem; //17.1rem;
     }
 
-    .infoTag{
-      position: absolute;
-      top:-3.7rem;
-      right: -3.9rem;
-      box-sizing: border-box;
-      padding-top:  5.2rem;
-      padding-left: 2.5rem;
-      width: 10.8rem;
-      height: 10.8rem;
-      border-radius: 50%;
-      background-color: white;
-      color: #3ab5d7;
-      text-align: left;
-      font-size: 3.5rem;
-      line-height: 3.5rem;
+    .cards {
+        position: relative;
+        width: 35.55rem;
+        // width: 28.4rem;
+        // display: inline-block;
+        margin: 0 auto;
+
+        // transform:scale(0.8);
+
+        // /*
+        // 小tips: zoom和transform:scale的区别 « 张鑫旭-鑫空间-鑫生活
+        // http://www.zhangxinxu.com/wordpress/2015/11/zoom-transform-scale-diff/
+        // */
+        // // transform: scale(0.9);
+        // zoom: 0.9;
     }
 
-    .infoKeys{
-      margin-top: 2.4rem;
+    .bgCard,
+    .infoCard {
+        // transform: translateX(-50%);
     }
 
-    .circle{
-      float: left;
-      box-sizing: border-box;
-      margin-left: 5.8rem;
-      width: 9rem;
-      height: 9rem;
-      border: 0.6rem solid rgba(255,255,255,0.4);
-      border-radius: 50%;
-      background-color: rgba(255,255,255,0.2);
-      text-align: center;
-      line-height: 7.8rem;
-      
-      .content{
-        display: inline-block;
-        vertical-align: middle;
-      }
-      .number{
-        font-size: 1.6rem;
-        line-height: 1.6rem;
-      }
-
-      .description{
-        margin-top: 0.5rem;
-        font-size: 1.1rem;
-        line-height: 1.1rem;
-      }
+    .bgCard {
+        position: absolute;
+        border-radius: 0.4rem;
     }
-  }
+    .bg-1 {
+        height: 20.7rem;
+        width: 34.7rem;
+        top: 1.5rem;
+        left: 0.4rem;
+        background-color: rgba(85, 173, 197, 0.8);
+    }
+
+    .bg-2 {
+        height: 23.6rem;
+        width: 33.25rem;
+        top: 0;
+        left: 1.1rem;
+        background-color: rgba(48, 149, 176, 0.8);
+    }
+
+    .infoCard {
+        position: absolute;
+        overflow: hidden;
+        padding: 1.7rem 0 0 1.4rem;
+        width: 35.55rem;
+        height: 17.15rem;
+        border-radius: 0.4rem;
+        background: #7dcee4;
+        text-align: left;
+
+        top: 3.2rem;
+
+        &.backCard {
+            position: absolute;
+        }
+
+        .infoTitle {
+            display: inline-block;
+            font-size: 1.6rem;
+        }
+
+        .infoTime {
+            display: inline-block;
+            margin-left: 1rem;
+            vertical-align: middle;
+            font-size: 1rem;
+        }
+
+        .infoTag {
+            position: absolute;
+            top: -3.7rem;
+            right: -3.9rem;
+            box-sizing: border-box;
+            padding-top: 5.2rem;
+            padding-left: 2.5rem;
+            width: 10.8rem;
+            height: 10.8rem;
+            border-radius: 50%;
+            background-color: white;
+            color: #3ab5d7;
+            text-align: left;
+            font-size: 3.5rem;
+            line-height: 3.5rem;
+        }
+
+        .infoKeys {
+            margin-top: 2.4rem;
+        }
+
+        .circle {
+            float: left;
+            box-sizing: border-box;
+            margin-left: 5.8rem;
+            width: 9rem;
+            height: 9rem;
+            border: 0.6rem solid rgba(255, 255, 255, 0.4);
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.2);
+            text-align: center;
+            line-height: 7.8rem;
+
+            .content {
+                display: inline-block;
+                vertical-align: middle;
+            }
+            .number {
+                font-size: 1.6rem;
+                line-height: 1.6rem;
+            }
+
+            .description {
+                margin-top: 0.5rem;
+                font-size: 1.1rem;
+                line-height: 1.1rem;
+            }
+        }
+    }
 }
-

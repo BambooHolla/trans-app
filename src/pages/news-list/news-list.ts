@@ -1,4 +1,11 @@
-import { Component, OnInit, OnDestroy, ViewChild, ElementRef, Renderer } from '@angular/core';
+import {
+    Component,
+    OnInit,
+    OnDestroy,
+    ViewChild,
+    ElementRef,
+    Renderer,
+} from "@angular/core";
 import {
     Slides,
     Content,
@@ -9,51 +16,52 @@ import {
     LoadingController,
     Loading,
     NavController,
-    Refresher
-} from 'ionic-angular';
+    Refresher,
+} from "ionic-angular";
 
-import { Observable } from 'rxjs/Observable';
-import { Subject } from 'rxjs/Subject';
-import { Subscription } from 'rxjs/Subscription';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { Observable } from "rxjs/Observable";
+import { Subject } from "rxjs/Subject";
+import { Subscription } from "rxjs/Subscription";
+import { BehaviorSubject } from "rxjs/BehaviorSubject";
 
-import { NewsContent } from '../news-content/news-content';
+import { NewsContent } from "../news-content/news-content";
 import {
     NewsServiceProvider,
     NewModel,
-    NewsMsgType
-} from '../../providers/news-service/news-service';
-import { SecondLevelPage } from '../../bnlc-framework/SecondLevelPage';
-import { asyncCtrlGenerator } from '../../bnlc-framework/Decorator';
-import {AppSettingProvider} from "../../bnlc-framework/providers/app-setting/app-setting"
+    NewsMsgType,
+} from "../../providers/news-service/news-service";
+import { SecondLevelPage } from "../../bnlc-framework/SecondLevelPage";
+import { asyncCtrlGenerator } from "../../bnlc-framework/Decorator";
+import { AppSettingProvider } from "../../bnlc-framework/providers/app-setting/app-setting";
 // @IonicPage({
 //     name:"news-list"
 // })
 @Component({
-    selector: 'page-news-list',
-    templateUrl: 'news-list.html'
+    selector: "page-news-list",
+    templateUrl: "news-list.html",
 })
 export class NewsListPage /* implements OnInit, OnDestroy  */ extends SecondLevelPage {
     private newsContentPage: any = NewsContent;
-    public serverUrl = this.appSettin.APP_URL('file/read/')
+    public serverUrl = this.appSettin.APP_URL("file/read/");
     newsList = {
         list: [] as NewModel[],
         hasMore: true,
         page: 1,
-        page_size: 10
+        page_size: 10,
     };
     noticeList = {
         list: [] as NewModel[],
         hasMore: true,
         page: 1,
-        page_size: 10
+        page_size: 10,
     };
 
-    @ViewChild('searchInputWrap', { read: ElementRef }) searchInputWrap;
+    @ViewChild("searchInputWrap", { read: ElementRef })
+    searchInputWrap;
     private showSearch = false;
     private useSearch = false;
-    private query:string = '';
-    private searchTermStream = new BehaviorSubject<string>('');
+    private query: string = "";
+    private searchTermStream = new BehaviorSubject<string>("");
     search(term: string) {
         this.searchTermStream.next(term);
         this.useSearch = true;
@@ -72,9 +80,9 @@ export class NewsListPage /* implements OnInit, OnDestroy  */ extends SecondLeve
         public navParams: NavParams,
         public newsService: NewsServiceProvider,
         public alertCtrl: AlertController,
-        public appSettin : AppSettingProvider,
+        public appSettin: AppSettingProvider,
         public loadingCtrl: LoadingController,
-		public renderer: Renderer,
+        public renderer: Renderer,
     ) {
         super(navCtrl, navParams);
     }
@@ -87,21 +95,21 @@ export class NewsListPage /* implements OnInit, OnDestroy  */ extends SecondLeve
             .debounceTime(300)
             .map(str => str && str.trim())
             .distinctUntilChanged()
-            .do(str => console.log('searchNews:Stream',str))
+            .do(str => console.log("searchNews:Stream", str))
             .filter(str => str != this.query)
             // .switchMap((term: string) => Observable.of(term.trim().toLowerCase()))
-            .subscribe(str=>this.searchNews(str))
+            .subscribe(str => this.searchNews(str));
     }
 
-    @ViewChild('content', {
-        read: Content
+    @ViewChild("content", {
+        read: Content,
     })
     content: Content;
     @ViewChild(Slides) slides: Slides;
     ngAfterViewInit() {
         // this.tradeListElement.
         this.slides.loop = false;
-        this.slides.effect = 'slide';
+        this.slides.effect = "slide";
         this.slides.speed = 500;
     }
 
@@ -111,7 +119,7 @@ export class NewsListPage /* implements OnInit, OnDestroy  */ extends SecondLeve
         this.slides.update();
     }
     tabClick(index) {
-        console.log('Q!!!!!!', this.tabIndex, index);
+        console.log("Q!!!!!!", this.tabIndex, index);
         if (this.tabIndex == index) {
             return;
         } else {
@@ -122,27 +130,25 @@ export class NewsListPage /* implements OnInit, OnDestroy  */ extends SecondLeve
     }
 
     //用于控制 是否启用下拉刷新
-    refresherEnabled:boolean = true;
-    refresherSwitch:any;
-    slideDrag($event){
-        if(!this.noticeList.list || !this.newsList.list){
-            return ;
+    refresherEnabled: boolean = true;
+    refresherSwitch: any;
+    slideDrag($event) {
+        if (!this.noticeList.list || !this.newsList.list) {
+            return;
         }
         clearTimeout(this.refresherSwitch);
         this.refresherEnabled = false;
-        if($event) {
+        if ($event) {
             setTimeout(() => {
                 this.refresherEnabled = true;
             }, 1000);
         }
-        
     }
     slideChanged() {
         this.refresherEnabled = true;
-        console.log('Q!!!!!!', this.slides.realIndex);
+        console.log("Q!!!!!!", this.slides.realIndex);
         this.tabIndex = this.slides.realIndex;
         this.getCurrentContent();
-       
     }
     getCurrentContent() {
         if (this.tabIndex == 0) {
@@ -153,11 +159,11 @@ export class NewsListPage /* implements OnInit, OnDestroy  */ extends SecondLeve
     }
 
     viewNews(id) {
-        console.log('viewNews', id);
+        console.log("viewNews", id);
         this.disable_init_list_when_enter = true; // 进入子页面返回后禁用自动刷新数据
         this.navCtrl.push(this.newsContentPage, {
             newsId: id,
-            newsType: this.tabIndex
+            newsType: this.tabIndex,
         });
     }
     disable_init_list_when_enter = false;
@@ -201,9 +207,9 @@ export class NewsListPage /* implements OnInit, OnDestroy  */ extends SecondLeve
         this.notice_loading_handler.hide();
     }
 
-    @ViewChild('newsIS', { read: InfiniteScroll })
+    @ViewChild("newsIS", { read: InfiniteScroll })
     newsInfiniteScroll: InfiniteScroll;
-    @asyncCtrlGenerator.error('GAIN_NEWS_ERROR')
+    @asyncCtrlGenerator.error("GAIN_NEWS_ERROR")
     async _getNewsList(show_loading = false) {
         this.news_loading_handler.is_loading = true;
         if (show_loading) {
@@ -227,9 +233,9 @@ export class NewsListPage /* implements OnInit, OnDestroy  */ extends SecondLeve
         }
     }
 
-    @ViewChild('noticeIS', { read: InfiniteScroll })
+    @ViewChild("noticeIS", { read: InfiniteScroll })
     noticeInfiniteScroll: InfiniteScroll;
-    @asyncCtrlGenerator.error('GAIN_INFO_ERROR')
+    @asyncCtrlGenerator.error("GAIN_INFO_ERROR")
     async _getNoticeList(show_loading = false) {
         this.notice_loading_handler.is_loading = true;
         if (show_loading) {
@@ -241,7 +247,7 @@ export class NewsListPage /* implements OnInit, OnDestroy  */ extends SecondLeve
                 page: noticeList.page,
                 pageSize: noticeList.page_size,
                 msgType: NewsMsgType.notice,
-                q:this.query,
+                q: this.query,
             });
             noticeList.hasMore = res.length === noticeList.page_size;
             this.noticeInfiniteScroll &&
@@ -294,14 +300,18 @@ export class NewsListPage /* implements OnInit, OnDestroy  */ extends SecondLeve
     }
 
     toShowSearch(searchInput) {
-        searchInput.value = '';
+        searchInput.value = "";
         this.showSearch = true;
-        this.renderer.setElementStyle(this.searchInputWrap.nativeElement, 'width', 'unset');
+        this.renderer.setElementStyle(
+            this.searchInputWrap.nativeElement,
+            "width",
+            "unset",
+        );
     }
 
     cancelFilter() {
         this.showSearch = false;
-        this.query = '';
+        this.query = "";
         if (this.tabIndex == 0 && this.useSearch) {
             this.initNoticeList();
         } else if (this.tabIndex == 1 && this.useSearch) {
@@ -310,7 +320,7 @@ export class NewsListPage /* implements OnInit, OnDestroy  */ extends SecondLeve
         this.useSearch = false;
     }
 
-    async searchNews(str:string){
+    async searchNews(str: string) {
         this.query = str;
         if (this.tabIndex == 0) {
             this.noticeList.list = await this._getNoticeList();
@@ -328,12 +338,12 @@ class LoadingHanlder {
         if (this.is_loading && !this.loading) {
             this.loading = this.loadingCtrl.create({
                 showBackdrop: false,
-                cssClass: 'enableBackdropDismiss',
-                dismissOnPageChange: true
+                cssClass: "enableBackdropDismiss",
+                dismissOnPageChange: true,
             });
             this.loading.present({
                 minClickBlockDuration: -1,
-                disableApp: false // 使得tabs依然可以点击
+                disableApp: false, // 使得tabs依然可以点击
             });
         }
     }

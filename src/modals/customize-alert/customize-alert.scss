@@ -4,7 +4,7 @@ ion-modal ion-backdrop {
 }
 
 .modal-wrapper {
-    background: none!important;
+    background: none !important;
 }
 
 customize-alert {
@@ -15,7 +15,7 @@ customize-alert {
     input {
         display: flex;
         flex: 1;
-        border: 1px solid color($colors, 'special');
+        border: 1px solid color($colors, "special");
         width: 80%;
         margin: 1rem auto;
         color: #000;
@@ -31,22 +31,22 @@ customize-alert {
             flex: 1 1 auto;
             min-width: 50%;
             height: 50px;
-            border-top: .55px solid color($colors, 'special');
-            border-right: .55px solid color($colors, 'special');
+            border-top: 0.55px solid color($colors, "special");
+            border-right: 0.55px solid color($colors, "special");
             font-size: 17px;
             color: #387ef5;
             background-color: transparent;
         }
     }
     .content-ios {
-        background: none!important;
+        background: none !important;
     }
     ion-content {
-        background: none!important;
+        background: none !important;
     }
-    top: 25%!important;
-    left: 7%!important;
-    width: 86%!important;
+    top: 25% !important;
+    left: 7% !important;
+    width: 86% !important;
     position: absolute;
     background: none;
     ion-header {
@@ -87,18 +87,18 @@ customize-alert {
         .tip {
             font-size: 1.9rem;
             color: #000;
-            margin-top: .5rem;
+            margin-top: 0.5rem;
         }
         .input-text {
             min-height: 3rem;
         }
         .button-inner {
-            color: color($colors, 'special');
+            color: color($colors, "special");
             font-size: 1.6rem;
         }
         .submit {
-            color: #fff!important;
-            background: color($colors, 'special');
+            color: #fff !important;
+            background: color($colors, "special");
         }
     }
     .close {
@@ -116,7 +116,7 @@ customize-alert {
             font-size: 18px;
             top: -1px;
             position: relative;
-            color: color($colors, 'special');
+            color: color($colors, "special");
         }
     }
 }

@@ -1,26 +1,25 @@
 page-notice {
-    .toolbar-title-ios{
+    .toolbar-title-ios {
         color: white;
     }
-    .toolbar-title-md{
+    .toolbar-title-md {
         color: white;
     }
-    .toolbar-title-wp{
+    .toolbar-title-wp {
         color: white;
     }
-    .toolbar-background{
-        background:  transparent;
+    .toolbar-background {
+        background: transparent;
     }
-    ion-content{
-        ion-row{
-            .noticeContent{
-                span{
-                   font-size: 1.4rem;
-                   text-indent: 3rem;
-                   display:block;
-                   line-height: 2.8rem;
+    ion-content {
+        ion-row {
+            .noticeContent {
+                span {
+                    font-size: 1.4rem;
+                    text-indent: 3rem;
+                    display: block;
+                    line-height: 2.8rem;
                 }
-
             }
         }
     }

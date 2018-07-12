@@ -1,139 +1,138 @@
-page-history-record{
+page-history-record {
+    ion-col:first-child {
+        text-align: left;
+    }
 
-	ion-col:first-child{
-		text-align: left;
-	}
+    .comsub {
+        height: 4.4rem;
+        line-height: 4.4rem;
+        color: color($colors, middark);
+        background-color: #242535;
+        padding: 0 12px;
+        ion-col {
+            padding: 0;
+        }
+    }
+    .home-header {
+        // padding-top:0;
+        .hdbg {
+            .histime {
+                margin: 0 auto;
+                text-align: center;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                ion-item {
+                    // width:unset;
+                    width: initial;
+                    &.item {
+                        overflow: visible;
+                        padding: 1rem 0;
+                        // min-height: unset;
+                        min-height: initial;
 
-	.comsub{
-		height: 4.4rem;
-		line-height: 4.4rem;
-		color: color($colors,middark);
-		background-color:#242535;
-		padding: 0 12px;
-		ion-col{
-			padding: 0;
-		}
-	}
-	.home-header{
-		// padding-top:0;
-		.hdbg{
-		.histime{
-			margin:0 auto;
-			text-align: center;
-			display: flex;
-			align-items: center;
-			justify-content: center;
-			ion-item{
-				// width:unset;
-				width:initial;
-				&.item {
-			
-					overflow: visible;
-					padding:1rem 0;
-					// min-height: unset;
-					min-height: initial;
-					
-					&:first-of-type{
-						padding-right:1.8rem;
-					}
-					&:last-of-type{
-						padding-left:1.8rem;
-					}
-					.datetime-text{
-						font-size: 1.5rem;
-						overflow: visible;
-					}
-	
-					.item-inner{
-						padding:0;
-						border:none;
-						.input-wrapper{
-							font-size: 1.5rem;
-						}
-					}
-				}
-				.datetime-ios{
-					padding:0;
-				}
-			}
-			
-			ion-icon{
-				display: flex;
-				margin:1rem 2.4rem;
-				height: 1.6rem;
-				line-height: 1.6rem;
-			}
-		}
-		.echarts-placeholder{height:22.5rem;}
-	}
-}
-	// ion-content{
-	// 	height: 500px;
-	// 	background:rgba(4,110,138,1);
-	// }
-	ion-content{
-		.bg-blue{
-			position: fixed;
-			// padding-top: 2.1rem;
-			width: 100%;
-			height: 100%;
-			background-color: rgba(57, 179, 214, 0.2)
-		}
-		&.bg-darker .scroll-content{
-			background-color: color($colors,background-darker);
-		}
-		.no-entrust {
-			text-align: center;
-			height: 10rem;
-			line-height: 10rem;
-			font-size: 2rem;
-			color: color($colors, middark);
-		}
+                        &:first-of-type {
+                            padding-right: 1.8rem;
+                        }
+                        &:last-of-type {
+                            padding-left: 1.8rem;
+                        }
+                        .datetime-text {
+                            font-size: 1.5rem;
+                            overflow: visible;
+                        }
 
-		.list-item{
-			height: 5.8rem;
-			border-bottom: 1px solid color($colors,background);
-			// background-color: color($colors,background-darker);
-			color: color($colors,special);
-			font-size: 1.3rem;
-			text-align: center;
-			padding: 0 12px;
-			ion-col {
-				padding: 0;
-			}
-		}
+                        .item-inner {
+                            padding: 0;
+                            border: none;
+                            .input-wrapper {
+                                font-size: 1.5rem;
+                            }
+                        }
+                    }
+                    .datetime-ios {
+                        padding: 0;
+                    }
+                }
 
-		.type {
-			width: 2.6rem;
-			height: 2.6rem;
-			line-height: 2.6rem; 
-			border: 1px solid color($colors, special);
-			border-radius: 50%;
-			font-size: 1rem; 
-			text-align: center;
-			margin: 0 auto;
-			&.buy {
-				color: white;
-				background-color: color($colors, special);
-			}
+                ion-icon {
+                    display: flex;
+                    margin: 1rem 2.4rem;
+                    height: 1.6rem;
+                    line-height: 1.6rem;
+                }
+            }
+            .echarts-placeholder {
+                height: 22.5rem;
+            }
+        }
+    }
+    // ion-content{
+    // 	height: 500px;
+    // 	background:rgba(4,110,138,1);
+    // }
+    ion-content {
+        .bg-blue {
+            position: fixed;
+            // padding-top: 2.1rem;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(57, 179, 214, 0.2);
+        }
+        &.bg-darker .scroll-content {
+            background-color: color($colors, background-darker);
+        }
+        .no-entrust {
+            text-align: center;
+            height: 10rem;
+            line-height: 10rem;
+            font-size: 2rem;
+            color: color($colors, middark);
+        }
 
-			&.sale {
-				color: color($colors, special);
-			}
-		}
+        .list-item {
+            height: 5.8rem;
+            border-bottom: 1px solid color($colors, background);
+            // background-color: color($colors,background-darker);
+            color: color($colors, special);
+            font-size: 1.3rem;
+            text-align: center;
+            padding: 0 12px;
+            ion-col {
+                padding: 0;
+            }
+        }
 
+        .type {
+            width: 2.6rem;
+            height: 2.6rem;
+            line-height: 2.6rem;
+            border: 1px solid color($colors, special);
+            border-radius: 50%;
+            font-size: 1rem;
+            text-align: center;
+            margin: 0 auto;
+            &.buy {
+                color: white;
+                background-color: color($colors, special);
+            }
 
-		.spanfixed{
-			padding-top: 2.1rem;
-		}
-	}
-	.footer-data{
-		margin-top: 2rem;
-		font-size: 1.1rem;
-		text-align: center;
-		background-image: url('../assets/images/gradient-axis.png');
-		background-repeat: no-repeat;
-		background-size: contain;
-		background-position:center center;
-	}
+            &.sale {
+                color: color($colors, special);
+            }
+        }
+
+        .spanfixed {
+            padding-top: 2.1rem;
+        }
+    }
+    .footer-data {
+        margin-top: 2rem;
+        font-size: 1.1rem;
+        text-align: center;
+        background-image: url("../assets/images/gradient-axis.png");
+        background-repeat: no-repeat;
+        background-size: contain;
+        background-position: center center;
+    }
 }

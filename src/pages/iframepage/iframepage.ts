@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { Component } from "@angular/core";
+import { IonicPage, NavController, NavParams } from "ionic-angular";
 
 /**
  * Generated class for the IframepagePage page.
@@ -9,16 +9,13 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
  */
 @IonicPage()
 @Component({
-  selector: 'page-iframepage',
-  templateUrl: 'iframepage.html',
+    selector: "page-iframepage",
+    templateUrl: "iframepage.html",
 })
 export class IframepagePage {
+    constructor(public navCtrl: NavController, public navParams: NavParams) {}
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
-  }
-
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad IframepagePage');
-  }
-
+    ionViewDidLoad() {
+        console.log("ionViewDidLoad IframepagePage");
+    }
 }

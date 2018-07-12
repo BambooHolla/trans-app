@@ -2,63 +2,67 @@
 // Custom mixin
 // --------------------------------------------------
 
-@mixin grads_line($dir, $colors){
-  $all: $dir;
-  $step: 100% / length($colors);
-  @for $i from 1 through length($colors) {
-    $all: #{$all}, nth($colors, $i) ($i - 1) * $step, nth($colors, $i) $i * $step
-  }
-  background: linear-gradient($all);
+@mixin grads_line($dir, $colors) {
+    $all: $dir;
+    $step: 100% / length($colors);
+    @for $i from 1 through length($colors) {
+        $all: #{$all}, nth($colors, $i) ($i - 1) * $step,
+            nth($colors, $i) $i * $step;
+    }
+    background: linear-gradient($all);
 }
 
-@mixin icons-sub($icon-name, $platform){
-  .ion-#{$platform}-#{$icon-name}::before {
-    content:"";
-    display: block;
-    margin: 3px auto 0;
-    width: 2rem;
-    height: 2rem;
-    background: url(../assets/images/icons/#{$icon-name}.png) center center/2rem 2rem no-repeat;
-  }
+@mixin icons-sub($icon-name, $platform) {
+    .ion-#{$platform}-#{$icon-name}::before {
+        content: "";
+        display: block;
+        margin: 3px auto 0;
+        width: 2rem;
+        height: 2rem;
+        background: url(../assets/images/icons/#{$icon-name}.png) center
+            center/2rem 2rem no-repeat;
+    }
 }
 
-@mixin icons($icon-name){
-  @include icons-sub($icon-name, 'ios');
-  // @include icons-sub($icon-name, 'md');
-  @include icons-sub(#{$icon-name}-outline, 'ios');
-  // @include icons-sub(#{$icon-name}-outline, 'md');
+@mixin icons($icon-name) {
+    @include icons-sub($icon-name, "ios");
+    // @include icons-sub($icon-name, 'md');
+    @include icons-sub(#{$icon-name}-outline, "ios");
+    // @include icons-sub(#{$icon-name}-outline, 'md');
 }
 
-
-@mixin gicon($icon-name){
-  .ion-ios-g#{$icon-name}::before {
-    content:"";
-    display: block;
-    width: 2.4rem;
-    height: 2.4rem;
-    background: url(../assets/images/icons/g-#{$icon-name}.png) center center/2.4rem 2.4rem no-repeat;
-  }
+@mixin gicon($icon-name) {
+    .ion-ios-g#{$icon-name}::before {
+        content: "";
+        display: block;
+        width: 2.4rem;
+        height: 2.4rem;
+        background: url(../assets/images/icons/g-#{$icon-name}.png) center
+            center/2.4rem 2.4rem no-repeat;
+    }
 }
 
-@mixin inputicon($icon-name){
-  .input-#{$icon-name} {
-    background: url(../assets/images/icons/input-#{$icon-name}.png) 10px center/2.4rem 2.4rem no-repeat;
-  }
+@mixin inputicon($icon-name) {
+    .input-#{$icon-name} {
+        background: url(../assets/images/icons/input-#{$icon-name}.png) 10px
+            center/2.4rem 2.4rem no-repeat;
+    }
 }
 
-@mixin tabicon($icon-name){
-  .ion-ios-#{$icon-name}::before,.ion-ios-#{$icon-name}-outline::before {
-    content:"";
-    display: block;
-    margin: 0.2rem auto 0;
-    width: 1.7rem;
-    height: 1.7rem;
-    background-image: url(../assets/images/tabs/tabs-#{$icon-name}-icon.png);
-    background-position:center center;
-    background-size:99% 100%;
-    background-repeat:no-repeat;
-  }
-  .ion-ios-#{$icon-name}-outline::before{
-    filter: grayscale(100%) brightness(0.8);
-  }
+@mixin tabicon($icon-name) {
+    .ion-ios-#{$icon-name}::before,
+    .ion-ios-#{$icon-name}-outline::before {
+        content: "";
+        display: block;
+        margin: 0.2rem auto 0;
+        width: 1.7rem;
+        height: 1.7rem;
+        background-image: url(../assets/images/tabs/tabs-#{$icon-name}-icon.png);
+        background-position: center center;
+        background-size: 99% 100%;
+        background-repeat: no-repeat;
+    }
+    .ion-ios-#{$icon-name}-outline::before {
+        filter: grayscale(100%) brightness(0.8);
+    }
 }

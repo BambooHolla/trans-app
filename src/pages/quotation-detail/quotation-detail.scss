@@ -1,84 +1,98 @@
 page-quotation-detail {
-	ion-content{
-		.quotitle{
-			background:rgba(50,60,70,0.1);
-			ion-grid{
-				padding:0;
-				ion-row{
-					[col-6]{
-						padding:0;
-					}
-					ion-col{
-						ion-row{
-							[col-5]{
-								padding:1.8rem 0 1rem 0.2rem;
-							}
-							[col-7]{
-								padding:1.8rem 0 1rem 0.2rem;
-							}
-							[col-5]+[col-7]{
-								padding-right:0.2rem;
-							}
-							.big{
-								font-size:2.1rem;
-								margin-top: -1rem;
-							}
-						}
-					}
-				}
-			}
-		}
-		.candle{
-			background:rgba(255,255,255,0.5);
-			background: linear-gradient(to bottom, rgba(255,255,255,0.5), rgba(255,255,255,0.5) 57%, transparent 57%,transparent 64%,  rgba(255,255,255,0.5) 64%, rgba(255,255,255,0.5))
-			left bottom no-repeat;
-			margin-bottom: 1.2rem;
-			.echarts-placeholder{
-				height:30rem;
-			}
-		}
-		ion-slides{
-			height: unset;
-			ion-slide{
-				height: unset;
-			}
-		}
-		.notice-news{
-			background: rgba(255,255,255,0.08);
-			text-align: center;
-			color:#43a8d2;
-			ion-icon{font-size:2.2rem;}
-			.active{
-				&:before{
-                    content:"";
+    ion-content {
+        .quotitle {
+            background: rgba(50, 60, 70, 0.1);
+            ion-grid {
+                padding: 0;
+                ion-row {
+                    [col-6] {
+                        padding: 0;
+                    }
+                    ion-col {
+                        ion-row {
+                            [col-5] {
+                                padding: 1.8rem 0 1rem 0.2rem;
+                            }
+                            [col-7] {
+                                padding: 1.8rem 0 1rem 0.2rem;
+                            }
+                            [col-5] + [col-7] {
+                                padding-right: 0.2rem;
+                            }
+                            .big {
+                                font-size: 2.1rem;
+                                margin-top: -1rem;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        .candle {
+            background: rgba(255, 255, 255, 0.5);
+            background: linear-gradient(
+                    to bottom,
+                    rgba(255, 255, 255, 0.5),
+                    rgba(255, 255, 255, 0.5) 57%,
+                    transparent 57%,
+                    transparent 64%,
+                    rgba(255, 255, 255, 0.5) 64%,
+                    rgba(255, 255, 255, 0.5)
+                )
+                left bottom no-repeat;
+            margin-bottom: 1.2rem;
+            .echarts-placeholder {
+                height: 30rem;
+            }
+        }
+        ion-slides {
+            height: unset;
+            ion-slide {
+                height: unset;
+            }
+        }
+        .notice-news {
+            background: rgba(255, 255, 255, 0.08);
+            text-align: center;
+            color: #43a8d2;
+            ion-icon {
+                font-size: 2.2rem;
+            }
+            .active {
+                &:before {
+                    content: "";
                     position: absolute;
                     z-index: 1;
                     bottom: 0;
                     width: 16%;
                     height: 0.1rem;
                     border-radius: 0.3rem;
-                    border-bottom:0.2rem solid #43a8d2;
-                    box-shadow:0 0 1.5rem 0 #43a8d2;
+                    border-bottom: 0.2rem solid #43a8d2;
+                    box-shadow: 0 0 1.5rem 0 #43a8d2;
                 }
-			}
-		}
-		ion-list{
-			ion-item{
-				&.item-block{
-					width:96%;
-					margin:0 auto;
-				}
-				border-top:none!important;
-				// border-bottom:1px solid #bdbdbd!important;
-				border-bottom:1px solid rgba(83,83,83,0.4)!important;
-				.item-inner{border:none!important;}
-				.newtitl{
-					font-size:1.3rem;
-					overflow:hidden; 
-					text-overflow:ellipsis
-				}
-				.newtime{font-size:1rem;}
-			}
-		}
-	}
+            }
+        }
+        ion-list {
+            ion-item {
+                &.item-block {
+                    width: 96%;
+                    margin: 0 auto;
+                }
+                border-top: none !important;
+                // border-bottom:1px solid #bdbdbd!important;
+                border-bottom: 1px solid rgba(83, 83, 83, 0.4) !important;
+                .item-inner {
+                    border: none !important;
+                }
+                .newtitl {
+                    font-size: 1.3rem;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                }
+                .newtime {
+                    font-size: 1rem;
+                }
+            }
+        }
+    }
 }
