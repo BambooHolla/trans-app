@@ -633,28 +633,28 @@ export class SocketioService {
 
         // 获取时间段的秒数，YYYY-MM-DD hh:mm:00
         let timeNumber = nowTime - (nowTime % 60000);
-
+        // 因为echart数据过多缩放或造成视图消失，所以限制120个
         if (type == "1m") {
-            // 240 个数据
-            timeNumber = timeNumber - 10080000;
+            // 120 个数据
+            timeNumber = timeNumber - 7200000;
         } else if (type == "5m") {
-            // 240 个数据
-            timeNumber = timeNumber - 50400000;
+            // 120 个数据
+            timeNumber = timeNumber - 36000000;
         } else if (type == "15m") {
-            // 240 个数据
-            timeNumber = timeNumber - 151200000;
+            // 120 个数据
+            timeNumber = timeNumber - 108000000;
         } else if (type == "30m") {
-            // 240 个数据
-            timeNumber = timeNumber - 302400000;
+            // 120 个数据
+            timeNumber = timeNumber - 216000000;
         } else if (type == "1h") {
-            // 240 个数据
-            timeNumber = timeNumber - 604800000;
+            // 120 个数据
+            timeNumber = timeNumber - 432000000;
         } else if (type == "1d") {
-            // 180 个数据
-            timeNumber = timeNumber - 14515200000;
+            // 120 个数据
+            timeNumber = timeNumber - 10368000000;
         } else if (type == "1w") {
-            // 34 个数据
-            timeNumber = timeNumber - 101606400000;
+            // 120 个数据
+            timeNumber = timeNumber - 72576000000;
         }
         return new Date(timeNumber);
     }
