@@ -17,6 +17,12 @@
 7. `git checkout develop` -> `git merge --no-ff <name>`，合并分支
 8. `git push origin develop`，上传
 
-## 关于android签名
+## 打包
 
+`ionic cordova platform add android/ios`，添加对应依赖包，参考[](https://ionicframework.com/docs/cli/cordova/platform/)
+
+
+* android打包
+    > 1. `ionic cordova platform add android`,
+    > 1. `npm run ionic:build:android` 会
 

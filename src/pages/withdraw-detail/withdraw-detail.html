@@ -98,7 +98,7 @@
             <button item-end *ngIf="!has_account_pwd" (click)="routeTo('set-pay-pwd')" ion-button color="special">{{'GO_TO_SETTINGS'|translate}}</button>
         </ion-item>
         <ion-item class="follow-pre-item"> 
-            <button class="submit-btn" [disabled]="false || !canSubmit || (freeSwitch&&(((formData?.amount||0) * 1) > access_info?.balance)) || (formData?.amount||0) <= (rate_info?.rateNumber||0) || (((formData?.amount||0) * 1) > access_info?.balance) || promptAmount?.min > formData?.amount || promptAmount?.max < formData?.amount" ion-button color="special" (click)="submitWithdrawAppply()">{{'CONFIRM_WITHDRAWAL'|translate}}</button>
+            <button class="submit-btn" [disabled]="false || !canSubmit || (freeSwitch&&(((formData?.amount||0) * 1) > (access_info?.balance))) || ((formData?.amount||0)*1) <= ((rate_info?.rateNumber||0)*1) || (((formData?.amount||0) * 1) > (access_info?.balance*1)) || (promptAmount?.min*1) > (formData?.amount*1) || (promptAmount?.max*1) < (formData?.amount*1)" ion-button color="special" (click)="submitWithdrawAppply()">{{'CONFIRM_WITHDRAWAL'|translate}}</button>
         </ion-item>
     </ion-list>
     <div class="withdraw-logs">
