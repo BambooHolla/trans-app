@@ -42,7 +42,16 @@ import { CryptoService } from "../../providers/crypto-service";
     templateUrl: "withdraw-detail.html",
 })
 export class WithdrawDetailPage extends SecondLevelPage {
-    public freeSwitch: boolean = true;
+
+    public freeSwitch: boolean = true; // 手续费定额(true)，比例(false)开关
+    public withdrawSwitch: boolean = true; // 提笔数额大于持有（true）
+    public feeSwitch: boolean = true; // 提笔需大于手续费(true)
+    public minQuotaSwitch: boolean = true; // 提币数额小于最小额度（true）
+    public maxQuotaSwitch: boolean = true; // 提币数额大于最大额度 (true)
+
+
+
+
     @ViewChild("amountInputer") AmountInputer: any;
     constructor(
         public navCtrl: NavController,
@@ -88,8 +97,8 @@ export class WithdrawDetailPage extends SecondLevelPage {
         title2: "",
     };
     promptAmount: any = {
-        min: undefined,
-        max: undefined,
+        min: 0,
+        max: 0,
     };
 
     @WithdrawDetailPage.setErrorTo("errors", "amount", ["outRange"])
@@ -288,7 +297,7 @@ export class WithdrawDetailPage extends SecondLevelPage {
                                 : data[0].calcMethodType === "002"
                                     ? `${data[0].rateNumber}`
                                     : "";
-                        this.freeSwitch =
+                        this.freeSwitch = 
                             data[0].calcMethodType === "001"
                                 ? false
                                 : data[0].calcMethodType === "002"
@@ -394,7 +403,7 @@ export class WithdrawDetailPage extends SecondLevelPage {
                 {
                     transactionType: TransactionType.WithdrawProduct,
                     productId: this.productInfo.productId,
-                    amount: new BigNumber(this.formData.amount).toString(),
+                    amount: (new BigNumber(this.formData.amount)).toString(),
                     paymentId: this.formData.selected_withdraw_address_id + "",
                 },
                 this.cryptoService.MD5(this.formData.password),
@@ -570,15 +579,25 @@ export class WithdrawDetailPage extends SecondLevelPage {
             this.alertCtrl.create(Object.assign(alert)).present();
         }
     }
+ 
+
     numberFormat() {
         let amount: any = this.formData.amount;
-        if (!amount) return;
-        amount = amount.split(".");
-        if (amount[1]) {
-            amount[1] =
-                amount[1].length > 8 ? amount[1].substr(0, 8) : amount[1];
-            this.formData.amount = this.AmountInputer.value =
-                amount[0] + "." + amount[1];
+        if (amount) {
+            amount = amount.split(".");
+            if (amount[1]) {
+                amount[1] =
+                    amount[1].length > 8 ? amount[1].substr(0, 8) : amount[1];
+                this.formData.amount = this.AmountInputer.value = amount =
+                    amount[0] + "." + amount[1];
+            }
         }
+        
+        this.withdrawSwitch = (new BigNumber((''+amount)||0)).comparedTo((''+this.access_info.balance||0)) != 1;
+        this.feeSwitch = (new BigNumber((''+amount)||0)).comparedTo((''+this.rate_info.rateNumber||0)) != 1;
+        this.minQuotaSwitch = this.promptAmount.min*1 == 0 ? false :
+            (new BigNumber((''+amount)||0)).comparedTo((''+this.promptAmount.min||0)) == -1;
+        this.maxQuotaSwitch = this.promptAmount.max*1 == 0 ? false : 
+            (new BigNumber((''+amount)||0)).comparedTo((''+this.promptAmount.max||0)) == 1;
     }
 }

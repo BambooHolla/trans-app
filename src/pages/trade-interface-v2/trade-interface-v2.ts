@@ -1732,7 +1732,7 @@ export class TradeInterfaceV2Page {
                     amount,
                 )
                 .then(async data => {
-                    if (!data.realityAmount) {
+                    if (!data.id) {
                         return Promise.reject({
                             message:
                                 window["language"]["NO_DELEGATED_ORDER"] ||
