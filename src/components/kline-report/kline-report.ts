@@ -650,8 +650,9 @@ export class KlineReportComponent extends KlineEchartsBaseComponent {
             for (let j = 0; j < dayCount; j++) {
                 sum += this.showKlineDates.datas[i - j][1];
             }
-            result.push((sum / dayCount).toFixed(2));
+            result.push((sum / dayCount).toFixed(8));
         }
+        debugger
         return result;
     }
 
