@@ -43,7 +43,7 @@ export class AppSettingProvider {
         // AppSettingProvider.SERVER_URL =  "http://192.168.16.197:40001"; // chenfeng
         // AppSettingProvider.SERVER_URL =  "http://192.168.16.107:40001"; // yongming
         // AppSettingProvider.SERVER_URL = "http://192.168.16.183:40001"; // yanhui
-        // AppSettingProvider.SERVER_URL = "http://192.168.16.122:40001"; // lsy
+        // AppSettingProvider.SERVER_URL = "http://192.168.16.122:40001"; // lsy 
 
         console.log("Hello AppSettingProvider Provider");
         this.user_token = new BehaviorSubject<string>(this.getUserToken());

@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, OnInit, Renderer2 } from "@angular/core";
+import { Component, ElementRef, Input, OnInit, Renderer2, SimpleChanges } from "@angular/core";
 import * as kjua from "kjua";
 
 const default_config: KjuaConfig = {
@@ -76,8 +76,24 @@ type KjuaOptions = { [key in keyof KjuaConfig]?: KjuaConfig[key] };
     templateUrl: "kjua-qrcode.html",
 })
 export class KjuaQrcodeComponent implements OnInit {
-    text: string;
-
+    @Input("render") render: any;
+    @Input("crisp") crisp: any;
+    @Input("minVersion") minVersion: any;
+    @Input("ecLevel") ecLevel: any;
+    @Input("size") size: any;
+    @Input("ratio") ratio: any;
+    @Input("fill") fill: any;
+    @Input("back") back: any;
+    @Input("text") text: any;
+    @Input("rounded") rounded: any;
+    @Input("quiet") quiet: any;
+    @Input("mode") mode: any;
+    @Input("mSize") mSize: any;
+    @Input("mPosX") mPosX: any;
+    @Input("mPosY") mPosY: any;
+    @Input("label") label: any;
+    @Input("fontname") fontname: any;
+    @Input("fontcolor") fontcolor: any;
     _config: KjuaOptions = {};
     @Input()
     get config() {
@@ -93,6 +109,37 @@ export class KjuaQrcodeComponent implements OnInit {
     ngOnInit() {
         this.update();
     }
+    ngOnChanges(changes: SimpleChanges) {
+        let is_config_changed = false;
+        [
+          "render",
+          "crisp",
+          "minVersion",
+          "ecLevel",
+          "size",
+          "ratio",
+          "fill",
+          "back",
+          "text",
+          "rounded",
+          "quiet",
+          "mode",
+          "mSize",
+          "mPosX",
+          "mPosY",
+          "label",
+          "fontname",
+          "fontcolor",
+        ].forEach(key => {
+          if (key in changes) {
+            is_config_changed = true;
+            this.config[key] = this[key];
+          }
+        });
+        if (is_config_changed) {
+          this.update();
+        }
+      }
     private _el: HTMLImageElement | HTMLCanvasElement;
     update() {
         if (this._el) {

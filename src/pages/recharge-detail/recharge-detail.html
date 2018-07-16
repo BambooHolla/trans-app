@@ -39,7 +39,8 @@
 			</div> -->
             <div class="hash-code">
                 <ng-container *ngIf="recharge_address?.paymentAccountNumber;else noAddress">
-                    {{recharge_address.paymentAccountNumber}}
+                    <kjua-qrcode class="qrcode" fill="#2e2e2e" [text]="recharge_address.paymentAccountNumber"></kjua-qrcode>
+                    <p>{{recharge_address.paymentAccountNumber}}</p>
                 </ng-container>
                 <ng-template #noAddress>
                     <i>{{'NO_AVAILABLE_ADDRESS'|translate}}</i>
