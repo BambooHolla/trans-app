@@ -592,9 +592,10 @@ export class WithdrawDetailPage extends SecondLevelPage {
                     amount[0] + "." + amount[1];
             }
         }
-        
         this.withdrawSwitch = (new BigNumber((''+amount)||0)).comparedTo((''+this.access_info.balance||0)) != 1;
-        this.feeSwitch = (new BigNumber((''+amount)||0)).comparedTo((''+this.rate_info.rateNumber||0)) != 1;
+        this.feeSwitch = this.freeSwitch ? 
+            (new BigNumber((''+amount)||0)).comparedTo((''+this.rate_info.rateNumber||0)) != 1 : 
+            false;
         this.minQuotaSwitch = this.promptAmount.min*1 == 0 ? false :
             (new BigNumber((''+amount)||0)).comparedTo((''+this.promptAmount.min||0)) == -1;
         this.maxQuotaSwitch = this.promptAmount.max*1 == 0 ? false : 
