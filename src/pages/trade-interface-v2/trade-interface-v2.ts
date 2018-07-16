@@ -919,11 +919,12 @@ export class TradeInterfaceV2Page {
 
     private refreshPersonalData(refresher?: Refresher) {
         //TODO 添加了 this.doSubscribe()，看是否可行
+        this.page = 1;
         Promise.all([
             this.personalDataService.requestFundData().catch(() => {}),
             this.personalDataService.requestEquityDeposit().catch(() => {}),
             this.doSubscribe(),
-        ])
+        ]) 
             .then(
                 () => (
                     this.checkMax(),
@@ -931,7 +932,8 @@ export class TradeInterfaceV2Page {
                     this.getProcessEntrusts()
                 ),
             )
-            .then(() => (refresher ? refresher.complete() : void 0));
+            .then(() => (refresher ? refresher.complete() : void 0))
+            .catch(() => (refresher ? refresher.complete() : void 0));
     }
     ionViewWillLeave() {}
 

@@ -652,7 +652,7 @@ export class KlineReportComponent extends KlineEchartsBaseComponent {
             }
             result.push((sum / dayCount).toFixed(8));
         }
-        debugger
+        
         return result;
     }
 
