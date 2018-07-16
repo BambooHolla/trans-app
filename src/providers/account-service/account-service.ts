@@ -181,6 +181,21 @@ export class AccountServiceProvider {
             productStatus,
             productName,
             productIdArr,
+        }).then( data => {
+            data.sort((item_1, item_2) => {
+                if (item_1.productName == "IBT") {
+                    return -1;
+                } else if (item_1.productName == "USDT") {
+                    return 1;
+                } else if (
+                    item_1.productId > item_2.productId
+                ) {
+                    return -1;
+                } else {
+                    return 1;
+                }
+            });
+            return data;
         });
     }
     getProduct(
