@@ -188,6 +188,7 @@ export class AppFetchProvider {
     ) {
         const headers = options.headers || (options.headers = new Headers());
         headers.append("x-bnqkl-platform", this.appSetting.Platform_Type);
+        headers.append("X-DEVICE-UUID", this.appDataService.DEVICE_DATA.uuid||'');
         if (!without_token) {
             // if (!this._user_token) this.events.publish('show login', 'login')
             headers.append(

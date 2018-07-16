@@ -43,15 +43,15 @@ export class AppService {
             new Headers({
                 "x-bnqkl-platform": this.appSettings.Platform_Type,
             });
-
+        headers.append("X-DEVICE-UUID", this.appDataService.DEVICE_DATA.uuid||'');
         if (withToken) {
             if (!token) {
                 // this.events.publish('show login', 'login');
                 return Promise.reject(new Error("token missing!"));
             }
-            headers.append("X-AUTH-TOKEN", token);
+            headers.append("X-AUTH-TOKEN", token); 
         }
-
+        
         options = {
             // 构造对象时，其中使用的对象扩展运算符也要遵循先后原则，
             // 即代码中写在后面的属性会覆盖掉前面的同名属性。
