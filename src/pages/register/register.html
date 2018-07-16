@@ -64,7 +64,7 @@
                     <a (click)="showModal()">{{'PICASSO_USER_AGREEMENT'|translate}}</a>
                 </p>
             </div>
-            <button ion-button class="register-form-submit" type="submit" [disabled]="registerForm.invalid || !agreement.value || !appDataService.ready || registering">
+            <button ion-button class="register-form-submit" type="submit" [disabled]="registerForm.invalid || !agreement.value || !appDataService.ready || registering || validatePWD_switch">
         {{'REGISTER'|translate}}
       </button>
         </form>
