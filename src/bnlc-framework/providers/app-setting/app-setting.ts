@@ -15,7 +15,7 @@ import { AppDataService } from "../../../providers/app-data-service";
 export class AppSettingProvider {
     static SERVER_URL =
         JSON.parse(localStorage.getItem("SERVER_URL_APP")) ||
-        "https://test.picaex.com"; // 测试网络
+        "https://test.picaex.com"; 
 
     static SERVER_PREFIX = "/api/v1/bngj";
     static Platform_Type = "10011001";
@@ -35,12 +35,10 @@ export class AppSettingProvider {
         AppSettingProvider.SERVER_URL = JSON.parse(
             localStorage.getItem("SERVER_URL_APP") ||
                 JSON.stringify("https://test.picaex.com"),
-        ); // 测试网络
-        // AppSettingProvider.SERVER_URL = 'http://192.168.16.113:40001'; //zhiguang server
-        // AppSettingProvider.SERVER_URL = 'http://bjs.bnqkl.cn'; //old www server
+        ); 
+        // AppSettingProvider.SERVER_URL = 'https://test.picaex.com'; // 测试网络
         // AppSettingProvider.SERVER_URL = 'https://www.picaex.com'; // 正式网络
-        // AppSettingProvider.SERVER_URL = 'http://192.168.16.101:40001'; //company mac server
-        // AppSettingProvider.SERVER_URL = JSON.parse(localStorage.getItem('SERVER_URL_APP'))||"http://192.168.18.23:40001"; //
+        // AppSettingProvider.SERVER_URL = 'http://192.168.18.23:40001'; // 本地网络
         // AppSettingProvider.SERVER_URL = "http://192.168.16.175:40001"; // erbing
         // AppSettingProvider.SERVER_URL =  "http://192.168.16.197:40001"; // chenfeng
         // AppSettingProvider.SERVER_URL =  "http://192.168.16.107:40001"; // yongming

@@ -4,6 +4,8 @@ import {
     OnInit,
     AfterViewInit,
     AfterContentInit,
+    ElementRef,
+    Renderer,
 } from "@angular/core";
 
 import { NavController, Tab, Tabs, Events } from "ionic-angular";
@@ -24,6 +26,7 @@ import { TradeInterfaceV2Page } from "../trade-interface-v2/trade-interface-v2";
 import { NewsListPage } from "../news-list/news-list";
 import { LoginService } from "../../providers/login-service";
 import { AppSettingProvider } from "../../bnlc-framework/providers/app-setting/app-setting";
+import { Keyboard } from "@ionic-native/keyboard";
 @Component({
     selector: "component-tabs",
     templateUrl: "tabs.html",
@@ -41,6 +44,7 @@ export class TabsPage implements OnInit, AfterViewInit, AfterContentInit {
     tradeRoot: any = TradeInterfaceV2Page;
 
     stockCode: string;
+    mb: any;
 
     constructor(
         private events: Events,
@@ -49,6 +53,9 @@ export class TabsPage implements OnInit, AfterViewInit, AfterContentInit {
         public loginService: LoginService,
         public personalDataService: PersonalDataService,
         public appSetting: AppSettingProvider,
+        public elementRef: ElementRef,
+        public renderer: Renderer,
+        public keyboard: Keyboard,
     ) {
         // FIXME ：如何获取推荐的股票列表？
         // 后续处理的调用暂时注释掉。
@@ -64,6 +71,7 @@ export class TabsPage implements OnInit, AfterViewInit, AfterContentInit {
     @ViewChild("exchangeTab") tradeInterfaceTab: Tab;
     @ViewChild("newsTab") newsTab: Tab;
     @ViewChild("homeTab") homeTab: Tab;
+    @ViewChild("maintabs") tabRef: Tabs;
     tab_list: any[];
     tab_names: any[];
     tab_should_login: String[];
@@ -193,7 +201,22 @@ export class TabsPage implements OnInit, AfterViewInit, AfterContentInit {
     }
     //-from BNLC framework
 
-    ionViewDidLoad() {}
+    ionViewDidLoad() {
+        let tabs = this.queryElement(this.elementRef.nativeElement,'.tabbar');
+        this.events.subscribe('hideTabs',() => {
+            this.renderer.setElementStyle(tabs,"display",'none');
+            let SelectTab = this.tabRef.getSelected()._elementRef.nativeElement;
+            let content = this.queryElement(SelectTab,'.scroll-content');
+            this.mb = content.style['margin-bottom'];
+            this.renderer.setElementStyle(content,"margin-bottom","0")
+        })
+        this.events.subscribe('showTabs',() => {
+            this.renderer.setElementStyle(tabs,"display",'');
+            let SelectTab = this.tabRef.getSelected()._elementRef.nativeElement;
+            let content = this.queryElement(SelectTab,'.scroll-content');
+            this.renderer.setElementStyle(content,"margin-bottom",this.mb);
+        })
+    }
 
     checkPersonalStockListIsNull() {
         if (this.personalDataService.personalStockListIsNull === true) {
@@ -225,5 +248,8 @@ export class TabsPage implements OnInit, AfterViewInit, AfterContentInit {
                 }
             }
         });
+    }
+    queryElement(ele: HTMLElement, q: string) {
+        return <HTMLElement>ele.querySelector(q)
     }
 }

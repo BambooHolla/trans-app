@@ -1,6 +1,6 @@
 import { Injectable, Renderer2 } from "@angular/core";
 
-import { Platform, App } from "ionic-angular";
+import { Platform, App, Events } from "ionic-angular";
 
 import { Keyboard } from "@ionic-native/keyboard";
 
@@ -15,6 +15,7 @@ export class KeyboardService {
         public keyboard: Keyboard,
         public platform: Platform,
         public appSettings: AppSettings,
+        public events: Events,
     ) {
         this.bindContentHeightHandler();
     }
@@ -59,10 +60,12 @@ export class KeyboardService {
             const keyboardHeight =
                 e.keyboardHeight || (e.detail && e.detail.keyboardHeight);
             this.toggleContentHeight(true, keyboardHeight);
+            this.events.publish('hideTabs')
         });
 
         this.keyboard.onKeyboardHide().subscribe(e => {
             this.toggleContentHeight(false, 0);
+            this.events.publish('showTabs')
         });
     }
 
