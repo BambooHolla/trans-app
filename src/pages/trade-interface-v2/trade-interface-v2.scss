@@ -751,7 +751,7 @@ page-trade-interface-v2 {
                 .bet {
                     display: flex;
                     align-items: center;
-                    padding: 0 1.6rem;
+                    padding: 0 0.6rem;
                     font-size: 1.2rem;
                     line-height: 2.8rem;
                     .sale {
@@ -763,11 +763,11 @@ page-trade-interface-v2 {
                     .bet-label {
                     }
                     .bet-price {
-                        flex: 5;
+                        flex: 4;
                         text-align: right;
                     }
                     .bet-amount {
-                        flex: 3;
+                        flex: 4;
                         text-align: right;
                         color: color($colors, middark);
                     }

@@ -234,7 +234,7 @@ export class LoginPage implements OnInit {
     }
 
     codeSwitch: boolean = true;
-    getLoginCode() {
+    getLoginCode() { 
         if (!this.codeSwitch) return;
         this.codeSwitch = false;
         this.loginCode.setValue("");
