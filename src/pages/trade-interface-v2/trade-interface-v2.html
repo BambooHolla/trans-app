@@ -24,17 +24,17 @@
 		<div class="trader">
 			<div>
 				<span class="label">{{'AVAILABLE'|translate}}{{productName || '--'}}&nbsp;</span>
-				<span>{{hiddentext || (trader_product?.restQuantity || '--' | quantityConversion  | numberUnitFormat:true:false:8)}}</span>
+				<span>{{appDataService?.hiddentext || (trader_product?.restQuantity || '--' | quantityConversion  | numberUnitFormat:true:false:8)}}</span>
 			</div>
 			<div> 
 				<span class="label">{{'AVAILABLE'|translate}}{{priceName || '--'}}&nbsp;</span>
-				<span>{{hiddentext || (trader_target?.restQuantity || '--' | quantityConversion | numberUnitFormat:true:false:8)}}</span>
+				<span>{{appDataService?.hiddentext || (trader_target?.restQuantity || '--' | quantityConversion | numberUnitFormat:true:false:8)}}</span>
 			</div>
 		</div>
 		<div>
 			<div class="label">{{'TOTAL_ASSETS'|translate}}({{personalAssets?.asset?.priceName || '--'}})</div>
-			<div>{{hiddentext || (personalAssets?.asset?.total || '--' | quantityConversion | numberUnitFormat:true:false:12)}}</div>
-			<div class="visible" [class.on]="!hiddentext" [class.off]="!!hiddentext" (click)="toggleVisible($event)"></div>
+			<div>{{appDataService?.hiddentext || (personalAssets?.asset?.total || '--' | quantityConversion | numberUnitFormat:true:false:12)}}</div>
+			<div class="visible" [class.on]="!appDataService?.hiddentext" [class.off]="!!appDataService?.hiddentext" (click)="toggleVisible($event)"></div>
 		</div>
 	</div>
 </ion-header>

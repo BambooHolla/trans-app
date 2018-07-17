@@ -330,10 +330,10 @@ export class TradeInterfaceV2Page {
     }
 
     toggleVisible($event) {
-        if (this.hiddentext) {
-            this.hiddentext = "";
+        if (this.appDataService.hiddentext) {
+            this.appDataService.hiddentext = "";
         } else {
-            this.hiddentext = "****";
+            this.appDataService.hiddentext = "******";
         }
     }
 
@@ -1078,7 +1078,7 @@ export class TradeInterfaceV2Page {
                             if (
                                 data.buy[i].amount &&
                                 new BigNumber(data.buy[i].amount).comparedTo(
-                                    "1",
+                                    "0.00000001",
                                 ) == -1
                             ) {
                                 data.buy.splice(i, 1);
@@ -1105,7 +1105,7 @@ export class TradeInterfaceV2Page {
                             if (
                                 data.sale[i].amount &&
                                 new BigNumber(data.sale[i].amount).comparedTo(
-                                    "1",
+                                    "0.00000001",
                                 ) == -1
                             ) {
                                 data.sale.splice(i, 1);

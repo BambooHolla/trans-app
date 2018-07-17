@@ -17,7 +17,7 @@ import { StockDataService } from "../../providers/stock-data-service";
 import { InviteCommissionPage } from "../invite-commission/invite-commission";
 import { LoginService } from "../../providers/login-service";
 import { AppSettingProvider } from "../../bnlc-framework/providers/app-setting/app-setting";
-
+import { AppDataService } from "../../providers/app-data-service";
 @Component({
     selector: "page-home",
     templateUrl: "home.html",
@@ -108,6 +108,7 @@ export class HomePage extends FirstLevelPage implements OnInit {
         public personalDataService: PersonalDataService,
         public stockDataService: StockDataService,
         public appSetting: AppSettingProvider,
+        public appDataService: AppDataService,
     ) {
         super(navCtrl, navParams);
     }
@@ -187,6 +188,14 @@ export class HomePage extends FirstLevelPage implements OnInit {
             return void 0;
         } else {
             this.navCtrl.push(href);
+        }
+    }
+    
+    toggleVisible($event) {
+        if (this.appDataService.hiddentext) {
+            this.appDataService.hiddentext = "";
+        } else {
+            this.appDataService.hiddentext = "******";
         }
     }
 }

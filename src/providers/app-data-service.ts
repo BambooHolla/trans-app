@@ -92,6 +92,7 @@ export class AppDataService {
         },
         show_login_code: false,
         exchangeType: 1,
+        hiddentext:'',
     };
     private _in_storage_keys = ["products", "traderList"];
 
@@ -108,6 +109,7 @@ export class AppDataService {
     public register_number;
     public show_login_code;
     public exchangeType;
+    public hiddentext;
 
     //缓存产品信息
     public products: Map<string, AnyObject>;

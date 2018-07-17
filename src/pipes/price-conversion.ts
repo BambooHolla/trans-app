@@ -30,7 +30,6 @@ export class PriceConversionPipe implements PipeTransform {
             number[0] = number[0].replace(/\b(0+)/gi, "");
             number[0] = number[0] == "" ? "0" : number[0];
         }
-
         if (number[1]) {
             number[1] =
                 number[1].length > tradeRetainLength
@@ -52,6 +51,7 @@ export class PriceConversionPipe implements PipeTransform {
         decimalFormat: number,
         isInteger: boolean = false,
     ) {
+        
         let arrExp: any;
         number += "";
         if (isNaN(number)) number = "0";
@@ -74,7 +74,7 @@ export class PriceConversionPipe implements PipeTransform {
                 .reverse()
                 .join("");
         }
-
+        
         if (decimalFormat > 0) {
             let numberArr = number.split(".");
             let zero: string = "";

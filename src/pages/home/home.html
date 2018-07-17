@@ -22,9 +22,11 @@
     </ion-row>
     <ion-row>
       <ion-col>
-        <div class="assets-title">{{'TOTAL_ASSETS_AVAILABLE'|translate}}{{personalAssets?.asset?.priceName}}</div>
-        <div class="assets-amount">{{personalAssets?.asset?.total | quantityConversion}}</div>
-
+        <div class="assets-title">
+          {{'TOTAL_ASSETS_AVAILABLE'|translate}}{{personalAssets?.asset?.priceName}}
+          <div class="visible" [class.on]="!appDataService?.hiddentext" [class.off]="!!appDataService?.hiddentext" (click)="toggleVisible($event)"></div>
+        </div>
+        <div class="assets-amount">{{appDataService?.hiddentext||(personalAssets?.asset?.total | quantityConversion)}}</div>
       </ion-col>
     </ion-row>
     <ion-row class="notice" *ngIf="false">

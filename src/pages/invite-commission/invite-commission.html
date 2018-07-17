@@ -28,7 +28,7 @@
                 <ion-icon name="推荐id"></ion-icon>
                 {{'MY_RECOMMENDED_ID'|translate}}
             </div>
-            <button class="copy-button" ion-button (click)="copyCode()" [copy]="personalDataService.recommendCode">
+            <button class="copy-button" ion-button (click)="copyCode(personalDataService.recommendCode)" [copy]="personalDataService.recommendCode">
                 <ion-icon name="复制"></ion-icon>
                 {{'CLICK_AND_COPY'|translate}}
             </button>
@@ -53,7 +53,7 @@
                 <ion-icon name="推荐链接"></ion-icon>
                 {{'RECOMMENDED_LINK'|translate}}
             </div>
-            <button class="copy-button" ion-button (click)="copyCode()" [copy]="ref">
+            <button class="copy-button" ion-button (click)="copyCode(ref)" [copy]="ref">
                 <ion-icon name="复制"></ion-icon>
                 {{'CLICK_AND_COPY'|translate}}
             </button>

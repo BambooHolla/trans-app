@@ -29,7 +29,7 @@ export class InviteCommissionPage {
     pageSize = 10;
     hasMore: boolean = true;
     recharge_address = {
-        index: "asdf1234",
+        index: "",
     };
     initData(refresher?: Refresher) {
         this.requestRecommendData(); //获取邀请多少人
@@ -57,8 +57,8 @@ export class InviteCommissionPage {
 
     @asyncCtrlGenerator.success("COPY_SUCCESSFULLY")
     @asyncCtrlGenerator.error("COPY_FAIL")
-    async copyCode() {
-        if (!this.recharge_address.index) {
+    async copyCode(text) {
+        if (!text) {
             throw new Error(
                 window["language"]["NO_AVAILABLE_ADDRESS"] || "无可用地址",
             );
@@ -68,7 +68,7 @@ export class InviteCommissionPage {
                 window["language"]["COPY_PLUGIN_ERROR"] || "复制插件异常",
             );
         }
-        navigator["clipboard"].writeText(this.recharge_address.index);
+        navigator["clipboard"].writeText(text);
     }
 
     set() {
