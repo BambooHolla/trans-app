@@ -80,11 +80,7 @@ export class LoginPage implements OnInit {
             this.init();
         });
 
-        this.unregisterBackButton = this.platform.registerBackButtonAction(
-            () => {
-                this.dismiss();
-            },
-        );
+       
     }
 
     ionViewDidLoad() {
@@ -107,7 +103,13 @@ export class LoginPage implements OnInit {
         // this.verticalCenter = false;
         // this.gridPaddingTop = span + 'px';
     }
-    ionViewDidEnter() {}
+    ionViewDidEnter() {
+        this.unregisterBackButton = this.platform.registerBackButtonAction(
+            () => {
+                this.dismiss();
+            },
+        );
+    }
     showPassword(ele: TextInput) {
         ele.type = "text";
         ele.getElementRef().nativeElement.children[0].type = "text";
@@ -204,12 +206,14 @@ export class LoginPage implements OnInit {
         return this.navCtrl.push(path, params, opts, done);
     }
     goToRegister() {
+        this.unregisterBackButton();
         this.routeTo("register", {
             raw: this.loginForm.getRawValue(),
             dismissFn: this.dismiss.bind(this),
         });
     }
     goForgetPwd() {
+        this.unregisterBackButton();
         this.navCtrl.push("forget-pwd", {
             customerId: this.customerId.value,
             loginCb: this.init.bind(this),
