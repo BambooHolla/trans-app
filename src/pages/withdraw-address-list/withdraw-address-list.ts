@@ -111,7 +111,7 @@ export class WithdrawAddressListPage extends SecondLevelPage {
         this.is_withdraw_address_list_changed = true;
         this.withdraw_address_list = await this.accountService.getWithdrawAddress(
             this.productInfo.productId,
-        );
+        ); 
         // 强行重新绑定数据来FIX ionic的ion-radio绑定错乱的BUG
         const _v = this.formData.withdraw_address_id;
         this.formData.withdraw_address_id = null;
@@ -132,8 +132,7 @@ export class WithdrawAddressListPage extends SecondLevelPage {
         selector.onDidDismiss(returnData => {
             if (
                 !returnData ||
-                JSON.stringify(returnData) == "{}" ||
-                !returnData.length
+                JSON.stringify(returnData) == "{}" 
             ) {
                 return;
             }
