@@ -284,7 +284,16 @@ export class TradeInterfaceV2Page {
         this.userLanguage = this.appDataService.LANGUAGE || "zh";
         this.appDataService.LAST_TRADER$.subscribe(trader => {
             if (trader) this.initTrader(trader);
-        });
+        }); 
+        this.loginService.status$.subscribe( status => {
+            if(status) {
+                this.gotoHistoryLogin()
+            } else {
+                this.trader_product = {};
+                this.trader_target = {};
+                this.personalAssets = {};
+            }
+        })
     }
 
     initTrader(trader) {
@@ -1786,23 +1795,29 @@ export class TradeInterfaceV2Page {
     private personalAssets: object = {};
     requestAssets() {
         const productPairs = this.productPair.split("-");
-        this.personalDataService.personalStockList.forEach(item => {
-            if (item.stockCode === productPairs[0]) {
-                this.trader_target = item;
-                this.holePrice = this.numberFormat(
-                    new BigNumber(item.restQuantity || "0").toString(),
-                );
-            } else if (item.stockCode === productPairs[1]) {
-                this.trader_product = item;
-                this.holdAmount = this.numberFormat(
-                    new BigNumber(
-                        item.restQuantity ? item.restQuantity : "0",
-                    ).toString(),
-                    false,
-                    false,
-                );
-            }
-        });
+        if(this.personalDataService.personalStockList.length) {
+            this.personalDataService.personalStockList.forEach(item => {
+                if (item.stockCode === productPairs[0]) {
+                    this.trader_target = item;
+                    this.holePrice = this.numberFormat(
+                        new BigNumber(item.restQuantity || "0").toString(),
+                    );
+                } else if (item.stockCode === productPairs[1]) {
+                    this.trader_product = item;
+                    this.holdAmount = this.numberFormat(
+                        new BigNumber(
+                            item.restQuantity ? item.restQuantity : "0",
+                        ).toString(),
+                        false,
+                        false,
+                    );
+                }
+            });
+        } else {
+            this.holePrice = '0';
+            this.holdAmount = '0';
+        }
+        
 
         this.personalDataService
             .personalAssets()
