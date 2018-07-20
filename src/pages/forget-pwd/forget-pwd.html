@@ -20,7 +20,7 @@
                 <ion-col padding class="vertical-center i-col">
                     <ion-input formControlName="vcode" class="number" placeholder="{{'VERIFICATION_CODE'|translate}}">
                     </ion-input>
-                    <button item-right type="button" style="z-index:9999" class="send-vcode" [disabled]=" !customerId_existence  || ( !!sending_vcode||!!resend_time_clock) " (click)="forgetPWD_step1()">
+                    <button item-right type="button" style="z-index:9999" class="send-vcode" [disabled]=" !code_btn_switch || !customerId_existence || ( !!sending_vcode||!!resend_time_clock) " (click)="forgetPWD_step1()">
                           {{(sending_vcode?'SENDING':(resend_time_clock?(resend_time_clock+'s'):'GAIN_VERIFICATION_CODE'))  | translate}}</button>
                 </ion-col>
             </ion-row>

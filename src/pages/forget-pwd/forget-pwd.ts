@@ -203,6 +203,7 @@ export class ForgetPwdPage {
     }
 
     customerId_existence = true;
+    code_btn_switch: boolean = false;
     async checkRegister() {
         const controls = this.forgetPWDForm.getRawValue();
         const customerId = controls.customerId;
@@ -211,11 +212,12 @@ export class ForgetPwdPage {
             this.registerService.doCheckRegister(customerId).then(data => {
                 //账户不存在
                 if (data.status == "error") {
-                    this.customerId_existence = false;
+                    this.code_btn_switch = this.customerId_existence = false;
+                    
                 }
                 //账户存在
                 if (data.status == "ok") {
-                    this.customerId_existence = true;
+                    this.code_btn_switch = this.customerId_existence = true;
                 }
             });
         } catch (err) {
