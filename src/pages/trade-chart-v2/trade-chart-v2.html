@@ -17,7 +17,7 @@
                 </div>
                 <div class="market-items left">
                     <span class="market-label">{{'VOL'|translate}}</span>
-                    <span>{{(_baseData$ | async)?.amount | quantityConversion | numberUnitFormat:true:true:6}}</span>
+                    <span>{{(_baseData$ | async)?.todayAmount | quantityConversion | numberUnitFormat:true:true:6}}</span>
                 </div>
             </div>
             <div>

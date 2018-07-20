@@ -257,8 +257,8 @@
     "PLEASE_INPUT_YOUR_TRANSACTION_PASSWORD":"请输入您的交易密码",										
     "AT_LEAST_6_DIGITS_FOR_PASSWORD":"密码至少6位",										
     "PLEASE_INPUT_YOUR_TRANSACTION_PASSWORD_AGAIN":"请再次输入您的交易密码",										
-   									
-   										
+   	"SETTINGS_NET_VERSION":"切换网络",				
+    "CHECK_UPDATE": "检查更新",								
     										
     "VALIDATE":"登录密码",
    										

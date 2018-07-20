@@ -469,17 +469,9 @@ export class QuotationsPageV2 {
             console.log("value.traderId", value.traderId);
             console.log("value.productHouseId", value.productHouseId);
             // 行情页面
-            let _amount: number = 0;
             this.stockDataService
                 .subscibeRealtimeData(value.traderId, "price")
-                .map(data => {
-                    data = data;
-                    if (data) {
-                        _amount = _amount + (data.amount ? data.amount * 1 : 0);
-                        data.amount = _amount;
-                    }
-                    return data;
-                })
+                .map(data => data)
                 .subscribe(value.marketRef); //, this.viewDidLeave$)
         });
     }

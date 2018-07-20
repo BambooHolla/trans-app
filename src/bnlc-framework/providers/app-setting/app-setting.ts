@@ -39,7 +39,7 @@ export class AppSettingProvider {
         // AppSettingProvider.SERVER_URL = 'https://test.picaex.com'; // 测试网络
         // AppSettingProvider.SERVER_URL = 'https://www.picaex.com'; // 正式网络
         // AppSettingProvider.SERVER_URL = 'http://192.168.18.23:40001'; // 本地网络
-        // AppSettingProvider.SERVER_URL = "http://192.168.16.175:40001"; // erbing
+        // AppSettingProvider.SERVER_URL = "http://192.168.16.15:40001"; // erbing
         // AppSettingProvider.SERVER_URL =  "http://192.168.16.197:40001"; // chenfeng
         // AppSettingProvider.SERVER_URL =  "http://192.168.16.107:40001"; // yongming
         // AppSettingProvider.SERVER_URL = "http://192.168.16.183:40001"; // yanhui

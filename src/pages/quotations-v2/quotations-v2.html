@@ -106,7 +106,7 @@
                 <div class="market">
                     <span class="key">{{'VOL'|translate}}</span>
                     <span class="value">
-                        {{(trader.marketRef | async)?.amount | quantityConversion | priceConversion:5:2}}
+                        {{(trader.marketRef | async)?.todayAmount | quantityConversion | priceConversion:5:2}}
                     </span>
                 </div>
             </div>

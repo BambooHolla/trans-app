@@ -59,7 +59,10 @@
     "SENDING_VERIFICATION_CODE":"認証コード送信中",										
     "SEND_VERIFICATION_CODE_ERROR":"認証コード送信エラー",										
     "SEND_VERIFICATION_CODE_SUCCESS":"認証コード送信成功",										
-    "ADD_ADDRESS_ERROR":"アドレスの追加が失敗しました",										
+    "ADD_ADDRESS_ERROR":"アドレスの追加が失敗しました",		
+    "SETTINGS_NET_VERSION": "ネットワーク設定",
+    "CHECK_UPDATE": "更新をチェックします",
+   							
     "ADD_ADDRESS_SUCCESS":"アドレスの追加が成功しました",										
     "CHECK_PENDING":"審査待ち",										
     "YOUR_INFO_HAS_BEEN_SUBMMITED":"あなたの資料を提出しました",										

@@ -24,8 +24,9 @@
     "TOTAL_MARKET_PRICE":"Total market price",										
     "TURNOVER_RATE":"Turnover rate",										
     "MARKET_VALUE_IN_CIRCULATION":"Market value in circulation",										
-   										
-    "CONFIRM":"Confirm",										
+    "SETTINGS_NET_VERSION":"Switch network",									
+    "CONFIRM":"Confirm",	
+    "CHECK_UPDATE": "Check update",										
     "PLEASE_INPUT_INVITATION_CODE":"Please input invitation code",										
     "IN_DEALING":"In dealing",										
     "WARNING":"Warning",										
