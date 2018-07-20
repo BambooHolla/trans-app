@@ -42,6 +42,9 @@ page-work-order-detail {
                         height: 6rem;
                     }
                 }
+                &.box-attachment-wrapper-height {
+                    height: 6rem;
+                }
                 &::after {
                     display: block;
                     clear: both;

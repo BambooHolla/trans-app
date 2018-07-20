@@ -61,6 +61,7 @@ export class WorkOrderDetailPage extends SecondLevelPage
 
     work_order: ConcatModel;
     work_order_attachment: any[];
+    work_has_img: boolean = false;
     chat_content = "";
     page = 1;
     pageSize = 5;
@@ -101,6 +102,7 @@ export class WorkOrderDetailPage extends SecondLevelPage
         this.work_order.attachment.forEach( async(fid) => {
             if (fid) {
                 imgFidArr.push(this.getReadImage(fid));
+                this.work_has_img = true;
             }
         });
         Promise.all(imgFidArr).then( imgArr => {
@@ -154,7 +156,7 @@ export class WorkOrderDetailPage extends SecondLevelPage
 
     getReadImage(fid:string):Promise<any>{
         return this.fsService.readImage(fid).then( img => {
-            
+            debugger
             return this.sanitizer.bypassSecurityTrustResourceUrl(URL.createObjectURL(img));
             
         }).catch( err => {
@@ -186,7 +188,6 @@ export class WorkOrderDetailPage extends SecondLevelPage
             // 	Array.prototype.slice.call(mutation.addedNodes)
             // );
             // });
-            debugger;
             if (shouldScrollToBottom()) {
                 this.content.scrollToBottom();
             }

@@ -42,7 +42,7 @@ export class FsProvider {
             params: {
                 fid,
             },
-        });
+        },undefined,true,true);
     }
     uploadImage(fid: string, file: any) {
         const formData = new FormData();

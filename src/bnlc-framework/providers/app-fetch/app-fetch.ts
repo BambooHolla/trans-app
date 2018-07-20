@@ -133,18 +133,23 @@ export class AppFetchProvider {
         }
     }
     private _catchData() {}
-    private _handlePromise(
+    private async _handlePromise(
         promise: Promise<any>,
         auto_cache?: boolean,
         catch_key?: string,
+        get_cache?: boolean,
     ) {
+        if(get_cache) {
+            const cache_data = await this.storage.get(catch_key)
+            if(cache_data) return Promise.resolve(cache_data._body);
+        }
         if (auto_cache) {
             promise = promise
-                .then(response => {
+                .then( response => {
                     try {
                         this.storage.set(
                             catch_key,
-                            JSON.stringify(response.json()),
+                            get_cache?response:JSON.stringify(response.json()),
                         );
                     } catch (err) {
                         console.warn("缓冲区缓存数据出错", err);
@@ -217,6 +222,7 @@ export class AppFetchProvider {
         without_token?: boolean,
         auto_cache?: boolean,
         timeOut?: number,
+        get_cache?: boolean,
     ) {
         // 获取外部的默认值并自动重置，一定要触发getter
         const default_auto_cache = this.auto_cache;
@@ -249,6 +255,7 @@ export class AppFetchProvider {
             req.timeout(timeOut || this.appDataService.timeOut).toPromise(),
             auto_cache,
             catch_key,
+            get_cache,
         );
     }
     get<T>(
@@ -256,8 +263,9 @@ export class AppFetchProvider {
         options: RequestOptionsArgs = {},
         no_token?: boolean,
         auto_cache?: boolean,
+        get_cache?: boolean
     ): Promise<T> {
-        return this._request("get", url, void 0, options, no_token, auto_cache);
+        return this._request("get", url, void 0, options, no_token, auto_cache,undefined,get_cache);
     }
     post<T>(
         url: string,
