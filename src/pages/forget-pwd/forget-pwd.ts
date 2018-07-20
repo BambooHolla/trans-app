@@ -128,7 +128,7 @@ export class ForgetPwdPage {
             }
             await this.registerService.sendSMSCode(
                 customerId,
-                undefined,
+                undefined, 
                 "1004",
             );
             this.tickResendTimeClock(); // 开始倒计时重新发送短信的按钮
