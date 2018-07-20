@@ -85,6 +85,10 @@ export class EntrustServiceProvider {
                             completeAmount: item.completeAmount,
                             operationType: item.entrustOperationType, //委托操作类型（001买入、002卖出）
                             surplusAmount: item.surplusAmount,
+                            isMarketOrder: item.isMarketOrder,
+                            surplusTotalPrice: item.surplusTotalPrice,
+                            entrustTotalPrice: item.entrustTotalPrice,
+                            entrustAmount: item.entrustAmount,
                         }));
                     return Promise.resolve(data);
                 }

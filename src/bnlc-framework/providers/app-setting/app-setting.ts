@@ -28,7 +28,7 @@ export class AppSettingProvider {
             AppSettingProvider.SERVER_URL +
             AppSettingProvider.SERVER_PREFIX +
             "/" +
-            path
+            path 
         );
     }
     constructor(public http: Http, public appDataService: AppDataService) {

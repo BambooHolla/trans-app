@@ -1199,7 +1199,7 @@ export class TradeInterfaceV2Page {
         entrustTime = `${entrustTime.getFullYear()}-${entrustTime.getMonth() +
             1}-${entrustTime.getDate()}`;
         let message: string = "";
-        switch (this.userLanguage) {
+        switch (this.userLanguage) { 
             case "zh":
                 message = `确定要撤回${entrustTime}的${entrustCategory}委托单?`;
                 break;

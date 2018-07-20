@@ -44,7 +44,7 @@ export class RechargeDetailPage extends SecondLevelPage {
         super(navCtrl, navParams);
         this.productInfo = this.navParams.get("productInfo");
 
-        this.userLanguage = appDataService.LANGUAGE || "en";
+        this.userLanguage = appDataService.LANGUAGE || "zh";
     }
     productInfo: ProductModel = {} as any;
     access_info: any = {} as any;

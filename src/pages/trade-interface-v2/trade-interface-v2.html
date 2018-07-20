@@ -357,19 +357,37 @@
 				</div>
 				<div class="params">
 					<div class="col">
-						<span class="name">{{'DELEGATED_PRICE'|translate}}</span>
-						<span class="value">{{item.commitPrice}}</span>
+						<div *ngIf="!item?.isMarketOrder">
+							<span class="name">{{'DELEGATED_PRICE'|translate}}</span>
+							<span class="value">{{item.commitPrice}}</span>
+						</div>
+						<div *ngIf="item?.isMarketOrder">
+							<span class="kj-name">{{'QUICK_TRANSACTION'|translate}}</span>
+						</div>
 					</div>
 					<div class="col">
-						<span class="name">{{'DELEGATED_QUANTITY'|translate}}</span>
-						<span class="value">{{item.commitAmount |quantityConversion}}</span>
+						<div *ngIf="!item?.isMarketOrder">
+							<span class="name">{{'DELEGATED_QUANTITY'|translate}}</span>
+							<span class="value">{{item.commitAmount |quantityConversion}}</span>
+						</div>
+						<div *ngIf="item?.isMarketOrder">
+							<span class="name">{{(item.operationType == '001'? '委托金额': item.operationType == '002'? '委托数量':'' )|translate}}</span>
+							<span class="value">{{(item.operationType == '001'? item.entrustTotalPrice: item.operationType == '002'? item.entrustAmount:'' )|quantityConversion}}</span>
+						</div>
 					</div>
 					<div class="col">
-						<span class="name">{{'BALANCE_QUANTITY'|translate}}</span>
-						<span class="value">{{item.surplusAmount |quantityConversion}}</span>
+						<div *ngIf="!item?.isMarketOrder">
+							<span class="name">{{'BALANCE_QUANTITY'|translate}}</span>
+							<span class="value">{{item.surplusAmount |quantityConversion}}</span>
+						</div>
+						<div *ngIf="item?.isMarketOrder">
+							<span class="name">{{(item.operationType == '001'? '剩余金额': item.operationType == '002'? '剩余数量':'' )|translate}}</span>
+							<!-- TODO：快捷买卖剩余的字段使用了同一个，之后分开 -->
+							<span class="value">{{(item.operationType == '001'? item.surplusTotalPrice: item.operationType == '002'? item.surplusTotalPrice:'' ) |quantityConversion}}</span>
+						</div>
 					</div>
 				</div>
-			</div>
+			</div> 
 		</div>
 	</div>
 	<!--加载更多-->

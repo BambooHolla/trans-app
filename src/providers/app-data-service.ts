@@ -35,7 +35,7 @@ export class AppDataService {
     public APP_IP: any = "192.168.0.1";
 
     //语言
-    public LANGUAGE: any = "en";
+    public LANGUAGE: any = "zh";
 
     //保存最后一次查看的交易对，初始化的时候为第一个交易对
     public LAST_TRADER = new BehaviorSubject<string>(undefined);
