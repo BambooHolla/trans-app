@@ -1,6 +1,6 @@
 import { Storage } from "@ionic/storage";
 import { Injectable } from "@angular/core";
-import { Http, Headers, RequestOptionsArgs } from "@angular/http";
+import { Http, Headers, RequestOptionsArgs, ResponseContentType } from "@angular/http";
 
 import "rxjs/add/operator/map";
 import { AppSettingProvider } from "../app-setting/app-setting";
@@ -189,6 +189,9 @@ export class AppFetchProvider {
         const headers = options.headers || (options.headers = new Headers());
         headers.append("x-bnqkl-platform", this.appSetting.Platform_Type);
         headers.append("X-DEVICE-UUID", this.appDataService.DEVICE_DATA.uuid||'');
+        if(url.indexOf('file/read') > -1) {
+            options.responseType = ResponseContentType.Blob;
+        }
         if (!without_token) {
             // if (!this._user_token) this.events.publish('show login', 'login')
             headers.append(
@@ -228,7 +231,7 @@ export class AppFetchProvider {
                 `【SEARCH：${JSON.stringify(options.search)}】`;
         }
         const reqInfo = this._handleUrlAndOptions(url, options, without_token);
-        var req;
+        var req;  
         switch (method) {
             case "get":
             case "delete":

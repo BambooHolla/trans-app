@@ -30,7 +30,7 @@ import {
     ReplyModel,
 } from "../../providers/work-order-service/work-order-service";
 import { FsProvider, FileType } from "../../providers/fs/fs";
-
+import { DomSanitizer } from '@angular/platform-browser'
 const MB: typeof MutationObserver =
     window["MutationObserver"] || window["WebKitMutationObserver"];
 
@@ -54,12 +54,13 @@ export class WorkOrderDetailPage extends SecondLevelPage
         public r2: Renderer2,
         public fsService: FsProvider,
         public workOrderService: WorkOrderServiceProvider,
+        public sanitizer: DomSanitizer,
     ) {
         super(navCtrl, navParams);
     }
 
     work_order: ConcatModel;
-    work_order_attachment: string[];
+    work_order_attachment: any[];
     chat_content = "";
     page = 1;
     pageSize = 5;
@@ -95,13 +96,16 @@ export class WorkOrderDetailPage extends SecondLevelPage
         const contact_reply_list = await this._getContactReplyList();
         this.chat_logs = contact_reply_list.reverse();
     }
-    getWorkOrderAttachment() {
-        this.work_order_attachment = this.work_order.attachment.map(fid => {
-            if (!fid) {
-                return "";
+     getWorkOrderAttachment() {
+         const imgFidArr = [];
+        this.work_order.attachment.forEach( async(fid) => {
+            if (fid) {
+                imgFidArr.push(this.getReadImage(fid));
             }
-            return this.fsService.READ_FILE.replace(":fid", fid);
         });
+        Promise.all(imgFidArr).then( imgArr => {
+            this.work_order_attachment = imgArr;
+        })
     }
 
     @ViewChild(Refresher) refresher: Refresher;
@@ -147,6 +151,17 @@ export class WorkOrderDetailPage extends SecondLevelPage
             } as ChatLog;
         });
     }
+
+    getReadImage(fid:string):Promise<any>{
+        return this.fsService.readImage(fid).then( img => {
+            
+            return this.sanitizer.bypassSecurityTrustResourceUrl(URL.createObjectURL(img));
+            
+        }).catch( err => {
+            return ''
+        })
+    }
+
 
     @ViewChild(Content) content: Content;
     @ViewChild("chatLogs") chatLogs: ElementRef;
