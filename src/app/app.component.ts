@@ -34,6 +34,9 @@ import { PersonalDataService } from "../providers/personal-data-service";
 import { CommonTransition } from "./common-transition";
 import { AppSettingProvider } from "../bnlc-framework/providers/app-setting/app-setting";
 import { AlertService } from "../providers/alert-service";
+import { GestureLockPage } from "../pages/gesture-lock/gesture-lock";
+import { Storage } from "@ionic/storage";
+
 
 @Component({
     templateUrl: "app.html",
@@ -42,7 +45,7 @@ export class PicassoApp {
     static WINDOW_MAX_HEIGHT = 0;
     private rootPage = TabsPage;
     private loginModal = this.modalController.create(LoginPage);
-
+    private unregisterBackButton:any;
     private loader: Loading;
 
     private loginChecked: boolean = false;
@@ -89,6 +92,7 @@ export class PicassoApp {
         public config: Config,
         public appSettingProvider: AppSettingProvider,
         public alertService: AlertService,
+        public storage: Storage,
     ) {
         // let title:string = '';
         // let message: string ='';
@@ -103,6 +107,23 @@ export class PicassoApp {
         //   type = false;
         // }
         // this.alertService.show(title,message,type)
+        this.storage.get('gestureLockObj').then( data => {
+            
+            if(data) {
+                this.unregisterBackButton = this.platform.registerBackButtonAction(
+                    () => {
+                       
+                    },
+                ); 
+                let gesturePage = this.modalController.create(GestureLockPage,{
+                    hasGestureLock: undefined,
+                });
+                gesturePage.present();
+                gesturePage.onDidDismiss( ()=> {
+                    this.unregisterBackButton();
+                })
+            }
+        })
         window["platform"] = platform;
         window["alertCtrl"] = alertCtrl;
         window["loadingCtrl"] = loadingCtrl;
@@ -192,7 +213,7 @@ export class PicassoApp {
                     err.message || err,
                 );
             });
-
+ 
         (async () => {
             const mainproducts =
                 this.appDataService.mainproducts ||

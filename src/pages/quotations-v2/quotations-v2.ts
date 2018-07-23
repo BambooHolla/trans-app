@@ -6,7 +6,7 @@ import {
     Renderer,
 } from "@angular/core";
 // import { Slides, NavController } from 'ionic-angular';
-import { NavController, Refresher } from "ionic-angular";
+import { NavController, Refresher, ModalController } from "ionic-angular";
 
 import { Observable } from "rxjs/Observable";
 import { BehaviorSubject } from "rxjs/BehaviorSubject";
@@ -25,6 +25,8 @@ import { Subject } from "rxjs/Subject";
 import { TradeInterfaceV2Page } from "../trade-interface-v2/trade-interface-v2";
 import { TradeService } from "../../providers/trade-service";
 import { TradeChartV2Page } from "../trade-chart-v2/trade-chart-v2";
+import { Storage } from "@ionic/storage";
+import { GestureLockPage } from "../gesture-lock/gesture-lock";
 
 @Component({
     selector: "page-quotations-v2",
@@ -142,6 +144,8 @@ export class QuotationsPageV2 {
         public stockDataService: StockDataService,
         public tradeService: TradeService,
         public renderer: Renderer,
+        public modalCtrl: ModalController,
+        public storage: Storage,
     ) {
         // this.changeActive(0
     }

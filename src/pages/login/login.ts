@@ -18,6 +18,8 @@ import { LoginService } from "../../providers/login-service";
 import { AppDataService } from "../../providers/app-data-service";
 import { AppSettings } from "../../providers/app-settings";
 import { CryptoService } from "../../providers/crypto-service";
+import { Storage } from "@ionic/storage";
+
 
 // import { TabsPage } from '../tabs/tabs';
 /**
@@ -71,6 +73,7 @@ export class LoginPage implements OnInit {
         public appSettings: AppSettings,
         public platform: Platform,
         public cryptoService: CryptoService, // // public tabsPage:TabsPage,
+        public storage: Storage,
     ) {
         // this.presentLoading();
     }
@@ -160,21 +163,14 @@ export class LoginPage implements OnInit {
         this.logining = true;
         if (
             (await this.loginService.doLogin(
-                customerId,
+                customerId, 
                 password,
                 savePassword,
                 type,
                 codeHeader,
             )) === true
         ) {
-            this.dismiss();
-            this.appDataService.show_login_code = false;
-            // console.log('jumpto:',this.navParams.data)
-            let cb = this.navParams.data.cb;
-            if (cb) {
-                // this.tabsPage.tabs.select(tabIndex);
-                cb();
-            }
+            this.successFn()
         } else {
             this.showCode = true;
             this.getLoginCode();
@@ -247,5 +243,15 @@ export class LoginPage implements OnInit {
             }
             this.codeSwitch = true;
         });
+    }
+    successFn() {
+        this.dismiss();
+            this.appDataService.show_login_code = false;
+            // console.log('jumpto:',this.navParams.data)
+            let cb = this.navParams.data.cb;
+            if (cb) {
+                // this.tabsPage.tabs.select(tabIndex);
+                cb();
+            }
     }
 }

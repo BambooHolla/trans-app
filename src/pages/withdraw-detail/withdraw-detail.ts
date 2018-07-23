@@ -68,6 +68,7 @@ export class WithdrawDetailPage extends SecondLevelPage {
         super(navCtrl, navParams);
         BigNumber.config({ EXPONENTIAL_AT: [-8, 20] });
         this.productInfo = this.navParams.get("productInfo");
+        debugger
         // this.alertCtrl.create({
         // 	title: "提示",
         // 	message: "提现功能暂时关闭",
@@ -401,7 +402,7 @@ export class WithdrawDetailPage extends SecondLevelPage {
         return this.accountService
             .submitWithdrawAppply(
                 {
-                    transactionType: TransactionType.WithdrawProduct,
+                    transactionType: TransactionType.WithdrawProduct, 
                     productId: this.productInfo.productId,
                     amount: (new BigNumber(this.formData.amount)).toString(),
                     paymentId: this.formData.selected_withdraw_address_id + "",

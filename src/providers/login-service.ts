@@ -1,4 +1,4 @@
-import { Injectable } from "@angular/core";
+import { Injectable, ViewChild } from "@angular/core";
 
 import { Http, RequestMethod, RequestOptions, Headers } from "@angular/http";
 
@@ -12,6 +12,8 @@ import { AlertService } from "./alert-service";
 
 /*from BNLC framework*/
 import { AppSettingProvider } from "../bnlc-framework/providers/app-setting/app-setting";
+import { Storage } from "@ionic/storage";
+import { NavController, App } from "ionic-angular";
 
 // 使用 @Injectable 才能让所声明的类用于依赖注入，
 // 而 @Component 是 @Injectable 的派生类型，不需要重复使用 @Injectable 。
@@ -53,6 +55,8 @@ export class LoginService {
         public appService: AppService,
         public alertService: AlertService,
         public bnlcAppSetting: AppSettingProvider,
+        public storage: Storage,
+        public app: App,
     ) {
         this.appDataService.dataReady
             .then(async () => {
@@ -202,6 +206,36 @@ export class LoginService {
                 });
 
                 this.setLoginData(data);
+
+                this.storage.get('gestureLockObj').then( data => {
+                    if(!data) {
+                        window['alertCtrl'].create({
+                            title:'手势密码未设置',
+                            message: "是否前往设置",
+                            buttons: [
+                                {
+                                    text: "取消",
+                                    role: "cancel",
+                                    handler: () => {
+                                      
+                                    },
+                                },
+                                {
+                                    text: "设置",
+                                    handler: () => {
+                                        let activeNav: NavController = this.app.getActiveNav();
+                                        activeNav.push('gesture-lock',{
+                                            hasGestureLock: false,
+                                        })
+                                    },
+                                },
+                            ],
+                        }).present();
+                    }
+                })
+
+
+
                 return true;
             })
             .catch(error => {

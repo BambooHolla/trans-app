@@ -1,0 +1,18 @@
+
+<ion-header>
+
+<ion-navbar>
+<ion-title>{{hasGestureLock?"重置":hasGestureLock == undefined ?'':"设置"}}手势密码</ion-title>
+</ion-navbar>
+
+</ion-header>
+<ion-content>
+  <div class="gestureLockBox">
+    <div  class="gestureTitle" text-center  [ngStyle]="{'color':textColor}">{{titleMes}}</div>
+    <!-- <a #resetPassword class="resetPasswordBox" (click)="resetPasswordFun()" *ngIf='hasGestureLock'>重置密码?</a> -->
+    <!-- <a #resetPassword  (click)="deletPasswordFun()">删除密码?</a> -->
+    <canvas #canvas [ngStyle]="{'height.px':height,'width.px':width}"></canvas>
+
+  </div>
+
+</ion-content>

@@ -80,6 +80,7 @@ export class TabsPage implements OnInit, AfterViewInit, AfterContentInit {
     initTabs() {
         this.tab_list = [
             this.quotationsTab,
+            this.quotationsTab,
             this.newsTab,
             this.optionalTab,
             this.homeTab,
@@ -165,6 +166,7 @@ export class TabsPage implements OnInit, AfterViewInit, AfterContentInit {
             abutton.addEventListener(
                 pointerdown_eventname,
                 function bindRoot() {
+                    
                     const self = this as TabsPage;
                     if (
                         self.tab_should_login.includes(tab.tabUrlPath) &&

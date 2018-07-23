@@ -50,6 +50,7 @@ import { IdentificationPage } from "../pages/identification/identification";
 import { AuthPendingPage } from "../pages/auth-pending/auth-pending";
 import { HomePage } from "../pages/home/home";
 
+
 import { SubmitRealInfoPage } from "../pages/submit-real-info/submit-real-info";
 import { SetPayPwdPage } from "../pages/set-pay-pwd/set-pay-pwd";
 import { WithdrawAddressListPage } from "../pages/withdraw-address-list/withdraw-address-list";
@@ -177,6 +178,7 @@ import { QuotationsPage } from "../pages/quotations/quotations";
 import { PromptControlleService } from "../providers/prompt-controlle-service";
 import { CryptoService } from "../providers/crypto-service";
 import { SwitchNetworkPage } from "../pages/switch-network/switch-network";
+import { GestureLockPage } from "../pages/gesture-lock/gesture-lock";
 // import { BankCode2NamePipe } from '..\pipes\bank-code2-name/bank-code2-name';
 // import { FileService } from '../providers/file.service';
 // import { IsLoadingDirective } from '../directives/is-loading/is-loading';
@@ -237,6 +239,7 @@ export function createTranslateLoader(http: HttpClient) {
         WorkOrderAddPage,
         WorkOrderDetailPage,
         HomePage,
+        GestureLockPage,
         QuotationDetailPage,
         FundStatementPage,
         CommissionListPage,
@@ -371,6 +374,7 @@ export function createTranslateLoader(http: HttpClient) {
                     { component: ForgetPwdPage, name: "forget-pwd" },
                     { component: ModifyPwdPage, name: "modify-pwd" },
                     { component: RegisterPage, name: "register" },
+                    { component: GestureLockPage, name: "gesture-lock"}
                 ],
             },
         ),
@@ -438,6 +442,7 @@ export function createTranslateLoader(http: HttpClient) {
         ChangeTradePassword,
         ContactPage,
         HomePage,
+        GestureLockPage,
         QuotationDetailPage,
         FundStatementPage,
         CommissionListPage,

@@ -1,5 +1,5 @@
 import { Component } from "@angular/core";
-
+import { Storage } from "@ionic/storage";
 import { NavController, NavParams, Events } from "ionic-angular";
 import { ChangeTradePassword } from "../change-trade-password/change-trade-password";
 
@@ -19,7 +19,7 @@ import { SwitchNetworkPage } from "../switch-network/switch-network";
 })
 export class AccountCenterPage extends SecondLevelPage {
     private login_status: boolean;
-
+    private hasGestureLock: boolean = false;
     constructor(
         public navCtrl: NavController,
         public navParams: NavParams,
@@ -28,11 +28,13 @@ export class AccountCenterPage extends SecondLevelPage {
         public appDataService: AppDataService,
         public accountService: AccountServiceProvider,
         public personalDataService: PersonalDataService,
+        public storage: Storage,
     ) {
         super(navCtrl, navParams);
         this.loginService.status$.subscribe(status => {
             this.login_status = status;
             if (status) {
+                this.gestureLockObj();
                 this.checkHasAccountPWD();
             }
         });
@@ -78,6 +80,7 @@ export class AccountCenterPage extends SecondLevelPage {
     }
 
     doLogout() {
+        this.storage.remove("gestureLockObj");
         this.loginService
             .doLogout()
             .then(success => {
@@ -91,5 +94,20 @@ export class AccountCenterPage extends SecondLevelPage {
                 this.navCtrl.parent.select(0);
             })
             .catch();
+    }
+    gestureLockObj() {
+        this.storage.get('gestureLockObj').then( data => {
+            if(data) {
+                this.hasGestureLock = true;
+            } else {
+                this.hasGestureLock = false;
+            }
+        })
+    }
+    goGestureLock() {
+        this.navCtrl.push('gesture-lock',{
+            hasGestureLock: this.hasGestureLock,
+            backFn: this.gestureLockObj.bind(this)
+        })
     }
 }

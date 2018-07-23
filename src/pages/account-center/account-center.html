@@ -32,6 +32,11 @@
       </ion-col>
     </ion-row>
     <ion-row class="bottom-line" >
+      <ion-col padding class="vertical-center" (click)="goGestureLock()">
+        {{hasGestureLock?"重置":"设置"}}手势密码
+      </ion-col>
+    </ion-row>
+    <ion-row class="bottom-line" >
       <ion-col padding class="vertical-center"  (click)="network()">
         {{'SETTINGS_NET_VERSION'|translate}}
       </ion-col>
