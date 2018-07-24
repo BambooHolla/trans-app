@@ -495,5 +495,31 @@
     "HAVE_BEEN_CERTIFIED":"認証済み",										
     "NOT_BEEN_CERTIFIED":"未認証",										
     "IN_REVIEWING":"審査中",										
-    "FAIL_THE_REVIEW":"審査落ち"
+    "FAIL_THE_REVIEW":"審査落ち",
+
+    "ENTRUSTED_AMOUNT":"委託金額",
+    "REMAINING_AMOUNT":"余剰金額",
+    "ENTRUSTED_QUANTITY":"委託数量",
+    "REMAINING_QUANTITY":"余剰数量",
+
+    "//":"手势解锁",
+    "GESTURE":"パターンロック",
+    "GESTURE_RESET_PASSWORD":"パターンロックをリセットする",
+    "GESTURE_SET_PASSWORD":"パターンロックを設定する",
+    "GESTURE_NO_PASSWORD":"パターンロック未設定",
+    "GESTURE_SETTINGS":"設定",
+    "GESTURE_CANCEL":"キャンセル",
+    "GESTURE_UNLOCK":"パターンロックで解除",
+    "GESTURE_PLEASE_SET_PASSWORD":"パターンを",
+    "GESTURE_UNLOCK_SUCCESS":"書いてください",
+    "GESTURE_SET_PASSWORD_SUCCESS":"パターンロックの設定が成功しました",
+    "GESTURE_TWO_ERR":"二回の図が一致しないため、再設定して下さい",
+    "GESTURE_3_POINTS":"最低三つの点を通さなければなりません",
+    "GESTURE_AGAIN":"再度入力して下さい。",
+    "GESTURE_NEW_PASSWORD":"新しいパターンロックを入力して下さい",
+    "GESTURE_HAVE_CHANCES_1":"パスワードが違います。残り",
+    "GESTURE_HAVE_CHANCES_2":"回入力可能",
+    "GESTURE_60S_AGAIN_1":"",
+    "GESTURE_60S_AGAIN_2":"秒後にリトライして下さい",
+    "GESTURE_OLD_PASSWORD":"古いパターンロックを入力して下さい"
 }

@@ -43,7 +43,9 @@ export class GestureLockPage {
   width = Math.floor((window.innerWidth)) || 320;
   chooseType = 3;
   devicePixelRatio; // 设备密度
-  titleMes = "手势密码解锁";
+  titleMes = "GESTURE_UNLOCK";
+  titleMes_supplement = '';
+  titleMes_number:any = '';
   unSelectedColor = '#87888a';
   selectedColor = '#1783CE';
   successColor = '#7bd56c';
@@ -119,19 +121,23 @@ export class GestureLockPage {
     }
     if( this.hasGestureLock == undefined) {
       this.gestureLockObj.step = 2;
-      this.titleMes = "手势密码解锁";
+      this.titleMes = "GESTURE_UNLOCK";
     }
     if (this.gestureLockObj.step === 0) {
-      this.titleMes = "请绘制你的手势密码";
+      this.titleMes = "GESTURE_PLEASE_SET_PASSWORD";
     }
   }
 
   //滑动结束后处理密码
   private dealPassword(selectedArray) {
+    // 每次清空，避免提示错误
+    this.titleMes_number = '';
+    this.titleMes_supplement = '';
+
     if (this.gestureLockObj.step === 2) {   /** 进入解锁 **/
       if (this.checkPassword(selectedArray, this.gestureLockObj.password)) {  // 解锁成功
         this.textColor = this.successColor;
-        this.titleMes = '解锁成功';
+        this.titleMes = 'GESTURE_UNLOCK_SUCCESS';
         this.drawAll(this.successColor);
         this.storage.remove('gestureAttemptObj')
         this.viewCtrl.dismiss()
@@ -142,7 +148,7 @@ export class GestureLockPage {
       if (this.checkPassword(selectedArray, this.firstPassword)) { //设置密码成功
         this.gestureLockObj.step = 2;
         this.gestureLockObj.password = this.firstPassword;
-        this.titleMes = '手势密码设置成功';
+        this.titleMes = 'GESTURE_SET_PASSWORD_SUCCESS';
 
         this.storage.set('gestureLockObj', this.gestureLockObj);
         this.drawAll(this.successColor);
@@ -160,24 +166,24 @@ export class GestureLockPage {
         },500)
       } else {  //设置密码失败
         this.textColor = this.errorColor;
-        this.titleMes = '两次不一致，重新设置';
+        this.titleMes = 'GESTURE_TWO_ERR';
         this.drawAll(this.errorColor);
         this.gestureLockObj = new GestureLockObj();
       }
     } else if (this.gestureLockObj.step === 0) { //设置密码
       if(selectedArray.length < 3) {
-        this.titleMes = '至少经过3个点';
+        this.titleMes = 'GESTURE_3_POINTS';
         return ;
       }
       this.gestureLockObj.step = 1;
       this.firstPassword = this.parsePassword(selectedArray);
       this.textColor = this.selectedColor;
-      this.titleMes = '再次输入';
+      this.titleMes = 'GESTURE_AGAIN';
     } else if (this.gestureLockObj.step === 3) {//重置密码输入旧秘密
       if (this.checkPassword(selectedArray, this.gestureLockObj.password)) {  // 旧密码成功
         this.gestureLockObj.step = 0;
         this.textColor = this.successColor;
-        this.titleMes = '请输入新手势密码';
+        this.titleMes = 'GESTURE_NEW_PASSWORD';
         this.drawAll(this.successColor);
       } else {   //旧密码失败
         this.lockFaile();
@@ -191,7 +197,9 @@ export class GestureLockPage {
     this.textColor = this.errorColor;
     this.gestureAttemptObj.attemptsNu = this.gestureAttemptObj.attemptsNu - 1;
     if (this.gestureAttemptObj.attemptsNu > 0) {
-      this.titleMes = `密码错误，您还可以输入${this.gestureAttemptObj.attemptsNu}次`;
+      this.titleMes = `GESTURE_HAVE_CHANCES_1`;
+      this.titleMes_number = this.gestureAttemptObj.attemptsNu;
+      this.titleMes_supplement = 'GESTURE_HAVE_CHANCES_2';
     } else {
       this.gestureAttemptObj.lockDate = Date.now();
       this.storage.set("gestureAttemptObj", this.gestureAttemptObj);
@@ -203,13 +211,16 @@ export class GestureLockPage {
     this.lockTime = time;
     const interval = setInterval(() => {
       this.lockTime = this.lockTime - 1;
-      this.titleMes = `请在${this.lockTime}秒后尝试`;
+      this.titleMes = `GESTURE_60S_AGAIN_1`;
+      this.titleMes_number = this.lockTime;
+      this.titleMes_supplement = 'GESTURE_60S_AGAIN_2';
       if (this.lockTime <= 0) {
         this.gestureAttemptObj = new GestureAttemptObj();
         this.storage.set("gestureAttemptObj", this.gestureAttemptObj);
-
         this.lockTime = this.lockTimeUnit;
-        this.titleMes = "手势密码解锁";
+        this.titleMes = "GESTURE_UNLOCK";
+        this.titleMes_number = '';
+      this.titleMes_supplement = '';
         clearInterval(interval);
       }
     }, 1000);
@@ -217,14 +228,14 @@ export class GestureLockPage {
 
   //重置手势秘密
   resetPasswordFun() {
-    this.titleMes = '请输入旧手势密码';
+    this.titleMes = 'GESTURE_NEW_PASSWORD';
     this.gestureLockObj.step = 3;
   }
 
   deletPasswordFun() {
     this.storage.remove("gestureLockObj");
     this.gestureLockObj = new GestureLockObj();
-    this.titleMes = '请绘制你的手势密码';
+    this.titleMes = 'GESTURE_PLEASE_SET_PASSWORD';
     this.reset();
   }
 

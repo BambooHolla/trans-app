@@ -563,5 +563,34 @@
     "HAVE_BEEN_CERTIFIED":"已认证",										
     "NOT_BEEN_CERTIFIED":"未认证",										
     "IN_REVIEWING":"审核中",										
-    "FAIL_THE_REVIEW":"审核不通过"
+    "FAIL_THE_REVIEW":"审核不通过",
+
+    "ENTRUSTED_AMOUNT":"委托金额",
+    "REMAINING_AMOUNT":"剩余金额",
+    "ENTRUSTED_QUANTITY":"委托数量",
+    "REMAINING_QUANTITY":"剩余数量",
+
+    "//":"手势解锁",
+    "GESTURE":"手势密码",
+    "GESTURE_RESET_PASSWORD":"重置手势密码",
+    "GESTURE_SET_PASSWORD":"设置手势密码",
+    "GESTURE_NO_PASSWORD":"手势密码未设置",
+    "GESTURE_SETTINGS":"设置",
+    "GESTURE_CANCEL":"取消",
+    "GESTURE_UNLOCK":"手势密码解锁",
+    "GESTURE_PLEASE_SET_PASSWORD":"请绘制你的手势密码",
+    "GESTURE_UNLOCK_SUCCESS":"解锁成功",
+    "GESTURE_SET_PASSWORD_SUCCESS":"手势密码设置成功",
+    "GESTURE_TWO_ERR":"两次不一致，重新设置",
+    "GESTURE_3_POINTS":"至少经过3个点",
+    "GESTURE_AGAIN":"再次输入",
+    "GESTURE_NEW_PASSWORD":"请输入新手势密码",
+    "GESTURE_HAVE_CHANCES_1":"密码错误，您还可以输入",
+    "GESTURE_HAVE_CHANCES_2":"次",
+    "GESTURE_60S_AGAIN_1":"请在",
+    "GESTURE_60S_AGAIN_2":"秒后尝试",
+    "GESTURE_OLD_PASSWORD":"请输入旧手势密码"
+
+    
+    
 }

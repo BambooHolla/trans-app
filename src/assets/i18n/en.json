@@ -558,5 +558,31 @@
     "HAVE_BEEN_CERTIFIED":"Have been verified",										
     "NOT_BEEN_CERTIFIED":"Haven't been verified",										
     "IN_REVIEWING":"In reviewing",										
-    "FAIL_THE_REVIEW":"Fail the review"										
+    "FAIL_THE_REVIEW":"Fail the review",
+    
+    "ENTRUSTED_AMOUNT":"Entrusted amount",
+    "REMAINING_AMOUNT":"Remaining amount",
+    "ENTRUSTED_QUANTITY":"Entrusted quantity",
+    "REMAINING_QUANTITY":"Remaining quantity",
+
+    "//":"手势解锁",
+    "GESTURE":"Gesture password",
+    "GESTURE_RESET_PASSWORD":"Reset your gesture password",
+    "GESTURE_SET_PASSWORD":"Set your gesture password",
+    "GESTURE_NO_PASSWORD":"gesture password hasn't been set",
+    "GESTURE_SETTINGS":"Settings",
+    "GESTURE_CANCEL":"Cancel",
+    "GESTURE_UNLOCK":"Unlock with gesture password",
+    "GESTURE_PLEASE_SET_PASSWORD":"Please set your gesture password",
+    "GESTURE_UNLOCK_SUCCESS":"Unlock successfully",
+    "GESTURE_SET_PASSWORD_SUCCESS":"Set gesture password successfully",
+    "GESTURE_TWO_ERR":"Two passwords are not identical, please reset",
+    "GESTURE_3_POINTS":"At least 3 points.",
+    "GESTURE_AGAIN":"Please input again",
+    "GESTURE_NEW_PASSWORD":"Please input new gesture password",
+    "GESTURE_HAVE_CHANCES_1":"Wrong password, you have ",
+    "GESTURE_HAVE_CHANCES_2":" more chances",
+    "GESTURE_60S_AGAIN_1":"Please try again after ",
+    "GESTURE_60S_AGAIN_2":"s",
+    "GESTURE_OLD_PASSWORD":"Please input previous gesture password"
 }
