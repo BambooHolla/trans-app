@@ -6,6 +6,14 @@ page-gesture-lock {
     
     margin: 2rem auto 0 auto;
   }
+  .loginBox {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 1.4rem;
+    padding-bottom: 2rem;
+  }
   .gestureLockBox{
     position: absolute;
     top:0;

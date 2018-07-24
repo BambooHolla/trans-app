@@ -109,20 +109,11 @@ export class PicassoApp {
         // this.alertService.show(title,message,type)
         if(!!appSettingProvider.getUserToken()) {
             this.storage.get('gestureLockObj').then( data => {
-            
                 if(data) {
-                    this.unregisterBackButton = this.platform.registerBackButtonAction(
-                        () => {
-                           
-                        },
-                    ); 
                     let gesturePage = this.modalController.create(GestureLockPage,{
                         hasGestureLock: undefined,
                     });
                     gesturePage.present();
-                    gesturePage.onDidDismiss( ()=> {
-                        this.unregisterBackButton();
-                    })
                 }
             })
         }

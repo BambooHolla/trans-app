@@ -260,7 +260,7 @@ export class LoginService {
                     message,
                 );
                 //清空登入信息
-                this.doLogout();
+                // this.doLogout(); 
                 return err.message || err.statusText || err;
             });
     }

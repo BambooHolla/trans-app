@@ -1,5 +1,5 @@
 import {Component, ElementRef, ViewChild, Renderer2} from '@angular/core';
-import {IonicPage, NavController, NavParams, ViewController} from 'ionic-angular';
+import {IonicPage, NavController, NavParams, ViewController, Events, Platform} from 'ionic-angular';
 import {Storage} from "@ionic/storage";
 
 
@@ -53,7 +53,7 @@ export class GestureLockPage {
   lockTimeUnit = 60; //尝试失败后锁定多少秒
   gestureLockObj: GestureLockObj = new GestureLockObj(); //密码本地缓存
   gestureAttemptObj: GestureAttemptObj = new GestureAttemptObj();  //尝试日期和次数本地缓存
-
+  unregisterBackButton:any;// 硬件返回
   firstPassword: string;
   private hasGestureLock:boolean = false;// 是否设置
   private canTouch = false;
@@ -75,6 +75,8 @@ export class GestureLockPage {
     private render: Renderer2,
     private storage: Storage,
     private viewCtrl: ViewController,
+    public events: Events,
+    public platform: Platform,
   ) {
     
   }
@@ -116,10 +118,17 @@ export class GestureLockPage {
       }
     });
     this.hasGestureLock = await this.navParams.get('hasGestureLock');
+    
     if(this.hasGestureLock) {
       this.resetPasswordFun();
     }
-    if( this.hasGestureLock == undefined) {
+    if( this.hasGestureLock != false && this.hasGestureLock != true && !this.unregisterBackButton) {
+      // 打开app解锁，屏蔽
+      this.unregisterBackButton = this.platform.registerBackButtonAction(
+        () => {
+           
+        },
+      ); 
       this.gestureLockObj.step = 2;
       this.titleMes = "GESTURE_UNLOCK";
     }
@@ -127,7 +136,16 @@ export class GestureLockPage {
       this.titleMes = "GESTURE_PLEASE_SET_PASSWORD";
     }
   }
-
+  ionViewDidEnter() {
+    if( this.hasGestureLock != false && this.hasGestureLock != true && !this.unregisterBackButton) {
+      // 打开app解锁，屏蔽
+      this.unregisterBackButton = this.platform.registerBackButtonAction(
+        () => {
+           
+        },
+      ); 
+    }
+  }
   //滑动结束后处理密码
   private dealPassword(selectedArray) {
     // 每次清空，避免提示错误
@@ -140,6 +158,8 @@ export class GestureLockPage {
         this.titleMes = 'GESTURE_UNLOCK_SUCCESS';
         this.drawAll(this.successColor);
         this.storage.remove('gestureAttemptObj')
+        this.unregisterBackButton();
+        this.unregisterBackButton = undefined;
         this.viewCtrl.dismiss()
       } else {   //解锁失败
         this.lockFaile();
@@ -392,7 +412,18 @@ export class GestureLockPage {
     this.ctx.stroke();
     this.ctx.closePath();
   }
-
+  showLogin() {
+    this.unregisterBackButton();
+    this.unregisterBackButton = undefined;
+    this.events.publish(
+      "show login",
+      "login",
+      () => {
+        this.storage.remove('gestureAttemptObj');
+        this.viewCtrl.dismiss();
+      },
+  )
+  }
 }
 
 

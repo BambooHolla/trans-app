@@ -2,7 +2,7 @@
 <ion-header>
 
 <ion-navbar>
-<ion-title>{{(hasGestureLock?"GESTURE_RESET_PASSWORD":hasGestureLock == undefined ?'GESTURE':"GESTURE_SET_PASSWORD") | translate}}</ion-title>
+<ion-title>{{(hasGestureLock?"GESTURE_RESET_PASSWORD":hasGestureLock != true && hasGestureLock != false  ?'GESTURE':"GESTURE_SET_PASSWORD") | translate}}</ion-title>
 </ion-navbar>
 
 </ion-header>
@@ -12,7 +12,9 @@
     <!-- <a #resetPassword class="resetPasswordBox" (click)="resetPasswordFun()" *ngIf='hasGestureLock'>重置密码?</a> -->
     <!-- <a #resetPassword  (click)="deletPasswordFun()">删除密码?</a> -->
     <canvas #canvas [ngStyle]="{'height.px':height,'width.px':width}"></canvas>
-
+    <div class="loginBox">
+        <a #login  (click)="showLogin()" *ngIf="hasGestureLock != true && hasGestureLock != false">以账号登录方式解锁</a>
+    </div>
   </div>
 
 </ion-content>
