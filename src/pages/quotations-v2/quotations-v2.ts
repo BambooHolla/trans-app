@@ -154,6 +154,11 @@ export class QuotationsPageV2 {
     }
 
     ngOnInit() {
+        this.loading =  this.loadingCtrl.create({
+            showBackdrop: false,
+            cssClass: "enableBackdropDismiss",
+            dismissOnPageChange: true,
+        });
         this.subscribeRealtimeReports();
         this.searchTermStream
             // .takeUntil(this.viewDidLeave$)
@@ -171,11 +176,6 @@ export class QuotationsPageV2 {
     ionViewWillEnter() {}
 
     ionViewDidEnter() {
-        this.loading =  this.loadingCtrl.create({
-            showBackdrop: false,
-            cssClass: "enableBackdropDismiss",
-            dismissOnPageChange: true,
-        });
         this.loading.present({
             minClickBlockDuration: -1,
             disableApp: false, // 使得tabs依然可以点击
