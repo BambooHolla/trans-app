@@ -6,7 +6,7 @@ import {
     Renderer,
 } from "@angular/core";
 // import { Slides, NavController } from 'ionic-angular';
-import { NavController, Refresher, ModalController } from "ionic-angular";
+import { NavController, Refresher, ModalController, LoadingController } from "ionic-angular";
 
 import { Observable } from "rxjs/Observable";
 import { BehaviorSubject } from "rxjs/BehaviorSubject";
@@ -35,7 +35,7 @@ import { GestureLockPage } from "../gesture-lock/gesture-lock";
 export class QuotationsPageV2 {
     @ViewChild("searchInputWrap", { read: ElementRef })
     searchInputWrap;
-
+ 
     activeProduct: any = "";
 
     searchInputValue = "";
@@ -136,6 +136,7 @@ export class QuotationsPageV2 {
         area: {},
         showLineRangeColor: true,
     };
+    loading:any;
     constructor(
         public navCtrl: NavController,
         public appSettings: AppSettings,
@@ -146,8 +147,10 @@ export class QuotationsPageV2 {
         public renderer: Renderer,
         public modalCtrl: ModalController,
         public storage: Storage,
+        public loadingCtrl: LoadingController,
     ) {
         // this.changeActive(0
+        
     }
 
     ngOnInit() {
@@ -168,6 +171,15 @@ export class QuotationsPageV2 {
     ionViewWillEnter() {}
 
     ionViewDidEnter() {
+        this.loading =  this.loadingCtrl.create({
+            showBackdrop: false,
+            cssClass: "enableBackdropDismiss",
+            dismissOnPageChange: true,
+        });
+        this.loading.present({
+            minClickBlockDuration: -1,
+            disableApp: false, // 使得tabs依然可以点击
+        });
         console.log("quotations-v2 did enter");
         this.viewDidLeave.next(false);
 
@@ -207,6 +219,10 @@ export class QuotationsPageV2 {
     }
 
     ionViewDidLeave() {
+        if (this.loading) {
+            this.loading.dismiss();
+            this.loading = null;
+        }
         this.viewDidLeave.next(true);
         // realtimeStockList 的设置要放在 viewDidLeave 的设置之后，
         // 以便先触发 takeUntil() 。
@@ -422,9 +438,12 @@ export class QuotationsPageV2 {
                 this.appDataService.LAST_TRADER.next(value);
             }
         });
-
+        if (this.loading) {
+            this.loading.dismiss();
+            this.loading = null;
+        }
         this.traderList = traderList;
-
+        
         this.traderList_show = this.traderList;
 
         console.log("teee", this.viewDidLeave.getValue());

@@ -64,6 +64,7 @@
         <ion-refresher-content refreshingText="{{'UPDATING'|translate}}...">
         </ion-refresher-content>
     </ion-refresher>
+    <div class="no-content" *ngIf="traderList?.length == 0">下拉刷新</div>
     <div *ngFor="let trader of traderList" tappable (click)="saveLastTrader(trader)" class="trader-item" [hidden]="trader.hidden">
         <div class="header">
             <div class="name">

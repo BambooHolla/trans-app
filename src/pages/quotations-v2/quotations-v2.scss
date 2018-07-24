@@ -167,8 +167,13 @@ page-quotations-v2 {
             }
         }
     }
+    .no-content {
+        text-align: center;
+        font-size: 1.6rem; 
+        padding-top: 2rem;
+        color: color($colors, middark); 
+    }
     .trader-item {
-        margin-top: 1rem;
         & + .trader-item {
             margin-top: 1px;
         }
