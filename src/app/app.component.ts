@@ -107,23 +107,26 @@ export class PicassoApp {
         //   type = false;
         // }
         // this.alertService.show(title,message,type)
-        this.storage.get('gestureLockObj').then( data => {
+        if(!!appSettingProvider.getUserToken()) {
+            this.storage.get('gestureLockObj').then( data => {
             
-            if(data) {
-                this.unregisterBackButton = this.platform.registerBackButtonAction(
-                    () => {
-                       
-                    },
-                ); 
-                let gesturePage = this.modalController.create(GestureLockPage,{
-                    hasGestureLock: undefined,
-                });
-                gesturePage.present();
-                gesturePage.onDidDismiss( ()=> {
-                    this.unregisterBackButton();
-                })
-            }
-        })
+                if(data) {
+                    this.unregisterBackButton = this.platform.registerBackButtonAction(
+                        () => {
+                           
+                        },
+                    ); 
+                    let gesturePage = this.modalController.create(GestureLockPage,{
+                        hasGestureLock: undefined,
+                    });
+                    gesturePage.present();
+                    gesturePage.onDidDismiss( ()=> {
+                        this.unregisterBackButton();
+                    })
+                }
+            })
+        }
+        
         window["platform"] = platform;
         window["alertCtrl"] = alertCtrl;
         window["loadingCtrl"] = loadingCtrl;

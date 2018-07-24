@@ -38,10 +38,10 @@ import { TradeChartV2Page } from "../trade-chart-v2/trade-chart-v2";
 })
 export class TradeInterfaceV2Page {
     tradeChart = TradeChartV2Page;
-
     // 因为语言结构有很多不同的顺序，现在分开单独处理，以后看能不能弄更优化的办法
     private userLanguage: any = "zh";
-
+    public size_1rem: boolean = false;
+   
     quickTrading: boolean = false;
     trading: boolean = false;
     marketPrice: any;
@@ -280,6 +280,7 @@ export class TradeInterfaceV2Page {
         private promptCtrl: PromptControlleService,
         private loginService: LoginService,
     ) {
+        
         BigNumber.config({ EXPONENTIAL_AT: [-8, 20] });
         this.userLanguage = this.appDataService.LANGUAGE || "zh";
         this.appDataService.LAST_TRADER$.subscribe(trader => {
@@ -950,7 +951,6 @@ export class TradeInterfaceV2Page {
     ionViewDidEnter() {
         // window["confirmChangeTradingMode"] = this.confirmChangeTradingMode
         this.viewDidLeave.next(false);
-
         if (this.tradeType != this.appDataService.exchangeType) {
             this.chooseTradeType(
                 undefined,
@@ -1072,9 +1072,11 @@ export class TradeInterfaceV2Page {
             // this._depth$.subscribe()
             this._depthSource$.subscribe(data => {
                 if (data) {
+                    this.size_1rem = false;
                     if (data.buy) {
-                        //遍历数据，剔除掉数量为0的数据
+                        
                         for (let i = 0; i < data.buy.length; i++) {
+                            //剔除掉数量为0的数据
                             if (
                                 data.buy[i].amount &&
                                 new BigNumber(data.buy[i].amount).comparedTo(
@@ -1083,6 +1085,15 @@ export class TradeInterfaceV2Page {
                             ) {
                                 data.buy.splice(i, 1);
                                 --i;
+                            }
+                             //检查长度
+                             if(!this.size_1rem && (data.buy[i].amount || data.buy[i].price)) {
+                                let _amount:string | string[] = (new BigNumber(data.buy[i].amount||0)).toString();
+                                let _price:string | string[] = (new BigNumber(data.buy[i].price||0)).toString();
+                                _amount = _amount.split('.');
+                                _price = _price.split('.');
+                                this.size_1rem = _amount[1] && _amount[1].length > 5 ? true : false;
+                                this.size_1rem = _price[1] && _price[1].length > 5 ? true : false;
                             }
                         }
                         this.buy_depth = data.buy;
@@ -1100,8 +1111,9 @@ export class TradeInterfaceV2Page {
                             : "" + this.marketPrice;
                     }
                     if (data.sale) {
-                        //遍历数据，剔除掉数量为0的数据
+                        
                         for (let i = 0; i < data.sale.length; i++) {
+                            //剔除掉数量为0的数据
                             if (
                                 data.sale[i].amount &&
                                 new BigNumber(data.sale[i].amount).comparedTo(
@@ -1110,6 +1122,15 @@ export class TradeInterfaceV2Page {
                             ) {
                                 data.sale.splice(i, 1);
                                 --i;
+                            }
+                            //检查长度
+                            if(!this.size_1rem && (data.sale[i].amount || data.sale[i].price)) {
+                                let _amount:string | string[] = (new BigNumber(data.sale[i].amount||0)).toString();
+                                let _price:string | string[] = (new BigNumber(data.sale[i].price||0)).toString();
+                                _amount = _amount.split('.');
+                                _price = _price.split('.');
+                                this.size_1rem = _amount[1] && _amount[1].length > 5 ? true : false;
+                                this.size_1rem = _price[1] && _price[1].length > 5 ? true : false;
                             }
                         }
                         this.sale_depth = data.sale;

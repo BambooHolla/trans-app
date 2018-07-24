@@ -17,7 +17,6 @@ export class NumberUnitFormatPipe implements PipeTransform {
     ): string {
         BigNumber.config({ EXPONENTIAL_AT: [-9, 20] });
         // 显示位数，为了避免数据显示溢出，进行处理
-
         if (isNaN(value)) {
             return "--";
         }

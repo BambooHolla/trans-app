@@ -97,17 +97,17 @@
 			<div class="bets-group">
 				<div *ngFor="let item of saler ; let i = index;" class="bet"
 				 tappable (click)="setPrice(sale_depth[i]?.price)">
-				<div class="bet-label sale">{{item}}</div>
-					<div class="bet-price sale">{{sale_depth[i]?.price || '--' | priceConversion | numberUnitFormat:true:false:8}}</div>
-					<div class="bet-amount">{{sale_depth[i]?.amount || '--' | quantityConversion | numberUnitFormat:false:true:8:8 | unitConversion }}</div>
+				<div class="bet-label sale" [class.size-1rem]="size_1rem">{{item}}</div>
+					<div class="bet-price sale depth-div" [class.size-1rem]="size_1rem">{{sale_depth[i]?.price || '--' | priceConversion | numberUnitFormat:true:false:8}}</div>
+					<div class="bet-amount" [class.size-1rem]="size_1rem">{{sale_depth[i]?.amount || '--' | quantityConversion | numberUnitFormat:false:true:8:8 | unitConversion }}</div>
 				</div>
 			</div>
 			<div class="bets-group">
 				<div *ngFor="let item of buyer ; let i = index;" class="bet"
 				 tappable (click)="setPrice(buy_depth[i]?.price)"> 
-					<div class="bet-label buy">{{item}}</div>
-					<div class="bet-price buy">{{buy_depth[i]?.price || '--' | priceConversion | numberUnitFormat:true:false:8}}</div>
-					<div class="bet-amount">{{buy_depth[i]?.amount || '--' | quantityConversion | numberUnitFormat:false:true:8:8 | unitConversion}}</div>
+					<div class="bet-label buy" [class.size-1rem]="size_1rem">{{item}}</div>
+					<div class="bet-price buy depth-div" [class.size-1rem]="size_1rem">{{buy_depth[i]?.price || '--' | priceConversion:8 | numberUnitFormat:true:false:8}}</div>
+					<div class="bet-amount" [class.size-1rem]="size_1rem">{{buy_depth[i]?.amount || '--' | quantityConversion:8 | numberUnitFormat:false:true:8:8 | unitConversion}}</div>
 				</div>
 			</div>
 			
