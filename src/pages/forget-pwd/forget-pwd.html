@@ -3,14 +3,16 @@
         <ion-navbar>
             <ion-title>{{ 'RESET_PASSWORD' | translate}}</ion-title>
         </ion-navbar>
-    </div>
+    </div> 
 </ion-header>
 <ion-content no-bounce class="account-contain">
     <ion-grid no-padding>
         <form class="forgetPWD-form-container" [formGroup]="forgetPWDForm" (ngSubmit)="forgetPWD()" novalidate>
             <ion-row class="bottom-line">
-                <ion-col padding class="vertical-center">
-                    <ion-input formControlName="customerId" class="account" placeholder="{{'MOBILE_PHONE_NUMBER_EMAIL'|translate}}" (blur)='checkRegister()'></ion-input>
+                <ion-col padding >
+                        <ion-item class="item-vertical-center">
+                                <ion-input formControlName="customerId" class="account" placeholder="{{'MOBILE_PHONE_NUMBER_EMAIL'|translate}}" (blur)='checkRegister()'></ion-input>
+                        </ion-item> 
                 </ion-col>
                 <div item-right class="error-tip" *ngIf="!customerId_existence"> 
                     {{'ACCOUNT_DOESNOT'|translate}}

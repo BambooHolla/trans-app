@@ -115,6 +115,11 @@ page-forget-pwd {
         top: 0;
         left: 0;
     }
+    .item-vertical-center {
+        padding-left: 0;
+        background-color: transparent;
+        font-size: 1.4rem;
+    }
     .forgetPWD-warpper {
         display: flex;
         align-content: center;
