@@ -10,6 +10,8 @@ import { PositiveSignPipe } from "../pipes/positive-sign";
 import { NumberFilterPipe } from "../pipes/number-filter";
 import { NumberUnitFormatPipe } from "../pipes/number-unit-format";
 import { unitConversionPipe } from "../pipes/unit-conversion";
+import { ChangeCurrencyPipe } from "../pipes/change-currency";
+
 @NgModule({
     imports: [
         // CommonModule,
@@ -23,6 +25,7 @@ import { unitConversionPipe } from "../pipes/unit-conversion";
         NumberFilterPipe,
         NumberUnitFormatPipe,
         unitConversionPipe,
+        ChangeCurrencyPipe,
     ],
     exports: [
         TriColListComponent,
@@ -32,6 +35,7 @@ import { unitConversionPipe } from "../pipes/unit-conversion";
         NumberFilterPipe,
         NumberUnitFormatPipe,
         unitConversionPipe,
+        ChangeCurrencyPipe,
     ],
 })
 export class ListSharedModule {}

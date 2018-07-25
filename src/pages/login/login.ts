@@ -246,12 +246,12 @@ export class LoginPage implements OnInit {
     }
     successFn() {
         this.dismiss();
-            this.appDataService.show_login_code = false;
-            // console.log('jumpto:',this.navParams.data)
-            let cb = this.navParams.data.cb;
-            if (cb) {
-                // this.tabsPage.tabs.select(tabIndex);
-                cb();
-            }
+        this.appDataService.show_login_code = false;
+        // console.log('jumpto:',this.navParams.data)
+        let cb = this.navParams.data.cb;
+        if (cb) {
+            // this.tabsPage.tabs.select(tabIndex);
+            cb();
+        }
     }
 }

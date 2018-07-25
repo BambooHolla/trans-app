@@ -132,6 +132,7 @@ export class PicassoApp {
         this.initTranslate();
         // 获取语言后，需要获取一下法币汇率
         tradeService.getCurrencyInof(appDataService.LANGUAGE);
+        tradeService.getCurrencys();
         if (!navigator["clipboard"]) {
             navigator["clipboard"] = {
                 writeText: text => clipboard.copy(text),

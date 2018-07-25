@@ -404,18 +404,16 @@ export class TradeService {
         return error;
     }
     // 获取法币列表
-    getCurrencys() {
+    getCurrencys() { 
         const path = `/report/currencies`;
         if(this.appDataService.CURRENCYS_TYPE) return;
         return this.appService
             .request(RequestMethod.Get, path, undefined)
             .then(data => {
-                console.log("getCurrencys: ", data);
-                
+                this.appDataService.CURRENCYS_TYPE = data;
             })
             .catch(err => {
-                console.log("getCurrencys error: ", err);
-                // return Promise.reject(err);
+                this.appDataService.CURRENCYS_TYPE = {'en':'USD'}
             });
     }
 
@@ -423,16 +421,24 @@ export class TradeService {
     async getCurrencyInof(type?:string) {
         const path = `/report/exchangeRate`;
         let params = new URLSearchParams();
-        params.set("currencyType", type||this.appDataService.LANGUAGE);
+        params.set("countryCode", type||this.appDataService.LANGUAGE);
         return await this.appService
             .request(RequestMethod.Get, path, params, false)
             .then(data => {
-                console.log("getCurrencyInof: ", data);
-                
+                this.appDataService.CURRENCY_INFO = data;
+                this.appDataService.CURRENCY_INFO['status'] = true;
+                this.appDataService.CURRENCY_INFO['type'] = type;
+                this.appDataService.CHAGE_CURRENCY.next(true);
             })
             .catch(err => {
-                console.log("getCurrencyInof error: ", err);
-                // return Promise.reject(err);
+                this.appDataService.CURRENCY_INFO = {
+                    status: false,
+                    currencyFrom :"",
+                    currencyTo:"",
+                    exchange:"",
+                    type: 'en',
+                };
+                this.appDataService.CHAGE_CURRENCY.next(true);
             });
     }
 }

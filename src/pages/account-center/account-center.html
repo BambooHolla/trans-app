@@ -27,8 +27,8 @@
       </ion-col>
     </ion-row>
     <ion-row class="bottom-line" >
-      <ion-col padding class="vertical-center"  >
-        计价方式<span class="f-right">{{appDataService.CURRENCY}} <span class="picasso-right-arrow"></span> </span>
+      <ion-col padding class="vertical-center"  (click)="currencyTypePage()">
+        计价方式<span class="f-right">{{appDataService.CURRENCY_INFO?.currencyTo}} <span class="picasso-icon-right-arrow"></span> </span>
       </ion-col>
     </ion-row>
     <!-- <ion-row class="bottom-line" >
@@ -39,22 +39,26 @@
     <ion-row class="bottom-line" >
       <ion-col padding class="vertical-center" (click)="goGestureLock()">
         {{(hasGestureLock?"GESTURE_RESET_PASSWORD":"GESTURE_SET_PASSWORD") | translate}}
+        <span class="f-right"><span class="picasso-icon-right-arrow"></span> </span>
       </ion-col>
     </ion-row>
     <ion-row class="bottom-line" >
       <ion-col padding class="vertical-center"  (click)="network()">
         {{'SETTINGS_NET_VERSION'|translate}}
+        <span class="f-right"><span class="picasso-icon-right-arrow"></span> </span>
       </ion-col>
     </ion-row>
     <ion-row class="bottom-line" navPush="modify-pwd">
       <ion-col padding class="vertical-center">
         {{'EDIT_LOGIN_PASSWORD'|translate}}
+        <span class="f-right"><span class="picasso-icon-right-arrow"></span> </span>
       </ion-col>
     </ion-row>
     <ng-container *ngIf="!loading_has_account_pwd">
       <ion-row class="bottom-line" (click)="routeTo('set-pay-pwd')">
         <ion-col padding class="vertical-center">
           {{(has_account_pwd?'RESET_1':'SET_1') | translate}}{{'ACCOUNT_TRANSACTION_PASSWORD'|translate}}
+          <span class="f-right"><span class="picasso-icon-right-arrow"></span> </span>
         </ion-col>
       </ion-row>
     </ng-container>

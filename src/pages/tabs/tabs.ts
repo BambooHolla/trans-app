@@ -27,6 +27,8 @@ import { NewsListPage } from "../news-list/news-list";
 import { LoginService } from "../../providers/login-service";
 import { AppSettingProvider } from "../../bnlc-framework/providers/app-setting/app-setting";
 import { Keyboard } from "@ionic-native/keyboard";
+import { AppDataService } from "../../providers/app-data-service";
+
 @Component({
     selector: "component-tabs",
     templateUrl: "tabs.html",
@@ -56,6 +58,7 @@ export class TabsPage implements OnInit, AfterViewInit, AfterContentInit {
         public elementRef: ElementRef,
         public renderer: Renderer,
         public keyboard: Keyboard,
+        public appDataService: AppDataService,
     ) {
         // FIXME ：如何获取推荐的股票列表？
         // 后续处理的调用暂时注释掉。
@@ -170,7 +173,7 @@ export class TabsPage implements OnInit, AfterViewInit, AfterContentInit {
                     const self = this as TabsPage;
                     if (
                         self.tab_should_login.includes(tab.tabUrlPath) &&
-                        !self.appSetting.getUserToken()
+                        (!self.appSetting.getUserToken() && !self.appDataService.token)
                     ) {
                         return self.events.publish(
                             "show login",

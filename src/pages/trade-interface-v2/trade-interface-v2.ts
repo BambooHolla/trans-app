@@ -45,6 +45,8 @@ export class TradeInterfaceV2Page {
     quickTrading: boolean = false;
     trading: boolean = false;
     marketPrice: any;
+    currencyPrice:any = undefined;
+    _currencyPrice:any = '--'
     // tradeType:number = 1 //1是买,0是卖
     @ViewChild(Content) content: Content;
 
@@ -283,9 +285,11 @@ export class TradeInterfaceV2Page {
         
         BigNumber.config({ EXPONENTIAL_AT: [-8, 20] });
         this.userLanguage = this.appDataService.LANGUAGE || "zh";
+        //交易对
         this.appDataService.LAST_TRADER$.subscribe(trader => {
             if (trader) this.initTrader(trader);
-        }); 
+        });  
+        //用户数据
         this.loginService.status$.subscribe( status => {
             if(status) { 
                 this.gotoHistoryLogin()
@@ -293,6 +297,14 @@ export class TradeInterfaceV2Page {
                 this.trader_product = {};
                 this.trader_target = {};
                 this.personalAssets = {};
+            }
+        });
+        //法币更改
+        this.appDataService.CHAGE_CURRENCY$.subscribe( status => {
+            debugger
+            if(status && this._currencyPrice) {
+                debugger
+                this.currencyPrice = this.appDataService.CURRENCY_INFO.exchange?'--':this._currencyPrice.times(this.appDataService.CURRENCY_INFO.exchange).toString()
             }
         })
     }
@@ -556,7 +568,7 @@ export class TradeInterfaceV2Page {
     }
 
     async doTrade(tradeType: number = this._tradeType$.getValue()) {
-        this.productStatus = await this.stockDataService.getProductStatus(this.trader_target)
+        this.productStatus = await this.stockDataService.getProductStatus(this.traderId)
         if(!this.productStatus) return;
         if (!(this.personalDataService.certifiedStatus == "2")) {
             await this.personalDataService.requestCertifiedStatus();
@@ -1038,6 +1050,10 @@ export class TradeInterfaceV2Page {
                     this.buyRate = data.buyRate;
                     this.sellRate = data.sellRate;
                     this._tradeType$.next(this._tradeType$.getValue());
+                   
+                    this._currencyPrice = new BigNumber(data.price);
+                    this.currencyPrice = this.appDataService.CURRENCY_INFO.exchange?'--':this._currencyPrice.times(this.appDataService.CURRENCY_INFO.exchange).toString()
+                   
                 });
             // this.stockDataService.stockBaseData$.map(data => data[stockCode])
             //   .do(data => console.log('final data:', stockCode, data))
@@ -1682,7 +1698,7 @@ export class TradeInterfaceV2Page {
         if (this.quickTrading) {
             return void 0;
         }
-        this.productStatus = await this.stockDataService.getProductStatus(this.trader_target)
+        this.productStatus = await this.stockDataService.getProductStatus(this.traderId)
         if(!this.productStatus) return;
         if (!this.appSetting.getUserToken()) {
             return this.goLogin();
@@ -1873,7 +1889,7 @@ export class TradeInterfaceV2Page {
     }
 
     async goLogin() {
-        this.productStatus = await this.stockDataService.getProductStatus(this.trader_target)
+        this.productStatus = await this.stockDataService.getProductStatus(this.traderId)
         if(!this.productStatus) return;
         this.events.publish(
             "show login",

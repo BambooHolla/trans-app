@@ -5,7 +5,7 @@
 </ion-header>
 <ion-content no-bounce class="account-contain">
 
-    <ion-row *ngFor="let data of commandData">
+   <ion-row *ngFor="let data of currency_list">
         <ion-col padding class="vertical-center" (click)="ionChange(data)">
             <span>{{data.name}}</span>
             <ion-icon class="icon-currency" icon-right name="checkmark" [hidden]="data.hidden"></ion-icon>

@@ -1,31 +1,41 @@
 import { Component } from "@angular/core";
 import { IonicPage, NavController, NavParams } from "ionic-angular";
-import { SecondLevelPage } from "../../bnlc-framework/SecondLevelPage";
-import { asyncCtrlGenerator } from "../../bnlc-framework/Decorator";
-import {
-    AccountServiceProvider,
-    PaymentCategory,
-} from "../../providers/account-service/account-service";
+import { AppDataService } from "../../providers/app-data-service";
+import { TradeService } from "../../providers/trade-service";
 
 @Component({
     selector: "page-currency-type-list",
     templateUrl: "currency-type-list.html",
 })
-export class CurrencyTypeListPage extends SecondLevelPage {
+export class CurrencyTypeListPage  {
     currency_list: any[];
 
     constructor(
         public navCtrl: NavController,
         public navParams: NavParams,
-        public accountService: AccountServiceProvider,
+        public appDataService: AppDataService,
+        public tradeService: TradeService,
+        
     ) {
-        super(navCtrl, navParams);
+        this.init();
+    }
+    init() {
+        this.currency_list = [];
+        for(let key in this.appDataService.CURRENCYS_TYPE) {
+            this.currency_list.push({
+                name: this.appDataService.CURRENCYS_TYPE[key],
+                value: key,
+                hidden: this.appDataService.CURRENCY_INFO.type != key,
+            })
+        }
+    }
+    ionChange(data: any) {
+        if (!data.hidden) return;
+        this.tradeService.getCurrencyInof(data.value)
+        .then( () => {
+            this.init();
+        });
         
     }
-    @CurrencyTypeListPage.willEnter
-    @asyncCtrlGenerator.loading()
-    @asyncCtrlGenerator.error("LOAD_PRODUCT_LIST_ERROR")
-    async getProducts() {
-        this.currency_list = await this.accountService.productList.getPromise();
-    }
+    
 }

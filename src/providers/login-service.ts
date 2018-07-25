@@ -268,10 +268,10 @@ export class LoginService {
     public async doLogout() {
         document.cookie = `X-AUTH-TOKEN=;expires=Thu, 01 Jan 1970 00:00:00 GMT`;
         await this.bnlcAppSetting.clearUserToken();
-        return new Promise(resolve => {
-            this.appDataService.resetCustomization();
+        return new Promise(async resolve => {
+            await this.appDataService.resetCustomization();
 
-            this.userToken.next("");
+            await this.userToken.next("");
 
             resolve(true);
         });
