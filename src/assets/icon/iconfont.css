@@ -1,0 +1,20 @@
+@font-face {
+    font-family: "picasso-right-arrow";
+    src: url('iconfont.eot?t=1532440494855'); /* IE9*/
+    src: url('iconfont.eot?t=1532440494855#iefix') format('embedded-opentype'), /* IE6-IE8 */
+    url('data:application/x-font-woff;charset=utf-8;base64,d09GRgABAAAAAAToAAsAAAAAB0AAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAABHU1VCAAABCAAAADMAAABCsP6z7U9TLzIAAAE8AAAARAAAAFZW70fuY21hcAAAAYAAAABcAAABhplEBr5nbHlmAAAB3AAAAR0AAAEotcU9emhlYWQAAAL8AAAALgAAADYSGeVZaGhlYQAAAywAAAAcAAAAJAfeA4RobXR4AAADSAAAAAwAAAAMC+kAAGxvY2EAAANUAAAACAAAAAgAdgCUbWF4cAAAA1wAAAAfAAAAIAESAF1uYW1lAAADfAAAAUUAAAJtPlT+fXBvc3QAAATEAAAAJAAAADXf7FB7eJxjYGRgYOBikGPQYWB0cfMJYeBgYGGAAJAMY05meiJQDMoDyrGAaQ4gZoOIAgCKIwNPAHicY2Bk/sE4gYGVgYOpk+kMAwNDP4RmfM1gxMjBwMDEwMrMgBUEpLmmMDgwVDxjZm7438AQw9zI0AgUZgTJAQAjqQxxeJzFkMENgDAMAy9N6QMxCA8G4sUcnbhrFBPKgwlqybHiWEoUYAFcPMQMdmE8OOVa+M4afo5MkRqJ2rx39Z8qolkJTSqFabB5q//You6j01eogzqx+UvSDVSHC5t4nA2PvUrDUBhAv+9ec5u0yY29+f+zTWJylWrBGOsgtouLIig4OfoAunYRrILg4OAziOAo3fsyos8RzeHAmQ8oAH/fdEV9sGAL9uAELgGQjTDjJMFU1mMyQidVHM/mVOYy7eTZmB6jlzHbrSZ16bEOM5HjBu6n1USOicSDekqOsHITxCAKr0QRC/qGXV9uPDdn5B2dQR6b093mdGdmV0NLnetCBEK8qkxRVELWTI63nqspWpc1H4oZOqvBNhmgHsjw/NoYRuLmpb5LCk9DXCzQiob8c9YP+633oWuJoLNuqH5o5Js2zn97vqUn5Q+0YPv6QDP6CAaAhiwr60MNy3pSeTRreryIOS6bCx6VHJ8ancdtl/jFi8T4B2mcLhIAAAB4nGNgZGBgAGJVRovOeH6brwzcLAwgcL02YB2C/l/PwsDcCORyMDCBRAH6zQlMAAB4nGNgZGBgbvjfwBDDwgACQJKRARUwAwBHCQJsBAAAAAPpAAAEAAAAAAAAAAB2AJR4nGNgZGBgYGYIZGBlAAEmIOYCQgaG/2A+AwAQ9wFwAHicZY9NTsMwEIVf+gekEqqoYIfkBWIBKP0Rq25YVGr3XXTfpk6bKokjx63UA3AejsAJOALcgDvwSCebNpbH37x5Y08A3OAHHo7fLfeRPVwyO3INF7gXrlN/EG6QX4SbaONVuEX9TdjHM6bCbXRheYPXuGL2hHdhDx18CNdwjU/hOvUv4Qb5W7iJO/wKt9Dx6sI+5l5XuI1HL/bHVi+cXqnlQcWhySKTOb+CmV7vkoWt0uqca1vEJlODoF9JU51pW91T7NdD5yIVWZOqCas6SYzKrdnq0AUb5/JRrxeJHoQm5Vhj/rbGAo5xBYUlDowxQhhkiMro6DtVZvSvsUPCXntWPc3ndFsU1P9zhQEC9M9cU7qy0nk6T4E9XxtSdXQrbsuelDSRXs1JErJCXta2VELqATZlV44RelzRiT8oZ0j/AAlabsgAAAB4nGNgYoAALgbsgJmRiZGZkYWBsYI9KzMxryS/lIEBABpmA5Y=') format('woff'),
+    url('iconfont.ttf?t=1532440494855') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+*/
+    url('iconfont.svg?t=1532440494855#iconfont') format('svg'); /* iOS 4.1- */
+  }
+  
+  .picasso-right-arrow {
+    font-family:"picasso-right-arrow" !important;
+    font-size: 1.3rem;
+    font-style:normal;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  
+  .picasso-right-arrow:before { content: "\e603"; }
+  
+  

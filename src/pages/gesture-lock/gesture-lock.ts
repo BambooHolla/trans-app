@@ -1,5 +1,5 @@
 import {Component, ElementRef, ViewChild, Renderer2} from '@angular/core';
-import {IonicPage, NavController, NavParams, ViewController, Events, Platform} from 'ionic-angular';
+import {IonicPage, NavController, NavParams, ViewController, Events, Platform, AlertController} from 'ionic-angular';
 import {Storage} from "@ionic/storage";
 
 
@@ -77,6 +77,7 @@ export class GestureLockPage {
     private viewCtrl: ViewController,
     public events: Events,
     public platform: Platform,
+    public alterCtrl: AlertController,
   ) {
     
   }
@@ -105,7 +106,7 @@ export class GestureLockPage {
         this.gestureAttemptObj = data;
 
         if (this.gestureAttemptObj.attemptsNu === 0) {
-          const now =Date.now();
+          const now = Date.now();
           const last =this.gestureAttemptObj.lockDate;
           const secend = (now - last) / 1000 - this.lockTimeUnit;
           if (secend <= 0) {
@@ -246,17 +247,48 @@ export class GestureLockPage {
     }, 1000);
   }
 
-  //重置手势秘密
+  //重置手势密码
   resetPasswordFun() {
     this.titleMes = 'GESTURE_NEW_PASSWORD';
     this.gestureLockObj.step = 3;
   }
-
+  //删除手势密码
   deletPasswordFun() {
-    this.storage.remove("gestureLockObj");
-    this.gestureLockObj = new GestureLockObj();
-    this.titleMes = 'GESTURE_PLEASE_SET_PASSWORD';
-    this.reset();
+    this.alterCtrl.create({
+      title: "手势密码",
+      message:"确定删除？",
+      buttons: [
+        {
+            text: "取消",
+            role: "cancel",
+            handler: () => {},
+        },
+        {
+            text: "确定",
+            handler: () => {
+              this.storage.remove("gestureLockObj");
+              this.gestureLockObj = new GestureLockObj();
+              this.titleMes = 'GESTURE_PLEASE_SET_PASSWORD';
+              this.titleMes_number = '';
+              this.titleMes_supplement = '';
+              this.reset();
+              const _Fn = this.navParams.get('backFn');
+              if(_Fn) {
+                _Fn();
+              }
+              this.hasGestureLock = false;
+              this.alterCtrl.create({
+                title:"手势密码",
+                message:"删除成功",
+                buttons:[{
+                  text:'确定'
+                }]
+              })
+            },
+        },
+    ],
+    }).present();
+   
   }
 
   //设置手势密码矩阵

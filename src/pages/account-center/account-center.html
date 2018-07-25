@@ -13,7 +13,7 @@
     <!-- <ion-row class="bottom-line" *ngIf="false">
       <ion-col padding class="vertical-center">
         身份证号<span class="f-right">{{personalDataService.idcardnumber | numMask:6:4}}</span>
-      </ion-col>
+      </ion-col> 
     </ion-row> -->
     <ion-row class="bottom-line" *ngIf="personalDataService.mobile">
       <ion-col padding class="vertical-center">
@@ -28,12 +28,17 @@
     </ion-row>
     <ion-row class="bottom-line" >
       <ion-col padding class="vertical-center"  >
-        {{'CHECK_UPDATE'|translate}}<span class="f-right">{{appDataService.APP_VERSION}}</span>
+        计价方式<span class="f-right">{{appDataService.VALUATION}} <span class="picasso-right-arrow"></span> </span>
       </ion-col>
     </ion-row>
+    <!-- <ion-row class="bottom-line" >
+      <ion-col padding class="vertical-center"  >
+        {{'CHECK_UPDATE'|translate}}<span class="f-right">{{appDataService.APP_VERSION}}</span>
+      </ion-col>
+    </ion-row> -->
     <ion-row class="bottom-line" >
       <ion-col padding class="vertical-center" (click)="goGestureLock()">
-        {{hasGestureLock?"重置":"设置"}}手势密码
+        {{(hasGestureLock?"GESTURE_RESET_PASSWORD":"GESTURE_SET_PASSWORD") | translate}}
       </ion-col>
     </ion-row>
     <ion-row class="bottom-line" >
