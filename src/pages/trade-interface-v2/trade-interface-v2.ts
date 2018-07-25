@@ -45,8 +45,8 @@ export class TradeInterfaceV2Page {
     quickTrading: boolean = false;
     trading: boolean = false;
     marketPrice: any;
-    currencyPrice:any = undefined;
-    _currencyPrice:any = '--'
+    currencyPrice:any = '--';
+    _currencyPrice:any = undefined;
     // tradeType:number = 1 //1是买,0是卖
     @ViewChild(Content) content: Content;
 
@@ -300,11 +300,9 @@ export class TradeInterfaceV2Page {
             }
         });
         //法币更改
-        this.appDataService.CHAGE_CURRENCY$.subscribe( status => {
-            debugger
-            if(status && this._currencyPrice) {
-                debugger
-                this.currencyPrice = this.appDataService.CURRENCY_INFO.exchange?'--':this._currencyPrice.times(this.appDataService.CURRENCY_INFO.exchange).toString()
+        this.appDataService.CHAGE_CURRENCY$.subscribe( data => {
+            if(data.status && this._currencyPrice) {
+                this.currencyPrice = !this.appDataService.CURRENCY_INFO.exchange?'--':this._currencyPrice.times(this.appDataService.CURRENCY_INFO.exchange).toString()
             }
         })
     }
@@ -1052,7 +1050,7 @@ export class TradeInterfaceV2Page {
                     this._tradeType$.next(this._tradeType$.getValue());
                    
                     this._currencyPrice = new BigNumber(data.price);
-                    this.currencyPrice = this.appDataService.CURRENCY_INFO.exchange?'--':this._currencyPrice.times(this.appDataService.CURRENCY_INFO.exchange).toString()
+                    this.currencyPrice = !this.appDataService.CURRENCY_INFO.exchange?'--':this._currencyPrice.times(this.appDataService.CURRENCY_INFO.exchange).toString();
                    
                 });
             // this.stockDataService.stockBaseData$.map(data => data[stockCode])

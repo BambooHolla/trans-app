@@ -18,12 +18,14 @@ import { InviteCommissionPage } from "../invite-commission/invite-commission";
 import { LoginService } from "../../providers/login-service";
 import { AppSettingProvider } from "../../bnlc-framework/providers/app-setting/app-setting";
 import { AppDataService } from "../../providers/app-data-service";
+import { BigNumber } from "bignumber.js";
 @Component({
     selector: "page-home",
     templateUrl: "home.html",
 })
 export class HomePage extends FirstLevelPage implements OnInit {
     personalAssets: any;
+    currencyPrice:any;
     login_status: boolean;
     commandData: any[] = [
         // {
@@ -124,6 +126,7 @@ export class HomePage extends FirstLevelPage implements OnInit {
             } else {
                 this.personalDataService.resetData();
                 this.personalAssets = {};
+                this.currencyPrice = '--'
             }
             this.content.resize();
         });
@@ -154,9 +157,14 @@ export class HomePage extends FirstLevelPage implements OnInit {
                 }
                 console.log("requestAssets", data);
                 this.personalAssets = data;
+                if(data.asset && data.asset.total) {
+                    this.currencyPrice = !this.appDataService.CURRENCY_INFO.exchange?'--':(new BigNumber(data.asset.total)).times(this.appDataService.CURRENCY_INFO.exchange).toString();
+                }
+                
                 // return Promise.resolve();
             })
             .catch(err => {
+                this.currencyPrice = '--';
                 console.log("requestAssets:", err);
                 this.alertCtrl
                     .create({

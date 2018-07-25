@@ -46,11 +46,12 @@ export class AppDataService {
         type: 'en',
     }; 
 
-    public CHAGE_CURRENCY = new BehaviorSubject<boolean>(undefined);
+    public CHAGE_CURRENCY = new BehaviorSubject<any>(undefined);
     public CHAGE_CURRENCY$: Observable<any> = this.CHAGE_CURRENCY
         // 在值被设置时，
         // 使用 distinctUntilChanged() 方法保证只处理真正变化了的值
         .map(v => v)
+        .distinctUntilChanged()
         
 
     //保存最后一次查看的交易对，初始化的时候为第一个交易对

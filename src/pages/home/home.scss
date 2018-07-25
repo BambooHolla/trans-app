@@ -49,6 +49,11 @@ page-home {
             color: color($colors, special);
             font-size: 1.6rem;
             margin-bottom: 2rem;
+            div {
+                font-size: 1.2rem;
+                color: color($colors, middark); 
+                padding-top: 0.4rem;
+            }
         }
         .visible {
         

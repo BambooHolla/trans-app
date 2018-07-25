@@ -60,7 +60,7 @@
 			</div>
 			<div class="price {{(_baseData$ | async)?.range | riseOrFall}}">
 				{{(_baseData$ | async)?.price | priceConversion:5 | numberFilter:false}}
-				<span><i class="picasso-icon-about"></i> {{currencyPrice}}</span>
+				<span><i class="picasso-icon-about"></i> {{currencyPrice| priceConversion:5 | numberFilter:false}} {{appDataService.CURRENCY_INFO?.currencyTo}}</span>
 			</div>
 			<div>
 				<div class="market-items right">

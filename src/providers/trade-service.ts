@@ -418,17 +418,17 @@ export class TradeService {
     }
 
     // 获取法币信息
-    async getCurrencyInof(type?:string) {
+    getCurrencyInof(type?:string) {
         const path = `/report/exchangeRate`;
         let params = new URLSearchParams();
         params.set("countryCode", type||this.appDataService.LANGUAGE);
-        return await this.appService
+        return this.appService
             .request(RequestMethod.Get, path, params, false)
             .then(data => {
                 this.appDataService.CURRENCY_INFO = data;
                 this.appDataService.CURRENCY_INFO['status'] = true;
                 this.appDataService.CURRENCY_INFO['type'] = type;
-                this.appDataService.CHAGE_CURRENCY.next(true);
+                this.appDataService.CHAGE_CURRENCY.next({status:true});
             })
             .catch(err => {
                 this.appDataService.CURRENCY_INFO = {
@@ -438,7 +438,7 @@ export class TradeService {
                     exchange:"",
                     type: 'en',
                 };
-                this.appDataService.CHAGE_CURRENCY.next(true);
+                this.appDataService.CHAGE_CURRENCY.next({status:true});
             });
     }
 }
