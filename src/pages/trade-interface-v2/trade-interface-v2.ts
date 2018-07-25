@@ -301,7 +301,7 @@ export class TradeInterfaceV2Page {
         });
         //法币更改
         this.appDataService.CHAGE_CURRENCY$.subscribe( data => {
-            if(data.status && this._currencyPrice) {
+            if(data && data.status && this._currencyPrice) {
                 this.currencyPrice = !this.appDataService.CURRENCY_INFO.exchange?'--':this._currencyPrice.times(this.appDataService.CURRENCY_INFO.exchange).toString()
             }
         })
@@ -1619,6 +1619,7 @@ export class TradeInterfaceV2Page {
     //快捷交易 满仓等
     getQuickTradeData() {
         console.log("getQuickTradeData");
+        if(!this.productPair) return;
         const rate = 1;
         const productPairs = this.productPair.split("-");
         let priceProduct, productProduct;
