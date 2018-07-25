@@ -133,7 +133,13 @@ body {
         // >ion-navbar.toolbar.statusbar-padding {
         //   margin-top: -$cordova-ios-statusbar-padding;
         // }
+        ion-navbar:nth-child(1){
 
+        padding-top:constant(safe-area-inset-top)!important;
+        
+        padding-top:env(safe-area-inset-top)!important;
+        
+        }
         .header-with-bg {
             // margin-top: -$cordova-ios-statusbar-padding;
             // padding-top: $cordova-ios-statusbar-padding;
