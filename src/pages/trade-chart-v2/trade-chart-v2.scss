@@ -16,7 +16,7 @@ page-trade-chart-v2 {
             & > div {
                 flex: 1;
                 &:nth-child(1) {
-                    flex-grow: 1.5;
+                    flex-grow: 2;
                     font-size: 2.6rem;
                     text-align: center;
                 }
@@ -33,6 +33,14 @@ page-trade-chart-v2 {
                 & + .market-items {
                     margin-top: 0.8rem;
                     padding-bottom: 0rem;
+                }
+            }
+            .price {
+                font-size: 2.4rem !important;
+                span {
+                    display: block;
+                    font-size: 1.2rem;
+                    color: color($colors, middark); 
                 }
             }
         }

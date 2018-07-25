@@ -28,7 +28,7 @@
         </div>
         <div class="assets-amount">
           {{appDataService?.hiddentext||(personalAssets?.asset?.total | quantityConversion)}}
-          <div><i class="picasso-icon-about"></i> {{currencyPrice| priceConversion:5 }} {{appDataService.CURRENCY_INFO?.currencyTo}}</div>
+          <div><i class="picasso-icon-about"></i> {{currencyPrice| priceConversion:5 | numberFilter:true}} {{appDataService.CURRENCY_INFO?.currencyTo}}</div>
         </div>
       </ion-col>
     </ion-row>
