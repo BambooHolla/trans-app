@@ -196,6 +196,9 @@ page-withdraw-detail {
             color: color($colors, "lightdark");
         }
         .submit-btn {
+            &.disabled {
+                background-color: #bec3c7 !important;
+            }
             height: 3.6rem !important;
             .button-inner {
                 font-size: 1.9rem;

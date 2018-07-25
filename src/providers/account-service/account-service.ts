@@ -3,7 +3,7 @@ import { Http, Headers } from "@angular/http";
 import "rxjs/add/operator/map";
 import {
     AppSettingProvider,
-    TB_AB_Generator,
+    TB_AB_Generator, 
 } from "../../bnlc-framework/providers/app-setting/app-setting";
 import { AppFetchProvider } from "../../bnlc-framework/providers/app-fetch/app-fetch";
 import { AsyncBehaviorSubject } from "../../bnlc-framework/providers/RxExtends";
@@ -161,11 +161,10 @@ export class AccountServiceProvider {
     }
 
     productList: AsyncBehaviorSubject<ProductModel[]>;
-    @TB_AB_Generator("productList")
+    @TB_AB_Generator("productList") 
     productList_Executor(promise_pro) {
         return promise_pro.follow(this.getProducts(0, 30));
     }
-
     getProducts(
         page: number,
         pageSize: number = 10,

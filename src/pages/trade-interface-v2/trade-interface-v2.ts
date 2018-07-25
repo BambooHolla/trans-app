@@ -103,7 +103,7 @@ export class TradeInterfaceV2Page {
     page = 1;
     pageSize = 20;
     hasMore: boolean = false;
-
+    public productStatus: boolean = false;
     private _cards = {
         满仓: 1,
         "1/2仓": 1 / 2,
@@ -287,7 +287,7 @@ export class TradeInterfaceV2Page {
             if (trader) this.initTrader(trader);
         }); 
         this.loginService.status$.subscribe( status => {
-            if(status) {
+            if(status) { 
                 this.gotoHistoryLogin()
             } else {
                 this.trader_product = {};
@@ -297,7 +297,7 @@ export class TradeInterfaceV2Page {
         })
     }
 
-    initTrader(trader) {
+    async initTrader(trader) {
         // debugger
         // window['TradeInterfacePage'] = this
         this.traderId = trader.traderId;
@@ -315,6 +315,8 @@ export class TradeInterfaceV2Page {
         const traderId = this.traderId;
         if (traderId) {
             console.log("trade-interface-v2:(constructor)", traderId);
+           
+            this.productStatus = await this.stockDataService.getProductStatus(this.traderId);
             this._saleableQuantity$ = this.personalDataService.personalStockList$
                 .map(arr => arr.filter(item => item.stockCode === traderId))
                 .map(arr => (arr.length && +arr[0].saleableQuantity) || 0)
@@ -554,6 +556,8 @@ export class TradeInterfaceV2Page {
     }
 
     async doTrade(tradeType: number = this._tradeType$.getValue()) {
+        this.productStatus = await this.stockDataService.getProductStatus(this.trader_target)
+        if(!this.productStatus) return;
         if (!(this.personalDataService.certifiedStatus == "2")) {
             await this.personalDataService.requestCertifiedStatus();
         }
@@ -948,9 +952,13 @@ export class TradeInterfaceV2Page {
     ionViewWillLeave() {}
 
     ionViewDidLeave() {}
-    ionViewDidEnter() {
+    async ionViewDidEnter() {
         // window["confirmChangeTradingMode"] = this.confirmChangeTradingMode
         this.viewDidLeave.next(false);
+        
+        if(this.traderId) {
+            this.productStatus = await this.stockDataService.getProductStatus(this.traderId);
+        }
         if (this.tradeType != this.appDataService.exchangeType) {
             this.chooseTradeType(
                 undefined,
@@ -1325,6 +1333,7 @@ export class TradeInterfaceV2Page {
 
     changeTrader($event) {
         console.log("traderChanged", this.traderId, this.traderList);
+        // this.appDataService.LAST_TRADER.next(this.traderId);
         this.traderList.find(item => {
             if (item.traderId == this.traderId) {
                 this.productHouseId = item.productHouseId || "";
@@ -1669,10 +1678,12 @@ export class TradeInterfaceV2Page {
         // }
     }
 
-    alterQuickTrade(tradeType) {
+    async alterQuickTrade(tradeType) {
         if (this.quickTrading) {
             return void 0;
         }
+        this.productStatus = await this.stockDataService.getProductStatus(this.trader_target)
+        if(!this.productStatus) return;
         if (!this.appSetting.getUserToken()) {
             return this.goLogin();
         }
@@ -1861,7 +1872,9 @@ export class TradeInterfaceV2Page {
             });
     }
 
-    goLogin() {
+    async goLogin() {
+        this.productStatus = await this.stockDataService.getProductStatus(this.trader_target)
+        if(!this.productStatus) return;
         this.events.publish(
             "show login",
             "login",

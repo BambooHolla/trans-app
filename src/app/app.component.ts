@@ -36,6 +36,7 @@ import { AppSettingProvider } from "../bnlc-framework/providers/app-setting/app-
 import { AlertService } from "../providers/alert-service";
 import { GestureLockPage } from "../pages/gesture-lock/gesture-lock";
 import { Storage } from "@ionic/storage";
+import { AccountServiceProvider } from "../providers/account-service/account-service";
 
 
 @Component({
@@ -93,6 +94,7 @@ export class PicassoApp {
         public appSettingProvider: AppSettingProvider,
         public alertService: AlertService,
         public storage: Storage,
+        
     ) {
         // let title:string = '';
         // let message: string ='';
@@ -128,6 +130,8 @@ export class PicassoApp {
         // 设置语言
         window["language"] = window["language"] || {};
         this.initTranslate();
+        // 获取语言后，需要获取一下法币汇率
+        tradeService.getCurrencyInof(appDataService.LANGUAGE);
         if (!navigator["clipboard"]) {
             navigator["clipboard"] = {
                 writeText: text => clipboard.copy(text),

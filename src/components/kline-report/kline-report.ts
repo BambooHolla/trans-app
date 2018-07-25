@@ -678,12 +678,12 @@ export class KlineReportComponent extends KlineEchartsBaseComponent {
                 this.funcTimeFormat(item.beginTime, this.timeType),
             );
             this.klineDatas.datas.push([
-                item.value.start * 1,
-                item.value.end * 1,
-                item.value.min * 1,
-                item.value.max * 1,
+                item.start * 1,
+                item.end * 1,
+                item.min * 1,
+                item.max * 1,
             ]);
-            this.klineDatas.vols.push(item.value.amount / 1);
+            this.klineDatas.vols.push(item.amount / 1);
         });
         if (updateSwitch) {
             length = this.klineDatas.datas.length || 0;
@@ -818,12 +818,12 @@ export class KlineReportComponent extends KlineEchartsBaseComponent {
                 );
                 // 固定格式 [开，收，低，高]
                 this.klineDatas.datas.push([
-                    item.value.start * 1,
-                    item.value.end * 1,
-                    item.value.min * 1,
-                    item.value.max * 1,
+                    item.start * 1,
+                    item.end * 1,
+                    item.min * 1,
+                    item.max * 1,
                 ]);
-                this.klineDatas.vols.push(item.value.amount / 1);
+                this.klineDatas.vols.push(item.amount / 1);
             }
         });
         this._LAST_TIME = this.echartsData[this.echartsData.length - 1]
@@ -842,21 +842,21 @@ export class KlineReportComponent extends KlineEchartsBaseComponent {
 
         // 查看 新时间段的接口
         // 如果 开有值 取开，否则 判断是否有值 ，没有的话取当前价格
-        if (this.nowTimeArr.value && this.nowTimeArr.value.start) {
-            _nowPriceArr[0] = this.nowTimeArr.value.start * 1;
+        if (this.nowTimeArr && this.nowTimeArr.start) {
+            _nowPriceArr[0] = this.nowTimeArr.start * 1;
         } else {
             _nowPriceArr[0] = (_nowPriceArr[0] || _price) * 1;
         }
         // 如果 收有值 取收，否则取当前价格
-        if (this.nowTimeArr.value && this.nowTimeArr.value.end) {
-            _nowPriceArr[1] = this.nowTimeArr.value.end * 1;
+        if (this.nowTimeArr && this.nowTimeArr.end) {
+            _nowPriceArr[1] = this.nowTimeArr.end * 1;
         } else {
             _nowPriceArr[1] = _price * 1;
         }
 
         // 排查 高低，如果高/低 没有， 就从 开/收 取
-        _nowPriceArr[2] = this.nowTimeArr.value.min * 1 || 0;
-        _nowPriceArr[3] = this.nowTimeArr.value.max * 1 || 0;
+        _nowPriceArr[2] = this.nowTimeArr.min * 1 || 0;
+        _nowPriceArr[3] = this.nowTimeArr.max * 1 || 0;
         if (!_nowPriceArr[2]) {
             _nowPriceArr[2] =
                 _nowPriceArr[0] * 1 > _nowPriceArr[1] * 1
@@ -884,7 +884,7 @@ export class KlineReportComponent extends KlineEchartsBaseComponent {
             console.log(_nowPriceArr);
             this.showKlineDates.datas.push(_nowPriceArr);
             // this.showKlineDates.datas = [[50,40,20,80]]
-            this.showKlineDates.vols.push(this.nowTimeArr.value.amount / 1);
+            this.showKlineDates.vols.push(this.nowTimeArr.amount / 1);
         }
 
         // 如果数据过少 本地生成

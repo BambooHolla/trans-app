@@ -37,8 +37,8 @@ export class AppDataService {
     //语言
     public LANGUAGE: any = "zh";
     //计价方式
-    public VALUATION_TYPE: any = "CNY";
-    public VALUATION: any ;
+    public CURRENCYS_TYPE: any;
+    public CURRENCY_INFO: any ;
 
     //保存最后一次查看的交易对，初始化的时候为第一个交易对
     public LAST_TRADER = new BehaviorSubject<string>(undefined);

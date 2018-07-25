@@ -332,7 +332,9 @@ page-trade-interface-v2 {
             color: color($colors, primary);
             background: color($colors, special);
             font-family: Microsoft YaHei;
-
+            .disabled {
+                background-color: #bec3c7 !important;
+            }
             &.issale {
                 background: color($colors, eye-catching);
             }
@@ -355,7 +357,9 @@ page-trade-interface-v2 {
                     width: 14.9rem;
                     height: 14.9rem;
                     margin: 0 auto;
-
+                    &.disabled-svg path {
+                        stroke: #bec3c7 !important;
+                    }
                     path {
                         stroke: #ebeff4;
                     }

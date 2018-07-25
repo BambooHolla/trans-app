@@ -179,6 +179,7 @@ export class TradeService {
                                         buyFee,
                                         saleFee,
                                         productId,
+                                        productStatus,
                                     },
                                     index,
                                 ) => {
@@ -245,6 +246,7 @@ export class TradeService {
                                             priceProductHouseId,
                                             productHouseId,
                                             index,
+                                            productStatus,
                                             productName: !priceProductHouseId
                                                 ? `${
                                                       product
@@ -400,5 +402,37 @@ export class TradeService {
             error = null;
         }
         return error;
+    }
+    // 获取法币列表
+    getCurrencys() {
+        const path = `/report/currencies`;
+        if(this.appDataService.CURRENCYS_TYPE) return;
+        return this.appService
+            .request(RequestMethod.Get, path, undefined)
+            .then(data => {
+                console.log("getCurrencys: ", data);
+                
+            })
+            .catch(err => {
+                console.log("getCurrencys error: ", err);
+                // return Promise.reject(err);
+            });
+    }
+
+    // 获取法币信息
+    async getCurrencyInof(type?:string) {
+        const path = `/report/exchangeRate`;
+        let params = new URLSearchParams();
+        params.set("currencyType", type||this.appDataService.LANGUAGE);
+        return await this.appService
+            .request(RequestMethod.Get, path, params, false)
+            .then(data => {
+                console.log("getCurrencyInof: ", data);
+                
+            })
+            .catch(err => {
+                console.log("getCurrencyInof error: ", err);
+                // return Promise.reject(err);
+            });
     }
 }

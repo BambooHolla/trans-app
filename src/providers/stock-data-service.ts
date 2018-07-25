@@ -18,6 +18,7 @@ import { SocketioService } from "./socketio-service";
 import { HttpService } from "./http-service";
 import { AppService } from "./app.service";
 import { AccountServiceProvider } from "../providers/account-service/account-service";
+import { AlertController } from "ionic-angular";
 
 @Injectable()
 export class StockDataService {
@@ -76,6 +77,7 @@ export class StockDataService {
         public httpService: HttpService,
         public loginService: LoginService,
         public accountService: AccountServiceProvider,
+        public alterCtrl: AlertController,
     ) {
         // this.initTradeDay();
         // this.startTradeDayCheckTimer();
@@ -1534,6 +1536,63 @@ export class StockDataService {
         return data;
     }
 
+    productStatusAlter:any;
+    public getProductStatus(productId?:string,hideAlter?:boolean): Promise<boolean> {
+        const path = `/product/productstatus/${productId}`;
+        return this.appService
+            .request(RequestMethod.Get, path, undefined)
+            .then( data => {
+                if(data && data.productStatus === '002') {
+                    return true;
+                } else if(data && data.productStatus === '001'){
+                    if(!hideAlter&&!this.productStatusAlter) {
+                        this.productStatusAlter = this.alterCtrl.create({
+                            title:'警告',
+                            message:'产品处于下架状态',
+                            buttons:[{
+                                text: "确定",
+                                handler: () => {
+                                    this.productStatusAlter = null;
+                                }
+                            }]
+                        });
+                        this.productStatusAlter.present();
+                    }
+                    return false;
+                } else {
+                    if(!hideAlter&&!this.productStatusAlter) {
+                        this.productStatusAlter = this.alterCtrl.create({
+                            title:'警告',
+                            message:'产品状态错误',
+                            buttons:[{
+                                text: "确定",
+                                handler: () => {
+                                    this.productStatusAlter = null;
+                                }
+                            }]
+                        });
+                        this.productStatusAlter.present();
+                    }
+                    return false;
+                }
+            })
+            .catch(err => {
+                if(!hideAlter&&!this.productStatusAlter) {
+                    this.productStatusAlter = this.alterCtrl.create({
+                        title:'警告',
+                        message:'产品状态错误',
+                        buttons:[{
+                            text: "确定",
+                                handler: () => {
+                                    this.productStatusAlter = null;
+                                }
+                        }]
+                    });
+                    this.productStatusAlter.present();
+                }
+                return false;
+            })
+    }
     public requestProducts(
         platformType: string = this.appSettings.Platform_Type,
     ): Promise<any> {

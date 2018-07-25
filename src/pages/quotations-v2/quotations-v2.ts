@@ -176,13 +176,35 @@ export class QuotationsPageV2 {
     ionViewWillEnter() {}
 
     ionViewDidEnter() {
-        this.loading.present({
-            minClickBlockDuration: -1,
-            disableApp: false, // 使得tabs依然可以点击
-        });
+        if(this.traderList.length <= 0) {
+            this.loading =  this.loadingCtrl.create({
+                showBackdrop: false,
+                cssClass: "enableBackdropDismiss",
+                dismissOnPageChange: true,
+            });
+            this.ngOnInit();
+        } else {
+            
+            this.traderList.forEach( item => {
+                
+                this.stockDataService.getProductStatus(item['traderId'],true)
+                .then( status => {
+                    if(status) {
+                        item['productStatus'] = "002";
+                    } else {
+                        item['productStatus'] = "001";
+                    }
+                })
+            })
+        }
+        if(this.loading) {
+            this.loading.present({
+                minClickBlockDuration: -1,
+                disableApp: false, // 使得tabs依然可以点击
+            });
+        }
         console.log("quotations-v2 did enter");
         this.viewDidLeave.next(false);
-
         this.doSubscribe();
         // 延时后再设置 _thisPageActive 的值，是为了配合下面强制销毁 echarts 元素的操作。
         // 对于 echarts 元素的强制销毁，实际上并没有销毁元素本身，

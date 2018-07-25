@@ -56,7 +56,7 @@
                 </ng-template>
             </div>
         </ion-item>
-        <ion-item-divider class="left-link" (click)="toAddWithdrawAddress()">
+        <ion-item-divider class="left-link" (click)="productStatus&&toAddWithdrawAddress()">
             <ion-icon name="添加"></ion-icon>
             {{'ADD_NEW_ADDRESS'|translate}}
         </ion-item-divider>
@@ -98,7 +98,7 @@
             <button item-end *ngIf="!has_account_pwd" (click)="routeTo('set-pay-pwd')" ion-button color="special">{{'GO_TO_SETTINGS'|translate}}</button>
         </ion-item>
         <ion-item class="follow-pre-item"> 
-            <button class="submit-btn" [disabled]="false || !canSubmit || (freeSwitch&& feeSwitch)  || !withdrawSwitch || minQuotaSwitch || maxQuotaSwitch" ion-button color="special" (click)="submitWithdrawAppply()">{{'CONFIRM_WITHDRAWAL'|translate}}</button>
+            <button class="submit-btn" [class.disabled]="!productStatus" [disabled]="!productStatus || !canSubmit || (freeSwitch&& feeSwitch)  || !withdrawSwitch || minQuotaSwitch || maxQuotaSwitch" ion-button color="special" (click)="submitWithdrawAppply()">{{'CONFIRM_WITHDRAWAL'|translate}}</button>
         </ion-item>
     </ion-list>
     <div class="withdraw-logs">

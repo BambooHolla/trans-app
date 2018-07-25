@@ -65,7 +65,7 @@
         </ion-refresher-content>
     </ion-refresher>
     <div class="no-content" *ngIf="traderList?.length == 0">下拉刷新</div>
-    <div *ngFor="let trader of traderList" tappable (click)="saveLastTrader(trader)" class="trader-item" [hidden]="trader.hidden">
+    <div *ngFor="let trader of traderList" tappable (click)="(trader?.productStatus == '002') &&saveLastTrader(trader)" class="trader-item" [hidden]="trader.hidden">
         <div class="header">
             <div class="name">
                 <!-- {{trader?.traderName}} -->
@@ -75,8 +75,8 @@
                 {{(trader.marketRef | async)?.price | priceConversion:5:2 | numberFilter:false}}
             </div>
             <div class="range">
-                <div class="box bg-{{(trader.marketRef | async)?.range|riseOrFall}}">
-                    {{(trader.marketRef | async)?.range | percent:'.2-2' | positiveSign}}
+                <div class="box bg-{{(trader.marketRef | async)?.range|riseOrFall}}" [class.disable]="trader?.productStatus != '002'">
+                    {{trader?.productStatus == '002'?((trader.marketRef | async)?.range | percent:'.2-2' | positiveSign):'----'}}
                 </div>
             </div>
         </div>
@@ -112,7 +112,8 @@
                 </div>
             </div>
             <div>
-                <realtime-report [echartsData]="trader?.reportRef | async" [riseOrFall]="(trader.marketRef | async)?.range|riseOrFall" [options]="realtimeOptions">
+                <div style="text-align: center;" *ngIf='trader?.productStatus != "002"'>交易暂停</div>
+                <realtime-report [hidden]='trader?.productStatus != "002"' [echartsData]="trader?.reportRef | async" [riseOrFall]="(trader.marketRef | async)?.range|riseOrFall" [options]="realtimeOptions">
                 </realtime-report>
             </div>
         </div>

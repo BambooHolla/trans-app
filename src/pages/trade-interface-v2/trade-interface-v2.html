@@ -223,8 +223,8 @@
 				  [disabled]="+amount <= 0 || +price <= 0 || (_saleableQuantity$ | async) < amount" 
 					(click)="toSale()">委托卖出</button>
 			</ion-col> -->
-			<button class="trbtn" [class.issale]="!(tradeType$|async)" 
-				block [disabled]="trading" (click)="!appSetting.getUserToken()? goLogin() : doTrade()">
+			<button class="trbtn" [class.issale]="!(tradeType$|async)"  [class.disabled]="!productStatus"
+				block [disabled]="trading" (click)="productStatus && (!appSetting.getUserToken()? goLogin() : doTrade())">
 					{{(!appSetting.getUserToken()?
 						'LOGIN' :
 						 !!(tradeType$|async)?'DELEGATE_BUY':'DELEGATE_SELL')
@@ -243,10 +243,10 @@
 	<ion-grid class="stsvg" [hidden]="!appDataService.show_onestep_trade">
 		<ion-row>
 			<ion-col col-6>
-				<svg class="circle-svg sale" viewBox="0,0,298,252">
+				<svg class="circle-svg sale" [class.disabled-svg]="!productStatus" viewBox="0,0,298,252">
 					<path class="svg-path" d='M 52 252 A 143 143 0 1 1 246 252' fill='none' stroke-width='12' stroke-linecap='round' />
 				</svg>
-				<div class="svgcont" (click)="alterQuickTrade('sale')">
+				<div class="svgcont" (click)="productStatus&&alterQuickTrade('sale')">
 					<div class="svgcont">
 						<div class="blank"></div>
 						<div>{{'ESTIMATED_SELL_PRICE'|translate}}</div>
@@ -256,11 +256,11 @@
 					</div>
 				</div>
 			</ion-col>
-			<ion-col col-6>
-				<svg class="circle-svg buy" viewBox="0,0,298,252">
+			<ion-col col-6> 
+				<svg class="circle-svg buy" [class.disabled-svg]="!productStatus" viewBox="0,0,298,252">
 					<path class="svg-path" d='M 52 252 A 143 143 0 1 1 246 252' fill='none' stroke-width='12' stroke-linecap='round' />
 				</svg>
-				<div class="svgcont" (click)="alterQuickTrade('buy')">
+				<div class="svgcont" (click)="productStatus&&alterQuickTrade('buy')">
 					<div class="svgcont">
 						<div class="blank"></div>
 						<div>{{'ESTIMATED_BUY_PRICE'|translate}}</div>
@@ -292,7 +292,7 @@
 					 [max]='rangeMaxNumber(1)'
 					 min='0'
 					 step='1'
-					 [disabled] = "rangeMaxNumber(1) < 1"
+					 [disabled] = "!productStatus || (rangeMaxNumber(1) < 1)"
 					 (ionChange)="rangeQuickTradeData(oneRange,1)" 
 					 pin="false"></ion-range>
 			</ion-item>
@@ -309,7 +309,7 @@
 					 [max]='rangeMaxNumber(10)'
 					 min='0'
 					 step='10'
-					 [disabled] = "rangeMaxNumber(10) < 10"
+					 [disabled] = "!productStatus || (rangeMaxNumber(10) < 10)"
 					 (ionChange)="rangeQuickTradeData(tenRange,10)" 
 					 pin="false"></ion-range>
 			</ion-item>
@@ -326,7 +326,7 @@
 					 [max]='rangeMaxNumber(100)'
 					 min='0'
 					 step='100'
-					 [disabled] = "rangeMaxNumber(100) < 100"
+					 [disabled] = "!productStatus || (rangeMaxNumber(100) < 100)"
 					 (ionChange)="rangeQuickTradeData(hundredRange,100)" 
 					 pin="false"></ion-range>
 			</ion-item>

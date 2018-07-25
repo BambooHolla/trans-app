@@ -48,7 +48,7 @@ export class WithdrawDetailPage extends SecondLevelPage {
     public feeSwitch: boolean = true; // 提笔需大于手续费(true)
     public minQuotaSwitch: boolean = true; // 提币数额小于最小额度（true）
     public maxQuotaSwitch: boolean = true; // 提币数额大于最大额度 (true)
-
+    public productStatus: boolean = false;
 
 
 
@@ -69,6 +69,7 @@ export class WithdrawDetailPage extends SecondLevelPage {
         BigNumber.config({ EXPONENTIAL_AT: [-8, 20] });
         this.productInfo = this.navParams.get("productInfo");
         debugger
+        this.getProductStatus();
         // this.alertCtrl.create({
         // 	title: "提示",
         // 	message: "提现功能暂时关闭",
@@ -81,6 +82,9 @@ export class WithdrawDetailPage extends SecondLevelPage {
         // 		}
         // 	]
         // }).present();
+    }
+    async getProductStatus() {
+        this.productStatus = await this.stockDataService.getProductStatus(this.productInfo.productId);
     }
     formData: {
         selected_withdraw_address_id: number;

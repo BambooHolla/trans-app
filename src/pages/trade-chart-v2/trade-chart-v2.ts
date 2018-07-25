@@ -28,7 +28,7 @@ export class TradeChartV2Page {
     private product: any = "--- / ---";
     private traderId: any;
     public nowTimeArr: any = {};
-
+    public productStatus: boolean = false;
     public quotaArr: Array<object> = [
         {
             title: "MA",
@@ -81,13 +81,16 @@ export class TradeChartV2Page {
         public navCtrl: NavController,
         public stockDataService: StockDataService,
     ) {
+        
         this.init();
+        
     }
 
-    init() {
+    async init() {
         this.traderId = this.navParams.data
             ? this.navParams.data.traderId
             : undefined;
+        this.productStatus = await this.stockDataService.getProductStatus(this.traderId);
         this.product = this.appDataService.traderList.get(this.traderId);
         const traderId = this.traderId;
         console.log("trade-chart-v2:(doSubscribe) ", traderId);
@@ -151,6 +154,7 @@ export class TradeChartV2Page {
         // .subscribe(value.chartRef)//, this.viewDidLeave$)
     }
     ionViewDidLeave() {}
+   
     activeQuota(index: number, type: string) {
         if (!this.changeTimeEnable) return;
         this.quotaArr[index]["active"] = this.quotaArr[index]["active"]
@@ -163,6 +167,7 @@ export class TradeChartV2Page {
         this.onShowIndex();
     }
     goExchangePage(index: number = 1) {
+        if(!this.productStatus) return;
         this.navCtrl.pop({
             animate: true,
             direction: "back",

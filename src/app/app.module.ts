@@ -179,6 +179,8 @@ import { PromptControlleService } from "../providers/prompt-controlle-service";
 import { CryptoService } from "../providers/crypto-service";
 import { SwitchNetworkPage } from "../pages/switch-network/switch-network";
 import { GestureLockPage } from "../pages/gesture-lock/gesture-lock";
+import { CurrencyTypeListPage } from "../pages/currency-type-list/currency-type-list";
+
 // import { BankCode2NamePipe } from '..\pipes\bank-code2-name/bank-code2-name';
 // import { FileService } from '../providers/file.service';
 // import { IsLoadingDirective } from '../directives/is-loading/is-loading';
@@ -290,6 +292,7 @@ export function createTranslateLoader(http: HttpClient) {
         InviteCommissionPage,
         CustomizeAlert,
         SwitchNetworkPage,
+        CurrencyTypeListPage,
     ],
     imports: [
         // NewsContentModule,
@@ -481,6 +484,7 @@ export function createTranslateLoader(http: HttpClient) {
         InviteCommissionPage,
         CustomizeAlert,
         SwitchNetworkPage,
+        CurrencyTypeListPage,
     ],
     providers: [
         AppService,

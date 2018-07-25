@@ -7,31 +7,25 @@ import {
     PaymentCategory,
 } from "../../providers/account-service/account-service";
 
-/**
- * Generated class for the WithdrawGatewayPage page.
- *
- * See http://ionicframework.com/docs/components/#navigation for more info 
- * on Ionic pages and navigation.
- */
 @Component({
-    selector: "page-withdraw-gateway",
-    templateUrl: "withdraw-gateway.html",
+    selector: "page-currency-type-list",
+    templateUrl: "currency-type-list.html",
 })
-export class WithdrawGatewayPage extends SecondLevelPage {
+export class CurrencyTypeListPage extends SecondLevelPage {
+    currency_list: any[];
+
     constructor(
         public navCtrl: NavController,
         public navParams: NavParams,
         public accountService: AccountServiceProvider,
     ) {
         super(navCtrl, navParams);
+        
     }
-
-    product_list: any[];
-
-    @WithdrawGatewayPage.willEnter
+    @CurrencyTypeListPage.willEnter
     @asyncCtrlGenerator.loading()
     @asyncCtrlGenerator.error("LOAD_PRODUCT_LIST_ERROR")
     async getProducts() {
-        this.product_list = await this.accountService.productList.getPromise();
+        this.currency_list = await this.accountService.productList.getPromise();
     }
 }

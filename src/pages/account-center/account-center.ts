@@ -13,6 +13,8 @@ import { AccountServiceProvider } from "../../providers/account-service/account-
 import { SecondLevelPage } from "../../bnlc-framework/SecondLevelPage";
 import { asyncCtrlGenerator } from "../../bnlc-framework/Decorator";
 import { SwitchNetworkPage } from "../switch-network/switch-network";
+import { CurrencyTypeListPage } from "../currency-type-list/currency-type-list";
+
 @Component({
     selector: "account-center",
     templateUrl: "account-center.html",
@@ -60,6 +62,9 @@ export class AccountCenterPage extends SecondLevelPage {
 
     network() {
         this.navCtrl.push(SwitchNetworkPage);
+    }
+    currencyTypePage() {
+        this.navCtrl.push(CurrencyTypeListPage)
     }
     identify() {
         if (

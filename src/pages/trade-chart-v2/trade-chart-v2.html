@@ -60,10 +60,10 @@
     </div>
    
     <div class="transaction-btn" >
-            <div class="sale" (click)="goExchangePage(0)">
+            <div class="sale" [class.disabled]="!productStatus" (click)="goExchangePage(0)">
                     {{'SELL'|translate}}
             </div>
-            <div class="buy" (click)="goExchangePage(1)">
+            <div class="buy" [class.disabled]="!productStatus" (click)="goExchangePage(1)">
                     {{'BUY'|translate}}
                 
             </div>

@@ -1,0 +1,16 @@
+<ion-header>
+    <ion-navbar>
+        <ion-title>法币切换</ion-title>
+    </ion-navbar>
+</ion-header>
+<ion-content no-bounce class="account-contain">
+
+    <ion-row *ngFor="let data of commandData">
+        <ion-col padding class="vertical-center" (click)="ionChange(data)">
+            <span>{{data.name}}</span>
+            <ion-icon class="icon-currency" icon-right name="checkmark" [hidden]="data.hidden"></ion-icon>
+        </ion-col>
+    </ion-row>
+
+
+</ion-content>

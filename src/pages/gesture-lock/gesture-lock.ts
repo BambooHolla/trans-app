@@ -173,16 +173,15 @@ export class GestureLockPage {
 
         this.storage.set('gestureLockObj', this.gestureLockObj);
         this.drawAll(this.successColor);
+        const _Fn = this.navParams.get('backFn');
+            if(_Fn) {
+              _Fn();
+            }
         setTimeout( () => {
           this.navCtrl.pop({
             animate: true,
             direction: "back",
             animation: "ios-transition",
-          }).then( () => {
-            const _Fn = this.navParams.get('backFn');
-            if(_Fn) {
-              _Fn();
-            }
           })
         },500)
       } else {  //设置密码失败

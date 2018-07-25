@@ -4,7 +4,7 @@ import { NavController, AlertController } from "ionic-angular";
 import { AppSettingProvider } from "../../bnlc-framework/providers/app-setting/app-setting";
 
 @Component({
-    selector: "switch-network",
+    selector: "page-switch-network",
     templateUrl: "switch-network.html",
 })
 export class SwitchNetworkPage {
