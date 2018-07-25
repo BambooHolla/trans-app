@@ -1347,30 +1347,13 @@ export class TradeInterfaceV2Page {
 
     changeTrader($event) {
         console.log("traderChanged", this.traderId, this.traderList);
-        // this.appDataService.LAST_TRADER.next(this.traderId);
         this.traderList.find(item => {
             if (item.traderId == this.traderId) {
-                this.productHouseId = item.productHouseId || "";
-                this.priceProductHouseId = item.priceProductHouseId || "";
-                this.productPair =
-                    this.priceProductHouseId && this.productHouseId
-                        ? this.priceProductHouseId + "-" + this.productHouseId
-                        : undefined;
+                this.appDataService.LAST_TRADER.next(item);
                 return true;
             }
             return false;
         });
-
-        this.reportArr = [];
-        this._saleableQuantity$ = this.personalDataService.personalStockList$
-            .map(arr => arr.filter(item => item.stockCode === this.traderId))
-            .map(arr => (arr.length && +arr[0].saleableQuantity) || 0)
-            .distinctUntilChanged();
-        this.initData();
-        this.getProcessEntrusts();
-        this.doSubscribe();
-        this.requestAssets();
-        this.quickTradeSelector.subscribe();
     }
     confirmChangeTradingMode() {
         console.log("confirmChangeTradingMode");
