@@ -218,6 +218,10 @@ page-quotations-v2 {
                 line-height: 2.4rem;
                 border-radius: 0.2rem;
                 background-color: #262739;
+                &.disable {
+                    background-color: #bec3c7 !important;  
+                    color: white !important;
+                }
                 &.bg-color-rise {
                     background-color: color($colors, rise);
                 }
