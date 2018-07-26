@@ -174,7 +174,11 @@ body {
         border-style: none;
     }
 }
+.content-ios {
+    padding-bottom:constant(safe-area-inset-bottom)!important;
 
+    padding-bottom:env(safe-area-inset-bottom)!important;
+}
 .toolbar-background-md {
     border-style: none;
 }
