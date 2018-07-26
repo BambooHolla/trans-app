@@ -6,6 +6,7 @@ import { Platform } from "ionic-angular";
 import { ArrayType } from "@angular/compiler/src/output/output_ast";
 import { BehaviorSubject, Observable } from "rxjs";
 import * as UUID from "uuid";
+import { Keychain } from '@ionic-native/keychain';
 @Injectable()
 export class AppDataService {
     //记录设备信息
@@ -73,6 +74,8 @@ export class AppDataService {
         public storage: Storage,
         private device: Device,
         private geolocation: Geolocation,
+        private platform: Platform,
+        private keychain: Keychain,
     ) {
         this.initProperties();
         this.getDataFromStorage();
@@ -170,17 +173,38 @@ export class AppDataService {
         return str;
     }
 
-    getAppDevice() {
-        //获取手机信息
-        Object.keys(this.DEVICE_DATA).forEach(key => {
-            let value = this.device[key];
-            if(!value && key === "uuid") {
-               value = UUID.v1(); 
-            }
-            this.DEVICE_DATA[key] = value || "";
+    async getAppDevice(again?:boolean) {
+        //获取手机信息，区分ios跟android
+        if(this.platform.is("ios")) {
+            // ios取消了uuid的获取，本地生成uuid并写入到ios的keychain的存储中
+            let _uuid:any = await this.keychain.get('ios_uuid')
+            .then(value => {
+                return value;
+            })
+            .catch(err => {
+                return '';
+            });
             
-            onresize1(key, this.DEVICE_DATA[key]);
-        });
+            if(!_uuid) {
+                _uuid = UUID.v1();
+                await this.keychain.set('ios_uuid', _uuid).then(() => {
+                    this.DEVICE_DATA.uuid = _uuid
+                })
+                  .catch(err => {
+                      if(!again) {
+                          return this.getAppDevice(true);
+                      }
+                  });
+            } else {
+                this.DEVICE_DATA.uuid = _uuid
+            }
+            onresize1('uuid', _uuid);
+        } else {
+            Object.keys(this.DEVICE_DATA).forEach( key => {
+                const value = this.device[key];
+                this.DEVICE_DATA[key] = value || "";
+            });
+        }
     }
 
     getAppCoords() {

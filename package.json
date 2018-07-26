@@ -33,6 +33,7 @@
         "@ionic-native/geolocation": "^4.7.0",
         "@ionic-native/image-picker": "~4.4.2",
         "@ionic-native/keyboard": "~4.4.2",
+        "@ionic-native/keychain": "^4.10.1",
         "@ionic-native/native-page-transitions": "~4.4.2",
         "@ionic-native/screen-orientation": "~4.4.2",
         "@ionic-native/splash-screen": "4.4.0",
@@ -59,6 +60,7 @@
         "cordova-plugin-fullscreen": "^1.2.0",
         "cordova-plugin-geolocation": "^4.0.1",
         "cordova-plugin-ionic-webview": "^1.1.16",
+        "cordova-plugin-ios-keychain": "^3.0.1",
         "cordova-plugin-screen-orientation": "^2.0.2",
         "cordova-plugin-splashscreen": "^4.1.0",
         "cordova-plugin-statusbar": "^2.4.1",
@@ -146,7 +148,8 @@
             "cordova-plugin-camera-preview": {},
             "cordova-plugin-geolocation": {
                 "GEOLOCATION_USAGE_DESCRIPTION": "To locate you"
-            }
+            },
+            "cordova-plugin-ios-keychain": {}
         }
     }
 }
