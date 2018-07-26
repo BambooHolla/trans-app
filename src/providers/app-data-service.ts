@@ -5,6 +5,7 @@ import { Geolocation } from "@ionic-native/geolocation";
 import { Platform } from "ionic-angular";
 import { ArrayType } from "@angular/compiler/src/output/output_ast";
 import { BehaviorSubject, Observable } from "rxjs";
+import * as UUID from "uuid";
 @Injectable()
 export class AppDataService {
     //记录设备信息
@@ -172,8 +173,13 @@ export class AppDataService {
     getAppDevice() {
         //获取手机信息
         Object.keys(this.DEVICE_DATA).forEach(key => {
-            this.DEVICE_DATA[key] = this.device[key] || "";
-            onresize1(key, this.device[key]);
+            let value = this.device[key];
+            if(!value && key === "uuid") {
+               value = UUID.v1(); 
+            }
+            this.DEVICE_DATA[key] = value || "";
+            
+            onresize1(key, this.DEVICE_DATA[key]);
         });
     }
 

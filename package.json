@@ -85,6 +85,7 @@
         "socket.io": "~2.0.3",
         "socket.io-client": "~2.0.4",
         "sw-toolbox": "3.6.0",
+        "uuid": "^3.3.2",
         "zone.js": "0.8.18",
         "zrender": "^4.0.4"
     },
