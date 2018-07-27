@@ -413,7 +413,9 @@ export class TradeService {
                 this.appDataService.CURRENCYS_TYPE = data;
             })
             .catch(err => {
-                this.appDataService.CURRENCYS_TYPE = {'en':'USD'}
+                this.appDataService.CURRENCYS_TYPE = {
+                    en:{code: "USD", symbol: "$"}
+                };
             });
     }
 
@@ -437,7 +439,7 @@ export class TradeService {
                     currencyTo:"USD",
                     exchange:"1",
                     type: 'en',
-                    currencyToSymbolL: '$',
+                    currencyToSymbol: '$',
                 };
                 this.appDataService.CHAGE_CURRENCY.next({status:true});
             });

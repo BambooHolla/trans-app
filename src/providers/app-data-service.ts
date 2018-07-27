@@ -39,14 +39,14 @@ export class AppDataService {
     //语言
     public LANGUAGE: any = "zh";
     //计价方式
-    public CURRENCYS_TYPE: any;
+    public CURRENCYS_TYPE: any ;
     public CURRENCY_INFO: any = {
         status: false,
         currencyFrom :"",
         currencyTo:"USD",
         exchange:"1",
         type: 'en',
-        currencyToSymbolL: '$',
+        currencyToSymbol: '$',
     }; 
 
     public CHAGE_CURRENCY = new BehaviorSubject<any>(undefined);

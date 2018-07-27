@@ -23,7 +23,7 @@ export class CurrencyTypeListPage  {
     init() {
         this.currency_list = [];
         for(let key in this.appDataService.CURRENCYS_TYPE) {
-            this.currency_list.push({
+            this.currency_list.push({ 
                 name: this.appDataService.CURRENCYS_TYPE[key],
                 value: key,
                 hidden: this.appDataService.CURRENCY_INFO.type != key,
