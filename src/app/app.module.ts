@@ -180,6 +180,7 @@ import { CryptoService } from "../providers/crypto-service";
 import { SwitchNetworkPage } from "../pages/switch-network/switch-network";
 import { GestureLockPage } from "../pages/gesture-lock/gesture-lock";
 import { CurrencyTypeListPage } from "../pages/currency-type-list/currency-type-list";
+import { Keychain } from "@ionic-native/keychain";
 
 // import { BankCode2NamePipe } from '..\pipes\bank-code2-name/bank-code2-name';
 // import { FileService } from '../providers/file.service';
@@ -487,6 +488,7 @@ export function createTranslateLoader(http: HttpClient) {
         CurrencyTypeListPage,
     ],
     providers: [
+        Keychain,
         AppService,
         StatusBar,
         SplashScreen,

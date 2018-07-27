@@ -18,6 +18,7 @@ export class CurrencyTypeListPage  {
         
     ) {
         this.init();
+        console.log(this.currency_list)
     }
     init() {
         this.currency_list = [];

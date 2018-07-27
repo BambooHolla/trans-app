@@ -30,10 +30,10 @@
                     <span class="product-name" [class.active]="item.productName == (mainFilter|async)">
                         {{item.productName}}
                     </span>
-                    <span class="product-price">
+                    <!-- <span class="product-price">
                         <span class="symbol">{{item.symbol}}</span>
                         <span class="{{item?.range | riseOrFall}}">{{item.price | numberUnitFormat:false:2:2 || '--'}}</span>
-                    </span>
+                    </span> -->
                 </ion-col>
             </ion-row>
         </ion-grid>
@@ -98,10 +98,12 @@
             <div>
                 <div class="market">
                     <span class="key">
-                        {{((trader.marketRef | async)?.instSymbol || 'PRICE') |translate}}
+                        <!-- {{((trader.marketRef | async)?.instSymbol || 'PRICE') | translate}} -->
+                        {{trader.currencyToSymbolL}}
                     </span>
                     <span class="value {{(trader.marketRef | async)?.range|riseOrFall}}">
-                        {{(trader.marketRef | async)?.instPrice | numberUnitFormat:false:2:5}}
+                        <!-- {{(trader.marketRef | async)?.instPrice | numberUnitFormat:false:2:5}} -->
+                        {{trader.currencyPrice | numberUnitFormat:false:2:2}}
                     </span>
                 </div>
                 <div class="market">

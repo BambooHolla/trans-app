@@ -434,9 +434,10 @@ export class TradeService {
                 this.appDataService.CURRENCY_INFO = {
                     status: false,
                     currencyFrom :"",
-                    currencyTo:"",
-                    exchange:"",
+                    currencyTo:"USD",
+                    exchange:"1",
                     type: 'en',
+                    currencyToSymbolL: '$',
                 };
                 this.appDataService.CHAGE_CURRENCY.next({status:true});
             });

@@ -43,9 +43,10 @@ export class AppDataService {
     public CURRENCY_INFO: any = {
         status: false,
         currencyFrom :"",
-        currencyTo:"",
-        exchange:"",
+        currencyTo:"USD",
+        exchange:"1",
         type: 'en',
+        currencyToSymbolL: '$',
     }; 
 
     public CHAGE_CURRENCY = new BehaviorSubject<any>(undefined);

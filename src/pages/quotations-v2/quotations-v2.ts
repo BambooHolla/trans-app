@@ -6,7 +6,7 @@ import {
     Renderer,
 } from "@angular/core";
 // import { Slides, NavController } from 'ionic-angular';
-import { NavController, Refresher, ModalController, LoadingController } from "ionic-angular";
+import { NavController, Refresher, ModalController, LoadingController, Item } from "ionic-angular";
 
 import { Observable } from "rxjs/Observable";
 import { BehaviorSubject } from "rxjs/BehaviorSubject";
@@ -27,7 +27,7 @@ import { TradeService } from "../../providers/trade-service";
 import { TradeChartV2Page } from "../trade-chart-v2/trade-chart-v2";
 import { Storage } from "@ionic/storage";
 import { GestureLockPage } from "../gesture-lock/gesture-lock";
-
+import { BigNumber } from "bignumber.js";
 @Component({
     selector: "page-quotations-v2",
     templateUrl: "quotations-v2.html",
@@ -150,7 +150,18 @@ export class QuotationsPageV2 {
         public loadingCtrl: LoadingController,
     ) {
         // this.changeActive(0
-        
+        this.appDataService.CHAGE_CURRENCY$.subscribe( data => {
+            if(data && data.status && this.traderList.length > 0) {
+                this.traderList.forEach( item => {
+                    item['currencyToSymbolL'] = this.appDataService.CURRENCY_INFO.currencyToSymbol;
+                    if(isNaN(item['instPrice'])) {
+                        item['currencyPrice'] = '--';
+                    } else {
+                        item['currencyPrice'] = (new BigNumber(item['instPrice'])).times(this.appDataService.CURRENCY_INFO.exchange).toString();
+                    }
+                });
+            }
+        })
     }
 
     ngOnInit() {
@@ -516,7 +527,24 @@ export class QuotationsPageV2 {
             // 行情页面
             this.stockDataService
                 .subscibeRealtimeData(value.traderId, "price")
-                .map(data => data)
+                .map(data => {
+                    if(data) {
+                        
+                        value.currencyToSymbolL = this.appDataService.CURRENCY_INFO.currencyToSymbol;
+                        if(isNaN(data.instPrice)) {
+                            value.currencyPrice = '--';
+                            value.instPrice = '--';
+                        } else {
+                            debugger
+                            value.currencyPrice = (new BigNumber(data.instPrice)).times(this.appDataService.CURRENCY_INFO.exchange).toString();
+                            debugger
+                            value.instPrice = data.instPrice;
+                        }
+                        
+                    }
+                    
+                    return data;
+                })
                 .subscribe(value.marketRef); //, this.viewDidLeave$)
         });
     }
