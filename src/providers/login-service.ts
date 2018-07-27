@@ -207,32 +207,32 @@ export class LoginService {
 
                 this.setLoginData(data);
 
-                this.storage.get('gestureLockObj').then( data => {
-                    if(!data) {
-                        window['alertCtrl'].create({
-                            title: window["language"]["WARNING"]||'警告',
-                            message: window["language"]["GESTURE_NO_PASSWORD"]||"手势密码未设置",
-                            buttons: [
-                                {
-                                    text: window["language"]["GESTURE_CANCEL"]||"取消",
-                                    role: "cancel",
-                                    handler: () => {
+                // this.storage.get('gestureLockObj').then( data => {
+                //     if(!data) {
+                //         window['alertCtrl'].create({
+                //             title: window["language"]["WARNING"]||'警告',
+                //             message: window["language"]["GESTURE_NO_PASSWORD"]||"手势密码未设置",
+                //             buttons: [
+                //                 {
+                //                     text: window["language"]["GESTURE_CANCEL"]||"取消",
+                //                     role: "cancel",
+                //                     handler: () => {
                                       
-                                    },
-                                },
-                                {
-                                    text: window["language"]["GESTURE_SETTINGS"]||"设置",
-                                    handler: () => {
-                                        let activeNav: NavController = this.app.getActiveNav();
-                                        activeNav.push('gesture-lock',{
-                                            hasGestureLock: false,
-                                        })
-                                    },
-                                },
-                            ],
-                        }).present();
-                    }
-                })
+                //                     },
+                //                 },
+                //                 {
+                //                     text: window["language"]["GESTURE_SETTINGS"]||"设置",
+                //                     handler: () => {
+                //                         let activeNav: NavController = this.app.getActiveNav();
+                //                         activeNav.push('gesture-lock',{
+                //                             hasGestureLock: false,
+                //                         })
+                //                     },
+                //                 },
+                //             ],
+                //         }).present();
+                //     }
+                // })
 
 
 
