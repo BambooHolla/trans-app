@@ -535,9 +535,7 @@ export class QuotationsPageV2 {
                             value.currencyPrice = '--';
                             value.instPrice = '--';
                         } else {
-                            debugger
                             value.currencyPrice = (new BigNumber(data.instPrice)).times(this.appDataService.CURRENCY_INFO.exchange).toString();
-                            debugger
                             value.instPrice = data.instPrice;
                         }
                         
