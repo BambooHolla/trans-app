@@ -99,7 +99,7 @@
                 <div class="market">
                     <span class="key">
                         <!-- {{((trader.marketRef | async)?.instSymbol || 'PRICE') | translate}} -->
-                        {{trader.currencyToSymbolL}}
+                        {{trader.currencyToSymbol}}
                     </span>
                     <span class="value {{(trader.marketRef | async)?.range|riseOrFall}}">
                         <!-- {{(trader.marketRef | async)?.instPrice | numberUnitFormat:false:2:5}} -->

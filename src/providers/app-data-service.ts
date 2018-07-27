@@ -6,7 +6,6 @@ import { Platform } from "ionic-angular";
 import { ArrayType } from "@angular/compiler/src/output/output_ast";
 import { BehaviorSubject, Observable } from "rxjs";
 import * as UUID from "uuid";
-import { Keychain } from '@ionic-native/keychain';
 @Injectable()
 export class AppDataService {
     //记录设备信息
@@ -46,7 +45,7 @@ export class AppDataService {
         currencyTo:"USD",
         exchange:"1",
         type: 'en',
-        currencyToSymbolL: '$',
+        currencyToSymbol: '$',
     }; 
 
     public CHAGE_CURRENCY = new BehaviorSubject<any>(undefined);
@@ -76,7 +75,6 @@ export class AppDataService {
         private device: Device,
         private geolocation: Geolocation,
         private platform: Platform,
-        private keychain: Keychain,
     ) {
         this.initProperties();
         this.getDataFromStorage();
@@ -178,7 +176,7 @@ export class AppDataService {
         //获取手机信息，区分ios跟android
         if(this.platform.is("ios")) {
             // ios取消了uuid的获取，本地生成uuid并写入到ios的keychain的存储中
-            let _uuid:any = await this.keychain.get('ios_uuid')
+            let _uuid:any = await this.storage.get('ios_uuid')
             .then(value => {
                 return value;
             })
@@ -188,7 +186,7 @@ export class AppDataService {
             
             if(!_uuid) {
                 _uuid = UUID.v1();
-                await this.keychain.set('ios_uuid', _uuid).then(() => {
+                await this.storage.set('ios_uuid', _uuid).then(() => {
                     this.DEVICE_DATA.uuid = _uuid
                 })
                   .catch(err => {

@@ -231,7 +231,7 @@ export class GestureLockPage {
     this.lockTime = time;
     const interval = setInterval(() => {
       this.lockTime = this.lockTime - 1;
-      this.titleMes = `GESTURE_60S_AGAIN_1`;
+      this.titleMes = `GESTURE_60S_AGAIN_1`; 
       this.titleMes_number = this.lockTime;
       this.titleMes_supplement = 'GESTURE_60S_AGAIN_2';
       if (this.lockTime <= 0) {
@@ -248,7 +248,7 @@ export class GestureLockPage {
 
   //重置手势密码
   resetPasswordFun() {
-    this.titleMes = 'GESTURE_NEW_PASSWORD';
+    this.titleMes = 'GESTURE_OLD_PASSWORD';
     this.gestureLockObj.step = 3;
   }
   //删除手势密码

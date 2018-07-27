@@ -153,7 +153,7 @@ export class QuotationsPageV2 {
         this.appDataService.CHAGE_CURRENCY$.subscribe( data => {
             if(data && data.status && this.traderList.length > 0) {
                 this.traderList.forEach( item => {
-                    item['currencyToSymbolL'] = this.appDataService.CURRENCY_INFO.currencyToSymbol;
+                    item['currencyToSymbol'] = this.appDataService.CURRENCY_INFO.currencyToSymbol;
                     if(isNaN(item['instPrice'])) {
                         item['currencyPrice'] = '--';
                     } else {
@@ -530,7 +530,7 @@ export class QuotationsPageV2 {
                 .map(data => {
                     if(data) {
                         
-                        value.currencyToSymbolL = this.appDataService.CURRENCY_INFO.currencyToSymbol;
+                        value.currencyToSymbol = this.appDataService.CURRENCY_INFO.currencyToSymbol;
                         if(isNaN(data.instPrice)) {
                             value.currencyPrice = '--';
                             value.instPrice = '--';
