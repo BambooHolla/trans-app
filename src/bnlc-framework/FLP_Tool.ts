@@ -304,6 +304,9 @@ export class FLP_Tool {
       .take(1)
       .toPromise();
   }
+  static getTranslateSync(key: string | string[], interpolateParams?: Object) {
+    return (window["translate"] as TranslateService).instant(key, interpolateParams);
+  }
   getTranslateSync(key: string | string[], interpolateParams?: Object) {
     return this.translate.instant(key, interpolateParams);
   }

@@ -379,7 +379,7 @@ export function createTranslateLoader(http: HttpClient) {
                     { component: ForgetPwdPage, name: "forget-pwd" },
                     { component: ModifyPwdPage, name: "modify-pwd" },
                     { component: RegisterPage, name: "register" },
-                    { component: GestureLockPage, name: "gesture-lock"}
+                    { component: GestureLockPage, name: "gesture-lock"},
                 ],
             },
         ),

@@ -57,8 +57,10 @@ export class RechargeDetailPage extends SecondLevelPage {
         undefined,
         "recharge-detail",
     )
-    @asyncCtrlGenerator.error("GAIN_DATA_ERROR")
-    async getAccountsInfo() {
+    @asyncCtrlGenerator.error(() =>
+        RechargeDetailPage.getTranslateSync("GAIN_DATA_ERROR") 
+    )
+    async getAccountsInfo() { 
         this.productInfo = this.navParams.get("productInfo");
         if (this.productInfo) {
             const tasks = [];
@@ -93,8 +95,12 @@ export class RechargeDetailPage extends SecondLevelPage {
         }
     }
 
-    @asyncCtrlGenerator.success("ADDRESS_HAS_BEEN_COPIED_TO_CLIPBOARD")
-    @asyncCtrlGenerator.error("COPY_THE_ADDRESS_FAILED")
+    @asyncCtrlGenerator.success(() =>
+        RechargeDetailPage.getTranslateSync("ADDRESS_HAS_BEEN_COPIED_TO_CLIPBOARD") 
+    )
+    @asyncCtrlGenerator.error(() =>
+        RechargeDetailPage.getTranslateSync("COPY_THE_ADDRESS_FAILED") 
+    )
     async copyCode() {
         if (!this.recharge_address.paymentAccountNumber) {
             throw new Error(

@@ -148,7 +148,7 @@ import {
                   {
                     title: String(error_title),
                     subTitle: String(err_msg),
-                    buttons: [getTranslateSync("OK")],
+                    buttons: [getTranslateSync("COFIRM")],
                   },
                   opts,
                 ),
@@ -485,55 +485,55 @@ import {
     single: singleRunWrap,
     success: asyncSuccessWrapGenerator,
     loading: asyncLoadingWrapGenerator,
-    // error: asyncErrorWrapGenerator,
+    error: asyncErrorWrapGenerator,
     retry: autoRetryWrapGenerator,
-    error(
-      error_title?: any,
-      opts?:
-        | AlertOptions
-        | ((self: FLP_Tool) => AlertOptions)
-        | ((self: FLP_Tool) => Promise<AlertOptions>),
-      hidden_when_page_leaved?: boolean,
-      keep_throw?: boolean,
-    ) {
-      return asyncErrorWrapGenerator(
-        error_title,
-        opts,
-        hidden_when_page_leaved,
-        keep_throw,
-        (params, self: FLP_Tool) => {
-          if (!(self instanceof FLP_Tool)) {
-            alert(
-              (
-                params.title +
-                "\n" +
-                params.subTitle +
-                "\n" +
-                params.message
-              ).trim(),
-            );
-            throw new TypeError(
-              "asyncErrorWrapGenerator must within FLP_TOOL subclass",
-            );
-          }
-          const buttons = params.buttons;
-          if (
-            buttons &&
-            buttons.length == 1 &&
-            buttons[0] === getTranslateSync("COFIRM")
-          ) {
-            buttons.length = 0;
-          }
-          return self.showErrorDialog(
-            params.title,
-            params.subTitle,
-            params.message,
-            params.buttons,
-            false,
-          );
-        },
-      );
-    },
+    // error(
+    //   error_title?: any,
+    //   opts?:
+    //     | AlertOptions
+    //     | ((self: FLP_Tool) => AlertOptions)
+    //     | ((self: FLP_Tool) => Promise<AlertOptions>),
+    //   hidden_when_page_leaved?: boolean,
+    //   keep_throw?: boolean,
+    // ) {
+    //   return asyncErrorWrapGenerator(
+    //     error_title,
+    //     opts,
+    //     hidden_when_page_leaved,
+    //     keep_throw,
+    //     (params, self: FLP_Tool) => {
+    //       if (!(self instanceof FLP_Tool)) {
+    //         alert(
+    //           (
+    //             params.title +
+    //             "\n" +
+    //             params.subTitle +
+    //             "\n" +
+    //             params.message
+    //           ).trim(),
+    //         );
+    //         throw new TypeError(
+    //           "asyncErrorWrapGenerator must within FLP_TOOL subclass",
+    //         );
+    //       }
+    //       const buttons = params.buttons;
+    //       if (
+    //         buttons &&
+    //         buttons.length == 1 &&
+    //         buttons[0] === getTranslateSync("COFIRM")
+    //       ) {
+    //         buttons.length = 0;
+    //       }
+    //       return self.showErrorDialog(
+    //         params.title,
+    //         params.subTitle,
+    //         params.message,
+    //         params.buttons,
+    //         false,
+    //       );
+    //     },
+    //   );
+    // },
     warning(
       error_title?: any,
       opts?:

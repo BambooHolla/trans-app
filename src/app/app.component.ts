@@ -34,6 +34,10 @@ import { StockDataService } from "../providers/stock-data-service";
 import { TradeService } from "../providers/trade-service";
 import { PersonalDataService } from "../providers/personal-data-service";
 import { CommonTransition } from "./common-transition";
+import {
+    CustomDialogPopIn,
+    CustomDialogPopOut,
+  } from "../pages/custom-dialog/custom-dialog.transform";
 import { AppSettingProvider } from "../bnlc-framework/providers/app-setting/app-setting";
 import { AlertService } from "../providers/alert-service";
 import { GestureLockPage } from "../pages/gesture-lock/gesture-lock";
@@ -149,7 +153,8 @@ export class PicassoApp {
         }
 
         config.setTransition("common-transition", CommonTransition);
-
+        // config.setTransition("custom-dialog-pop-in", CustomDialogPopIn);
+        // config.setTransition("custom-dialog-pop-out", CustomDialogPopOut);
         this.appSettingProvider.clearUserInfo();
         this.screenOrientation
             .lock(this.screenOrientation.ORIENTATIONS.PORTRAIT)
