@@ -120,13 +120,7 @@ export class WithdrawDetailPage extends SecondLevelPage {
     // 可用的提现地址列表
     withdraw_address_list: CryptoCurrencyModel[];
 
-    @WithdrawDetailPage.watchChange(
-        (self: WithdrawDetailPage, value: CryptoCurrencyModel) => {
-            self.formData.selected_withdraw_address_id = value
-                ? value.id
-                : undefined;
-        },
-    )
+    
     selected_withdraw_address: CryptoCurrencyModel;
     access_info: any;
     openWithdrawAddressSelector() {

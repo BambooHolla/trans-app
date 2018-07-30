@@ -6,6 +6,7 @@ import { HttpModule } from "@angular/http";
 
 import { IonicApp, IonicModule, IonicErrorHandler } from "ionic-angular";
 import { IonicStorageModule } from "@ionic/storage";
+import { Toast } from "@ionic-native/toast";
 
 import "intl";
 import "intl/locale-data/jsonp/en";
@@ -498,6 +499,7 @@ export function createTranslateLoader(http: HttpClient) {
         AndroidPermissions,
         ScreenOrientation,
         AndroidFullScreen,
+        Toast,
         Clipboard,
         AppSettings,
         AppDataService,

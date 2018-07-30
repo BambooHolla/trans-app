@@ -4,7 +4,7 @@ import { NavController, NavParams, Events } from "ionic-angular";
 import { FundStatementPage } from "../fund-statement/fund-statement";
 import { CommissionListPage } from "../commission-list/commission-list";
 import { HistoryRecordPage } from "../history-record/history-record";
-import { FirstLevelPage } from "../../bnlc-framework/FirsetLevelPage";
+import { FirstLevelPage } from "../../bnlc-framework/FirstLevelPage";
 
 // import { CreateAccountStepThirdPage } from '../create-account-step-third/create-account-step-third';
 import { AccountCenterPage } from "../account-center/account-center";

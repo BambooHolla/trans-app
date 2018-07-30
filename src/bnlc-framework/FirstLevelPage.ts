@@ -20,7 +20,7 @@ export class FirstLevelPage extends FLP_Data {
         super(navCtrl, navParams);
     }
     @ViewChild(ToolbarTitle) title: ToolbarTitle;
-    @ViewChild(Header) header: Header;
+    @ViewChild(Header) header: Header; 
     @ViewChild(Content) content: Content;
 
     // 启用实验性的backdropFilter功能

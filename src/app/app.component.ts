@@ -5,6 +5,7 @@ import { SplashScreen } from "@ionic-native/splash-screen";
 import { ScreenOrientation } from "@ionic-native/screen-orientation";
 import { AndroidFullScreen } from "@ionic-native/android-full-screen";
 import { Clipboard } from "@ionic-native/clipboard";
+import { Toast } from "@ionic-native/toast";
 // import { App, NavController, LoadingController, Loading } from 'ionic-angular';
 import {
     App,
@@ -13,6 +14,7 @@ import {
     Loading,
     AlertController,
     ToastController,
+    ActionSheetController,
     ModalController,
 } from "ionic-angular";
 
@@ -94,6 +96,8 @@ export class PicassoApp {
         public appSettingProvider: AppSettingProvider,
         public alertService: AlertService,
         public storage: Storage,
+        public toast: Toast,
+        public actionSheetCtrl: ActionSheetController,
         
     ) {
         // let title:string = '';
@@ -120,13 +124,17 @@ export class PicassoApp {
             })
         }
         
-        window["platform"] = platform;
+        window["ac"] = this;
+        window["clipboard"] = clipboard;
+        window["translate"] = translate;
+        window["platform"] = platform; 
         window["alertCtrl"] = alertCtrl;
         window["loadingCtrl"] = loadingCtrl;
         window["toastCtrl"] = toastCtrl;
+        window["toast"] = toast;
+        window["actionSheetCtrl"] = actionSheetCtrl;
         window["modalCtrl"] = modalController;
-        window["clipboard"] = clipboard;
-        window["translate"] = translate;
+        window["picassoApp"] = this;
         // 设置语言
         window["language"] = window["language"] || {};
         this.initTranslate();
@@ -322,12 +330,12 @@ export class PicassoApp {
         // this.statusBar.backgroundColorByHexString('#00ffffff');
         // }
 
-        //开始判断，调整状态栏
-        this.tryOverlaysWebView(3);
-        //使用异步保证页面元素准备就绪
-        setTimeout(() => {
-            this.splashScreen.hide();
-        }, 500);
+        // //开始判断，调整状态栏
+        // this.tryOverlaysWebView(3);
+        // //使用异步保证页面元素准备就绪
+        // setTimeout(() => {
+        //     this.splashScreen.hide();
+        // }, 500);
 
         // translate.setDefaultLang('zh_CN');
 
@@ -348,21 +356,29 @@ export class PicassoApp {
             this.statusBar.styleLightContent();
         }, 50);
     }
+    private _is_hide = false;
+    hideSplashScreen() {
+        if (this._is_hide) {
+        return;
+        } 
+        this.splashScreen.hide();
+        this._is_hide = true;
+    }
     tryOverlaysWebView(loop_times: number = 0) {
         if (this.isIOS) {
-            return;
+          return;
         }
         if (window.innerHeight < PicassoApp.WINDOW_MAX_HEIGHT) {
-            // 如果高度不对劲的话，尽可能重新搞一下
-            this.overlaysWebView();
+          // 如果高度不对劲的话，尽可能重新搞一下
+          this.overlaysWebView();
         }
         if (loop_times > 0) {
-            // 等一下再看看是否修正正确了，不行就再来一次
-            setTimeout(() => {
-                this.tryOverlaysWebView(loop_times - 1);
-            }, 100);
+          // 等一下再看看是否修正正确了，不行就再来一次
+          setTimeout(() => {
+            this.tryOverlaysWebView(loop_times - 1);
+          }, 500);
         }
-    }
+      }
 
     // 设置根元素的背景，与当前激活页的背景保持大致相同，
     // 避免在软键盘弹出/收起时短暂闪现难看的背景。

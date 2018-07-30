@@ -141,7 +141,7 @@ export class VcodeSenderDirective implements OnInit, OnChanges {
         this._buttonEle_click_handle = e => {
             e["waitFor"] = (promise: Promise<any>) => {
                 this.sender_status = SenderStatus.sending;
-                promise
+                promise 
                     .then(data => {
                         if (data === ERROR_FROM_ASYNCERROR) {
                             throw data;
