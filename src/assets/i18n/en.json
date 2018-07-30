@@ -575,6 +575,7 @@
     "GESTURE_UNLOCK":"Unlock with gesture password",
     "GESTURE_PLEASE_SET_PASSWORD":"Please set your gesture password",
     "GESTURE_UNLOCK_SUCCESS":"Unlock successfully",
+    "GESTURE_UNLOCK_FAIL":"Unlock failure",
     "GESTURE_SET_PASSWORD_SUCCESS":"Set gesture password successfully",
     "GESTURE_TWO_ERR":"Two passwords are not identical, please reset",
     "GESTURE_3_POINTS":"At least 3 points.",

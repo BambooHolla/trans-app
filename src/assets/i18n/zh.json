@@ -580,6 +580,7 @@
     "GESTURE_UNLOCK":"手势密码解锁",
     "GESTURE_PLEASE_SET_PASSWORD":"请绘制你的手势密码",
     "GESTURE_UNLOCK_SUCCESS":"解锁成功",
+    "GESTURE_UNLOCK_FAIL":"解锁失败",
     "GESTURE_SET_PASSWORD_SUCCESS":"手势密码设置成功",
     "GESTURE_TWO_ERR":"两次不一致，重新设置",
     "GESTURE_3_POINTS":"至少经过3个点",

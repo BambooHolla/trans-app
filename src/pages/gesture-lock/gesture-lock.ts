@@ -163,7 +163,8 @@ export class GestureLockPage {
         this.unregisterBackButton = undefined;
         this.viewCtrl.dismiss()
       } else {   //解锁失败
-        this.lockFaile();
+        this.titleMes = 'GESTURE_UNLOCK_FAIL';
+        this.lockFaile(); 
       }
     } else if (this.gestureLockObj.step === 1) {  // 设置密码确认密码
       if (this.checkPassword(selectedArray, this.firstPassword)) { //设置密码成功
