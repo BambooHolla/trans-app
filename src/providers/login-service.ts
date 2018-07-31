@@ -61,19 +61,6 @@ export class LoginService {
         this.appDataService.dataReady
             .then(async () => {
                 window["loginService"] = this;
-                if (
-                    this.appDataService.APP_VERSION !=
-                    this.appDataService.version
-                ) {
-                    this.appDataService.version = this.appDataService.APP_VERSION;
-                    //获取保存的用户账号
-                    let customerId = this.appDataService.customerId;
-                    //清空登入信息,保留用户账号
-                    await this.doLogout().then(success => {
-                        this.appDataService.customerId = customerId;
-                    });
-                }
-
                 const token = this.appDataService.token;
 
                 var token_use_able = false;

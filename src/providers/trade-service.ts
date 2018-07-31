@@ -300,7 +300,8 @@ export class TradeService {
             .request(RequestMethod.Get, path, undefined)
             .then(data => {
                 console.log("getMainProducts: ", data);
-                this.appDataService.mainproducts = data;
+                this.appDataService.mainproducts = [{productName:'ALL'}]
+                this.appDataService.mainproducts.push(...data)
                 return Promise.resolve(data);
             })
             .catch(err => {

@@ -905,7 +905,7 @@ export class TradeInterfaceV2Page {
                     this.amount = "0";
                     //下单成功刷新委托单
                     this.page = 1;
-                    this.getProcessEntrusts();
+                    this.getProcessEntrusts(); 
                 } else {
                     return Promise.reject(result);
                 }
@@ -947,7 +947,7 @@ export class TradeInterfaceV2Page {
         Promise.all([
             this.personalDataService.requestFundData().catch(() => {}),
             this.personalDataService.requestEquityDeposit().catch(() => {}),
-            this.doSubscribe(),
+            // this.doSubscribe(),
         ]) 
             .then(
                 () => (

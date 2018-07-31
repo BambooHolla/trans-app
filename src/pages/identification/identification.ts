@@ -64,7 +64,9 @@ export class IdentificationPage extends SecondLevelPage {
         });
     }
     @asyncCtrlGenerator.loading()
-    @asyncCtrlGenerator.error("身份证提交失败")
+    @asyncCtrlGenerator.error(() =>
+        IdentificationPage.getTranslateSync("ID_SUBMIT_FAIL") 
+    )
     async submitPhoto() {
         // await this.accountService.submitCertification()
         const result = {};
@@ -103,7 +105,9 @@ export class IdentificationPage extends SecondLevelPage {
         imageTaker.present();
     }
 
-    @asyncCtrlGenerator.error("图片上传失败")
+    @asyncCtrlGenerator.error(() =>
+        IdentificationPage.getTranslateSync("UPLOAD_PHOTO_FAIL") 
+    )
     async updateImage(
         fid_promise: Promise<any>,
         image: typeof IdentificationPage.prototype.images[0],

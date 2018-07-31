@@ -55,6 +55,7 @@ export class GestureLockPage {
   gestureAttemptObj: GestureAttemptObj = new GestureAttemptObj();  //尝试日期和次数本地缓存
   unregisterBackButton:any;// 硬件返回
   firstPassword: string;
+  showDelete:boolean = false;
   private hasGestureLock:boolean = false;// 是否设置
   private canTouch = false;
   private radius: number; //小圆点半径
@@ -205,6 +206,7 @@ export class GestureLockPage {
         this.gestureLockObj.step = 0;
         this.textColor = this.successColor;
         this.titleMes = 'GESTURE_NEW_PASSWORD';
+        this.showDelete =this.hasGestureLock
         this.drawAll(this.successColor);
       } else {   //旧密码失败
         this.lockFaile();
@@ -241,7 +243,10 @@ export class GestureLockPage {
         this.lockTime = this.lockTimeUnit;
         this.titleMes = "GESTURE_UNLOCK";
         this.titleMes_number = '';
-      this.titleMes_supplement = '';
+        this.titleMes_supplement = '';
+        if(this.hasGestureLock) {
+          this.resetPasswordFun();
+        }
         clearInterval(interval);
       }
     }, 1000);
@@ -268,7 +273,7 @@ export class GestureLockPage {
             handler: () => {
               this.storage.remove("gestureLockObj");
               this.gestureLockObj = new GestureLockObj();
-              this.titleMes = 'GESTURE_PLEASE_SET_PASSWORD';
+              // this.titleMes = 'GESTURE_PLEASE_SET_PASSWORD';
               this.titleMes_number = '';
               this.titleMes_supplement = '';
               this.reset();
@@ -277,13 +282,13 @@ export class GestureLockPage {
                 _Fn();
               }
               this.hasGestureLock = false;
-              this.alterCtrl.create({
-                title:"手势密码",
-                message:"删除成功",
-                buttons:[{
-                  text:'确定'
-                }]
-              })
+              setTimeout( () => {
+                this.navCtrl.pop({
+                  animate: true,
+                  direction: "back",
+                  animation: "ios-transition",
+                })
+              },300)
             },
         },
     ],

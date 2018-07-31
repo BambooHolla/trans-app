@@ -1,4 +1,4 @@
-import { Component, Renderer2, Inject } from "@angular/core";
+import { Component, Renderer2, Inject, OnInit } from "@angular/core";
 import { Platform, Events } from "ionic-angular";
 import { StatusBar } from "@ionic-native/status-bar";
 import { SplashScreen } from "@ionic-native/splash-screen";
@@ -34,10 +34,6 @@ import { StockDataService } from "../providers/stock-data-service";
 import { TradeService } from "../providers/trade-service";
 import { PersonalDataService } from "../providers/personal-data-service";
 import { CommonTransition } from "./common-transition";
-import {
-    CustomDialogPopIn,
-    CustomDialogPopOut,
-  } from "../pages/custom-dialog/custom-dialog.transform";
 import { AppSettingProvider } from "../bnlc-framework/providers/app-setting/app-setting";
 import { AlertService } from "../providers/alert-service";
 import { GestureLockPage } from "../pages/gesture-lock/gesture-lock";
@@ -65,7 +61,7 @@ export class PicassoApp {
             this.loader.present();
         }
     }
-
+    ngOnInit() {}
     dismissLoading() {
         if (this.loader) {
             this.loader.dismiss();
@@ -117,6 +113,18 @@ export class PicassoApp {
         //   type = false;
         // }
         // this.alertService.show(title,message,type)
+        if (
+            this.appDataService.APP_VERSION !=
+            this.appDataService.version
+        ) {
+            this.appDataService.version = this.appDataService.APP_VERSION;
+            //获取保存的用户账号
+            let customerId = this.appDataService.customerId;
+            //清空登入信息,保留用户账号
+            this.loginService.doLogout().then(success => {
+                this.appDataService.customerId = customerId;
+            });
+        }
         if(!!appSettingProvider.getUserToken()) {
             this.storage.get('gestureLockObj').then( data => {
                 if(data) {
@@ -153,8 +161,6 @@ export class PicassoApp {
         }
 
         config.setTransition("common-transition", CommonTransition);
-        // config.setTransition("custom-dialog-pop-in", CustomDialogPopIn);
-        // config.setTransition("custom-dialog-pop-out", CustomDialogPopOut);
         this.appSettingProvider.clearUserInfo();
         this.screenOrientation
             .lock(this.screenOrientation.ORIENTATIONS.PORTRAIT)

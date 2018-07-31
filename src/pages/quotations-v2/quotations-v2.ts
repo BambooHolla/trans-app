@@ -6,7 +6,7 @@ import {
     Renderer,
 } from "@angular/core";
 // import { Slides, NavController } from 'ionic-angular';
-import { NavController, Refresher, ModalController, LoadingController, Item } from "ionic-angular";
+import { NavController, Refresher, ModalController, LoadingController, Item, IonicPage, NavParams, Slides } from "ionic-angular";
 
 import { Observable } from "rxjs/Observable";
 import { BehaviorSubject } from "rxjs/BehaviorSubject";
@@ -16,7 +16,6 @@ import { StockDetailPage } from "../stock-detail/stock-detail";
 import { SearchItemPage } from "../search-item/search-item-page";
 
 import { RealTimeChartsComponent } from "../../components/realtime-charts/realtime-charts";
-
 import { AppSettings } from "../../providers/app-settings";
 import { SocketioService } from "../../providers/socketio-service";
 import { StockDataService } from "../../providers/stock-data-service";
@@ -28,12 +27,15 @@ import { TradeChartV2Page } from "../trade-chart-v2/trade-chart-v2";
 import { Storage } from "@ionic/storage";
 import { GestureLockPage } from "../gesture-lock/gesture-lock";
 import { BigNumber } from "bignumber.js";
+
 @Component({
     selector: "page-quotations-v2",
     templateUrl: "quotations-v2.html",
 })
 export class QuotationsPageV2 {
     @ViewChild("searchInputWrap", { read: ElementRef })
+    @ViewChild("newsSlide")  newsSlide: Slides;
+
     searchInputWrap;
  
     activeProduct: any = "";
@@ -97,7 +99,7 @@ export class QuotationsPageV2 {
         .filter(value => value === true);
 
     private mainFilter: BehaviorSubject<string> = new BehaviorSubject(
-        undefined,
+        "ALL",
     );
 
     private lastRealtimeStockList: string[] = [];
@@ -148,7 +150,10 @@ export class QuotationsPageV2 {
         public modalCtrl: ModalController,
         public storage: Storage,
         public loadingCtrl: LoadingController,
+        public navParams: NavParams,
     ) {
+       
+      
         // this.changeActive(0
         this.appDataService.CHAGE_CURRENCY$.subscribe( data => {
             if(data && data.status && this.traderList.length > 0) {
@@ -164,6 +169,23 @@ export class QuotationsPageV2 {
         })
     }
 
+    // 保存上次的计时器
+    private _saveLastSlide:any;
+    /**
+     * 轮播图移动触发函数，用于用户停止操作时，重启自动轮播
+     * @param  事件
+     */
+    slideDrag($event) {
+        if(this._saveLastSlide) {
+            clearTimeout(this._saveLastSlide);
+            this._saveLastSlide = null;
+        }
+        this._saveLastSlide = setTimeout(() => {
+            // 顶部轮播图开始自动轮播
+            this.newsSlide.startAutoplay()
+            this._saveLastSlide = null;
+        }, 4000);
+    }
     ngOnInit() {
         this.loading =  this.loadingCtrl.create({
             showBackdrop: false,
@@ -183,8 +205,7 @@ export class QuotationsPageV2 {
             .distinctUntilChanged()
             .subscribe(str => this._filterProduct.call(this, str, false));
     }
-
-    ionViewWillEnter() {}
+    
 
     ionViewDidEnter() {
         if(this.traderList.length <= 0) {
@@ -300,18 +321,20 @@ export class QuotationsPageV2 {
     filterMainProduct(event$?: MouseEvent) {
         // console.log(event$, event$.currentTarget,event$.target)
         const target: any = event$.target as HTMLElement;
-        const _target = this._findTarget(target);
-
+        const _target = this._findTarget(target); 
         let product;
         if (_target) {
             console.log(target);
-            product = _target.innerText;
+            product = _target.id;
+            
         } else {
             return void 0;
         }
         if (this.mainFilter.getValue() === product) {
-            this.mainFilter.next("");
-            this.activeProduct = "";
+            
+            // this.mainFilter.next("");
+            // this.activeProduct = "";
+            return ;
         } else {
             this.mainFilter.next(product);
             this.activeProduct = product;
@@ -370,7 +393,7 @@ export class QuotationsPageV2 {
                 } else {
                     if (
                         item.priceName.trim().toLowerCase() == product ||
-                        item.productName.trim().toLowerCase() == product
+                        item.productName.trim().toLowerCase() == product || product == 'all'
                     ) {
                         item.hidden = false;
                     } else {

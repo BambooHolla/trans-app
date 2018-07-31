@@ -14,7 +14,7 @@
     <canvas #canvas [ngStyle]="{'height.px':height,'width.px':width}"></canvas>
     <div class="loginBox">
         <a #login  (click)="showLogin()" *ngIf="hasGestureLock != true && hasGestureLock != false">以账号登录方式解锁</a>
-        <a #login  (click)="deletPasswordFun()" *ngIf="hasGestureLock">删除密码</a>
+        <a #login  (click)="deletPasswordFun()" *ngIf="showDelete">删除密码</a>
     </div>
   </div>
 

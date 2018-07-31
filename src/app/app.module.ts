@@ -5,6 +5,7 @@ import { HttpClient, HttpClientModule } from "@angular/common/http";
 import { HttpModule } from "@angular/http";
 
 import { IonicApp, IonicModule, IonicErrorHandler } from "ionic-angular";
+
 import { IonicStorageModule } from "@ionic/storage";
 import { Toast } from "@ionic-native/toast";
 
@@ -181,6 +182,7 @@ import { CryptoService } from "../providers/crypto-service";
 import { SwitchNetworkPage } from "../pages/switch-network/switch-network";
 import { GestureLockPage } from "../pages/gesture-lock/gesture-lock";
 import { CurrencyTypeListPage } from "../pages/currency-type-list/currency-type-list";
+
 
 
 // import { BankCode2NamePipe } from '..\pipes\bank-code2-name/bank-code2-name';
