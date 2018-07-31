@@ -22,6 +22,7 @@ import { CurrencyTypeListPage } from "../currency-type-list/currency-type-list";
 export class AccountCenterPage extends SecondLevelPage {
     private login_status: boolean;
     private hasGestureLock: boolean = false;
+    private risefallColor: boolean = false;
     constructor(
         public navCtrl: NavController,
         public navParams: NavParams,
@@ -33,6 +34,7 @@ export class AccountCenterPage extends SecondLevelPage {
         public storage: Storage,
     ) {
         super(navCtrl, navParams);
+        this.risefallColor = appDataService.risefallColor ? true : false;
         this.loginService.status$.subscribe(status => {
             this.login_status = status;
             if (status) {
@@ -116,5 +118,8 @@ export class AccountCenterPage extends SecondLevelPage {
             hasGestureLock: this.hasGestureLock,
             backFn: this.gestureLockObj.bind(this)
         })
+    }
+    risefallColorChange() {
+        this.appDataService.risefallColor = this.risefallColor;
     }
 }

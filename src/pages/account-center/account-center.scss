@@ -14,6 +14,25 @@ account-center {
                         float: right;
                         color: color($colors, special);
                         font-size: 1.3rem;
+                        height: 100%;  
+                        ion-toggle {
+                            top: 50%;
+                            transform: translateY(-50%); 
+                            &.true-color {
+                                .toggle-icon {
+                                    background-color: color($colors, rise-true); 
+                                }
+                            }
+                            .toggle-icon {
+                                background-color: color($colors, rise);
+                                &:before {
+                                    background-color: color($colors, rise-true);
+                                }
+                            }
+                            .toggle-inner {
+                                background-color: #fff;
+                            }
+                        }
                         &.no-identify {
                             color: color($colors, middark);
                         }

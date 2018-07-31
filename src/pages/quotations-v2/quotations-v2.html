@@ -1,10 +1,10 @@
 <ion-header class="custom-ani-header">
-        <ion-navbar id="fixedElement-title" style="position: fixed;top: 0;">
+        <!-- <ion-navbar id="fixedElement-title" style="position: fixed;top: 0;">
                 <ion-grid no-padding>
                     <ion-row class="title-header">
                         <ion-col class="title" no-padding text-center>
                             {{'MARKETS' | translate}}
-                        </ion-col>
+                        </ion-col> -->
                         <!-- <ion-buttons [hidden]="showSearch" right padding-horizontal (click)="toShowSearch()" class="button_self">
                             <button ion-button>
                                 <ion-icon class="large-icon" name="search"></ion-icon>
@@ -21,7 +21,7 @@
                                 <button ion-button>{{'CANCEL'|translate}}</button>
                             </ion-buttons>
                         </ion-toolbar> -->
-                    </ion-row>
+                    <!-- </ion-row> -->
                     <!-- <ion-row class="products" 
                     (click)='filterMainProduct($event)'
                     >
@@ -36,121 +36,124 @@
                             </span> -->
                         <!-- </ion-col> -->
                     <!-- </ion-row> -->
-                </ion-grid>
-            </ion-navbar>
+                <!-- </ion-grid>
+            </ion-navbar> -->
     
+        <ion-slides pager loop autoplay='2000' #newsSlide (ionSlideDrag)="slideDrag($event)" class="news-slides">
+            <ion-slide>
+                    <img class="logo" src="assets/images/payWishWeChatQrCode.jpg" alt="PICASSO"/>
+            </ion-slide>
+            <ion-slide>
+                    <img class="logo" src="assets/images/payWishWeChatQrCode.jpg" alt="PICASSO"/>
+            </ion-slide>
+            <ion-slide>
+                    <img class="logo" src="assets/images/payWishWeChatQrCode.jpg" alt="PICASSO"/>
+            </ion-slide>
+        </ion-slides>
+    
+        <div class="notice-box">
+            <span class="picasso-icon-horn"></span>
+            <ion-slides loop autoplay='4000' direction="vertical" class="notice-slides"> 
+                    <ion-slide>
+                            <div>
+                                第一条公告第一条公告第一条公告第一条公告第一条公告第一条公告第一条公告第一条公告第一条公告第一条公告第一条公告第一条公告第一条公告第一条公告第一条公告第一条公告第一条公告第一条公告第一条公告第一条公告第一条公告第一条公告第一条公告第一条公告第一条公告第一条公告第一条公告第一条公告第一条公告第一条公告第一条公告第一条公告第一条公告
+                            </div>
+                    </ion-slide>
+                    <ion-slide>
+                            <div>
+                                第二条公告
+                            </div>
+                    </ion-slide>
+                    <ion-slide>
+                            <div>
+                                第三条公告
+                            </div>
+                    </ion-slide>
+            </ion-slides>
+        </div>
+        <!-- <ion-navbar  id="fixedElement-title" style="position: fixed;top: 0;">
+            <ion-row class="title-header">
+                <ion-col class="title" no-padding text-center>
+                    {{'MARKETS' | translate}}
+                </ion-col>
+            </ion-row>
+        </ion-navbar> -->
+        <ion-grid no-padding  id="fixedElement">
+              
+            <ion-row class="products" (click)='filterMainProduct($event)'>
+                <ion-col no-padding class="item-product" *ngFor="let item of appDataService.mainproducts;let i = index"> 
+                    <span class="product-name" id="{{item.productName}}" [class.active]="item.productName == (mainFilter|async)">
+                        {{item.productName | translate}}
+                    </span>
+                </ion-col>
+            </ion-row>
+        </ion-grid>
+        
     
 </ion-header>
-<ion-content class="home-contain" auto-fixed="fixedElement">
-    <ion-slides pager loop autoplay='2000' #newsSlide (ionSlideDrag)="slideDrag($event)" class="news-slides">
-            <ion-slide>
-                    <img class="logo" src="assets/images/payWishWeChatQrCode.jpg" alt="PICASSO"/>
-            </ion-slide>
-            <ion-slide>
-                    <img class="logo" src="assets/images/payWishWeChatQrCode.jpg" alt="PICASSO"/>
-            </ion-slide>
-            <ion-slide>
-                    <img class="logo" src="assets/images/payWishWeChatQrCode.jpg" alt="PICASSO"/>
-            </ion-slide>
-    </ion-slides>
-
-    <div class="notice-box">
-        <span class="picasso-icon-horn"></span>
-        <ion-slides loop autoplay='4000' direction="vertical" class="notice-slides"> 
-                <ion-slide>
-                        <div>
-                            第一条公告第一条公告第一条公告第一条公告第一条公告第一条公告第一条公告第一条公告第一条公告第一条公告第一条公告第一条公告第一条公告第一条公告第一条公告第一条公告第一条公告第一条公告第一条公告第一条公告第一条公告第一条公告第一条公告第一条公告第一条公告第一条公告第一条公告第一条公告第一条公告第一条公告第一条公告第一条公告第一条公告
-                        </div>
-                </ion-slide>
-                <ion-slide>
-                        <div>
-                            第二条公告
-                        </div>
-                </ion-slide>
-                <ion-slide>
-                        <div>
-                            第三条公告
-                        </div>
-                </ion-slide>
-        </ion-slides>
-    </div>
-    <!-- <ion-navbar  id="fixedElement-title" style="position: fixed;top: 0;">
-        <ion-row class="title-header">
-            <ion-col class="title" no-padding text-center>
-                {{'MARKETS' | translate}}
-            </ion-col>
-        </ion-row>
-    </ion-navbar> -->
-    <ion-grid no-padding  id="fixedElement">
-          
-        <ion-row class="products" (click)='filterMainProduct($event)'>
-            <ion-col no-padding class="item-product" *ngFor="let item of appDataService.mainproducts;let i = index"> 
-                <span class="product-name" id="{{item.productName}}" [class.active]="item.productName == (mainFilter|async)">
-                    {{item.productName | translate}}
-                </span>
-            </ion-col>
-        </ion-row>
-    </ion-grid>
-    
-
+<!-- auto-fixed="fixedElement" -->
+<ion-content class="home-contain">
+   
     <!-- <ion-refresher (ionRefresh)="initTraderList($event)">
         <ion-refresher-content refreshingText="{{'UPDATING'|translate}}...">
         </ion-refresher-content>
     </ion-refresher> -->
     <!-- <div class="no-content fixedElement-margin-top" *ngIf="traderList?.length == 0">下拉刷新</div> -->
     <!-- <div *ngFor="let trader of traderList" tappable (click)="(trader?.productStatus == '002') &&saveLastTrader(trader)" class="trader-item fixedElement-margin-top" [hidden]="trader.hidden"> -->
-    <div *ngFor="let trader of traderList" tappable class="trader-item fixedElement-margin-top" [hidden]="trader.hidden">
-        <div class="header">
-            <div class="name">
-                <!-- {{trader?.traderName}} -->
-                <span class="product-name">{{trader?.productName}} / </span><span class="price-name">{{trader?.priceName}}</span>
-            </div>
-            <div class="price {{(trader.marketRef | async)?.range|riseOrFall}}">
-                {{(trader.marketRef | async)?.price | priceConversion:5:2 | numberFilter:false}}
-            </div>
-            <div class="range">
-                <div class="box bg-{{(trader.marketRef | async)?.range|riseOrFall}}" [class.disable]="trader?.productStatus != '002'">
-                    {{trader?.productStatus == '002'?((trader.marketRef | async)?.range | percent:'.2-2' | positiveSign):'----'}}
+    <div class="fixedElement-margin-top">
+        <div *ngFor="let trader of traderList" tappable class="trader-item " [hidden]="trader.hidden">
+            <div class="header">
+                <div class="name">
+                    <!-- {{trader?.traderName}} -->
+                    <span class="product-name">{{trader?.productName}} / </span><span class="price-name">{{trader?.priceName}}</span>
+                </div>
+                <div class="price {{(trader.marketRef | async)?.range|riseOrFall}}{{!appDataService?.risefallColor?'-true':''}}">
+                    {{(trader.marketRef | async)?.price | priceConversion:5:2 | numberFilter:false}}
+                </div>
+                <div class="range">
+                    <div class="box bg-{{!appDataService?.risefallColor?'true-':''}}{{(trader.marketRef | async)?.range|riseOrFall}}" [class.disable]="trader?.productStatus != '002'">
+                        {{trader?.productStatus == '002'?((trader.marketRef | async)?.range | percent:'.2-2' | positiveSign):'----'}}
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="body">
-            <div>
-                <div class="market">
-                    <span class="key">{{'HIGH'|translate}}</span>
-                    <span class="value">
-                        {{(trader.marketRef | async)?.max | priceConversion:5:2}}
-                    </span>
+            <div class="body">
+                <div>
+                    <div class="market">
+                        <span class="key">{{'HIGH'|translate}}</span>
+                        <span class="value">
+                            {{(trader.marketRef | async)?.max | priceConversion:5:2}}
+                        </span>
+                    </div>
+                    <div class="market">
+                        <span class="key">{{'LOW'|translate}}</span>
+                        <span class="value">
+                            {{(trader.marketRef | async)?.min |priceConversion:5:2}}
+                        </span>
+                    </div>
                 </div>
-                <div class="market">
-                    <span class="key">{{'LOW'|translate}}</span>
-                    <span class="value">
-                        {{(trader.marketRef | async)?.min |priceConversion:5:2}}
-                    </span>
+                <div>
+                    <div class="market">
+                        <span class="key">
+                            <!-- {{((trader.marketRef | async)?.instSymbol || 'PRICE') | translate}} -->
+                            {{trader.currencyToSymbol}}
+                        </span>
+                        <span class="value ">
+                            <!-- {{(trader.marketRef | async)?.instPrice | numberUnitFormat:false:2:5}} -->
+                            {{trader.currencyPrice | numberUnitFormat:false:2:2}}
+                        </span>
+                    </div>
+                    <div class="market">
+                        <span class="key">{{'VOL'|translate}}</span>
+                        <span class="value">
+                            {{(trader.marketRef | async)?.todayAmount | quantityConversion | priceConversion:5:2}}
+                        </span>
+                    </div>
                 </div>
-            </div>
-            <div>
-                <div class="market">
-                    <span class="key">
-                        <!-- {{((trader.marketRef | async)?.instSymbol || 'PRICE') | translate}} -->
-                        {{trader.currencyToSymbol}}
-                    </span>
-                    <span class="value {{(trader.marketRef | async)?.range|riseOrFall}}">
-                        <!-- {{(trader.marketRef | async)?.instPrice | numberUnitFormat:false:2:5}} -->
-                        {{trader.currencyPrice | numberUnitFormat:false:2:2}}
-                    </span>
+                <div>
+                    <div style="text-align: center;padding-top: 1.4rem;" *ngIf='trader?.productStatus != "002"'>交易暂停</div>
+                    <!-- <realtime-report [hidden]='trader?.productStatus != "002"' [echartsData]="trader?.reportRef | async" [riseOrFall]="(trader.marketRef | async)?.range|riseOrFall" [options]="realtimeOptions">
+                    </realtime-report> -->
                 </div>
-                <div class="market">
-                    <span class="key">{{'VOL'|translate}}</span>
-                    <span class="value">
-                        {{(trader.marketRef | async)?.todayAmount | quantityConversion | priceConversion:5:2}}
-                    </span>
-                </div>
-            </div>
-            <div>
-                <div style="text-align: center;padding-top: 1.4rem;" *ngIf='trader?.productStatus != "002"'>交易暂停</div>
-                <!-- <realtime-report [hidden]='trader?.productStatus != "002"' [echartsData]="trader?.reportRef | async" [riseOrFall]="(trader.marketRef | async)?.range|riseOrFall" [options]="realtimeOptions">
-                </realtime-report> -->
             </div>
         </div>
     </div>

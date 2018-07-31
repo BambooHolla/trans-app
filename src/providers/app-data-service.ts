@@ -113,6 +113,7 @@ export class AppDataService {
         show_login_code: false,
         exchangeType: 1,
         hiddentext:'',
+        risefallColor: false,
     };
     private _in_storage_keys = ["products", "traderList"];
 
@@ -130,6 +131,7 @@ export class AppDataService {
     public show_login_code;
     public exchangeType;
     public hiddentext;
+    public risefallColor;
 
     //缓存产品信息
     public products: Map<string, AnyObject>;

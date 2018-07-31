@@ -24,11 +24,11 @@
 @each $color-name, $color-value in $colors {
     .color-#{$color-name} {
         color: color($colors, $color-name);
-    }
-
+    } 
     .bg-color-#{$color-name} {
         background-color: color($colors, $color-name);
     }
+    
 }
 
 body {
