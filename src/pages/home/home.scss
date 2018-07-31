@@ -49,6 +49,9 @@ page-home {
             color: color($colors, special);
             font-size: 1.6rem;
             margin-bottom: 2rem;
+            .currency-box { 
+                height: 1.2rem;
+            }
             div {
                 font-size: 1.2rem;
                 color: color($colors, middark); 

@@ -185,8 +185,12 @@ export class SubmitRealInfoPage extends SecondLevelPage {
         });
         imageTaker.present();
     }
-    @asyncCtrlGenerator.loading("UPLOAD_PHOTO")
-    @asyncCtrlGenerator.error("UPLOAD_PHOTO_FAIL")
+    @asyncCtrlGenerator.loading(() =>
+        SubmitRealInfoPage.getTranslateSync("UPLOAD_PHOTO") 
+    )
+    @asyncCtrlGenerator.error(() =>
+        SubmitRealInfoPage.getTranslateSync("UPLOAD_PHOTO_FAIL") 
+    )
     async updateImage(
         fid_promise: Promise<any>,
         image: typeof SubmitRealInfoPage.prototype.images[0],
@@ -235,8 +239,12 @@ export class SubmitRealInfoPage extends SecondLevelPage {
     }
 
     @asyncCtrlGenerator.loading()
-    @asyncCtrlGenerator.error("SUBMIT_FAIL")
-    @asyncCtrlGenerator.success("SUBMIT_VERIFYING_APPLICATION_SUCCESSFULLY")
+    @asyncCtrlGenerator.error(() =>
+        SubmitRealInfoPage.getTranslateSync("SUBMIT_FAIL") 
+    )
+    @asyncCtrlGenerator.success(() =>
+        SubmitRealInfoPage.getTranslateSync("SUBMIT_VERIFYING_APPLICATION_SUCCESSFULLY") 
+    )
     submitForm() {
         let media = this.images.map(im => im.fid).filter(v => v);
         if (media.length !== this.images.length) {

@@ -635,3 +635,12 @@ ion-label[pad] {
         transform: translateX(0);
     }
 }
+.follow-parent-ani {
+    animation-duration: inherit;
+    animation-timing-function: inherit;
+    animation-iteration-count: inherit;
+    animation-delay: inherit;
+    animation-fill-mode: inherit;
+    animation-play-state: inherit;
+    animation-direction: inherit;
+}

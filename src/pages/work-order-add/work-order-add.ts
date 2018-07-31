@@ -188,8 +188,13 @@ export class WorkOrderAddPage extends SecondLevelPage {
         imageTaker.present();
     }
 
-    @asyncCtrlGenerator.loading("UPLOAD_PHOTO")
-    @asyncCtrlGenerator.error("UPLOAD_PHOTO_FAIL")
+
+    @asyncCtrlGenerator.loading(() =>
+        WorkOrderAddPage.getTranslateSync("UPLOAD_PHOTO") 
+    )
+    @asyncCtrlGenerator.error(() =>
+        WorkOrderAddPage.getTranslateSync("UPLOAD_PHOTO_FAIL") 
+    )   
     async updateImage(
         fid_promise: Promise<any>,
         image: typeof WorkOrderAddPage.prototype.images[0],
@@ -281,8 +286,12 @@ export class WorkOrderAddPage extends SecondLevelPage {
         return new Blob([ia], { type: mimeString });
     }
     @asyncCtrlGenerator.loading()
-    @asyncCtrlGenerator.error("SUBMIT_WORK_ORDER_FAIL")
-    @asyncCtrlGenerator.success("SUBMIT_WORK_ORDER_SUCCESSFULLY")
+    @asyncCtrlGenerator.error(() =>
+        WorkOrderAddPage.getTranslateSync("SUBMIT_WORK_ORDER_FAIL") 
+    )
+    @asyncCtrlGenerator.success(() =>
+        WorkOrderAddPage.getTranslateSync("SUBMIT_WORK_ORDER_SUCCESSFULLY") 
+    )
     submitForm() {
         if (this.telOrEmail) {
             return Promise.reject(

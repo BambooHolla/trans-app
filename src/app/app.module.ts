@@ -5,7 +5,9 @@ import { HttpClient, HttpClientModule } from "@angular/common/http";
 import { HttpModule } from "@angular/http";
 
 import { IonicApp, IonicModule, IonicErrorHandler } from "ionic-angular";
+
 import { IonicStorageModule } from "@ionic/storage";
+import { Toast } from "@ionic-native/toast";
 
 import "intl";
 import "intl/locale-data/jsonp/en";
@@ -180,7 +182,8 @@ import { CryptoService } from "../providers/crypto-service";
 import { SwitchNetworkPage } from "../pages/switch-network/switch-network";
 import { GestureLockPage } from "../pages/gesture-lock/gesture-lock";
 import { CurrencyTypeListPage } from "../pages/currency-type-list/currency-type-list";
-import { Keychain } from "@ionic-native/keychain";
+
+
 
 // import { BankCode2NamePipe } from '..\pipes\bank-code2-name/bank-code2-name';
 // import { FileService } from '../providers/file.service';
@@ -378,7 +381,7 @@ export function createTranslateLoader(http: HttpClient) {
                     { component: ForgetPwdPage, name: "forget-pwd" },
                     { component: ModifyPwdPage, name: "modify-pwd" },
                     { component: RegisterPage, name: "register" },
-                    { component: GestureLockPage, name: "gesture-lock"}
+                    { component: GestureLockPage, name: "gesture-lock"},
                 ],
             },
         ),
@@ -488,7 +491,6 @@ export function createTranslateLoader(http: HttpClient) {
         CurrencyTypeListPage,
     ],
     providers: [
-        Keychain,
         AppService,
         StatusBar,
         SplashScreen,
@@ -499,6 +501,7 @@ export function createTranslateLoader(http: HttpClient) {
         AndroidPermissions,
         ScreenOrientation,
         AndroidFullScreen,
+        Toast,
         Clipboard,
         AppSettings,
         AppDataService,

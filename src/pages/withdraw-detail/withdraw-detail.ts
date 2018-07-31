@@ -120,13 +120,7 @@ export class WithdrawDetailPage extends SecondLevelPage {
     // 可用的提现地址列表
     withdraw_address_list: CryptoCurrencyModel[];
 
-    @WithdrawDetailPage.watchChange(
-        (self: WithdrawDetailPage, value: CryptoCurrencyModel) => {
-            self.formData.selected_withdraw_address_id = value
-                ? value.id
-                : undefined;
-        },
-    )
+    
     selected_withdraw_address: CryptoCurrencyModel;
     access_info: any;
     openWithdrawAddressSelector() {
@@ -195,8 +189,12 @@ export class WithdrawDetailPage extends SecondLevelPage {
     }
 
     @asyncCtrlGenerator.loading()
-    @asyncCtrlGenerator.error("CANCEL_FAIL")
-    @asyncCtrlGenerator.success("CANCEL_SUCCESSFULLY")
+    @asyncCtrlGenerator.error(() =>
+        WithdrawDetailPage.getTranslateSync("CANCEL_FAIL") 
+    )
+    @asyncCtrlGenerator.success(() =>
+        WithdrawDetailPage.getTranslateSync("CANCEL_SUCCESSFULLY") 
+    )
     cancelWithdrawAppply(transactionId?: string, id?: number) {
         return this.accountService
             .cancelWithdrawAppply({
@@ -244,14 +242,18 @@ export class WithdrawDetailPage extends SecondLevelPage {
 
     @WithdrawDetailPage.willEnter
     @asyncCtrlGenerator.loading()
-    @asyncCtrlGenerator.error("GAIN_TRANSACTION_PASSWORD_ERROR")
+    @asyncCtrlGenerator.error(() =>
+        WithdrawDetailPage.getTranslate("GAIN_TRANSACTION_PASSWORD_ERROR")
+    )
     async checkHasAccountPWD() {
         this.has_account_pwd = await this.accountService.hasAccountPwd.getPromise();
     }
 
     @WithdrawDetailPage.willEnter
     @asyncCtrlGenerator.loading()
-    @asyncCtrlGenerator.error("GAIN_DATA_ERROR")
+    @asyncCtrlGenerator.error(() =>
+        WithdrawDetailPage.getTranslate("GAIN_DATA_ERROR")
+    )
     async getAccountsInfo() {
         this.productInfo = this.navParams.get("productInfo");
         if (this.productInfo) {
@@ -390,8 +392,12 @@ export class WithdrawDetailPage extends SecondLevelPage {
         );
     }
     @asyncCtrlGenerator.loading()
-    @asyncCtrlGenerator.error("WITHDRAW_FAIL")
-    @asyncCtrlGenerator.success("WITHDRAW_SUCCESS")
+    @asyncCtrlGenerator.error(() =>
+        WithdrawDetailPage.getTranslateSync("WITHDRAW_FAIL") 
+    )
+    @asyncCtrlGenerator.success(() =>
+        WithdrawDetailPage.getTranslateSync("WITHDRAW_SUCCESS") 
+    )
     async submitWithdrawAppply() {
         await this.personalDataService.requestCertifiedStatus();
         if (!(this.personalDataService.certifiedStatus == "2")) {

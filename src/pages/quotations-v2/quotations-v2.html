@@ -1,75 +1,109 @@
-<ion-header>
-    <ion-navbar>
-        <ion-grid no-padding>
-            <ion-row class="title-header">
-                <ion-col class="title" no-padding text-center>
-                    {{'MARKETS' | translate}}
-                </ion-col>
-                <ion-buttons [hidden]="showSearch" right padding-horizontal (click)="toShowSearch()" class="button_self">
-                    <button ion-button>
-                        <ion-icon class="large-icon" name="search"></ion-icon>
-                    </button>
-                </ion-buttons>
-                <ion-toolbar [hidden]="!showSearch" class="searchbar">
-                    <div #searchInputWrap class="searchInput">
-                        <ion-item no-padding no-lines>
-                            <ion-input #searchInput [(ngModel)]='searchInputValue' type="text" clearInput (ionChange)="search(searchInput.value)">
-                            </ion-input>
-                        </ion-item>
-                    </div>
-                    <ion-buttons right (click)="cancelFilter()">
-                        <button ion-button>{{'CANCEL'|translate}}</button>
-                    </ion-buttons>
-                </ion-toolbar>
-            </ion-row>
-            <ion-row class="products" 
-            (click)='filterMainProduct($event)'
-            >
-                <ion-col no-padding class="item-product" 
-                *ngFor="let item of appDataService.mainproducts">
-                    <span class="product-name" [class.active]="item.productName == (mainFilter|async)">
-                        {{item.productName}}
-                    </span>
-                    <!-- <span class="product-price">
-                        <span class="symbol">{{item.symbol}}</span>
-                        <span class="{{item?.range | riseOrFall}}">{{item.price | numberUnitFormat:false:2:2 || '--'}}</span>
-                    </span> -->
-                </ion-col>
-            </ion-row>
-        </ion-grid>
-    </ion-navbar>
+<ion-header class="custom-ani-header">
+        <ion-navbar id="fixedElement-title" style="position: fixed;top: 0;">
+                <ion-grid no-padding>
+                    <ion-row class="title-header">
+                        <ion-col class="title" no-padding text-center>
+                            {{'MARKETS' | translate}}
+                        </ion-col>
+                        <!-- <ion-buttons [hidden]="showSearch" right padding-horizontal (click)="toShowSearch()" class="button_self">
+                            <button ion-button>
+                                <ion-icon class="large-icon" name="search"></ion-icon>
+                            </button>
+                        </ion-buttons>
+                        <ion-toolbar [hidden]="!showSearch" class="searchbar">
+                            <div #searchInputWrap class="searchInput">
+                                <ion-item no-padding no-lines>
+                                    <ion-input #searchInput [(ngModel)]='searchInputValue' type="text" clearInput (ionChange)="search(searchInput.value)">
+                                    </ion-input>
+                                </ion-item>
+                            </div>
+                            <ion-buttons right (click)="cancelFilter()">
+                                <button ion-button>{{'CANCEL'|translate}}</button>
+                            </ion-buttons>
+                        </ion-toolbar> -->
+                    </ion-row>
+                    <!-- <ion-row class="products" 
+                    (click)='filterMainProduct($event)'
+                    >
+                        <ion-col no-padding class="item-product" 
+                        *ngFor="let item of appDataService.mainproducts">
+                            <span class="product-name" [class.active]="item.productName == (mainFilter|async)">
+                                {{item.productName}}
+                            </span> -->
+                            <!-- <span class="product-price">
+                                <span class="symbol">{{item.symbol}}</span>
+                                <span class="{{item?.range | riseOrFall}}">{{item.price | numberUnitFormat:false:2:2 || '--'}}</span>
+                            </span> -->
+                        <!-- </ion-col> -->
+                    <!-- </ion-row> -->
+                </ion-grid>
+            </ion-navbar>
+    
+    
 </ion-header>
+<ion-content class="home-contain" auto-fixed="fixedElement">
+    <ion-slides pager loop autoplay='2000' #newsSlide (ionSlideDrag)="slideDrag($event)" class="news-slides">
+            <ion-slide>
+                    <img class="logo" src="assets/images/payWishWeChatQrCode.jpg" alt="PICASSO"/>
+            </ion-slide>
+            <ion-slide>
+                    <img class="logo" src="assets/images/payWishWeChatQrCode.jpg" alt="PICASSO"/>
+            </ion-slide>
+            <ion-slide>
+                    <img class="logo" src="assets/images/payWishWeChatQrCode.jpg" alt="PICASSO"/>
+            </ion-slide>
+    </ion-slides>
 
-<ion-content class="home-contain">
-    <!-- <div *ngFor="let trader of traderList_show" class="qhd">
-        <realtime-report tappable [navPush]="tradeInterface" [navParams]="trader.traderId" [echartsData]="trader?.reportRef | async"
-            [options]="realtimeOptions">
-        </realtime-report>
-        <div class="qcont quotcont">
-            <div class="title">
-                <h6>{{trader.traderName}}</h6>
-                <span class="font-smaller">
-                    <label class="{{showData?.changeValue | riseOrFall}}">最新价 </label>
-                    {{(trader?.marketRef | async)?.price | number:'.2-5'}}
+    <div class="notice-box">
+        <span class="picasso-icon-horn"></span>
+        <ion-slides loop autoplay='4000' direction="vertical" class="notice-slides"> 
+                <ion-slide>
+                        <div>
+                            第一条公告第一条公告第一条公告第一条公告第一条公告第一条公告第一条公告第一条公告第一条公告第一条公告第一条公告第一条公告第一条公告第一条公告第一条公告第一条公告第一条公告第一条公告第一条公告第一条公告第一条公告第一条公告第一条公告第一条公告第一条公告第一条公告第一条公告第一条公告第一条公告第一条公告第一条公告第一条公告第一条公告
+                        </div>
+                </ion-slide>
+                <ion-slide>
+                        <div>
+                            第二条公告
+                        </div>
+                </ion-slide>
+                <ion-slide>
+                        <div>
+                            第三条公告
+                        </div>
+                </ion-slide>
+        </ion-slides>
+    </div>
+    <!-- <ion-navbar  id="fixedElement-title" style="position: fixed;top: 0;">
+        <ion-row class="title-header">
+            <ion-col class="title" no-padding text-center>
+                {{'MARKETS' | translate}}
+            </ion-col>
+        </ion-row>
+    </ion-navbar> -->
+    <ion-grid no-padding  id="fixedElement">
+          
+        <ion-row class="products" (click)='filterMainProduct($event)'>
+            <ion-col no-padding class="item-product" *ngFor="let item of appDataService.mainproducts;let i = index"> 
+                <span class="product-name" id="{{item.productName}}" [class.active]="item.productName == (mainFilter|async)">
+                    {{item.productName | translate}}
                 </span>
-                <span class="font-smaller">
-                    <label class="{{showData?.changeValue | riseOrFall}}">成交量 </label>
-                    {{(trader?.marketRef | async)?.amount | quantityConversion | number:'.2-5'}}
-                </span>
-            </div>
-        </div>
-    </div> -->
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+    
 
-    <ion-refresher (ionRefresh)="initTraderList($event)">
+    <!-- <ion-refresher (ionRefresh)="initTraderList($event)">
         <ion-refresher-content refreshingText="{{'UPDATING'|translate}}...">
         </ion-refresher-content>
-    </ion-refresher>
-    <div class="no-content" *ngIf="traderList?.length == 0">下拉刷新</div>
-    <div *ngFor="let trader of traderList" tappable (click)="(trader?.productStatus == '002') &&saveLastTrader(trader)" class="trader-item" [hidden]="trader.hidden">
+    </ion-refresher> -->
+    <!-- <div class="no-content fixedElement-margin-top" *ngIf="traderList?.length == 0">下拉刷新</div> -->
+    <!-- <div *ngFor="let trader of traderList" tappable (click)="(trader?.productStatus == '002') &&saveLastTrader(trader)" class="trader-item fixedElement-margin-top" [hidden]="trader.hidden"> -->
+    <div *ngFor="let trader of traderList" tappable class="trader-item fixedElement-margin-top" [hidden]="trader.hidden">
         <div class="header">
             <div class="name">
                 <!-- {{trader?.traderName}} -->
-                <span class="product-name">{{trader?.productName}}</span><span class="price-name"> / {{trader?.priceName}}</span>
+                <span class="product-name">{{trader?.productName}} / </span><span class="price-name">{{trader?.priceName}}</span>
             </div>
             <div class="price {{(trader.marketRef | async)?.range|riseOrFall}}">
                 {{(trader.marketRef | async)?.price | priceConversion:5:2 | numberFilter:false}}
@@ -114,9 +148,9 @@
                 </div>
             </div>
             <div>
-                <div style="text-align: center;" *ngIf='trader?.productStatus != "002"'>交易暂停</div>
-                <realtime-report [hidden]='trader?.productStatus != "002"' [echartsData]="trader?.reportRef | async" [riseOrFall]="(trader.marketRef | async)?.range|riseOrFall" [options]="realtimeOptions">
-                </realtime-report>
+                <div style="text-align: center;padding-top: 1.4rem;" *ngIf='trader?.productStatus != "002"'>交易暂停</div>
+                <!-- <realtime-report [hidden]='trader?.productStatus != "002"' [echartsData]="trader?.reportRef | async" [riseOrFall]="(trader.marketRef | async)?.range|riseOrFall" [options]="realtimeOptions">
+                </realtime-report> -->
             </div>
         </div>
     </div>

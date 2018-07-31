@@ -55,8 +55,13 @@ export class InviteCommissionPage {
             this.personalDataService.recommendCode;
     }
 
-    @asyncCtrlGenerator.success("COPY_SUCCESSFULLY")
-    @asyncCtrlGenerator.error("COPY_FAIL")
+    @asyncCtrlGenerator.success(() => 
+        window['language']["COPY_SUCCESSFULLY"]||"COPY_SUCCESSFULLY"
+    )
+    @asyncCtrlGenerator.error(() => 
+        window['language']["COPY_FAIL"]||"COPY_FAIL"
+    )
+    
     async copyCode(text) {
         if (!text) {
             throw new Error(

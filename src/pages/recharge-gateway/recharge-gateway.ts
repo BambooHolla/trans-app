@@ -30,7 +30,9 @@ export class RechargeGatewayPage extends SecondLevelPage {
 
     @RechargeGatewayPage.willEnter
     @asyncCtrlGenerator.loading()
-    @asyncCtrlGenerator.error("LOADING_PRODUCT_LIST_FAIL")
+    @asyncCtrlGenerator.error(() =>
+        RechargeGatewayPage.getTranslateSync("LOADING_PRODUCT_LIST_FAIL") 
+    )
     async getProducts() {
         this.product_list = await this.accountService.productList.getPromise();
     }

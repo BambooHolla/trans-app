@@ -69,10 +69,10 @@ export class TabsPage implements OnInit, AfterViewInit, AfterContentInit {
     //+from BNLC framework
 
     @ViewChild(Tabs) tabs: Tabs;
-    @ViewChild("optionalTab") optionalTab: Tab;
+    // @ViewChild("optionalTab") optionalTab: Tab;
     @ViewChild("quotationsTab") quotationsTab: Tab;
     @ViewChild("exchangeTab") tradeInterfaceTab: Tab;
-    @ViewChild("newsTab") newsTab: Tab;
+    // @ViewChild("newsTab") newsTab: Tab;
     @ViewChild("homeTab") homeTab: Tab;
     @ViewChild("maintabs") tabRef: Tabs;
     tab_list: any[];
@@ -84,17 +84,17 @@ export class TabsPage implements OnInit, AfterViewInit, AfterContentInit {
         this.tab_list = [
             this.quotationsTab,
             this.quotationsTab,
-            this.newsTab,
-            this.optionalTab,
+            // this.newsTab,
+            // this.optionalTab,
             this.homeTab,
         ];
         this.tab_names = ["quotations", "exchange", "news", "optional", "home"];
         this.tab_should_login = ["optional", "home"];
         this.tab_map = new Map();
-        this.tab_map.set("optionalTab", this.optionalTab);
+        // this.tab_map.set("optionalTab", this.optionalTab);
         this.tab_map.set("quotationsTab", this.quotationsTab);
         this.tab_map.set("exchangeTab", this.tradeInterfaceTab);
-        this.tab_map.set("newsTab", this.newsTab);
+        // this.tab_map.set("newsTab", this.newsTab);
         this.tab_map.set("homeTab", this.homeTab);
     }
     tabRoute() {
@@ -222,37 +222,37 @@ export class TabsPage implements OnInit, AfterViewInit, AfterContentInit {
             this.renderer.setElementStyle(content,"margin-bottom",this.mb);
         })
     }
-
+ 
     checkPersonalStockListIsNull() {
         if (this.personalDataService.personalStockListIsNull === true) {
             this.optionalRoot = RecommendPage;
         }
 
-        this.personalDataService.personalStockListIsNull$.subscribe(result => {
-            if (this.optionalTab) {
-                const targetPage = result ? RecommendPage : OptionalPage;
-                const optionalTabRoot = this.optionalTab.root;
-                if (optionalTabRoot !== targetPage) {
-                    const direction = result ? "forward" : "back";
-                    try {
-                        this.optionalTab
-                            .getActive()
-                            .getNav()
-                            .setRoot(
-                                targetPage,
-                                {},
-                                {
-                                    direction,
-                                    animation: "ios-transition",
-                                    animate: true,
-                                },
-                            );
-                    } catch (e) {
-                        console.log(e.message || e);
-                    }
-                }
-            }
-        });
+        // this.personalDataService.personalStockListIsNull$.subscribe(result => {
+        //     if (this.optionalTab) {
+        //         const targetPage = result ? RecommendPage : OptionalPage;
+        //         const optionalTabRoot = this.optionalTab.root;
+        //         if (optionalTabRoot !== targetPage) {
+        //             const direction = result ? "forward" : "back";
+        //             try {
+        //                 this.optionalTab
+        //                     .getActive()
+        //                     .getNav()
+        //                     .setRoot(
+        //                         targetPage,
+        //                         {},
+        //                         {
+        //                             direction,
+        //                             animation: "ios-transition",
+        //                             animate: true,
+        //                         },
+        //                     );
+        //             } catch (e) {
+        //                 console.log(e.message || e);
+        //             }
+        //         }
+        //     }
+        // });
     }
     queryElement(ele: HTMLElement, q: string) {
         return <HTMLElement>ele.querySelector(q)

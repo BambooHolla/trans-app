@@ -7,7 +7,7 @@ import {
     OnDestroy,
     Injector,
 } from "@angular/core";
-import { FirstLevelPage } from "../../FirsetLevelPage";
+import { FirstLevelPage } from "../../FirstLevelPage";
 
 /**
  * Generated class for the SetInputStatusDirective directive.

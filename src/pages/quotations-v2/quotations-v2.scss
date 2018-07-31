@@ -1,6 +1,12 @@
 page-quotations-v2 {
+    
     ion-header {
         background-color: color($colors, background);
+        #fixedElement-title {
+            background-color: color($colors, background);
+            opacity: 0;
+            visibility: hidden;
+        }
         .title-header {
             position: relative;
             // height: 5.8rem;
@@ -106,6 +112,168 @@ page-quotations-v2 {
         // }
     }
     ion-content {
+        background-color: color($colors, background);
+        .news-slides {
+            height: 17rem!important;
+            width: 100%;
+            img,.slide-zoom {
+                width: 100%!important;
+                height: 100%!important;
+            }
+            .swiper-pagination-bullet-active {
+                background-color: #fff;
+            }
+        }
+        .notice-box {
+            height: 3rem; 
+            background-color: transparent;
+            span {
+                padding: 0 0.62rem 0 1.4rem;
+                color: color($colors, rise);
+                line-height: 3rem;
+                font-size: 1.8rem;
+            }
+            .notice-slides {
+                display: inline-block;
+                color: #fff;
+                width: calc(100% - 4.2rem);
+                .slide-zoom {
+                    text-align: left!important;
+                    font-size: 1.4rem;
+                    position: relative;
+                    top: -0.2rem;
+                    div {
+                        overflow: hidden;
+                        white-space: nowrap;
+                        text-overflow:ellipsis;
+                    }
+                }
+            }
+        }
+        #fixedElement {
+            background-color: color($colors, background);
+            position: relative;
+            z-index: 1000;
+            top: 0;
+            border-bottom: 0.1rem solid color($colors, rise);
+        }
+        .title-header {
+            position: relative;
+            // height: 5.8rem;
+            padding: 1.7rem 0;
+            font-size: 1.8rem;
+            line-height: 1.8rem;
+            text-align: center;
+            .title {
+                margin-right: -6rem;
+            }
+            .button_self {
+                position: absolute;
+                right: 0.1rem;
+            }
+            ion-buttons > button {
+                vertical-align: middle;
+                height: 1.6rem;
+                & > span {
+                    font-size: 1.6rem;
+                }
+            }
+        }
+        .row {
+            position: relative;
+        }
+        .toolbar-title {
+            font-size: 1.7rem;
+        }
+        .searchbar {
+            position: absolute;
+            left: 0%;
+            bottom: 0%;
+            font-size: 1.5rem;
+            .searchInput {
+                position: relative;
+                margin-left: 2.6rem;
+                transition: width 2s;
+                width: 0;
+                .clearInput {
+                    position: absolute;
+                    right: 1.1rem;
+                    top: 0.85rem;
+                }
+                ion-input {
+                    border: 0;
+                    height: 3.2rem;
+                    width: 100%;
+                    border-radius: 1.6rem;
+                    background-color: rgba(255, 255, 255, 0.12);
+                    padding: 0 0 0 3.2rem;
+                    input {
+                        margin: 0;
+                        line-height: 3.2rem;
+                    }
+                }
+            }
+            span {
+                display: inline-block;
+                width: 4.6rem;
+                margin-left: 0.5rem;
+                text-align: center;
+                // line-height: 3.2rem;
+                vertical-align: middle;
+            }
+        }
+        .products {
+            margin-top: 0.7rem;
+            height: 2.8rem;
+            font-size: 1.8rem;
+            line-height: 1.8rem;
+            text-align: center;
+            padding-bottom: 0.4rem;
+            .item-product {
+                
+                position: relative;
+               
+            }
+            .product-name {
+                padding: 0.4rem 1.6rem;
+                border-radius: 1.5rem;
+                font-weight: 100!important;
+                font-size: 1.4rem;
+                color: color($colors, middark);
+                &.active {
+                    color: color($colors, rise);
+                    font-weight: 500!important;
+                    font-size: 1.6rem;
+                    &::before {
+                        display:block;
+                        content:'';
+                        border-width:0.4rem 0.4rem 0.4rem 0.4rem;
+                        border-style:solid;
+                        border-color:transparent transparent color($colors, rise) transparent;
+                        
+                        /* 定位 */
+                        position:absolute;
+                        left:50%;
+                        transform: translateX(-50%);
+                        bottom:-0.4rem;
+                    }
+                }
+            }
+            .product-price {
+                display: inline-block;
+                width: 100%;
+                margin: 1.5rem 0 1.8rem;
+                height: 1.6rem;
+                font-size: 1.6rem;
+                line-height: 1.6rem;
+                white-space: nowrap;
+                text-align: center;
+                .symbol {
+                    color: color($colors, middark);
+                }
+            }
+        }
+       
         .disable {
             background-color: #bec3c7 !important;  
             color: white !important;
@@ -206,9 +374,13 @@ page-quotations-v2 {
             }
             .name {
                 .price-name {
-                    font-size: 1.2rem;
-                    color: #c1b17f;
+                    font-size: 1.3rem;
                 }
+            }
+            .range {
+                position: relative;
+                top: 2rem;
+                
             }
             .range .box {
                 display: inline-block;
@@ -218,6 +390,7 @@ page-quotations-v2 {
                 line-height: 2.4rem;
                 border-radius: 0.2rem;
                 background-color: #262739;
+                z-index: 10;
                 &.disable {
                     background-color: #bec3c7 !important;  
                     color: white !important;

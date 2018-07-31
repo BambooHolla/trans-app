@@ -6,7 +6,7 @@ import {
     TB_AB_Generator, 
 } from "../../bnlc-framework/providers/app-setting/app-setting";
 import { AppFetchProvider } from "../../bnlc-framework/providers/app-fetch/app-fetch";
-import { AsyncBehaviorSubject } from "../../bnlc-framework/providers/RxExtends";
+import { AsyncBehaviorSubject } from "../../bnlc-framework/RxExtends";
 
 /*
   Generated class for the AccountServiceProvider provider.
