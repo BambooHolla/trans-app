@@ -34,13 +34,13 @@
                 </ion-grid>
             </ion-item>
             <div class="register-form-item country-box">
-                <ion-select formControlName="country" interface='popover'  (ionChange)="changeCountry($event)">
+                <ion-select formControlName="country" interface='popover'  (ionChange)="changeCountry($event)"  [selectOptions]="selectOptions">
                     <ion-option *ngFor="let item of country_list" value="{{item.code}}">{{item.name}}</ion-option>
                 </ion-select>
             </div>
             <ion-item class="register-form-item country-code-box">
                 <ion-thumbnail item-start style="z-index:9999;"  *ngIf="registerType === 1">
-                        <ion-select formControlName="country" interface='popover' (ionChange)="changeCountry($event)">
+                        <ion-select formControlName="country" interface='popover' (ionChange)="changeCountry($event)"  [selectOptions]="selectOptions">
                             <ion-option *ngFor="let item of country_list" value="{{item.code}}">{{item.code}}</ion-option>
                         </ion-select>
                 </ion-thumbnail>

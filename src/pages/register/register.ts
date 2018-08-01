@@ -33,6 +33,9 @@ import { detachEmbeddedView } from "@angular/core/src/view";
     templateUrl: "register.html",
 })
 export class RegisterPage {
+    private  selectOptions = {
+        "cssClass": 'register-select'
+    };
     private registerType: number = 1;
     private country_list: any;
     // 监听输入框，用于自动判断是否存在账户，不存在的才能发送验证码
