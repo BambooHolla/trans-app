@@ -257,6 +257,11 @@ page-register {
                     &[disabled] {
                         opacity: 0.8;
                     }
+                    &.sending {
+                        background-color: transparent!important;
+                        color: color($colors, special);
+                        border: 1px solid color($colors, special); 
+                    }
                 }
                 .error-tip {
                     display: inline-block;

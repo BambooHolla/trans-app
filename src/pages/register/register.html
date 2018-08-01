@@ -34,13 +34,13 @@
                 </ion-grid>
             </ion-item>
             <div class="register-form-item country-box">
-                <ion-select formControlName="country" interface='popover'>
+                <ion-select formControlName="country" interface='popover'  (ionChange)="changeCountry($event)">
                     <ion-option *ngFor="let item of country_list" value="{{item.code}}">{{item.name}}</ion-option>
                 </ion-select>
             </div>
             <ion-item class="register-form-item country-code-box">
                 <ion-thumbnail item-start style="z-index:9999;"  *ngIf="registerType === 1">
-                        <ion-select formControlName="countryCode" interface='popover'>
+                        <ion-select formControlName="country" interface='popover' (ionChange)="changeCountry($event)">
                             <ion-option *ngFor="let item of country_list" value="{{item.code}}">{{item.code}}</ion-option>
                         </ion-select>
                 </ion-thumbnail>
@@ -66,8 +66,8 @@
             <ion-item class="register-form-item">
                 <ion-input formControlName="vcode" class="number" placeholder="{{'VERIFICATION_CODE'|translate}}">
                 </ion-input>
-                <button item-right type="button" class="send-vcode credit-submit-btn" style="z-index:9999" [disabled]="sending_vcode||resend_time_clock || check_sending_vcode" (click)="checkRegister()">
-          {{(sending_vcode?'SENDING':(resend_time_clock?(resend_time_clock+'s'):'GAIN_VERIFICATION_CODE') )   | translate}}</button>
+                <button item-right type="button" class="send-vcode credit-submit-btn" [class.sending]="resend_time_clock" style="z-index:9999" [disabled]="sending_vcode||resend_time_clock || check_sending_vcode" (click)="checkRegister()">
+          {{(sending_vcode?'SENDING':(resend_time_clock? "重新发送("+(resend_time_clock+'s')+")":'GAIN_VERIFICATION_CODE') )   | translate}}</button>
             </ion-item>
             <ion-item class="register-form-item">
                 <ion-input formControlName="password" class="password" type="password" placeholder="{{'LOGIN_PASSWORD'|translate}}" (input)="validatePWD()">

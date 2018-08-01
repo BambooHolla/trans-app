@@ -43,7 +43,6 @@ export class RegisterPage {
     registerForm: FormGroup = new FormGroup({
         // myContry: new FormControl('1002'),
         country: new FormControl(),
-        countryCode: new FormControl(),
         customerId: new FormControl({ value: "", disabled: false }, [
             Validators.maxLength(256),
             // (data => {
@@ -94,9 +93,6 @@ export class RegisterPage {
     }
     get form_country() {
         return this.registerForm.get('country')
-    }
-    get form_countryCode() {
-        return this.registerForm.get('countryCode')
     }
     get form_recommendCode() {
         return this,this.registerForm.get('recommendCode');
@@ -188,7 +184,6 @@ export class RegisterPage {
     }
     ionViewDidLoad() {
         this.form_country.setValue('+86')
-        this.form_countryCode.setValue('+86')
     }
 
     registering = false;
@@ -236,7 +231,7 @@ export class RegisterPage {
                     ] || "请填写手机号/邮箱",
                 );
             }
-            const _customerId = (this.registerType ? this.form_countryCode.value + " " : '') + this.form_customerId.value;
+            const _customerId = (this.registerType ? this.form_country.value + " " : '') + this.form_customerId.value;
             await this.registerService.sendSMSCode(
                 _customerId,
                 undefined,
@@ -414,6 +409,9 @@ export class RegisterPage {
         this.resend_time_clock = 0;
         clearInterval(this._resend_time_clock_ti);
         this.sending_vcode = false;
+    }
+    changeCountry($event) {
+        this.form_country.setValue($event)
     }
     goLogin() {
         this.navCtrl
