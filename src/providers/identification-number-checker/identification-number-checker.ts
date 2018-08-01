@@ -213,7 +213,9 @@ export class IdentificationNumberCheckerProvider {
     // 土耳其语(土耳其)	tr-tr		捷克语(捷克共和国)	cs-cz
     // 斯洛文尼亚语		sl-sl		波兰语(波兰)		pl-pl
     // 瑞典语(瑞典)		sv-se		西班牙语(智利)
-    private _PHONES_AND_EMAIL_EXP = {
+    private _PHONES_AND_EMAIL_EXP = [{
+        email: /^([0-9A-Za-z\-_\.]+)@([0-9a-z]+\.[a-z]{2,3}(\.[a-z]{2})?)$/,
+    },{
         "ar-DZ": /^(\+?213|0)(5|6|7)\d{8}$/,
         "ar-SY": /^(!?(\+?963)|0)?9\d{8}$/,
         "ar-SA": /^(!?(\+?966)|0)?5\d{8}$/,
@@ -249,14 +251,13 @@ export class IdentificationNumberCheckerProvider {
         "vi-VN": /^(\+?84|0)?((1(2([0-9])|6([2-9])|88|99))|(9((?!5)[0-9])))([0-9]{7})$/,
         "zh-CN": /^(\+?0?86\-?)?1[345789]\d{9}$/,
         "zh-TW": /^(\+?886\-?|0)?9\d{8}$/,
-        email: /^([0-9A-Za-z\-_\.]+)@([0-9a-z]+\.[a-z]{2,3}(\.[a-z]{2})?)$/,
-    };
+    }];
 
-    checkIphone(iphone) {
+    checkFormat(iphone,type) {
         let validation = false;
         if (!iphone) return false;
-        for (let iphoneExp in this._PHONES_AND_EMAIL_EXP) {
-            validation = this._PHONES_AND_EMAIL_EXP[iphoneExp].test(iphone);
+        for (let iphoneExp in this._PHONES_AND_EMAIL_EXP[type]) {
+            validation = this._PHONES_AND_EMAIL_EXP[type][iphoneExp].test(iphone);
             if (validation) break;
         }
         return validation;

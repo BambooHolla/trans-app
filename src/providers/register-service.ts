@@ -23,16 +23,25 @@ export class RegisterService {
         public alertService: AlertService,
         public appService: AppService,
         public loginService: LoginService,
-    ) {}
+    ) {
+       
+    }
     SEND_SMS_CODE_URL = `/user/sendSmsToAppointed`;
     SEND_EMAIL_CODE_URL = `/user/sendEmailCode`;
     CREATE_ACCOUNT = `/user/register`;
     AUTH_REGISTER = `/user/authRegister`;
     CHECK_REGISTER = `/user/checkregaccount`;
-
-    sendSMSCode(telephone: string, type = "201", templateType = "2001") {
+    GET_COUNTRISE = '/user/countries';
+    getCountryList() {
+        return this.appService.request(
+            RequestMethod.Get,
+            this.GET_COUNTRISE,
+            {},
+        )
+    }
+    sendSMSCode(telephone: string, type = "201", templateType = "2001", sendType: number) {
         // 如果是邮箱
-        if (this.appSettings.accountType(telephone) === 0) {
+        if (sendType === 0) {
             return this.appService.request(
                 RequestMethod.Get,
                 this.SEND_EMAIL_CODE_URL,

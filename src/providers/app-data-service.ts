@@ -133,6 +133,11 @@ export class AppDataService {
     public hiddentext;
     public risefallColor;
 
+    // 国家、区号列表
+    public COUNTRY_LIST:any = [
+        {name: "中国", code: "+86", phoneRegex: "^(\+?0?86\-?)?1[345789]\d{9}$"}
+    ];
+
     //缓存产品信息
     public products: Map<string, AnyObject>;
     productsPromise: Promise<Map<string, any>>;

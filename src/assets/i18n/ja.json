@@ -168,7 +168,7 @@
     "CONFIRM_NEW_PASSWORD":"新パスワードを確認してください",										
     "TWO_PASSWORDS_ARE_NOT_IDENTICAL_INPUT":"二回のパスワードが不一致",						
     "NEW_PASSWORD_PROMPT":"* 新しいパスワードは大文字、小文字と数字が含まれるものとする",		
-    "PASSWORD_PROMPT":"* しいパスワードは大文字、小文字と数字が含まれるものとする",							
+    "PASSWORD_PROMPT":"しいパスワードは大文字、小文字と数字が含まれるものとする",							
     "CONFIRMS":"変更を確認する",										
     "MODIFY_SUCCESSFULLY":"変更成功",										
     "PLEASE_RE_LOGIN":"ログインし直して下さい",										

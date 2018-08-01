@@ -16,48 +16,95 @@
 <ion-content no-bounce>
     <div class="register-warpper">
         <div class="logo-container">
-            <img src="assets/images/login/logo.png" alt="" class="logo">
+            <img src="assets/images/picasso-logo.png" alt="PICASSO" class="logo">
         </div>
         <form class="register-form-container" [formGroup]="registerForm" (ngSubmit)="filterRegister()" novalidate>
-            <ion-item class="register-form-item">
-                <ion-input formControlName="customerId" class="account" placeholder="{{'MOBILE_PHONE_NUMBER_EMAIL'|translate}}" (blur)='checkRegister()' (focus)="focusCustomerId()"></ion-input>
-                <div item-right class="error-tip" *ngIf="form_customerId.errors?.wrongCustomerId">
+            <ion-item class="register-form-item regiser-box">
+                <ion-grid>
+                    <ion-row>
+                        <ion-col>
+                            <span class="regiser-item" [class.active]="registerType === 1" (click)="changeRegiserType(1)">手机注册</span>
+                            <span class="regiser-bottom" [hidden]="registerType !== 1"></span>
+                        </ion-col>
+                        <ion-col>
+                            <span class="regiser-item" [class.active]="registerType === 0" (click)="changeRegiserType(0)">邮箱注册</span>
+                            <span class="regiser-bottom" [hidden]="registerType !== 0"></span>
+                        </ion-col>
+                    </ion-row>
+                </ion-grid>
+            </ion-item>
+            <div class="register-form-item country-box">
+                <ion-select formControlName="country" interface='popover'>
+                    <ion-option *ngFor="let item of country_list" value="{{item.code}}">{{item.name}}</ion-option>
+                </ion-select>
+            </div>
+            <ion-item class="register-form-item country-code-box">
+                <ion-thumbnail item-start style="z-index:9999;"  *ngIf="registerType === 1">
+                        <ion-select formControlName="countryCode" interface='popover'>
+                            <ion-option *ngFor="let item of country_list" value="{{item.code}}">{{item.code}}</ion-option>
+                        </ion-select>
+                </ion-thumbnail>
+                <!-- (blur)='checkRegister()' -->
+                <ion-input formControlName="customerId" id="customerIdInput" class="account" placeholder="{{registerType === 1?'请输入手机号码':'请输入邮箱'}}" ></ion-input>
+            </ion-item>
+            <div class="input-tip" *ngIf="!!wrongCustomerId">
+                <span class="picasso-ico-mark"></span> {{wrongCustomerId}}
+            </div>
+            <!-- <div class="input-tip" *ngIf="registerType === 0 && !!wrongCustomerId">
+                    <span class="picasso-ico-mark"></span> {{wrongCustomerId}}
+                </div> -->
+            <!-- <ion-item class="register-form-item" *ngIf="registerType === 0"> -->
+                <!-- (blur)='checkRegister()' -->
+                <!-- <ion-input formControlName="customerId" #customerIdInput class="account" placeholder="请输入邮箱"  (focus)="focusCustomerId()"></ion-input> -->
+                <!-- <div item-right class="error-tip" *ngIf="form_customerId.errors?.wrongCustomerId">
                    {{'ACCOUNT_FORMAT_EROOR_EMAIL'|translate}}
                 </div>
                 <div item-right class="error-tip" *ngIf="!form_customerId.errors?.wrongCustomerId && registerCustomerId"> 
                     {{'ACCOUNT_HAS_EXISTED'|translate}}
-                </div>
-            </ion-item>
+                </div> -->
+            <!-- </ion-item> -->
             <ion-item class="register-form-item">
                 <ion-input formControlName="vcode" class="number" placeholder="{{'VERIFICATION_CODE'|translate}}">
                 </ion-input>
-                <button item-right type="button" class="send-vcode credit-submit-btn" style="z-index:9999" [disabled]="sending_vcode||resend_time_clock || check_sending_vcode" (click)="register_step1()">
+                <button item-right type="button" class="send-vcode credit-submit-btn" style="z-index:9999" [disabled]="sending_vcode||resend_time_clock || check_sending_vcode" (click)="checkRegister()">
           {{(sending_vcode?'SENDING':(resend_time_clock?(resend_time_clock+'s'):'GAIN_VERIFICATION_CODE') )   | translate}}</button>
             </ion-item>
             <ion-item class="register-form-item">
                 <ion-input formControlName="password" class="password" type="password" placeholder="{{'LOGIN_PASSWORD'|translate}}" (input)="validatePWD()">
                 </ion-input>
-                <div item-right class="error-tip" *ngIf="form_password.errors?.minlength">
+                <!-- <div item-right class="error-tip" *ngIf="form_password.errors?.minlength">
                     {{'PASSWORD_AT_LEAST_3_DIGITS'|translate}}
                 </div>
                 <div item-right class="error-tip" *ngIf="!form_password.errors?.minlength && form_password.errors?.strengthError">
                     {{'PASSWORD_STRENGTH_DISCREPANCY'|translate}}
-                </div>
+                </div> -->
             </ion-item>
+            <div class="input-tip" *ngIf="form_password.errors?.minlength">
+                    <span class="picasso-ico-mark"></span> {{'PASSWORD_AT_LEAST_3_DIGITS'|translate}}
+                </div>
+                <div class="input-tip" *ngIf="!form_password.errors?.minlength && form_password.errors?.strengthError">
+                        <span class="picasso-ico-mark"></span>  {{'PASSWORD_PROMPT'|translate}}
+                    </div>
             <ion-item class="register-form-item">
                 <ion-input formControlName="confirPassword" class="password" type="password" placeholder="{{'CONFIRM_PASSWORD'|translate}}" (input)="validatePWD()">
                 </ion-input>
-                <div item-right class="error-tip" *ngIf="validatePWD_switch">
+                <!-- <div item-right class="error-tip" *ngIf="validatePWD_switch">
                     {{'TWO_PASSWORDS_ARE_NOT_IDENTICAL_INPUT'|translate}}
-                </div>
+                </div> -->
             </ion-item>
-            <ion-item class="register-form-item">
-                <ion-input formControlName="recommendCode" class="password" placeholder="{{'OPTIONAL_REFERRER'|translate}}">
+                    <div class="input-tip" *ngIf="validatePWD_switch">
+                            <span class="picasso-ico-mark"></span>  {{'TWO_PASSWORDS_ARE_NOT_IDENTICAL_INPUT'|translate}}
+                        </div>
+            <ion-item class="register-form-item recommend-code">
+                <ion-thumbnail item-start style="z-index:9999;">
+                       <span>选填 :</span>
+                </ion-thumbnail>
+                <ion-input formControlName="recommendCode" class="password" placeholder="推荐人/邀请码">
                 </ion-input>
             </ion-item>
-            <div item-right class="pwd-strength">
+            <!-- <div item-right class="pwd-strength">
                 {{'PASSWORD_PROMPT'|translate}}
-            </div>
+            </div> -->
             <div class="register-agree-protocol">
                 <ion-checkbox color="dark" formControlName="protocolAgree" #agreement></ion-checkbox>
                 <p class="protocol-checkbox" >
@@ -67,6 +114,14 @@
             <button ion-button class="register-form-submit" type="submit" [disabled]="registerForm.invalid || !agreement.value || !appDataService.ready || registering || validatePWD_switch">
         {{'REGISTER'|translate}}
       </button>
+            <div class="country-tips">
+                <span class="tips-label">注：</span>
+                <span class="tips-txt">国家或地址注册后不可修改，请谨慎填写！</span>
+            </div>
+            <div class="login-line">
+                已有账户？
+                <a class="go-login" (click)="goLogin()">立即登录</a>
+            </div>
         </form>
     </div>
 </ion-content>

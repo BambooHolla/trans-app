@@ -75,6 +75,24 @@
 
 .picasso-ico-triangle-up:before { content: "\e78f"; }
 
+/* 圆圈+! */
+@font-face {font-family: "picasso-ico-mark";
+  src: url('iconfont.eot?t=1533117607258'); /* IE9*/
+  src: url('iconfont.eot?t=1533117607258#iefix') format('embedded-opentype'), /* IE6-IE8 */
+  url('data:application/x-font-woff;charset=utf-8;base64,d09GRgABAAAAAAUkAAsAAAAAB5AAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAABHU1VCAAABCAAAADMAAABCsP6z7U9TLzIAAAE8AAAARAAAAFZW7kkOY21hcAAAAYAAAABeAAABhp3IBr5nbHlmAAAB4AAAAVQAAAF4nD8MNGhlYWQAAAM0AAAALwAAADYSLo9LaGhlYQAAA2QAAAAcAAAAJAfeA4RobXR4AAADgAAAAAwAAAAMC+kAAGxvY2EAAAOMAAAACAAAAAgAdgC8bWF4cAAAA5QAAAAfAAAAIAESAF1uYW1lAAADtAAAAUUAAAJtPlT+fXBvc3QAAAT8AAAAJgAAADc441DkeJxjYGRgYOBikGPQYWB0cfMJYeBgYGGAAJAMY05meiJQDMoDyrGAaQ4gZoOIAgCKIwNPAHicY2Bk/sE4gYGVgYOpk+kMAwNDP4RmfM1gxMjBwMDEwMrMgBUEpLmmMDgwVDxXYW7438AQw9zA0AAUZgTJAQAmHAyReJzFkMENgDAMAy9t6QMxRh88GIgXc3TjjlFMKA8mqCXHimMpUYAFiOIhJrAL48Ep19yPrO4nz2SpEait9K7+U0U0y65BJTMNNm/1H5vXfXT6CnVQJ7byknADrLsMIwAAeJxNjztPwlAYhr/vnJ623FppaU8pt5YCR4MSuQiDERYTr4OJk6OTk64sDiwmDg6ursbEhMnRgYVJ/4UY/RmmWGI0vnnyLu+7PMAA5u90Qh0wYRmasA1HACjXsayRAvqi0yB1tHxm8YxGRSB8JSg36BbyspyxW91OjcuKrKOGRWz7ra5oEIEbnT7ZxJZdQMzm3GOjmjfoLcYdUbwK98k9WqUgr/fXwr3VQablmeowaRhZw7hRZcZUQiRdw3Nux1gsLocPTHetSWmFlDCZFe7hScrLGafXnYtClccQRyM0c572OEi76YhL1zaNrLKUUh03FVQyOPxMOGayUPuAKFLk+kxf6S4kgIMHlYUpKDbwLvRqQBso+tgrItdQ/OpRs20SmIZzxhCnU0TGwvl0PJOk2finHd9f9/2DdJ/TncX27/v19Pcaz968pheBL+EZ3n0DkPlL5nicY2BkYGAA4jkfHH3j+W2+MnCzMIDA9falyxH0/x0sDMweQC4HAxNIFABDPwsvAHicY2BkYGBu+N/AEMPCAAJAkpEBFTADAEcJAmwEAAAAA+kAAAQAAAAAAAAAAHYAvHicY2BkYGBgZghkYGUAASYg5gJCBob/YD4DABD3AXAAeJxlj01OwzAQhV/6B6QSqqhgh+QFYgEo/RGrblhUavdddN+mTpsqiSPHrdQDcB6OwAk4AtyAO/BIJ5s2lsffvHljTwDc4Acejt8t95E9XDI7cg0XuBeuU38QbpBfhJto41W4Rf1N2MczpsJtdGF5g9e4YvaEd2EPHXwI13CNT+E69S/hBvlbuIk7/Aq30PHqwj7mXle4jUcv9sdWL5xeqeVBxaHJIpM5v4KZXu+Sha3S6pxrW8QmU4OgX0lTnWlb3VPs10PnIhVZk6oJqzpJjMqt2erQBRvn8lGvF4kehCblWGP+tsYCjnEFhSUOjDFCGGSIyujoO1Vm9K+xQ8Jee1Y9zed0WxTU/3OFAQL0z1xTurLSeTpPgT1fG1J1dCtuy56UNJFezUkSskJe1rZUQuoBNmVXjhF6XNGJPyhnSP8ACVpuyAAAAHicY2BigAAuBuyAmZGJkZmRhYGxgjM9Ma8kMS8jMZ+BAQAj4wRPAAA=') format('woff'),
+  url('iconfont.ttf?t=1533117607258') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+*/
+  url('iconfont.svg?t=1533117607258#iconfont') format('svg'); /* iOS 4.1- */
+}
+
+.picasso-ico-mark {
+  font-family:"picasso-ico-mark" !important;
+  font-size:1.3rem;
+  font-style:normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.picasso-ico-mark:before { content: "\e724"; }
 
 
 

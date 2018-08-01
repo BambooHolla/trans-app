@@ -1,4 +1,4 @@
-import { Component, ElementRef } from "@angular/core";
+import { Component, ElementRef, ViewChild } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 
 import {
@@ -18,6 +18,9 @@ import { IdentificationNumberCheckerProvider } from "../../providers/identificat
 import { InformationModal } from "../../modals/information-modal/information-modal";
 import { PromptControlleService } from "../../providers/prompt-controlle-service";
 import { CryptoService } from "../../providers/crypto-service";
+import { Observable } from "rxjs/Observable";
+import 'rxjs/add/observable/fromEvent';
+import { detachEmbeddedView } from "@angular/core/src/view";
 /**
  * Generated class for the RegisterPage page.
  *
@@ -30,26 +33,34 @@ import { CryptoService } from "../../providers/crypto-service";
     templateUrl: "register.html",
 })
 export class RegisterPage {
+    private registerType: number = 1;
+    private country_list: any;
+    // 监听输入框，用于自动判断是否存在账户，不存在的才能发送验证码
+    private inputStream: any;
+    // 账户格式错误显示
+    private wrongCustomerId:string;
+
     registerForm: FormGroup = new FormGroup({
         // myContry: new FormControl('1002'),
+        country: new FormControl(),
+        countryCode: new FormControl(),
         customerId: new FormControl({ value: "", disabled: false }, [
-            Validators.required,
             Validators.maxLength(256),
-            (data => {
-                this.check_sending_vcode = false;
-                if (!data.value) {
-                    this.check_sending_vcode = true;
-                    return null;
-                }
-                //如果用this.IDtye去获取，在这边会报错，get is not function
-                if (!this.idNumberChecker.checkIphone(data.value)) {
-                    this.check_sending_vcode = true;
-                    return {
-                        wrongCustomerId: true,
-                    };
-                }
-                return null;
-            }).bind(this),
+            // (data => {
+            //     this.check_sending_vcode = false;
+            //     if (!data.value) {
+            //         this.check_sending_vcode = true;
+            //         return null;
+            //     }
+            //     //如果用this.IDtye去获取，在这边会报错，get is not function
+            //     if (!this.idNumberChecker.checkIphone(data.value)) {
+            //         this.check_sending_vcode = true;
+            //         return {
+            //             wrongCustomerId: true,
+            //         };
+            //     }
+            //     return null;
+            // }).bind(this),
         ]),
         vcode: new FormControl({ value: "", disabled: false }, [
             Validators.required,
@@ -80,6 +91,15 @@ export class RegisterPage {
     }
     get form_vcode() {
         return this.registerForm.get("vcode");
+    }
+    get form_country() {
+        return this.registerForm.get('country')
+    }
+    get form_countryCode() {
+        return this.registerForm.get('countryCode')
+    }
+    get form_recommendCode() {
+        return this,this.registerForm.get('recommendCode');
     }
     validatePWD_switch = false;
     validatePWD() {
@@ -138,10 +158,39 @@ export class RegisterPage {
         //   this.registerForm.setValue(rawVal);
         // }
     }
-
-    ionViewDidLoad() {
-        console.log("ionViewDidLoad RegisterPage");
+    ionViewWillEnter() {
+        this.country_list = this.appDataService.COUNTRY_LIST;
+        const customerIdInput = this.elementRef.nativeElement.querySelector('#customerIdInput')
+        this.inputStream = Observable.fromEvent(customerIdInput, 'input')
+        .debounceTime(250)
+        .pluck('target', 'value')
+        .subscribe(data => {
+            if(!data) {
+                this.check_sending_vcode = true;
+                return this.wrongCustomerId = this.registerType ? "请输入手机号" : "请输入邮箱";
+            }
+            let _country = '';
+            if(this.registerType) {
+                _country = this.form_country.value;
+            }  
+            
+            
+            if(this.idNumberChecker.checkFormat(_country+data,this.registerType)) {
+                // this.checkRegister()
+                this.check_sending_vcode = false;
+                this.wrongCustomerId = '';
+                return ;
+            }
+            this.check_sending_vcode = true;
+            this.wrongCustomerId = this.registerType ? "手机号格式错误" : "邮箱格式错误";
+        });
+        
     }
+    ionViewDidLoad() {
+        this.form_country.setValue('+86')
+        this.form_countryCode.setValue('+86')
+    }
+
     registering = false;
 
     async init() {
@@ -177,9 +226,7 @@ export class RegisterPage {
             }
         }, 1000);
     }
-    blur_register_step1 = true;
     async register_step1() {
-        if (!this.blur_register_step1) return;
         this.sending_vcode = true;
         try {
             if (!this.registerForm.get("customerId").value) {
@@ -189,10 +236,12 @@ export class RegisterPage {
                     ] || "请填写手机号/邮箱",
                 );
             }
+            const _customerId = (this.registerType ? this.form_countryCode.value + " " : '') + this.form_customerId.value;
             await this.registerService.sendSMSCode(
-                this.registerForm.get("customerId").value,
+                _customerId,
                 undefined,
                 "1001",
+                this.registerType
             );
 
             this.tickResendTimeClock(); // 开始倒计时重新发送短信的按钮
@@ -213,7 +262,7 @@ export class RegisterPage {
         const customerId = this.form_customerId.value;
         if (
             this.appSettings.accountType(customerId) === 0 &&
-            !this.appSettings.accountEmailProposal(customerId)
+            !this.appSettings.accountEmailProposal(customerId)  
         ) {
             return this.alertCtrl
                 .create({
@@ -274,7 +323,7 @@ export class RegisterPage {
 
             this.registerService
                 .doAuthRegister(customerId, vcode, password, recommendCode)
-                .then(() => {
+                .then(() => { 
                     //注册成功，记录
                     this.appDataService.setAppRegisterLength(customerId);
 
@@ -327,11 +376,7 @@ export class RegisterPage {
         }
     }
 
-    focusCustomerId() {
-        this.blur_register_step1 = false;
-    }
-
-    registerCustomerId = false;
+    
     async checkRegister() {
         const controls = this.registerForm.getRawValue();
         const customerId = controls.customerId;
@@ -344,19 +389,35 @@ export class RegisterPage {
                 this.registerService.doCheckRegister(customerId).then(data => {
                     //账户不存在
                     if (data.status == "error") {
-                        this.blur_register_step1 = true;
-                        this.registerCustomerId = false;
                         this.register_step1();
                     }
                     //账户存在
                     if (data.status == "ok") {
-                        this.registerCustomerId = true;
+                        this.check_sending_vcode = true;
+                        this.wrongCustomerId = this.registerType ? "手机号已被注册":"邮箱已被注册";
                     }
                 });
             } catch (err) {
-                this.blur_register_step1 = true;
                 console.log("register checkRegister", err);
             }
         }
+    }
+    changeRegiserType(type:number) {
+        this.registerType = type;
+        this.form_customerId.setValue('')
+        this.form_password.setValue('')
+        this.form_confirPassword.setValue('')
+        this.form_vcode.setValue('')
+        this.form_recommendCode.setValue('');
+        this.wrongCustomerId = '';
+        this.check_sending_vcode = true;
+        this.resend_time_clock = 0;
+        clearInterval(this._resend_time_clock_ti);
+        this.sending_vcode = false;
+    }
+    goLogin() {
+        this.navCtrl
+        .pop({ animate: true })
+        
     }
 }

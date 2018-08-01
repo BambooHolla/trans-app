@@ -190,7 +190,7 @@
     "CONFIRM_NEW_PASSWORD":"Confirm new password",										
     "TWO_PASSWORDS_ARE_NOT_IDENTICAL_INPUT":"Two passwords are not identical",										
     "NEW_PASSWORD_PROMPT":"* New password must include capital letter, lowercase and number",	
-    "PASSWORD_PROMPT":"* Password must include capital letter, lowercase and number",										
+    "PASSWORD_PROMPT":"Password must include capital letter, lowercase and number",										
     "CONFIRMS":"Confirm",										
     "MODIFY_SUCCESSFULLY":"Modify successfully",										
     "PLEASE_RE_LOGIN":"Please re-login",										

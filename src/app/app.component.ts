@@ -39,6 +39,8 @@ import { AlertService } from "../providers/alert-service";
 import { GestureLockPage } from "../pages/gesture-lock/gesture-lock";
 import { Storage } from "@ionic/storage";
 import { AccountServiceProvider } from "../providers/account-service/account-service";
+import { ContactStatus } from "../providers/work-order-service/work-order-service";
+import { RegisterService } from "../providers/register-service";
 
 
 @Component({
@@ -98,6 +100,7 @@ export class PicassoApp {
         public storage: Storage,
         public toast: Toast,
         public actionSheetCtrl: ActionSheetController,
+        public registerService: RegisterService,
         
     ) {
         // let title:string = '';
@@ -118,6 +121,8 @@ export class PicassoApp {
             this.appDataService.version
         ) {
             this.appDataService.version = this.appDataService.APP_VERSION;
+            // 版本更新，清除缓存的国家数据
+            this.storage.remove('COUNTRY_LIST')
             //获取保存的用户账号
             let customerId = this.appDataService.customerId;
             //清空登入信息,保留用户账号
@@ -135,6 +140,22 @@ export class PicassoApp {
                 }
             })
         }
+        this.storage.get('COUNTRY_LIST').then( data => {
+            if(data) {
+                this.appDataService.COUNTRY_LIST = data;
+            } else {
+                this.registerService.getCountryList().then( data => {
+                    const _countrys = [];
+                    for (let key in data ) {
+                        _countrys.push(data[key])
+                    }
+                    this.appDataService.COUNTRY_LIST = _countrys;
+                    this.storage.set("COUNTRY_LIST",_countrys)
+                }).catch( data => {
+                    
+                })
+            }
+        })
         
         window["ac"] = this;
         window["clipboard"] = clipboard;
@@ -343,10 +364,10 @@ export class PicassoApp {
 
         // //开始判断，调整状态栏
         // this.tryOverlaysWebView(3);
-        // //使用异步保证页面元素准备就绪
-        // setTimeout(() => {
-        //     this.splashScreen.hide();
-        // }, 500);
+        //使用异步保证页面元素准备就绪
+        setTimeout(() => {
+            this.splashScreen.hide();
+        }, 500);
 
         // translate.setDefaultLang('zh_CN');
 

@@ -190,7 +190,7 @@
     "CONFIRM_NEW_PASSWORD":"确认新密码",										
     "TWO_PASSWORDS_ARE_NOT_IDENTICAL_INPUT":"两次密码填写不一致",						
     "NEW_PASSWORD_PROMPT":"* 新密码需包含大写字母，小写字母和数字",		
-    "PASSWORD_PROMPT":"* 密码需包含大写字母，小写字母和数字",							
+    "PASSWORD_PROMPT":"密码需包含大写字母，小写字母和数字",							
     "CONFIRMS":"确定修改",										
     "MODIFY_SUCCESSFULLY":"修改成功",										
     "PLEASE_RE_LOGIN":"请重新登录",										

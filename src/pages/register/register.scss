@@ -1,4 +1,5 @@
 page-register {
+    
     .paddingfix {
         padding-top: $cordova-ios-statusbar-padding;
     }
@@ -17,7 +18,7 @@ page-register {
         background-color: transparent;
         border: none; // transform: scale(0.9);
         // transform-origin: 0;
-        margin-top: 1rem;
+        // margin-top: 1rem;
         .item-inner {
             border: none;
         }
@@ -35,8 +36,9 @@ page-register {
                 box-sizing: border-box;
                 &.checkbox-checked {
                     border-color: #c1b17f; // background-color: #c1b17f;
+                    background-color: #c1b17f; 
                     .checkbox-inner {
-                        border-color: #c1b17f;
+                        border-color: #fff;
                         transform: scale(1.2) rotate(45deg);
                         top: 3px;
                         left: 6px;
@@ -108,25 +110,105 @@ page-register {
         top: 0;
         left: 0;
     }
+    ion-content {
+        background-color: transparent!important; 
+    }
     .register-warpper {
         display: flex;
         align-content: center;
         justify-content: center;
         flex-direction: column;
+        ion-thumbnail {
+            margin: 0!important; 
+            min-height: auto!important; 
+            font-size: 1.5rem; 
+        }
         .logo-container {
-            height: 16.5vh;
-            margin-top: 13.5vh;
-            max-height: 150px;
+            height: 10.25vh;
+            margin-top: 10vh;
+            margin-bottom: 1.4rem;
+            max-height: 145px;
             display: flex;
             justify-content: center;
             img {
                 height: 100%;
             }
         }
+        .regiser-box {
+            text-align: center;
+            background-color: transparent!important; 
+            ion-col {
+                position: relative;
+            }
+            .item-inner {
+                padding: 0; 
+                .label-ios {
+                    margin: 0; 
+                }
+            }
+            .regiser-item {
+                font-weight: 400; 
+            }
+            .active {
+                color: #c1b17f;
+            }
+            .regiser-bottom {
+                display: block;
+                border-radius: 5px;
+                width: 48px; 
+                height: 2px;
+                background-color: #c1b17f;
+                margin: 0.5rem auto 0; 
+            }
+        }
+        .country-box {
+            background-color: transparent!important; 
+            font-size: 1.6rem;
+            ion-select {
+                display: inline-block;
+                width: auto;
+                padding: 0;
+                .select-text {
+                padding: 0 1.1rem; 
+                }
+                .select-text,.select-icon {
+                    display: inline-block; 
+                }
+
+            }
+            .select-icon-inner {
+                left: 0;
+            }
+        }
+        .country-code-box {
+            ion-thumbnail {
+                .select-text {
+                    overflow: visible;
+                    line-height: 1.5rem; 
+                    padding: 0 .8rem 0 1.1rem;
+                }
+            }
+            .select-icon-inner {
+                left: 0;
+            }
+        }
+        .recommend-code {
+            span {
+                padding-left: 1.1rem;
+            }
+            input {
+                padding-left: 0!important; 
+            }
+        }
         .register-form-container {
-            padding: 4vh 12.5vw 5vh;
+            padding: 1vh 12.5vw 5vh;
             display: flex;
             flex-direction: column;
+            .input-tip {
+                text-align: right;
+                color: #c1b17f;
+                font-size: 1.2rem;
+            }
             .register-form-item {
                 background-color: rgba(0, 0, 0, 0.2);
                 border-radius: 0.4rem;
@@ -204,6 +286,41 @@ page-register {
                 margin: 0.5rem 0 0;
                 font-size: 1rem;
             }
+            .country-tips {
+                margin-top: 1.2rem;
+                font-size: 1.3rem;
+                font-weight: 400;
+                text-align: center;
+                .tips-label {
+                    color: #c1b17f;
+                }
+            }
+            .login-line {
+                margin-top: 1.2rem;
+                align-self: center;
+                position: relative;
+                font-size: 1.4rem; 
+                color: #6d6d6d;
+                .go-login {
+                    color: #c1b17f;
+                }
+                &::after,
+                &::before {
+                    content: "";
+                    height: 0.155rem;
+                    width: 0.155rem;
+                    background: #fff;
+                    border-radius: 50%;
+                    position: absolute;
+                    top: 50%;
+                } 
+                &::before {
+                    left: -1rem;
+                }
+                &::after {
+                    right: -1rem;
+                }
+            }
         }
     }
     // 表单校验的样式
@@ -218,4 +335,18 @@ page-register {
 }
 .alter-right-button {
     font-weight: 400 !important;
+}
+.select-popover {
+    .popover-content {
+        width: auto!important;
+        left:6.25vw!important;
+        
+    }
+    .input-wrapper {
+        .label {
+            text-align: left!important;
+            margin-left: 0!important;
+            margin-right: 0!important;
+        }
+    }
 }

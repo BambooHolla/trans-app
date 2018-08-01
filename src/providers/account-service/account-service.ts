@@ -141,7 +141,7 @@ export class AccountServiceProvider {
             .get<CryptoCurrencyModel[]>(this.GET_WITHDRAW_ADDRESS, {
                 search: {
                     pageSize: 50,
-                    paymentOrganization: productId,
+                    productId: productId,
                     paymentCategory: PaymentCategory.Withdraw,
                 },
             })
