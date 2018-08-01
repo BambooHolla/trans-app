@@ -91,6 +91,7 @@ export class ForgetPwdPage {
         if (customerId) {
             rawVal.customerId = customerId;
             this.forgetPWDForm.setValue(rawVal);
+            this.checkRegister()
         }
     }
 
