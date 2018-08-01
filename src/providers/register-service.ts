@@ -39,9 +39,19 @@ export class RegisterService {
             {},
         )
     }
-    sendSMSCode(telephone: string, type = "201", templateType = "2001", sendType: number) {
+    sendSMSCode(telephone: string, type = "201", templateType = "2001", sendType?: number) {
         // 如果是邮箱
         if (sendType === 0) {
+            return this.appService.request(
+                RequestMethod.Get,
+                this.SEND_EMAIL_CODE_URL,
+                {
+                    email: telephone,
+                    type,
+                },
+            );
+        }
+        if(this.appSettings.accountType(telephone) === 0) {
             return this.appService.request(
                 RequestMethod.Get,
                 this.SEND_EMAIL_CODE_URL,
