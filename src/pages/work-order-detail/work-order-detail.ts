@@ -205,6 +205,13 @@ export class WorkOrderDetailPage extends SecondLevelPage
      */
     // is_force_to_bottom = false;
 
+    submitSend() {
+        const { chat_content } = this;
+        if(chat_content.trim()) {
+            this.sendChat()
+        }
+    }
+
     @asyncCtrlGenerator.loading()
     @asyncCtrlGenerator.error(() =>
         WorkOrderDetailPage.getTranslateSync("SENDING_ERROR") 
