@@ -126,7 +126,7 @@ page-quotations-v2 {
             background-color: transparent;
             span {
                 padding: 0 0.62rem 0 1.4rem;
-                color: color($colors, rise);
+                color: color($colors, special);
                 line-height: 3rem;
                 font-size: 1.8rem;
             }
@@ -152,7 +152,7 @@ page-quotations-v2 {
             position: relative;
             z-index: 1000;
             top: 0;
-            border-bottom: 0.1rem solid color($colors, rise);
+            border-bottom: 0.1rem solid color($colors, special);
         }
         .title-header {
             position: relative;
@@ -195,15 +195,15 @@ page-quotations-v2 {
                 font-size: 1.6rem;
                 color: color($colors, middark);
                 &.active {
-                    color: color($colors, rise);
+                    color: color($colors, special);
                     font-weight: 500!important;
                     font-size: 1.8rem;
                     &::before {
                         display:block;
                         content:'';
-                        border-width:0.4rem 0.4rem 0.4rem 0.4rem;
+                        border-width: 8px 8px 8px 8px;
                         border-style:solid;
-                        border-color:transparent transparent color($colors, rise) transparent;
+                        border-color:transparent transparent color($colors, special) transparent;
                         
                         /* 定位 */
                         position:absolute;
@@ -364,7 +364,7 @@ page-quotations-v2 {
                     &::before {
                         display:block;
                         content:'';
-                        border-width:0.4rem 0.4rem 0.4rem 0.4rem;
+                        border-width: 10px 10px 10px 10px;
                         border-style:solid;
                         border-color:transparent transparent color($colors, rise) transparent;
                         

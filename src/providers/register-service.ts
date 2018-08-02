@@ -105,6 +105,8 @@ export class RegisterService {
         code: string,
         password: string,
         recommendCode: string,
+        accType: string|number,
+        country: string,
         timeZone?: string,
     ) {
         let app_geolocation: any = await this.appDataService.getAppCoords();
@@ -112,7 +114,8 @@ export class RegisterService {
         return this.appService
             .request(RequestMethod.Post, this.AUTH_REGISTER, {
                 //type:int 0表示邮箱,1表示手机
-                type: this.appSettings.accountType(account),
+                accType,
+                country, 
                 account,
                 code,
                 password,

@@ -140,6 +140,7 @@ export class PicassoApp {
                 }
             })
         }
+        // this.storage.remove('COUNTRY_LIST')
         this.storage.get('COUNTRY_LIST').then( data => {
             if(data) {
                 this.appDataService.COUNTRY_LIST = data;
@@ -147,6 +148,8 @@ export class PicassoApp {
                 this.registerService.getCountryList().then( data => {
                     const _countrys = [];
                     for (let key in data ) {
+
+                        data[key]['ab'] = key; 
                         _countrys.push(data[key])
                     }
                     this.appDataService.COUNTRY_LIST = _countrys;

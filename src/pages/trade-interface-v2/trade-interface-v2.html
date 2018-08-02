@@ -20,7 +20,7 @@
 			<!-- </button> -->
 		<!-- </ion-buttons> -->
 	</ion-navbar>
-	<div class="position">
+	<!-- <div class="position">
 		<div class="trader">
 			<div>
 				<span class="label">{{'AVAILABLE'|translate}}{{productName || '--'}}&nbsp;</span>
@@ -36,7 +36,7 @@
 			<div>{{appDataService?.hiddentext || (personalAssets?.asset?.total || '--' | quantityConversion | numberUnitFormat:true:false:12)}}</div>
 			<div class="visible" [class.on]="!appDataService?.hiddentext" [class.off]="!!appDataService?.hiddentext" (click)="toggleVisible($event)"></div>
 		</div>
-	</div>
+	</div> -->
 </ion-header>
 
 <ion-content no-bounce class="home-contain" id="scroll-content-nonepadding">
@@ -48,7 +48,7 @@
 
 	<div class="market">
 		<div class="market-head">
-			<div>
+			<!-- <div>
 				<div class="market-items">
 					<span class="market-label">{{'HIGH'|translate}}</span>
 					<span>{{(_baseData$ | async)?.max | priceConversion:6 | numberFilter:true}}</span>
@@ -57,12 +57,12 @@
 					<span class="market-label">{{'LOW'|translate}}</span>
 					<span>{{(_baseData$ | async)?.min | priceConversion:6 | numberFilter:true}}</span>
 				</div>
-			</div>
+			</div> -->
 			<div class="price {{(_baseData$ | async)?.range | riseOrFall}}">
 				{{(_baseData$ | async)?.price | priceConversion:5 | numberFilter:false}}
-				<span><i class="picasso-icon-about"></i> {{currencyPrice| priceConversion:5 | numberFilter:false}} {{appDataService.CURRENCY_INFO?.currencyTo}}</span>
+				<span><i class="picasso-icon-about"></i> {{currencyPrice| priceConversion:5 | numberFilter:false}} <span class="unit">{{appDataService.CURRENCY_INFO?.currencyTo}}</span></span>
 			</div>
-			<div>
+			<!-- <div>
 				<div class="market-items right">
 					<span class="{{(_baseData$ | async)?.range | riseOrFall}}">{{(_baseData$ | async)?.range | percent:'1.0-2' | positiveSign}}</span>
 					<span class="market-label">{{'RANGE'|translate}}</span>
@@ -71,9 +71,10 @@
 					<span>{{(_baseData$ | async)?.todayAmount | quantityConversion | numberUnitFormat:true:true:6}}</span>
 					<span class="market-label">{{'VOL'|translate}}</span>
 				</div>
-			</div>
+			</div> -->
 		</div>
 		<div class="market-body">
+
 			<!-- <div class="bets">
 				<div *ngFor="let data of _depth$ | async as depths ; let i = index;" class="bets-row {{i<=depths.length/2? 'sale': 'buy'}}"
 				 [hidden]="!(i<depths.length/2)" tappable (click)="setPrice(data?.price)">
@@ -95,22 +96,32 @@
 				</div>
 			</div>
 			<div style="clear:both"></div> -->
+			<div class="bet-bottom-shadow"></div>
 			<div class="bets-group">
-				<div *ngFor="let item of saler ; let i = index;" class="bet"
-				 tappable (click)="setPrice(sale_depth[i]?.price)">
-				<div class="bet-label sale" [class.size-1rem]="size_1rem">{{item}}</div>
-					<div class="bet-price sale depth-div" [class.size-1rem]="size_1rem">{{sale_depth[i]?.price || '--' | priceConversion | numberUnitFormat:true:false:8}}</div>
-					<div class="bet-amount" [class.size-1rem]="size_1rem">{{sale_depth[i]?.amount || '--' | quantityConversion | numberUnitFormat:false:true:8:8 | unitConversion }}</div>
-				</div>
-			</div>
-			<div class="bets-group">
-				<div *ngFor="let item of buyer ; let i = index;" class="bet"
-				 tappable (click)="setPrice(buy_depth[i]?.price)"> 
-					<div class="bet-label buy" [class.size-1rem]="size_1rem">{{item}}</div>
+				<div class="bet bet-left" tappable>
+					<div class="bet-label tip" [class.size-1rem]="size_1rem">挡位</div>
+						<div class="bet-price  depth-div" [class.size-1rem]="size_1rem">价格</div>
+						<div class="bet-amount tip" [class.size-1rem]="size_1rem">数量</div>
+					</div>
+				<div *ngFor="let item of buyer ; let i = index;" class="bet" tappable (click)="setPrice(buy_depth[i]?.price)"> 
+					<div class="bet-label " [class.size-1rem]="size_1rem">{{item}}</div>
 					<div class="bet-price buy depth-div" [class.size-1rem]="size_1rem">{{buy_depth[i]?.price || '--' | priceConversion:8 | numberUnitFormat:true:false:8}}</div>
 					<div class="bet-amount" [class.size-1rem]="size_1rem">{{buy_depth[i]?.amount || '--' | quantityConversion:8 | numberUnitFormat:false:true:8:8 | unitConversion}}</div>
 				</div>
 			</div>
+			<div class="bets-group">
+				<div class="bet bet-left" tappable>
+				   <div class="bet-label tip" [class.size-1rem]="size_1rem">挡位</div>
+					   <div class="bet-price depth-div" [class.size-1rem]="size_1rem">价格</div>
+					   <div class="bet-amount tip" [class.size-1rem]="size_1rem">数量</div>
+				   </div>
+				<div *ngFor="let item of saler ; let i = index;" class="bet" tappable (click)="setPrice(sale_depth[i]?.price)">
+					<div class="bet-label " [class.size-1rem]="size_1rem">{{item}}</div>
+					<div class="bet-price sale depth-div" [class.size-1rem]="size_1rem">{{sale_depth[i]?.price || '--' | priceConversion | numberUnitFormat:true:false:8}}</div>
+					<div class="bet-amount" [class.size-1rem]="size_1rem">{{sale_depth[i]?.amount || '--' | quantityConversion | numberUnitFormat:false:true:8:8 | unitConversion }}</div>
+				</div>
+			</div>
+			
 			
 		</div>
 	</div>
@@ -162,15 +173,17 @@
 	<!-- 限价交易 -->
 	<ion-grid [hidden]="appDataService.show_onestep_trade" [scroll-fix-keyboard]="content">
 		<ion-row class="entrust-type" (click)="chooseTradeType($event)">
-			<ion-col data-trade-type="0" class="sale" [class.enabled]="!(tradeType$|async)">{{'SELL'|translate}}</ion-col>
+			
+
 			<ion-col data-trade-type="1" class="buy" [class.enabled]="!!(tradeType$|async)">{{'BUY'|translate}}</ion-col>
+			<ion-col data-trade-type="0" class="sale" [class.enabled]="!(tradeType$|async)">{{'SELL'|translate}}</ion-col>
 		</ion-row>
 	</ion-grid>	
 	<ion-grid [hidden]="appDataService.show_onestep_trade" class="trinp  content-block">
-		<ion-row class="fee">
+		<!-- <ion-row class="fee">
 			<ion-icon ios="ios-alert-outline" md="ios-alert-outline"></ion-icon>
 			{{'FEE_RATE_STANDARDS'|translate}}:{{fee}}
-		</ion-row>
+		</ion-row> -->
 		<ion-row class="input-row">
 			<ion-col col-2 tappable (click)="changeByStep('price','-')">-</ion-col>
 				<ion-col col-1>
@@ -178,7 +191,7 @@
 				</ion-col>
 			<ion-col col-7>
 					<ion-item class="item-background-color">
-				<ion-input #priceInputer type="number" placeholder="{{'PRICES'|translate}}"
+				<ion-input #priceInputer type="number" placeholder="委托价格{{inputProductName?'('+inputProductName+')':''}}"
 					[(ngModel)]="price"
 					(ngModelChange)="formatNumber('price',-8)"
 					></ion-input>
@@ -192,7 +205,7 @@
 				<ion-icon name="ios-gamount" class="vertical-center"></ion-icon>
 			</ion-col>
 			<ion-col col-7>
-					<ion-item class="item-background-color"> <ion-input #amountInputer type="number" placeholder="{{'QUANTITYS'|translate}}" [(ngModel)]="amount" (ngModelChange)="formatNumber('amount')"></ion-input></ion-item>
+					<ion-item class="item-background-color"> <ion-input #amountInputer type="number" placeholder="委托数量{{inputProductName?'('+inputProductName+')':''}}" [(ngModel)]="amount" (ngModelChange)="formatNumber('amount')"></ion-input></ion-item>
 				
 			</ion-col>
 			<ion-col col-2 tappable (click)="changeByStep('amount','+')">+</ion-col>
@@ -228,7 +241,7 @@
 				block [disabled]="trading" (click)="productStatus && (!appSetting.getUserToken()? goLogin() : doTrade())">
 					{{(!appSetting.getUserToken()?
 						'LOGIN' :
-						 !!(tradeType$|async)?'DELEGATE_BUY':'DELEGATE_SELL')
+						 !!(tradeType$|async)?'BUY_IN':'SELL_OUT')
 						 | translate
 					}}
 			</button>

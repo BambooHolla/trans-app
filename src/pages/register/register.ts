@@ -312,15 +312,23 @@ export class RegisterPage {
             const password = this.cryptoService.MD5(controls.password);
             const vcode = controls.vcode;
             const recommendCode = controls.recommendCode;
+            const _countryCode = controls.country;
+            let country: string = 'CN';
             // const timeZone = (-new Date().getTimezoneOffset() / 60).toString() || "8";
             // 旧的校验方式，现在以及在输入的时候检验
             // const type = this.appSettings.accountType(customerId)
             // if(type !== 0 && type !== 1){
             //   throw { message:'请使用中国大陆手机号码或电子邮箱地址注册'}
             // }
-
-            this.registerService
-                .doAuthRegister(customerId, vcode, password, recommendCode)
+            this.appDataService.COUNTRY_LIST.find(item => {
+                if(item.code == _countryCode) {
+                    country = item.ab;
+                    return true;
+                }
+                return false;
+            });
+            this.registerService 
+                .doAuthRegister(customerId, vcode, password, recommendCode,this.registerType,country)
                 .then(() => { 
                     //注册成功，记录
                     this.appDataService.setAppRegisterLength(customerId);
@@ -415,6 +423,8 @@ export class RegisterPage {
     }
     changeCountry($event) {
         this.form_country.setValue($event)
+        this.inputStream.next(this.form_customerId.value)
+
     }
     goLogin() {
         this.navCtrl

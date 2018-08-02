@@ -49,7 +49,7 @@ export class TradeInterfaceV2Page {
     _currencyPrice:any = undefined;
     // tradeType:number = 1 //1是买,0是卖
     @ViewChild(Content) content: Content;
-
+    inputProductName:any;
     private viewDidLeave: BehaviorSubject<boolean> = new BehaviorSubject(false);
     private viewDidLeave$ = this.viewDidLeave
         .asObservable()
@@ -74,8 +74,10 @@ export class TradeInterfaceV2Page {
             this.targetName = this.productName;
             if (type === 0) {
                 rateSrc = this.sellRate;
+                this.inputProductName = this.productName;
             } else if (type === 1) {
                 rateSrc = this.buyRate;
+                this.inputProductName = this.priceName;
             }
 
             this.getFee(rateSrc).then(data => (this.fee = data));
@@ -138,6 +140,7 @@ export class TradeInterfaceV2Page {
     private _baseData$: Observable<any>;
     private _depth$: Observable<any>;
     private _depthSource$: Observable<any>;
+    private _depthSource: any;
     public buy_depth: AnyObject[] = [];
     public sale_depth: AnyObject[] = [];
     public buyer = [
@@ -327,17 +330,15 @@ export class TradeInterfaceV2Page {
             console.log("trade-interface-v2:(constructor)", traderId);
            
             this.productStatus = await this.stockDataService.getProductStatus(this.traderId);
+            
             this._saleableQuantity$ = this.personalDataService.personalStockList$
                 .map(arr => arr.filter(item => item.stockCode === traderId))
                 .map(arr => (arr.length && +arr[0].saleableQuantity) || 0)
                 .distinctUntilChanged();
-
             this.initData();
             this.getProcessEntrusts();
             this.doSubscribe();
-
             this.requestAssets();
-
             this.quickTradeSelector.subscribe();
         }
     }
@@ -356,7 +357,7 @@ export class TradeInterfaceV2Page {
         step?: any,
         precision: number = -8,
     ) {
-        const invBase = Math.pow(10, -precision);
+        // const invBase = Math.pow(10, -precision);
         // 浮点数四则运算存在精度误差问题.尽量用整数运算
         // 例如 602 * 0.01 = 6.0200000000000005 ，
         // 改用 602 / 100 就可以得到正确结果。
@@ -385,7 +386,11 @@ export class TradeInterfaceV2Page {
 
         if (step == 0) {
             // input输入
-            result = this[target] == "" ? "0" : this[target];
+            if(this[target] == "" ) {
+                this[this.inputGroup[target]].value = this[target];
+                return ;
+            }
+            result =  this[target];
         } else {
             // ‘+、-’按钮
             this[target] = this[target] == "" ? "0" : this[target];
@@ -409,7 +414,7 @@ export class TradeInterfaceV2Page {
 
         this[target] = result;
         this[this.inputGroup[target]].value = this[target];
-
+ 
         //强制刷新数据hack处理
         this.platform.raf(() => {
             this[target] = result;
@@ -418,12 +423,12 @@ export class TradeInterfaceV2Page {
 
     checkMax(price = this.price) {
         const productPairs = this.productPair.split("-");
-        console.log(
-            "checkMax",
-            this.personalDataService.personalStockList,
-            " & ",
-            productPairs,
-        );
+        // console.log(
+        //     "checkMax",
+        //     this.personalDataService.personalStockList,
+        //     " & ",
+        //     productPairs,
+        // );
         const personalStockList = this.personalDataService.personalStockList;
         if (this._tradeType$.getValue() === 1) {
             //可用资金/价格
@@ -1069,10 +1074,15 @@ export class TradeInterfaceV2Page {
                 this._depth$,
             );
             // if(!this._depth$){
+           if(this._depthSource) {
+                this._depthSource.unsubscribe()
+                this._depthSource = null;
+            }
+                
             this._depthSource$ = this.socketioService
                 .subscribeEquity(traderId, "depth")
                 .do(data => console.log("trade-interface-v2:depth:", data));
-
+            
             //旧的行情图 所需要的数据，已不需要
             // this._depth$ = this._depthSource$
             //   // .map(data =>data.data)
@@ -1092,7 +1102,7 @@ export class TradeInterfaceV2Page {
             //     return arr
             //   })
             // this._depth$.subscribe()
-            this._depthSource$.subscribe(data => {
+            this._depthSource = this._depthSource$.subscribe(data => {
                 if (data) {
                     this.size_1rem = false;
                     if (data.buy) {
