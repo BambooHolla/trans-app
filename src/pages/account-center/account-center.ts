@@ -89,7 +89,7 @@ export class AccountCenterPage extends SecondLevelPage {
     }
 
     doLogout() {
-        this.storage.remove("gestureLockObj");
+        // this.storage.remove("gestureLockObj");
         this.loginService
             .doLogout()
             .then(success => {

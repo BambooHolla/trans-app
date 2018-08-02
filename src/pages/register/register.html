@@ -48,10 +48,10 @@
                 <ion-input formControlName="customerId" id="customerIdInput" class="account" placeholder="{{registerType === 1?'请输入手机号码':'请输入邮箱'}}" ></ion-input>
             </ion-item>
             <div class="input-tip" *ngIf="!!wrongCustomerId">
-                <span class="picasso-ico-mark"></span> {{wrongCustomerId}}
+                <span class="picasso-icon-mark"></span> {{wrongCustomerId}}
             </div>
             <!-- <div class="input-tip" *ngIf="registerType === 0 && !!wrongCustomerId">
-                    <span class="picasso-ico-mark"></span> {{wrongCustomerId}}
+                    <span class="picasso-icon-mark"></span> {{wrongCustomerId}}
                 </div> -->
             <!-- <ion-item class="register-form-item" *ngIf="registerType === 0"> -->
                 <!-- (blur)='checkRegister()' -->
@@ -80,10 +80,10 @@
                 </div> -->
             </ion-item>
             <div class="input-tip" *ngIf="form_password.errors?.minlength">
-                    <span class="picasso-ico-mark"></span> {{'PASSWORD_AT_LEAST_3_DIGITS'|translate}}
+                    <span class="picasso-icon-mark"></span> {{'PASSWORD_AT_LEAST_3_DIGITS'|translate}}
                 </div>
                 <div class="input-tip" *ngIf="!form_password.errors?.minlength && form_password.errors?.strengthError">
-                        <span class="picasso-ico-mark"></span>  {{'PASSWORD_PROMPT'|translate}}
+                        <span class="picasso-icon-mark"></span>  {{'PASSWORD_PROMPT'|translate}}
                     </div>
             <ion-item class="register-form-item">
                 <ion-input formControlName="confirPassword" class="password" type="password" placeholder="{{'CONFIRM_PASSWORD'|translate}}" (input)="validatePWD()">
@@ -93,7 +93,7 @@
                 </div> -->
             </ion-item>
                     <div class="input-tip" *ngIf="validatePWD_switch">
-                            <span class="picasso-ico-mark"></span>  {{'TWO_PASSWORDS_ARE_NOT_IDENTICAL_INPUT'|translate}}
+                            <span class="picasso-icon-mark"></span>  {{'TWO_PASSWORDS_ARE_NOT_IDENTICAL_INPUT'|translate}}
                         </div>
             <ion-item class="register-form-item recommend-code">
                 <ion-thumbnail item-start style="z-index:9999;">

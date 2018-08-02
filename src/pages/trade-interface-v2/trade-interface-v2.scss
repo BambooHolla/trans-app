@@ -75,7 +75,6 @@ page-trade-interface-v2 {
     ion-range {
         position: relative;
         top: -1.2rem;
-
         .range-slider .range-bar:first-child {
             border-radius: 2.5px;
             border: 1px solid color($colors, special);
@@ -89,7 +88,87 @@ page-trade-interface-v2 {
             background: #fff;
         }
     }
+    .range-box {
+        z-index: 1;
+        bottom: 0.7rem !important;
+        padding-left: 24px!important;
+        .range-round {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background-color: white;
+            &.range-color {
+                background-color: color($colors,rise);
+            }
+            &.range-sale {
+                background-color: color($colors,fall);   
+            }
+        }
+    }
+    .trade-range {
+        margin-top: 2rem;
+        z-index: 50;
+        background-color: transparent;
+        ion-range {
+            z-index: 1000;
+            .range-tick {
+                top: 16px; 
+                left: 10px;
+                visibility: hidden; 
+                border-radius: 50%;
+                background-color: white;
+                // position: relative;
+                transform: translateX(-6px);
+            }
+            .range-bar {
+                background-color: white;
+            }
+            .range-slider {
+                .range-tick:nth-child(1),  
+                .range-tick:nth-child(25),
+                .range-tick:nth-child(50),
+                .range-tick:nth-child(75),
+                .range-tick:nth-child(101){
+                    width: 16px;
+                    height: 16px; 
+                    visibility: visible;
+                }
+            }
+            .range-tick-active,
+            .range-bar-active {
+                background: color($colors, rise);
+                // border-radius: 2.5px;
 
+            }
+            .range-slider .range-bar:first-child { 
+                border: 1px solid color($colors, rise);
+                background: transparent;
+            }
+            .range-knob {
+                background: color($colors, rise); 
+                border: 2px solid white;
+            }
+        }
+        &.sale {
+            ion-range {
+                .range-tick-active,
+                .range-bar-active {
+                    background: color($colors, fall);
+                    // border-radius: 2.5px;
+
+                }
+                .range-bar-active {
+                    background: color($colors, fall); 
+                }
+                .range-slider .range-bar:first-child {
+                    border: 1px solid color($colors, fall);
+                }
+                .range-knob {
+                    background: color($colors, fall); 
+                }
+            }
+        }
+    }
     .content-block {
         background-color: #2a2b3f;
         padding: 2.2rem 0 1rem;
@@ -304,21 +383,31 @@ page-trade-interface-v2 {
             }
 
             .range-mark {
-                position: absolute;
+                z-index: 5;
+                position: relative; 
                 padding-left: 19px;
-                padding-right: 24px;
+                padding-right: 16px;
                 left: 0;
-                bottom: 1rem;
+                bottom: 2rem; 
                 width: 100%;
                 text-align: justify;
                 color: color($colors, middark);
                 display: flex;
                 justify-content: space-between;
-
-                div {
-                }
+                font-size: 1.4rem; 
             }
-
+            .trade-tip {
+                .range-mark {
+                    font-size: 1.4rem; 
+                    bottom: 0rem;
+                    .trade-value {
+                        color: white;
+                    } 
+                    .unit {
+                        font-size: 1.2rem; 
+                    }
+                } 
+            }
             // ion-row{
             // height: 3rem;
 
@@ -557,19 +646,22 @@ page-trade-interface-v2 {
             border-bottom: 1px dashed color($colors, middark);
             .title {
                 font-weight: 600;
-                font-size: 1.5rem;
+                font-size: 1.6rem;
                 color: color($colors, special);
+                &.sub-title {
+                    padding-left: 3rem;
+                    color: color($colors, middark);
+                    font-weight: 600;
+                    font-size: 1.5rem;
+                }
             }
-            .goto-history {
-                height: 1.4rem;
-                color: color($colors, middark);
+            .re-history {
+                height:100%;
+                color: color($colors, special);
                 float: right;
                 ion-icon {
-                    width: 1.3rem;
-                    vertical-align: middle;
-                }
-                font {
-                    font-size: 1.3rem;
+                    font-size: 2.4rem;
+                    font-weight: 200;
                     vertical-align: middle;
                 }
             }
@@ -597,16 +689,20 @@ page-trade-interface-v2 {
                     width: 3.2rem;
                     height: 3.2rem;
                     line-height: 3.2rem;
-                    border: 1px solid color($colors, special);
+                    // border: 1px solid color($colors, special);
                     border-radius: 50%;
                     font-size: 1.4rem;
                     text-align: center;
+                    color: white;
+                    font-weight: 500;
                     &.buy {
-                        color: white;
-                        background-color: color($colors, special);
+                        border: 1px solid color($colors, fall);
+                        background-color: color($colors, fall);
+
                     }
                     &.sale {
-                        color: color($colors, special);
+                        border: 1px solid color($colors, rise);
+                        background-color: color($colors, rise);
                     }
                 }
                 .date {
@@ -635,6 +731,16 @@ page-trade-interface-v2 {
                 margin-top: 1.4rem;
                 padding-bottom: 0.6rem;
                 border-bottom: 0.5px solid color($colors, background);
+                &.buy {
+                    .value {
+                        color: color($colors, fall)!important; 
+                    }
+                }
+                &.sale {
+                    .value {
+                        color: color($colors, rise)!important; 
+                    }
+                }
                 .col {
                     padding: 0;
                     .name {
@@ -652,6 +758,7 @@ page-trade-interface-v2 {
                     .value {
                         font-size: 0.9rem;
                         color: color($colors, special);
+                        font-size: 400;
                     }
                     &:last-child {
                         min-width: fit-content;

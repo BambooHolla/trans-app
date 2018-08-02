@@ -38,6 +38,12 @@ import { TradeChartV2Page } from "../trade-chart-v2/trade-chart-v2";
 })
 export class TradeInterfaceV2Page {
     tradeChart = TradeChartV2Page;
+    // 拉动条 左边圆形颜色
+    rangeLeftRound: boolean = false;
+    // 拉动条数值
+    rangeValue: number = 0;
+    // 交易额
+    tradeValue: string | number = ''
     // 因为语言结构有很多不同的顺序，现在分开单独处理，以后看能不能弄更优化的办法
     private userLanguage: any = "zh";
     public size_1rem: boolean = false;
@@ -488,6 +494,14 @@ export class TradeInterfaceV2Page {
 
     formatNumber(target: string, precision?: number) {
         this.changeByStep(target, undefined, 0, precision);
+        if(this._tradeType$.getValue()) {
+            if(!this.price) {
+                this.tradeValue = '--';
+            } 
+            this.tradeValue = this.price && this.amount ? this.numberFormat((new BigNumber(this.amount)).times(this.price).toString()) : '--';
+        } else {
+            this.tradeValue = this.amount ? this.amount : '--';
+        }
     }
 
     setPrice(price = this.price) {
@@ -528,6 +542,9 @@ export class TradeInterfaceV2Page {
                     ? this.numberFormatDelete0(this.marketPrice)
                     : "0";
         }
+        this.rangeValue = 0;
+        this.amount = '';
+        this.tradeValue = '--';
         this.checkMax();
     }
 
@@ -1045,10 +1062,10 @@ export class TradeInterfaceV2Page {
                 .do(data => {
                     // console.log('doSubscribe do')
                     if (!data) return false;
-                    if (!this.price)
+                    if (!this.price) {
                         this.price = new BigNumber(
                             data.price ? data.price : "0",
-                        ).toString();
+                        ).toString();}
                     this.marketPrice = data.price;
                     this.buyRate = data.buyRate;
                     this.sellRate = data.sellRate;
@@ -1357,6 +1374,9 @@ export class TradeInterfaceV2Page {
 
     changeTrader($event) {
         console.log("traderChanged", this.traderId, this.traderList);
+        this.rangeValue = 0;
+        this.tradeValue = '--';
+        this.amount = '';
         this.traderList.find(item => {
             if (item.traderId == this.traderId) {
                 this.appDataService.LAST_TRADER.next(item);
@@ -2047,5 +2067,37 @@ export class TradeInterfaceV2Page {
                   ) * base;
 
         return rangNumber;
+    }
+    tradeRangeChange($event) {
+        const value = $event.value / 100;
+        
+        if(value > 0) {
+            this.rangeLeftRound = true;
+        } else {
+            this.rangeLeftRound = false;
+        }
+        if(this._tradeType$.getValue()) {
+            if(!this.price || parseFloat(this.price) == 0) return ;
+            if(!this.trader_target.restQuantit) return ;
+            this.amount = this.numberFormat((new BigNumber(this.trader_target.restQuantity||0)).div(this.price).times(value).toString())
+        } else {
+            if(!this.trader_product.restQuantit) return ;
+            this.amount = this.numberFormat((new BigNumber(this.trader_product.restQuantity||0)).times(value).toString())
+        }
+    }
+    tradeRangeDisabled() {
+        let buy: any = this.holePrice;
+        let sale: any = this.holdAmount;
+        buy = isNaN(buy) ? 0 : parseFloat(buy);
+        sale = isNaN(sale) ? 0 : parseFloat(sale);
+        if(this._tradeType$.getValue()) {
+            return buy;
+        } else {
+            return sale;
+        }
+    }
+    reEntrusts() {
+        this.page = 1;
+        this.getProcessEntrusts();
     }
 }

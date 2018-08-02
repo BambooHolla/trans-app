@@ -210,6 +210,22 @@
 			</ion-col>
 			<ion-col col-2 tappable (click)="changeByStep('amount','+')">+</ion-col>
 		</ion-row>
+	
+		<ion-row class="range">
+			<ion-item no-lines class="trade-range"  [class.sale]="!!(tradeType$|async)">
+				<ion-range min='0'step='1' max='100' snaps='true' pin="false"
+				 [(ngModel)]='rangeValue' (ionChange)="tradeRangeChange($event)"
+				 ></ion-range>
+			</ion-item>
+			<!-- <div class="range-mark range-box">
+				<div class="left left-round range-round range-color" [class.range-sale]="!!(tradeType$|async)"></div> 
+				<div class="right right-round range-round"></div>
+			</div> -->
+			<div class="range-mark">
+				<div class="left"></div>
+				<div class="right">{{rangeValue}}%</div>
+			</div>
+		</ion-row>
 		<!-- 要求隐藏，ts相应代码也做隐藏处理 -->
 		<!-- <ion-row class="range-component">
 			<ion-item no-lines class="range-item">
@@ -226,7 +242,31 @@
 		</ion-row> -->
 		<!-- </ion-grid>
 		<ion-grid class="trbtn">  -->
-		<ion-row style="padding-top: 2rem;">
+		<ion-row class="trade-tip">
+			<div class="range-mark">
+				<div class="left" *ngIf="!(tradeType$|async)">
+					交易额：
+					<span class="trade-value">{{tradeValue||'--'}}</span>
+					<span class="unit">{{productName || '--'}}</span>
+				</div>
+				<div class="left" *ngIf="!!(tradeType$|async)">
+					交易额：
+					<span class="trade-value">{{tradeValue||'--'}}</span>
+					<span class="unit">{{priceName || '--'}}</span>
+				</div>
+				<div class="right"  *ngIf="!(tradeType$|async)">
+					{{'AVAILABLE'|translate}}：
+					<span class="trade-value">{{appDataService?.hiddentext || (trader_product?.restQuantity || '--' | quantityConversion  | numberUnitFormat:true:false:8)}}</span>
+					<span class="unit">{{productName || '--'}}</span>
+				</div>
+				<div class="right"  *ngIf="!!(tradeType$|async)">
+					{{'AVAILABLE'|translate}}：
+					<span class="trade-value">{{appDataService?.hiddentext || (trader_target?.restQuantity || '--' | quantityConversion  | numberUnitFormat:true:false:8)}}</span>
+					<span class="unit">{{priceName || '--'}}</span>
+				</div>
+			</div>
+		</ion-row>
+		<ion-row style="padding-top: 1rem;">
 			<!-- <ion-col col-6>
 				<button block 
 				  [disabled]="+amount <= 0 || +price <= 0 || personalDataService.accountBalance < price * amount" 
@@ -353,10 +393,11 @@
 
 	<div class="entrusts">
 		<div class="header">
-			<span class="title">{{'DELEGATION_ORDER'|translate}}</span>
-			<span (click)="gotoHistory($event)" class="goto-history">
-				<ion-icon class="history-icon"></ion-icon>
-				<font>{{'HISTORY_RECORDS'|translate}}</font>
+			<span class="title">当前委托</span>
+			<span class="title sub-title" (click)="gotoHistory($event)">历史委托</span>
+			<span  class="re-history" (click)='reEntrusts()'>
+				<ion-icon class="picasso-icon-refresh"></ion-icon>
+				<!-- <font>{{'HISTORY_RECORDS'|translate}}</font> -->
 			</span>
 		</div>
 		<div class="no-entrust" *ngIf="!entrusts || entrusts.length == 0">{{'NO_PENDING_ORDERS_UNTIL_NOW'|translate}}</div>
@@ -369,7 +410,7 @@
 					<div class="date">{{item.entrustTime | date:'yyyy-MM-dd'}}</div>
 					<button (click)="confirmCancel(item.id,item.entrustTime,item.operationType)">{{'REVOKE'|translate}}</button>
 				</div>
-				<div class="params">
+				<div class="params"  [class.buy]="item.operationType == '001'" [class.sale]="item.operationType == '002'">
 					<div class="col">
 						<div *ngIf="!item?.isMarketOrder">
 							<span class="name">{{'DELEGATED_PRICE'|translate}}</span>
