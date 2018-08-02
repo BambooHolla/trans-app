@@ -1,6 +1,50 @@
 page-home {
     .home-header {
         background: linear-gradient(to bottom, color($colors, gold), #2a2b3f);
+        .title {
+            display: flex;
+            padding: 1rem 1.5em  3rem!important;
+            .logo {
+                width: 82px;
+                height: 82px;
+                border-radius: 50%; 
+                border: 4px solid #94918b;
+                background-color: #27283A; 
+                position: relative;
+                display: flex; 
+                justify-content: center; 
+                align-items: center;
+                img {
+                    width: auto;
+                    height: 48px;
+                }
+            }
+            .content {
+                width: 100%;
+                flex: 4;
+                text-align: left;
+                padding-left: 1.4rem;
+                .account {
+                    padding-top: 1.4rem;
+                    padding-bottom: 0.4rem;
+                    font-size: 2rem;
+                    color: color($colors,special);
+                }
+                .authentication {
+                    div {
+                        font-size: 1.3rem;
+                        display: flex;
+                        align-items: center;
+                        justify-content: left;
+                        img {
+                            height: 1.2rem;
+                            width: auto;
+                            padding-right: 0.6rem;
+                        }
+                    }
+                }
+            }
+        }
         .personal {
             margin: 1rem 0 0.8rem;
             ion-row {
@@ -145,12 +189,29 @@ page-home {
         content: "";
         background-image: url("../assets/images/mine/邀请返佣icon.png");
     }
+    .ion-ios-order::before {
+        content: "";
+        background-image: url("../assets/images/mine/order.png");
+    }
+    .ion-ios-myprice::before {
+        content: "";
+        background-image: url("../assets/images/mine/myprice.png");
+    }
+    .ion-ios-security::before {
+        content: "";
+        background-image: url("../assets/images/mine/security.png");
+    }
+    .ion-ios-setting::before {
+        content: "";
+        background-image: url("../assets/images/mine/setting.png");
+    }
     .vertical-center {
         color: rgba(255, 255, 255, 0.9);
         ion-icon::before {
             background-size: contain;
             width: 1.4rem;
             height: 1.4rem;
+            background-repeat: no-repeat;
         }
         span {
             letter-spacing: 0.1rem;

@@ -4,12 +4,27 @@
 
   <ion-grid no-padding text-center>
     <ion-row class="home-settings-icon bar-tops">
-      <!-- <ion-col col-11></ion-col> -->
-      <ion-col tappable col-1 offset-11 (click)="routeTo('account-center-old')">
+      <!-- <ion-col tappable col-1 offset-11 (click)="routeTo('account-center-old')">
         <img src="assets/images/mine/setting-icon.png" alt="" class="home-settings-img" />
-      </ion-col>
+      </ion-col> -->
     </ion-row>
     <ion-row>
+      <ion-col class="title">
+        <div class="logo">
+          <img src="assets/images/picasso-logo.png" alt="P">
+        </div>
+        <div class="content">
+          <div class="account">
+            {{personalDataService.mobile? personalDataService.mobile:personalDataService.email}}
+          </div>
+          <div class="authentication">
+            <div (click)="identify()" *ngIf="personalDataService.certifiedStatus != 2">未实名认证 <span class="picasso-icon-right-arrow"></span></div>
+            <div *ngIf="personalDataService.certifiedStatus == 2"><img src="assets/images/authentication-logo.png" alt=""> 已认证</div>
+          </div>
+        </div>
+      </ion-col>
+    </ion-row>
+    <!-- <ion-row>
       <ion-col class="personal">
         <div class="realname">{{personalDataService.realname}}</div>
         <div class="mobile">{{personalDataService.mobile}}</div>
@@ -19,8 +34,8 @@
           <img *ngIf="login_status" tappable src="assets/icon/home-beage1.png" alt="">
         </div>
       </ion-col>
-    </ion-row>
-    <ion-row>
+    </ion-row> -->
+    <!-- <ion-row>
       <ion-col>
         <div class="assets-title">
           {{'TOTAL_ASSETS_AVAILABLE'|translate}}{{personalAssets?.asset?.priceName}}
@@ -41,14 +56,14 @@
         <ion-icon name="gnotice" ios color="important" class="vertical-center"></ion-icon>
         <span>{{'THIS_IS_AN_ADVERTISEMENT'|translate}}~</span>
       </ion-col>
-    </ion-row>
+    </ion-row> -->
   </ion-grid>
 </ion-navbar>
 
 </ion-header>
 <ion-content no-bounce class="home-contain">
   <ion-grid no-padding>
-    <ion-row class="main-button" text-center>
+    <!-- <ion-row class="main-button" text-center>
       <ion-col col-6 (click)="navPush('recharge-gateway',true)">
         <img src="assets/icon/充值.png" alt="">
         <span>{{'DEPOSIT'|translate}}</span>
@@ -57,7 +72,7 @@
         <img src="assets/icon/提现.png" alt="">
         <span>{{'WITHDRAW'|translate}}</span>
       </ion-col>
-    </ion-row>
+    </ion-row> -->
     <ion-row *ngFor="let data of commandData" tappable (click)="navPush(data.href,data.needLogin)" class="dark-8-transparent bottom-hr" [class.bottom-space]="data.bottomSpace">
       <ion-col padding class="vertical-center">
         <ion-icon name="{{data.icon}}" ios color="important" class="vertical-center"></ion-icon>

@@ -19,6 +19,7 @@ import { LoginService } from "../../providers/login-service";
 import { AppSettingProvider } from "../../bnlc-framework/providers/app-setting/app-setting";
 import { AppDataService } from "../../providers/app-data-service";
 import { BigNumber } from "bignumber.js";
+
 @Component({
     selector: "page-home",
     templateUrl: "home.html",
@@ -64,18 +65,39 @@ export class HomePage extends FirstLevelPage implements OnInit {
         //   needLogin: true,
         // },
         {
-            icon: "gdoc",
-            name: "HISTORICAL_TRANSACTION",
+            icon: "order",
+            name: "委托订单",
+            href: HistoryRecordPage,
+            needLogin: true,
+            // bottomSpace: true,
+        },
+        { 
+            icon: "myprice",
+            name: "我的资产",
             href: HistoryRecordPage,
             needLogin: true,
             // bottomSpace: true,
         },
         {
-            icon: "ginvite",
-            name: "INVITATION_COMMISSION",
-            href: InviteCommissionPage,
+            icon: "security",
+            name: "安全中心",
+            href: HistoryRecordPage,
             needLogin: true,
+            // bottomSpace: true,
         },
+        {
+            icon: "setting",
+            name: "设置",
+            href: AccountCenterPage,
+            needLogin: true,
+            // bottomSpace: true,
+        },
+        // {
+        //     icon: "ginvite",
+        //     name: "INVITATION_COMMISSION",
+        //     href: InviteCommissionPage,
+        //     needLogin: true,
+        // },
         // {
         //   icon: "gperson",
         //   name: '账户中心',
@@ -94,12 +116,12 @@ export class HomePage extends FirstLevelPage implements OnInit {
             href: "work-order-list",
             needLogin: true,
         },
-        {
-            icon: "gabout",
-            name: "ABOUT_US",
-            href: AboutPage,
-            needLogin: false,
-        },
+        // {
+        //     icon: "gabout",
+        //     name: "ABOUT_US",
+        //     href: AboutPage,
+        //     needLogin: false,
+        // },
     ];
 
     constructor(
@@ -205,5 +227,13 @@ export class HomePage extends FirstLevelPage implements OnInit {
         } else {
             this.appDataService.hiddentext = "******";
         }
+    }
+    identify() {
+        if (
+            this.personalDataService.certifiedStatus == "2"
+        ) {
+            return void 0;
+        }
+        this.navCtrl.push("submit-real-info");
     }
 }

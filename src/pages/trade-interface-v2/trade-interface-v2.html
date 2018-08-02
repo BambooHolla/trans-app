@@ -45,7 +45,7 @@
 		<ion-refresher-content refreshingText="{{'RENEWING'|translate}}...">
 		</ion-refresher-content>
 	</ion-refresher>
-
+	<ng-container>
 	<div class="market">
 		<div class="market-head">
 			<!-- <div>
@@ -390,7 +390,123 @@
 			</div>
 		</ion-row>
 	</ion-grid> 
-
+</ng-container>
+<ng-container>
+	<div>
+		
+		<div class="market">
+		
+			<div class="market-body">
+				<div class="bet-bottom-shadow shadow-type-2"></div>
+				<div class="bets-group">
+					<div class="bet bet-left trade-title-type-2" tappable>
+						<ion-grid [hidden]="appDataService.show_onestep_trade" [scroll-fix-keyboard]="content">
+							<ion-row class="entrust-type" (click)="chooseTradeType($event)">
+								<ion-col data-trade-type="1" class="buy" [class.enabled]="!!(tradeType$|async)">{{'BUY'|translate}}</ion-col>
+								<ion-col data-trade-type="0" class="sale" [class.enabled]="!(tradeType$|async)">{{'SELL'|translate}}</ion-col>
+							</ion-row>
+						</ion-grid>	
+					</div>
+					<div class="market-head market-head-type-2">
+						<div class="price {{(_baseData$ | async)?.range | riseOrFall}}">
+							{{(_baseData$ | async)?.price | priceConversion:5 | numberFilter:false}}
+							<div>
+								<span><i class="picasso-icon-about"></i> {{currencyPrice| priceConversion:5 | numberFilter:false}} <span class="unit">{{appDataService.CURRENCY_INFO?.currencyTo}}</span></span>
+							</div>
+						</div>
+					</div>
+					<ion-grid [hidden]="appDataService.show_onestep_trade" class="trinp  content-block content-block-type-2">
+							<ion-row class="input-row input-row-type-2">
+								<ion-col col-2 tappable (click)="changeByStep('price','-')">-</ion-col>
+								<ion-col col-7>
+										<ion-item class="item-background-color">
+									<ion-input #priceInputer type="number" placeholder="委托价格"
+										[(ngModel)]="price"
+										(ngModelChange)="formatNumber('price',-8)"
+										></ion-input>
+									</ion-item>
+								</ion-col>
+								<ion-col col-2 tappable (click)="changeByStep('price','+')">+</ion-col>
+							</ion-row>
+							<ion-row class="input-row input-row-type-2" align-items-center>
+								<ion-col col-2 tappable (click)="changeByStep('amount','-')">-</ion-col>
+								<ion-col col-7>
+										<ion-item class="item-background-color"> <ion-input #amountInputer type="number" placeholder="委托数量" [(ngModel)]="amount" (ngModelChange)="formatNumber('amount')"></ion-input></ion-item>
+								</ion-col>
+								<ion-col col-2 tappable (click)="changeByStep('amount','+')">+</ion-col>
+							</ion-row>
+						
+							<ion-row class="range">
+								<ion-item no-lines class="trade-range  trade-range-type-2"  [class.sale]="!!(tradeType$|async)">
+									<ion-range min='0'step='1' max='100' snaps='true' pin="false"
+									 [(ngModel)]='rangeValue' (ionChange)="tradeRangeChange($event)"
+									 ></ion-range>
+								</ion-item>
+								<div class="range-mark">
+									<div class="left"></div>
+									<div class="right">{{rangeValue}}%</div>
+								</div>
+							</ion-row>
+							<ion-row class="trade-tip">
+								<div class="range-mark">
+									<div class="left" *ngIf="!(tradeType$|async)">
+										交易额：
+										<span class="trade-value">{{tradeValue||'--'}}</span>
+										<span class="unit">{{productName || '--'}}</span>
+									</div>
+									<div class="left" *ngIf="!!(tradeType$|async)">
+										交易额：
+										<span class="trade-value">{{tradeValue||'--'}}</span>
+										<span class="unit">{{priceName || '--'}}</span>
+									</div>
+									<div class="right"  *ngIf="!(tradeType$|async)">
+										{{'AVAILABLE'|translate}}：
+										<span class="trade-value">{{appDataService?.hiddentext || (trader_product?.restQuantity || '--' | quantityConversion  | numberUnitFormat:true:false:8)}}</span>
+										<span class="unit">{{productName || '--'}}</span>
+									</div>
+									<div class="right"  *ngIf="!!(tradeType$|async)">
+										{{'AVAILABLE'|translate}}：
+										<span class="trade-value">{{appDataService?.hiddentext || (trader_target?.restQuantity || '--' | quantityConversion  | numberUnitFormat:true:false:8)}}</span>
+										<span class="unit">{{priceName || '--'}}</span>
+									</div>
+								</div>
+							</ion-row>
+							<ion-row style="padding-top: 1rem;">
+								<button class="trbtn" [class.issale]="!(tradeType$|async)"  [class.disabled]="!productStatus"
+									block [disabled]="trading" (click)="productStatus && (!appSetting.getUserToken()? goLogin() : doTrade())">
+										{{(!appSetting.getUserToken()?
+											'LOGIN' :
+											 !!(tradeType$|async)?'BUY_IN':'SELL_OUT')
+											 | translate
+										}}
+								</button>
+								
+							</ion-row>
+						</ion-grid>
+				</div>
+				<div class="bets-group">
+					<div class="bet bet-left depth-title-type-2" tappable>
+					  	<div class="bet-label tip" [class.size-1rem]="size_1rem">挡位</div>
+						<div class="bet-price depth-div" [class.size-1rem]="size_1rem">价格</div>
+						<div class="bet-amount tip" [class.size-1rem]="size_1rem">数量</div>
+					</div>
+					<div *ngFor="let item of buyer ; let i = index;" class="bet depth-type-2" tappable (click)="setPrice(buy_depth[i]?.price)"> 
+						<div class="bet-label " [class.size-1rem]="size_1rem">{{item}}</div>
+						<div class="bet-price buy depth-div" [class.size-1rem]="size_1rem">{{buy_depth[i]?.price || '--' | priceConversion:8 | numberUnitFormat:true:false:8}}</div>
+						<div class="bet-amount" [class.size-1rem]="size_1rem">{{buy_depth[i]?.amount || '--' | quantityConversion:8 | numberUnitFormat:false:true:8:8 | unitConversion}}</div>
+					</div>
+					<div *ngFor="let item of saler ; let i = index;" class="bet" tappable (click)="setPrice(sale_depth[i]?.price)">
+						<div class="bet-label " [class.size-1rem]="size_1rem">{{item}}</div>
+						<div class="bet-price sale depth-div" [class.size-1rem]="size_1rem">{{sale_depth[i]?.price || '--' | priceConversion | numberUnitFormat:true:false:8}}</div>
+						<div class="bet-amount" [class.size-1rem]="size_1rem">{{sale_depth[i]?.amount || '--' | quantityConversion | numberUnitFormat:false:true:8:8 | unitConversion }}</div>
+					</div>
+				</div>
+				
+				
+			</div>
+		</div>
+	</div>
+</ng-container>
 	<div class="entrusts">
 		<div class="header">
 			<span class="title">当前委托</span>

@@ -5,11 +5,11 @@
 </ion-header>
 <ion-content no-bounce class="account-contain">
   <ion-grid *ngIf="login_status" no-padding>
-    <ion-row class="bottom-line" (click)="identify()">
+    <!-- <ion-row class="bottom-line" (click)="identify()">
       <ion-col padding class="vertical-center">
         {{'REAL_NAME_VERIFICATION'|translate}}<span class="f-right" [class.no-identify]="!personalDataService.realname">{{personalDataService.realname || personalDataService.certifiedMsg}}</span>
       </ion-col>
-    </ion-row>
+    </ion-row> -->
     <!-- <ion-row class="bottom-line" *ngIf="false">
       <ion-col padding class="vertical-center">
         身份证号<span class="f-right">{{personalDataService.idcardnumber | numMask:6:4}}</span>

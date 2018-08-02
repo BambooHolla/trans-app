@@ -109,6 +109,11 @@ page-trade-interface-v2 {
         margin-top: 2rem;
         z-index: 50;
         background-color: transparent;
+        &.trade-range-type-2 {
+            .range-ios {
+                padding: 0 16px 0 4px;
+            }
+        }
         ion-range {
             z-index: 1000;
             .range-tick {
@@ -172,6 +177,10 @@ page-trade-interface-v2 {
     .content-block {
         background-color: #2a2b3f;
         padding: 2.2rem 0 1rem;
+        &.content-block-type-2 {
+            background-color: transparent;
+            padding: 1rem 0 0;
+        }
     }
 
     .bets {
@@ -365,6 +374,20 @@ page-trade-interface-v2 {
                 border-radius: 4.2rem;
                 background-color: #242435;
                 margin: 1.1rem auto 0;
+                &.input-row-type-2 {
+                    background-color: #2a2b3f;
+                    width: 92%;
+                    height: 3.6rem;
+                    .item-block {
+                        min-height: 3.6rem;
+                        input {
+                            font-size: 1.6rem!important;
+                        }
+                    }
+                    ion-col {
+                        font-size: 3rem;
+                    }
+                }
             }
 
             .range-component {
@@ -907,7 +930,10 @@ page-trade-interface-v2 {
                 }
             }
         }
-
+        &-head-type-2 {
+            padding-top: 2rem;
+            box-shadow: none;
+        }
         &-body {
             display: flex;
             padding: 0 0 0.3rem 0;
@@ -920,6 +946,9 @@ page-trade-interface-v2 {
                 background-color: #242435;
                 width: 100%;
                 box-shadow:0px 2px 5px #000;
+                &.shadow-type-2 {
+                    top: 3.8rem;
+                }
             }
             .bets-group {
                 // background-color: color($colors, background-darker);
@@ -937,6 +966,16 @@ page-trade-interface-v2 {
                     padding: 0 1.2rem;
                     font-size: 1.2rem;
                     line-height: 2.8rem;
+                    &.trade-title-type-2 {
+                        padding: 0;
+                    }
+                    &.depth-title-type-2 {
+                        line-height: 3.9rem;
+                    }
+                    &.depth-type-2:nth-child(6) {
+                        border-bottom: 1px solid color($colors, background);
+                        // margin-bottom: 20px;
+                    }
                     &.bet-left {
                         border-left-color:#242435;
                     }
