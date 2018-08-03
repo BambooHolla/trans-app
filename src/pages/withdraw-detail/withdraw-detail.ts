@@ -68,7 +68,6 @@ export class WithdrawDetailPage extends SecondLevelPage {
         super(navCtrl, navParams);
         BigNumber.config({ EXPONENTIAL_AT: [-8, 20] });
         this.productInfo = this.navParams.get("productInfo");
-        debugger
         this.getProductStatus();
         // this.alertCtrl.create({
         // 	title: "提示",
@@ -87,7 +86,7 @@ export class WithdrawDetailPage extends SecondLevelPage {
         this.productStatus = await this.stockDataService.getProductStatus(this.productInfo.productId);
     }
     formData: {
-        selected_withdraw_address_id: number;
+        selected_withdraw_address_id: string|number;
         amount: string;
         password: string;
     } = {
@@ -142,6 +141,10 @@ export class WithdrawDetailPage extends SecondLevelPage {
             this.selected_withdraw_address = data.selected_data;
             if (data.withdraw_address_list) {
                 this.withdraw_address_list = data.withdraw_address_list;
+                this.formData.selected_withdraw_address_id = data.withdraw_address_list.id
+
+            } else if(data.selected_data) {
+                this.formData.selected_withdraw_address_id = data.selected_data.id;
             }
         });
         selector.present();
@@ -387,8 +390,8 @@ export class WithdrawDetailPage extends SecondLevelPage {
 
     get canSubmit() {
         return (
-            Object.keys(this.formData).every(k => this.formData[k]) &&
-            !this.hasError(this.errors)
+            Object.keys(this.formData).every(k => !!this.formData[k]) 
+            // && !this.hasError(this.errors)
         );
     }
     @asyncCtrlGenerator.loading()
@@ -611,5 +614,6 @@ export class WithdrawDetailPage extends SecondLevelPage {
             (new BigNumber((''+amount)||0)).comparedTo((''+this.promptAmount.min||0)) == -1;
         this.maxQuotaSwitch = this.promptAmount.max*1 == 0 ? false : 
             (new BigNumber((''+amount)||0)).comparedTo((''+this.promptAmount.max||0)) == 1;
+            console.log(this.formData,Object.keys(this.formData).every(k => !!this.formData[k]))
     }
 }
