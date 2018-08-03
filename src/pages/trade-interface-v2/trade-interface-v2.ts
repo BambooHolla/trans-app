@@ -2101,7 +2101,9 @@ export class TradeInterfaceV2Page {
         this.getProcessEntrusts();
     }
     changeTradeType() {
-        
         this.appDataService.trade_type = this.appDataService.trade_type ? false : true;
+    }
+    changeLeftOrRight() {
+        this.appDataService.left_or_right = this.appDataService.left_or_right ? false : true;
     }
 }

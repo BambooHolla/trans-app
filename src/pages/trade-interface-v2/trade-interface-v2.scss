@@ -974,6 +974,14 @@ page-trade-interface-v2 {
         &-head-type-2 {
             margin-top: 2.6rem;
             box-shadow: none;
+            position: relative;
+            .left-or-right {
+                width: 2rem;
+                height: 2rem;
+                position: absolute;
+                right: 1rem;
+                top: 0.6rem;
+            }
         }
         &-body {
             display: flex;
@@ -998,6 +1006,9 @@ page-trade-interface-v2 {
                 &.bets-group-type-2 {
                     .bet {
                         line-height: 3.6rem;
+                    }
+                    &.best-group-left {
+                        border-right: 1px solid color($colors, background);
                     }
                 }
                 & + .bets-group {
