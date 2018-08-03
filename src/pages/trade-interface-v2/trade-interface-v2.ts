@@ -2100,4 +2100,11 @@ export class TradeInterfaceV2Page {
         this.page = 1;
         this.getProcessEntrusts();
     }
+    changeTradeType() {
+        
+        this.appDataService.trade_type = this.appDataService.trade_type ? false : true;
+        setTimeout(() => {
+            this.rangeValue = 0;
+        }, 10);
+    }
 }

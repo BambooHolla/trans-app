@@ -7,6 +7,9 @@ page-trade-interface-v2 {
             font-weight: 400;
             font-size: 1.8rem;
         }
+        ion-navbar {
+            z-index: 80;
+        }
     }
 
     ion-header.header { 
@@ -35,6 +38,34 @@ page-trade-interface-v2 {
         margin-right: 1rem;
         height: 2rem;
         width: 2rem;
+    }
+    .trade-button-type-1 {
+        position: absolute;
+        background-image: url("../assets/icon/trade-type-1.png");
+        background-size: contain;
+        margin-right: 1.2rem;
+        height: 2rem;
+        width: 2rem;
+        right: 0rem;
+        background-repeat: no-repeat;
+        z-index: 99;
+        .bar-button-ios {
+            padding: 0 1rem;
+        }
+    }
+    .trade-button-type-2 {
+        z-index: 99;
+        position: absolute;
+        background-image: url("../assets/icon/trade-type-2.png");
+        background-size: contain;
+        margin-right: 1.2rem;
+        height: 2rem;
+        width: 2rem;
+        right: 0rem;
+        background-repeat: no-repeat;
+        .bar-button-ios {
+            padding: 0 1rem;
+        }
     }
     .chart-button {
         background-image: url("../assets/icon/chart-button.png");
@@ -75,6 +106,9 @@ page-trade-interface-v2 {
     ion-range {
         position: relative;
         top: -1.2rem;
+        &.range-type-2 {
+            
+        }
         .range-slider .range-bar:first-child {
             border-radius: 2.5px;
             border: 1px solid color($colors, special);
@@ -117,7 +151,7 @@ page-trade-interface-v2 {
         ion-range {
             z-index: 1000;
             .range-tick {
-                top: 16px; 
+                top: 15px; 
                 left: 10px;
                 visibility: hidden; 
                 border-radius: 50%;
@@ -322,7 +356,7 @@ page-trade-interface-v2 {
                             position:absolute;
                             left:50%;
                             transform: translateX(-50%);
-                            bottom:-1.6rem;
+                            bottom:-19.2px;
                         }
                     }
                     &.sale {
@@ -342,7 +376,7 @@ page-trade-interface-v2 {
                             position:absolute;
                             left:50%;
                             transform: translateX(-50%);
-                            bottom:-1.6rem;
+                            bottom:-19.2px;
                         }
                     }
                     
@@ -420,6 +454,9 @@ page-trade-interface-v2 {
                 font-size: 1.4rem; 
             }
             .trade-tip {
+                &.trade-tip-type-2 {
+                    margin-top: -1.6rem;
+                }
                 .range-mark {
                     font-size: 1.4rem; 
                     bottom: 0rem;
@@ -490,6 +527,10 @@ page-trade-interface-v2 {
 
             &[disabled] {
                 background: #c9c9c9;
+            }
+            &.trbtn-type-2 {
+                height: 3.6rem;
+                padding: 0.8rem;
             }
         }
 
@@ -931,7 +972,7 @@ page-trade-interface-v2 {
             }
         }
         &-head-type-2 {
-            padding-top: 2rem;
+            margin-top: 2.6rem;
             box-shadow: none;
         }
         &-body {
@@ -945,7 +986,7 @@ page-trade-interface-v2 {
                 // background-color: transparent;
                 background-color: #242435;
                 width: 100%;
-                box-shadow:0px 2px 5px #000;
+                box-shadow:0px 2.2px 3px #000;
                 &.shadow-type-2 {
                     top: 3.8rem;
                 }
@@ -954,6 +995,11 @@ page-trade-interface-v2 {
                 // background-color: color($colors, background-darker);
                 background-color: #242435;
                 flex: 1;
+                &.bets-group-type-2 {
+                    .bet {
+                        line-height: 3.6rem;
+                    }
+                }
                 & + .bets-group {
                     // margin-left: 1px;
                     .bet {
@@ -963,7 +1009,7 @@ page-trade-interface-v2 {
                 .bet {
                     display: flex;
                     align-items: center;
-                    padding: 0 1.2rem;
+                    padding: 0 0.8rem;
                     font-size: 1.2rem;
                     line-height: 2.8rem;
                     &.trade-title-type-2 {

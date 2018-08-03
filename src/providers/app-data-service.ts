@@ -114,6 +114,7 @@ export class AppDataService {
         exchangeType: 1,
         hiddentext:'',
         risefallColor: false,
+        trade_type:false,
     };
     private _in_storage_keys = ["products", "traderList"];
 
@@ -132,6 +133,7 @@ export class AppDataService {
     public exchangeType;
     public hiddentext;
     public risefallColor;
+    public trade_type;
 
     // 国家、区号列表
     public COUNTRY_LIST:any = [
