@@ -7,8 +7,11 @@
 ::-webkit-scrollbar {
     display: none !important;
 }
-
+ 
 page-withdraw-detail {
+    ion-header {
+        background-color: rgba(34, 35, 51, 0.8);;
+    }
     ion-icon[name="添加"] {
         background-image: url("../assets/icon/添加.png");
     }
@@ -24,14 +27,61 @@ page-withdraw-detail {
         line-height: 10rem;
         font-size: 2rem;
         color: #6b6b6b;
-        background-color: rgba(34, 35, 51, 0.8);
+        background-color: rgba(34, 35, 51, 1);
     }
     ion-list {
+        
         .transfer-expenses {
             color: color($colors, "special");
         }
         // margin-top: 1rem !important;
         margin-bottom: 0 !important;
+        .new-item {
+            background-color: rgba(34, 35, 51, 1);
+            margin-top: 2px!important;
+            .title {
+                font-size: 1.5rem;
+                padding: 8px 0;
+                padding-left: 16px;
+                &.withdraw-title {
+                    display: flex;
+                    div {
+                        flex: 1;
+                        &.price {
+                            text-align: right; 
+                            padding-right: 8px;
+                            font-size: 1.4rem;
+                            span {
+                                color: #6D6D6D;
+                                &.unit {
+                                    font-size: 1.3rem;
+                                }
+                                &.value {
+                                    color: #BCBCBC;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            input {
+                text-align: left!important;
+            }
+        }
+        .fee-item {
+            .label-ios {
+                font-size: 1.5rem;
+                
+            }
+            .transfer-expenses {
+                color: #6D6D6D;
+                font-size: 1.3rem;
+                .value {
+                    color: #BCBCBC;
+                    font-size: 1.4rem;
+                }
+            }
+        }
         ion-item-divider.item-divider {
             ion-label {
                 display: none;
