@@ -3,6 +3,9 @@
 }
 
 page-recharge-detail {
+    ion-header {
+        background-color: rgba(34, 35, 51, 0.8);;
+    }
     .no-entrust {
         text-align: center;
         height: 10rem;
@@ -93,7 +96,7 @@ page-recharge-detail {
         }
     }
     .scroll-content > .recharge-address {
-        margin-top: 1rem;
+        margin-top: 0.6rem;
         display: flex;
         flex-direction: column;
         padding: 1rem;
@@ -139,7 +142,6 @@ page-recharge-detail {
             }
         }
         .address-detail {
-            margin-top: 1rem;
             align-items: center;
             display: flex;
             flex-direction: column;
@@ -161,13 +163,28 @@ page-recharge-detail {
                 }
             }
             .hash-code {
-                padding-top: 0.8rem;
                 color: rgba(white, 0.5);
                 padding-bottom: 0.4rem;
                 font-size: 1.4rem;
                 text-align: center!important;
                 
                 /* font-weight: lighter; */
+                .qrcode {
+                    width: 200px;
+                    height: 200px;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    margin: 0 auto;
+                    border-radius: 50%;
+                    border: 6px solid #c1b17f;
+                    background-color: #fff;
+                    img {
+                        width: 141.4px!important;
+                        height: 141.4px!important;
+                        border-radius: 20px;
+                    }
+                }
             }
             /* .hash-code-info {
 				text-align: center;
@@ -183,6 +200,33 @@ page-recharge-detail {
 					padding-bottom: 0rem;
 				}
 			} */
+        }
+    }
+    .scroll-content > .address-text {
+        margin-top: 2px;
+        text-align: center;
+        font-size: 1.6rem;
+        background-color: rgba(34, 35, 51, 0.8);
+        padding: 1.4rem 0;
+        div {
+            margin-bottom: 1rem;
+        }
+        .copy-button {
+            padding: 0.4rem;
+            border-radius: 2rem;
+            height: auto;
+            background-color: color($colors, "special");
+            font-size: 1.3rem;
+            color: #fff;
+            ion-icon[name="复制"] {
+                width: 1.2rem;
+                height: 1.2rem;
+                background-size: contain;
+                background-repeat: no-repeat;
+                background-position: center;
+                background-image: url("../assets/icon/复制.png");
+                margin-right: 0.3rem;
+            }
         }
     }
     .scroll-content > .prompt {

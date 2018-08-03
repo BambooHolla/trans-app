@@ -10,28 +10,24 @@
     </ion-navbar>
 </ion-header>
 <ion-content>
-    <div class="account-assets">
+    <!-- <div class="account-assets">
         <div class="assets-item balance">
             <ion-icon name="可用余额"></ion-icon>
             <div class="sub-title">{{'AVAILABLE_BALANCE'|translate}}</div>
             <div class="amount">{{access_info.balance|priceConversion:8:8}}</div>
         </div>
-        <div class="assets-item frozen"> 
+        <div class="assets-item frozen">  
             <ion-icon name="冻结余额"></ion-icon>
             <div class="sub-title">{{'FREEZE_BALANCE'|translate}}</div> 
             <div class="amount">{{access_info.freezeBalance|priceConversion:8:8}}</div>
         </div>
-    </div>
+    </div> -->
     <div class="recharge-address">
         <div class="title-bar">
             <div class="title">
                 <ion-icon name="￥+"></ion-icon>
                 {{'DEPOSIT_ADDRESS'|translate}}
             </div>
-            <button class="copy-button" ion-button (click)="copyCode()" [copy]="recharge_address.paymentAccountNumber">
-                <ion-icon name="复制"></ion-icon>
-                {{'CLICK_AND_COPY'|translate}}
-            </button>
         </div>
         <div class="address-detail">
             <!-- <div class="qrcode-image">
@@ -40,13 +36,20 @@
             <div class="hash-code">
                 <ng-container *ngIf="recharge_address?.paymentAccountNumber;else noAddress">
                     <kjua-qrcode class="qrcode" fill="#2e2e2e" [text]="recharge_address.paymentAccountNumber"></kjua-qrcode>
-                    <p>{{recharge_address.paymentAccountNumber}}</p>
+                    
                 </ng-container>
                 <ng-template #noAddress>
                     <i>{{'NO_AVAILABLE_ADDRESS'|translate}}</i>
                 </ng-template>
             </div>
         </div>
+    </div>
+    <div class="address-text">
+        <div>{{recharge_address.paymentAccountNumber}}</div>
+        <button class="copy-button" ion-button (click)="copyCode()">
+            <ion-icon name="复制"></ion-icon>
+            {{'CLICK_AND_COPY'|translate}}
+        </button>
     </div>
     <div class="prompt">
         <div class="content" *ngIf="userLanguage == 'zh'">

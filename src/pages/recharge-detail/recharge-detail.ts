@@ -70,20 +70,20 @@ export class RechargeDetailPage extends SecondLevelPage {
                 .then(data => (this.recharge_address = data[0]));
 
             // 获取账户资产
-            tasks[tasks.length] = this.accountService
-                .getAccountProduct({
-                    productHouseId: this.productInfo.productHouseId,
-                    accountType: AccountType.Product,
-                })
-                .then(data => {
-                    data["balance"] = new BigNumber(
-                        data["balance"] + "",
-                    ).toString();
-                    data["freezeBalance"] = new BigNumber(
-                        data["freezeBalance"] + "",
-                    ).toString();
-                    this.access_info = data;
-                });
+            // tasks[tasks.length] = this.accountService
+            //     .getAccountProduct({
+            //         productHouseId: this.productInfo.productHouseId,
+            //         accountType: AccountType.Product,
+            //     })
+            //     .then(data => {
+            //         data["balance"] = new BigNumber(
+            //             data["balance"] + "",
+            //         ).toString();
+            //         data["freezeBalance"] = new BigNumber(
+            //             data["freezeBalance"] + "",
+            //         ).toString();
+            //         this.access_info = data;
+            //     });
             // 获取充值记录
             tasks[tasks.length] = this.getTransactionLogs();
             // 获取充值限额
@@ -112,7 +112,7 @@ export class RechargeDetailPage extends SecondLevelPage {
                 window["language"]["COPY_PLUGIN_ERROR"] || "复制插件异常",
             );
         }
-        navigator["clipboard"].writeText(
+        return navigator["clipboard"].writeText(
             this.recharge_address.paymentAccountNumber,
         );
     }
