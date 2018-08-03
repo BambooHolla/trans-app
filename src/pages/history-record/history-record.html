@@ -1,6 +1,6 @@
 <ion-header class="color-primary home-header animation-header">
 	<ion-navbar>
-		<ion-title>{{'HISTORY_TRANSACTION_RECORDS'|translate}}</ion-title>
+		<ion-title>委托订单</ion-title>
 	</ion-navbar>
 	<!-- <div class="hdbg header-with-bg">
 		<ion-navbar>
@@ -17,13 +17,18 @@
 		</div>
 		<smoothline-component [echartsData]="smoothlinedata"></smoothline-component>
 	</div> -->
-	<div class="comsub">
-		<ion-row center text-center>
-			<ion-col>{{'HISTORY_TIME'|translate}}</ion-col>
-			<ion-col>{{'HISTORY_PRICE'|translate}}</ion-col>
-			<ion-col>{{'HISTORY_VOLUME'|translate}}</ion-col>
-			<ion-col>{{'HISTORY_AMOUNT'|translate}}</ion-col>
-		</ion-row>
+	<div class="comsub-box">
+		<div class="comsub">
+				<ion-row center text-center>
+					<!-- <ion-col>{{'HISTORY_TIME'|translate}}</ion-col>
+					<ion-col>{{'HISTORY_PRICE'|translate}}</ion-col>
+					<ion-col>{{'HISTORY_VOLUME'|translate}}</ion-col>
+					<ion-col>{{'HISTORY_AMOUNT'|translate}}</ion-col> -->
+					<ion-col class="active">全部订单</ion-col>
+					<ion-col>委托买入</ion-col>
+					<ion-col>委托卖出</ion-col>
+				</ion-row>
+			</div>
 	</div>
 </ion-header>
 <ion-content no-bounce class="bg-darker">
@@ -40,7 +45,14 @@
 		</ion-refresher-content>
 	</ion-refresher>
 
-	<div class="no-entrust" *ngIf="!entrusts || entrusts.length == 0">{{'NO_FINISHED_DELEGATION_ORDER'|translate}}</div>
+	<div class="no-entrust" *ngIf="!entrusts || entrusts.length == 0">
+		<div class="no-entrust-logo">
+			<img src="assets/icon/no-entrust.png" alt="">
+		</div>
+		<div  class="no-entrust-text">
+			暂无委托
+		</div>
+	</div>
 	<ion-row *ngFor="let item of entrusts" align-items-center class="list-item">
 		<ion-col>
 			<div class="name">{{item.productHouseId ? (item.productHouseId | productId2name | async):'--'}}{{item.priceProductHouseId? '/' + (item.priceProductHouseId | productId2name | async):'--'}}</div>
