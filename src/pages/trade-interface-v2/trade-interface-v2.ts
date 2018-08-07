@@ -421,9 +421,9 @@ export class TradeInterfaceV2Page {
 
             // 新要求
             if (target == "amount") {
-                step = sign + 100;
+                step = sign + Math.pow(10, -this.amountPrecision);
             } else if (target == "price") {
-                step = sign + 1;
+                step = sign +  Math.pow(10, -this.pricePrecision);
             }
         }
 
@@ -978,6 +978,8 @@ export class TradeInterfaceV2Page {
                     toast.present();
                     //初始化数据
                     this.amount = "0";
+                    this.tradeValue = "0";
+                    this.rangeValue = 0;
                     //下单成功刷新委托单
                     this.page = 1;
                     this.getProcessEntrusts(); 
