@@ -22,7 +22,7 @@ export class RiseOrFallPipe implements PipeTransform {
         ) {
             return "";
         }
-
-        return value >= 0 ? "color-rise" : "color-fall";
+        if(value == 0) return ""
+        return value > 0 ? "color-rise" : "color-fall";
     }
 }

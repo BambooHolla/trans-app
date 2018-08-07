@@ -370,8 +370,8 @@ export class QuotationsPageV2 {
                         );
                     } else {
                         if (
-                            item.priceName.trim().toLowerCase() == product ||
-                            item.productName.trim().toLowerCase() == product
+                            item.priceName.trim().toLowerCase() == product 
+                            // || item.productName.trim().toLowerCase() == product
                         ) {
                             return true;
                         }
@@ -392,8 +392,9 @@ export class QuotationsPageV2 {
                     return;
                 } else {
                     if (
-                        item.priceName.trim().toLowerCase() == product ||
-                        item.productName.trim().toLowerCase() == product || product == 'all'
+                        item.priceName.trim().toLowerCase() == product 
+                        // || item.productName.trim().toLowerCase() == product 
+                        || product == 'all'
                     ) {
                         item.hidden = false;
                     } else {
