@@ -63,7 +63,7 @@
 </ion-header>
 <ion-content no-bounce class="home-contain">
   <ion-grid no-padding>
-    <ion-row class="main-button" text-center>
+    <!-- <ion-row class="main-button" text-center>
       <ion-col col-6 (click)="navPush('recharge-gateway',true)">
         <img src="assets/icon/充值.png" alt="">
         <span>{{'DEPOSIT'|translate}}</span>
@@ -72,7 +72,7 @@
         <img src="assets/icon/提现.png" alt="">
         <span>{{'WITHDRAW'|translate}}</span>
       </ion-col>
-    </ion-row>
+    </ion-row> -->
     <ion-row *ngFor="let data of commandData" tappable (click)="navPush(data.href,data.needLogin)" class="dark-8-transparent bottom-hr" [class.bottom-space]="data.bottomSpace">
       <ion-col padding class="vertical-center">
         <ion-icon name="{{data.icon}}" ios color="important" class="vertical-center"></ion-icon>
