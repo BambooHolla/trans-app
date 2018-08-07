@@ -81,7 +81,7 @@
 	<div *ngFor="let item of entrusts">
 		<div class="entrust">
 			<div class="header">
-				<div class="type" [class.buy]="item.operationType == '001'" [class.sale]="item.operationType == '002'">
+				<div class="type" [class.color-true]="appDataService?.risefallColor" [class.buy]="item.operationType == '001'" [class.sale]="item.operationType == '002'">
 					{{(item.operationType == '001'? 'BUY': item.operationType == '002'? 'SELL':'' )|translate}}
 				</div>
 				<div class="date-box">

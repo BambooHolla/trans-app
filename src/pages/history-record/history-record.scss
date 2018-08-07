@@ -156,6 +156,17 @@ page-history-record {
                         border: 1px solid color($colors, rise);
                         background-color: color($colors, rise);
                     }
+                    &.color-true {
+                        &.buy {
+                            border: 1px solid color($colors, fall-true);
+                            background-color: color($colors, fall-true);
+    
+                        }
+                        &.sale {
+                            border: 1px solid color($colors, rise-true);
+                            background-color: color($colors, rise-true);
+                        }
+                    }
                 }
                 .date-box {
                     margin-left: 0.8rem;

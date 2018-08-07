@@ -302,6 +302,10 @@ export class TradeService {
             .request(RequestMethod.Get, path, undefined)
             .then(data => {
                 console.log("getMainProducts: ", data);
+                data = data.filter( item => {
+                    if(item.productName != 'ETH') return true;
+                    return false;
+                })
                 this.appDataService.mainproducts = [{productName:'ALL'}]
                 this.appDataService.mainproducts.push(...data)
                 return Promise.resolve(data);

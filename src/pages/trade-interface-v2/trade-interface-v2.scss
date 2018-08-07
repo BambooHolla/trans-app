@@ -164,10 +164,10 @@ page-trade-interface-v2 {
             }
             .range-slider {
                 .range-tick:nth-child(1),  
-                .range-tick:nth-child(26),
-                .range-tick:nth-child(51),
-                .range-tick:nth-child(76),
-                .range-tick:nth-child(101){
+                .range-tick:nth-child(2),
+                .range-tick:nth-child(3),
+                .range-tick:nth-child(4),
+                .range-tick:nth-child(5){
                     width: 16px;
                     height: 16px; 
                     visibility: visible;
@@ -187,6 +187,22 @@ page-trade-interface-v2 {
                 background: color($colors, rise); 
                 border: 2px solid white;
             }
+            &.color-true {
+                .range-tick-active,
+                .range-bar-active {
+                    background: color($colors, rise-true)!important;
+                    // border-radius: 2.5px;
+    
+                }
+                .range-slider .range-bar:first-child { 
+                    border: 1px solid color($colors, rise-true);
+                    background: transparent;
+                }
+                .range-knob {
+                    background: color($colors, rise-true); 
+                    border: 2px solid white;
+                }
+            }
         }
         &.sale {
             ion-range {
@@ -204,6 +220,23 @@ page-trade-interface-v2 {
                 }
                 .range-knob {
                     background: color($colors, fall); 
+                }
+                &.color-true {
+                    .range-tick-active,
+                    .range-bar-active {
+                        background: color($colors, fall-true)!important;
+                        // border-radius: 2.5px;
+        
+                    }
+                    .range-bar-active {
+                        background: color($colors, fall-true); 
+                    }
+                    .range-slider .range-bar:first-child {
+                        border: 1px solid color($colors, fall-true);
+                    }
+                    .range-knob {
+                        background: color($colors, fall-true); 
+                    }
                 }
             }
         }
@@ -351,6 +384,13 @@ page-trade-interface-v2 {
                     &.buy {
                        color: rgba(color($colors, fall), 1);
                        border-bottom: 2px solid color($colors, fall);
+                       &.color-true {
+                        color: rgba(color($colors, fall-true), 1)!important;
+                        border-bottom: 2px solid color($colors, fall-true)!important; 
+                        &::before {
+                            border-color: color($colors, fall-true) transparent transparent  transparent!important; 
+                        }
+                       }
                        &::before {
                             display:block;
                             content:'';
@@ -371,6 +411,13 @@ page-trade-interface-v2 {
                             1 
                         );
                         border-bottom: 2px solid color($colors, rise); 
+                        &.color-true {
+                            color: rgba(color($colors, rise-true), 1)!important;
+                            border-bottom: 2px solid color($colors, rise-true)!important; 
+                            &::before {
+                                border-color: color($colors, rise-true) transparent transparent  transparent!important; 
+                            }
+                        }
                         &::before {
                             display:block;
                             content:'';
@@ -555,6 +602,12 @@ page-trade-interface-v2 {
             &.trbtn-type-2 {
                 height: 3.6rem;
                 padding: 0.8rem;
+            }
+            &.color-true {
+                background: color($colors, fall-true)!important;
+                &.issale {
+                    background: color($colors, rise-true)!important;
+                }
             }
         }
 
@@ -792,6 +845,17 @@ page-trade-interface-v2 {
                         border: 1px solid color($colors, rise);
                         background-color: color($colors, rise);
                     }
+                    &.color-true {
+                        &.buy {
+                            border: 1px solid color($colors, fall-true);
+                            background-color: color($colors, fall-true);
+    
+                        }
+                        &.sale {
+                            border: 1px solid color($colors, rise-true);
+                            background-color: color($colors, rise-true);
+                        }
+                    }
                 }
                 .date {
                     color: color($colors, middark);
@@ -827,6 +891,18 @@ page-trade-interface-v2 {
                 &.sale {
                     .value {
                         color: color($colors, rise)!important; 
+                    }
+                }
+                &.color-true {
+                    &.buy {
+                        .value {
+                            color: color($colors, fall-true)!important; 
+                        }
+                    }
+                    &.sale {
+                        .value {
+                            color: color($colors, rise-true)!important; 
+                        }
                     }
                 }
                 .col {
@@ -1032,7 +1108,12 @@ page-trade-interface-v2 {
                         line-height: 3.6rem;
                     }
                     &.best-group-left {
-                        border-right: 1px solid color($colors, background);
+                        .bet {
+                            border-right: 1px solid color($colors, background);
+                        }
+                        .depth-title-type-2 {
+                            border-right: 1px solid #242435;
+                        }
                     }
                 }
                 & + .bets-group {
@@ -1065,9 +1146,15 @@ page-trade-interface-v2 {
                     } 
                     .sale {
                         color: color($colors, rise)!important; 
+                        &.color-true {
+                            color: color($colors, rise-true)!important; 
+                        }
                     }
                     .buy {
                         color: color($colors, fall)!important; 
+                        &.color-true {
+                            color: color($colors, fall-true)!important; 
+                        }
                     }
                     .tip {
                         color: color($colors, middark)!important; 

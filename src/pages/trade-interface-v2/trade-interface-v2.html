@@ -62,7 +62,7 @@
 									<span>{{(_baseData$ | async)?.min | priceConversion:6 | numberFilter:true}}</span>
 								</div>
 							</div> -->
-							<div class="price {{(_baseData$ | async)?.range | riseOrFall}}">
+							<div class="price {{(_baseData$ | async)?.range | riseOrFall}}{{!appDataService?.risefallColor?'-true':''}}">
 								{{(_baseData$ | async)?.price | priceConversion:5 | numberFilter:false}}
 								<span><i class="picasso-icon-about"></i> {{currencyPrice| priceConversion:5 | numberFilter:false}} <span class="unit">{{appDataService.CURRENCY_INFO?.currencyTo}}</span></span>
 							</div>
@@ -109,7 +109,7 @@
 									</div>
 								<div *ngFor="let item of buyer ; let i = index;" class="bet" tappable (click)="setPrice(buy_depth[i]?.price)"> 
 									<div class="bet-label " [class.size-1rem]="size_1rem">{{item}}</div>
-									<div class="bet-price buy depth-div" [class.size-1rem]="size_1rem">{{buy_depth[i]?.price || '--' | priceConversion:8 | numberUnitFormat:true:false:8}}</div>
+									<div class="bet-price buy depth-div" [class.color-true]="appDataService?.risefallColor" [class.size-1rem]="size_1rem">{{buy_depth[i]?.price || '--' | priceConversion:8 | numberUnitFormat:true:false:8}}</div>
 									<div class="bet-amount" [class.size-1rem]="size_1rem">{{buy_depth[i]?.amount || '--' | quantityConversion:8 | numberUnitFormat:false:true:8:8 | unitConversion}}</div>
 								</div>
 							</div>
@@ -121,7 +121,7 @@
 								   </div>
 								<div *ngFor="let item of saler ; let i = index;" class="bet" tappable (click)="setPrice(sale_depth[i]?.price)">
 									<div class="bet-label " [class.size-1rem]="size_1rem">{{item}}</div>
-									<div class="bet-price sale depth-div" [class.size-1rem]="size_1rem">{{sale_depth[i]?.price || '--' | priceConversion | numberUnitFormat:true:false:8}}</div>
+									<div class="bet-price sale depth-div" [class.color-true]="appDataService?.risefallColor" [class.size-1rem]="size_1rem">{{sale_depth[i]?.price || '--' | priceConversion | numberUnitFormat:true:false:8}}</div>
 									<div class="bet-amount" [class.size-1rem]="size_1rem">{{sale_depth[i]?.amount || '--' | quantityConversion | numberUnitFormat:false:true:8:8 | unitConversion }}</div>
 								</div>
 							</div>
@@ -177,10 +177,8 @@
 					<!-- 限价交易 -->
 					<ion-grid [hidden]="appDataService.show_onestep_trade" [scroll-fix-keyboard]="content">
 						<ion-row class="entrust-type" (click)="chooseTradeType($event)">
-							
-				
-							<ion-col data-trade-type="1" class="buy" [class.enabled]="!!(tradeType$|async)">{{'BUY'|translate}}</ion-col>
-							<ion-col data-trade-type="0" class="sale" [class.enabled]="!(tradeType$|async)">{{'SELL'|translate}}</ion-col>
+							<ion-col data-trade-type="1" class="buy" [class.enabled]="!!(tradeType$|async)" [class.color-true]="appDataService?.risefallColor">{{'BUY'|translate}}</ion-col>
+							<ion-col data-trade-type="0" class="sale" [class.enabled]="!(tradeType$|async)" [class.color-true]="appDataService?.risefallColor">{{'SELL'|translate}}</ion-col>
 						</ion-row>
 					</ion-grid>	
 					<ion-grid [hidden]="appDataService.show_onestep_trade" class="trinp  content-block">
@@ -217,7 +215,7 @@
 					
 						<ion-row class="range">
 							<ion-item no-lines class="trade-range"  [class.sale]="!!(tradeType$|async)">
-								<ion-range min='0'step='1' max='100' snaps='true' pin="false"
+								<ion-range min='0'step='25' max='100' snaps='true' pin="false"  [class.color-true]="appDataService?.risefallColor"
 								 [(ngModel)]='rangeValue' (ionChange)="tradeRangeChange($event)"
 								 ></ion-range>
 							</ion-item>
@@ -281,7 +279,7 @@
 								  [disabled]="+amount <= 0 || +price <= 0 || (_saleableQuantity$ | async) < amount" 
 									(click)="toSale()">委托卖出</button>
 							</ion-col> -->
-							<button class="trbtn" [class.issale]="!(tradeType$|async)"  [class.disabled]="!productStatus"
+							<button class="trbtn" [class.color-true]='appDataService?.risefallColor'  [class.issale]="!(tradeType$|async)"  [class.disabled]="!productStatus"
 								block [disabled]="trading" (click)="productStatus && (!appSetting.getUserToken()? goLogin() : doTrade())">
 									{{(!appSetting.getUserToken()?
 										'LOGIN' :
@@ -409,12 +407,12 @@
 						</div>
 						<div *ngFor="let item of buyer ; let i = index;" class="bet depth-type-2" tappable (click)="setPrice(buy_depth[i]?.price)"> 
 							<div class="bet-label " [class.size-1rem]="size_1rem">{{item}}</div>
-							<div class="bet-price buy depth-div" [class.size-1rem]="size_1rem">{{buy_depth[i]?.price || '--' | priceConversion:8 | numberUnitFormat:true:false:8}}</div>
+							<div class="bet-price buy depth-div" [class.color-true]="appDataService?.risefallColor" [class.size-1rem]="size_1rem">{{buy_depth[i]?.price || '--' | priceConversion:8 | numberUnitFormat:true:false:8}}</div>
 							<div class="bet-amount" [class.size-1rem]="size_1rem">{{buy_depth[i]?.amount || '--' | quantityConversion:8 | numberUnitFormat:false:true:8:8 | unitConversion}}</div>
 						</div>
 						<div *ngFor="let item of saler ; let i = index;" class="bet" tappable (click)="setPrice(sale_depth[i]?.price)">
 							<div class="bet-label " [class.size-1rem]="size_1rem">{{item}}</div>
-							<div class="bet-price sale depth-div" [class.size-1rem]="size_1rem">{{sale_depth[i]?.price || '--' | priceConversion | numberUnitFormat:true:false:8}}</div>
+							<div class="bet-price sale depth-div" [class.color-true]="appDataService?.risefallColor" [class.size-1rem]="size_1rem">{{sale_depth[i]?.price || '--' | priceConversion | numberUnitFormat:true:false:8}}</div>
 							<div class="bet-amount" [class.size-1rem]="size_1rem">{{sale_depth[i]?.amount || '--' | quantityConversion | numberUnitFormat:false:true:8:8 | unitConversion }}</div>
 						</div>
 					</div>
@@ -422,13 +420,13 @@
 					<div class="bet bet-left trade-title-type-2" tappable>
 						<ion-grid [hidden]="appDataService.show_onestep_trade" [scroll-fix-keyboard]="content">
 							<ion-row class="entrust-type" (click)="chooseTradeType($event)">
-								<ion-col data-trade-type="1" class="buy" [class.enabled]="!!(tradeType$|async)">{{'BUY'|translate}}</ion-col>
-								<ion-col data-trade-type="0" class="sale" [class.enabled]="!(tradeType$|async)">{{'SELL'|translate}}</ion-col>
+								<ion-col data-trade-type="1" class="buy" [class.enabled]="!!(tradeType$|async)" [class.color-true]="appDataService?.risefallColor">{{'BUY'|translate}}</ion-col>
+								<ion-col data-trade-type="0" class="sale" [class.enabled]="!(tradeType$|async)" [class.color-true]="appDataService?.risefallColor">{{'SELL'|translate}}</ion-col>
 							</ion-row>
 						</ion-grid>	
 					</div>
 					<div class="market-head market-head-type-2">
-						<div class="price {{(_baseData$ | async)?.range | riseOrFall}}">
+						<div class="price {{(_baseData$ | async)?.range | riseOrFall}}{{!appDataService?.risefallColor?'-true':''}}">
 							{{(_baseData$ | async)?.price | priceConversion:5 | numberFilter:false}}
 							<div>
 								<span><i class="picasso-icon-about"></i> {{currencyPrice| priceConversion:5 | numberFilter:false}} <span class="unit">{{appDataService.CURRENCY_INFO?.currencyTo}}</span></span>
@@ -459,7 +457,7 @@
 						
 							<ion-row class="range">
 								<ion-item no-lines class="trade-range  trade-range-type-2"  [class.sale]="!!(tradeType$|async)">
-									<ion-range class="range-type-2" min='0'step='1' max='100' snaps='true' pin="false"
+									<ion-range class="range-type-2" min='0' step='25' max='100' snaps='true' pin="false"  [class.color-true]="appDataService?.risefallColor"
 									 [(ngModel)]='rangeValue' (ionChange)="tradeRangeChange($event)"
 									 ></ion-range>
 								</ion-item>
@@ -498,7 +496,7 @@
 								</div>
 							</ion-row>
 							<ion-row style="padding-top: 1rem;">
-								<button class="trbtn trbtn-type-2" [class.issale]="!(tradeType$|async)"  [class.disabled]="!productStatus"
+								<button class="trbtn trbtn-type-2" [class.color-true]='appDataService?.risefallColor' [class.issale]="!(tradeType$|async)"  [class.disabled]="!productStatus"
 									block [disabled]="trading" (click)="productStatus && (!appSetting.getUserToken()? goLogin() : doTrade())">
 										{{(!appSetting.getUserToken()?
 											'LOGIN' :
@@ -518,12 +516,12 @@
 					</div>
 					<div *ngFor="let item of buyer ; let i = index;" class="bet depth-type-2" tappable (click)="setPrice(buy_depth[i]?.price)"> 
 						<div class="bet-label " [class.size-1rem]="size_1rem">{{item}}</div>
-						<div class="bet-price buy depth-div" [class.size-1rem]="size_1rem">{{buy_depth[i]?.price || '--' | priceConversion:8 | numberUnitFormat:true:false:8}}</div>
+						<div class="bet-price buy depth-div" [class.color-true]="appDataService?.risefallColor" [class.size-1rem]="size_1rem">{{buy_depth[i]?.price || '--' | priceConversion:8 | numberUnitFormat:true:false:8}}</div>
 						<div class="bet-amount" [class.size-1rem]="size_1rem">{{buy_depth[i]?.amount || '--' | quantityConversion:8 | numberUnitFormat:false:true:8:8 | unitConversion}}</div>
 					</div>
 					<div *ngFor="let item of saler ; let i = index;" class="bet" tappable (click)="setPrice(sale_depth[i]?.price)">
 						<div class="bet-label " [class.size-1rem]="size_1rem">{{item}}</div>
-						<div class="bet-price sale depth-div" [class.size-1rem]="size_1rem">{{sale_depth[i]?.price || '--' | priceConversion | numberUnitFormat:true:false:8}}</div>
+						<div class="bet-price sale depth-div" [class.color-true]="appDataService?.risefallColor" [class.size-1rem]="size_1rem">{{sale_depth[i]?.price || '--' | priceConversion | numberUnitFormat:true:false:8}}</div>
 						<div class="bet-amount" [class.size-1rem]="size_1rem">{{sale_depth[i]?.amount || '--' | quantityConversion | numberUnitFormat:false:true:8:8 | unitConversion }}</div>
 					</div>
 				</div>
@@ -545,13 +543,13 @@
 		<div *ngFor="let item of entrusts">
 			<div class="entrust">
 				<div class="header">
-					<div class="type" [class.buy]="item.operationType == '001'" [class.sale]="item.operationType == '002'">
+					<div class="type"  [class.color-true]="appDataService?.risefallColor" [class.buy]="item.operationType == '001'" [class.sale]="item.operationType == '002'">
 						{{(item.operationType == '001'? 'BUY': item.operationType == '002'? 'SELL':'' )|translate}}
 					</div>
 					<div class="date">{{item.entrustTime | date:'yyyy-MM-dd'}}</div>
 					<button (click)="confirmCancel(item.id,item.entrustTime,item.operationType)">{{'REVOKE'|translate}}</button>
 				</div>
-				<div class="params"  [class.buy]="item.operationType == '001'" [class.sale]="item.operationType == '002'">
+				<div class="params" [class.color-true]="appDataService?.risefallColor"  [class.buy]="item.operationType == '001'" [class.sale]="item.operationType == '002'">
 					<div class="col">
 						<div *ngIf="!item?.isMarketOrder">
 							<span class="name">{{'DELEGATED_PRICE'|translate}}</span>

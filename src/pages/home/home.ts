@@ -78,13 +78,13 @@ export class HomePage extends FirstLevelPage implements OnInit {
             needLogin: true,
             // bottomSpace: true,
         },
-        {
-            icon: "security",
-            name: "安全中心",
-            href: HistoryRecordPage,
-            needLogin: true,
-            // bottomSpace: true,
-        },
+        // {
+        //     icon: "security",
+        //     name: "安全中心",
+        //     href: HistoryRecordPage,
+        //     needLogin: true,
+        //     // bottomSpace: true,
+        // },
         {
             icon: "setting",
             name: "设置",
