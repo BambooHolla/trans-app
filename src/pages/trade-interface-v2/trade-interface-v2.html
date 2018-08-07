@@ -250,22 +250,22 @@
 							<div class="range-mark">
 								<div class="left" *ngIf="!(tradeType$|async)">
 									交易额：
-									<span class="trade-value">{{tradeValue||'--'}}</span>
+									<span class="trade-value">{{tradeValue||'--' | unitConversion}}</span>
 									<span class="unit">{{productName || '--'}}</span>
 								</div>
 								<div class="left" *ngIf="!!(tradeType$|async)">
 									交易额：
-									<span class="trade-value">{{tradeValue||'--'}}</span>
+									<span class="trade-value">{{tradeValue||'--' | unitConversion}}</span>
 									<span class="unit">{{priceName || '--'}}</span>
 								</div>
 								<div class="right"  *ngIf="!(tradeType$|async)">
 									{{'AVAILABLE'|translate}}：
-									<span class="trade-value">{{appDataService?.hiddentext || (trader_product?.restQuantity || '--' | quantityConversion  | numberUnitFormat:true:false:8)}}</span>
+									<span class="trade-value">{{appDataService?.hiddentext || (trader_product?.restQuantity || '--' | quantityConversion  | numberUnitFormat:true:false:8 | unitConversion)}}</span>
 									<span class="unit">{{productName || '--'}}</span>
 								</div>
 								<div class="right"  *ngIf="!!(tradeType$|async)">
 									{{'AVAILABLE'|translate}}：
-									<span class="trade-value">{{appDataService?.hiddentext || (trader_target?.restQuantity || '--' | quantityConversion  | numberUnitFormat:true:false:8)}}</span>
+									<span class="trade-value">{{appDataService?.hiddentext || (trader_target?.restQuantity || '--' | quantityConversion  | numberUnitFormat:true:false:8 | unitConversion)}}</span>
 									<span class="unit">{{priceName || '--'}}</span>
 								</div>
 							</div>
@@ -440,8 +440,8 @@
 							<ion-row class="input-row input-row-type-2">
 								<ion-col col-2 tappable (click)="changeByStep('price','-')">-</ion-col>
 								<ion-col col-7>
-										<ion-item class="item-background-color">
-									<ion-input #priceInputer type="number" placeholder="委托价格"
+										<ion-item class="item-background-color item-input-padding">
+									<ion-input #priceInputer2 type="number" placeholder="委托价格"
 										[(ngModel)]="price"
 										(ngModelChange)="formatNumber('price',-8)"
 										></ion-input>
@@ -452,7 +452,7 @@
 							<ion-row class="input-row input-row-type-2" align-items-center>
 								<ion-col col-2 tappable (click)="changeByStep('amount','-')">-</ion-col>
 								<ion-col col-7>
-										<ion-item class="item-background-color"> <ion-input #amountInputer type="number" placeholder="委托数量" [(ngModel)]="amount" (ngModelChange)="formatNumber('amount')"></ion-input></ion-item>
+										<ion-item class="item-background-color item-input-padding"> <ion-input #amountInputer2 type="number" placeholder="委托数量" [(ngModel)]="amount" (ngModelChange)="formatNumber('amount')"></ion-input></ion-item>
 								</ion-col>
 								<ion-col col-2 tappable (click)="changeByStep('amount','+')">+</ion-col>
 							</ion-row>
@@ -472,12 +472,12 @@
 								<div class="range-mark">
 									<div class="right"  *ngIf="!(tradeType$|async)">
 										可　用：
-										<span class="trade-value">{{appDataService?.hiddentext || (trader_product?.restQuantity || '--' | quantityConversion  | numberUnitFormat:true:false:8)}}</span>
+										<span class="trade-value">{{appDataService?.hiddentext || (trader_product?.restQuantity || '--' | quantityConversion  | numberUnitFormat:true:false:8 | unitConversion)}}</span>
 										<span class="unit">{{productName || '--'}}</span>
 									</div>
 									<div class="right"  *ngIf="!!(tradeType$|async)">
 										可　用：
-										<span class="trade-value">{{appDataService?.hiddentext || (trader_target?.restQuantity || '--' | quantityConversion  | numberUnitFormat:true:false:8)}}</span>
+										<span class="trade-value">{{appDataService?.hiddentext || (trader_target?.restQuantity || '--' | quantityConversion  | numberUnitFormat:true:false:8 | unitConversion)}}</span>
 										<span class="unit">{{priceName || '--'}}</span>
 									</div>
 								</div>
@@ -487,12 +487,12 @@
 									
 									<div class="left" *ngIf="!(tradeType$|async)">
 										交易额：
-										<span class="trade-value">{{tradeValue||'--'}}</span>
+										<span class="trade-value">{{(tradeValue||'--') | unitConversion}}</span>
 										<span class="unit">{{productName || '--'}}</span>
 									</div>
 									<div class="left" *ngIf="!!(tradeType$|async)">
 										交易额：
-										<span class="trade-value">{{tradeValue||'--'}}</span>
+										<span class="trade-value">{{(tradeValue||'--') | unitConversion}}</span>
 										<span class="unit">{{priceName || '--'}}</span>
 									</div>
 								</div>

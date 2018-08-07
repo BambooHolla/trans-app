@@ -24,9 +24,9 @@
 					<ion-col>{{'HISTORY_PRICE'|translate}}</ion-col>
 					<ion-col>{{'HISTORY_VOLUME'|translate}}</ion-col>
 					<ion-col>{{'HISTORY_AMOUNT'|translate}}</ion-col> -->
-					<ion-col class="active">全部订单</ion-col>
-					<ion-col>委托买入</ion-col>
-					<ion-col>委托卖出</ion-col>
+					<ion-col  (click)="getHistoryStatus('',1)"     [class.active]='headerActive == 1'>全部订单</ion-col>
+					<ion-col  (click)="getHistoryStatus('001',2)"  [class.active]='headerActive == 2'>委托买入</ion-col>
+					<ion-col  (click)="getHistoryStatus('002',3)"  [class.active]='headerActive == 3'>委托卖出</ion-col>
 				</ion-row>
 			</div>
 	</div>
@@ -53,7 +53,7 @@
 			暂无委托
 		</div>
 	</div>
-	<ion-row *ngFor="let item of entrusts" align-items-center class="list-item">
+	<!-- <ion-row *ngFor="let item of entrusts" align-items-center class="list-item">
 		<ion-col>
 			<div class="name">{{item.productHouseId ? (item.productHouseId | productId2name | async):'--'}}{{item.priceProductHouseId? '/' + (item.priceProductHouseId | productId2name | async):'--'}}</div>
 			<span>{{item.updatedTime | date:'yyyy-MM-dd HH:mm:ss'}}</span>
@@ -77,8 +77,60 @@
 			</div>
 			{{item.completeTotalPrice |quantityConversion}}
 		</ion-col>
-	</ion-row>
-
+	</ion-row> -->
+	<div *ngFor="let item of entrusts">
+		<div class="entrust">
+			<div class="header">
+				<div class="type" [class.buy]="item.operationType == '001'" [class.sale]="item.operationType == '002'">
+					{{(item.operationType == '001'? 'BUY': item.operationType == '002'? 'SELL':'' )|translate}}
+				</div>
+				<div class="date-box">
+					<div class="title">
+						<div class="productName">
+							{{item.productHouseId ? (item.productHouseId | productId2name | async) +  ' / ' :'--'}}
+						</div>
+						<div class="priceName">
+							{{item.priceProductHouseId?(item.priceProductHouseId | productId2name | async):'--'}}
+						</div>
+					</div>
+					<div class="date">{{item.updatedTime | date:'yyyy-MM-dd HH:mm:ss'}}</div>
+				</div>
+				<button (click)="confirmCancel(item.id,item.entrustTime,item.operationType)" *ngIf='item.entrustStatus == "001" || item.entrustStatus == "002"'>{{'REVOKE'|translate}}</button>
+			</div>
+			<div class="params" >
+				<div class="col">
+					<div *ngIf="!item?.isMarketOrder">
+						<span class="name">{{'DELEGATED_PRICE'|translate}}</span>
+						<span class="value">{{item.completePrice}}</span>
+					</div>
+					<div *ngIf="item?.isMarketOrder">
+						<span class="kj-name">{{'QUICK_TRANSACTION'|translate}}</span>
+					</div>
+				</div>
+				<div class="col">
+					<div *ngIf="!item?.isMarketOrder">
+						<span class="name">{{'DELEGATED_QUANTITY'|translate}}</span>
+						<span class="value">{{item.completeAmount |quantityConversion}}</span>
+					</div>
+					<div *ngIf="item?.isMarketOrder">
+						<span class="name">{{(item.operationType == '001'? '委托金额': item.operationType == '002'? '委托数量':'' )|translate}}</span>
+						<span class="value">{{(item.operationType == '001'? item.entrustTotalPrice: item.operationType == '002'? item.entrustAmount:'' )|quantityConversion}}</span>
+					</div>
+				</div>
+				<div class="col">
+					<div *ngIf="!item?.isMarketOrder">
+						<span class="name">{{'BALANCE_QUANTITY'|translate}}</span>
+						<span class="value">{{item.surplusAmount |quantityConversion}}</span>
+					</div>
+					<div *ngIf="item?.isMarketOrder">
+						<span class="name">{{(item.operationType == '001'? '剩余金额': item.operationType == '002'? '剩余数量':'' )|translate}}</span>
+						<!-- TODO：快捷买卖剩余的字段使用了同一个，之后分开 -->
+						<span class="value">{{(item.operationType == '001'? item.surplusTotalPrice: item.operationType == '002'? item.surplusTotalPrice:'' ) |quantityConversion}}</span>
+					</div>
+				</div>
+			</div>
+		</div> 
+	</div>
 	<!--加载更多-->
 	<ion-infinite-scroll [enabled]="hasMore" (ionInfinite)="loadMoreHistory($event)">
 		<ion-infinite-scroll-content loadingText="{{'LOADING'|translate}}...">

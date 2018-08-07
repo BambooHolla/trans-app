@@ -64,9 +64,7 @@ export class IdentificationPage extends SecondLevelPage {
         });
     }
     @asyncCtrlGenerator.loading()
-    @asyncCtrlGenerator.error(() =>
-        IdentificationPage.getTranslateSync("ID_SUBMIT_FAIL") 
-    )
+    @asyncCtrlGenerator.error("@@ID_SUBMIT_FAIL") 
     async submitPhoto() {
         // await this.accountService.submitCertification()
         const result = {};
@@ -105,9 +103,7 @@ export class IdentificationPage extends SecondLevelPage {
         imageTaker.present();
     }
 
-    @asyncCtrlGenerator.error(() =>
-        IdentificationPage.getTranslateSync("UPLOAD_PHOTO_FAIL") 
-    )
+    @asyncCtrlGenerator.error("@@UPLOAD_PHOTO_FAIL") 
     async updateImage(
         fid_promise: Promise<any>,
         image: typeof IdentificationPage.prototype.images[0],

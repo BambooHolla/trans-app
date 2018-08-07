@@ -535,7 +535,7 @@ export class PersonalDataService {
 
     parseEquityDeposit(data) {
         this._personalStockListIsNull.next(data.length === 0);
-        console.log(" ", data);
+        console.log(" parseEquityDeposit", data);
         // 严格处理的话，需要过滤数据，查看是否为当前用户的持仓。
         // tofix:先用总持仓当可卖持仓
         this._personalStockList.next(
@@ -544,6 +544,8 @@ export class PersonalDataService {
                 restQuantity: item.FID_GQSL || item.totalAmount,
                 freezeQuantity: item.FID_DJSL || item.freezeAsset,
                 saleableQuantity: item.FID_KMCSL || item.totalAmount,
+                currentPrice: item.currentPrice,
+                availableAmount: item.availableAmount,
                 cost:
                     item.FID_CCJJ ||
                     (item.totalCost / item.totalAmount || 0).toFixed(4),

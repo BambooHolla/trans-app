@@ -152,6 +152,69 @@
 
 .picasso-icon-refresh:before { content: "\e64a"; }
 
+/* 冻结金额 */
+
+@font-face {font-family: "picasso-icon-free-amount";
+  src: url('iconfont.eot?t=1533535434331'); /* IE9*/
+  src: url('iconfont.eot?t=1533535434331#iefix') format('embedded-opentype'), /* IE6-IE8 */
+  url('data:application/x-font-woff;charset=utf-8;base64,d09GRgABAAAAAAXUAAsAAAAACHAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAABHU1VCAAABCAAAADMAAABCsP6z7U9TLzIAAAE8AAAARAAAAFZW7kh4Y21hcAAAAYAAAABeAAABhptwBr5nbHlmAAAB4AAAAgIAAAJUQvOcHWhlYWQAAAPkAAAALwAAADYSO0+KaGhlYQAABBQAAAAcAAAAJAfeA4RobXR4AAAEMAAAAAwAAAAMC+kAAGxvY2EAAAQ8AAAACAAAAAgAdgEqbWF4cAAABEQAAAAfAAAAIAEVAIZuYW1lAAAEZAAAAUUAAAJtPlT+fXBvc3QAAAWsAAAAKAAAADk5WrLieJxjYGRgYOBikGPQYWB0cfMJYeBgYGGAAJAMY05meiJQDMoDyrGAaQ4gZoOIAgCKIwNPAHicY2Bk/sE4gYGVgYOpk+kMAwNDP4RmfM1gxMjBwMDEwMrMgBUEpLmmMDgwVDzrY27438AQw9zA0AAUZgTJAQAt5gz6eJzFkMENgDAMAy9t6QMxCA8G4sUcnaJjdo1iQnkwQS05VhxLiQIsQBQPMYFdGA9OueZ+ZHU/eSZLjUBptXf1nyqiWXYNKplpsHmr/9i87qPTVyiDOrHVl4QbvR4NxwAAeJwlUM9r1EAYnZdssrO/sm2S2ewm2aRJ3MxKbaDbbIKWph481LYHwYN66nrwYKFeiyDYi+DBg9L2D1CE/gtFehYE/wQPFgvePYgXo5N2GL73vu+9+eANUQj5dy6fyX1ikDFZJnfIPUKgLiLUpCECnibSIligMMvUZB7xoB6FibwGK1TN3iRLY0utq11o8LASTDKeSBzTtJBWMekNgYFj39dHri6/RbPPvVflpvQBzI/cbrFU3r2xbk4WDLrf1vWBrr+hqqJQSap1NexZvYbSaKrlR6VrszP/uuSjPeD29qPOgqM/fp0+G46sBnBwAMNZ0E7W5+15cV/YPUMf1Oc6tG93omsm9i9afaM9jH8QcWhV5GPpF5kjFvFIQm6JtE/Ic5E4qQKbnjQppDRWCliIM0UDR0+FyJVPE0RBqA5h9vJMJLWYWg9iXl/J8ihcQ5oHWR5XjjrzxOfwaZZXkobqxSriaW5FsfAJysX00hXE8sZotruzOR5vzp7OBJTvbh4W5UXSwENB4CaNvzPsMQdwWHnIHNcDxQYFaHlKEX6ft35Tiv540mpXsrDdrsRjpXXKHIedyFj+RumXDv18tQO+i68jzrd2dne2rqCWN5fK8+Lop0D4xRHeu+bUdC/Lg1qtXwNqf3ynIqGhXI5fVo3nin0pcwymf4IYuP5VD/s/He1hpgAAeJxjYGRgYADiYI1rsvH8Nl8ZuFkYQOB6H+spBP3/IQsDswSQy8HABBIFAA6ECZAAeJxjYGRgYG7438AQw8IAAkCSkQEVMAMARwkCbAQAAAAD6QAABAAAAAAAAAAAdgEqeJxjYGRgYGBmqGLgYAABJiDmAkIGhv9gPgMAFT0BnAB4nGWPTU7DMBCFX/oHpBKqqGCH5AViASj9EatuWFRq911036ZOmyqJI8et1ANwHo7ACTgC3IA78EgnmzaWx9+8eWNPANzgBx6O3y33kT1cMjtyDRe4F65TfxBukF+Em2jjVbhF/U3YxzOmwm10YXmD17hi9oR3YQ8dfAjXcI1P4Tr1L+EG+Vu4iTv8CrfQ8erCPuZeV7iNRy/2x1YvnF6p5UHFockikzm/gple75KFrdLqnGtbxCZTg6BfSVOdaVvdU+zXQ+ciFVmTqgmrOkmMyq3Z6tAFG+fyUa8XiR6EJuVYY/62xgKOcQWFJQ6MMUIYZIjK6Og7VWb0r7FDwl57Vj3N53RbFNT/c4UBAvTPXFO6stJ5Ok+BPV8bUnV0K27LnpQ0kV7NSRKyQl7WtlRC6gE2ZVeOEXpc0Yk/KGdI/wAJWm7IAAAAeJxjYGKAAC4G7ICZkYmRmZGFgbGCOyU/Lz0rMzUrMy+VgQEAL68FJg==') format('woff'),
+  url('iconfont.ttf?t=1533535434331') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+*/
+  url('iconfont.svg?t=1533535434331#iconfont') format('svg'); /* iOS 4.1- */
+}
+
+.picasso-icon-free-amount {
+  font-family:"picasso-icon-free-amount" !important;
+  font-size:1.3rem;
+  font-style:normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.picasso-icon-free-amount:before { content: "\e68e"; }
+
+/* 可用金额 */
+
+@font-face {font-family: "picasso-icon-available-amount";
+  src: url('iconfont.eot?t=1533542239473'); /* IE9*/
+  src: url('iconfont.eot?t=1533542239473#iefix') format('embedded-opentype'), /* IE6-IE8 */
+  url('data:application/x-font-woff;charset=utf-8;base64,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') format('woff'),
+  url('iconfont.ttf?t=1533542239473') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+*/
+  url('iconfont.svg?t=1533542239473#iconfont') format('svg'); /* iOS 4.1- */
+}
+
+.picasso-icon-available-amount {
+  font-family:"picasso-icon-available-amount" !important;
+  font-size:16px;
+  font-style:normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.picasso-icon-available-amount:before { content: "\e605"; }
+
+
+
+/* 资产记录 */
+
+@font-face {font-family: "picasso-icon-asset-records";
+  src: url('iconfont.eot?t=1533535569490'); /* IE9*/
+  src: url('iconfont.eot?t=1533535569490#iefix') format('embedded-opentype'), /* IE6-IE8 */
+  url('data:application/x-font-woff;charset=utf-8;base64,d09GRgABAAAAAAWAAAsAAAAAB/wAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAABHU1VCAAABCAAAADMAAABCsP6z7U9TLzIAAAE8AAAARAAAAFZW7kf4Y21hcAAAAYAAAABdAAABhplwBr5nbHlmAAAB4AAAAbAAAAHkE577bmhlYWQAAAOQAAAALwAAADYSO1C4aGhlYQAAA8AAAAAcAAAAJAfeA4RobXR4AAAD3AAAAAwAAAAMC+kAAGxvY2EAAAPoAAAACAAAAAgAdgDybWF4cAAAA/AAAAAfAAAAIAESAF1uYW1lAAAEEAAAAUUAAAJtPlT+fXBvc3QAAAVYAAAAJwAAADhRW0XoeJxjYGRgYOBikGPQYWB0cfMJYeBgYGGAAJAMY05meiJQDMoDyrGAaQ4gZoOIAgCKIwNPAHicY2Bk/sE4gYGVgYOpk+kMAwNDP4RmfM1gxMjBwMDEwMrMgBUEpLmmMDgwVDzjY27438AQw9zA0AAUZgTJAQAkZgx6eJzFkMENgDAMAy9t6QOhzsGDgXgxRyfuGsWE8mCCWnKsOJYSBViAKB5iArswHpxyzf3I6n7yTJYagdpK7+o/VUSz7BpUMtNg81b/sXndR6evUAd1YisvCTdxDwvHAAAAeJw9T02L01AUfec9kyZjmo+Xj5ekk7ZpZhplNGAaW0Gm3QgzytAWXLl01RYZV8JsXMxmQIIL964UQdC/MC79C25FdOcPcCPR14VeLud+nnO5RCHkzzd2yULikmvkFrlHloRAPcDApAnSvCroAfxU8YVnsjzL01Y2KNghxED1gnJcDYXaUi2Y6GKUluO8oDluV1N6F2WQAFEnfsj3dzl7hZ0w7140D+hb+L1s15rebO7fmHll39XODM4jzl9qqqJolF6xTJyKQFf0HbV5p1ixf9m7Tnswojw+edTud/jjF9XTZF/owPk53E7ffD9zYkf68zhwedSy21oYt7M9D2c/roaukQy/E2nKFtgndodwMiQlmZKF/DUr6HiGcRl4FkZdeKo7GFYzpBLHk7RL5XfqpEA+xaQLYYKZaMlElgVEVuAQlSQLfyQVVDz7lUQqc5e64PrRz7ZtvzYc7bixDccx8DsJW8xb6m9WNWP1al1TWq/nG0o388UWRxeSENlYy4DP1Lf6/lLnQj+C7DYfHKEfb8fwrdRfal//S6xqfKSbxT+lL7CNJ9uDc7lNyF8BtEzkeJxjYGRgYADi1mtfwuL5bb4ycLMwgMD1PrZABP3/IQsDswWQy8HABBIFADCjCfcAeJxjYGRgYG7438AQw8IAAkCSkQEVMAMARwkCbAQAAAAD6QAABAAAAAAAAAAAdgDyeJxjYGRgYGBmCGRgZQABJiDmAkIGhv9gPgMAEPcBcAB4nGWPTU7DMBCFX/oHpBKqqGCH5AViASj9EatuWFRq911036ZOmyqJI8et1ANwHo7ACTgC3IA78EgnmzaWx9+8eWNPANzgBx6O3y33kT1cMjtyDRe4F65TfxBukF+Em2jjVbhF/U3YxzOmwm10YXmD17hi9oR3YQ8dfAjXcI1P4Tr1L+EG+Vu4iTv8CrfQ8erCPuZeV7iNRy/2x1YvnF6p5UHFockikzm/gple75KFrdLqnGtbxCZTg6BfSVOdaVvdU+zXQ+ciFVmTqgmrOkmMyq3Z6tAFG+fyUa8XiR6EJuVYY/62xgKOcQWFJQ6MMUIYZIjK6Og7VWb0r7FDwl57Vj3N53RbFNT/c4UBAvTPXFO6stJ5Ok+BPV8bUnV0K27LnpQ0kV7NSRKyQl7WtlRC6gE2ZVeOEXpc0Yk/KGdI/wAJWm7IAAAAeJxjYGKAAC4G7ICZkYmRmZGFgbGCKyszMb8yMyszp5SBAQAqMATYAA==') format('woff'),
+  url('iconfont.ttf?t=1533535569490') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+*/
+  url('iconfont.svg?t=1533535569490#iconfont') format('svg'); /* iOS 4.1- */
+}
+
+.picasso-icon-asset-records {
+  font-family:"picasso-icon-asset-records" !important;
+  font-size:1.3rem;
+  font-style:normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.picasso-icon-asset-records:before { content: "\e60e"; }
+
+
 
 
 

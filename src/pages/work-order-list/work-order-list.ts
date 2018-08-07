@@ -55,9 +55,7 @@ export class WorkOrderListPage extends SecondLevelPage {
 
     @WorkOrderListPage.willEnter
     @asyncCtrlGenerator.loading(undefined, "hide_loading_and_use_welcome")    
-    @asyncCtrlGenerator.error(() =>
-        WorkOrderListPage.getTranslateSync("LOADING_WORK_ORDER_FAIL") 
-    )
+    @asyncCtrlGenerator.error("@@LOADING_WORK_ORDER_FAIL") 
     async loadWorkOrderList() {
         WorkOrderListPage._first_init_page =
             WorkOrderListPage.hide_loading_and_use_welcome;
@@ -107,9 +105,7 @@ export class WorkOrderListPage extends SecondLevelPage {
         return list;
     }
 
-    @asyncCtrlGenerator.error(() =>
-        WorkOrderListPage.getTranslateSync("LOADING_MORE_WORK_ORDERS_FAIL") 
-    )
+    @asyncCtrlGenerator.error("@@LOADING_MORE_WORK_ORDERS_FAIL") 
     async loadMoreWorkOrderList() {
         this.page += 1;
         const list = await this._getWorkOrderList();

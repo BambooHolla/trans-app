@@ -1,65 +1,115 @@
 page-optional {
-    .option-header {
-        background: url(../assets/images/option_header.jpg) center center/cover
-            no-repeat;
-        ion-navbar {
-            padding-bottom: 0;
-            padding-left: 0;
-            padding-right: 0;
+    ion-header {
+        background: linear-gradient(to bottom, color($colors, gold), #2a2b3f);
+        ion-grid {
+            padding-bottom: 2.6rem!important;
+            padding-left: 1rem!important;
+            padding-right: 1rem!important;
         }
+        ion-col {
+            .text {
+                color: #666666;
+                font-size: 1.2rem;
+            }
+            .value {
+                line-height: 2.4rem;
+                font-weight: 500;
+            }
+        }
+        .total {
+            padding-left: 0.5rem;
+            text-align: center;
+            .value {
+                font-size: 2.4rem;
+            }
+            .text {
+                font-size: 1.4rem;
+                font-weight: 500;
+                padding-top: 1rem;
+            }
+        }
+        .profit {
+            div {
+                text-align: right;
+            }
+            .value {
+                font-size: 2.4rem;
+            }
+        }
+       
     }
-
+    .bottom-hr {
+        margin-bottom: 2px;
+        
+    }
     .light-transparent {
-        background: color($colors, background);
-        display: inline-block;
+        background-color: #27283a;
+        display: flex;
+        justify-content: flex-start;
+        &.right {
+            justify-content: flex-end;
+        }
         .frozen {
             color: color($colors, lightdark);
             text-align: left;
         }
     }
+    
     .hold {
         color: color($colors, lightdark);
     }
 
-    .optional-header {
-        // ion-scroll{
-        //   height:3.6rem;
-
-        //   .list-header{
-        //     ion-col{
-        //       padding: 1rem 0;
-        //     }
-        //   }
-        // }
-    }
+    
 
     ion-content {
         .scroll-content {
-            background-color: rgba(0, 0, 0, 0.4);
-
+            // background-color: rgba(0, 0, 0, 0.4);
             ion-grid {
                 position: relative;
+              
             }
 
             h5 {
-                font-size: 1.7rem;
+                font-size: 2rem;
+                font-weight: 400;
+                line-height: 2rem;
+                margin-bottom: 0.8rem!important;
+                text-align: left;
             }
 
             h6 {
-                font-size: 1.5rem;
+                font-size: 1.3rem;
+                font-weight: 400;   
+                margin-top: 0.2rem!important;
+                .unit {
+                    color: #666666;
+                    font-size: 1rem;
+                }
             }
         }
 
         .col1 {
             text-align: left;
-            width: 100%;
-            padding-left: 2.4rem;
+            padding-left: 1rem;
+            padding-right: 1.2rem;
+            img {
+                width: auto!important;
+                height: 4rem!important;
+                margin: 0.6rem 0;
+            }
             h5 {
                 color: color($colors, special);
             }
             .font-smaller {
                 color: color($colors, lightdark);
                 margin-right: 6px;
+            }
+        }
+        .col3 {
+            padding-right: 1rem;
+            text-align: right;
+            h5 {
+                text-align: right;
             }
         }
     }

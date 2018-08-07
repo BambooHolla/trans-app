@@ -42,7 +42,7 @@ export class LoginPage implements OnInit {
     private custId: any = "";
     public unregisterBackButton: any;
     public showCode: boolean = this.appDataService.show_login_code || false;
-    public codeSrc: string = "../assets/images/code_bg.jpg";
+    public codeSrc: string = "assets/images/code_bg.jpg";
     public codeId: string = "";
     loginForm: FormGroup = new FormGroup({
         // myContry: new FormControl('1002'),
@@ -239,7 +239,7 @@ export class LoginPage implements OnInit {
                 this.codeId = data.id || "";
                 this.codeSrc = data.data
                     ? "data:image/png;base64," + data.data
-                    : "../assets/images/code_bg.jpg";
+                    : "assets/images/code_bg.jpg";
             }
             this.codeSwitch = true;
         });

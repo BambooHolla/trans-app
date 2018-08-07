@@ -131,8 +131,9 @@ export class EntrustServiceProvider {
         priceProductHouseId?,
         page?,
         pageSize = 10,
+        status?
     ) {
-        const path = `/transaction/deliveryList`;
+        const path = `/transaction/entrusts`;
 
         let params = new URLSearchParams();
 
@@ -150,7 +151,9 @@ export class EntrustServiceProvider {
             params.set("page", page);
             params.set("pageSize", pageSize.toString());
         }
-
+        if(status) {
+            params.set("entrustStatus", status);
+        }
         return this.appService
             .request(RequestMethod.Get, path, params, true)
             .then(data => {
@@ -179,13 +182,15 @@ export class EntrustServiceProvider {
                             priceProductHouseId: item.priceProductHouseId,
                             productHouseId: item.productHouseId,
                             // entrustTime: item.entrustAt,
-                            updatedTime: item.deliveryAt,
+                            updatedTime: item.entrustAt,
                             // commitPrice: item.entrustPrice,
                             // commitAmount: item.entrustAmount,
-                            completePrice: item.deliveryPrice,
-                            completeTotalPrice: item.deliveryTotalPrice,
-                            completeAmount: item.deliveryAmount,
-                            operationType: item.deliveryType, //委托操作类型（001买入、002卖出）
+                            completePrice: item.entrustPrice,
+                            completeTotalPrice: item.completeTotalPrice,
+                            surplusAmount: item.surplusAmount,
+                            completeAmount: item.entrustAmount,
+                            operationType: item.entrustOperationType, //委托操作类型（001买入、002卖出）
+                            entrustStatus: item.entrustStatus,
                             // surplusAmount: item.surplusAmount,
                         }));
                     return Promise.resolve(data);

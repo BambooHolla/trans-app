@@ -51,9 +51,7 @@ export class AddAddressPage extends SecondLevelPage {
     check_method_options: any;
     @AddAddressPage.willEnter
     @asyncCtrlGenerator.loading()
-    @asyncCtrlGenerator.error(() =>
-        AddAddressPage.getTranslateSync("LOAD_USER_INFO_ERROR") 
-    )
+    @asyncCtrlGenerator.error("@@LOAD_USER_INFO_ERROR") 
     async getCheckMethodOptions() {
         this.productInfo = this.navParams.get("productInfo");
         if (!this.productInfo) {
@@ -66,15 +64,9 @@ export class AddAddressPage extends SecondLevelPage {
             })
             .then(value => (value[0] ? value : value)));
     }
-    @asyncCtrlGenerator.loading(() =>
-        AddAddressPage.getTranslateSync("SENDING_VERIFICATION_CODE") 
-    )
-    @asyncCtrlGenerator.error(() =>
-        AddAddressPage.getTranslateSync("SEND_VERIFICATION_CODE_ERROR") 
-    )
-    @asyncCtrlGenerator.success(() =>
-        AddAddressPage.getTranslateSync("SEND_VERIFICATION_CODE_SUCCESSFULLY") 
-    )
+    @asyncCtrlGenerator.loading("@@SENDING_VERIFICATION_CODE") 
+    @asyncCtrlGenerator.error("@@SEND_VERIFICATION_CODE_ERROR") 
+    @asyncCtrlGenerator.success("@@SEND_VERIFICATION_CODE_SUCCESSFULLY") 
     sendValidate() {
         const { check_method } = this.formData;
         return this.accountService.sendValidateToCustomer(
@@ -91,13 +83,8 @@ export class AddAddressPage extends SecondLevelPage {
         this.protocolAgree = !this.protocolAgree;
     }
     @asyncCtrlGenerator.loading()
-    @asyncCtrlGenerator.error(() =>
-        AddAddressPage.getTranslateSync("ADD_ADDRESS_ERROR") 
-    )
-    @asyncCtrlGenerator.success(() =>
-        AddAddressPage.getTranslateSync("ADD_ADDRESS_SUCCESS") 
-    )
-
+    @asyncCtrlGenerator.error("@@ADD_ADDRESS_ERROR") 
+    @asyncCtrlGenerator.success("@@ADD_ADDRESS_SUCCESS") 
     async submitAddAddress() {
         const { productInfo } = this;
         const { name, address, check_method, vcode } = this.formData;

@@ -32,6 +32,7 @@ import { LoginService } from "../../providers/login-service";
 import { BigNumber } from "bignumber.js";
 
 import { TradeChartV2Page } from "../trade-chart-v2/trade-chart-v2";
+import { AccountServiceProvider } from "../../providers/account-service/account-service";
 @Component({
     selector: "page-trade-interface-v2",
     templateUrl: "trade-interface-v2.html",
@@ -46,7 +47,11 @@ export class TradeInterfaceV2Page {
     tradeValue: string | number = ''
     // 因为语言结构有很多不同的顺序，现在分开单独处理，以后看能不能弄更优化的办法
     private userLanguage: any = "zh";
+    // 数字过长，跳转大小
     public size_1rem: boolean = false;
+    // 数量、价格小数位
+    public amountPrecision: number = 8;
+    public pricePrecision: number = 8;
    
     quickTrading: boolean = false;
     trading: boolean = false;
@@ -231,12 +236,20 @@ export class TradeInterfaceV2Page {
 
     @ViewChild("priceInputer") PriceInputer: any;
     @ViewChild("amountInputer") AmountInputer: any;
-
+    @ViewChild("priceInputer2") PriceInputer2: any;
+    @ViewChild("amountInputer2") AmountInputer2: any;
     inputGroup = {
         price: "PriceInputer",
         amount: "AmountInputer",
     };
-
+    inputGroup_2 = {
+        price: "PriceInputer2",
+        amount: "AmountInputer2",
+    };
+    inputGroupPrecision = {
+        price: "pricePrecision",
+        amount: "amountPrecision",
+    }
     handBase = 0.01;
 
     realtimeOptions = {
@@ -290,6 +303,7 @@ export class TradeInterfaceV2Page {
         private events: Events,
         private promptCtrl: PromptControlleService,
         private loginService: LoginService,
+        private accountServiceProvider: AccountServiceProvider,
     ) {
         
         BigNumber.config({ EXPONENTIAL_AT: [-8, 20] });
@@ -332,6 +346,35 @@ export class TradeInterfaceV2Page {
         //   return;
         // })
         const traderId = this.traderId;
+        const precisionIdArr = trader.precisionId;
+        if(precisionIdArr && precisionIdArr.length) {
+            const tasks = [];
+            await this.accountServiceProvider.getProductPrecision(trader.traderId).then( data => {
+                // 001数量 002价格
+                if(data && data[0]) {
+                    if(data[0].precisionType == '001') {
+                        this.amountPrecision = data[0].digitalNumber
+                    } else if(data[0].precisionType == '002') {
+                        this.pricePrecision = data[0].digitalNumber
+                    }
+                    
+                }
+
+                if(data && data[1]) {
+                    if(data[1].precisionType == '001') {
+                        this.amountPrecision = data[0].digitalNumber
+                    } else if(data[1].precisionType == '002') {
+                        this.pricePrecision = data[0].digitalNumber
+                    }
+                    
+                }
+
+            }).catch( err => {
+                this.amountPrecision = 8;
+                this.pricePrecision = 8;
+            })
+           
+        }
         if (traderId) {
             console.log("trade-interface-v2:(constructor)", traderId);
            
@@ -393,7 +436,11 @@ export class TradeInterfaceV2Page {
         if (step == 0) {
             // input输入
             if(this[target] == "" ) {
-                this[this.inputGroup[target]].value = this[target];
+                if(this.appDataService.trade_type) {
+                    this[this.inputGroup[target]].value = this[target];
+                } else {
+                    this[this.inputGroup_2[target]].value = this[target];
+                }
                 return ;
             }
             result =  this[target];
@@ -405,8 +452,9 @@ export class TradeInterfaceV2Page {
                     ? "0"
                     : new BigNumber(this[target]).plus(step).toString();
         }
-
-        result = this.numberFormat(result);
+        console.log(result,this.inputGroupPrecision[target])
+        result = this.numberFormat(result,false,true,this[this.inputGroupPrecision[target]]); 
+        console.log(result)
         // if(typeof this[target] == "string" ){
         //   result = this[target].split('.');
         //   if(result.length == 2){
@@ -419,8 +467,11 @@ export class TradeInterfaceV2Page {
         // }
 
         this[target] = result;
-        this[this.inputGroup[target]].value = this[target];
- 
+        if(this.appDataService.trade_type) {
+            this[this.inputGroup[target]].value = this[target];
+        } else {
+            this[this.inputGroup_2[target]].value = this[target];
+        }
         //强制刷新数据hack处理
         this.platform.raf(() => {
             this[target] = result;
@@ -493,7 +544,10 @@ export class TradeInterfaceV2Page {
     }
 
     formatNumber(target: string, precision?: number) {
-        this.changeByStep(target, undefined, 0, precision);
+        this.changeByStep(target, undefined, 0, precision); 
+        this.calculationAmount();
+    }
+    calculationAmount() {
         if(this._tradeType$.getValue()) {
             if(!this.price) {
                 this.tradeValue = '--';
@@ -503,7 +557,6 @@ export class TradeInterfaceV2Page {
             this.tradeValue = this.amount ? this.amount : '--';
         }
     }
-
     setPrice(price = this.price) {
         if (!price) {
             price = "0";
@@ -1144,6 +1197,9 @@ export class TradeInterfaceV2Page {
                                 this.size_1rem = _amount[1] && _amount[1].length > 5 ? true : false;
                                 this.size_1rem = _price[1] && _price[1].length > 5 ? true : false;
                             }
+                            // 格式
+                            if(data.buy[i].amount) data.buy[i].amount = this.numberFormat(data.buy[i].amount,false,true,this.amountPrecision);
+                            if(data.buy[i].price) data.buy[i].price = this.numberFormat(data.buy[i].price,false,true,this.pricePrecision);
                         }
                         this.buy_depth = data.buy;
                         if (this._tradeType$.getValue() == 1) {
@@ -1181,6 +1237,8 @@ export class TradeInterfaceV2Page {
                                 this.size_1rem = _amount[1] && _amount[1].length > 5 ? true : false;
                                 this.size_1rem = _price[1] && _price[1].length > 5 ? true : false;
                             }
+                            if(data.sale[i].amount) data.sale[i].amount = this.numberFormat(data.sale[i].amount,false,true,this.amountPrecision);
+                            if(data.sale[i].price) data.sale[i].price = this.numberFormat(data.sale[i].price,false,true,this.pricePrecision);
                         }
                         this.sale_depth = data.sale;
                         if (this._tradeType$.getValue() == 0) {
@@ -1987,6 +2045,7 @@ export class TradeInterfaceV2Page {
         number: any = "0",
         delete0: boolean = false,
         input: boolean = true,
+        step: number = 8,
     ) {
         let saveNumber = number;
         number = typeof number == "string" ? number : number.toString();
@@ -2004,14 +2063,14 @@ export class TradeInterfaceV2Page {
         }
         if (!input && number[1]) {
             number[1] =
-                number[1].length > 8 ? number[1].substr(0, 8) : number[1];
+                number[1].length > step ? number[1].substr(0, step) : number[1];
             return number[0] + "." + number[1];
         }
         if (number[1]) {
             number[0] =
                 number[0].length > 10 ? number[0].substr(-10) : number[0];
             number[1] =
-                number[1].length > 8 ? number[1].substr(0, 8) : number[1];
+                number[1].length > step ? number[1].substr(0, step) : number[1];
             return number[0] + "." + number[1];
         } else if (number[1] == "") {
             return number[0] + ".";
@@ -2070,7 +2129,7 @@ export class TradeInterfaceV2Page {
     }
     tradeRangeChange($event) {
         const value = $event.value / 100;
-        
+        console.log($event.value,this.price,parseFloat(this.price),this.trader_target.restQuantity )
         if(value > 0) {
             this.rangeLeftRound = true;
         } else {
@@ -2078,12 +2137,13 @@ export class TradeInterfaceV2Page {
         }
         if(this._tradeType$.getValue()) {
             if(!this.price || parseFloat(this.price) == 0) return ;
-            if(!this.trader_target.restQuantit) return ;
-            this.amount = this.numberFormat((new BigNumber(this.trader_target.restQuantity||0)).div(this.price).times(value).toString())
+            if(!this.trader_target.restQuantity) return ;
+            this.amount = this.numberFormat((new BigNumber(this.trader_target.restQuantity||0)).div(this.price).times(value).toString(),false,true,this.amountPrecision)
         } else {
-            if(!this.trader_product.restQuantit) return ;
-            this.amount = this.numberFormat((new BigNumber(this.trader_product.restQuantity||0)).times(value).toString())
+            if(!this.trader_product.restQuantity) return ;
+            this.amount = this.numberFormat((new BigNumber(this.trader_product.restQuantity||0)).times(value).toString(),false,true,this.amountPrecision)
         }
+        this.calculationAmount();
     }
     tradeRangeDisabled() {
         let buy: any = this.holePrice;

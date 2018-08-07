@@ -51,9 +51,7 @@ export class AccountCenterPage extends SecondLevelPage {
     loading_has_account_pwd = true;
 
     @AccountCenterPage.willEnter
-    @asyncCtrlGenerator.error(() =>
-        AccountCenterPage.getTranslateSync("GAIN_TRANSACTION_PASSWORD_ERROR") 
-    )
+    @asyncCtrlGenerator.error("@@GAIN_TRANSACTION_PASSWORD_ERROR") 
     async checkHasAccountPWD() {
         this.loading_has_account_pwd = true;
         this.has_account_pwd = await this.accountService.hasAccountPwd.getPromise();

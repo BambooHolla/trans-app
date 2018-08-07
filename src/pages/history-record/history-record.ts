@@ -16,6 +16,7 @@ import { AppDataService } from "../../providers/app-data-service";
     templateUrl: "history-record.html",
 })
 export class HistoryRecordPage {
+    headerActive:number = 1;
     smoothlinedata: any;
     entrusts: any[];
 
@@ -41,12 +42,13 @@ export class HistoryRecordPage {
         this.smoothlinedata = smoothlinedata;
 
         this.page = 1;
-        this.getTradeHistory()
+        this.getTradeHistory() 
             .then(data => {
-                const data_show = data.filter(item =>
-                    Number(item.completeTotalPrice),
-                );
-                this.entrusts = data_show;
+                // const data_show = data.filter(item =>
+                //     Number(item.completeTotalPrice),
+                // );
+                console.log('..........',data)
+                this.entrusts = data;
                 if (refresher) refresher.complete();
                 this.hasMore = !(data.length < this.pageSize);
             })
@@ -66,7 +68,7 @@ export class HistoryRecordPage {
         this.initData();
     }
 
-    async getTradeHistory() {
+    async getTradeHistory(status?) {
         const token = this.appDataService.token;
         const traderId = this.navParams.data
             ? this.navParams.data.traderId
@@ -101,6 +103,7 @@ export class HistoryRecordPage {
                 priceProductHouseId,
                 this.page,
                 this.pageSize,
+                status
             )
             .then(data => {
                 console.log("getTradeHistory data:", data);
@@ -142,5 +145,17 @@ export class HistoryRecordPage {
         // console.log('getDeliveryList entrusts:',this.entrusts)
         infiniteScroll.complete();
         infiniteScroll.enable(this.hasMore);
+    }
+    getHistoryStatus(status,active) {
+        this.headerActive = active;
+        this.getTradeHistory(status).then(data => {
+           
+            console.log('..........',data)
+            this.entrusts = data;
+            this.hasMore = !(data.length < this.pageSize);
+        })
+        .catch(() => {
+            this.hasMore = false;
+        });
     }
 }

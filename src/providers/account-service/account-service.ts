@@ -81,7 +81,13 @@ export class AccountServiceProvider {
     readonly GET_DELIVERY_TYPE = this.appSetting.APP_URL(
         "transaction/delivery/type",
     );
-
+    readonly GET_PRODUCT_PRECISION = this.appSetting.APP_URL(
+        "product/strategy/precision/product/:productId",
+        
+    );
+    readonly GET_PRODUCT_DETAIL = this.appSetting.APP_URL(
+        "account/accounts/detail",
+    )
     readonly SET_ACCOUNT_PWD = this.appSetting.APP_URL("user/setAccountPwd");
     readonly HAS_ACCOUNT_PWD = this.appSetting.APP_URL("user/hasAccountPwd");
 
@@ -483,7 +489,13 @@ export class AccountServiceProvider {
             search,
         });
     }
-
+    getProductPrecision(
+        productId,
+    ) {
+        return this.fetch.get<precisionModel[]>(this.GET_PRODUCT_PRECISION, {
+            params: { productId },
+        });
+    }
     getLimitedQuota(productId, limitedQuotaType) {
         return this.fetch.get(this.GET_PRODUCT_LIMITEQUOTA, {
             search: {
@@ -503,6 +515,17 @@ export class AccountServiceProvider {
                     productIds,
                 },
             },
+        );
+    }
+    getBillDetailList(productHouseId: string) {
+        return this.fetch.get<BillDetailModel[]>(
+            this.GET_PRODUCT_DETAIL, {
+                search: { 
+                    productHouseId,
+                    accountType: "003"
+                 },
+            }
+            
         );
     }
 }
@@ -736,4 +759,24 @@ export type TransactionModel = {
     createdAt: string;
     updatedAt: string;
     productHouseId: string;
+};
+export type precisionModel = {
+    id: string; 
+    instId: string;
+    precisionId: string;
+    precisionType: string;
+    startDate: string;
+    endData: string;
+    crtUserId: string;
+    crtDateTime: string;
+    lstModDateTime: string;
+    lstModUserId: string;
+    digitalNumber: number;
+};
+export type BillDetailModel = {
+    productHouseId: string; 
+    transType: string;
+    transAmount: string;
+    transDate: string;
+    transTargetProductHouseId: string;
 };

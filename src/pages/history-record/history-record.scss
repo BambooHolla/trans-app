@@ -125,7 +125,111 @@ page-history-record {
                 font-size: 1.8rem;
             }
         }
+        .entrust {
+            padding: 1.2rem 2.6rem 0 2.3rem;
+            &:last-child {
+                .params {
+                    border-bottom: 0;
+                }
+            }
+            .header {
+                * {
+                    display: inline-block;
+                }
+                .type {
+                    box-sizing: content-box;
+                    width: 3.2rem;
+                    height: 3.2rem;
+                    line-height: 3.2rem;
+                    // border: 1px solid color($colors, special);
+                    border-radius: 50%;
+                    font-size: 1.4rem;
+                    text-align: center;
+                    color: white;
+                    font-weight: 500;
+                    &.buy {
+                        border: 1px solid color($colors, fall);
+                        background-color: color($colors, fall);
 
+                    }
+                    &.sale {
+                        border: 1px solid color($colors, rise);
+                        background-color: color($colors, rise);
+                    }
+                }
+                .date-box {
+                    margin-left: 0.8rem;
+                    line-height: 0.9rem;
+                    .title {
+                    }
+                    .productName {
+                        font-size: 1.8rem;
+                    }
+                    .date {
+                        color: color($colors, middark);
+                        position: relative;
+                        top: 1rem;
+                    }
+                    > div {
+                        display: block;
+                        font-size: 0.9rem;
+                    }
+                }
+                button {
+                    padding: 0;
+                    float: right;
+                    height: 2.5rem;
+                    width: 5.2rem;
+                    background-color: transparent;
+                    border: 1px solid color($colors, special);
+                    border-radius: 0.5rem;
+                    vertical-align: middle;
+                    color: color($colors, special);
+                    font-size: 1.25rem;
+                }
+            }
+            .params {
+                display: flex;
+                justify-content: space-between;
+                margin-top: 1.4rem;
+                padding-bottom: 0.6rem;
+                border-bottom: 0.5px solid color($colors, background);
+                &.buy {
+                    .value {
+                        color: color($colors, fall)!important; 
+                    }
+                }
+                &.sale {
+                    .value {
+                        color: color($colors, rise)!important; 
+                    }
+                }
+                .col {
+                    padding: 0;
+                    .name {
+                        display: block;
+                        font-size: 1.2rem;
+                        color: color($colors, middark);
+                        padding-bottom: 0.4rem;
+                    }
+                    .kj-name{
+                        display: block;
+                        font-size: 1.4rem;
+                        color: color($colors, middark);
+                        padding-bottom: 0.4rem;
+                    }
+                    .value {
+                        font-size: 0.9rem;
+                        color: #BCBCBC;
+                        font-size: 400;
+                    }
+                    &:last-child {
+                        min-width: fit-content;
+                        flex-grow: 0;
+                    }
+                }
+            }
+        }
         .list-item {
             height: 5.8rem;
             border-bottom: 1px solid color($colors, background);

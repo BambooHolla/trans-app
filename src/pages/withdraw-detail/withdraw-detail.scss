@@ -117,7 +117,8 @@ page-withdraw-detail {
         }
         .err-box {
             padding-top: 0.5rem;
-            height: 1.2rem;
+            padding-bottom: 0.5rem;
+            height: 2.4rem;
             .error-number {
                 display: inline-block;
                 position: absolute;
@@ -141,6 +142,7 @@ page-withdraw-detail {
             ion-label {
                 font-size: 1.4rem;
                 // color: color($colors, 'special');
+                margin-right: 0;
             }
             .withdraw-to {
                 font-size: 1.4rem;

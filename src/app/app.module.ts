@@ -182,6 +182,7 @@ import { CryptoService } from "../providers/crypto-service";
 import { SwitchNetworkPage } from "../pages/switch-network/switch-network";
 import { GestureLockPage } from "../pages/gesture-lock/gesture-lock";
 import { CurrencyTypeListPage } from "../pages/currency-type-list/currency-type-list";
+import { AssetBillDetailPage } from "../pages/asset-bill-detail/asset-bill-detail";
 
 
 
@@ -211,6 +212,7 @@ export function createTranslateLoader(http: HttpClient) {
     declarations: [
         RechargeGatewayPage,
         RechargeDetailPage,
+        AssetBillDetailPage,
         WithdrawGatewayPage,
         WithdrawDetailPage,
         AccountCenterV2Page,
@@ -353,6 +355,10 @@ export function createTranslateLoader(http: HttpClient) {
                         component: WithdrawGatewayPage,
                         name: "withdraw-gateway",
                     },
+                    {
+                        component: AssetBillDetailPage,
+                        name: "asset-bill-detail"
+                    },
                     { component: WithdrawDetailPage, name: "withdraw-detail" },
                     {
                         component: AccountCenterV2Page,
@@ -424,6 +430,7 @@ export function createTranslateLoader(http: HttpClient) {
 
         RechargeGatewayPage,
         RechargeDetailPage,
+        AssetBillDetailPage,
         WithdrawGatewayPage,
         WithdrawDetailPage,
         AccountCenterV2Page,

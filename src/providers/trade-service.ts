@@ -179,6 +179,7 @@ export class TradeService {
                                         buyFee,
                                         saleFee,
                                         productId,
+                                        precisionId,
                                         productStatus,
                                     },
                                     index,
@@ -246,6 +247,7 @@ export class TradeService {
                                             priceProductHouseId,
                                             productHouseId,
                                             index,
+                                            precisionId,
                                             productStatus,
                                             productName: !priceProductHouseId
                                                 ? `${

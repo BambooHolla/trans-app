@@ -1,0 +1,118 @@
+<ion-header class="animation-header">
+    <ion-navbar>
+        <ion-title>账单</ion-title>
+    </ion-navbar>
+    <ion-list>
+        <ion-item>
+            <ion-col  class="bill-header">
+                <div class="sign">
+                    <img src="assets/images/{{productInfo?.productName}}.png" alt="">
+                    <span class="product color-white">{{productInfo?.productName}}</span>
+                </div>
+                <div class="amount">
+                    <div class="value color-white">{{personalData?.restQuantity| quantityConversion | numberUnitFormat:true:false:8}}</div>
+                    <div class="text color-white">≈ {{personalData?.restQuantity| quantityConversion | changeCurrency | numberUnitFormat:true:false:2}} <span class="unit">{{unit}}</span></div>
+                </div>
+            </ion-col>
+        </ion-item>
+        <ion-item>
+            <div class="color-white available-list">
+                <span class="picasso-icon-available-amount ion-size"></span>
+                <span class="text">可用</span>
+                <div class="value">
+                    {{personalData?.availableAmount| quantityConversion | numberUnitFormat:true:false:8}}
+                </div>
+            </div>
+        </ion-item>
+        <ion-item class="free-box">
+            <div class="free available-list">
+                <span class="picasso-icon-free-amount ion-size"></span>
+                <span class="text">冻结</span>
+                <div class="unit value">
+                    {{personalData?.freezeQuantity| quantityConversion | numberUnitFormat:true:false:8}}
+                </div>
+            </div>
+        </ion-item>
+        <ion-item class="record-title">
+            <div class="color-white available-list">
+                <span class="picasso-icon-asset-records ion-size"></span>
+                <span class="text">资产记录</span>
+            </div>
+        </ion-item>
+    </ion-list>
+</ion-header>
+
+<ion-content>
+    <ion-list>
+        <ion-item *ngFor="let product of product_list" (click)="routeTo('recharge-detail',{productInfo:product})" class="record-group">
+            <div class="group-left">
+                <ng-container [ngSwitch]="product.transType">
+                    <ng-container *ngSwitchCase="'001'">
+                        <div class="item-product">
+                            买入 {{product?.transTargetProduct?.productName}}
+                        </div>
+                    </ng-container>
+                    <ng-container *ngSwitchCase="'002'">
+                        <div class="item-product">
+                            卖出 {{product?.transTargetProduct?.productName}}
+                        </div>
+                    </ng-container>
+                    <ng-container *ngSwitchCase="'004'">
+                        <div class="item-product">
+                            充值 {{product?.transTargetProduct?.productName}}
+                        </div>
+                    </ng-container>
+                    <ng-container *ngSwitchCase="'005'">
+                        <div class="item-product">
+                            提现 {{product?.transTargetProduct?.productName}}
+                        </div>
+                    </ng-container>
+                    <ng-container *ngSwitchCase="'010'">
+                        <div class="item-product">
+                            买入 {{product?.transTargetProduct?.productName}} 手续费
+                        </div>
+                    </ng-container>
+                    <ng-container *ngSwitchCase="'011'">
+                        <div class="item-product">
+                            卖出 {{product?.transTargetProduct?.productName}} 手续费
+                        </div>
+                    </ng-container>
+                    <ng-container *ngSwitchCase="'012'">
+                        <div class="item-product">
+                            充值 {{product?.transTargetProduct?.productName}} 手续费
+                        </div>
+                    </ng-container>
+                    <ng-container *ngSwitchCase="'013'">
+                        <div class="item-product">
+                            提现 {{product?.transTargetProduct?.productName}} 手续费
+                        </div>
+                    </ng-container>
+                </ng-container>
+                <div class="item-time unit">
+                    {{ product?.transDate | date:'yyyy-MM-dd HH:mm:ss'}}
+                </div>
+            </div>
+            <div class="group-right">
+                {{product?.transAmount | quantityConversion | numberUnitFormat:true:false:8 | positiveSign}} <span class="unit">{{productInfo?.productName}}</span>
+            </div>
+        </ion-item>
+    </ion-list>
+</ion-content>
+<ion-footer class="animation-header">
+    <ion-toolbar>
+        <ion-grid>
+            <ion-row>
+                <ion-col col-6>
+                    <button class="footer-btn" (click)="goPage('withdraw-detail')">
+                        提现
+                    </button>
+                </ion-col>
+                <ion-col col-6>
+                    <button class="footer-btn recharge-btn" (click)="goPage('recharge-detail')">
+                        充值      
+                    </button>
+                </ion-col>
+            </ion-row>
+        </ion-grid>
+    </ion-toolbar>
+</ion-footer>

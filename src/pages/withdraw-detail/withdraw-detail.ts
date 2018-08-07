@@ -192,12 +192,8 @@ export class WithdrawDetailPage extends SecondLevelPage {
     }
 
     @asyncCtrlGenerator.loading()
-    @asyncCtrlGenerator.error(() =>
-        WithdrawDetailPage.getTranslateSync("CANCEL_FAIL") 
-    )
-    @asyncCtrlGenerator.success(() =>
-        WithdrawDetailPage.getTranslateSync("CANCEL_SUCCESSFULLY") 
-    )
+    @asyncCtrlGenerator.error("@@CANCEL_FAIL") 
+    @asyncCtrlGenerator.success("@@CANCEL_SUCCESSFULLY") 
     cancelWithdrawAppply(transactionId?: string, id?: number) {
         return this.accountService
             .cancelWithdrawAppply({
@@ -245,19 +241,16 @@ export class WithdrawDetailPage extends SecondLevelPage {
 
     @WithdrawDetailPage.willEnter
     @asyncCtrlGenerator.loading()
-    @asyncCtrlGenerator.error(() =>
-        WithdrawDetailPage.getTranslate("GAIN_TRANSACTION_PASSWORD_ERROR")
-    )
+    @asyncCtrlGenerator.error("@@GAIN_TRANSACTION_PASSWORD_ERROR")
     async checkHasAccountPWD() {
         this.has_account_pwd = await this.accountService.hasAccountPwd.getPromise();
     }
 
     @WithdrawDetailPage.willEnter
     @asyncCtrlGenerator.loading()
-    @asyncCtrlGenerator.error(() =>
-        WithdrawDetailPage.getTranslate("GAIN_DATA_ERROR")
-    )
+    @asyncCtrlGenerator.error("@@GAIN_DATA_ERROR")
     async getAccountsInfo() {
+        
         this.productInfo = this.navParams.get("productInfo");
         if (this.productInfo) {
             const tasks = [];
@@ -339,7 +332,7 @@ export class WithdrawDetailPage extends SecondLevelPage {
                                     "EACH_WITHDRAWAL_AMOUNT_NOT_LESS_THAN"
                                 ] || "单次提现金额不得小于") +
                                 limitedQuota["min"] +
-                                this.productInfo.productName;
+                                (this.productInfo.productName||this.productInfo.productName);
                             this.promptLimit.title2 = "";
                             this.promptAmount.min = limitedQuota["min"];
                         } else if (
@@ -351,7 +344,7 @@ export class WithdrawDetailPage extends SecondLevelPage {
                                     "EACH_WITHDRAWAL_AMOUNT_NOT_BIGGER_THAN"
                                 ] || "单次提现金额不得大于") +
                                 limitedQuota["max"] +
-                                this.productInfo.productName;
+                                (this.productInfo.productName||this.productInfo.productName);
                             this.promptLimit.title2 = "";
                             this.promptAmount.max = limitedQuota["max"];
                         } else {
@@ -360,13 +353,13 @@ export class WithdrawDetailPage extends SecondLevelPage {
                                     "EACH_WITHDRAWAL_AMOUNT_1"
                                 ] || "单次提现金额不得小于") +
                                 limitedQuota["min"] +
-                                this.productInfo.productName;
+                                (this.productInfo.productName||this.productInfo.productName);
                             this.promptLimit.title2 =
                                 (window["language"][
                                     "EACH_WITHDRAWAL_AMOUNT_2"
                                 ] || "不得大于") +
                                 limitedQuota["max"] +
-                                this.productInfo.productName;
+                                (this.productInfo.productName||this.productInfo.productName);
                             this.promptAmount.min = limitedQuota["min"];
                             this.promptAmount.max = limitedQuota["max"];
                         }
@@ -395,12 +388,8 @@ export class WithdrawDetailPage extends SecondLevelPage {
         );
     }
     @asyncCtrlGenerator.loading()
-    @asyncCtrlGenerator.error(() =>
-        WithdrawDetailPage.getTranslateSync("WITHDRAW_FAIL") 
-    )
-    @asyncCtrlGenerator.success(() =>
-        WithdrawDetailPage.getTranslateSync("WITHDRAW_SUCCESS") 
-    )
+    @asyncCtrlGenerator.error("@@WITHDRAW_FAIL") 
+    @asyncCtrlGenerator.success("@@WITHDRAW_SUCCESS") 
     async submitWithdrawAppply() {
         await this.personalDataService.requestCertifiedStatus();
         if (!(this.personalDataService.certifiedStatus == "2")) {
@@ -478,7 +467,6 @@ export class WithdrawDetailPage extends SecondLevelPage {
             pageSize: withdraw_logs_page_info.page_size,
             targetId: this.productInfo.productId,
         });
-
         withdraw_logs_page_info.has_more =
             transaction_logs.length === withdraw_logs_page_info.page_size;
         this.infiniteScroll &&
@@ -495,7 +483,6 @@ export class WithdrawDetailPage extends SecondLevelPage {
                 const product = await this.stockDataService.getProduct(
                     transaction.productHouseId || productHouseId,
                 );
-
                 const withdraw_address_info = await this.accountService.getPaymentById(
                     transaction.paymentId,
                 );

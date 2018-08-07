@@ -21,8 +21,8 @@
         </ion-item> -->
 
 
-        <!-- <ion-item class="must-show-label">
-            <ion-label>{{'WITHDRAW_TO'|translate}}</ion-label> -->
+        <ion-item class="must-show-label">
+            <ion-label>提现地址</ion-label>
 
 
             <!-- <button item-end class="account-selector">
@@ -33,9 +33,9 @@
                 <ion-icon name="arrow-forward"></ion-icon>
             </button> -->
 
-            <!-- <div class="withdraw-to" item-end>
+            <div class="withdraw-to" item-end>
                 <ng-container *ngIf="withdraw_address_list?.length;else no_selectable_withdraw_address_list">
-                     -->
+                    
                     <!-- <ion-select [(ngModel)]="selected_withdraw_address" interface="action-sheet" placeholder="请选择" multiple="false" cancelText="取消">
                         <ion-option class="account-selector" *ngFor="let withdraw_address of withdraw_address_list" [value]="withdraw_address">
                             <div class="account-info">
@@ -45,7 +45,7 @@
                         </ion-option>
                     </ion-select> -->
 
-<!--                     
+                    
                     <button ion-button clear full (click)="openWithdrawAddressSelector()" icon-right>
                         <i *ngIf="!selected_withdraw_address;else selectedWithdrawAddressInfo">{{'PLEASE_SELECT'|translate}}</i>
                         <ng-template #selectedWithdrawAddressInfo>
@@ -63,22 +63,21 @@
                     </i>
                 </ng-template>
             </div>
-        </ion-item> -->
+        </ion-item>
 
 
-        <!-- <ion-item-divider class="left-link" (click)="productStatus&&toAddWithdrawAddress()">
+        <ion-item-divider class="left-link" (click)="productStatus&&toAddWithdrawAddress()">
             <ion-icon name="添加"></ion-icon>
             {{'ADD_NEW_ADDRESS'|translate}}
-        </ion-item-divider> -->
-        <div class="new-item">
+        </ion-item-divider>
+        <!-- <div class="new-item">
             <div class="title">
                 提现地址
             </div>
             <ion-item>
-                <!-- <ion-label color="primary">{{'DEPOSIT_AMOUNT'|translate}}</ion-label> -->
                 <ion-input #amountInputer class="rtl" [(ngModel)]="formData.amount" set-input-status="amount" placeholder="输入或粘贴提现地址" min=0 [max]="access_info?.balance" type="number" (ngModelChange)='numberFormat()'></ion-input>
             </ion-item>
-        </div>
+        </div> -->
         <div class="new-item">
                 <div class="title withdraw-title">
                     <div>提币数额</div>

@@ -57,9 +57,7 @@ export class RechargeDetailPage extends SecondLevelPage {
         undefined,
         "recharge-detail",
     )
-    @asyncCtrlGenerator.error(() =>
-        RechargeDetailPage.getTranslateSync("GAIN_DATA_ERROR") 
-    )
+    @asyncCtrlGenerator.error("@@GAIN_DATA_ERROR") 
     async getAccountsInfo() { 
         this.productInfo = this.navParams.get("productInfo");
         if (this.productInfo) {
@@ -95,12 +93,8 @@ export class RechargeDetailPage extends SecondLevelPage {
         }
     }
 
-    @asyncCtrlGenerator.success(() =>
-        RechargeDetailPage.getTranslateSync("ADDRESS_HAS_BEEN_COPIED_TO_CLIPBOARD") 
-    )
-    @asyncCtrlGenerator.error(() =>
-        RechargeDetailPage.getTranslateSync("COPY_THE_ADDRESS_FAILED") 
-    )
+    @asyncCtrlGenerator.success("@@ADDRESS_HAS_BEEN_COPIED_TO_CLIPBOARD")
+    @asyncCtrlGenerator.error("@@COPY_THE_ADDRESS_FAILED")
     async copyCode() {
         if (!this.recharge_address.paymentAccountNumber) {
             throw new Error(
@@ -145,25 +139,25 @@ export class RechargeDetailPage extends SecondLevelPage {
             .getLimitedQuota(this.productInfo.productHouseId, "001")
             .then(data => {
                 this.minRechargeText = "";
-                if (data[0] && this.productInfo.productDetail) {
+                if (data[0] && (this.productInfo.productDetail||this.productInfo.productName)) {
                     if (data[0].min && data[0].max) {
                         this.minRechargeText = `${
                             window["language"]["RECHARGE_MINI"]
-                        }${data[0].min}${this.productInfo.productDetail}, ${
+                        }${data[0].min}${this.productInfo.productDetail||this.productInfo.productName}, ${
                             window["language"]["RECHARGE_MAX"]
-                        }${data[0].max}${this.productInfo.productDetail}, ${
+                        }${data[0].max}${this.productInfo.productDetail||this.productInfo.productName}, ${
                             window["language"]["RECHARGE_ERR_MINI_MAX"]
                         }`;
                     } else if (data[0].min) {
                         this.minRechargeText = `${
                             window["language"]["RECHARGE_MINI"]
-                        }${data[0].min}${this.productInfo.productDetail}, ${
+                        }${data[0].min}${this.productInfo.productDetail||this.productInfo.productName}, ${
                             window["language"]["RECHARGE_ERR_MINI"]
                         }`;
                     } else if (data[0].max) {
                         this.minRechargeText = `${
                             window["language"]["RECHARGE_MAX"]
-                        }${data[0].max}${this.productInfo.productDetail}, ${
+                        }${data[0].max}${this.productInfo.productDetail||this.productInfo.productName}, ${
                             window["language"]["RECHATGE_ERR_MAX"]
                         }`;
                     }

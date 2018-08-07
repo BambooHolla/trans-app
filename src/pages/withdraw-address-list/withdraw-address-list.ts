@@ -104,12 +104,8 @@ export class WithdrawAddressListPage extends SecondLevelPage {
     }
 
     @asyncCtrlGenerator.loading()
-    @asyncCtrlGenerator.error(() =>
-        WithdrawAddressListPage.getTranslateSync("DELETE_ADDRESS_FAIL") 
-    )
-    @asyncCtrlGenerator.success(() =>
-        WithdrawAddressListPage.getTranslateSync("DELETE_ADDRESS_SUCCESSFULLY") 
-    )
+    @asyncCtrlGenerator.error("@@DELETE_ADDRESS_FAIL") 
+    @asyncCtrlGenerator.success("@@DELETE_ADDRESS_SUCCESSFULLY") 
     async deleteWithdrawAddress(withdraw_address: CryptoCurrencyModel) {
         await this.accountService.deleteWithdrawAddress(withdraw_address.id);
         this.is_withdraw_address_list_changed = true;

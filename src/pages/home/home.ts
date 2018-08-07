@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, Optional } from "@angular/core";
 
 import { NavController, NavParams, Events } from "ionic-angular";
 import { FundStatementPage } from "../fund-statement/fund-statement";
@@ -19,7 +19,7 @@ import { LoginService } from "../../providers/login-service";
 import { AppSettingProvider } from "../../bnlc-framework/providers/app-setting/app-setting";
 import { AppDataService } from "../../providers/app-data-service";
 import { BigNumber } from "bignumber.js";
-
+import { OptionalPage } from "../optional/optional";
 @Component({
     selector: "page-home",
     templateUrl: "home.html",
@@ -74,7 +74,7 @@ export class HomePage extends FirstLevelPage implements OnInit {
         { 
             icon: "myprice",
             name: "我的资产",
-            href: HistoryRecordPage,
+            href: OptionalPage,
             needLogin: true,
             // bottomSpace: true,
         },

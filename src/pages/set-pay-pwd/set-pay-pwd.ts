@@ -36,9 +36,7 @@ export class SetPayPwdPage extends SecondLevelPage {
     loading_has_account_pwd = true;
 
     @SetPayPwdPage.willEnter
-    @asyncCtrlGenerator.error(() =>
-        SetPayPwdPage.getTranslateSync("GAIN_TRANSACTION_PASSWORD_ERROR") 
-    )
+    @asyncCtrlGenerator.error("@@GAIN_TRANSACTION_PASSWORD_ERROR") 
     async checkHasAccountPWD() {
         this.loading_has_account_pwd = true;
         this.has_account_pwd = await this.accountService.hasAccountPwd.getPromise();
@@ -70,9 +68,7 @@ export class SetPayPwdPage extends SecondLevelPage {
     check_method_options: any[];
     @SetPayPwdPage.willEnter
     @asyncCtrlGenerator.loading()
-    @asyncCtrlGenerator.error(() =>
-        SetPayPwdPage.getTranslateSync("LOAD_USER_INFO_ERROR") 
-    )
+    @asyncCtrlGenerator.error("@@LOAD_USER_INFO_ERROR") 
     async getCheckMethodOptions() {
         return (this.check_method_options = await this.accountService.getAuthenticateDetail(
             {
@@ -81,15 +77,9 @@ export class SetPayPwdPage extends SecondLevelPage {
         ));
     }
 
-    @asyncCtrlGenerator.loading(() =>
-        SetPayPwdPage.getTranslateSync("SENDING_VERIFICATION_CODE") 
-    )
-    @asyncCtrlGenerator.error(() =>
-        SetPayPwdPage.getTranslateSync("SEND_VERIFICATION_CODE_ERROR") 
-    )
-    @asyncCtrlGenerator.success(() =>
-        SetPayPwdPage.getTranslateSync("SEND_VERIFICATION_CODE_SUCCESS") 
-    )
+    @asyncCtrlGenerator.loading("@@SENDING_VERIFICATION_CODE") 
+    @asyncCtrlGenerator.error("@@SEND_VERIFICATION_CODE_ERROR") 
+    @asyncCtrlGenerator.success("@@SEND_VERIFICATION_CODE_SUCCESS") 
     sendValidate() {
         const { check_method } = this.formData;
         return this.accountService.sendValidateToCustomer(
@@ -113,12 +103,8 @@ export class SetPayPwdPage extends SecondLevelPage {
     }
 
     @asyncCtrlGenerator.loading()
-    @asyncCtrlGenerator.error(() =>
-        SetPayPwdPage.getTranslateSync("TRANSACTION_PASSWORD_SETTINGS_ERROR") 
-    )
-    @asyncCtrlGenerator.success(() =>
-        SetPayPwdPage.getTranslateSync("TRANSACTION_PASSWORD_SETTINGS_SUCCESS") 
-    )
+    @asyncCtrlGenerator.error("@@TRANSACTION_PASSWORD_SETTINGS_ERROR") 
+    @asyncCtrlGenerator.success("@@TRANSACTION_PASSWORD_SETTINGS_SUCCESS") 
     submitForm() {
         const { formData } = this;
         return this.accountService

@@ -77,9 +77,7 @@ export class WorkOrderDetailPage extends SecondLevelPage
     contact_status: string = "";
     @WorkOrderDetailPage.willEnter
     @asyncCtrlGenerator.loading()
-    @asyncCtrlGenerator.error(() =>
-        WorkOrderDetailPage.getTranslateSync("WORK_ORDER_CONTENT_ERROR ") 
-    )
+    @asyncCtrlGenerator.error("@@WORK_ORDER_CONTENT_ERROR ") 
     async getChatLogs() {
         this.work_order = this.navParams.get("work_order");
         if (this.work_order) {
@@ -136,9 +134,7 @@ export class WorkOrderDetailPage extends SecondLevelPage
         return list;
     }
 
-    @asyncCtrlGenerator.error(() =>
-        WorkOrderDetailPage.getTranslateSync("LOADING_HISTORY_RECORD_ERROR") 
-    )
+    @asyncCtrlGenerator.error("@@LOADING_HISTORY_RECORD_ERROR") 
     async loadMoreHistoryReplyList(ref?: Refresher) {
         this.page += 1;
         const contact_reply_list = await this._getContactReplyList();
@@ -213,9 +209,7 @@ export class WorkOrderDetailPage extends SecondLevelPage
     }
 
     @asyncCtrlGenerator.loading()
-    @asyncCtrlGenerator.error(() =>
-        WorkOrderDetailPage.getTranslateSync("SENDING_ERROR") 
-    )
+    @asyncCtrlGenerator.error("@@SENDING_ERROR")
     async sendChat() {
         const { chat_content } = this;
         let list = await this._getContactList();

@@ -1637,7 +1637,25 @@ export class StockDataService {
                 return void 0;
             });
     }
+    public productById(productHouseId): Promise<any> {
+        if (!productHouseId) return Promise.reject(void 0);
 
+        const path = `/product/product`;
+        const params = {
+            productType: "001",
+            productHouseId
+        };
+        return (this.productRequestPromise = this.appService
+            .request(RequestMethod.Post, path, params)
+            .then(async data => {
+                return data;
+            })
+            .catch(err => {
+                console.log("requestProducts error: ", err.message || err);
+                this.productRequestPromise = void 0;
+                return Promise.reject(err);
+            }));
+    }
     private parseStockListData(data: any[]) {
         const baseData = Object.assign({}, this._stockBaseData.getValue());
         // let baseDataChanged = false;
@@ -1653,7 +1671,7 @@ export class StockDataService {
                 //   };
                 //   baseDataChanged = true;
                 // }
-                //获取成功更新列表缓存
+                //获取成功更新列表缓存                
                 if (product.productType == "001") {
                     this.appDataService.products.set(product.productHouseId, {
                         ...product,
@@ -1676,7 +1694,6 @@ export class StockDataService {
         }
         let product = this.appDataService.products.get(productId);
         const now = new Date();
-
         if (
             !product ||
             product.productName == undefined ||
