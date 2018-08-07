@@ -152,8 +152,10 @@ page-home {
         ion-row {
             padding: 0 1.5em;
             border-color: #4a2925;
+            height: 5rem;
+            line-height: 2.5rem;
             ion-col span {
-                font-size: 1.3rem;
+                font-size: 1.4rem;
                 vertical-align: -0.1rem;
                 margin-left: 1rem;
             }
@@ -209,8 +211,8 @@ page-home {
         color: rgba(255, 255, 255, 0.9);
         ion-icon::before {
             background-size: contain;
-            width: 1.4rem;
-            height: 1.4rem;
+            width: 1.6rem;
+            height: 1.6rem;
             background-repeat: no-repeat;
         }
         span {
