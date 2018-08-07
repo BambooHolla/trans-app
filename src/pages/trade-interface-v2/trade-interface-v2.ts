@@ -153,6 +153,7 @@ export class TradeInterfaceV2Page {
     private _depthSource$: Observable<any>;
     private _depthSource: any;
     public buy_depth: AnyObject[] = [];
+    public buy_depth_2: AnyObject[] = [];
     public sale_depth: AnyObject[] = [];
     public buyer = [
         window["language"]["BUY_1"] || "买1",
@@ -160,6 +161,13 @@ export class TradeInterfaceV2Page {
         window["language"]["BUY_3"] || "买3",
         window["language"]["BUY_4"] || "买4",
         window["language"]["BUY_5"] || "买5",
+    ];
+    public buyer_2 = [
+        window["language"]["BUY_5"] || "买5",
+        window["language"]["BUY_4"] || "买4",
+        window["language"]["BUY_3"] || "买3",
+        window["language"]["BUY_2"] || "买2",
+        window["language"]["BUY_1"] || "买1",
     ];
     public saler = [
         window["language"]["SELL_1"] || "卖1",
@@ -1178,7 +1186,7 @@ export class TradeInterfaceV2Page {
                 if (data) {
                     this.size_1rem = false;
                     if (data.buy) {
-                        
+                        this.buy_depth_2 = []
                         for (let i = 0; i < data.buy.length; i++) {
                             //剔除掉数量为0的数据
                             if (
@@ -1202,8 +1210,13 @@ export class TradeInterfaceV2Page {
                             // 格式
                             if(data.buy[i].amount) data.buy[i].amount = this.numberFormat(data.buy[i].amount,false,true,this.amountPrecision);
                             if(data.buy[i].price) data.buy[i].price = this.numberFormat(data.buy[i].price,false,true,this.pricePrecision);
+                            // 竖版深度
+                            if(i < 5) {
+                                this.buy_depth_2[4-i] = data.buy[i];
+                            }
                         }
                         this.buy_depth = data.buy;
+
                         if (this._tradeType$.getValue() == 1) {
                             this.price = "" + this.marketPrice;
                             if (this.buy_depth[0]) {
@@ -2164,6 +2177,7 @@ export class TradeInterfaceV2Page {
     }
     changeTradeType() {
         this.appDataService.trade_type = this.appDataService.trade_type ? false : true;
+
     }
     changeLeftOrRight() {
         this.appDataService.left_or_right = this.appDataService.left_or_right ? false : true;
