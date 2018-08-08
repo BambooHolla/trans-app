@@ -1,4 +1,10 @@
 page-news-content {
+    .html-box {
+        height: 100%;
+        iframe {
+            height: 100%;
+        }
+    }
     // background-image: url(../../assets/images/bg_2.jpg);
     // *{
     //   background-color: rgba(0,0, 0,0);

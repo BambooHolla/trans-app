@@ -365,16 +365,14 @@ export class TradeInterfaceV2Page {
                     } else if(data[0].precisionType == '002') {
                         this.pricePrecision = data[0].digitalNumber
                     }
-                    
                 }
 
                 if(data && data[1]) {
                     if(data[1].precisionType == '001') {
-                        this.amountPrecision = data[0].digitalNumber
+                        this.amountPrecision = data[1].digitalNumber
                     } else if(data[1].precisionType == '002') {
-                        this.pricePrecision = data[0].digitalNumber
+                        this.pricePrecision = data[1].digitalNumber
                     }
-                    
                 }
 
             }).catch( err => {

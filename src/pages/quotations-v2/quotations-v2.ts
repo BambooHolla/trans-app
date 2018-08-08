@@ -28,13 +28,20 @@ import { Storage } from "@ionic/storage";
 import { GestureLockPage } from "../gesture-lock/gesture-lock";
 import { BigNumber } from "bignumber.js";
 import { NewsServiceProvider, NewsMsgType } from "../../providers/news-service/news-service";
+import { AppSettingProvider } from "../../bnlc-framework/providers/app-setting/app-setting";
+import { NewsContent } from "../news-content/news-content";
 @Component({
     selector: "page-quotations-v2",
     templateUrl: "quotations-v2.html",
 })
 export class QuotationsPageV2 {
     @ViewChild("searchInputWrap", { read: ElementRef })
-    @ViewChild("newsSlide")  newsSlide: Slides;
+    // 图片url
+    public serverUrl = this.appSettin.APP_URL("file/read/");
+    // 广告轮播
+    private bannerList: any = [];
+    // 公告轮播
+    private noticeList: any = [];
 
     searchInputWrap;
  
@@ -152,6 +159,7 @@ export class QuotationsPageV2 {
         public loadingCtrl: LoadingController,
         public navParams: NavParams,
         private newsService: NewsServiceProvider,
+        private appSettin: AppSettingProvider,
     ) {
        
       
@@ -170,23 +178,65 @@ export class QuotationsPageV2 {
         })
     }
 
+    // 轮播dom
+    @ViewChild("bannersSlide")  bannersSlide: Slides;
+    @ViewChild("noticesSlide")  noticesSlide: Slides;
     // 保存上次的计时器
-    private _saveLastSlide:any;
+    private _bannersSlide:any;
+    private _noticesSlide: any;
     /**
      * 轮播图移动触发函数，用于用户停止操作时，重启自动轮播
      * @param  事件
      */
-    slideDrag($event) {
-        if(this._saveLastSlide) {
-            clearTimeout(this._saveLastSlide);
-            this._saveLastSlide = null;
-        }
-        this._saveLastSlide = setTimeout(() => {
-            // 顶部轮播图开始自动轮播
-            this.newsSlide.startAutoplay()
-            this._saveLastSlide = null;
-        }, 4000);
+    slideDrag($event,type) {
+        // if(type) {
+        //     if(this._noticesSlide) {
+        //         clearTimeout(this._noticesSlide);
+        //         this._noticesSlide = null;
+        //     }
+        //     this._noticesSlide = setTimeout(() => {
+        //         // 顶部轮播图开始自动轮播
+        //         this.noticesSlide.startAutoplay()
+        //         this._noticesSlide = null;
+        //     }, 4000);
+        // } else {
+        //     if(this._bannersSlide) {
+        //         clearTimeout(this._bannersSlide);
+        //         this._bannersSlide = null;
+        //     }
+        //     this._bannersSlide = setTimeout(() => {
+        //         // 顶部轮播图开始自动轮播
+        //         this.bannersSlide.startAutoplay()
+        //         this._bannersSlide = null;
+        //     }, 4000);
+        // }
     }
+    private newsContentPage: any = NewsContent;
+    viewNews(type) {
+        let index ;
+        if(type) {
+            index = this.noticesSlide.getActiveIndex() -1;
+            if(index == this.noticeList.length) {
+                index = 0;
+            }
+            if(index < 0) {
+                index = this.noticeList.length -1;
+            }
+        } else {
+            index = this.bannersSlide.getActiveIndex() - 1;
+            if(index == this.bannerList.length) {
+                index = 0;
+            }
+            if(index < 0) {
+                index = this.bannerList.length -1;
+            }
+        }
+        this.navCtrl.push(this.newsContentPage, {
+            newInfo: type?this.noticeList[index]:this.bannerList[index],
+        });
+    }
+
+
     ngOnInit() {
         this.loading =  this.loadingCtrl.create({
             showBackdrop: false,
@@ -207,7 +257,10 @@ export class QuotationsPageV2 {
             .subscribe(str => this._filterProduct.call(this, str, false));
     }
     
-
+    ionViewDidLoad() {
+        // 获取新闻
+        this.getInfoList();
+    }
     ionViewDidEnter() {
         if(this.traderList.length <= 0) {
             this.loading =  this.loadingCtrl.create({
@@ -236,8 +289,6 @@ export class QuotationsPageV2 {
                 disableApp: false, // 使得tabs依然可以点击
             });
         }
-        // 获取新闻
-        this.getNewList();
         console.log("quotations-v2 did enter");
         this.viewDidLeave.next(false);
         this.doSubscribe();
@@ -251,7 +302,7 @@ export class QuotationsPageV2 {
             this.appDataService.getAppCoords();
         }, 200);
     }
-
+    
     ionViewWillLeave() {
         // 将要离开当前页时，设置 _thisPageActive 为 false ，
         // 配合视图上的 ngIf ，让 echarts 图表被销毁，
@@ -321,26 +372,42 @@ export class QuotationsPageV2 {
         this.searchInputValue = "";
     }
 
+    filterProductIndex: number = 0;
+    @ViewChild("tradesSlide")  tradesSlide: Slides;
+    
     filterMainProduct(event$?: MouseEvent) {
+        
         // console.log(event$, event$.currentTarget,event$.target)
         const target: any = event$.target as HTMLElement;
         const _target = this._findTarget(target); 
         let product;
         if (_target) {
-            console.log(target);
             product = _target.id;
-            
+            console.log(product);
         } else {
             return void 0;
         }
-        if (this.mainFilter.getValue() === product) {
+
+        // 旧代码,适用没左右切换
+        // if (this.mainFilter.getValue() === product) {
             
-            // this.mainFilter.next("");
-            // this.activeProduct = "";
-            return ;
-        } else {
-            this.mainFilter.next(product);
-            this.activeProduct = product;
+        //     // this.mainFilter.next("");
+        //     // this.activeProduct = "";
+        //     return ;
+        // } else {
+        //     this.mainFilter.next(product);
+        //     this.activeProduct = product;
+        // }
+
+        // 新代码,适用左右切换
+        this.filterProductIndex = Number(product);
+        this.tradesSlide.slideTo(this.filterProductIndex,500,false);
+    }
+
+    tradesDidChange() {
+        this.filterProductIndex = this.tradesSlide.getActiveIndex();
+        if(this.filterProductIndex >= this.appDataService.mainproducts.length) {
+            this.filterProductIndex = this.appDataService.mainproducts.length - 1;
         }
     }
     /**
@@ -649,20 +716,57 @@ export class QuotationsPageV2 {
     }
     saveLastTrader(trader: any) {
         this.appDataService.LAST_TRADER.next(trader);
-        this.gotoChart(trader);
+        setTimeout(() => {
+            this.navCtrl.parent.select(1);            
+        }, 200);
+        // this.gotoChart(trader);
     }
     gotoChart(trader) {
         this.navCtrl.push(TradeChartV2Page, {
             traderId: trader.traderId,
         });
     }
-    getNewList() {
-        this.newsService.getNewsList({
+    async getInfoList() {
+        if(!this.serverUrl) this.serverUrl = this.appSettin.APP_URL("file/read/");
+        this.bannerList = await this.newsService.getNewsList({
+            page: 1,
+            pageSize: 10,
+            msgType: NewsMsgType.banner, 
+        }).then( data => {
+            data.sort( (item,next) => {
+                if( item.order > next.order) {
+                    return 1;
+                } else if(item.order < next.order) {
+                    return -1
+                } else {
+                    const itemTime = (new Date(item.lstModDateTime)).getTime();
+                    const nextTime = (new Date(next.lstModDateTime)).getTime();
+                    if(itemTime > nextTime) return -1;
+                    return 1;
+                }
+                
+            })
+            return data;
+        }).catch( err => [] );
+        this.noticeList = await this.newsService.getNewsList({
             page: 1,
             pageSize: 10,
             msgType: NewsMsgType.notice, 
         }).then( data => {
-            console.log('1111111111',data)
-        });
+            data.sort( (item,next) => {
+                if( item.order > next.order) {
+                    return 1;
+                } else if(item.order < next.order) {
+                    return -1
+                } else {
+                    const itemTime = (new Date(item.lstModDateTime)).getTime();
+                    const nextTime = (new Date(next.lstModDateTime)).getTime();
+                    if(itemTime > nextTime) return -1;
+                    return 1;
+                }
+            })
+            return data;
+        }).catch( err => [] );
     }
+   
 }

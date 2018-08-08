@@ -113,9 +113,13 @@ page-quotations-v2 {
         .news-slides {
             height: 18rem!important; 
             width: 100%;
-            img,.slide-zoom {
+            .banner-img,.slide-zoom {
                 width: 100%!important;
                 height: 100%!important;
+            }
+            .banner-img {
+                background-repeat: no-repeat;
+                background-size: 100% 100%;
             }
             .swiper-pagination-bullet-active {
                 background-color: #fff;
@@ -230,6 +234,22 @@ page-quotations-v2 {
     }  
     ion-content {
         background-color: color($colors, background);
+        .slide-content {
+            &.swiper-slide {
+                font-size: smaller;
+            }
+            .slide-zoom {
+                height: 100%;
+                text-align: left;
+            }
+        }
+        .child-content {
+            height: 100%;
+            .fixed-content,
+            .scroll-content {
+                margin-bottom: 0 !important;
+            }
+        }
         .news-slides {
             height: 22rem!important;
             width: 100%;

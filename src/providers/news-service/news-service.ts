@@ -30,6 +30,7 @@ export type NewModel = {
     crtDateTime: string;
     lstModUserId: string;
     lstModDateTime: string;
+    order: number;
 };
 @Injectable()
 export class NewsServiceProvider {
