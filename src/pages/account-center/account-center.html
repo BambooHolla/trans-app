@@ -27,11 +27,16 @@
       </ion-col>
     </ion-row>
     <ion-row class="bottom-line" >
+      <ion-col padding class="vertical-center"  >
+        当前版本<span class="f-right">{{appDataService.APP_VERSION}}</span>
+      </ion-col>
+    </ion-row>
+    <ion-row class="bottom-line" >
       <ion-col padding class="vertical-center"  (click)="currencyTypePage()">
         计价方式<span class="f-right">{{appDataService.CURRENCY_INFO?.currencyTo}} <span class="picasso-icon-right-arrow"></span> </span>
       </ion-col>
     </ion-row>
-    <!-- <ion-row class="bottom-line" >
+      <!-- <ion-row class="bottom-line" >
       <ion-col padding class="vertical-center"  >
         {{'CHECK_UPDATE'|translate}}<span class="f-right">{{appDataService.APP_VERSION}}</span>
       </ion-col>
