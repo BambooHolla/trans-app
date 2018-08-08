@@ -26,6 +26,22 @@ page-optional {
                 font-size: 1.4rem;
                 font-weight: 500;
                 padding-top: 1rem;
+                .visible {
+                    display: inline-block;
+                    background-size: contain;
+                    height: 1.6rem;
+                    width: 1.6rem;
+                    background-repeat: no-repeat;
+                    position: absolute;
+                    bottom: 2px;
+                    margin-left: 0.4rem;
+                    &.on {
+                        background-image: url("../assets/icon/eye-open.png");
+                    }
+                    &.off {
+                        background-image: url("../assets/icon/eye-close.png");
+                    } 
+                }
             }
         }
         .profit {

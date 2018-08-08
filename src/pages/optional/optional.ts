@@ -36,6 +36,8 @@ import { BigNumber } from "bignumber.js";
 export class OptionalPage extends SecondLevelPage {
     optionalStockDetailList: any[] = [];
     personalAssets: object = {};
+    // 资产隐藏
+    private hiddentext: string = '********';
     // 日盈亏
     dayTotal: any = 0;
     dayTotalArr: any = [];
@@ -301,5 +303,8 @@ export class OptionalPage extends SecondLevelPage {
         //     .catch(err => {
         //         console.log("持仓页面 跳转 充值页面 error:", err);
         //     });
+    }
+    toggleVisible($event) {
+        this.hiddentext = this.hiddentext ? '' : '********';
     }
 }
