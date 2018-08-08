@@ -88,6 +88,8 @@ page-work-order-detail {
             }
             .content {
                 font-size: 1.4rem;
+                word-wrap:break-word; 
+                word-break:break-all;
             }
             &.from-other {
                 .avatar {

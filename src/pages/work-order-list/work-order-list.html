@@ -42,6 +42,8 @@
     </div>
 </ion-content>
 <ion-footer class="animation-header">
-    <button *ngIf="!login_status" (click)="showLogin()" [class.with-welcome-page-ani]="hide_loading_and_use_welcome&&show_welcome" ion-button class="new-work-order" color="special">{{'LOGIN'|translate}}</button>
-    <button *ngIf="login_status" (click)="routeTo('work-order-add')" [class.with-welcome-page-ani]="hide_loading_and_use_welcome&&show_welcome" ion-button class="new-work-order" color="special">{{'SUBMIT_WORK_ORDER'|translate}}</button>
+        <!-- <button *ngIf="!login_status" (click)="showLogin()" [class.with-welcome-page-ani]="hide_loading_and_use_welcome&&show_welcome" ion-button class="new-work-order" color="special">{{'LOGIN'|translate}}</button>
+        <button *ngIf="login_status" (click)="routeTo('work-order-add')" [class.with-welcome-page-ani]="hide_loading_and_use_welcome&&show_welcome" ion-button class="new-work-order" color="special">{{'SUBMIT_WORK_ORDER'|translate}}</button> -->
+        <button *ngIf="!login_status" (click)="showLogin()" ion-button class="new-work-order" color="special">{{'LOGIN'|translate}}</button>
+        <button *ngIf="login_status" (click)="routeTo('work-order-add')" ion-button class="new-work-order" color="special">{{'SUBMIT_WORK_ORDER'|translate}}</button>
 </ion-footer>
