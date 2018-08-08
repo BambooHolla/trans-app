@@ -258,12 +258,12 @@
 								</div>
 								<div class="right"  *ngIf="!(tradeType$|async)">
 									{{'AVAILABLE'|translate}}：
-									<span class="trade-value">{{appDataService?.hiddentext || (trader_product?.restQuantity || '--' | quantityConversion  | numberUnitFormat:true:false:8 | unitConversion)}}</span>
+									<span class="trade-value">{{appDataService?.hiddentext || (trader_product?.availableAmount || '--' | quantityConversion  | numberUnitFormat:true:false:8 | unitConversion)}}</span>
 									<span class="unit">{{productName || '--'}}</span>
 								</div>
 								<div class="right"  *ngIf="!!(tradeType$|async)">
 									{{'AVAILABLE'|translate}}：
-									<span class="trade-value">{{appDataService?.hiddentext || (trader_target?.restQuantity || '--' | quantityConversion  | numberUnitFormat:true:false:8 | unitConversion)}}</span>
+									<span class="trade-value">{{appDataService?.hiddentext || (trader_target?.availableAmount || '--' | quantityConversion  | numberUnitFormat:true:false:8 | unitConversion)}}</span>
 									<span class="unit">{{priceName || '--'}}</span>
 								</div>
 							</div>
@@ -470,12 +470,12 @@
 								<div class="range-mark">
 									<div class="right"  *ngIf="!(tradeType$|async)">
 										可　用：
-										<span class="trade-value">{{appDataService?.hiddentext || (trader_product?.restQuantity || '--' | quantityConversion  | numberUnitFormat:true:false:8 | unitConversion)}}</span>
+										<span class="trade-value">{{appDataService?.hiddentext || (trader_product?.availableAmount || '--' | quantityConversion  | numberUnitFormat:true:false:8 | unitConversion)}}</span>
 										<span class="unit">{{productName || '--'}}</span>
 									</div>
 									<div class="right"  *ngIf="!!(tradeType$|async)">
 										可　用：
-										<span class="trade-value">{{appDataService?.hiddentext || (trader_target?.restQuantity || '--' | quantityConversion  | numberUnitFormat:true:false:8 | unitConversion)}}</span>
+										<span class="trade-value">{{appDataService?.hiddentext || (trader_target?.availableAmount || '--' | quantityConversion  | numberUnitFormat:true:false:8 | unitConversion)}}</span>
 										<span class="unit">{{priceName || '--'}}</span>
 									</div>
 								</div>

@@ -105,13 +105,12 @@ export class GestureLockPage {
     await this.storage.get('gestureAttemptObj').then(data => {
       if (data) {
         this.gestureAttemptObj = data;
-
         if (this.gestureAttemptObj.attemptsNu === 0) {
           const now = Date.now();
           const last =this.gestureAttemptObj.lockDate;
           const secend = (now - last) / 1000 - this.lockTimeUnit;
-          if (secend <= 0) {
-            this.setInteralFun( Math.ceil(secend) );
+          if (secend < 0) {
+            this.setInteralFun( Math.abs(Math.ceil(secend)) );
           } else { 
             this.gestureAttemptObj = new GestureAttemptObj();
             this.storage.set("gestureAttemptObj", this.gestureAttemptObj);

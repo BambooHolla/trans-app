@@ -97,6 +97,7 @@ export enum NewsMsgType {
     companyIntroduce = "004", // 公司介绍
     personalStory = "005", // 人物故事
     investmentClass = "006", // 投资课堂
+    banner = "007", // 广告
     Other = "999", // 其他
 }
 export enum NewsStatusType {

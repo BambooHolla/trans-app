@@ -27,7 +27,7 @@ import { TradeChartV2Page } from "../trade-chart-v2/trade-chart-v2";
 import { Storage } from "@ionic/storage";
 import { GestureLockPage } from "../gesture-lock/gesture-lock";
 import { BigNumber } from "bignumber.js";
-
+import { NewsServiceProvider, NewsMsgType } from "../../providers/news-service/news-service";
 @Component({
     selector: "page-quotations-v2",
     templateUrl: "quotations-v2.html",
@@ -151,6 +151,7 @@ export class QuotationsPageV2 {
         public storage: Storage,
         public loadingCtrl: LoadingController,
         public navParams: NavParams,
+        private newsService: NewsServiceProvider,
     ) {
        
       
@@ -235,6 +236,8 @@ export class QuotationsPageV2 {
                 disableApp: false, // 使得tabs依然可以点击
             });
         }
+        // 获取新闻
+        this.getNewList();
         console.log("quotations-v2 did enter");
         this.viewDidLeave.next(false);
         this.doSubscribe();
@@ -651,6 +654,15 @@ export class QuotationsPageV2 {
     gotoChart(trader) {
         this.navCtrl.push(TradeChartV2Page, {
             traderId: trader.traderId,
+        });
+    }
+    getNewList() {
+        this.newsService.getNewsList({
+            page: 1,
+            pageSize: 10,
+            msgType: NewsMsgType.notice, 
+        }).then( data => {
+            console.log('1111111111',data)
         });
     }
 }
