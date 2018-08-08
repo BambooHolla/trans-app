@@ -173,19 +173,21 @@ export class GestureLockPage {
         this.gestureLockObj.password = this.firstPassword;
         this.titleMes = 'GESTURE_SET_PASSWORD_SUCCESS';
 
-        this.storage.set('gestureLockObj', this.gestureLockObj);
-        this.drawAll(this.successColor);
-        const _Fn = this.navParams.get('backFn');
+        this.storage.set('gestureLockObj', this.gestureLockObj).then( data => {
+          const _Fn = this.navParams.get('backFn');
             if(_Fn) {
               _Fn();
             }
-        setTimeout( () => {
-          this.navCtrl.pop({
-            animate: true,
-            direction: "back",
-            animation: "ios-transition",
-          })
-        },500)
+          setTimeout( () => { 
+            this.navCtrl.pop({
+              animate: true,
+              direction: "back",
+              animation: "ios-transition",
+            })
+          },500)
+        });
+        this.drawAll(this.successColor);
+        
       } else {  //设置密码失败
         this.textColor = this.errorColor;
         this.titleMes = 'GESTURE_TWO_ERR';
@@ -226,6 +228,9 @@ export class GestureLockPage {
     } else {
       this.gestureAttemptObj.lockDate = Date.now();
       this.storage.set("gestureAttemptObj", this.gestureAttemptObj);
+      this.titleMes = `GESTURE_60S_AGAIN_1`; 
+      this.titleMes_number = this.lockTime;
+      this.titleMes_supplement = 'GESTURE_60S_AGAIN_2';
       this.setInteralFun(this.lockTimeUnit);
     }
   }
