@@ -804,6 +804,9 @@ page-trade-interface-v2 {
                     font-size: 2.4rem;
                     font-weight: 200;
                     vertical-align: middle;
+                    &.refresh-animation {
+                        animation: rotate-animation 1.8s;
+                    }
                 }
             }
         }
@@ -1176,6 +1179,14 @@ page-trade-interface-v2 {
                     }
                 }
             }
+        }
+    }
+    @keyframes rotate-animation {
+        from {
+            transform: rotate(0deg)
+        }
+        to {
+            transform: rotate(1440deg)
         }
     }
 }

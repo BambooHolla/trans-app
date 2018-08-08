@@ -535,7 +535,7 @@
 			<span class="title">当前委托</span>
 			<span class="title sub-title" (click)="gotoHistory($event)">历史委托</span>
 			<span  class="re-history" (click)='reEntrusts()'>
-				<ion-icon class="picasso-icon-refresh"></ion-icon>
+				<ion-icon class="picasso-icon-refresh" [class.refresh-animation]="_reEntrusts"></ion-icon>
 				<!-- <font>{{'HISTORY_RECORDS'|translate}}</font> -->
 			</span>
 		</div>

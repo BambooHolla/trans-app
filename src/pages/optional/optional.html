@@ -40,8 +40,8 @@
       </ion-col>
       <ion-col class="light-transparent right" padding>
         <div class="col3">
-            <h5>{{data?.personalData?.restQuantity| quantityConversion | numberUnitFormat:true:false:8}}</h5>
-            <h6>{{data?.personalData?.restQuantity| quantityConversion | changeCurrency | numberUnitFormat:true:false:2}}<span class="unit"> {{unit}}</span></h6>
+            <h5>{{data?.personalData?.restQuantity | quantityConversion | numberUnitFormat:true:false:8}}</h5>
+            <h6>{{data?.personalData?.totalPrice | quantityConversion | changeCurrency | numberUnitFormat:true:false:2}}<span class="unit"> {{unit}}</span></h6>
         </div>
       </ion-col>
     </ion-row>

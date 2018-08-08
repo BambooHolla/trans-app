@@ -47,7 +47,6 @@ export class HistoryRecordPage {
                 // const data_show = data.filter(item =>
                 //     Number(item.completeTotalPrice),
                 // );
-                console.log('..........',data)
                 this.entrusts = data;
                 if (refresher) refresher.complete();
                 this.hasMore = !(data.length < this.pageSize);
@@ -149,8 +148,6 @@ export class HistoryRecordPage {
     getHistoryStatus(status,active) {
         this.headerActive = active;
         this.getTradeHistory(status).then(data => {
-           
-            console.log('..........',data)
             this.entrusts = data;
             this.hasMore = !(data.length < this.pageSize);
         })

@@ -44,7 +44,7 @@
 
 <ion-content>
     <ion-list>
-        <ion-item *ngFor="let product of product_list" (click)="routeTo('recharge-detail',{productInfo:product})" class="record-group">
+        <ion-item *ngFor="let product of product_list" class="record-group">
             <div class="group-left">
                 <ng-container [ngSwitch]="product.transType">
                     <ng-container *ngSwitchCase="'001'">

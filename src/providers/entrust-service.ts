@@ -152,7 +152,7 @@ export class EntrustServiceProvider {
             params.set("pageSize", pageSize.toString());
         }
         if(status) {
-            params.set("entrustStatus", status);
+            params.set("entrustOperationType", status);
         }
         return this.appService
             .request(RequestMethod.Get, path, params, true)

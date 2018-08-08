@@ -197,6 +197,10 @@ page-history-record {
                     vertical-align: middle;
                     color: color($colors, special);
                     font-size: 1.25rem;
+                    &.no-btn {
+                        border-color: transparent;
+                        color: #6b6b6b;
+                    }
                 }
             }
             .params {

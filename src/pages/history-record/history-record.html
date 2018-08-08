@@ -96,6 +96,8 @@
 					<div class="date">{{item.updatedTime | date:'yyyy-MM-dd HH:mm:ss'}}</div>
 				</div>
 				<button (click)="confirmCancel(item.id,item.entrustTime,item.operationType)" *ngIf='item.entrustStatus == "001" || item.entrustStatus == "002"'>{{'REVOKE'|translate}}</button>
+				<button class="no-btn" *ngIf='item.entrustStatus == "003"'>已成交</button>
+				<button class="no-btn" *ngIf='item.entrustStatus == "004"'>已撤单</button>
 			</div>
 			<div class="params" >
 				<div class="col">

@@ -2171,9 +2171,16 @@ export class TradeInterfaceV2Page {
             return sale;
         }
     }
+
+    _reEntrusts: boolean = false;
     reEntrusts() {
+        if(this._reEntrusts) return;
         this.page = 1;
+        this._reEntrusts = true;
         this.getProcessEntrusts();
+        setTimeout(() => {
+            this._reEntrusts = false;
+        }, 1800);
     }
     changeTradeType() {
         this.appDataService.trade_type = this.appDataService.trade_type ? false : true;

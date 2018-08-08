@@ -28,7 +28,7 @@ import {
 } from "../../providers/account-service/account-service";
 import { LoginService } from "../../providers/login-service";
 import { AppSettingProvider } from "../../bnlc-framework/providers/app-setting/app-setting";
-
+import { BigNumber } from "bignumber.js";
 @Component({
     selector: "page-optional",
     templateUrl: "optional.html",
@@ -67,6 +67,7 @@ export class OptionalPage extends SecondLevelPage {
         public appSetting: AppSettingProvider,
     ) {
         super(navCtrl, navParams);
+        BigNumber.config({ EXPONENTIAL_AT: [-15, 20] });
         this.loginService.status$.subscribe(status => {
             if (status && this.appSetting.getUserToken()) {
                 this.initData();
@@ -200,6 +201,7 @@ export class OptionalPage extends SecondLevelPage {
                                     currentPrice,
                                     availableAmount,
                                     freezeQuantity,
+                                    totalPrice: (new BigNumber(restQuantity)).times(currentPrice).toString()
                                 },
                                 baseData: this.stockDataService.stockBaseData$.map(
                                     data => data[stockCode],
