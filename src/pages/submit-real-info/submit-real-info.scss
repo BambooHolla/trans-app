@@ -1,6 +1,37 @@
 page-submit-real-info {
+    ion-header {
+        background-color: #242435;
+    }
     ion-content {
         background: #2a2b3f;
+    }
+    .schedule {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        width: 100%;
+        height: 20vh;
+        padding: 1.2rem;
+        .schedule-spot {
+            font-size: 1.6rem;
+        }
+        .img {
+            width: 4.2rem;
+            height: 4.2rem;
+            margin: auto;
+            line-height: 4.2rem;
+            border-radius: 50%;
+            border: 2px solid  color($colors, "special");
+            text-align: center;
+
+        }
+        .txt {
+            text-align: center;
+            font-size: 1.4rem;
+            &.hide-txt {
+                color: transparent;
+            }
+        }
     }
     .toolbar-title {
         font-weight: 400 !important;

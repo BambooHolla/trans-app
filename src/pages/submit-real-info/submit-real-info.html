@@ -4,12 +4,36 @@
   See http://ionicframework.com/docs/components/#navigation for more info on
   Ionic pages and navigation.
 -->
-<ion-header>
+<ion-header class="animation-header">
     <ion-navbar>
         <ion-title>{{'REAL_NAME_VERIFICATION'|translate}}</ion-title>
     </ion-navbar>
 </ion-header>
 <ion-content>
+    <!-- <ion-row>
+        <div class="schedule">
+            <div class="schedule-item">
+                <div class="img">img</div>
+                <div class="txt">完善信息</div>
+            </div>
+            <div class="schedule-spot">
+                <div style="text-align: center;">· · · · · ·</div>
+                <div class="txt hide-txt">占位不显示</div>
+            </div>
+            <div class="schedule-item">
+                <div class="img">img</div>
+                <div class="txt">上传证件</div>
+            </div>
+            <div class="schedule-spot">
+                <div style="text-align: center;">· · · · · ·</div>
+                <div class="txt hide-txt">占位不显示</div>
+            </div>
+            <div class="schedule-item">
+                <div class="img">img</div>
+                <div class="txt">等待审核</div>
+            </div>
+        </div>
+    </ion-row> -->
     <form [formGroup]="formData" class="form-container">
         <div class="form-item with-bottom-division">
             <div class="label">{{'NAME'|translate}}</div>

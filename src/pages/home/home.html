@@ -18,13 +18,15 @@
             {{personalDataService.mobile? personalDataService.mobile:personalDataService.email}}
           </div>
           <div class="authentication">
-            <div (click)="identify()" *ngIf="personalDataService.certifiedStatus == 0">未实名认证 <span class="picasso-icon-right-arrow"></span></div>
-            <div *ngIf="personalDataService.certifiedStatus == 2"><img src="assets/images/authentication-logo.png" alt=""> 已认证</div>
-            <div *ngIf="personalDataService.certifiedStatus == 1"><img src="assets/images/authentication-logo.png" alt=""> 审核中</div>
-            <div (click)="identify()" *ngIf="personalDataService.certifiedStatus == 3">实名认证审核失败 <span class="picasso-icon-right-arrow"></span></div>
+            <div (click)="identify()" *ngIf="login_status && personalDataService.certifiedStatus == 0" >未实名认证 <span class="picasso-icon-right-arrow"></span></div>
+            <div *ngIf="login_status && personalDataService.certifiedStatus == 2"><img src="assets/images/authentication-logo.png" alt=""> 已认证</div>
+            <div *ngIf="login_status && personalDataService.certifiedStatus == 1"><img src="assets/images/authentication-logo.png" alt=""> 审核中</div>
+            <div (click)="identify()" *ngIf="login_status && personalDataService.certifiedStatus == 3">实名认证审核失败 <span class="picasso-icon-right-arrow"></span></div>
+            <div (click)="showLogin()"  *ngIf="!login_status">点击登录 <span class="picasso-icon-right-arrow"></span></div>
           </div>
         </div>
       </ion-col>
+      
     </ion-row>
     <!-- <ion-row>
       <ion-col class="personal">
