@@ -35,9 +35,9 @@ export class NewsContent implements OnInit {
     ) {
         // this.newsType = this.navParams.get("newsType");
         this.newInfo = this.navParams.get("newInfo");
-        this.newInfo.url = this.sanitizer.bypassSecurityTrustHtml(
-            `<iframe frameborder="0" width="100%" height="100%" src="${this.newInfo.url}" scroll="true" overflow-scroll="true" allowfullscreen="true" webkitallowfullscreen="true"></iframe>`,
-        )
+        // this.newInfo.url = this.sanitizer.bypassSecurityTrustHtml(
+        //     `<iframe frameborder="0" width="100%" height="100%" src="${this.newInfo.url}" scroll="true" overflow-scroll="true" allowfullscreen="true" webkitallowfullscreen="true"></iframe>`,
+        // )
     }
 
     async ngOnInit() {
