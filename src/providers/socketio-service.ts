@@ -174,6 +174,7 @@ export class SocketioService {
         // 因此需要重新进行订阅。
         socket.on("disconnect", function(err) {
             console.log("与服务其断开");
+            // socket.connect();
         });
 
         // 短时间断线（服务器端仍在运行），

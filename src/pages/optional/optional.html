@@ -5,8 +5,8 @@
   <ion-grid>
     <ion-row>
       <ion-col class="total">
-        <div class="value">{{ hiddentext || (personalAssets?.asset?.total | quantityConversion  | changeCurrency | numberUnitFormat:true:false:2)}}</div>
-        <div class="text">总资产 ({{unit}}) <span class="visible" [class.on]="!hiddentext" [class.off]="!!hiddentext" (click)="toggleVisible($event)"></span></div>
+        <div class="value">{{ appDataService.HIDE_ASSETS  || (personalAssets?.asset?.total | quantityConversion  | changeCurrency | numberUnitFormat:true:false:2)}}</div>
+        <div class="text">总资产 ({{unit}}) <span class="visible" [class.on]="!appDataService.HIDE_ASSETS " [class.off]="!!appDataService.HIDE_ASSETS " (click)="toggleVisible($event)"></span></div>
       </ion-col>
       <!-- <ion-col class="profit">
         <div class="value">{{dayTotal || "0" | quantityConversion | numberUnitFormat:true:true:4 }}</div>
@@ -40,8 +40,8 @@
       </ion-col>
       <ion-col class="light-transparent right" padding>
         <div class="col3">
-            <h5>{{ hiddentext ||(data?.personalData?.restQuantity | quantityConversion | numberUnitFormat:true:false:8)}}</h5>
-            <h6>{{ hiddentext ||(data?.personalData?.totalPrice | quantityConversion | changeCurrency | numberUnitFormat:true:false:2)}}<span class="unit" *ngIf="!hiddentext"> {{unit}}</span></h6>
+            <h5>{{ appDataService.HIDE_ASSETS  ||(data?.personalData?.restQuantity | quantityConversion | numberUnitFormat:true:false:8)}}</h5>
+            <h6>{{ appDataService.HIDE_ASSETS  ||(data?.personalData?.totalPrice | quantityConversion | changeCurrency | numberUnitFormat:true:false:2)}}<span class="unit" *ngIf="!appDataService.HIDE_ASSETS"> {{unit}}</span></h6>
         </div>
       </ion-col>
     </ion-row>

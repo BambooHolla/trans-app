@@ -34,6 +34,8 @@ export class AppDataService {
     };
     //IP
     public APP_IP: any = "192.168.0.1";
+    //是否隐藏个人资产
+    public HIDE_ASSETS = '********';
 
     //语言
     public LANGUAGE: any = "zh";
