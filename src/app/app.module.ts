@@ -183,7 +183,7 @@ import { SwitchNetworkPage } from "../pages/switch-network/switch-network";
 import { GestureLockPage } from "../pages/gesture-lock/gesture-lock";
 import { CurrencyTypeListPage } from "../pages/currency-type-list/currency-type-list";
 import { AssetBillDetailPage } from "../pages/asset-bill-detail/asset-bill-detail";
-
+import { CurrencySettingPage } from "../pages/_account/currency-setting/currency-setting";
 
 
 // import { BankCode2NamePipe } from '..\pipes\bank-code2-name/bank-code2-name';
@@ -299,6 +299,7 @@ export function createTranslateLoader(http: HttpClient) {
         CustomizeAlert,
         SwitchNetworkPage,
         CurrencyTypeListPage,
+        CurrencySettingPage,
     ],
     imports: [
         // NewsContentModule,
@@ -496,6 +497,7 @@ export function createTranslateLoader(http: HttpClient) {
         CustomizeAlert,
         SwitchNetworkPage,
         CurrencyTypeListPage,
+        CurrencySettingPage,
     ],
     providers: [
         AppService,

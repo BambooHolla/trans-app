@@ -42,15 +42,15 @@
       </ion-col>
     </ion-row> -->
     <ion-row class="bottom-line" >
+      <ion-col padding class="vertical-center rise-or-fall-toggle" (click)="goCurrencySettingPage()">
+        涨跌颜色
+        <span class="f-right"><span class="picasso-icon-k {{!!appDataService.risefallColor?'red':'green'}}"></span> <span class="picasso-icon-right-arrow"></span></span>
+      </ion-col>
+    </ion-row>
+    <ion-row class="bottom-line" >
       <ion-col padding class="vertical-center" (click)="goGestureLock()">
         {{(hasGestureLock?"GESTURE_RESET_PASSWORD":"GESTURE_SET_PASSWORD") | translate}}
         <span class="f-right"><span class="picasso-icon-right-arrow"></span> </span>
-      </ion-col>
-    </ion-row>
-     <ion-row class="bottom-line" >
-      <ion-col padding class="vertical-center rise-or-fall-toggle" >
-        涨幅颜色
-        <span class="f-right"><ion-toggle [(ngModel)]="risefallColor" (ionChange)="risefallColorChange()" [class.true-color]='!appDataService.risefallColor'></ion-toggle></span>
       </ion-col>
     </ion-row>
     <ion-row class="bottom-line" >

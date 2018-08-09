@@ -14,7 +14,7 @@ import { SecondLevelPage } from "../../bnlc-framework/SecondLevelPage";
 import { asyncCtrlGenerator } from "../../bnlc-framework/Decorator";
 import { SwitchNetworkPage } from "../switch-network/switch-network";
 import { CurrencyTypeListPage } from "../currency-type-list/currency-type-list";
-
+import { CurrencySettingPage } from "../_account/currency-setting/currency-setting";
 @Component({
     selector: "account-center",
     templateUrl: "account-center.html",
@@ -22,7 +22,6 @@ import { CurrencyTypeListPage } from "../currency-type-list/currency-type-list";
 export class AccountCenterPage extends SecondLevelPage {
     private login_status: boolean;
     private hasGestureLock: boolean = false;
-    private risefallColor: boolean = false;
     constructor(
         public navCtrl: NavController,
         public navParams: NavParams,
@@ -34,7 +33,6 @@ export class AccountCenterPage extends SecondLevelPage {
         public storage: Storage,
     ) {
         super(navCtrl, navParams);
-        this.risefallColor = appDataService.risefallColor ? true : false;
         this.loginService.status$.subscribe(status => {
             this.login_status = status;
             if (status) {
@@ -117,7 +115,8 @@ export class AccountCenterPage extends SecondLevelPage {
             backFn: this.gestureLockObj.bind(this)
         })
     }
-    risefallColorChange() {
-        this.appDataService.risefallColor = this.risefallColor;
+   
+    goCurrencySettingPage() {
+        this.navCtrl.push(CurrencySettingPage)
     }
 }
