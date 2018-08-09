@@ -530,11 +530,13 @@ page-quotations-v2 {
                 display: inline-block;
                 text-align: center;
                 width: 8.6rem;
-                height: 2.4rem;
-                line-height: 2.4rem;
+                height: 2.8rem;
+                line-height: 2.8rem;
                 border-radius: 0.2rem;
                 background-color: #999999;
                 z-index: 10;
+                font-size: 1.5rem;
+                font-weight: 500;
                 &.disable {
                     background-color: #bec3c7 !important;  
                     color: white !important;

@@ -549,7 +549,7 @@
 					<div class="date">{{item.entrustTime | date:'yyyy-MM-dd'}}</div>
 					<button (click)="confirmCancel(item.id,item.entrustTime,item.operationType)">{{'REVOKE'|translate}}</button>
 				</div>
-				<div class="params" [class.color-true]="appDataService?.risefallColor"  [class.buy]="item.operationType == '001'" [class.sale]="item.operationType == '002'">
+				<div class="params">
 					<div class="col">
 						<div *ngIf="!item?.isMarketOrder">
 							<span class="name">{{'DELEGATED_PRICE'|translate}}</span>

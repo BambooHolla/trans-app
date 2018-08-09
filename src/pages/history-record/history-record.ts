@@ -8,6 +8,7 @@ import {
     Events,
 } from "ionic-angular";
 import { AppDataService } from "../../providers/app-data-service";
+import { PromptControlleService } from "../../providers/prompt-controlle-service";
 // import * as echarts from 'echarts';
 // import { NavController } from 'ionic-angular';
 
@@ -24,6 +25,8 @@ export class HistoryRecordPage {
     pageSize = 10;
     hasMore: boolean = true;
 
+    // 因为语言结构有很多不同的顺序，现在分开单独处理，以后看能不能弄更优化的办法
+    private userLanguage: any = "zh";
     initData(refresher?: Refresher) {
         const smoothlinedata = [];
         const N_POINT = 30;
@@ -129,6 +132,7 @@ export class HistoryRecordPage {
         public events: Events,
         public appDataService: AppDataService,
         public entrustServiceProvider: EntrustServiceProvider,
+        private promptCtrl: PromptControlleService,
     ) {
         this.initData();
     }
@@ -154,5 +158,98 @@ export class HistoryRecordPage {
         .catch(() => {
             this.hasMore = false;
         });
+    }
+    confirmCancel(entrustId, entrustTime, entrustCategory) {
+        entrustCategory =
+            entrustCategory == "001"
+                ? "买入"
+                : entrustCategory == "002"
+                    ? "卖出"
+                    : "";
+        entrustTime = new Date(entrustTime);
+
+        entrustTime = `${entrustTime.getFullYear()}-${entrustTime.getMonth() +
+            1}-${entrustTime.getDate()}`;
+        let message: string = "";
+        switch (this.userLanguage) { 
+            case "zh":
+                message = `确定要撤回${entrustTime}的${entrustCategory}委托单?`;
+                break;
+            case "en":
+                message = `Are you sure to withdraw your ${window["language"][
+                    entrustCategory
+                ] || ""}order?`;
+                break;
+            default:
+                message = `确定要撤回${entrustTime}的${entrustCategory}委托单?`;
+        }
+        let alert = this.alertCtrl.create({
+            title: window["language"]["REVOKE_DELEGATION"] || "撤回委托",
+            message: message,
+            buttons: [
+                {
+                    text: window["language"]["CANCEL"] || "取消",
+                    role: "cancel",
+                    handler: () => {
+                        // console.log('Cancel clicked')
+                    },
+                },
+                {
+                    text: window["language"]["CONFIRM"] || "确认",
+                    handler: () => {
+                        this.cancelEntrust(entrustId);
+                    },
+                },
+            ],
+        });
+        alert.present();
+    }
+
+    cancelEntrust(entrustId) {
+        this.entrustServiceProvider
+            .cancelEntrust(entrustId)
+            .then(data => {
+                console.log("cancelEntrust data", data);
+
+                this.page = 1;
+                if (data && data.status) {
+                    this.promptCtrl
+                        .toastCtrl({
+                            message:
+                                window["language"][
+                                    "WITHDRAW_ORDER_SUCCESSFULLY"
+                                ] || `撤单成功`,
+                            duration: 1000,
+                            position: "middle",
+                        })
+                        .present();
+                } else {
+                    return Promise.reject(data);
+                }
+            })
+            .catch(err => {
+                console.log("cancelEntrust err", err);
+
+                this.page = 1;
+                this.initData();
+
+                if (err && err.message) {
+                    let toast = this.promptCtrl.toastCtrl({
+                        message: `${err.message}`,
+                        duration: 1000,
+                        position: "middle",
+                    });
+                    toast.present();
+                } else {
+                    console.log("cancelEntrust err:", err);
+                }
+            })
+            .then( data => {
+                const getInfoCb = this.navParams.get('getInfoCb');
+                this.initData();
+                if( getInfoCb ) {
+                    getInfoCb();
+                }
+            })
     }
 }

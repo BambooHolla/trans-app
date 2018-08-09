@@ -2155,7 +2155,6 @@ export class TradeInterfaceV2Page {
     }
     tradeRangeChange($event) {
         const value = $event.value / 100;
-        console.log($event.value,this.price,parseFloat(this.price),this.trader_target.restQuantity )
         if(value > 0) {
             this.rangeLeftRound = true;
         } else {
@@ -2163,11 +2162,11 @@ export class TradeInterfaceV2Page {
         }
         if(this._tradeType$.getValue()) {
             if(!this.price || parseFloat(this.price) == 0) return ;
-            if(!this.trader_target.restQuantity) return ;
-            this.amount = this.numberFormat((new BigNumber(this.trader_target.restQuantity||0)).div(this.price).times(value).toString(),false,true,this.amountPrecision)
+            if(!this.trader_target.availableAmount) return ;
+            this.amount = this.numberFormat((new BigNumber(this.trader_target.availableAmount||0)).div(this.price).times(value).toString(),false,true,this.amountPrecision)
         } else {
-            if(!this.trader_product.restQuantity) return ;
-            this.amount = this.numberFormat((new BigNumber(this.trader_product.restQuantity||0)).times(value).toString(),false,true,this.amountPrecision)
+            if(!this.trader_product.availableAmount) return ;
+            this.amount = this.numberFormat((new BigNumber(this.trader_product.availableAmount||0)).times(value).toString(),false,true,this.amountPrecision)
         }
         this.calculationAmount();
     }

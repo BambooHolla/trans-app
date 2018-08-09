@@ -127,6 +127,8 @@ page-history-record {
         }
         .entrust {
             padding: 1.2rem 2.6rem 0 2.3rem;
+            background-color: #242435;
+            margin-bottom: 2px;
             &:last-child {
                 .params {
                     border-bottom: 0;
@@ -143,7 +145,7 @@ page-history-record {
                     line-height: 3.2rem;
                     // border: 1px solid color($colors, special);
                     border-radius: 50%;
-                    font-size: 1.4rem;
+                    font-size: 1.7rem;
                     text-align: center;
                     color: white;
                     font-weight: 500;
@@ -198,7 +200,7 @@ page-history-record {
                     color: color($colors, special);
                     font-size: 1.25rem;
                     &.no-btn {
-                        border-color: transparent;
+                        border-color: #6b6b6b;
                         color: #6b6b6b;
                     }
                 }
@@ -207,7 +209,7 @@ page-history-record {
                 display: flex;
                 justify-content: space-between;
                 margin-top: 1.4rem;
-                padding-bottom: 0.6rem;
+                padding-bottom: 0.4rem;
                 border-bottom: 0.5px solid color($colors, background);
                 &.buy {
                     .value {
@@ -234,9 +236,9 @@ page-history-record {
                         padding-bottom: 0.4rem;
                     }
                     .value {
-                        font-size: 0.9rem;
+                        font-size: 1.4rem;
                         color: #BCBCBC;
-                        font-size: 400;
+                        font-weight: 400;
                     }
                     &:last-child {
                         min-width: fit-content;
