@@ -293,20 +293,24 @@ export class WithdrawDetailPage extends SecondLevelPage {
                 })
                 .then(data => {
                     console.log("手续费：", data);
-                    if (data && data[0]) {
-                        data[0].rateNumber =
-                            data[0].calcMethodType === "001"
-                                ? `${data[0].rateNumber * 100}%`
-                                : data[0].calcMethodType === "002"
-                                    ? `${data[0].rateNumber}`
-                                    : "";
-                        this.freeSwitch = 
-                            data[0].calcMethodType === "001"
-                                ? false
-                                : data[0].calcMethodType === "002"
-                                    ? true
-                                    : true;
+                    if (data && !data[0]) {
+                        data[0] = {
+                            calcMethodType: "002",
+                            rateNumber: 0,
+                        }
                     }
+                    data[0].rateNumber =
+                        data[0].calcMethodType === "001"
+                            ? `${data[0].rateNumber * 100}%`
+                            : data[0].calcMethodType === "002"
+                                ? `${data[0].rateNumber}`
+                                : "";
+                    this.freeSwitch = 
+                        data[0].calcMethodType === "001"
+                            ? false
+                            : data[0].calcMethodType === "002"
+                                ? true
+                                : true;
                     this.rate_info = data[0];
                     console.log(this.productInfo);
                 });
