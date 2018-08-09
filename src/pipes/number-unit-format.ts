@@ -13,13 +13,14 @@ export class NumberUnitFormatPipe implements PipeTransform {
         retainZero: boolean = false,
         retainTailZeroAfterDigit: boolean | number = true,
         retainLength: number = 6,
-        showLength: number = 12,
+        showLength: number = 120,
     ): string {
         BigNumber.config({ EXPONENTIAL_AT: [-9, 20] });
         // 显示位数，为了避免数据显示溢出，进行处理
         if (isNaN(value)) {
             return "--";
         }
+        
         value = new BigNumber(value || "0");
 
         const prefix = value.comparedTo("0") == -1 ? "-" : "";
@@ -60,7 +61,7 @@ export class NumberUnitFormatPipe implements PipeTransform {
             if (strs[1] && strs[1].length > 0) {
                 // 获取最小显示位数
                 digLength =
-                    strs[1].length > retainLength
+                    strs[1].length >= retainLength
                         ? retainLength
                         : strs[1].length;
                 // 根据设置计算小数要显示的位数，保证最小0
@@ -71,7 +72,7 @@ export class NumberUnitFormatPipe implements PipeTransform {
                 // 比较两者那个小
                 digLength = digLength > showLength ? showLength : digLength;
                 if (digLength) {
-                    result += "." + strs[1].slice(0, digLength);
+                    result += "." + strs[1].slice(0, digLength+1);
                 }
             }
             // console.log('numberunitformat:result ', result)

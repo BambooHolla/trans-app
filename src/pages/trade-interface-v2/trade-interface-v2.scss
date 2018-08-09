@@ -1116,7 +1116,11 @@ page-trade-interface-v2 {
                         }
                         .depth-title-type-2 {
                             border-right: 1px solid #242435;
+                            
                         }
+                    }
+                    .depth-div {
+                        text-align: left!important;
                     }
                 }
                 & + .bets-group {
@@ -1168,7 +1172,8 @@ page-trade-interface-v2 {
                     }
                     .bet-price {
                         flex: 4;
-                        text-align: right;
+                        // text-align: right;
+                        text-align: left;
                         color: color($colors, middark);
                     }
                     .bet-amount {

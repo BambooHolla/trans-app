@@ -1209,14 +1209,14 @@ export class TradeInterfaceV2Page {
                                 --i;
                             }
                              //检查长度
-                             if(!this.size_1rem && (data.buy[i].amount || data.buy[i].price)) {
-                                let _amount:string | string[] = (new BigNumber(data.buy[i].amount||0)).toString();
-                                let _price:string | string[] = (new BigNumber(data.buy[i].price||0)).toString();
-                                _amount = _amount.split('.');
-                                _price = _price.split('.');
-                                this.size_1rem = _amount[1] && _amount[1].length > 5 ? true : false;
-                                this.size_1rem = _price[1] && _price[1].length > 5 ? true : false;
-                            }
+                            //  if(!this.size_1rem && (data.buy[i].amount || data.buy[i].price)) {
+                            //     let _amount:string | string[] = (new BigNumber(data.buy[i].amount||0)).toString();
+                            //     let _price:string | string[] = (new BigNumber(data.buy[i].price||0)).toString();
+                            //     _amount = _amount.split('.');
+                            //     _price = _price.split('.');
+                            //     this.size_1rem = _amount[1] && _amount[1].length > 5 ? true : false;
+                            //     this.size_1rem = _price[1] && _price[1].length > 5 ? true : false;
+                            // }
                             // 格式
                             if(data.buy[i].amount) data.buy[i].amount = this.numberFormat(data.buy[i].amount,false,true,this.amountPrecision);
                             if(data.buy[i].price) data.buy[i].price = this.numberFormat(data.buy[i].price,false,true,this.pricePrecision);
@@ -1254,14 +1254,15 @@ export class TradeInterfaceV2Page {
                                 --i;
                             }
                             //检查长度
-                            if(!this.size_1rem && (data.sale[i].amount || data.sale[i].price)) {
-                                let _amount:string | string[] = (new BigNumber(data.sale[i].amount||0)).toString();
-                                let _price:string | string[] = (new BigNumber(data.sale[i].price||0)).toString();
-                                _amount = _amount.split('.');
-                                _price = _price.split('.');
-                                this.size_1rem = _amount[1] && _amount[1].length > 5 ? true : false;
-                                this.size_1rem = _price[1] && _price[1].length > 5 ? true : false;
-                            }
+                            // if(!this.size_1rem && (data.sale[i].amount || data.sale[i].price)) {
+                            //     let _amount:string | string[] = (new BigNumber(data.sale[i].amount||0)).toString();
+                            //     let _price:string | string[] = (new BigNumber(data.sale[i].price||0)).toString();
+                            //     _amount = _amount.split('.');
+                            //     _price = _price.split('.');
+                            //     this.size_1rem = _amount[1] && _amount[1].length > 5 ? true : false;
+                            //     this.size_1rem = _price[1] && _price[1].length > 5 ? true : false;
+                            // }
+                            //格式
                             if(data.sale[i].amount) data.sale[i].amount = this.numberFormat(data.sale[i].amount,false,true,this.amountPrecision);
                             if(data.sale[i].price) data.sale[i].price = this.numberFormat(data.sale[i].price,false,true,this.pricePrecision);
                         }
