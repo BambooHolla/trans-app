@@ -189,27 +189,27 @@ export class QuotationsPageV2 {
      * @param  事件
      */
     slideDrag($event,type) {
-        // if(type) {
-        //     if(this._noticesSlide) {
-        //         clearTimeout(this._noticesSlide);
-        //         this._noticesSlide = null;
-        //     }
-        //     this._noticesSlide = setTimeout(() => {
-        //         // 顶部轮播图开始自动轮播
-        //         this.noticesSlide.startAutoplay()
-        //         this._noticesSlide = null;
-        //     }, 4000);
-        // } else {
-        //     if(this._bannersSlide) {
-        //         clearTimeout(this._bannersSlide);
-        //         this._bannersSlide = null;
-        //     }
-        //     this._bannersSlide = setTimeout(() => {
-        //         // 顶部轮播图开始自动轮播
-        //         this.bannersSlide.startAutoplay()
-        //         this._bannersSlide = null;
-        //     }, 4000);
-        // }
+        if(type) {
+            if(this._noticesSlide) {
+                clearTimeout(this._noticesSlide);
+                this._noticesSlide = null;
+            }
+            this._noticesSlide = setTimeout(() => {
+                // 顶部轮播图开始自动轮播
+                this.noticesSlide.startAutoplay()
+                this._noticesSlide = null;
+            }, 2000);
+        } else {
+            if(this._bannersSlide) {
+                clearTimeout(this._bannersSlide);
+                this._bannersSlide = null;
+            }
+            this._bannersSlide = setTimeout(() => {
+                // 顶部轮播图开始自动轮播
+                this.bannersSlide.startAutoplay()
+                this._bannersSlide = null;
+            }, 4000);
+        }
     }
     private newsContentPage: any = NewsContent;
     viewNews(type) {

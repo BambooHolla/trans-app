@@ -426,7 +426,7 @@ export class TradeService {
             });
     }
 
-    // 获取法币信息
+    // 获取法币信息 
     getCurrencyInof(type?:string) {
         const path = `/report/exchangeRate`;
         let params = new URLSearchParams();
@@ -434,9 +434,9 @@ export class TradeService {
         return this.appService
             .request(RequestMethod.Get, path, params, false)
             .then(data => {
+                data.status = true;
+                data.type = type;
                 this.appDataService.CURRENCY_INFO = data;
-                this.appDataService.CURRENCY_INFO['status'] = true;
-                this.appDataService.CURRENCY_INFO['type'] = type;
                 this.appDataService.CHAGE_CURRENCY.next({status:true});
             })
             .catch(err => {

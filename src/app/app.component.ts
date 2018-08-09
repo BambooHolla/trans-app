@@ -174,8 +174,14 @@ export class PicassoApp {
         // 设置语言
         window["language"] = window["language"] || {};
         this.initTranslate();
-        // 获取语言后，需要获取一下法币汇率
-        tradeService.getCurrencyInof(appDataService.LANGUAGE);
+        // 获取语言后，查看是否以及有缓存汇率，如果没，以本地语言作为汇率标准
+        if(appDataService.CURRENCY_INFO) {
+            tradeService.getCurrencyInof(appDataService.CURRENCY_INFO.type);
+        } else {
+            tradeService.getCurrencyInof(appDataService.LANGUAGE);
+        }
+        
+         
         tradeService.getCurrencys();
         if (!navigator["clipboard"]) {
             navigator["clipboard"] = {

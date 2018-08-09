@@ -116,6 +116,7 @@ export class AppDataService {
         risefallColor: false,
         trade_type:false,
         left_or_right: false,
+        CURRENCY_INFO:null,
     };
     private _in_storage_keys = ["products", "traderList"];
 
