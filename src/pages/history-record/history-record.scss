@@ -117,10 +117,11 @@ page-history-record {
                 height: 120px;
                 img {
                     width: 100%;
-                    height: 100%;
+                    height: auto;
                 }
             }
             .no-entrust-text {
+                margin-top: 2rem;
                 line-height: 2rem;
                 font-size: 1.8rem;
             }

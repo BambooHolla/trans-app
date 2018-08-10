@@ -387,10 +387,10 @@ page-trade-interface-v2 {
                     background-color: #242435;
                     &.buy {
                        color: rgba(color($colors, fall), 1);
-                       border-bottom: 2px solid color($colors, fall);
+                       border-bottom: 1px solid color($colors, fall);
                        &.color-true {
                         color: rgba(color($colors, fall-true), 1)!important;
-                        border-bottom: 2px solid color($colors, fall-true)!important; 
+                        border-bottom: 1px solid color($colors, fall-true)!important; 
                         &::before {
                             border-color: color($colors, fall-true) transparent transparent  transparent!important; 
                         }
@@ -406,7 +406,7 @@ page-trade-interface-v2 {
                             position:absolute;
                             left:50%;
                             transform: translateX(-50%);
-                            bottom:-19.2px;
+                            bottom:-18.2px;
                         }
                     }
                     &.sale {
@@ -414,10 +414,10 @@ page-trade-interface-v2 {
                             color($colors, rise),
                             1 
                         );
-                        border-bottom: 2px solid color($colors, rise); 
+                        border-bottom: 1px solid color($colors, rise); 
                         &.color-true {
                             color: rgba(color($colors, rise-true), 1)!important;
-                            border-bottom: 2px solid color($colors, rise-true)!important; 
+                            border-bottom: 1px solid color($colors, rise-true)!important; 
                             &::before {
                                 border-color: color($colors, rise-true) transparent transparent  transparent!important; 
                             }
@@ -433,7 +433,7 @@ page-trade-interface-v2 {
                             position:absolute;
                             left:50%;
                             transform: translateX(-50%);
-                            bottom:-19.2px;
+                            bottom:-18.2px;
                         }
                     }
                     
@@ -798,7 +798,7 @@ page-trade-interface-v2 {
                 &.sub-title {
                     padding-left: 3rem;
                     color: color($colors, middark);
-                    font-weight: 600;
+                    font-weight: 400;
                     font-size: 1.5rem;
                 }
             }
@@ -818,10 +818,23 @@ page-trade-interface-v2 {
         }
         .no-entrust {
             text-align: center;
-            height: 10rem;
+            // height: 10rem;
             line-height: 10rem;
             font-size: 2rem;
             color: color($colors, middark);
+            padding-top: 4rem;
+            .no-entrust-img {
+                background-image: url('../assets/icon/no-entrust.png');
+                width: 8rem;
+                height: 8.2rem;
+                background-size: 100% 100%;
+                background-repeat: no-repeat;
+                margin:  0 auto;
+            }
+            .no-entrust-txt {
+                line-height: 2.4rem;
+                font-size: 1.8rem;
+            }
         }
         .entrust {
             padding: 1.2rem 2.6rem 0 2.3rem;
@@ -1052,8 +1065,9 @@ page-trade-interface-v2 {
                     font-weight: 500;
                     span {
                         display: inline-block;
-                        font-size: 1.2rem;
+                        font-size: 1rem;
                         color: #fff;
+                        font-weight: 400;
                         i {
                             font-size: 1.2rem;
                             font-weight: 600;

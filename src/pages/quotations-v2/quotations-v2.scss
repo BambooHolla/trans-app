@@ -111,7 +111,7 @@ page-quotations-v2 {
         //     }
         // }
         .news-slides {
-            height: 24vh!important; 
+            height: 16rem!important; 
             width: 100%;
             .banner-img,.slide-zoom {
                 width: 100%!important;
@@ -205,7 +205,7 @@ page-quotations-v2 {
                     &::before {
                         display:block;
                         content:'';
-                        border-width: 8px 8px 8px 8px;
+                        border-width: 6px 6px 6px 6px;
                         border-style:solid;
                         border-color:transparent transparent color($colors, special) transparent;
                         
@@ -524,7 +524,7 @@ page-quotations-v2 {
             .range {
                 position: relative;
                 top: 2rem;
-                
+                height: 2.8rem;
             }
             .range .box {
                 display: inline-block;
@@ -532,7 +532,7 @@ page-quotations-v2 {
                 width: 8.6rem;
                 height: 2.8rem;
                 line-height: 2.8rem;
-                border-radius: 0.2rem;
+                border-radius: 0.4rem;
                 background-color: #999999;
                 z-index: 10;
                 font-size: 1.5rem;

@@ -538,7 +538,12 @@
 				<!-- <font>{{'HISTORY_RECORDS'|translate}}</font> -->
 			</span>
 		</div>
-		<div class="no-entrust" *ngIf="!entrusts || entrusts.length == 0">{{'NO_PENDING_ORDERS_UNTIL_NOW'|translate}}</div>
+		<div class="no-entrust" *ngIf="!entrusts || entrusts.length == 0">
+			<div class="no-entrust-img">
+				
+			</div>
+			<div class="no-entrust-txt">暂无委托</div>
+		</div>
 		<div *ngFor="let item of entrusts">
 			<div class="entrust">
 				<div class="header">

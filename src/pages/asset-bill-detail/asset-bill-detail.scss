@@ -37,19 +37,20 @@ page-asset-bill-detail {
                 display: block;
             }
             span {
-                line-height: 4rem;
+                line-height: 4.4rem;
             }
         }
         img {
-            height: 4rem!important;
+            height: 4.4rem!important;
             width: auto!important;
         }
         .product {
             padding-left: 1rem;
-            font-size: 2.6rem;
+            font-size: 2.2rem;
             font-weight: 400;
         }
     }
+
     .amount {
         text-align: right;
         .value {
