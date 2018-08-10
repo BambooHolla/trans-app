@@ -50,7 +50,7 @@
             </ng-container>
         </div>
         <div class="notice-box">
-            <span class="picasso-icon-horn"></span>
+            <span class="picasso-icon-horn" (click)="goNetwork()"></span>
             <ng-container *ngIf="!!noticeList.length">
                 <ion-slides loop autoplay='2000' #noticesSlide direction="vertical" class="notice-slides" (ionSlideDrag)="slideDrag($event,1)"   (click)="viewNews(1)"> 
                         <ion-slide *ngFor="let notice of noticeList">
