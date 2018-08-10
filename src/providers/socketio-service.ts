@@ -6,12 +6,11 @@ import { BehaviorSubject } from "rxjs/BehaviorSubject";
 // import { Subscriber } from 'rxjs/Subscriber';
 import "rxjs/Observable/timer";
 
-import * as SocketIOClient from "socket.io-client";
+import * as SocketIOClient from "socket.io-client"; 
 
 import { AppSettings } from "../providers/app-settings";
 import { AppDataService } from "../providers/app-data-service";
 import { LoginService } from "./login-service";
-
 /**
  * ToRefactor:
  * socket.on 可以用 Observable.fromEvent 转换，转换后的 Observable 用 Map 存下来。
@@ -30,6 +29,7 @@ export class SocketioService {
                 source: "/transaction",
                 socket: undefined,
                 _connected: false,
+                reEmit: undefined,
                 // _connected$: _connected.asObservable().distinctUntilChanged(),
             },
         ],
@@ -40,6 +40,7 @@ export class SocketioService {
                 source: "/transaction",
                 socket: undefined,
                 _connected: false,
+                reEmit: undefined,
                 // _connected$: _connected.asObservable().distinctUntilChanged(),
             },
         ],
@@ -50,6 +51,7 @@ export class SocketioService {
                 source: "/transaction",
                 socket: undefined,
                 _connected: false,
+                reEmit: undefined,
                 // _connected$: _connected.asObservable().distinctUntilChanged(),
             },
         ],
@@ -60,6 +62,7 @@ export class SocketioService {
                 source: "/report",
                 socket: undefined,
                 _connected: false,
+                reEmit: undefined,
                 // _connected$: _connected.asObservable().distinctUntilChanged(),
             },
         ],
@@ -70,6 +73,7 @@ export class SocketioService {
                 source: "/report",
                 socket: undefined,
                 _connected: false,
+                reEmit: undefined,
                 // _connected$: _connected.asObservable().distinctUntilChanged(),
             },
         ],
@@ -164,6 +168,9 @@ export class SocketioService {
                 // },
                 // extraHeaders: {'X-AUTH-TOKEN': this.appDataService.token},
                 "force new connection": true,
+                'reconnect':true,
+                'auto connect':true,
+                'reconnection delay': 200,
             },
         );
 
@@ -173,8 +180,9 @@ export class SocketioService {
         // 这样之前的订阅就会失效！
         // 因此需要重新进行订阅。
         socket.on("disconnect", function(err) {
-            console.log("与服务其断开");
-            // socket.connect();
+            console.log("与服务其断开",targetSocket.reEmit,api);
+            
+
         });
 
         // 短时间断线（服务器端仍在运行），
@@ -186,7 +194,8 @@ export class SocketioService {
             // console.log(`${api}Socket connected`);
             //gjs:认证授权
             // socket.emit('authentication', this.appDataService.token);
-            this._authenticated.next(true);
+            console.log('与服务连接')
+            this._authenticated.next(true); 
         });
 
         socket.on("data", function(data) {
@@ -239,11 +248,14 @@ export class SocketioService {
 
         // 重连成功也会触发 connect 事件，
         // 因此似乎没有必要再重复进行后续处理。
-        // socket.on('reconnect', (retryTimes) => {
-        //   // reconnect 回调函数的参数只有一个，
-        //   // 表示重连成功之前的重试次数。
-        //  // console.log('reconnect, retryTimes: ', retryTimes);
-        // });
+        socket.on('reconnect', (retryTimes) => {
+          // reconnect 回调函数的参数只有一个，
+          // 表示重连成功之前的重试次数。
+          console.log('reconnect, 与服务器重连 ', retryTimes);
+        //  this.tradeInterfaceV2Page.doSubscribe();
+        //  this.quotationsPageV2.subscribeRealtimeReports();
+            targetSocket.socket.emit(targetSocket.reEmit[0],targetSocket.reEmit[1])
+        });
 
         //// console.log(socket);
     }
@@ -314,16 +326,27 @@ export class SocketioService {
                         this.socketAPIs
                             .get(api)
                             .socket.emit("watch", [`${equityCodeWithSuffix}`]);
+                        this.socketAPIs
+                            .get(api)
+                            .reEmit = ["watch", [`${equityCodeWithSuffix}`]]
                     } else if (api == "holdPrice") {
                         this.socketAPIs
                             .get(api)
                             .socket.emit("watch" + "-inst", [
                                 `${equityCodeWithSuffix}`,
                             ]);
+
+                        this.socketAPIs
+                            .get(api)
+                            .reEmit = ["watch" + "-inst", [`${equityCodeWithSuffix}`]]
                     } else {
                         this.socketAPIs
                             .get(api)
                             .socket.emit("watch", `${equityCodeWithSuffix}`);
+                        
+                        this.socketAPIs
+                            .get(api)
+                            .reEmit = ["watch", `${equityCodeWithSuffix}`]
                     }
                 })
                 .catch(err => {
@@ -393,6 +416,9 @@ export class SocketioService {
                         .socket.emit("watch" + "-money", [
                             `${equityCodeWithSuffix}`,
                         ]);
+                    this.socketAPIs
+                        .get(api)
+                        .reEmit = ["watch" + "-money", [`${equityCodeWithSuffix}`]]
                 })
                 .catch(err => {
                     // console.log(err)
@@ -444,6 +470,11 @@ export class SocketioService {
                         .socket.emit("watch" + "-inst", [
                             `${equityCodeWithSuffix}`,
                         ]);
+                    
+                    this.socketAPIs
+                        .get(api)
+                        .reEmit = ["watch" + "-inst", [`${equityCodeWithSuffix}`]]
+                    
                 })
                 .catch(err => {
                     // console.log(err)
@@ -525,6 +556,8 @@ export class SocketioService {
                             end,
                             keepcontact,
                         );
+
+                        
                     } else {
                         this.socketAPIs.get(api).socket.emit(
                             "watch",
