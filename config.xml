@@ -4,7 +4,7 @@
     <description>Picasso APP</description>
     <author email="team@bnqkl.cn" href="http://www.bnqkl.cn/">本能管家</author>
     <content src="index.html" />
-    <access origin="*" />
+    <access origin="*" ubdomains="true" />
     <allow-navigation href="http://ionic.local/*" />
     <allow-navigation href="http://*/*" />
     <allow-intent href="http://*/*" />
