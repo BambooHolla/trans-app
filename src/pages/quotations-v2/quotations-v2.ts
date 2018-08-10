@@ -383,7 +383,6 @@ export class QuotationsPageV2 {
         let product;
         if (_target) {
             product = _target.id;
-            console.log(product);
         } else {
             return void 0;
         }

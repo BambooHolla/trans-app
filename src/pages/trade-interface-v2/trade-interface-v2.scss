@@ -102,6 +102,10 @@ page-trade-interface-v2 {
     }
     .item-background-color {
         background-color: transparent;
+        padding-left: 0px!important;
+        .item-inner {
+            padding-right: 0px!important;
+        }
     }
     ion-range {
         position: relative;
@@ -554,7 +558,9 @@ page-trade-interface-v2 {
                     input {
                         margin: 0;
                         text-align: center;
-                        font-size: 2.4rem;
+                        font-size: 2rem;
+                        width: 100%;
+                        font-weight: 500;
                         //placeholder设置
                         &::-webkit-input-placeholder {
                             /* WebKit browsers */

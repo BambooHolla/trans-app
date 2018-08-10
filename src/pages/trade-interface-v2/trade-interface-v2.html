@@ -188,10 +188,10 @@
 						</ion-row> -->
 						<ion-row class="input-row">
 							<ion-col col-2 tappable (click)="changeByStep('price','-')">-</ion-col>
-								<ion-col col-1>
+								<!-- <ion-col col-1>
 									<ion-icon name="ios-gprice" class="vertical-center"></ion-icon>
-								</ion-col>
-							<ion-col col-7>
+								</ion-col> -->
+							<ion-col col-8>
 									<ion-item class="item-background-color">
 								<ion-input #priceInputer type="number" placeholder="委托价格{{inputProductName?'('+inputProductName+')':''}}"
 									[(ngModel)]="price"
@@ -203,12 +203,11 @@
 						</ion-row>
 						<ion-row class="input-row" align-items-center>
 							<ion-col col-2 tappable (click)="changeByStep('amount','-')">-</ion-col>
-							<ion-col col-1>
+							<!-- <ion-col col-1>
 								<ion-icon name="ios-gamount" class="vertical-center"></ion-icon>
-							</ion-col>
-							<ion-col col-7>
+							</ion-col> -->
+							<ion-col col-8>
 									<ion-item class="item-background-color"> <ion-input #amountInputer type="number" placeholder="委托数量{{inputProductName?'('+inputProductName+')':''}}" [(ngModel)]="amount" (ngModelChange)="formatNumber('amount')"></ion-input></ion-item>
-								
 							</ion-col>
 							<ion-col col-2 tappable (click)="changeByStep('amount','+')">+</ion-col>
 						</ion-row>
