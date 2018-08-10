@@ -30,6 +30,7 @@ import { BigNumber } from "bignumber.js";
 import { NewsServiceProvider, NewsMsgType } from "../../providers/news-service/news-service";
 import { AppSettingProvider } from "../../bnlc-framework/providers/app-setting/app-setting";
 import { NewsContent } from "../news-content/news-content";
+import { SwitchNetworkPage } from "../switch-network/switch-network";
 @Component({
     selector: "page-quotations-v2",
     templateUrl: "quotations-v2.html",
@@ -767,5 +768,13 @@ export class QuotationsPageV2 {
             return data;
         }).catch( err => [] );
     }
-   
+
+    _clickCount: number = 0;
+    goNetwork() {
+        this._clickCount ++;
+        if( this._clickCount > 3) {
+            this._clickCount = 0;
+            this.navCtrl.push(SwitchNetworkPage);
+        }
+    }
 }
