@@ -1,5 +1,5 @@
-import { Injectable } from '@angular/core';
-import { App, Config } from 'ionic-angular';
+import { Injectable } from "@angular/core";
+import { App, Config } from "ionic-angular";
 
 // import { ActionSheetController, ModalController } from 'ionic-angular';
 
@@ -7,11 +7,10 @@ import { App, Config } from 'ionic-angular';
 
 // import { CameraModal } from '../../modals/camera/camera';
 // import { ImagePickerService } from '../../providers/image-picker-service';
-import { ImageTaker } from './image-taker';
+import { ImageTaker } from "./image-taker";
 
 @Injectable()
 export class ImageTakerController {
-
     constructor(
         // private cameraModal: CameraModal,
         // private imagePickerService: ImagePickerService,
@@ -19,9 +18,7 @@ export class ImageTakerController {
         // private modalCtrl: ModalController,
         private _app: App,
         public config: Config,
-    ) {
-
-    }
+    ) {}
 
     create(name: string, maxCount: number = 1): ImageTaker {
         return new ImageTaker(this._app, { name, maxCount });

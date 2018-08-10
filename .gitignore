@@ -10,6 +10,7 @@ log.txt
 *.sublime-project
 *.sublime-workspace
 .vscode/
+.sourcemaps/
 npm-debug.log*
 
 #vscode cordova debug插件生成的文件夹
@@ -31,6 +32,7 @@ tmp/
 temp/
 hooks/
 platforms/
+jks/
 /plugins/
 /plugins/android.json
 /plugins/ios.json
@@ -42,3 +44,4 @@ Thumbs.db
 UserInterfaceState.xcuserstate
 
 .editorconfig
+package-lock.json

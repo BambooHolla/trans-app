@@ -1,23 +1,92 @@
-page-quotations{
+page-quotations {
     ion-header {
-        .row{
+        .row {
             position: relative;
         }
         .toolbar-title {
             font-size: 1.7rem;
         }
-        ion-icon{
+        ion-icon {
             float: right;
             vertical-align: middle;
         }
+
+        .searchbar {
+            position: absolute;
+            left: 0%;
+            bottom: 0%;
+            font-size: 1.5rem;
+
+            .searchInput {
+                position: relative;
+                margin-left: 2.6rem;
+                transition: width 2s;
+                width: 0;
+                // .icon{
+                //     position: absolute;
+                //     pointer-events: none;
+                //     height: 1.6rem;
+                //     width: 1.6rem;
+                //     background-image: url("../assets/icon/search.png");
+                //     background-size: contain;
+                //     left: 1.1rem;
+                //     top: 50%;//.85rem;
+                //     transform: translateY(-50%);
+                // }
+                // .icon::after{
+                //     // font-family: "Ionicons";
+                //     // content:  "\f375";
+                //     // font-size: 1.6rem;
+                //     // color: white;
+                // }
+
+                .clearInput {
+                    position: absolute;
+                    right: 1.1rem;
+                    top: 0.85rem;
+                }
+
+                // input{
+                //   border: 0;
+                //   height: 3.2rem;
+                //   width:100%;
+                //   border-radius: 1.6rem;
+                //   background-color: rgba(255,255,255,0.12);
+                //   padding: 0 1.6rem 0 3.2rem;
+                // }
+
+                ion-input {
+                    border: 0;
+                    height: 3.2rem;
+                    width: 100%;
+                    border-radius: 1.6rem;
+                    background-color: rgba(255, 255, 255, 0.12);
+                    padding: 0 0 0 3.2rem;
+
+                    input {
+                        margin: 0;
+                        line-height: 3.2rem;
+                    }
+                }
+            }
+
+            span {
+                display: inline-block;
+                width: 4.6rem;
+                margin-left: 0.5rem;
+                text-align: center;
+                line-height: 3.2rem;
+                vertical-align: middle;
+            }
+        }
     }
-    
-    .quotitle{
+
+    .quotitle {
         ion-scroll {
             height: 3.8rem;
         }
 
-        .scroll-content{
+        .scroll-content {
             white-space: nowrap;
             margin: 0 1rem;
         }
@@ -27,81 +96,88 @@ page-quotations{
             padding: 0.7rem 2rem;
         }
 
-        span{
+        span {
             font-size: 1.4rem;
             line-height: 2rem;
             color: color($colors, important);
             position: relative;
             z-index: 2;
 
-            &.active-underline{
+            &.active-underline {
                 color: #fff;
             }
         }
     }
-    
-    ion-content{
-        .qhd{
-            background:rgba(13,117,147,0.6); /* 一些不支持背景渐变的浏览器 */
-            background: linear-gradient(-75deg, #0d7593, #0d7593 50%, rgba(0, 0, 0, 1));
-            height: 12rem;
 
-            .qcont{
+    ion-content {
+        .qhd {
+            position: relative;
+            height: 11rem;
+
+            .qcont {
                 position: absolute;
-                height: 12rem!important;
-                width:100%;
-                top:0;
-                background:rgba(255,255,255,0.3)!important;
+                height: 12rem !important;
+                width: 100%;
+                top: 0;
                 pointer-events: none;
-                .slides{
-                    margin-top:1.8rem;
+                .slides {
+                    margin-top: 1.8rem;
                     margin-left: 0.8rem;
                 }
             }
-            .echarts-placeholder{
+            .echarts-placeholder {
                 height: 12rem;
-                background:#0d7593;
+                // background:#0d7593;
             }
         }
 
-        .quotcont{
+        .quotcont {
             height: 12rem;
-            background-color: rgba(255, 255, 255, .06);
             padding: 1rem;
             .echarts-placeholder,
             .slideselem {
                 height: 10rem;
             }
-            .slide-zoom{
+            .slide-zoom {
                 margin-top: 0.8rem;
                 text-align: center;
             }
-            .title{
-                width:13rem;
+            .title {
+                // width:13rem;
                 float: left;
-                padding:0.5rem 0 0 0.8rem;
-                h3, h6{margin:0;}
+                padding: 0.5rem 0 0 0.8rem;
+                span {
+                    display: block;
+                }
+                label {
+                    color: color($colors, lightdark);
+                }
+                h6 {
+                    color: color($colors, special);
+                    margin: 0;
+                }
             }
-            .slides{
+            .slides {
                 width: 12rem;
                 float: left;
                 text-align: center;
                 padding: 1.5rem 1.8rem 0 1.8rem;
-                h3, h6{margin:0;}
+                h3,
+                h6 {
+                    margin: 0;
+                }
             }
-            .slideselem{
+            .slideselem {
                 overflow: hidden;
             }
         }
-            
 
-
-        .bosld{
-            width:86%;
-            margin:0 auto;
+        .bosld {
+            width: 86%;
+            margin: 0 auto;
             height: unset;
-            margin-bottom:2rem;
-            .swiper-container{
+            margin-bottom: 2rem;
+            .swiper-container {
                 overflow: visible;
             }
 
@@ -109,55 +185,56 @@ page-quotations{
                 margin-top: 2rem;
             }
 
-            .slide-zoom{
-                background-color: rgba(255, 255, 255, .06);
+            .slide-zoom {
+                background-color: rgba(255, 255, 255, 0.06);
                 overflow: visible;
                 height: unset;
                 min-height: 21.5rem;
-                padding-bottom:0.3rem;
+                padding-bottom: 0.3rem;
             }
-            &.swiper-slide{
-                align-items:inherit;
+            &.swiper-slide {
+                align-items: inherit;
                 height: unset;
-                transform: scale(0.95)
+                transform: scale(0.95);
             }
-            &.swiper-slide-active{
-                .slide-zoom{
+            &.swiper-slide-active {
+                .slide-zoom {
                     height: unset;
-                    transform: scale(1.05)
+                    transform: scale(1.05);
                 }
             }
         }
 
-        .slidhd{
-           padding: 0.6rem 1.5em!important;
-           color:#fff!important;
-           text-align: left;
-           .ion-ios-optional-outline::before{
-            margin:0;
-            background-size: 1.1em 1.1em;
-           }
-           .r{
-            float: right;
-            font-size: 2.3rem;
-            padding:0 1rem;
-           }
+        .slidhd {
+            padding: 0.6rem 1.5em !important;
+            color: #fff !important;
+            text-align: left;
+            .ion-ios-optional-outline::before {
+                margin: 0;
+                background-size: 1.1em 1.1em;
+            }
+            .r {
+                float: right;
+                font-size: 2.3rem;
+                padding: 0 1rem;
+            }
         }
-        tri-col-list-component ion-row, ion-row{
+        tri-col-list-component ion-row,
+        ion-row {
             // border-bottom:1px solid rgba(229,299,299,0.4);
-            border-bottom:1px solid rgba(83,83,83,0.4);
+            border-bottom: 1px solid rgba(83, 83, 83, 0.4);
             padding: 0.4em 0.3em 0.2em 0.3em;
-            h5{
+            h5 {
                 font-size: 1.6rem;
             }
-            h4{
+            h4 {
                 font-size: 1.9rem;
             }
-            h6{
+            h6 {
                 font-size: 1.5rem;
             }
-            &:last-of-type{
-                border:none;
+            &:last-of-type {
+                border: none;
             }
 
             &.row {
@@ -175,7 +252,6 @@ page-quotations{
             }
         }
     }
-    
 }
 
 // @media (min-width: 37.5rem) {

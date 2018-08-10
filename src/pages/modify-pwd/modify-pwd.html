@@ -1,0 +1,58 @@
+<!--
+  Generated template for the ModifyPwdPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>{{'EDIT_LOGIN_PASSWORD'|translate}}</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content class="account-form-page">
+  <div class="account-warpper">
+    <div class="logo-container">
+      <img src="assets/images/login/logo.png" alt="" class="logo">
+    </div>
+    <form class="account-form-container" [formGroup]="modifyForm" (ngSubmit)="modify()" novalidate>
+      <ion-item class="account-form-item">
+        <ion-input formControlName="oldPassword" class="password" type="password" placeholder="{{'OLD_PASSWORD'|translate}}" (input)="onOldPasswordInput($event)">
+        </ion-input>
+        <div item-right class="error-tip" *ngIf="oldPassword.errors?.minlength">
+          {{'PASSWORD_AT_LEAST_3_DIGITS'|translate}}
+        </div>
+      </ion-item>
+      <ion-item class="account-form-item">
+        <ion-input formControlName="newPassword" class="password" type="password" placeholder="{{'NEW_PASSWORD'|translate}}" (input)="onNewPasswordInput($event)">
+        </ion-input>
+        <div item-right class="error-tip" *ngIf="newPassword.errors?.minlength">
+          {{'PASSWORD_AT_LEAST_3_DIGITS'|translate}}
+        </div>
+        <div item-right class="error-tip" *ngIf="newPassword.errors?.sameError||oldPassword.errors?.sameError">
+          {{'MUST_BE_DIFFERENT_FROM_OLD_PASSWORD'|translate}}
+        </div>
+        <div item-right class="error-tip" *ngIf="newPassword.errors?.sameError || oldPassword.errors?.sameError || newPassword.errors?.strengthError">
+          {{'PASSWORD_STRENGTH_DISCREPENCY'|translate}}
+        </div>
+      </ion-item>
+      <ion-item class="account-form-item">
+        <ion-input formControlName="confirmNewPassword" class="password" type="password" placeholder="{{'CONFIRM_NEW_PASSWORD'|translate}}">
+        </ion-input>
+        <div item-right class="error-tip" *ngIf="confirmNewPassword.errors?.confirmError">
+          {{'TWO_PASSWORDS_ARE_NOT_IDENTICAL_INPUT'|translate}}
+        </div>
+        
+      </ion-item>
+      <div item-right class="pwd-strength">
+        {{'NEW_PASSWORD_PROMPT'|translate}}
+      </div>
+      <button ion-button class="account-form-submit" type="submit" [disabled]="modifyForm.invalid || !appDataService.ready || repeatPWDAdopt || modifying">
+        {{'CONFIRMS'|translate}}
+      </button>
+    </form>
+  </div>
+</ion-content>

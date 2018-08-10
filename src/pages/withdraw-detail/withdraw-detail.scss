@@ -1,0 +1,385 @@
+.cancel-btn-confirm {
+    .button-inner {
+        font-weight: 400;
+    }
+}
+
+::-webkit-scrollbar {
+    display: none !important;
+}
+ 
+page-withdraw-detail {
+    ion-header {
+        background-color: rgba(34, 35, 51, 0.8);;
+    }
+    ion-icon[name="添加"] {
+        background-image: url("../assets/icon/添加.png");
+    }
+    ion-icon[name="￥✏"] {
+        background-image: url("../assets/icon/￥✏.png");
+    }
+    .withdraw-to button {
+        height: 40px !important;
+    }
+    .no-entrust {
+        text-align: center;
+        height: 10rem;
+        line-height: 10rem;
+        font-size: 2rem;
+        color: #6b6b6b;
+        background-color: rgba(34, 35, 51, 1);
+    }
+    ion-list {
+        
+        .transfer-expenses {
+            color: color($colors, "special");
+        }
+        // margin-top: 1rem !important;
+        margin-bottom: 0 !important;
+        .new-item {
+            background-color: rgba(34, 35, 51, 1);
+            margin-top: 2px!important;
+            .title {
+                font-size: 1.5rem;
+                padding: 8px 0;
+                padding-left: 16px;
+                &.withdraw-title {
+                    display: flex;
+                    div {
+                        flex: 1;
+                        &.price {
+                            text-align: right; 
+                            padding-right: 8px;
+                            font-size: 1.4rem;
+                            span {
+                                color: #6D6D6D;
+                                &.unit {
+                                    font-size: 1.3rem;
+                                }
+                                &.value {
+                                    color: #BCBCBC;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            input {
+                text-align: left!important;
+            }
+        }
+        .fee-item {
+            .label-ios {
+                font-size: 1.5rem;
+                
+            }
+            .transfer-expenses {
+                color: #6D6D6D;
+                font-size: 1.3rem;
+                .value {
+                    color: #BCBCBC;
+                    font-size: 1.4rem;
+                }
+            }
+        }
+        ion-item-divider.item-divider {
+            ion-label {
+                display: none;
+            }
+            &.right-link {
+                ion-label {
+                    text-align: right;
+                    display: block;
+                    font-size: 1.2rem;
+                    color: #3997ee;
+                    margin: 0.35rem 1.6rem;
+                }
+            }
+            &.left-link {
+                ion-label {
+                    text-align: left;
+                    font-size: 1.2rem;
+                    color: color($colors, "special");
+                    margin: 0.35rem 0rem;
+                    display: flex;
+                    flex-direction: row;
+                    align-items: center;
+                }
+            }
+            ion-icon {
+                width: 1.1rem;
+                height: 1.1rem;
+                background-size: contain;
+                background-repeat: no-repeat;
+                background-position: center;
+                margin-right: 0.3rem;
+            }
+        }
+        .err-box {
+            padding-top: 0.5rem;
+            padding-bottom: 0.5rem;
+            height: 2.4rem;
+            .error-number {
+                display: inline-block;
+                position: absolute;
+                margin: 0 8px !important;
+                color: red;
+                right: 0;
+                font-size: 1.2rem;
+                text-shadow: 0 0 1rem #000;
+            }
+        }
+
+        ion-item.item-block {
+            background-color: color($colors, alpha-dark);
+            margin-top: 0.55px;
+            &.follow-pre-item {
+                margin-top: 0;
+            }
+            &.bg-transparent {
+                background: transparent;
+            }
+            ion-label {
+                font-size: 1.4rem;
+                // color: color($colors, 'special');
+                margin-right: 0;
+            }
+            .withdraw-to {
+                font-size: 1.4rem;
+                position: relative;
+                flex-shrink: 0;
+                flex-grow: 1;
+                > i {
+                    color: color($colors, "special");
+                    display: flex;
+                    align-items: center;
+                    justify-content: flex-end;
+                    ion-icon {
+                        width: 1.3rem;
+                        height: 1.3rem;
+                        background-size: contain;
+                        background-repeat: no-repeat;
+                        background-position: center;
+                    }
+                }
+                .button-inner {
+                    i {
+                        color: color($colors, "special");
+                        font-size: 1.4rem;
+                    }
+                    background: transparent;
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: flex-end;
+                    align-items: center;
+                    margin-right: 0rem;
+                    max-width: 100%;
+                    .account-info {
+                        display: flex;
+                        flex-direction: column;
+                        align-items: flex-end;
+                        .account-name {
+                            color: color($colors, "special");
+                            font-size: 1.4rem;
+                        }
+                        .account-amount,
+                        .account-code {
+                            padding-top: 0.2rem;
+                            color: color($colors, "lightdark");
+                            font-size: 1.2rem;
+                            max-width: 50vw;
+                            white-space: nowrap;
+                            text-overflow: ellipsis;
+                            overflow: hidden;
+                        }
+                        padding-right: 0.3rem;
+                    }
+                    ion-icon {
+                        color: color($colors, "special");
+                        flex-grow: 0;
+                    }
+                }
+            }
+            .account-selector {
+                background: transparent;
+                display: flex;
+                flex-direction: row;
+                justify-content: center;
+                align-items: center;
+                margin-right: 0rem;
+                max-width: 80%;
+                .account-info {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: flex-end;
+                    .account-name {
+                        color: color($colors, "special");
+                        font-size: 1.4rem;
+                    }
+                    .account-amount,
+                    .account-code {
+                        padding-top: 0.2rem;
+                        color: color($colors, "lightdark");
+                        font-size: 1.2rem;
+                        max-width: 50vw;
+                        white-space: nowrap;
+                        text-overflow: ellipsis;
+                        overflow: hidden;
+                    }
+                    padding-right: 1rem;
+                }
+                ion-icon {
+                    flex-grow: 0;
+                }
+            }
+        }
+        ion-input.input {
+            font-size: 1.4rem;
+        }
+        ion-input.rtl {
+            input {
+                // direction: rtl;
+                text-align: right;
+            }
+        }
+        .transfer-tip {
+            padding: 1rem 2rem;
+            font-size: 1.2rem;
+            color: color($colors, "lightdark");
+        }
+        .submit-btn {
+            &.disabled {
+                background-color: #bec3c7 !important;
+            }
+            height: 3.6rem !important;
+            .button-inner {
+                font-size: 1.9rem;
+            }
+            padding: 1rem;
+            width: 90vw;
+        }
+    }
+    .scroll-content > .withdraw-logs {
+        > .title {
+            padding: 1rem 16px;
+            font-size: 1.3rem;
+            opacity: 0.6;
+        }
+        .withdraw-log {
+            .base-info {
+                background-color: color($colors, "alpha-dark");
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                // height: 3rem;
+                padding: 1rem;
+                .type-name {
+                    font-size: 1.5rem;
+                    color: color($colors, "special");
+                    width: 28vw;
+                    text-align: center;
+                }
+                .time-at {
+                    flex: 1;
+                    text-align: center;
+                    font-size: 1.2rem;
+                    color: #6d6d6d;
+                }
+                .status {
+                    font-size: 1.5rem;
+                    color: color($colors, "special");
+                }
+                .cancel-btn {
+                    height: 2.2rem !important;
+                    padding: 0 0.8rem !important;
+                    margin-left: 0.4rem !important;
+                    .button-inner {
+                        padding-top: 0.1rem !important;
+                        font-size: 1.5rem !important;
+                    }
+                }
+            }
+            .detail-info {
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+                > *:nth-child(n) {
+                    position: relative;
+                    &::after {
+                        right: 0;
+                        content: "";
+                        display: block;
+                        width: 1px;
+                        height: 80%;
+                        top: 10%;
+                        position: absolute;
+                        background-color: #222333;
+                    }
+                }
+                > *:last-child {
+                    &::after {
+                        width: 0;
+                    }
+                }
+                .withdraw-amount {
+                    width: 50vw;
+                }
+                .withdraw-amount,
+                .withdraw-to,
+                .withdraw-address {
+                    box-sizing: border-size;
+                    margin: 0.6rem 0;
+                    padding: 0 1rem;
+                    // width: 70vw;
+                    flex-grow: 0;
+                    flex-shrink: 1;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                    align-items: center;
+                    overflow: hidden;
+                    position: relative;
+                    .sub-title {
+                        font-size: 1.3rem;
+                        color: color($colors, "lightdark");
+                        margin-bottom: 0.6rem;
+                    }
+                    .value {
+                        font-size: 1.4rem;
+                        color: color($colors, "special");
+                        white-space: nowrap;
+                        // text-overflow: ellipsis;
+                        overflow: hidden;
+                        max-width: 100%;
+                        div {
+                            overflow: auto;
+                        }
+                    }
+                }
+                .withdraw-to {
+                    position: relative;
+                    padding: 0;
+                    &::before,
+                    &::after {
+                        content: "";
+                        display: block;
+                        width: 1px;
+                        height: 80%;
+                        top: 10%;
+                        position: absolute;
+                        background-color: #222333;
+                    }
+                    &::before {
+                        left: 0;
+                    }
+                    &::after {
+                        right: 0;
+                    }
+                    // border-left: 1px solid #222333;
+                    // border-right: 1px solid #222333;
+                }
+            }
+        }
+    }
+}

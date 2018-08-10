@@ -1,53 +1,108 @@
-<!-- <ion-header>
-    <ion-grid no-padding text-center class="optional-header">
-        <ion-row padding>
-            <ion-col></ion-col>
-             <ion-col>公告</ion-col>
-             <ion-col>新闻</ion-col>
-            <ion-col>
-                <ion-buttons end>
-                    <ion-icon  name="ios-search" ></ion-icon>
+<ion-header>
+    <ion-navbar>
+        <ion-grid no-padding>
+            <ion-row class="title-header">
+                <ion-col class="tab-list">
+                    <span class="tab-item" (click)="tabClick(0)">{{'INFO_NEW'|translate}}</span>
+                    <span class="tab-item" (click)="tabClick(1)">{{'NEWS'|translate}}</span>
+                    <div class="tab-tale" [ngClass]="'tab-pos-'+(tabIndex+1)"></div>
+                </ion-col>
+                <ion-buttons right padding-horizontal [style.visibility]="showSearch? 'hidden':'visible'" (click)="toShowSearch(searchInput)">
+                    <button class="button_self" ion-button>
+                        <ion-icon class="large-icon" name="search"></ion-icon>
+                    </button>
                 </ion-buttons>
-
-            </ion-col>
-
-        </ion-row>
-    </ion-grid>
-</ion-header> -->
-
+                <ion-toolbar [hidden]="!showSearch" class="searchbar">
+                    <div #searchInputWrap class="searchInput">
+                        <!-- <div class="icon"></div> -->
+                        <ion-item no-padding no-lines>
+                            <ion-input #searchInput type="text" clearInput (ionChange)="search(searchInput.value)">
+                            </ion-input>
+                        </ion-item>
+                    </div>
+                    <ion-buttons right (click)="cancelFilter()">
+                        <button ion-button navPop>{{'CANCEL'|translate}}</button>
+                    </ion-buttons>
+                </ion-toolbar>
+            </ion-row>
+        </ion-grid>
+    </ion-navbar>
+</ion-header>
 <!-- <ion-content class="card-background-page bg-in"> -->
-<ion-content>
-    <ion-spinner name="ios" *ngIf="initing"></ion-spinner>
-    <!--下拉刷新-->
-    <ion-refresher (ionRefresh)="listRefresh($event)">
-        <ion-refresher-content refreshingText="正在刷新...">
-        </ion-refresher-content>
-    </ion-refresher>
-    <ion-list class="card-background-page">
-        <ion-card *ngFor="let site of newsList" ionic (click)="viewNews(site.newsId)">
-            <img src="{{site.titleImg}}" class="main-img" />
-            <div class="gradient-mask"></div>
-            <div class="infos">
-                <ion-avatar item-left >
-                    <img src="{{site.avatar}}">
-                </ion-avatar>
-                <div class="card-title">{{site.title}}</div>
-                <div class="card-subtitle font-smallest">
-                    <button ion-button icon-right clear small>
-                        <ion-icon name="ios-gcomment"></ion-icon>
-                        <div class="font-smaller">{{site.commentsNumber || ''}}</div>
-                    </button> 
-                    {{site.publishTime}}
-                </div>
-            </div>
-        </ion-card>
-    </ion-list>
-    <!--加载更多-->
-    <ion-infinite-scroll [enabled]="hasMore" (ionInfinite)="getMore($event)">
-        <ion-infinite-scroll-content loadingText="正在加载...">
-        </ion-infinite-scroll-content>
-    </ion-infinite-scroll>
+<ion-content #content>
+    <ion-slides (ionSlideWillChange)="slideChanged()" (ionSlideDrag) = "slideDrag($event)">
+        <ion-slide>
+            <!-- [style.height.px]="slideHeight"不知道干嘛的，先放着 -->
+            <!-- <ion-content class="child-content" [style.height.px]="slideHeight"> -->
+            <ion-content class="child-content">
+                <ion-spinner name="ios" *ngIf="initing"></ion-spinner>
+                <!--下拉刷新-->
+                <ion-refresher (ionRefresh)="initNoticeList($event)" *ngIf="refresherEnabled">
+                    <ion-refresher-content refreshingText="{{'UPDATING'|translate}}...">
+                    </ion-refresher-content>
+                </ion-refresher>
+                <div class="no-content" *ngIf="!noticeList?.list || noticeList?.list.length == 0">{{'NO_INFO'|translate}}</div>
+                <ion-list class="card-background-page" *ngIf=" noticeList?.list.length > 0">
+                    <ng-container *ngFor="let data_item of noticeList.list;let i = index">
+                        <div class="banner-card" *ngIf="i==0 && !showSearch;else normalListItem" (click)="viewNews(data_item.newsId)">
+                            <div class="wrapper" [style.backgroundImage]="'url('+data_item.cover+')'">
+                                <div class="title">{{data_item.newsTitle}}</div>
+                                <!-- <button class="click-to-read" ion-button>点击阅读</button> -->
+                            </div>
+                        </div>
+                        <ng-template #normalListItem>
+                            <ion-item class="notify-item" (click)="viewNews(data_item.newsId)" no-lines>
+                                <!-- <div class="infos">
+                                    <div class="publisher">{{data_item.publisherName}}</div>
+                                    <div class="news-title">{{data_item.newsTitle}}</div>
+                                    <div class="news-abstract">{{data_item.abstract}}</div>
+                                    <div class="news-date">{{data_item.crtDateTime|date:"y年M月d日 H:mm"}}</div>
+                                </div> -->
+                                <div class="infos">
+                                    <div class="title">{{data_item.newsTitle}}</div>
+                                    <div class="date">{{data_item.crtDateTime|date:"y-M-d H:mm"}}</div>
+                                </div>
+                            </ion-item>
+                        </ng-template>
+                    </ng-container>
+                </ion-list>
+                <!--加载更多-->
+                <ion-infinite-scroll #noticeIS [enabled]="noticeList.hasMore" (ionInfinite)="loadMoreNoticeList($event)">
+                    <ion-infinite-scroll-content loadingText="{{'LOADING'|translate}}...">
+                    </ion-infinite-scroll-content>
+                </ion-infinite-scroll>
+            </ion-content>
+        </ion-slide>
+        <ion-slide>
+            <!-- [style.height.px]="slideHeight"不知道干嘛的，先放着 -->
+            <!-- <ion-content class="child-content" [style.height.px]="slideHeight"> -->
+            <ion-content class="child-content">
+                <ion-spinner name="ios" *ngIf="initing"></ion-spinner>
+                <!--下拉刷新-->
+                <ion-refresher (ionRefresh)="initNewsList($event)" *ngIf="refresherEnabled">
+                    <ion-refresher-content refreshingText="{{'UPDATING'|translate}}...">
+                    </ion-refresher-content>
+                </ion-refresher>
+                <div class="no-content" *ngIf="!newsList?.list || newsList?.list.length == 0">{{'NO_NEWS'|translate}}</div>
+                <ion-list class="card-background-page" *ngIf=" newsList?.list.length > 0">
+                    <ion-item class="big-news-item" *ngFor="let data_item of newsList.list" (click)="viewNews(data_item.newsId)" no-lines>
+                        <div class="card-item" [style.backgroundImage]="'url('+serverUrl+data_item.cover+')'">
+                            <div class="wrapper">
+                                <div class="news-title">{{data_item.newsTitle}}</div>
+                                <div class="news-abstract" [innerHTML] = "data_item.abstract"></div>
+                                <div class="news-date">{{data_item.crtDateTime|date:"y-M-d H:mm"}}</div>
+                            </div>
+                        </div>
+                    </ion-item>
+                </ion-list>
+                <!--加载更多-->
+                <ion-infinite-scroll #noticeIS [enabled]="newsList.hasMore" (ionInfinite)="loadMoreNewsList($event)">
+                    <ion-infinite-scroll-content loadingText="{{'LOADING'|translate}}...">
+                    </ion-infinite-scroll-content>
+                </ion-infinite-scroll>
+            </ion-content>
+        </ion-slide>
+    </ion-slides>
 </ion-content>
 <!-- </ion-content> -->
-
 <!-- <ion-footer class="foot-placeholder"></ion-footer> -->

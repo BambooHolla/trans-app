@@ -1,0 +1,177 @@
+<!--
+  Generated template for the WithdrawDetailPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header class="animation-header">
+    <ion-navbar>
+        <ion-title>{{productInfo?.productName}}{{'WITHDRAW_1'|translate}}</ion-title>
+    </ion-navbar>
+</ion-header>
+<ion-content>
+    <ion-list>
+        <!-- <ion-item>{{'FROM'|translate}}
+            <button item-end class="account-selector" [title]="access_info?.balance">
+                <div class="account-info">
+                    <div class="account-name">{{productInfo?.productName}}{{productInfo?.cryptoCurrencyCode}}</div>
+                    <div class="account-amount">{{'AVAILABLE'|translate}}{{access_info?.balance|priceConversion:8:8}}{{productInfo?.cryptoCurrencyCode}}</div>
+                </div>
+            </button>
+        </ion-item> -->
+
+
+        <ion-item class="must-show-label">
+            <ion-label>提现地址</ion-label>
+
+
+            <!-- <button item-end class="account-selector">
+                <div class="account-info">
+                    <div class="account-name">liqiu网地址</div>
+                    <div class="account-code">0xcedb4c1c94d1b9ee11dcad3065a2ae585f136d1b9ee11dcad</div>
+                </div>
+                <ion-icon name="arrow-forward"></ion-icon>
+            </button> -->
+
+            <div class="withdraw-to" item-end>
+                <ng-container *ngIf="withdraw_address_list?.length;else no_selectable_withdraw_address_list">
+                    
+                    <!-- <ion-select [(ngModel)]="selected_withdraw_address" interface="action-sheet" placeholder="请选择" multiple="false" cancelText="取消">
+                        <ion-option class="account-selector" *ngFor="let withdraw_address of withdraw_address_list" [value]="withdraw_address">
+                            <div class="account-info">
+                                <div class="account-name">{{withdraw_address.paymentAccountNumber}}</div>
+                                <div class="account-code">{{withdraw_address.paymentAccountRemark}}</div>
+                            </div>
+                        </ion-option>
+                    </ion-select> -->
+
+                    
+                    <button ion-button clear full (click)="openWithdrawAddressSelector()" icon-right>
+                        <i *ngIf="!selected_withdraw_address;else selectedWithdrawAddressInfo">{{'PLEASE_SELECT'|translate}}</i>
+                        <ng-template #selectedWithdrawAddressInfo>
+                            <div class="account-info">
+                                    <div class="account-name">{{selected_withdraw_address.realname}}</div>
+                                    <div class="account-amount">{{selected_withdraw_address.paymentAccountNumber}}</div>
+                                </div>
+                        </ng-template>
+                        <ion-icon name="ios-arrow-forward"></ion-icon>
+                    </button>
+                </ng-container>
+                <ng-template #no_selectable_withdraw_address_list>
+                    <i (click)="toAddWithdrawAddress()">{{'CLICK_TO_ADD'|translate}}&nbsp;&nbsp;
+                        <ion-icon name="ios-arrow-forward"></ion-icon>
+                    </i>
+                </ng-template>
+            </div>
+        </ion-item>
+
+
+        <ion-item-divider class="left-link" (click)="productStatus&&toAddWithdrawAddress()">
+            <ion-icon name="添加"></ion-icon>
+            {{'ADD_NEW_ADDRESS'|translate}}
+        </ion-item-divider>
+        <!-- <div class="new-item">
+            <div class="title">
+                提现地址
+            </div>
+            <ion-item>
+                <ion-input #amountInputer class="rtl" [(ngModel)]="formData.amount" set-input-status="amount" placeholder="输入或粘贴提现地址" min=0 [max]="access_info?.balance" type="number" (ngModelChange)='numberFormat()'></ion-input>
+            </ion-item>
+        </div> -->
+        <div class="new-item">
+                <div class="title withdraw-title">
+                    <div>提币数额</div>
+                    <div class="price"><span>可提：</span><span class="value">{{access_info?.balance|priceConversion:8:8}}{{productInfo?.cryptoCurrencyCode}} </span><span class="unit">{{productInfo?.productName}}{{productInfo?.cryptoCurrencyCode}}</span> </div>
+                </div>
+                <ion-item>
+                    <!-- <ion-label color="primary">{{'DEPOSIT_AMOUNT'|translate}}</ion-label> -->
+                    <ion-input #amountInputer class="rtl" [(ngModel)]="formData.amount" set-input-status="amount" placeholder="请填写提币数额" min=0 [max]="access_info?.balance" type="number" (ngModelChange)='numberFormat()'></ion-input>
+                </ion-item>
+            </div>
+        <div class="err-box" >
+            <div item-right class="error-number" *ngIf="formData?.amount && !withdrawSwitch">
+                {{'WITHDRAWAL_BIGGER_THAN_POSITION'|translate}}
+            </div>
+            <div item-right class="error-number" *ngIf=" withdrawSwitch && formData?.amount && (freeSwitch && feeSwitch)">
+                {{'WITHDRAWAL_BIGGER_THAN_FEE'|translate}}
+            </div>
+            <div item-right class="error-number" *ngIf=" withdrawSwitch && formData?.amount && !((freeSwitch && feeSwitch)) && minQuotaSwitch">
+                {{'EACH_WITHDRAWAL_AMOUNT_NOT_LESS_THAN'|translate}}{{promptAmount?.min}} {{productInfo?.productName}}{{productInfo?.cryptoCurrencyCode}}
+            </div>
+            <div item-right class="error-number" *ngIf=" withdrawSwitch && formData?.amount && !((freeSwitch && feeSwitch)) && maxQuotaSwitch">
+                {{'EACH_WITHDRAWAL_AMOUNT_NOT_BIGGER_THAN'|translate}}{{promptAmount?.max}} {{productInfo?.productName}}{{productInfo?.cryptoCurrencyCode}}
+            </div>
+        </div>
+          
+      
+        <!-- <ion-item-divider class="left-link" (click)="describeModal()">
+            <ion-icon name="￥✏"></ion-icon>
+            {{'EXPLANATION_OF_AMOUNT_LIMIT'|translate}}
+        </ion-item-divider> -->
+        <ion-item class="fee-item">
+            手续费
+            <span item-end class="transfer-expenses"><span class="value">{{(rate_info?.rateNumber)}}</span> {{productInfo?.productName}}{{productInfo?.cryptoCurrencyCode}}</span>
+            <!-- {{productInfo?.productName}} -->
+        </ion-item>
+        <!-- <ion-item class="bg-transparent"> -->
+        <!-- <div class="transfer-tip">以太坊网络转账费用为每笔0.0100ETH,用于支付给矿工的手续费。以太坊网络转账费用是不固定的,取决于转账时矿工计算需要消耗的算力,当转账费用超过90000gas(目前折合为0.018个ETH),此次转账会失败,并将余额退回到您的原账户。</div> -->
+        <!-- </ion-item> -->
+        <ion-item>
+            <ion-label color="primary">{{'TRANSACTION_PASSWORD_2'|translate}}</ion-label>
+            <ion-input *ngIf="has_account_pwd" class="rtl" [(ngModel)]="formData.password" placeholder="{{'PLEASE_INPUT_TRANSACTION_PASSWORD'|translate}}" type="password"></ion-input>
+            <button item-end *ngIf="!has_account_pwd" (click)="routeTo('set-pay-pwd')" ion-button color="special">{{'GO_TO_SETTINGS'|translate}}</button>
+        </ion-item>
+        <ion-item class="follow-pre-item"> 
+            <button class="submit-btn" [class.disabled]="!productStatus" [disabled]="!productStatus || !canSubmit || (freeSwitch&& feeSwitch)  || !withdrawSwitch || minQuotaSwitch || maxQuotaSwitch" ion-button color="special" (click)="submitWithdrawAppply()">{{'CONFIRM_WITHDRAWAL'|translate}}</button>
+        </ion-item>
+    </ion-list>
+    <div class="withdraw-logs">
+        <div class="title">{{'WITHDRAWAL_RECORDS'|translate}}</div>
+        <div class="no-entrust" *ngIf="!transaction_logs || transaction_logs.length == 0">{{'WITHDRAWAL_RECORDS_UNTIL_NOW'|translate}}</div>
+        <div class="withdraw-log" *ngFor="let tlog of transaction_logs">
+            <div class="base-info">
+                <div class="type-name">{{tlog.productDetail}}</div>
+                <div class="time-at">
+                    <!-- <span style="opacity:0;">(占位) </span> -->
+                    <ion-icon name="ios-time-outline"></ion-icon>
+                    {{tlog.createdAt|date:'y-M-d H:mm:ss'}}
+                </div>
+                <div class="status">
+                    <span *ngIf="tlog.status != '005'" style="opacity:0;">(占位) </span> {{tlog.dealResultDetail}}
+                    <span *ngIf="tlog.status == '005'" style="color:#6d6d6d;" (click)="cancelWithdrawModal(tlog.transactionId,tlog.id)"> {{'CANCEL_btn'|translate}}</span>
+                </div>
+
+                <!-- <div class="cancel">
+                    <p class="cancel-btn" *ngIf="tlog.status == '005'" color="special" (click)="cancelWithdrawModal(tlog.transactionId,tlog.id)">(取消)</p>
+                </div> -->
+
+            </div>
+            <div class="detail-info">
+                <div class="withdraw-amount" [title]="tlog.amount">
+                    <div class="sub-title">
+                        {{'WITHDRAWAL_QUANTITY_1'|translate}}
+                    </div> 
+                    <div class="value">{{tlog.amount|priceConversion:8:8}}</div>
+                </div>
+                <!-- <div class="withdraw-to">
+                    <div class="sub-title">
+                    </div>
+                    <div class="value"></div>
+                </div> -->
+                <div class="withdraw-address" [title]="tlog.withdrawAddress">
+                    <div class="sub-title">
+                        {{'WITHDRAWAL_ADDRESS_1'|translate}}
+                    </div>
+                    <div class="value">
+                        <div>{{tlog.withdrawAddress}}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--加载更多-->
+	<ion-infinite-scroll [enabled]="withdraw_logs_page_info?.has_more" (ionInfinite)="loadMoreWithdrawLogs($event)">
+		<ion-infinite-scroll-content loadingText="{{'LOADING'|translate}}...">
+		</ion-infinite-scroll-content>
+	</ion-infinite-scroll>
+</ion-content>

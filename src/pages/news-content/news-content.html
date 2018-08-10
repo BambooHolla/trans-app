@@ -1,20 +1,30 @@
 <ion-header>
-  <ion-navbar>
-    <ion-title>新闻</ion-title>
-  </ion-navbar>
+    <ion-navbar>
+        <!-- <ion-title *ngIf="newsType == 0">{{'NOTIFICATION'|translate}}</ion-title>
+        <ion-title *ngIf="newsType == 1">{{'NEWS'|translate}}</ion-title> -->
+        <ion-title>{{newInfo?.newsTitle}}</ion-title>
+    </ion-navbar>
 </ion-header>
 
-
+ 
 <ion-content class="bg-in">
-  <rich-text [dataSource]="news | async"></rich-text>
-  <!--<ion-item no-lines>
+    <!-- <rich-text [dataSource]="news"></rich-text> -->
+    <div class="html-box" [innerHTML]="newInfo?.html"></div>
+
+
+  <!-- <iframe data-tap-disabled="true" style="height:100%;width:100%;" src="http://www.baidu.com" scroll="true" overflow-scroll="true"></iframe> -->
+
+    <!--<ion-item no-lines>
     <ion-input placeholder="我来说几句"></ion-input>
   </ion-item>-->
-  <comments #commentList [newsId]="newsId"></comments>
+
+    <!-- 评论需要审核，现在先隐藏 -->
+    <!-- <comments #commentList [newsId]="newsId"></comments> -->
 </ion-content>
 
-<ion-footer #footer>
+<!-- 评论需要审核，现在先隐藏 -->
+<!-- <ion-footer #footer>
   <ion-navbar>
     <inputer (sendMessage)="commentList.postComment($event)"></inputer>
   </ion-navbar>
-</ion-footer>
+</ion-footer> -->

@@ -1,23 +1,26 @@
 tri-col-list-component {
-  div{
-    width:100%;
-  }
+    div {
+        width: 100%;
+    }
 
-  .col1{
-    padding-left: 2.6rem;
-    text-align: left;
-  }
+    .col1 {
+        padding-left: 2.6rem;
+        text-align: left;
+    }
 
-  .showDetail{
-    line-height: 3.5rem;
-  }
+    .showDetail {
+        line-height: 3.5rem;
+    }
 
-  h4, h5, h6, span {
-    min-height: 1em;
-  }
+    h4,
+    h5,
+    h6,
+    span {
+        min-height: 1em;
+    }
 }
 
 ion-row.bottom-hr {
-  // border-bottom: 1px solid #000;
-  margin-bottom: 0.1rem;
+    // border-bottom: 1px solid #000;
+    margin-bottom: 0.1rem;
 }

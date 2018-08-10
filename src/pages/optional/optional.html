@@ -1,80 +1,51 @@
-<ion-header class="color-primary">
-  <ion-grid no-padding text-center class="optional-header">
+<ion-header class="animation-header">
+  <ion-navbar>
+    <ion-title>我的资产</ion-title>
+  </ion-navbar>
+  <ion-grid>
     <ion-row>
-      <ion-col class="padding">
+      <ion-col class="total">
+        <div class="value">{{ appDataService.HIDE_ASSETS  || (personalAssets?.asset?.total | quantityConversion  | changeCurrency | numberUnitFormat:true:false:2)}}</div>
+        <div class="text">总资产 ({{unit}}) <span class="visible" [class.on]="!appDataService.HIDE_ASSETS " [class.off]="!!appDataService.HIDE_ASSETS " (click)="toggleVisible($event)"></span></div>
       </ion-col>
+      <!-- <ion-col class="profit">
+        <div class="value">{{dayTotal || "0" | quantityConversion | numberUnitFormat:true:true:4 }}</div>
+        <div class="text">盈亏 (24h)</div>
+      </ion-col> -->
     </ion-row>
-    <ion-row>
-      <ion-col class="title-col">
-        <h1>{{personalDataService.todayBalance | number: '.2-2' | positiveSign}}</h1>
-        <h6>今日盈亏</h6>
-      </ion-col>
-    </ion-row>
-    <ion-row class="info-row">
-      <ion-col>
-        <h4 no-margin-bottom>{{personalDataService.accountBalance | number: '.2-2'}}</h4>
-        可用资金
-      </ion-col>
-      <ion-col>
-      </ion-col>
-      <ion-col>
-        <h4 no-margin-bottom>--</h4>
-        累积盈亏
-      </ion-col>
-    </ion-row>
-      <ion-scroll #listHeader scrollX="true" scrollY="true">  
-      <ion-row nowrap class="list-header">
-        <ion-col col-4 padding class="darker-transparent">股票</ion-col>
-        <ion-col col-4 padding class="darker-transparent">最新价</ion-col>
-        <ion-col col-4 padding class="darker-transparent">涨幅</ion-col>
-        <ion-col col-4 padding class="darker-transparent">持仓成本</ion-col>
-        <ion-col col-4 padding class="darker-transparent">盈亏</ion-col>
-      </ion-row>  
-      </ion-scroll>  
   </ion-grid>
 </ion-header>
-
 <ion-content no-bounce>
+  <!--下拉刷新-->
+  <!-- <ion-refresher (ionRefresh)="initData($event)">
+    <ion-refresher-content refreshingText="{{'RENEWING'|translate}}...">
+    </ion-refresher-content>
+  </ion-refresher> -->
   <ion-grid #listGrid no-padding text-center class="col-center-center">
-    <ion-row nowrap *ngFor="let data of optionalStockDetailList; trackBy: (data?.baseData | async)?.stockCode;" class="bottom-hr"
-      tappable [navPush]="stockDetailPage" [navParams]="(data?.baseData | async)?.stockCode">
-      <ion-col class="light-transparent" col-4 padding>
+    <ion-row nowrap *ngFor="let data of optionalStockDetailList" class="bottom-hr"
+    (click)="goAssetBillDetail(data.productInfo,data.personalData)"
+       >
+      <ion-col class="light-transparent" padding>
         <div class="col1">
-          <h5>{{(data?.baseData | async)?.name || '----'}}</h5>
-          <div *ngIf="true">
-            <span class="font-smaller">持仓</span>
-            <span class="color-important">{{data?.personalData?.restQuantity}}</span>
-          </div>
-          <span *ngIf="!true">{{(data?.baseData | async)?.stockCode}}</span>
-          <h6 *ngIf="false">总市价：{{(data?.baseData | async)?.marketInfo?.marketValue}}</h6>
+            <img src="assets/images/{{(data?.baseData | async)?.name}}.png" alt="">
         </div>
-      </ion-col>
-      <ion-col class="light-transparent" col-4 padding>
         <div class="col2">
-          <h4 class="{{(data?.baseData | async)?.changeRate | riseOrFall}}">{{(data?.baseData | async)?.latestPrice | number:'.2-2'}}</h4>
-          <h6 *ngIf="false">换手率：{{(data?.baseData | async)?.marketInfo?.turnoverRate | percent:'.2-2'}}</h6>
+            <h5>{{(data?.baseData | async)?.name || '----'}}</h5>
+            <h6> <span class="picasso-icon-about"></span> {{data?.personalData?.currentPrice| quantityConversion  | changeCurrency | numberUnitFormat:true:false:2}} <span class="unit"> {{unit}}</span></h6>
         </div>
+        <!-- <div class="frozen">
+          <span class="font-smaller">{{'FREEZE_1'|translate}}</span>
+          <span class="color-rise">{{data?.personalData?.freezeQuantity| quantityConversion | numberUnitFormat:true:false:8}}</span>
+        </div> -->
       </ion-col>
-      <ion-col class="light-transparent" col-4 padding>
+      <ion-col class="light-transparent right" padding>
         <div class="col3">
-          <h6 class="{{(data?.baseData | async)?.changeRate | riseOrFall}}">{{(data?.baseData | async)?.changeRate | percent:'.2-2' | positiveSign}}</h6>
-          <h6 *ngIf="false">流通市值：{{(data?.baseData | async)?.circulationValue}}</h6>
-        </div>
-      </ion-col>
-      <ion-col class="light-transparent" col-4 padding>
-        <div class="col2">
-          <h4>{{data?.personalData?.cost | number:'.2-2'}}</h4>
-        </div>
-      </ion-col>
-      <ion-col class="light-transparent" col-4 padding>
-        <div class="col2">
-          <h4 class="{{(data?.baseData | async)?.PNL | riseOrFall}}">{{data?.personalData?.PNL | number:'.2-2'}}</h4>
+            <h5>{{ appDataService.HIDE_ASSETS  ||(data?.personalData?.restQuantity | quantityConversion | numberUnitFormat:true:false:8)}}</h5>
+            <h6>{{ appDataService.HIDE_ASSETS  ||(data?.personalData?.totalPrice | quantityConversion | changeCurrency | numberUnitFormat:true:false:2)}}<span class="unit" *ngIf="!appDataService.HIDE_ASSETS"> {{unit}}</span></h6>
         </div>
       </ion-col>
     </ion-row>
   </ion-grid>
-  <!-- </ion-scroll> -->
-  <!-- <tri-col-list-component [listData]="optionalStockDetailList" [showDetail]="false" [isOption]="true"></tri-col-list-component> -->
 
 </ion-content>
 

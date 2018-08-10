@@ -1,0 +1,30 @@
+page-currency-setting {
+    ion-item {
+        padding: 1rem !important;
+        position: relative;
+    }
+    .icon-currency {
+        position: absolute;
+        right: 2rem;
+        font-size: 2rem;
+    }
+    .vertical-center {
+        font-size: 1.5rem;
+        margin-bottom: 0.1rem;
+        background-color: #262739;
+    }
+    .picasso-icon-k.green {
+        background-image: url(../assets/icon/k-green.png);
+        color: transparent;
+        background-repeat: no-repeat;
+        background-size: 100% 100%;
+        font-size: 2.2rem;
+    }
+    .picasso-icon-k.red {
+        background-image: url(../assets/icon/k-red.png);
+        color: transparent;
+        background-repeat: no-repeat;
+        background-size: 100% 100%;
+        font-size: 2.2rem;
+    }
+}

@@ -1,6 +1,6 @@
 <ion-tabs tabsPlacement="top" selectedIndex="1" class="info-tabs" #infotabs>
   <ion-tab></ion-tab>
-  <ion-tab [root]="noticeListRoot" tabTitle="公告" tabsHideOnSubPages="true"></ion-tab>
-  <ion-tab [root]="newsRoot" tabTitle="新闻" tabsHideOnSubPages="true"></ion-tab>
+  <ion-tab [root]="noticeListRoot" tabTitle="{{'NOTIFICATION'|translate}}" tabsHideOnSubPages="true"></ion-tab>
+  <ion-tab [root]="newsRoot" tabTitle="{{'NEWS'|translate}}" tabsHideOnSubPages="true"></ion-tab>
   <ion-tab tabIcon="search" (ionSelect)="test()"></ion-tab>
 </ion-tabs>

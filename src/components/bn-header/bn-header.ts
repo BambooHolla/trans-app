@@ -1,16 +1,11 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input } from "@angular/core";
 
 @Component({
-  selector: 'bn-header',
-  templateUrl: 'bn-header.html'
+    selector: "bn-header",
+    templateUrl: "bn-header.html",
 })
 export class BnHeaderComponent {
+    @Input() headerTitle: string;
 
-  @Input()
-  headerTitle: string;
-
-  constructor() {
-
-  }
-
+    constructor() {}
 }

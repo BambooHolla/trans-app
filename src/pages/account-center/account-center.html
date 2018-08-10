@@ -1,64 +1,87 @@
 <ion-header>
-
   <ion-navbar>
-    <ion-title>账户中心</ion-title>
+    <ion-title>{{'ACCOUNT_CENTER'|translate}}</ion-title>
   </ion-navbar>
-
 </ion-header>
-<ion-content no-bounce class="bg-in account-contain">
-  <ion-grid no-padding class="dark-transparent">
-    <ion-row class="bottom-line">
+<ion-content no-bounce class="account-contain">
+  <ion-grid *ngIf="login_status" no-padding>
+    <!-- <ion-row class="bottom-line" (click)="identify()">
       <ion-col padding class="vertical-center">
-        用户名<span class="f-right">{{personalDataService.realname}}</span>
+        {{'REAL_NAME_VERIFICATION'|translate}}<span class="f-right" [class.no-identify]="!personalDataService.realname">{{personalDataService.realname || personalDataService.certifiedMsg}}</span>
       </ion-col>
-    </ion-row>
-    <ion-row class="bottom-line">
+    </ion-row> -->
+    <!-- <ion-row class="bottom-line" *ngIf="false">
       <ion-col padding class="vertical-center">
         身份证号<span class="f-right">{{personalDataService.idcardnumber | numMask:6:4}}</span>
-      </ion-col>
-    </ion-row>
-    <ion-row class="bottom-line">
+      </ion-col> 
+    </ion-row> -->
+    <ion-row class="bottom-line" *ngIf="personalDataService.mobile">
       <ion-col padding class="vertical-center">
-        手机号<span class="f-right">{{personalDataService.mobile | numMask}}</span>
+        {{'MOBILE_PHONE_NUMBER'|translate}}<span class="f-right">{{personalDataService.mobile | numMask}}</span>
       </ion-col>
     </ion-row>
-    <ion-row class="bottom-line" (click)="openPage()">
+    <ion-row class="bottom-line" *ngIf="personalDataService.email">
       <ion-col padding class="vertical-center">
-        修改交易密码
+        {{'EMAIL_ADDRESS'|translate}}
+        <span class="f-right">{{personalDataService.email}}</span>
       </ion-col>
     </ion-row>
-    <ion-row class="bottom-line" (click)="identify()">
+    <ion-row class="bottom-line" >
+      <ion-col padding class="vertical-center"  >
+        当前版本<span class="f-right">{{appDataService.APP_VERSION}}</span>
+      </ion-col>
+    </ion-row>
+    <ion-row class="bottom-line" >
+      <ion-col padding class="vertical-center"  (click)="currencyTypePage()">
+        计价方式<span class="f-right">{{appDataService.CURRENCY_INFO?.currencyTo}} <span class="picasso-icon-right-arrow"></span> </span>
+      </ion-col>
+    </ion-row>
+      <!-- <ion-row class="bottom-line" >
+      <ion-col padding class="vertical-center"  >
+        {{'CHECK_UPDATE'|translate}}<span class="f-right">{{appDataService.APP_VERSION}}</span>
+      </ion-col>
+    </ion-row> -->
+    <ion-row class="bottom-line" >
+      <ion-col padding class="vertical-center rise-or-fall-toggle" (click)="goCurrencySettingPage()">
+        涨跌颜色
+        <span class="f-right"><span class="picasso-icon-k {{!!appDataService.risefallColor?'red':'green'}}"></span> <span class="picasso-icon-right-arrow"></span></span>
+      </ion-col>
+    </ion-row>
+    <ion-row class="bottom-line" >
+      <ion-col padding class="vertical-center" (click)="goGestureLock()">
+        {{(hasGestureLock?"GESTURE_RESET_PASSWORD":"GESTURE_SET_PASSWORD") | translate}}
+        <span class="f-right"><span class="picasso-icon-right-arrow"></span> </span>
+      </ion-col>
+    </ion-row>
+    <ion-row class="bottom-line" >
+      <ion-col padding class="vertical-center"  (click)="network()">
+        {{'SETTINGS_NET_VERSION'|translate}}
+        <span class="f-right"><span class="picasso-icon-right-arrow"></span> </span>
+      </ion-col>
+    </ion-row>
+    <ion-row class="bottom-line" navPush="modify-pwd">
       <ion-col padding class="vertical-center">
-        实名认证
+        {{'EDIT_LOGIN_PASSWORD'|translate}}
+        <span class="f-right"><span class="picasso-icon-right-arrow"></span> </span>
       </ion-col>
     </ion-row>
-
+    <ng-container *ngIf="!loading_has_account_pwd">
+      <ion-row class="bottom-line" (click)="routeTo('set-pay-pwd')">
+        <ion-col padding class="vertical-center">
+          {{(has_account_pwd?'RESET_1':'SET_1') | translate}}{{'ACCOUNT_TRANSACTION_PASSWORD'|translate}}
+          <span class="f-right"><span class="picasso-icon-right-arrow"></span> </span>
+        </ion-col>
+      </ion-row>
+    </ng-container>
   </ion-grid>
-  <ion-row class="account-tip">
-    <ion-icon name="ios-grule"></ion-icon>
-    <span>交易账户以下信息可提供给银行绑定银行账号</span>
-  </ion-row>
-  <ion-grid no-padding class="dark-transparent">
-    <ion-row class="bottom-line">
-      <ion-col padding class="vertical-center">
-        客户号<span class="f-right">{{appDataService.customerId}}</span>
-      </ion-col>
-    </ion-row>
-    <ion-row class="bottom-line">
-      <ion-col padding class="vertical-center">
-        {{personalDataService.relatedBankAccount.bankName}}
-        <span class="f-right">{{personalDataService.relatedBankAccount.cardNo | numMask:4:4}}</span>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
-  <ion-row tappable class="dark-transparent account-exit" (click)="financeAccount()">
+  <ion-row *ngIf="login_status" tappable class="account-exit" (click)="doLogout()">
     <ion-col padding class="exit-center">
-      开户
+      {{'LOGOUT'|translate}}
     </ion-col>
   </ion-row>
-  <ion-row tappable class="dark-transparent account-exit" (click)="loginService.doLogout()">
+  <ion-row *ngIf="!login_status" tappable class="account-exit" (click)="showLogin()">
     <ion-col padding class="exit-center">
-      退出
+      {{'LOGINS'|translate}}
     </ion-col>
   </ion-row>
 

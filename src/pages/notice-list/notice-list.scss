@@ -9,16 +9,16 @@ page-notice-list {
             text-overflow: ellipsis;
         }
         .item-block .item-inner,
-        .item { 
-            border-bottom: none!important;
+        .item {
+            border-bottom: none !important;
         }
-        .list:not(:first-child){
-            margin: 0!important;
-            border-bottom:1px solid rgba(83, 83, 83, 0.4);
+        .list:not(:first-child) {
+            margin: 0 !important;
+            border-bottom: 1px solid rgba(83, 83, 83, 0.4);
         }
-        
+
         .firstNotice {
-            border-top: none!important;
+            border-top: none !important;
             &.item-ios.item-block .item-inner {
                 padding-right: 0.5rem;
             }
@@ -64,7 +64,8 @@ page-notice-list {
         .BulletinBoard {
             padding: 7px 7px 7px 19px;
             height: 4.4rem;
-            background: url(../assets/images/announce-title-bg.png) 7px 7px/65px 30px no-repeat;
+            background: url(../assets/images/announce-title-bg.png) 7px 7px/65px
+                30px no-repeat;
             font-size: 1.4rem;
             line-height: 3rem;
             text-align: left;
@@ -74,7 +75,7 @@ page-notice-list {
             color: color($colors, primary);
         }
 
-        #iframeWrapper{
+        #iframeWrapper {
             height: 100%;
         }
     }

@@ -1,0 +1,132 @@
+page-asset-bill-detail {
+
+    .color-white {
+        color: white!important;
+    }
+    ion-list {
+        margin-bottom: 2px !important;
+        ion-item-divider.item-divider {
+            min-height: 1rem;
+            ion-label {
+                display: none;
+            }
+        }
+        ion-item.item-block {
+            background-color: color($colors, alpha-dark);
+            margin-top: 1px;
+            ion-label {
+                color: color($colors, "special");
+            }
+        }
+        .record-title{
+            background-color: #27283a!important;
+        }
+    }
+    .unit {
+        color: #666666;
+        font-size: 1.2rem;
+    }
+    .bill-header{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        .sign {
+            display: flex;
+            align-content: center;
+            span,img {
+                display: block;
+            }
+            span {
+                line-height: 4rem;
+            }
+        }
+        img {
+            height: 4rem!important;
+            width: auto!important;
+        }
+        .product {
+            padding-left: 1rem;
+            font-size: 2.6rem;
+            font-weight: 400;
+        }
+    }
+    .amount {
+        text-align: right;
+        .value {
+            font-size: 2rem;
+            margin-bottom: 0.4rem;
+        }
+        .text {
+            font-size: 1.6rem;
+        }
+    }
+    
+    .available-list {
+        position: relative;
+        .ion-size {
+            font-size: 2.2rem!important;
+            color: #C1B17F;
+        }
+        .text {
+            font-size: 1.5rem!important;
+        }
+        .value {
+            display: inline-block;
+            position: absolute;
+            right: 0;
+            font-weight: 400;
+        }
+    }
+    .free-box {
+        margin-bottom: 1rem;
+    }
+    .free {
+        color: #999999;   
+        .ion-size {
+            color: #666666!important;
+        }
+        .unit {
+            font-size: 1.6rem;
+            display: inline-block;
+        }
+    }
+    .record-group {
+        background-color: transparent!important;
+        .item-inner {
+            border-bottom: 1px solid #393a4d!important;
+        }
+        .label-ios {
+            display: flex;
+            justify-content: space-between;
+            color: #FFF!important;
+        }
+        .item-product {
+            margin-bottom: 1rem;
+        }
+        .unit {
+            font-size: 1.2rem;
+            color: #6d6d6d!important;
+        }
+        .group-right {
+           padding-top: 1rem;
+        }
+    }
+
+    ion-footer {
+        background-color: #27283a;
+        button {
+            width: 100%;
+            height: 4.2rem;
+            font-size: 1.8rem;
+            font-weight: 600;
+            background-color: transparent;
+            border: 2px solid #C1B17F;
+            border-radius: 6px;
+            color: #C1B17F;
+        }
+        .recharge-btn {
+            background-color: #C1B17F;
+            color: #27283a;
+        }
+    }
+}

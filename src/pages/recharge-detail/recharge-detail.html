@@ -1,0 +1,112 @@
+<!--
+  Generated template for the RechargeDetailPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header class="animation-header">
+    <ion-navbar>
+        <ion-title>{{productInfo?.productName}}{{'DEPOSIT'|translate}}</ion-title>
+    </ion-navbar>
+</ion-header>
+<ion-content>
+    <!-- <div class="account-assets">
+        <div class="assets-item balance">
+            <ion-icon name="可用余额"></ion-icon>
+            <div class="sub-title">{{'AVAILABLE_BALANCE'|translate}}</div>
+            <div class="amount">{{access_info.balance|priceConversion:8:8}}</div>
+        </div>
+        <div class="assets-item frozen">  
+            <ion-icon name="冻结余额"></ion-icon>
+            <div class="sub-title">{{'FREEZE_BALANCE'|translate}}</div> 
+            <div class="amount">{{access_info.freezeBalance|priceConversion:8:8}}</div>
+        </div>
+    </div> -->
+    <div class="recharge-address">
+        <div class="title-bar">
+            <div class="title">
+                <ion-icon name="￥+"></ion-icon>
+                {{'DEPOSIT_ADDRESS'|translate}}
+            </div>
+        </div>
+        <div class="address-detail">
+            <!-- <div class="qrcode-image">
+				<kjua-qrcode class="qrcode" [config]="{label:recharge_address.paymentAccountNumber}"></kjua-qrcode>
+			</div> -->
+            <div class="hash-code">
+                <ng-container *ngIf="recharge_address?.paymentAccountNumber;else noAddress">
+                    <kjua-qrcode class="qrcode" fill="#2e2e2e" [text]="recharge_address.paymentAccountNumber"></kjua-qrcode>
+                    
+                </ng-container>
+                <ng-template #noAddress>
+                    <i>{{'NO_AVAILABLE_ADDRESS'|translate}}</i>
+                </ng-template>
+            </div>
+        </div>
+    </div>
+    <div class="address-text">
+        <div>{{recharge_address.paymentAccountNumber}}</div>
+        <button class="copy-button" ion-button (click)="copyCode()">
+            <ion-icon name="复制"></ion-icon>
+            {{'CLICK_AND_COPY'|translate}}
+        </button>
+    </div>
+    <div class="prompt">
+        <div class="content" *ngIf="userLanguage == 'zh'">
+            <ion-icon name="警告"></ion-icon>
+            <!-- 您的比特币汇入上述地址后,需要整个比特币网络节点的确认,为了快速到账,您可以向比特币网络支付少量的手续费。到账时间为1次网络确认后(一般是10分钟-60分钟之间)。最小\充值金额是:0.0001。您的比特币地址不会经常改变,可以重复充值;如有更改,我们会尽量通过网站公告或消息通知您。 -->
+            禁止充值除{{productInfo?.productName}}以外的其他资产,任何非{{productInfo?.productName}}资产将不可被找回。{{minRechargeText}}充值后需要等待区块确认,为了快速到账,可适当提高充值手续费。
+        </div>
+        <div class="content" *ngIf="userLanguage == 'en'">
+            <ion-icon name="警告"></ion-icon>
+            <!-- 您的比特币汇入上述地址后,需要整个比特币网络节点的确认,为了快速到账,您可以向比特币网络支付少量的手续费。到账时间为1次网络确认后(一般是10分钟-60分钟之间)。最小\充值金额是:0.0001。您的比特币地址不会经常改变,可以重复充值;如有更改,我们会尽量通过网站公告或消息通知您。 -->
+            It is prohibited to deposit any assets other than {{productInfo?.productName}},and any non-{{productInfo?.productName}} assets will not be recovered. {{minRechargeText}} needs to wait for block confirmation after deposit. In order to speed up transaction confirmation, the fee can be appropriately increased.
+        </div>
+        <div class="content" *ngIf="userLanguage == 'ja'">
+            <ion-icon name="警告"></ion-icon>
+            <!-- 您的比特币汇入上述地址后,需要整个比特币网络节点的确认,为了快速到账,您可以向比特币网络支付少量的手续费。到账时间为1次网络确认后(一般是10分钟-60分钟之间)。最小\充值金额是:0.0001。您的比特币地址不会经常改变,可以重复充值;如有更改,我们会尽量通过网站公告或消息通知您。 -->
+            {{productInfo?.productName}}以外のその他の資産に対してのチャージが禁止する、如何なるの非{{productInfo?.productName}}資産が紛失したら、探し出せないとされる。{{productInfo?.productName}}のチャージ後はブロックの確認待ちが必要であり、速やかに着金させる為には妥当にチャージ手数料を引き上げることが出来る。
+        </div>
+    </div>
+    <div class="recharge-logs">
+        <div class="title">{{'DEPOSIT_RECORDS'|translate}}</div>
+        <div class="no-entrust" *ngIf="!transaction_logs || transaction_logs.length == 0">{{'NO_DEPOSIT_RECORDS'|translate}}</div>
+        <div class="recharge-log" *ngFor="let tlog of transaction_logs">
+            <div class="base-info">
+                <div class="type-name">{{tlog.productDetail}}</div>
+                <div class="time-at">
+                    <ion-icon name="ios-time-outline"></ion-icon>
+                    {{tlog.createdAt|date:'y-M-d H:mm:ss'}}
+                </div>
+                <div class="status">{{tlog.dealResultDetail}}</div>
+            </div>
+            <div class="detail-info">
+                <div class="recharge-amount">
+                    <div class="sub-title">
+                        {{'DEPOSIT_QUANTITY'|translate}}
+                    </div>
+                    <div class="value">{{tlog.amount|priceConversion:8:8}}</div>
+                </div>
+                <!-- <div class="recharge-to">
+					<div class="sub-title">
+						充值到
+					</div>
+					<div class="value">IBT</div>
+				</div> -->
+                <div class="recharge-address">
+                    <div class="sub-title">
+                        {{'DEPOSIT_ADDRESS'|translate}}
+                    </div>
+                    <div class="value">
+                        <div>{{tlog.rechargeAddress}}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--加载更多-->
+    <ion-infinite-scroll [enabled]="has_more_recharge_logs" (ionInfinite)="loadMoreRechargeLogs($event)">
+        <ion-infinite-scroll-content loadingText="{{'LOADING'|translate}}...">
+        </ion-infinite-scroll-content>
+    </ion-infinite-scroll>
+</ion-content>

@@ -1,295 +1,695 @@
-import { Injectable } from '@angular/core';
+import { Injectable } from "@angular/core";
 
 // import { Subject } from 'rxjs/Subject';
-import { Observable } from 'rxjs/Observable';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { Subscriber } from 'rxjs/Subscriber';
-import 'rxjs/Observable/timer';
+import { Observable } from "rxjs/Observable";
+import { BehaviorSubject } from "rxjs/BehaviorSubject";
+// import { Subscriber } from 'rxjs/Subscriber';
+import "rxjs/Observable/timer";
 
-import * as SocketIOClient from 'socket.io-client';
+import * as SocketIOClient from "socket.io-client"; 
 
-import { AppSettings } from '../providers/app-settings';
-import { AppDataService } from '../providers/app-data-service';
-import { LoginService } from './login-service';
+import { AppSettings } from "../providers/app-settings";
+import { AppDataService } from "../providers/app-data-service";
+import { LoginService } from "./login-service";
+/**
+ * ToRefactor:
+ * socket.on 可以用 Observable.fromEvent 转换，转换后的 Observable 用 Map 存下来。
+ * new Observable() 内部产生的 observer 没有必要用属性保存，
+ * onData() 可以用上面产生的 Observable 配合 filter() 来分流。
+ * 同时加上 takeUntil 保证在用户退出登录时能够自动被取消订阅。
+ */
 
 @Injectable()
 export class SocketioService {
+    private socketAPIs = new Map([
+        [
+            "holdPrice",
+            {
+                target: "/prices",
+                source: "/transaction",
+                socket: undefined,
+                _connected: false,
+                reEmit: undefined,
+                // _connected$: _connected.asObservable().distinctUntilChanged(),
+            },
+        ],
+        [
+            "price",
+            {
+                target: "/prices",
+                source: "/transaction",
+                socket: undefined,
+                _connected: false,
+                reEmit: undefined,
+                // _connected$: _connected.asObservable().distinctUntilChanged(),
+            },
+        ],
+        [
+            "depth",
+            {
+                target: "/depths",
+                source: "/transaction",
+                socket: undefined,
+                _connected: false,
+                reEmit: undefined,
+                // _connected$: _connected.asObservable().distinctUntilChanged(),
+            },
+        ],
+        [
+            "reportK",
+            {
+                target: "/reports",
+                source: "/report",
+                socket: undefined,
+                _connected: false,
+                reEmit: undefined,
+                // _connected$: _connected.asObservable().distinctUntilChanged(),
+            },
+        ],
+        [
+            "realtimeReports",
+            {
+                target: "/reports",
+                source: "/report",
+                socket: undefined,
+                _connected: false,
+                reEmit: undefined,
+                // _connected$: _connected.asObservable().distinctUntilChanged(),
+            },
+        ],
+    ]);
 
-  // private _socketUrl: string = `${this.appSettings.SOCKET_URL}/app/gjs`;
-  private target: string = '/price'
-  private source: string = '/transaction'
-  private path: string = this.appSettings.SOCKET_PREFIX + this.source + '/socket.io'
-  private _socketUrl: string = this.appSettings.SERVER_URL + this.target
-
-  private socket;
-  private transports = [
-    // 'polling',
-    'websocket',
-  ];
-
-  private _authenticated: BehaviorSubject<boolean> = new BehaviorSubject(undefined);
-  authenticated$: Observable<boolean> = this._authenticated
-        .asObservable()
-        .distinctUntilChanged();
-
-  private eventSubscriberMap: Map<string, Map<Subscriber<any>, string>> = new Map();
-
-  private _socketioSubscribeList: any[] = [];
-
-  constructor(
-    private appDataService: AppDataService,
-    public appSettings: AppSettings,
-    public loginService: LoginService,
-  ){
-    
-  }
-
-  initSubscribers() {
-    this.loginService.status$.subscribe(status => {
-      if (!status) {
-        this.disconnectSocket()
-      }
-    })
-  }
-
-  private socketReady(): Promise<any> {
-    const authenticated = this._authenticated.getValue();
-    if (!this.socket || authenticated === undefined){
-      this.connectSocket();
+    private path(source) {
+        return this.appSettings.SOCKET_PREFIX + source + "/socket.io";
+    }
+    private _socketUrl(target): string {
+        return this.appSettings.SERVER_URL + target;
     }
 
-    if (authenticated === true){
-      return Promise.resolve();
-    }
-
-    return new Promise((resolve, reject) => {
-      this.authenticated$
-        .filter(value => typeof value === 'boolean')
-        .first()
-        .subscribe(result => {
-          if (result){
-            resolve();
-          } else {
-            reject('socket not ready: unauthentication!');
-          }
-        });
-    });
-    // return this.authenticated$
-    //   .do(value => {console.log('authenticated$ value: ', value)})
-    //   .filter(value => typeof value === 'boolean')
-    //   .toPromise()
-    //   .then(value => {
-    //     console.log('socketReady promise: ', value);
-    //     return value ? Promise.resolve() : Promise.reject('unauthenticattion')
-    //   })
-  }
-
-  private connectSocket(){
-    if (this.socket && this.socket.disconnected) {
-      this.socket.connect();
-      return;
-    }
-    console.log(this._socketUrl)
-    this.socket = SocketIOClient.connect(this._socketUrl, {
-      // transports: this.transports,
-      path: this.path
-      // transportOptions: {
-      //   polling: {
-      //     extraHeaders: {
-      //       'X-AUTH-TOKEN': this.appDataService.token,
-      //     }
-      //   }
-      // },
-      // extraHeaders: {'X-AUTH-TOKEN': this.appDataService.token},
-    });
-
-    const socket = this.socket;
-
-    // 断线重连后，若断线时间较长，则会使用不同的 socketio 连接，
-    // 这样之前的订阅就会失效！
-    // 因此需要重新进行订阅。
-
-    // 短时间断线（服务器端仍在运行），
-    // 则在网络重新连接时，会一次性收到之前错过的数据;
-    // 但若断线时间稍长（但未触发 connect_error 事件），
-    // 依然有可能触发 reconnect 与 connect ，
-    // 这样原有连接与订阅依然会失效！
-    socket.on('connect', () => {
-      console.log('connected');
-      //gjs:
-      // socket.emit('authentication', this.appDataService.token);
-      //report:
-      // socket.emit('watch', "1h", '001', "-10001", 
-      // new Date('2017-09-07 00:00:00'), new Date('2017-09-09 00:00:00'));
-      //price:
-      // socket.emit('watch', "-f52f58bd4e0e5e502890b3f8");
-      this._authenticated.next(true)
-    });
-
-    socket.on('data', function (data) {
-      console.log('socket on data: ',data);
-    });
-
-    socket.on('error', function (err) {
-      console.log('socket on err: ',err);
-    });
-
-    socket.on('authenticated', () => {
-      console.log('authenticated');
-      this._authenticated.next(true);
-      // 认证通过后重新进行订阅（有可能是断线重连）。
-      this.socketioResubscribe();
-    });
-
-    socket.on('unauthorized', (result) => {
-      // 验证未通过时，断开 socketio 连接，
-      // 此后所有的订阅都不会进行，包括网络断线重连后。
-      // 必须注销并重新登录，才会重连 socketio 并重新尝试认证。
-      console.log('unauthorized: ', result && (result.message || result));
-      this._authenticated.next(false);
-      socket.disconnect();
-    });
-
-    socket.on('connect_error', (...args) => {
-      console.log('connect_error:', args);
-      // 在连接出错的情况下（后期可以考虑在连续多次出错时才进行处理），
-      // 使用 disconnect() 可以保证不再做无谓的连接尝试。
-      // 同时将 _authenticated 设为 undefined ，
-      // 以便后续的订阅请求可以等待网络重连后重新认证的结果，
-      // 并且可用于区分网络问题导致的 disconnect 与认证失败的 disconnect 。
-      socket.disconnect();
-      this._authenticated.next(undefined);
-    });
-
-    // connect_timeout 时，会同时触发 connect_error ，
-    // 似乎不需要额外处理，因此姑且注释掉。
-    // socket.on('connect_timeout', (...args) => {
-    //   console.log('connect_timeout:', args);
-    //   // socket.disconnect();
-    //   // if (this._authenticated.getValue() !== undefined) {
-    //   //   this._authenticated.next(false);
-    //   // }
-    // });
-
-    // 重连成功也会触发 connect 事件，
-    // 因此似乎没有必要再重复进行后续处理。
-    // socket.on('reconnect', (retryTimes) => {
-    //   // reconnect 回调函数的参数只有一个，
-    //   // 表示重连成功之前的重试次数。
-    //   console.log('reconnect, retryTimes: ', retryTimes);
-    // });
-
-    // console.log(socket);
-  }
-
-  disconnectSocket(){
-    if (this.socket){
-      this.socket.disconnect();
-    }
-
-    this.eventSubscriberMap.forEach(subscriberMap => {
-      subscriberMap.forEach((value, subscriber) => {
-        subscriber.unsubscribe();
-      });
-
-      subscriberMap.clear();
-    });
-    this.eventSubscriberMap.clear();
-
-    this._socketioSubscribeList.length = 0;
-    this._authenticated.next(undefined);
-  }
-
-  private socketioResubscribe() {
-    this._socketioSubscribeList.forEach(subscribeData => {
-      this.socket.emit('subscribe', subscribeData);
-    });
-  }
-
-  private removeFromSocketioSubscribeList(subscribeData) {
-    const index = this._socketioSubscribeList.findIndex(
-      item => item.channel === subscribeData.channel
+    private _authenticated: BehaviorSubject<boolean> = new BehaviorSubject(
+        undefined,
     );
+    authenticated$: Observable<
+        boolean
+    > = this._authenticated.asObservable().distinctUntilChanged();
 
-    if (index !== -1) {
-      this._socketioSubscribeList.splice(index, 1);
+    private apiObservableMap: Map<string, Observable<any>> = new Map();
+
+    // private _socketioSubscribeSet: Set<any> = new Set();
+
+    constructor(
+        private appDataService: AppDataService,
+        public appSettings: AppSettings,
+        public loginService: LoginService,
+    ) {
+        // this.initSubscribers();//此方法是用来退出登录释放订阅的 币加所项目部分订阅不再与登陆状态关联 故注释
     }
-  }
 
-  private onData({ eventName, equityCode}, data) {
-    // console.log(`socket on: `, data);
-    if (this.eventSubscriberMap.has(eventName)){
-      this.eventSubscriberMap.get(eventName).forEach((code, subscriber) => {
-        if (equityCode === code || data.ec === code || data.n === code){
-          subscriber.next(data);
+    initSubscribers() {
+        this.loginService.status$.subscribe(is_login_in => {
+            if (!is_login_in) {
+                this.disconnectSocket();
+            }
+        });
+        // this.loginService.logout$.subscribe(() => {
+        //   this.socketAPIs.forEach((value,key,map)=>{
+        //     this.disconnectSocket(key)
+        //   })
+        //     // this.disconnectSocket('price')
+        // })
+    }
+
+    private socketReady(api): Promise<any> {
+        // console.log('equityCode socket api2:', api)
+        const targetSocket = this.socketAPIs.get(api);
+        // console.log('equityCode socket api2:targetSocket:', targetSocket)
+        if (
+            !targetSocket ||
+            !targetSocket.socket ||
+            targetSocket.socket.disconnected
+        ) {
+            //  ||  this._authenticated.getValue() === undefined) {
+            // console.log('equityCode socket api2:targetSocket:false')
+
+            this.connectSocket(api);
         }
-      });
+        // console.log('socket api2 auth:',this._authenticated.getValue())
+        return this.authenticated$
+            .filter(value => typeof value === "boolean")
+            .first()
+            .toPromise()
+            .then(value => {
+                // console.log('socket api2 auth:authenticated$: ',value)
+                return value
+                    ? Promise.resolve()
+                    : Promise.reject("unauthenticattion");
+            });
     }
-  }
 
-  subscribeEquity(equityCodeWithSuffix: string, eventName: string): Observable<any> {
-    const equityCode = /^([^-]+)/.exec(equityCodeWithSuffix)[1];
-    console.log(equityCodeWithSuffix,' & ',eventName)
-    const observable = new Observable(observer => {
-      // 对于所有订阅都已取消的 refCount 重新进行订阅时，
-      // 这个函数会被重新调用一次，并传入新的 observer 。
-      // 因此需要将新的 observer 加到 Map 中，
-      // 以便可以在 socketio 的 on 事件中使用正确的 observer(subscriber) 去派发数据。
-      this.socketReady()
-        .then(() => {
-          this.addSubscriberToMap(eventName, equityCode, observer);
+    private connectSocket(api) {
+        const targetSocket = this.socketAPIs.get(api);
+        if (targetSocket.socket && targetSocket.socket.disconnected) {
+            targetSocket.socket.connect();
+            return;
+        }
+        // console.log(this._socketUrl(targetSocket.target))
+        targetSocket.socket = SocketIOClient.connect(
+            this._socketUrl(targetSocket.target),
+            {
+                // transports: ['polling','websocket'],
+                forceNew: true, // will create two distinct connections
+                path: this.path(targetSocket.source),
+                // transportOptions: {
+                //   polling: {
+                //     extraHeaders: {
+                //       'X-AUTH-TOKEN': this.appDataService.token,
+                //     }
+                //   }
+                // },
+                // extraHeaders: {'X-AUTH-TOKEN': this.appDataService.token},
+                "force new connection": true,
+                'reconnect':true,
+                'auto connect':true,
+                'reconnection delay': 200,
+            },
+        );
 
-          const subscribeData = {
-            channel: equityCodeWithSuffix,
-            from: 'wzx',
-            date: new Date(),
-          };
-          this._socketioSubscribeList.push(subscribeData);
-          // this.socket.emit('subscribe', subscribeData);
-          console.log('watch: ', `-${equityCodeWithSuffix}`)
-          this.socket.emit('watch', `-${equityCodeWithSuffix}`)
-        })
-        .catch(err => {
-          console.log(err)
+        const socket = targetSocket.socket;
+
+        // 断线重连后，若断线时间较长，则会使用不同的 socketio 连接，
+        // 这样之前的订阅就会失效！
+        // 因此需要重新进行订阅。
+        socket.on("disconnect", function(err) {
+            console.log("与服务其断开",targetSocket.reEmit,api);
+            
+
         });
 
-      // 在 multicast refCount 上的所有订阅都取消时，
-      // 会调用此方法取消 observer 的订阅。
-      return () => {
-        console.log('socketio unsubscribe: ', equityCodeWithSuffix);
-        this.removeSubscriberFromMap(eventName, observer);
+        // 短时间断线（服务器端仍在运行），
+        // 则在网络重新连接时，会一次性收到之前错过的数据;
+        // 但若断线时间稍长（但未触发 connect_error 事件），
+        // 依然有可能触发 reconnect 与 connect ，
+        // 这样原有连接与订阅依然会失效！
+        socket.on("connect", () => {
+            // console.log(`${api}Socket connected`);
+            //gjs:认证授权
+            // socket.emit('authentication', this.appDataService.token);
+            console.log('与服务连接')
+            this._authenticated.next(true); 
+        });
 
-        const subscribeData = {
-          channel: equityCodeWithSuffix,
-          from: 'wzx',
-          date: new Date(),
-        };
-        this.removeFromSocketioSubscribeList(subscribeData);
-        this.socket.emit('unsubscribe', subscribeData);
-      }
-    });
+        socket.on("data", function(data) {
+            console.log(`${api}Socket on data1: `, data);
+        });
 
-    return observable;
-  }
+        socket.on("error", function(err) {
+            console.log(`${api}Socket on err1: `, err);
+        });
 
-  private addSubscriberToMap(eventName: string, equityCode: string, subscriber: Subscriber<any>) {
-    if (!this.eventSubscriberMap.has(eventName)){
-      this.eventSubscriberMap.set(eventName, new Map());
-      this.socket.on(eventName, this.onData.bind(this, { eventName, equityCode}));
+        socket.on("failed", function(err) {
+            console.log(`${api}Socket on failed1: `, err);
+        });
+        // socket.on('authenticated', () => {
+        //  // console.log('authenticated');
+        //   // this._authenticated.next(true);
+        //   // 认证通过后重新进行订阅（有可能是断线重连）。
+        //   this.socketioResubscribe();
+        // });
+
+        // socket.on('unauthorized', (result) => {
+        //   // 验证未通过时，断开 socketio 连接，
+        //   // 此后所有的订阅都不会进行，包括网络断线重连后。
+        //   // 必须注销并重新登录，才会重连 socketio 并重新尝试认证。
+        //  // console.log('unauthorized: ', result && (result.message || result));
+        //   this._authenticated.next(false);
+        //   socket.disconnect();
+        // });
+
+        socket.on("connect_error", (...args) => {
+            // console.log(`${api}Socket connect_error:`, args);
+            // 在连接出错的情况下（后期可以考虑在连续多次出错时才进行处理），
+            // 使用 disconnect() 可以保证不再做无谓的连接尝试。
+            // 同时将 _authenticated 设为 undefined ，
+            // 以便后续的订阅请求可以等待网络重连后重新认证的结果，
+            // 并且可用于区分网络问题导致的 disconnect 与认证失败的 disconnect 。
+            // socket.disconnect();
+            // this._authenticated.next(undefined);
+        });
+
+        // connect_timeout 时，会同时触发 connect_error ，
+        // 似乎不需要额外处理，因此姑且注释掉。
+        // socket.on('connect_timeout', (...args) => {
+        //  // console.log('connect_timeout:', args);
+        //   // socket.disconnect();
+        //   // if (this._authenticated.getValue() !== undefined) {
+        //   //   this._authenticated.next(false);
+        //   // }
+        // });
+
+        // 重连成功也会触发 connect 事件，
+        // 因此似乎没有必要再重复进行后续处理。
+        socket.on('reconnect', (retryTimes) => {
+          // reconnect 回调函数的参数只有一个，
+          // 表示重连成功之前的重试次数。
+          console.log('reconnect, 与服务器重连 ', retryTimes);
+        //  this.tradeInterfaceV2Page.doSubscribe();
+        //  this.quotationsPageV2.subscribeRealtimeReports();
+            targetSocket.socket.emit(targetSocket.reEmit[0],targetSocket.reEmit[1])
+        });
+
+        //// console.log(socket);
     }
-    const subscriberMap = this.eventSubscriberMap.get(eventName);
-    if (!subscriberMap.has(subscriber)){
-      // 将新的 subscriber 加到 Map 中。
-      subscriberMap.set(subscriber, equityCode);
-    }
-  }
 
-  private removeSubscriberFromMap(eventName: string, subscriber: Subscriber<any>) {
-    const subscriberMap = this.eventSubscriberMap.get(eventName);
-    // 在 Map 中删除所保存的 observer ，防止内存泄漏。
-    if (subscriberMap && subscriberMap.has(subscriber)){
-      subscriberMap.delete(subscriber);
-    }
-  }
+    disconnectSocket() {
+        this.socketAPIs.forEach((value, api, map) => {
+            // if (this.socketAPIs.get(api) && this.socketAPIs.get(api).socket){
+            //   this.socketAPIs.get(api).socket.disconnect();
+            // }
+            value.socket ? value.socket.disconnect() : void 0;
+            // value.socket = undefined
+            //TODO:api对应的observable清出map
 
+            this.apiObservableMap.delete(api);
+        });
+
+        // this._socketioSubscribeSet.clear();
+        this._authenticated.next(undefined);
+    }
+
+    // //现在没做授权验证,故不需要使用到此方法,方法内需要修改.
+    // private socketioResubscribe() {
+    //   this._socketioSubscribeSet.forEach(subscribeData => {
+    //     this.socketAPIs.get('price').socket.emit('subscribe', subscribeData);
+    //   });
+    // }
+
+    // private onData({ eventName, equityCode}, data) {
+    //   // console.log(`socket on: `, data);
+    //   if (this.eventSubscriberMap.has(eventName)){
+    //     this.eventSubscriberMap.get(eventName).forEach((code, subscriber) => {
+    //       if (equityCode === code || data.ec === code || data.n === code){
+    //         subscriber.next(data);
+    //       }
+    //     });
+    //   }
+    // }
+
+    subscribeEquity(
+        equityCodeWithSuffix: string,
+        api: string,
+    ): Observable<any> {
+        // const equityCode = /^([^-]+)/.exec(equityCodeWithSuffix)[1];
+        // console.log(equityCodeWithSuffix, ' & ', api)
+        const observable = new Observable(observer => {
+            // const subscribeData = {
+            //   channel: equityCodeWithSuffix,
+            //   from: 'wzx',
+            //   date: new Date(),
+            // };
+            // 对于所有订阅都已取消的 refCount 重新进行订阅时，
+            // 这个函数会被重新调用一次，并传入新的 observer 。
+            // console.log('equityCode socket api:',api)
+            this.socketReady(api)
+                .then(() => {
+                    // console.log('equityCode socket api:ready', api)
+                    // if (equityCodeWithSuffix.indexOf('-') === -1) {
+                    //   equityCodeWithSuffix = '-' + equityCodeWithSuffix
+                    // }
+                    this.getObservableFromMap(
+                        api,
+                        `${equityCodeWithSuffix}`,
+                    ).subscribe(observer);
+                    // this._socketioSubscribeSet.add(subscribeData);
+                    // this.socket.emit('subscribe', subscribeData);
+                    if (api == "price" || api == "depth") {
+                        // console.log(`watch:${api} `, `${equityCodeWithSuffix}`)
+                        this.socketAPIs
+                            .get(api)
+                            .socket.emit("watch", [`${equityCodeWithSuffix}`]);
+                        this.socketAPIs
+                            .get(api)
+                            .reEmit = ["watch", [`${equityCodeWithSuffix}`]]
+                    } else if (api == "holdPrice") {
+                        this.socketAPIs
+                            .get(api)
+                            .socket.emit("watch" + "-inst", [
+                                `${equityCodeWithSuffix}`,
+                            ]);
+
+                        this.socketAPIs
+                            .get(api)
+                            .reEmit = ["watch" + "-inst", [`${equityCodeWithSuffix}`]]
+                    } else {
+                        this.socketAPIs
+                            .get(api)
+                            .socket.emit("watch", `${equityCodeWithSuffix}`);
+                        
+                        this.socketAPIs
+                            .get(api)
+                            .reEmit = ["watch", `${equityCodeWithSuffix}`]
+                    }
+                })
+                .catch(err => {
+                    // console.log(err)
+                });
+
+            // 在 multicast refCount 上的所有订阅都取消时，
+            // 会调用此方法取消 observer 的订阅。
+            return () => {
+                // console.log('socketio unsubscribe: ', equityCodeWithSuffix);
+
+                // this.removeFromSocketioSubscribeList(subscribeData);
+                // this._socketioSubscribeSet.delete(subscribeData);
+                // this.socketAPIs.get(api).socket.emit('unsubscribe', subscribeData);
+                if (api == "price" || api == "depth") {
+                    // console.log(`unwatch:${api} `, `${equityCodeWithSuffix}`)
+                    this.socketAPIs
+                        .get(api)
+                        .socket.emit("unwatch", [`${equityCodeWithSuffix}`]);
+                } else if (api == "holdPrice") {
+                    this.socketAPIs
+                        .get(api)
+                        .socket.emit("unwatch" + "-inst", [
+                            `${equityCodeWithSuffix}`,
+                        ]);
+                } else {
+                    this.socketAPIs
+                        .get(api)
+                        .socket.emit("unwatch", `${equityCodeWithSuffix}`);
+                }
+                // this.socketAPIs.get(api).socket.emit(`unwatch:${api}:`, [`${equityCodeWithSuffix}`])
+            };
+        });
+
+        return observable;
+    }
+
+    subscribeHeaderPrice(
+        equityCodeWithSuffix: string,
+        api: string = "price",
+    ): Observable<any> {
+        const observable = new Observable(observer => {
+            this.socketReady(api)
+                .then(() => {
+                    ((api, equityCode) => {
+                        if (!this.apiObservableMap.has(api + "-money")) {
+                            this.apiObservableMap.set(
+                                api + "-money",
+                                Observable.fromEvent(
+                                    this.socketAPIs.get(api).socket,
+                                    "data" + "-money",
+                                ),
+                            );
+                        }
+                        return (
+                            this.apiObservableMap
+                                .get(api + "-money")
+                                // .filter(data => equityCode === data.type || data.ec === equityCode || data.n === equityCode)
+                                // .map(data => data.data || data)
+                                .do(data =>
+                                    console.log("subscribeHeaderPrice", data),
+                                )
+                        );
+                    })(api, `${equityCodeWithSuffix}`).subscribe(observer);
+                    this.socketAPIs
+                        .get(api)
+                        .socket.emit("watch" + "-money", [
+                            `${equityCodeWithSuffix}`,
+                        ]);
+                    this.socketAPIs
+                        .get(api)
+                        .reEmit = ["watch" + "-money", [`${equityCodeWithSuffix}`]]
+                })
+                .catch(err => {
+                    // console.log(err)
+                });
+
+            // 在 multicast refCount 上的所有订阅都取消时，
+            // 会调用此方法取消 observer 的订阅。
+            return () => {
+                this.socketAPIs
+                    .get(api)
+                    .socket.emit("unwatch" + "-money", [
+                        `${equityCodeWithSuffix}`,
+                    ]);
+            };
+        });
+
+        return observable;
+    }
+
+    subscribeHoldPrice(
+        equityCodeWithSuffix: string,
+        api: string = "holdPrice",
+    ): Observable<any> {
+        const observable = new Observable(observer => {
+            this.socketReady(api)
+                .then(() => {
+                    ((api, equityCode) => {
+                        if (!this.apiObservableMap.has(api + "-inst")) {
+                            this.apiObservableMap.set(
+                                api + "-inst",
+                                Observable.fromEvent(
+                                    this.socketAPIs.get(api).socket,
+                                    "data" + "-inst",
+                                ),
+                            );
+                        }
+                        return (
+                            this.apiObservableMap
+                                .get(api + "-inst")
+                                // .filter(data => equityCode === data.type || data.ec === equityCode || data.n === equityCode)
+                                // .map(data => data.data || data)
+                                .do(data =>
+                                    console.log("subscribeHoldPrice", data),
+                                )
+                        );
+                    })(api, `${equityCodeWithSuffix}`).subscribe(observer);
+                    this.socketAPIs
+                        .get(api)
+                        .socket.emit("watch" + "-inst", [
+                            `${equityCodeWithSuffix}`,
+                        ]);
+                    
+                    this.socketAPIs
+                        .get(api)
+                        .reEmit = ["watch" + "-inst", [`${equityCodeWithSuffix}`]]
+                    
+                })
+                .catch(err => {
+                    // console.log(err)
+                });
+
+            // 在 multicast refCount 上的所有订阅都取消时，
+            // 会调用此方法取消 observer 的订阅。
+            return () => {
+                this.socketAPIs
+                    .get(api)
+                    .socket.emit("unwatch" + "-inst", [
+                        `${equityCodeWithSuffix}`,
+                    ]);
+            };
+        });
+
+        return observable;
+    }
+    subscribeRealtimeReports(
+        equityCodes: string[],
+        api: string = "realtimeReports",
+        options: any = {},
+        watchKline: boolean = false,
+    ): Observable<any> {
+        const observable = new Observable(observer => {
+            //console.log('subscribeRealtimeReports options', options)
+            let theDate = new Date();
+            let todayTime: any = theDate.getTime();
+            todayTime = todayTime - (todayTime % 86400000);
+            //每日0点起,使用数字
+            let startDate = new Date(todayTime);
+            var ts = "5m"; //八点前显示五分钟线
+            if (theDate.getHours() >= 8) {
+                ts = "15m"; //八点后显示15分钟线
+            }
+            let {
+                timespan = ts,
+                type = "001",
+                start = startDate,
+                end = theDate,
+                keepcontact = true,
+                rewatch = false,
+            } = options;
+            start = options.timespan
+                ? this.getTimeInterval(options.timespan)
+                : startDate;
+
+            //console.log('subscribeRealtimeReports options', options)
+            // const subscribeData = {
+            //   channel: equityCodes,
+            //   from: 'wzx',
+            //   date: new Date(),
+            // };
+            // 对于所有订阅都已取消的 refCount 重新进行订阅时，
+            // 这个函数会被重新调用一次，并传入新的 observer 。
+            this.socketReady(api)
+                .then(() => {
+                    this.report_getObservableFromMap(
+                        api,
+                        `${equityCodes}`,
+                    ).subscribe(observer);
+                    // this._socketioSubscribeSet.add(subscribeData);
+                    // console.log('watch: ', `${equityCodes}`)
+                    if (rewatch) {
+                        this.socketAPIs
+                            .get(api)
+                            .socket.emit("unwatch", equityCodes, ts);
+                    }
+                    if (watchKline) {
+                        this.socketAPIs.get(api).socket.emit(
+                            "watch-kline",
+                            timespan,
+                            type,
+                            equityCodes,
+                            //todo:默认以当前时间倒退24小时获取数据.(24小时数据量可能过多.4小时?)
+                            // new Date('2017-11-13 00:00:00'),
+                            // new Date('2017-11-14 00:00:00'),
+                            start,
+                            end,
+                            keepcontact,
+                        );
+
+                        
+                    } else {
+                        this.socketAPIs.get(api).socket.emit(
+                            "watch",
+                            timespan,
+                            type,
+                            equityCodes,
+                            //todo:默认以当前时间倒退24小时获取数据.(24小时数据量可能过多.4小时?)
+                            // new Date('2017-11-13 00:00:00'),
+                            // new Date('2017-11-14 00:00:00'),
+                            start,
+                            end,
+                            keepcontact,
+                        );
+                    }
+
+                    // console.log(theDate)
+                })
+                .catch(err => {
+                    // console.log(err)
+                });
+
+            // 在 multicast refCount 上的所有订阅都取消时，
+            // 会调用此方法取消 observer 的订阅。
+            if (watchKline) {
+                return () => {
+                    this.socketAPIs
+                        .get(api)
+                        .socket.emit("unwatch-kline", [`${equityCodes}`, ts]);
+                };
+            } else {
+                return () => {
+                    this.socketAPIs
+                        .get(api)
+                        .socket.emit("unwatch", [`${equityCodes}`, timespan]);
+                };
+            }
+        });
+
+        return observable;
+    }
+
+    private getObservableFromMap(api: string, equityCode: string) {
+        if (!this.apiObservableMap.has(api)) {
+            this.apiObservableMap.set(
+                api,
+                api == "reportK"
+                    ? Observable.fromEvent(
+                          this.socketAPIs.get(api).socket,
+                          "data-kline",
+                      )
+                    : Observable.fromEvent(
+                          this.socketAPIs.get(api).socket,
+                          "data",
+                      ),
+                // .takeUntil(this.loginService.status$.filter(is_login_in=>!is_login_in))
+            );
+            // this.socketAPIs.get('price').socket.on(eventName, this.onData.bind(this, { eventName, equityCode}));
+        }
+        // Observable.fromEvent(this.socketAPIs.get('price').socket,eventName)
+        // const subscriberMap = this.eventSubscriberMap.get(eventName);
+        // if (!subscriberMap.has(subscriber)){
+        //   // 将新的 subscriber 加到 Map 中。
+        //   subscriberMap.set(subscriber, equityCode);
+        // }
+        return (
+            this.apiObservableMap
+                .get(api)
+                //.do(data => console.log('apiObservableMap:', data, ' & ', equityCode))
+                //将数据筛选移到具体业务上
+                //tofix:深度的都是单支交易获得,故不做筛选
+                .filter(
+                    data =>
+                        equityCode === data.type ||
+                        data.ec === equityCode ||
+                        data.n === equityCode,
+                )
+                //.do(data => console.log('apiObservableMap filter:', data))
+                .map(data => data.data || data)
+        );
+    }
+
+    private report_getObservableFromMap(api: string, equityCode: string) {
+        if (!this.apiObservableMap.has(api)) {
+            this.apiObservableMap.set(
+                api,
+                api == "reportK"
+                    ? Observable.fromEvent(
+                          this.socketAPIs.get(api).socket,
+                          "data-kline",
+                      )
+                    : Observable.fromEvent(
+                          this.socketAPIs.get(api).socket,
+                          "data",
+                      ),
+                // .takeUntil(this.loginService.status$.filter(is_login_in=>!is_login_in))
+            );
+        }
+        return this.apiObservableMap.get(api);
+        //.do(data => console.log('apiObservableMap:', data, ' & ', equityCode))
+        //.do(data => console.log('apiObservableMap filter:', data))
+    }
+
+    // 获取时间段，未想到更好的
+    private getTimeInterval(type: string) {
+        // 获取现在时间段
+        let nowTime = new Date().getTime();
+
+        // 获取时间段的秒数，YYYY-MM-DD hh:mm:00
+        let timeNumber = nowTime - (nowTime % 60000);
+        // 因为echart数据过多缩放或造成视图消失，所以限制120个
+        if (type == "1m") {
+            // 120 个数据
+            timeNumber = timeNumber - 7200000;
+        } else if (type == "5m") {
+            // 120 个数据
+            timeNumber = timeNumber - 36000000;
+        } else if (type == "15m") {
+            // 120 个数据
+            timeNumber = timeNumber - 108000000;
+        } else if (type == "30m") {
+            // 120 个数据
+            timeNumber = timeNumber - 216000000;
+        } else if (type == "1h") {
+            // 120 个数据
+            timeNumber = timeNumber - 432000000;
+        } else if (type == "1d") {
+            // 120 个数据
+            timeNumber = timeNumber - 10368000000;
+        } else if (type == "1w") {
+            // 120 个数据
+            timeNumber = timeNumber - 72576000000;
+        }
+        return new Date(timeNumber);
+    }
 }

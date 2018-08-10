@@ -1,0 +1,276 @@
+page-forget-pwd {
+    .paddingfix {
+        padding-top: $cordova-ios-statusbar-padding;
+    }
+
+    .fixed-content,
+    .scroll-content {
+        margin-top: 90px;
+    }
+    ion-navbar {
+        .button-inner {
+            color: #c1b17f;
+        }
+    }
+    .pwd-strength {
+        color: #c1b17f !important;
+        margin: 8px 0 11px 0 !important;
+        font-size: 1rem !important;
+        background-color: transparent !important;
+    }
+    .forgetPWD-agree-protocol {
+        display: flex;
+        align-items: center;
+        background-color: transparent;
+        border: none; // transform: scale(0.9);
+        // transform-origin: 0;
+        margin-top: 1.5rem;
+        .item-inner {
+            border: none;
+        }
+        ion-checkbox {
+            padding-right: 0.5em;
+            background: none;
+            border: none;
+            font-size: 1.2px;
+            color: #fff;
+            transform: scale(0.6);
+            .checkbox-icon {
+                background-color: transparent;
+                border-color: #c1b17f;
+                border-width: 2px;
+                box-sizing: border-box;
+                &.checkbox-checked {
+                    border-color: #c1b17f; // background-color: #c1b17f;
+                    .checkbox-inner {
+                        border-color: #c1b17f;
+                        transform: scale(1.2) rotate(45deg);
+                        top: 3px;
+                        left: 6px;
+                        width: 5px;
+                        height: 9px;
+                        border-width: 2px;
+                        border-top-width: 0;
+                        border-left-width: 0;
+                        animation: checkbox-inner-ani 0.15s;
+                    }
+                    @keyframes checkbox-inner-ani {
+                        from {
+                            transform: scale(0) rotate(45deg);
+                        }
+                        to {
+                            transform: scale(1.2) rotate(45deg);
+                        }
+                    }
+                }
+            }
+        } // .checkbox input,
+        // .checkbox-icon {
+        //   width: 26px;
+        //   height: 26px;
+        // }
+        .checkbox-icon:before {
+            border-color: #aaa;
+        }
+        .checkbox-icon:after {
+            transition: opacity 0.25s ease-in-out;
+        }
+        color: #9df;
+        .protocol-checkbox {
+            margin-top: 10px;
+            max-height: 1.2em;
+            font-size: 12px;
+            transform: scale(1);
+            display: inline-block;
+            transform-origin: left;
+            color: #c1b17f;
+            white-space: nowrap;
+            a {
+                color: #c1b17f;
+                white-space: nowrap;
+            }
+        }
+        .item-checkbox .checkbox {
+            margin-top: -20px;
+        }
+    }
+    // background-image: url("../assets/images/login/bg-image.png");
+    // background-size: cover;
+    // background-position: center;
+    &::before {
+        content: "";
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        // background-color: rgba(42, 43, 63, 0.88);
+        top: 0;
+        left: 0;
+    }
+    &::after {
+        content: "";
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        // background-color: rgba(0, 0, 0, 0.2);
+        top: 0;
+        left: 0;
+    }
+    .item-vertical-center {
+        padding-left: 0;
+        background-color: transparent;
+        font-size: 1.4rem;
+    }
+    .forgetPWD-warpper {
+        display: flex;
+        align-content: center;
+        justify-content: center;
+        flex-direction: column;
+        .logo-container {
+            height: 16.5vh;
+            margin-top: 13.5vh;
+            max-height: 150px;
+            display: flex;
+            justify-content: center;
+            img {
+                height: 100%;
+            }
+        }
+        .forgetPWD-form-container {
+            padding: 5vh 12.5vw;
+            display: flex;
+            flex-direction: column;
+            .forgetPWD-form-item {
+                // background-color: rgba(0, 0, 0, 0.2);
+                border-radius: 0.4rem;
+                margin: 0.4rem 0 0.4rem;
+                padding: 0;
+                min-height: unset;
+                position: relative;
+                .item-inner {
+                    border-bottom: none;
+                }
+                input {
+                    padding: 0.8rem 0.6rem;
+                    font-size: 1.4rem;
+                    margin: 0.5rem;
+                    &::-webkit-input-placeholder {
+                        color: #6d6d6d;
+                        font-size: 1.3rem;
+                    }
+                }
+                .view-pwd-wrapper {
+                    background-color: transparent;
+                    width: 2.5rem !important;
+                    height: 3rem !important;
+                    padding: 0.5rem;
+                    box-sizing: border-box;
+                    display: inline-block;
+                    margin: 0;
+                    ion-icon {
+                        display: block;
+                        height: 100%;
+                        width: 100%;
+                    }
+                }
+            }
+            .forget-password {
+                align-self: flex-end;
+                margin-right: 0.3rem;
+                color: #8b8b8b;
+                font-size: 1rem;
+            }
+            .forgetPWD-form-submit {
+                border: 0.13rem solid #c1b17f;
+                border-radius: 0.3rem;
+                background-color: transparent;
+                color: #c1b17f; // font-weight: bolder;
+                font-size: 1.8rem;
+                padding: 1.8rem 0; // margin-top: 2.4rem;
+                transform: scale(1.02);
+                font-weight: 400;
+            }
+        }
+    }
+    // 表单校验的样式
+    ion-item {
+        &.input-has-value.ng-invalid:not(.input-has-focus) {
+            background-color: rgba(255, 0, 0, 0.2) !important;
+        }
+        &.input-has-focus {
+            box-shadow: 0 0 0.2rem rgba(255, 255, 255, 0.2);
+        }
+    }
+
+    .account-contain {
+        ion-grid {
+            ion-row {
+                padding: 0 1.5rem;
+                margin-top: 1px;
+                background-color: #262739;
+                background-color: color($colors, background-darker);
+                ion-col {
+                    font-size: 1.4rem;
+                    padding: 0 !important;
+                    .f-right {
+                        float: right;
+                        color: color($colors, special);
+                        font-size: 1.3rem;
+                    }
+                    .send-vcode {
+                        background-color: #c1b17f;
+                        color: #fff;
+                        border-radius: 0.4rem;
+                        width: 8rem !important;
+                        height: 2.4rem !important;
+                        box-sizing: border-box;
+                        display: inline-block;
+                        margin: 0;
+                        padding: 0.5rem;
+                        font-weight: lighter;
+                        font-size: 1.2rem;
+                        &[disabled] {
+                            opacity: 0.8;
+                        }
+                    }
+                }
+                .i-col {
+                    display: inherit;
+                    align-items: center;
+                }
+            }
+            .error-tip {
+                height: 16px;
+                line-height: 16px;
+                margin: 16px;
+                display: inline-block;
+                color: red;
+                font-size: 1.2rem;
+                text-shadow: 0 0 1rem #000;
+            }
+        }
+        .account-exit {
+            margin-top: 2rem;
+            .exit-center {
+                text-align: center;
+                font-size: 1.4rem;
+            }
+        }
+    }
+    .trbtn {
+        height: 4.5rem;
+        padding: 1.2rem 0;
+        margin: 0 auto;
+        border-radius: 0.4rem;
+        text-align: center;
+        width: 90%;
+        font-size: 1.3rem;
+        color: #fff;
+        background: #c1b17f;
+        font-family: Microsoft YaHei;
+        font-size: 16px;
+    }
+    input {
+        height: 3.2rem;
+        line-height: 3.2rem;
+    }
+}

@@ -1,82 +1,82 @@
 loop-slides-component {
-  .warpper{
-    width: 100%;//35.5rem;
-    height: 20rem;// 17.1rem;
-    overflow: hidden;
-  }  
-  ion-slides{
-    height:20rem;//17.1rem;
-  }
-  .infoCard{
-    position: relative;
-    overflow: hidden;
-    height: 17.15rem;
-    width:35.55rem;
-    border-radius: 0.4rem;
-    background: #7dcee4;
-    margin: 0 auto; 
-    padding: 1.7rem 0 0 1.4rem;
-    text-align: left;
-
-    .infoTitle{
-      display: inline-block;
-      font-size: 1.6rem;
+    .warpper {
+        width: 100%; //35.5rem;
+        height: 20rem; // 17.1rem;
+        overflow: hidden;
     }
-
-    .infoTime{
-      display: inline-block;
-      font-size: 1.0rem;
-      vertical-align: middle;
-      margin-left: 1.0rem;
+    ion-slides {
+        height: 20rem; //17.1rem;
     }
+    .infoCard {
+        position: relative;
+        overflow: hidden;
+        height: 17.15rem;
+        width: 35.55rem;
+        border-radius: 0.4rem;
+        background: #7dcee4;
+        margin: 0 auto;
+        padding: 1.7rem 0 0 1.4rem;
+        text-align: left;
 
-    .infoTag{
-      font-size: 3.5rem;
-      line-height: 3.5rem;
-      color: #3ab5d7;
-      background-color: white;
-      box-sizing: border-box;
-      width: 10.8rem;
-      height: 10.8rem;
-      border-radius: 50%;
-      position: absolute;
-      top:-3.7rem;
-      right: -3.9rem;
-      padding-top:  5.2rem;
-      padding-left: 2.5rem;
-      text-align: left;
+        .infoTitle {
+            display: inline-block;
+            font-size: 1.6rem;
+        }
+
+        .infoTime {
+            display: inline-block;
+            font-size: 1rem;
+            vertical-align: middle;
+            margin-left: 1rem;
+        }
+
+        .infoTag {
+            font-size: 3.5rem;
+            line-height: 3.5rem;
+            color: #3ab5d7;
+            background-color: white;
+            box-sizing: border-box;
+            width: 10.8rem;
+            height: 10.8rem;
+            border-radius: 50%;
+            position: absolute;
+            top: -3.7rem;
+            right: -3.9rem;
+            padding-top: 5.2rem;
+            padding-left: 2.5rem;
+            text-align: left;
+        }
+
+        .infoKeys {
+            margin-top: 2.4rem;
+        }
+
+        .circle {
+            height: 9rem;
+            width: 9rem;
+            line-height: 7.8rem;
+            box-sizing: border-box;
+            border: 0.6rem solid rgba(255, 255, 255, 0.4);
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.2);
+            text-align: center;
+            float: left;
+            margin-left: 5.8rem;
+
+            .content {
+                display: inline-block;
+                vertical-align: middle;
+            }
+            .number {
+                font-size: 1.6rem;
+                line-height: 1.6rem;
+            }
+
+            .description {
+                margin-top: 0.5rem;
+                font-size: 1.1rem;
+                line-height: 1.1rem;
+            }
+        }
     }
-
-    .infoKeys{
-      margin-top: 2.4rem;
-    }
-
-    .circle{
-      height: 9rem;
-      width: 9rem;
-      line-height: 7.8rem;
-      box-sizing: border-box;
-      border: 0.6rem solid rgba(255,255,255,0.4);
-      border-radius: 50%;
-      background-color: rgba(255,255,255,0.2);
-      text-align: center;
-      float: left;
-      margin-left: 5.8rem;
-      
-      .content{
-        display: inline-block;
-        vertical-align: middle;
-      }
-      .number{
-        font-size: 1.6rem;
-        line-height: 1.6rem;
-      }
-
-      .description{
-        margin-top: 0.5rem;
-        font-size: 1.1rem;
-        line-height: 1.1rem;
-      }
-    }
-  }
 }

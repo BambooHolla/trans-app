@@ -1,4 +1,4 @@
-import { Pipe, PipeTransform } from '@angular/core';
+import { Pipe, PipeTransform } from "@angular/core";
 
 /**
  * Generated class for the  pipe.
@@ -7,19 +7,22 @@ import { Pipe, PipeTransform } from '@angular/core';
  * Angular Pipes.
  */
 @Pipe({
-  name: 'numMask',
+    name: "numMask",
 })
 export class NumMaskPipe implements PipeTransform {
-  transform(value: any, left = 3, right = 4) {
-    if (value === undefined || value === null) return value
+    transform(value: any, left = 3, right = 4) {
+        if (value === undefined || value === null) return value;
 
-      value = value.toString();
-      let span = value.length - left - right;
-      if(span <= 0 || left < 0 || right < 0){
-        return value;
-      } else {
-        return value.slice(0, left) + '*'.repeat(span) + 
-          (right > 0 ? value.slice(-right) : '');
-      }
-  }
+        value = value.toString();
+        let span = value.length - left - right;
+        if (span <= 0 || left < 0 || right < 0) {
+            return value;
+        } else {
+            return (
+                value.slice(0, left) +
+                "*".repeat(span) +
+                (right > 0 ? value.slice(-right) : "")
+            );
+        }
+    }
 }

@@ -1,28 +1,44 @@
 <ion-header>
     <ion-navbar>
         <ion-title>行情</ion-title>
-        <ion-buttons right padding-horizontal>
-            <button ion-button [navPush]="searchItemPage">
+        <ion-buttons  [hidden]="showSearch" right padding-horizontal (click)="toShowSearch()">
+            <button ion-button>
                 <ion-icon class="large-icon" name="search"></ion-icon>
             </button>
         </ion-buttons>
+        <ion-toolbar [hidden]="!showSearch" class="searchbar">
+            <div #searchInputWrap class="searchInput">
+                <!-- <div class="icon"></div> -->
+                <ion-item no-padding no-lines>
+                    <ion-input #searchInput type="text" clearInput (ionChange)="search(searchInput.value)">
+                    </ion-input>
+                </ion-item>
+            </div>
+            <ion-buttons right (click)="cancelFilter()">
+                <button ion-button navPop>取消</button>
+            </ion-buttons>
+        </ion-toolbar>
     </ion-navbar>
 </ion-header>
 
-<ion-content class="bg-in home-contain">
-
-    <div class="qhd">
+<ion-content class="home-contain">
+    <!-- 
+       [echartsData]="_realtimeData$ | async" 实时的price
+       [tradingTimeArray]="appSettings.tradingTimeArray" 图表时间区间
+       [baseData]="_baseData$ | async"  昨天的价格
+       [options]="realtimeOptions"  图表的设置
+    -->
+    <!-- <div *ngFor="let i of tempArray" class="qhd">
       <realtime-charts-component
         *ngIf="_thisPageActive"
        [echartsData]="_realtimeData$ | async"
        [tradingTimeArray]="appSettings.tradingTimeArray"
        [baseData]="_baseData$ | async"
-       (tooltipEmitted) = "showRealtimeQutationTooltip($event)"
        [options]="realtimeOptions">
       </realtime-charts-component>
       <div class="qcont quotcont">
         <div class="title">
-         <h6>高交所指数</h6>
+         <h6>币加所指数</h6>
          <h3 class="{{showData?.changeValue | riseOrFall}} big">{{showData?.latestPrice | number:'.2-2' | numberFilter}}</h3>
          <span class="font-smaller">
            <label class="{{showData?.changeValue | riseOrFall}}">{{showData?.changeValue | number:'.2-2' | positiveSign}}
@@ -31,9 +47,36 @@
          </span>
        </div>
      </div>
+    </div> -->
+
+    <div *ngFor="let trader of traderList_show" class="qhd">
+        <realtime-report
+            tappable [navPush]="tradeInterface" [navParams]="trader.traderId"
+            [echartsData]="trader?.reportRef | async" 
+            [options]="realtimeOptions" >
+        </realtime-report>
+        <div class="qcont quotcont">
+            <div class="title">
+                <h6>{{trader.traderName}}</h6>
+                <!-- <h3 class="{{showData?.changeValue | riseOrFall}} big">{{showData?.latestPrice | number:'.2-2' | numberFilter}}</h3>
+                <span class="font-smaller">
+                    <label class="{{showData?.changeValue | riseOrFall}}">{{showData?.changeValue | number:'.2-2' | positiveSign}}
+                    </label>
+                    <label class="{{showData?.changeValue | riseOrFall}}">{{showData?.changeRate | percent:'.2-2' | positiveSign}}</label>
+                </span> -->
+                <span class="font-smaller">
+                    <label class="{{showData?.changeValue | riseOrFall}}">最新价 </label>
+                    {{(trader?.marketRef | async)?.price | number:'.2-5'}}
+                </span>
+                <span class="font-smaller">                
+                    <label class="{{showData?.changeValue | riseOrFall}}">成交量 </label>
+                    {{(trader?.marketRef | async)?.amount | quantityConversion | number:'.2-5'}}                
+                </span>
+            </div>
+        </div>
     </div>
 
-    <div class="quotitle">
+    <!-- <div class="quotitle">
         <ion-scroll scrollX="true" scrollFixX>
             <div *ngFor="let item of stockDataService.sectorList; let i = index; trackBy item?.sectorType" (click)="changeActive(i)" tappable class="item" text-center>
                 <span [class.active-underline]="activeIndex.getValue() === i">{{item.sectorName}}</span>
@@ -60,65 +103,5 @@
                  [options]="realtimeOption">
                 </realtime-charts-component>
             </div>
-    </div>
-    <!-- <ion-slides #listSlides [spaceBetween]='6' [initialSlide]='1' (ionSlideWillChange)="tabChange($event)" class="bosld"> -->
-    <div class="bosld">
-<!--         <ion-slide class="margin-top">
-            <div class="font-smaller slidhd">
-                <ion-icon name="optional-outline" ios class="vertical-center"></ion-icon>跌幅
-                <ion-icon name="ios-arrow-forward" ios class="vertical-center r"></ion-icon>
-            </div>
-            <ion-grid no-padding text-center class="col-center-center">
-                <ion-row tappable *ngFor="let data of optionalListData;" [navPush]="stockDetailPage" [navParams]="'000001'">
-                    <ion-col>
-                        <div>
-                            <h5>{{data.name}}</h5>
-                            <span class="font-smaller">{{data.sequence}}</span>
-                        </div>
-                    </ion-col>
-                    <ion-col>
-                        <h4 class="{{data.changeRate | riseOrFall}}">{{data.price | number:'.2-2'}}</h4>
-                    </ion-col>
-                    <ion-col>
-                        <h6 class="{{data.changeRate | riseOrFall}}">{{data.changeRate | percent:'.2-2' | positiveSign}}</h6>
-                    </ion-col>
-                </ion-row>
-            </ion-grid>
-        </ion-slide> -->
-
-        <!-- <ion-slide class="margin-top"> -->
-        <div class="slide-zoom margin-top">
-            <div class="font-smaller slidhd">
-                <ion-icon name="optional-outline" ios class="vertical-center"></ion-icon>板块个股
-                <ion-icon name="ios-arrow-forward" ios class="vertical-center r"></ion-icon>
-            </div>
-            <tri-col-list-component [listData]="sectorStockDetailList" [isOption]="false">
-            </tri-col-list-component>
-        </div>
-        <!-- </ion-slide> -->
-
-<!--         <ion-slide class="margin-top">
-            <div class="font-smaller slidhd">
-                <ion-icon name="optional-outline" ios class="vertical-center"></ion-icon>净值排行
-                <ion-icon name="ios-arrow-forward" ios class="vertical-center r"></ion-icon>
-            </div>
-            <ion-grid no-padding text-center class="col-center-center">
-                <ion-row tappable *ngFor="let data of optionalListData;" [navPush]="stockDetailPage" [navParams]="'000001'">
-                    <ion-col>
-                        <div>
-                            <h5>{{data.name}}</h5>
-                            <span class="font-smaller">{{data.sequence}}</span>
-                        </div>
-                    </ion-col>
-                    <ion-col>
-                        <h4 class="{{data.changeRate | riseOrFall}}">{{data.price | number:'.2-2'}}</h4>
-                    </ion-col>
-                    <ion-col>
-                        <h6 class="{{data.changeRate | riseOrFall}}">{{data.changeRate | percent:'.2-2' | positiveSign}}</h6>
-                    </ion-col>
-                </ion-row>
-            </ion-grid>
-        </ion-slide> -->
-    <!-- </ion-slides> -->
-    </div>
+    </div> -->
 </ion-content>

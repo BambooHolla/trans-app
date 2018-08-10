@@ -4,16 +4,12 @@ $font-path: "../assets/fonts";
 
 @import "ionic.globals";
 
-
 // Shared Variables
 // --------------------------------------------------
 // To customize the look and feel of this app, you can override
 // the Sass variables found in Ionic's source scss files.
 // To view all the possible Ionic variables, see:
 // http://ionicframework.com/docs/v2/theming/overriding-ionic-variables/
-
-
-
 
 // Named Color Variables
 // --------------------------------------------------
@@ -24,25 +20,38 @@ $font-path: "../assets/fonts";
 // The "primary" color is the only required color in the map.
 
 $colors: (
-  primary:    #FFF,
-  secondary:  #0E7594,
-  danger:     #DD3838,
-  light:      #C9C9C9,
-  dark:       #585858,
-  important:  #2A9DBE,
-  lightfont:  #BEC3C7,
-  rise:       #DD3838,
-  fall:       #44D63D,
-  water:      #71D1ED
+    primary: #fff,
+    secondary: #0e7594,
+    danger: #dd3838,
+    light: #c9c9c9,
+    dark: #585858,
+    middark: #6b6b6b,
+    alpha-dark: rgba(#222333, 0.8),
+    lightdark: #8b8b8b,
+    lightgrey: #a0a0a0,
+    important: #2a9dbe,
+    gold: #c1b17f,
+    lightfont: #bec3c7,
+    rise: #c34935,
+    rise-true: #2b8a5e,
+    // #dd3838,
+    fall: #2b8a5e,
+    fall-true: #c34935,
+    // #44d63d,
+    eye-catching: #ef5454,
+    special: #c1b17f,
+    background: #2a2b3f,
+    background-darker: #262739,
+    water: #71d1ed,
 );
 
 // $content-ios-transition-background: transparent;
 
-$background-color: transparent;
+$background-color: color($colors, background);
 
-$background-ios-color: transparent;
-$background-md-color: transparent;
-$background-wp-color: transparent;
+$background-ios-color: color($colors, background);
+$background-md-color: color($colors, background);
+$background-wp-color: color($colors, background);
 
 $content-ios-transition-background: transparent;
 
@@ -61,9 +70,9 @@ $menu-ios-background: color($colors, primary);
 $menu-md-background: color($colors, primary);
 $menu-wp-background: color($colors, primary);
 
-$tabs-ios-background: #000;
-$tabs-md-background: #000;
-$tabs-wp-background: #000;
+$tabs-ios-background: #252436;
+$tabs-md-background: #252436;
+$tabs-wp-background: #252436;
 
 $tabs-ios-tab-text-color-active: color($colors, important);
 $tabs-md-tab-text-color-active: color($colors, important);
@@ -101,17 +110,17 @@ $toolbar-ios-height: 5.8rem;
 $toolbar-md-height: 5.8rem;
 $toolbar-wp-height: 5.8rem;
 
-$toolbar-ios-title-font-size:1.8rem;
-$toolbar-md-title-font-size:1.8rem;
-$toolbar-wp-title-font-size:1.8rem;
+$toolbar-ios-title-font-size: 1.8rem;
+$toolbar-md-title-font-size: 1.8rem;
+$toolbar-wp-title-font-size: 1.8rem;
 
-$toolbar-ios-title-text-align:center;
-$toolbar-md-title-text-align:center;
-$toolbar-wp-title-text-align:center;
+$toolbar-ios-title-text-align: center;
+$toolbar-md-title-text-align: center;
+$toolbar-wp-title-text-align: center;
 
-$toolbar-ios-title-font-weight:300;
-$toolbar-md-title-font-weight:300;
-$toolbar-wp-title-font-weight:300;
+$toolbar-ios-title-font-weight: 300;
+$toolbar-md-title-font-weight: 300;
+$toolbar-wp-title-font-weight: 300;
 
 $toolbar-ios-button-color: color($colors, primary);
 $toolbar-md-button-color: color($colors, primary);
@@ -120,6 +129,33 @@ $toolbar-wp-button-color: color($colors, primary);
 $toolbar-ios-padding: 0.4rem;
 $toolbar-md-padding: 0.4rem;
 $toolbar-wp-padding: 0.4rem;
+
+$range-ios-bar-height: 5px;
+$range-md-bar-height: 5px;
+$range-wp-bar-height: 5px;
+
+// $range-ios-bar-background-color:transparent;
+// $range-md-bar-background-color:transparent;
+// $range-wp-bar-background-color:transparent;
+
+$range-ios-bar-active-background-color: color($colors, special);
+$range-md-bar-active-background-color: color($colors, special);
+$range-wp-bar-active-background-color: color($colors, special);
+
+$range-ios-knob-height: 16px;
+$range-md-knob-height: 16px;
+$range-wp-knob-height: 16px;
+
+$range-ios-knob-width: 16px;
+$range-md-knob-width: 16px;
+$range-wp-knob-width: 16px;
+
+$range-ios-hit-height: 22px;
+$range-ios-hit-width: 22px;
+$range-md-hit-height: 22px;
+$range-md-hit-width: 22px;
+$range-wp-hit-height: 22px;
+$range-wp-hit-width: 22px;
 
 // $alert-ios-max-width: 90%;
 // $alert-md-max-width: 90%;
@@ -144,7 +180,6 @@ $toolbar-wp-padding: 0.4rem;
 // $tabs-md-tab-text-transform-active: none;
 // $tabs-md-tab-text-transition: none;
 
-
 // $item-ios-padding-right: 12px;
 
 // $alert-button-font-size: 30px;
@@ -152,9 +187,21 @@ $toolbar-wp-padding: 0.4rem;
 
 // $toolbar-ios-button-color: #000;
 
-$loading-ios-background: rgba(255, 255, 255, .85);
-$loading-md-background: rgba(255, 255, 255, .85);
-$loading-wp-background: rgba(255, 255, 255, .85);
+$popover-ios-width: 100%;
+
+$select-popover-list-margin-right: 0px;
+$select-popover-list-margin-left: 0px;
+
+$select-ios-padding-right: 0px;
+$select-ios-padding-left: 0px;
+$select-md-padding-right: 0px;
+$select-md-padding-left: 0px;
+$select-wp-padding-right: 0px;
+$select-wp-padding-left: 0px;
+
+$loading-ios-background: rgba(255, 255, 255, 0.85);
+$loading-md-background: rgba(255, 255, 255, 0.85);
+$loading-wp-background: rgba(255, 255, 255, 0.85);
 
 $refresher-icon-color: color($colors, primary);
 
@@ -176,6 +223,11 @@ $alert-wp-button-group-justify-content: center;
 $list-ios-text-color: color($colors, primary);
 $list-wp-text-color: color($colors, primary);
 $list-md-text-color: color($colors, primary);
+// $list-ios-background-color: color($colors, alpha-dark);
+$list-ios-border-color: transparent;
+$item-ios-divider-background: transparent;
+$item-ios-divider-color: color($colors, primary);
+$item-ios-paragraph-margin-end: 1px;
 
 $text-input-ios-input-clear-icon-color: rgba(255, 255, 255, 0.65);
 $text-input-md-input-clear-icon-color: rgba(255, 255, 255, 0.65);
@@ -184,25 +236,25 @@ $text-input-wp-input-clear-icon-color: rgba(255, 255, 255, 0.65);
 $text-input-md-show-focus-highlight: false;
 
 //ionic-searchbar
-$searchbar-ios-input-border-radius:	1.6rem;
-$searchbar-md-input-border-radius:	1.6rem;
-$searchbar-wp-input-border-radius:	1.6rem;
+$searchbar-ios-input-border-radius: 1.6rem;
+$searchbar-md-input-border-radius: 1.6rem;
+$searchbar-wp-input-border-radius: 1.6rem;
 
-$searchbar-ios-input-background-color:	rgba(255,255,255,0.12);
-$searchbar-md-input-background-color:	rgba(255,255,255,0.12);
-$searchbar-wp-input-background-color:	rgba(255,255,255,0.12);
+$searchbar-ios-input-background-color: rgba(255, 255, 255, 0.12);
+$searchbar-md-input-background-color: rgba(255, 255, 255, 0.12);
+$searchbar-wp-input-background-color: rgba(255, 255, 255, 0.12);
 
 $searchbar-ios-input-search-icon-size: 1.6rem;
-$searchbar-md-input-search-icon-size:	1.6rem;
+$searchbar-md-input-search-icon-size: 1.6rem;
 $searchbar-wp-input-search-icon-size: 1.6rem;
 
-$searchbar-ios-input-height:3.2rem;
-$searchbar-md-input-height:3.2rem;
-$searchbar-wp-input-height:3.2rem;
+$searchbar-ios-input-height: 3.2rem;
+$searchbar-md-input-height: 3.2rem;
+$searchbar-wp-input-height: 3.2rem;
 
-$datetime-ios-placeholder-color:white;
-$datetime-md-placeholder-color:white;
-$datetime-wp-placeholder-color:white;
+$datetime-ios-placeholder-color: white;
+$datetime-md-placeholder-color: white;
+$datetime-wp-placeholder-color: white;
 
 $grid-padding-width: 1rem;
 
@@ -210,22 +262,13 @@ $grid-padding-width: 1rem;
 // --------------------------------------------------
 // iOS only Sass variables can go here
 
-
-
-
 // App Material Design Variables
 // --------------------------------------------------
 // Material Design only Sass variables can go here
 
-
-
-
 // App Windows Variables
 // --------------------------------------------------
 // Windows only Sass variables can go here
-
-
-
 
 // App Theme
 // --------------------------------------------------
@@ -236,7 +279,6 @@ $grid-padding-width: 1rem;
 
 @import "ionic.theme.default";
 
-
 // Ionicons
 // --------------------------------------------------
 // The premium icon font for Ionic. For more info, please see:
@@ -244,9 +286,15 @@ $grid-padding-width: 1rem;
 
 @import "ionic.ionicons";
 
-
 // Fonts
 // --------------------------------------------------
 
 @import "roboto";
 @import "noto-sans";
+
+$refresher-border-color: transparent;
+$refresher-icon-color: color($colors, gold);
+// $refresher-text-color:color($colors, gold);
+$refresher-text-color: #8b8b8b;
+$infinite-scroll-loading-color: color($colors, gold);
+$infinite-scroll-loading-text-color: #8b8b8b;

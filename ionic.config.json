@@ -1,5 +1,8 @@
 {
-  "name": "gjs-app",
+  "name": "picasso-app",
   "app_id": "",
-  "type": "ionic-angular"
+  "type": "ionic-angular",
+  "integrations": {
+    "cordova": {}
+  }
 }

@@ -1,0 +1,75 @@
+<!--
+  Generated template for the WithdrawAddressListPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+    <ion-navbar>
+        <ion-title>{{navbar_title}}</ion-title>
+        <ion-buttons left (click)="finishSelect(false)">
+            <button ion-button ion-only>
+                <ion-icon name="arrow-back" left class="withdraw-back"></ion-icon>
+            </button>
+        </ion-buttons>
+        <ion-buttons right (click)="addWithdrawAddress()">
+            <button ion-button ion-only>
+                <ion-icon ios="ios-add" md="md-add" right class="withdraw-add"></ion-icon>
+            </button>
+        </ion-buttons>
+    </ion-navbar>
+</ion-header>
+<ion-content>
+    <!-- <ion-list item-end *ngIf="withdraw_address_list" class="radio-list" radio-group [(ngModel)]="formData.withdraw_address_id">
+        <ion-item-sliding *ngFor="let withdraw_address of withdraw_address_list"> -->
+    <!-- <ion-item>
+
+            </ion-item> -->
+    <ion-grid no-padding item-end *ngIf="withdraw_address_list" class="radio-list" radio-group [(ngModel)]="formData.withdraw_address_id">
+        <div *ngFor="let withdraw_address of withdraw_address_list" class="addressList">
+            <ion-row class="bottom-line">
+                <ion-col no-padding class="vertical-center">
+                    <ion-label>{{withdraw_address.realname}} - {{withdraw_address.paymentAccountNumber}}</ion-label>
+                </ion-col>
+            </ion-row>
+            <ion-row class="bottom-line select-one">
+                <ion-col no-padding class="vertical-center">
+                    <ion-radio checked="true" [value]="withdraw_address.id"></ion-radio>
+                    <span class="tobeAddress">{{'SELECT'|translate}}</span>
+                    <ion-icon name="删除" (click)="deleteWithdrawModel(withdraw_address)"></ion-icon>
+                </ion-col>
+            </ion-row>
+        </div>
+    </ion-grid>
+
+    <!-- <ion-item-options side="right">
+                <button ion-button color="danger" (click)="deleteWithdrawAddress(withdraw_address)">
+                    <ion-icon name="ios-trash"></ion-icon>
+                    删除
+                </button>
+            </ion-item-options> -->
+    <!-- </ion-item-sliding>
+    </ion-list> -->
+</ion-content>
+<ion-footer>
+
+    <ion-navbar>
+        <!-- <ion-buttons start>
+            <button ion-button color="primary" outline icon-left (click)="finishSelect()">
+                <ion-icon name="close"></ion-icon> 取消
+            </button>
+        </ion-buttons>
+        <ion-buttons end>
+            <button ion-button color="special" outline icon-right [disabled]="!formData?.withdraw_address_id" (click)="finishSelect(true)"> 确定
+                <ion-icon name="checkmark"></ion-icon>
+            </button>
+        </ion-buttons> -->
+        <ion-row tappable class="account-exit" style="background:none">
+            <ion-col padding class="exit-center">
+                <button ion-button class="trbtn" [disabled]="!formData.withdraw_address_id" (click)="finishSelect(true)">
+                            {{'CONFIRM'|translate}}
+                          </button>
+            </ion-col>
+        </ion-row>
+    </ion-navbar>
+</ion-footer>

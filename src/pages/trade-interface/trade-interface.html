@@ -1,73 +1,117 @@
 <ion-header>
 	<ion-navbar>
-		<ion-title>{{(_baseData$ | async)?.name}}</ion-title>
+		<ion-item>
+			<ion-select [(ngModel)]="traderId" (ngModelChange)='changeTrader($event)' placeholder="---/---" interface="popover" style="width:initial">
+				<ion-option *ngFor="let trader of traderList" [value]="trader.traderId">
+					{{trader.traderName}}
+				</ion-option>
+			</ion-select>
+		</ion-item>
+		<ion-buttons class="flash-trade" right>
+			<button ion-button ion-only  (click)="confirmChangeTradingMode($event)">
+			</button>
+		</ion-buttons>
 	</ion-navbar>
 </ion-header>
 
-<ion-content no-bounce class="bg-in home-contain">
+<ion-content no-bounce class="home-contain">
 	<!-- FIXME ：此页面使用了弹性布局，用于调整主要几个区域元素的高度， -->
 	<!-- 以便适应不同宽高比的手机，让实时图保证显示在第一屏之内，并且内容撑满屏幕。 -->
 	<!-- 但是在软键盘弹出时，会因为页面高度被调整而造成弹性高度消失， -->
 	<!-- 页面区域因为高度变化出现跳跃感，需考虑在页面渲染完成后固定相关元素的高度！ -->
 	<!-- 可参照登录页纵向居中的处理方式。 -->
-	<ion-grid class="trtop">
-		<ion-row>
-			<ion-col col-5 class="liquid-container">
-				<liquid-component [echartsData]="liquiddata"></liquid-component>
-			</ion-col>
-			<ion-col col-7>
-				<ion-grid>
-					<ion-row>
-						<ion-col col-8>
-							<h1 class="{{(_baseData$ | async)?.changeValue | riseOrFall}}">{{(_baseData$ | async)?.latestPrice | number: '.2-2'}}</h1>
-							<span class="{{(_baseData$ | async)?.startPrice - (_baseData$ | async)?.yesterdayPrice | riseOrFall}}">开 {{(_baseData$ | async)?.startPrice | number: '.2-2'}}</span>
-						</ion-col>
-						<ion-col col-4>
-							<div class="{{(_baseData$ | async)?.maxPrice - (_baseData$ | async)?.yesterdayPrice | riseOrFall}}">
-								<ion-icon name="md-arrow-dropup" ios class="vertical-center"></ion-icon>
-								{{(_baseData$ | async)?.maxPrice | number: '.2-2'}}
-							</div>
-							<div class="{{(_baseData$ | async)?.minPrice - (_baseData$ | async)?.yesterdayPrice | riseOrFall}}">
-								<ion-icon name="md-arrow-dropdown" ios class="vertical-center"></ion-icon>
-								{{(_baseData$ | async)?.minPrice | number: '.2-2'}}
-							</div>
-						</ion-col>
-					</ion-row>
-				</ion-grid>
-			</ion-col>
-		</ion-row>
-	</ion-grid>
-	<ion-grid class="trinp"> 
-		<ion-row>
-			<ion-col col-2>
-				<ion-icon name="ios-gprice" class="vertical-center"></ion-icon>
-			</ion-col>
-			<ion-col col-3 tappable (click)="changeByStep('price',0.01,-2)">+</ion-col>
-			<ion-col col-4>
-				<ion-input type="number" placeholder="价格"
-					[(ngModel)]="price"
-					(blur)="formatNumber('price',-2)"
-					></ion-input>
-			</ion-col>
-			<ion-col col-3 tappable (click)="changeByStep('price',-0.01,-2)">-</ion-col>
-		</ion-row>
-		<ion-row>
-			<ion-col col-2>
-				<ion-icon name="ios-gamount" class="vertical-center"></ion-icon>
-			</ion-col>
-			<ion-col col-3 tappable (click)="changeByStep('amount',handBase)">+</ion-col>
-			<ion-col col-4>
-				<ion-input type="number" placeholder="数量"
-					[(ngModel)]="amount"
-					(blur)="formatNumber('amount')"
-					></ion-input>
-			</ion-col>
-			<ion-col col-3 tappable (click)="changeByStep('amount',-handBase)">-</ion-col>
-		</ion-row>
-	</ion-grid>
-	<ion-grid class="trbtn"> 
+	<ion-grid><!-- class="trtop" -->
 		<ion-row>
 			<ion-col col-6>
+				<div class="price {{(_baseData$ | async)?.range | riseOrFall}}">
+					<!-- 4.0675 -->
+					{{(_baseData$ | async)?.price | priceConversion | numberFilter}}
+					<!-- <span class="datetime-info">{{(_baseData$ | async)?.datetime}}</span> -->
+				</div>
+			</ion-col>
+			<!-- <ion-col col-2 class="small-font">
+					<div class="{{(_baseData$ | async)?.changeValue | riseOrFall}}">{{(_baseData$ | async)?.changeValue | number:'.2-2' | positiveSign}}</div>
+					<div class="{{(_baseData$ | async)?.changeValue | riseOrFall}}">{{(_baseData$ | async)?.changeRate | percent:'.2-2' | positiveSign}}</div>
+				</ion-col> -->
+			<ion-col col-3>
+				<div>
+					<label>幅</label>
+					<!-- <span>+23%</span> -->
+					<span class="{{(_baseData$ | async)?.range | riseOrFall}}">{{(_baseData$ | async)?.range | percent:'1.0-2'}}</span>
+				</div>
+
+				<div>
+					<label>量</label>
+					<!-- <span>35.2314</span> -->
+					<span>{{(_baseData$ | async)?.amount | quantityConversion | numberUnitFormat:true:true:6}}</span>
+				</div>
+			</ion-col>
+			<ion-col col-3>
+				<div>
+					<label>高</label>
+					<!-- <span>4.23113</span> -->
+					<span>{{(_baseData$ | async)?.max | priceConversion | numberFilter:true}}</span>
+				</div>
+				<div>
+					<label>低</label>
+					<!-- <span>3.54521</span> -->
+					<span>{{(_baseData$ | async)?.min | priceConversion | numberFilter:true}}</span>
+				</div>
+			</ion-col>	
+		</ion-row>
+	</ion-grid>
+	<!-- 限价交易 -->
+	<ion-grid [hidden]="appDataService.show_onestep_trade">
+		<ion-row class="entrust-type" (click)="chooseTradeType($event)">
+			<ion-col data-trade-type="1" class="buy" [class.enabled]="!!(tradeType$|async)">买</ion-col>
+			<ion-col data-trade-type="0" class="sale" [class.enabled]="!(tradeType$|async)">卖</ion-col>
+		</ion-row>
+	</ion-grid>	
+	<ion-grid [hidden]="appDataService.show_onestep_trade" class="trinp  content-block">
+		<ion-row class="fee">
+			<ion-icon ios="ios-alert-outline" md="ios-alert-outline"></ion-icon>
+			费率标准:{{fee}}
+		</ion-row>
+		<ion-row class="input-row">
+			<ion-col col-2 tappable (click)="changeByStep('price','-')">-</ion-col>
+				<ion-col col-1>
+					<ion-icon name="ios-gprice" class="vertical-center"></ion-icon>
+				</ion-col>
+			<ion-col col-7>
+				<ion-input #priceInputer type="number" placeholder="价格"
+					[(ngModel)]="price"
+					(ngModelChange)="formatNumber('price',-8)"
+					></ion-input>
+			</ion-col>
+			<ion-col col-2 tappable (click)="changeByStep('price','+')">+</ion-col>
+		</ion-row>
+		<ion-row class="input-row" align-items-center>
+			<ion-col col-2 tappable (click)="changeByStep('amount','-')">-</ion-col>
+			<ion-col col-1>
+				<ion-icon name="ios-gamount" class="vertical-center"></ion-icon>
+			</ion-col>
+			<ion-col col-7>
+				<ion-input #amountInputer type="number" placeholder="数量" [(ngModel)]="amount" (change)="formatNumber('amount')"></ion-input>
+			</ion-col>
+			<ion-col col-2 tappable (click)="changeByStep('amount','+')">+</ion-col>
+		</ion-row>
+		<ion-row class="range-component">
+			<ion-item no-lines class="range-item">
+				<ion-range #quantityRange
+					 [class.issale]="!(tradeType$|async)"
+					 [(ngModel)]="range" 
+					 (ionChange)="amount = maxAmount * Range.ratio ;formatNumber('amount',-2)" 
+					 pin="true"></ion-range>
+			</ion-item>
+			<div class="range-mark">
+				<div class="left">0</div>
+				<div class="right">{{maxAmount | numberUnitFormat}}{{targetName}}</div>
+			</div>
+		</ion-row>
+		<!-- </ion-grid>
+		<ion-grid class="trbtn">  -->
+		<ion-row>
+			<!-- <ion-col col-6>
 				<button block 
 				  [disabled]="+amount <= 0 || +price <= 0 || personalDataService.accountBalance < price * amount" 
 				  (click)="toBuy()">委托买入</button>
@@ -76,28 +120,201 @@
 				<button block
 				  [disabled]="+amount <= 0 || +price <= 0 || (_saleableQuantity$ | async) < amount" 
 					(click)="toSale()">委托卖出</button>
+			</ion-col> -->
+			<button class="trbtn" [class.issale]="!(tradeType$|async)" 
+				block [disabled]="" (click)="doTrade()">
+				委托{{!!(tradeType$|async)?'买入':'卖出'}}
+			</button>
+		</ion-row>
+	</ion-grid>
+	<!-- 快捷交易 -->
+	<ion-grid [hidden]="!appDataService.show_onestep_trade">
+		<ion-row class="entrust-type">
+			<ion-col [class.enabled]="true">快捷交易</ion-col>
+		</ion-row>
+	</ion-grid>
+	<ion-grid class="stsvg" [hidden]="!appDataService.show_onestep_trade">
+		<ion-row>
+			<ion-col col-6>
+				<svg class="circle-svg buy" viewBox="0,0,298,252">
+					<path class="svg-path" d='M 52 252 A 143 143 0 1 1 246 252' fill='none' stroke-width='12' stroke-linecap='round' />
+				</svg>
+				<div class="svgcont" (click)="quickTrade('buy')">
+					<div class="blank"></div>
+					<div>买</div>
+					<p id="buysum">{{buyTotalAmount | quantityConversion | numberUnitFormat}}</p>
+					<span>可买数量</span>
+					<label id="buynum">{{buyTotalQuantity | quantityConversion | numberFilter}}</label>
+				</div>
+			</ion-col>
+			<ion-col col-6>
+				<svg class="circle-svg sale" viewBox="0,0,298,252">
+					<path class="svg-path" d='M 52 252 A 143 143 0 1 1 246 252' fill='none' stroke-width='12' stroke-linecap='round' />
+				</svg>
+				<div class="svgcont" (click)="quickTrade('sale')">
+					<div class="blank"></div>
+					<div>卖</div>
+					<p id="salesum">{{saleTotalAmount | quantityConversion | numberUnitFormat}}</p>
+					<span>可卖数量</span>
+					<label id="salenum">{{saleTotalQuantity | quantityConversion | numberFilter}}</label>
+				</div>
 			</ion-col>
 		</ion-row>
 	</ion-grid>
-	<div class="trbom">
+	<ion-grid class="stnum" [hidden]="!appDataService.show_onestep_trade">
+		<ion-scroll scrollX="true" class="stonums">
+			<ion-card *ngFor="let card of cards; let i = index;" (click)="buySaleActiveIndex.next(i)">
+				<ion-card-content>
+					<span [class.active]="(buySaleActiveIndex | async) === i">{{card}}</span>
+				</ion-card-content>
+			</ion-card>
+		</ion-scroll>
+	</ion-grid>
+	
+	<div class="trbom content-block">
 		<div class="charts">
-			<realtime-charts-component
-				[echartsData]="_realtimeData$ | async"
-				[baseData]="_baseData$ | async"
-				[tradingTimeArray]="appSettings.tradingTimeArray"
+			<!-- <realtime-charts-component
+					[echartsData]="_realtimeData$ | async"
+					[baseData]="_baseData$ | async"
+					[tradingTimeArray]="appSettings.tradingTimeArray"
+					[options]="realtimeOptions">
+				</realtime-charts-component> -->
+			<realtime-report
+				[echartsData]="_realtimeData$ | async" 
 				[options]="realtimeOptions">
-			</realtime-charts-component>
+			</realtime-report>
+			<ion-icon class="sresize" (click)="switchOrientation(false)"></ion-icon>
 		</div>
-
+		
 		<div class="bets item-center-center">
 			<div class="bets-tab">
-				<div *ngFor="let data of (_baseData$ | async)?.bets ; let i = index;" class="bets-row" [class.sep]="i === 5"
-						tappable (click)="price = data.price || price; formatNumber('price',-2)">
-					<span>{{appSettings.betsTitle[i]}}</span>
-					<span class="{{data?.price && data?.price - (_baseData$ | async)?.yesterdayPrice | riseOrFall}}">{{data?.price | number:'.2-2' | numberFilter}}</span>
-					<span class="color-important">{{data?.quantity / (_baseData$ | async)?.handBase | numberUnitFormat: false: false}}</span>
+				<div *ngFor="let data of _depth$ | async as depths ; let i = index;" class="bets-row"
+						tappable (click)="setPrice(data?.price)">
+					<span *ngIf="i==depths.length/2" class="sep {{(_baseData$ | async)?.range | riseOrFall}}">
+						{{(_baseData$ | async)?.price | priceConversion | numberFilter}}
+					</span>
+					<span class="bets-title {{i<depths.length/2? 'sale': 'buy'}}">{{appSettings.betsTitle[i]}}</span>
+					<span class="bets-amount {{i<depths.length/2? 'sale': 'buy'}}">{{data?.price | priceConversion | numberFilter:true:false:6}}</span>
+					<span class="bets-quantity">{{data?.amount | quantityConversion | numberUnitFormat}}</span>
 				</div>
 			</div>
 		</div>
 	</div>
+
+	<div class="entrusts">
+		<div class="header">
+			<span class="title">委托单</span>
+			<span (click)="gotoHistory($event)" class="goto-history">
+				<ion-icon class="history-icon"></ion-icon>
+				<font>历史记录</font>
+			</span>
+		</div>
+		<div class="no-entrust" *ngIf="!entrusts || entrusts.length == 0">暂时还没有挂单哦~</div>
+		<div *ngFor="let item of entrusts">
+			<div class="entrust">
+				<div class="header">
+					<div class="type" [class.buy]="item.operationType == '001'" [class.sale]="item.operationType == '002'">
+						{{item.operationType == '001'? '买': item.operationType == '002'? '卖':'' }}
+					</div>
+					<div class="date">{{item.entrustTime | date:'yyyy-MM-dd'}}</div>
+					<button (click)="confirmCancel(item.id,item.entrustTime,item.operationType)">撤单</button>
+				</div>
+				<div class="params">
+					<div class="col">
+						<span class="name">委托价格</span>
+						<span class="value">{{item.commitPrice}}</span>
+					</div>
+					<div class="col">
+						<span class="name">委托量</span>
+						<span class="value">{{item.commitAmount |quantityConversion}}</span>
+					</div>
+					<div class="col">
+						<span class="name">剩余量</span>
+						<span class="value">{{item.surplusAmount |quantityConversion}}</span>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<!--加载更多-->
+		<ion-infinite-scroll [enabled]="hasMore" (ionInfinite)="loadMoreHistory($event)">
+			<ion-infinite-scroll-content loadingText="正在加载...">
+			</ion-infinite-scroll-content>
+		</ion-infinite-scroll>
+
+	</div>
 </ion-content>
+
+<!-- 横屏k线图表 -->
+<div class="home-contain sim-landscape" [class.show]="!isPortrait">
+	<ion-grid class="sft child-span-padding-left-1">
+		<ion-row justify-content-around>
+			<ion-col col-3 no-padding>
+				<h1 class="{{(_baseData$ | async)?.range | riseOrFall}}" text-center> {{(_baseData$ | async)?.price | priceConversion | numberFilter}}</h1>
+				<!-- <div text-center>{{showData?.datetime}}</div> -->
+			</ion-col>
+			<ion-col col-2>
+				<div text-left>涨跌
+					<span class="{{(_baseData$ | async)?.range | riseOrFall}}">{{(_baseData$ | async)?.price||0 - (_baseData$ | async)?.start | number:'.2-2' | positiveSign}}</span>
+				</div>
+				<div text-left>幅度
+					<span class="{{(_baseData$ | async)?.range | riseOrFall}}">{{(_baseData$ | async)?.range | percent:'1.0-2'}}</span>
+				</div>
+			</ion-col>
+			<ion-col col-2>
+				<div text-left>高
+					<span class="">{{(_baseData$ | async)?.max | priceConversion | numberFilter:true}}</span>
+				</div>
+				<div text-left>低
+					<span class="">{{(_baseData$ | async)?.min | priceConversion | numberFilter:true}}</span>
+				</div>
+			</ion-col>
+			<ion-col col-2>
+				<div text-left>量
+					<span>{{(_baseData$ | async)?.amount | quantityConversion | numberUnitFormat:true:true:6}}</span>
+				</div>
+				<div text-left>额
+					<span>{{((_baseData$ | async)?.price * (_baseData$ | async)?.amount) | numberFilter}}</span>
+				</div>
+			</ion-col>
+			<ion-col col-1 tappable (click)="switchOrientation(true)">
+				<ion-icon name="close" class="vertical-center"></ion-icon>
+			</ion-col>
+		</ion-row>
+	</ion-grid>
+	<div class="sfull">
+		<div class="charts">
+			<realtime-report 
+				#largeRealtimeChart
+				[echartsData]="_realtimeData$ | async" 
+				[options]="realtimeOptions"
+				*ngIf="activeIndex === 0 && !isPortrait">
+			</realtime-report>
+			 <!-- (_kData$ | async)[kDataUnit] -->
+			 <!-- (tooltipEmitted)="showKDataCustomTooltip($event)" -->
+			<candlestick-component [echartsData]="_candlestickData$ | async" [options]="candlestickOptions"
+			 *ngIf="activeIndex !== 0 && !isPortrait">
+			</candlestick-component>
+			<div class="arrow-div" tappable (click)="toggleBets()">
+				<ion-icon *ngIf="activeIndex === 0" name="{{betsHidden ? 'ios-arrow-back' : 'ios-arrow-forward'}}" class="vertical-center"></ion-icon>
+			</div>
+		</div>
+		<div class="bets item-center-center" *ngIf="!isPortrait && !betsHidden && activeIndex === 0">
+			<div class="bets-tab">
+				<div *ngFor="let data of _depth$ | async as depths ; let i = index;" class="bets-row">
+					<span *ngIf="i==depths.length/2" class="sep {{(_baseData$ | async)?.range | riseOrFall}}">
+						{{(_baseData$ | async)?.price | priceConversion | numberFilter}}
+					</span>
+					<span class="bets-title {{i<depths.length/2? 'sale': 'buy'}}">{{appSettings.betsTitle[i]}}</span>
+					<span class="bets-amount {{i<depths.length/2?'sale':'buy'}}">{{data?.price | priceConversion | numberFilter:true:false:6}}</span>
+					<span class="bets-quantity ">{{data?.amount | quantityConversion | numberUnitFormat}}</span>
+				</div>
+			</div>
+		</div>
+	</div>
+	<ion-grid class="sfulltab">
+		<ion-row col-8>
+			<ion-col col-3 *ngFor="let title of timeArray; let i = index;" (click)="changeTime(i)" [class.active]="activeIndex === i">{{title}}</ion-col>
+		</ion-row>
+	</ion-grid>
+</div>

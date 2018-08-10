@@ -1,0 +1,41 @@
+component-tabs {
+    > ion-tabs {
+        .ion-ios-交易::before,
+        .ion-ios-交易-outline::before {
+            width: 1.8rem;
+            height: 1.8rem;
+        }
+        .show-tabbar {
+            padding: 0 0.6rem;
+        }
+        .tab-button {
+            min-height: 3.6rem !important;
+            height: 4.8rem !important;
+            padding-top: 0.2rem;
+            .tab-button-icon {
+                margin-top: 0;
+                // margin-: 0;
+                position: relative;
+                top: 0.1rem;
+                height: auto;
+            }
+            .tab-button-text {
+                font-size: 1.2rem !important;
+                transform: scale(0.8);
+                transform-origin: 50% 0%;
+                font-weight: lighter;
+                margin-top: 0.4rem;
+                min-height: 1.3rem;
+            }
+            &[aria-selected="true"] {
+                .tab-button-text {
+                    transform: scale(0.8) !important;
+                    color: color($colors, gold);
+                }
+                .tab-button-icon {
+                    transform: none !important;
+                }
+            }
+        }
+    }
+}

@@ -1,28 +1,162 @@
 page-login {
-	.header-placeholder {
-		height: 2.6rem;
+    background-image: url("../assets/images/login/bg-image.png");
+    background-size: cover;
+    background-position: center;
+    &::before {
+        content: "";
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(42, 43, 63, 0.88);
+        top: 0;
+        left: 0;
+    }
+    &::after {
+        content: "";
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.2);
+        top: 0;
+        left: 0;
+    }
+    .dismiss {
+        position: absolute;
+        color: color($colors, special);
+        top: 2rem;
+        left: 6vw; //12.5(form-padding)*2/3 - 1rem~
+        padding: 1rem;
+        font-size: 1.4rem;
+        &.right {
+            left: auto;
+            right: 6vw;
+        }
+    }
+    .login-warpper {
+        display: flex;
+        align-content: center;
+        justify-content: center;
+        flex-direction: column;
+        .logo-container {
+            height: 16.5vh;
+            margin-top: 13.5vh;
+            max-height: 150px;
+            display: flex;
+            justify-content: center;
+            img {
+                height: 100%;
+            }
+        }
+        .login-form-container {
+            padding: 5vh 12.5vw;
+            display: flex;
+            flex-direction: column;
+            .login-form-item {
+                background-color: rgba(0, 0, 0, 0.2);
+                border-radius: 0.4rem;
+                margin: 0.4rem 0 0.4rem;
+                padding: 0;
+                min-height: unset;
+                .item-inner {
+                    border-bottom: none;
+                }
+                input {
+                    padding: 0.8rem 0.6rem;
+                    font-size: 1.4rem;
+                    margin: 0.5rem;
+                    &::-webkit-input-placeholder {
+                        color: #6d6d6d;
+                        font-size: 1.3rem;
+                    }
+                }
+                .view-pwd-wrapper {
+                    background-color: transparent;
+                    width: 2.5rem !important;
+                    height: 3rem !important;
+                    padding: 0.5rem;
+                    box-sizing: border-box;
+                    display: inline-block;
+                    margin: 0;
+                    ion-icon {
+                        display: block;
+                        height: 100%;
+                        width: 100%;
+                    }
+                }
+                &.code-item {
+                    ion-thumbnail {
+                        min-width: auto !important;
+                        min-height: auto !important;
+                        width: 40%;
+                        .view-code {
+                            width: 100%;
+                            height: 100%;
+                        }
+                    }
+                }
+            }
 
-		&:after {
-			display: none;
-		}
-	}
+            .forget-password {
+                align-self: flex-end;
+                margin-right: 0.3rem;
+                color: #8b8b8b;
+                font-size: 1rem;
+            }
+            .login-form-submit {
+                border: 0.13rem solid #c1b17f;
+                border-radius: 0.3rem;
+                background-color: transparent;
+                color: #c1b17f; // font-weight: bolder;
+                font-size: 1.8rem;
+                padding: 1.8rem 0;
+                margin-top: 2.4rem;
+                transform: scale(1.02);
+                font-weight: 400;
+            }
+            .register-line {
+                margin-top: 1.2rem;
+                align-self: center;
+                position: relative;
+                .go-register {
+                    color: #c1b17f;
+                }
+                &::after,
+                &::before {
+                    content: "";
+                    height: 0.155rem;
+                    width: 0.155rem;
+                    background: #fff;
+                    border-radius: 50%;
+                    position: absolute;
+                    top: 50%;
+                }
+                &::before {
+                    left: -1rem;
+                }
+                &::after {
+                    right: -1rem;
+                }
+            }
+        }
+    }
+    // 表单校验的样式
+    ion-item {
+        &.input-has-value.ng-invalid:not(.input-has-focus) {
+            background-color: rgba(255, 0, 0, 0.2) !important;
+        }
+        &.input-has-focus {
+            box-shadow: 0 0 0.2rem rgba(255, 255, 255, 0.2);
+        }
+    }
 
-	.item-ios, .item-md, .item-wp {
-		&.item-block .item-inner {
-			padding-right: 0;
-		}
-	}
+    .content {
+        background-color: transparent;
+    }
+}
 
-	ion-label.icon-help {
-		position: relative;
-
-		&:before {
-			position: absolute;
-			right: 4em;
-			top: 0.1rem;
-			content: '\f198';
-		    font-family: IonIcons;
-		    font-size: 1.6rem;
-		}
-	}
+ion-icon[name="view-pwd"] {
+    background-image: url(../assets/images/login/view-pwd-icon.png);
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
 }

@@ -1,44 +1,39 @@
 <ion-header>
-
     <ion-navbar>
         <ion-title>身份认证</ion-title>
     </ion-navbar>
-
 </ion-header>
-
-
 <ion-content class="bg-out">
-    <form [formGroup]="thirdForm" novalidate>
-    <ion-list class="dark-item">
-        <ion-item no-lines>
-            <ion-label color="primary" fixed  pad required>证件类型</ion-label>
-            <ion-select   formControlName="IDtype" interface="action-sheet"  multiple="false"  cancelText="取消" required class="select">
-                <ion-option value="101">身份证</ion-option>
-                <ion-option value="102">护照</ion-option>
-                <ion-option value="103">军官证</ion-option>
-            </ion-select>
-        </ion-item>
-        <ion-item no-lines>
-            <ion-label color="primary"  fixed pad required>证件号码</ion-label>
-            <ion-input type="number" formControlName="IDnumber" class="color-primary" required></ion-input>
-        </ion-item>
-        <ion-item no-lines (click)="indentification()">
-            <ion-label color="primary" pad required>身份证照
-                <ion-icon name="md-camera"[hidden]="frontPhoto && backPhoto" ></ion-icon>
-                <div class="round" [hidden]="!frontPhoto || !backPhoto">
-                    <ion-icon  name="md-checkmark" class="checkmark"></ion-icon>
-                </div>
-            </ion-label>
-            <!--<ion-input type="file"  class="color-primary" required></ion-input>-->
-        </ion-item>
-
-    </ion-list>
-
-    <div class="input-container">
-        <ion-item no-lines></ion-item>
-        <button ion-button round full clear-dark color="important" type="submit" (click)="doValidate()" [disabled]="thirdForm.invalid">
-            下一步
-        </button>
-    </div>
+    <form class="form" [formGroup]="thirdForm" novalidate>
+        <ion-list class="dark-item">
+            <ion-item no-lines>
+                <ion-label color="primary" fixed pad required>证件类型</ion-label>
+                <ion-select formControlName="IDtype" interface="action-sheet" multiple="false" cancelText="取消" required class="select">
+                    <ion-option *ngFor="let certificate_type of certificate_type_list" [value]="certificate_type.value">{{certificate_type.text}}</ion-option>
+                </ion-select>
+            </ion-item>
+            <ion-item no-lines>
+                <ion-label color="primary" fixed pad required>姓名</ion-label>
+                <ion-input type="number" formControlName="name" class="color-primary" required></ion-input>
+            </ion-item>
+            <ion-item no-lines>
+                <ion-label color="primary" fixed pad required>身份证号码</ion-label>
+                <ion-input type="number" formControlName="IDnumber" class="color-primary" required></ion-input>
+            </ion-item>
+            <ion-item no-lines (click)="indentification()">
+                <ion-label color="primary" pad required>身份证照
+                    <ion-icon name="md-camera" [hidden]="frontPhoto && backPhoto"></ion-icon>
+                    <div class="round" [hidden]="!frontPhoto || !backPhoto">
+                        <ion-icon name="md-checkmark" class="checkmark"></ion-icon>
+                    </div>
+                </ion-label>
+                <!--<ion-input type="file"  class="color-primary" required></ion-input>-->
+            </ion-item>
+        </ion-list>
+        <div class="input-container">
+            <button ion-button round full clear-dark color="important" type="submit" (click)="doValidate()" [disabled]="thirdForm.invalid">
+                下一步
+            </button>
+        </div>
     </form>
 </ion-content>

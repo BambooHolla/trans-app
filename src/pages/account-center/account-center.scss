@@ -1,39 +1,65 @@
-account-center{
-  	.account-contain {
-		ion-grid {
-			ion-row {
-				padding: 0 1.5em;
-                border-bottom: 1px solid #4a2925;
-                height: 3.75em;
-                line-height: 3.75em;
-				ion-col {
-					font-size: 1.3rem;
-                    padding: 0!important;
-                    .f-right{
+account-center {
+    .account-contain {
+        ion-grid {
+            ion-row {
+                padding: 0 1.5rem;
+                margin-top: 1px;
+                height: 5.2rem;
+                line-height: 5.2rem;
+                background-color: color($colors, background-darker);
+                ion-col {
+                    font-size: 1.4rem;
+                    padding: 0 !important;
+                    .f-right {
                         float: right;
-                        color: #0d7593;
-					    font-size: 1.4rem;
+                        color: color($colors, special);
+                        font-size: 1.3rem;
+                        height: 100%;  
+                        ion-toggle {
+                            top: 50%;
+                            transform: translateY(-50%); 
+                            &.true-color {
+                                .toggle-icon {
+                                    background-color: color($colors, rise-true); 
+                                }
+                            }
+                            .toggle-icon {
+                                background-color: color($colors, rise);
+                                &:before {
+                                    background-color: color($colors, rise-true);
+                                }
+                            }
+                            .toggle-inner {
+                                background-color: #fff;
+                            }
+                        }
+                        &.no-identify {
+                            color: color($colors, middark);
+                        }
                     }
-				}
-			}
-
-		}
-        .account-tip{
-			padding: 0 1.5em;
-            height: 2.4rem;
-            line-height: 2.4rem;
-            span{
-                color: #bdbdbd;
-                font-size: 1rem;
-                margin-left: 0.3rem;
+                }
             }
         }
-        .account-exit{
-            margin-top: 3rem;
-            .exit-center{
+
+        .account-exit {
+            margin-top: 2rem;
+            background-color: color($colors, background-darker);
+            .exit-center {
                 text-align: center;
-				font-size: 1.5rem;
+                font-size: 1.4rem;
+            }
         }
-	}
-}
+        .picasso-icon-k {
+            color: transparent;
+            background-repeat: no-repeat;
+            background-size: 100% 100%;
+            font-size: 1.8rem;
+            &.green {
+                background-image: url(../assets/icon/k-green.png);
+            }
+            &.red {
+                background-image: url(../assets/icon/k-red.png);
+            }
+        }
+    }
 }

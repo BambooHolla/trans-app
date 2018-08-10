@@ -1,0 +1,45 @@
+<!--
+  Generated template for the AddAddressPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+    <ion-navbar>
+        <ion-buttons left (click)="finishSelect(false)">
+            <button ion-button ion-only>
+                    <ion-icon name="arrow-back" left class="withdraw-back"></ion-icon>
+                </button>
+        </ion-buttons>
+        <ion-title>{{'ADD_ADDRESS'|translate}}</ion-title>
+    </ion-navbar>
+</ion-header>
+<ion-content>
+    <ion-list class="common-form">
+        <ion-item>
+            <ion-label class="form-label with-left-baseline" color="primary" style="width:6rem;">{{'NAME_OF_ADDRESS'|translate}}</ion-label>
+            <ion-input [(ngModel)]="formData.name" placeholder="{{'PLEASE_INPUT_NAME_OF_ADDRESS'|translate}}"></ion-input>
+        </ion-item>
+        <ion-item>
+            <ion-label class="form-label with-left-baseline" color="primary">{{'ADDRESS'|translate}}</ion-label>
+            <ion-input [(ngModel)]="formData.address" placeholder="{{'PLEASE_INPUT_ADDRESS'|translate}}"></ion-input>
+        </ion-item>
+        <ion-item class="val">
+            <ion-label class="form-label" color="primary">{{'VERIFICATION_2'|translate}}</ion-label>
+            <ion-list item-end *ngIf="check_method_options" class="radio-list" radio-group [(ngModel)]="formData.check_method">
+                <ion-item *ngFor="let check_method_opt of check_method_options">
+                    <ion-label>{{check_method_opt.value}}</ion-label>
+                    <ion-radio checked="true" [value]="check_method_opt"></ion-radio>
+                </ion-item>
+            </ion-list>
+        </ion-item>
+        <ion-item>
+            <ion-label class="form-label with-left-baseline" color="primary">{{'VERIFICATION_CODE'|translate}}</ion-label>
+            <ion-input [(ngModel)]="formData.vcode" placeholder="{{'PLEASE_INPUT_VERIFICATION_CODE'|translate}}"></ion-input>
+            <button (vcode-sender)="$event.waitFor(sendValidate())" [disabled]="!formData.check_method" ion-button item-end color="special"></button>
+        </ion-item>
+    </ion-list>
+    <div class="submit-wrapper">
+        <button block ion-button color="special" [disabled]="!canSubmit" (click)="submitAddAddress()">{{'COMPLETE_ADDITION'|translate}}</button>
+    </div>
+</ion-content>

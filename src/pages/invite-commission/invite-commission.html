@@ -1,0 +1,114 @@
+<!--
+  Generated template for the RechargeDetailPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+        <ion-navbar>
+            <ion-title>{{'INVITATION_COMMISSION'|translate}}</ion-title>
+        </ion-navbar>
+</ion-header>
+<ion-content>
+    <div class="account-assets">
+        <div class="assets-item balance">
+            <ion-icon name="邀请朋友"></ion-icon>
+            <div class="sub-title">{{'RECOMEMDED_FRIEND'|translate}}</div>
+            <div class="amount">{{recommendCounts || 0}}</div>
+        </div>
+        <div class="assets-item frozen">
+            <ion-icon name="佣金"></ion-icon>
+            <div class="sub-title">{{'HAVE_AQUIRED_COMMISSION'|translate}}</div>
+            <div class="amount">&nbsp;</div>
+        </div>
+    </div>
+    <div class="invite-msg">
+        <div class="title-bar">
+            <div class="title">
+                <ion-icon name="推荐id"></ion-icon>
+                {{'MY_RECOMMENDED_ID'|translate}}
+            </div>
+            <button class="copy-button" ion-button (click)="copyCode(personalDataService.recommendCode)" [copy]="personalDataService.recommendCode">
+                <ion-icon name="复制"></ion-icon>
+                {{'CLICK_AND_COPY'|translate}}
+            </button>
+        </div>
+        <div class="invite-detail">
+            <!-- <div class="qrcode-image">
+				<kjua-qrcode class="qrcode" [config]="{label:recharge_address.paymentAccountNumber}"></kjua-qrcode>
+			</div> -->
+            <div class="hash-code">
+                <ng-container *ngIf="personalDataService?.recommendCode;else noAddress1">
+                    {{personalDataService.recommendCode}}
+                </ng-container>
+                <ng-template #noAddress1>
+                    <i>{{'NO_AVAILABLE_ID'|translate}}</i>
+                </ng-template>
+            </div>
+        </div>
+    </div>
+    <div class="invite-msg invite-href">
+        <div class="title-bar">
+            <div class="title">
+                <ion-icon name="推荐链接"></ion-icon>
+                {{'RECOMMENDED_LINK'|translate}}
+            </div>
+            <button class="copy-button" ion-button (click)="copyCode(ref)" [copy]="ref">
+                <ion-icon name="复制"></ion-icon>
+                {{'CLICK_AND_COPY'|translate}}
+            </button>
+        </div>
+        <div class="invite-detail">
+            <!-- <div class="qrcode-image">
+				<kjua-qrcode class="qrcode" [config]="{label:recharge_address.paymentAccountNumber}"></kjua-qrcode>
+			</div> -->
+            <div class="hash-code">
+                <ng-container *ngIf="personalDataService?.recommendCode;else noAddress2">
+                    {{ref}}
+                </ng-container>
+                <ng-template #noAddress2>
+                    <i>{{'NO_AVAILABLE_URL'|translate}}</i>
+                </ng-template>
+            </div>
+        </div>
+    </div>
+    <div class="invite-msg invite-href inviter">
+        <div class="title-bar">
+            <div class="title">
+                <ion-icon name="推荐人"></ion-icon>
+                {{'MY_RECOMEMNDER'|translate}}
+                <span class="person">{{recommender}}</span>
+            </div>
+            <button class="copy-button set" ion-button (click)="set()" [disabled]="recommender">
+                <ion-icon name="设置"></ion-icon>
+                {{'SETTINGS'|translate}}
+            </button>
+        </div>
+    </div>
+    <div class="invite-logs">
+        <div class="title">{{'INTRODUCTION_TO_ACTIVITY'|translate}}</div>
+        <div class="recharge-log intro">
+            <div class="base-info">
+                &nbsp;&nbsp;&nbsp;&nbsp;{{'INTRODUCTION_1'|translate}}
+            </div>
+            <div class="base-info">
+                &nbsp;&nbsp;&nbsp;&nbsp;{{'INTRODUCTION_2'|translate}}
+            </div>
+            <div class="base-info">
+                &nbsp;&nbsp;&nbsp;&nbsp;{{'INTRODUCTION_3'|translate}}
+            </div>
+            <div class="base-info">
+                &nbsp;&nbsp;&nbsp;&nbsp;{{'INTRODUCTION_4'|translate}}
+            </div>
+            <div class="base-info">
+                &nbsp;&nbsp;&nbsp;&nbsp;{{'INTRODUCTION_5'|translate}}
+            </div>
+
+        </div>
+    </div>
+    <!--加载更多-->
+    <!-- <ion-infinite-scroll [enabled]="has_more_recharge_logs" (ionInfinite)="loadMoreRechargeLogs($event)">
+        <ion-infinite-scroll-content loadingText="正在加载...">
+        </ion-infinite-scroll-content>
+    </ion-infinite-scroll> -->
+</ion-content>

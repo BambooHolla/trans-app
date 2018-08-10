@@ -1,0 +1,21 @@
+<ion-header>
+    <ion-navbar>
+        <ion-title>{{'WITHDRAW'|translate}}</ion-title>
+    </ion-navbar>
+</ion-header>
+
+
+<ion-content>
+    <ion-list>
+        <!-- <ion-item navPush="withdraw-detail">IBT<ion-icon name="arrow-forward" item-end></ion-icon></ion-item>
+		<ion-item-divider ></ion-item-divider>
+		<ion-item navPush="withdraw-detail">比特比BTC<ion-icon name="arrow-forward" item-end></ion-icon></ion-item>
+		<ion-item navPush="withdraw-detail">莱特币LTC<ion-icon name="arrow-forward" item-end></ion-icon></ion-item>
+		<ion-item navPush="withdraw-detail">以太坊ETH<ion-icon name="arrow-forward" item-end></ion-icon></ion-item>
+		<ion-item navPush="withdraw-detail">以太经典ETC<ion-icon name="arrow-forward" item-end></ion-icon></ion-item> -->
+        <ion-item *ngFor="let product of product_list" (click)="routeTo('withdraw-detail',{productInfo:product})">
+            {{product.productName}}
+            <ion-icon name="arrow-forward" item-end></ion-icon>
+        </ion-item>
+    </ion-list>
+</ion-content>

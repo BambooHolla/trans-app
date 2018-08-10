@@ -1,6 +1,5 @@
 // http://ionicframework.com/docs/v2/theming/
 
-
 // App Global Sass
 // --------------------------------------------------
 // Put style rules here that you want to apply globally. These
@@ -15,8 +14,7 @@
 // for the .md, .ios, or .wp mode classes. The mode class is
 // automatically applied to the <body> element in the app.
 
-
-@import './_mixin';
+@import "./_mixin";
 
 // --------------------------------------------------
 // Global Sass
@@ -24,61 +22,70 @@
 
 // 对 $colors 对象进行循环（此对象的定义在 theme/variables.scss ）
 @each $color-name, $color-value in $colors {
-  .color-#{$color-name} {
-    color: color($colors, $color-name);
-  }
-
-  .bg-color-#{$color-name} {
-    background-color: color($colors, $color-name);
-  }
+    .color-#{$color-name} {
+        color: color($colors, $color-name);
+    } 
+    .bg-color-#{$color-name} {
+        background-color: color($colors, $color-name);
+    }
+    
 }
 
 body {
-  color: color($colors, primary);
+    color: color($colors, primary);
 }
 
-.bg-out {
-  background: url(../assets/images/bg_1.jpg);
-  background-size: 100%/100%;
+.bg {
+    background-color: #2a2b3f;
 }
+
+// .bg-out {
+//   background: url(../assets/images/bg_1.jpg);
+//   background-size: cover;
+// }
 
 .bg-in {
-  background-image:url("../assets/images/bg_3.jpg");
-  background-size: cover;
-  background-position-x: center;
-  box-shadow: inset 0 0 0 100vmax rgba(0,0,0,0.8);
+    // background-image:url("../assets/images/bg_3.jpg");
+    // background-size: cover;
+    // background-position-x: center;
+    // box-shadow: inset 0 0 0 100vmax rgba(0,0,0,0.8);
 
-  &.bg-light {
-    box-shadow: inset 0 0 0 100vmax rgba(0,0,0,0.5);
-  }
+    // &.bg-light {
+    //   box-shadow: inset 0 0 0 100vmax rgba(0,0,0,0.5);
+    // }
+    background-color: #2a2b3f !important;
 }
 
 .bg-black {
-  background-color: #000;
+    background-color: #000;
 }
 
 .bg-offset-header {
-  background-position: center -78px;
+    background-position: center -78px;
 }
 
 .darker-transparent {
-  background-color: rgba(0, 0, 0, .6);
+    background-color: rgba(0, 0, 0, 0.6);
 }
 
 .dark-transparent {
-  background-color: rgba(0, 0, 0, .4);
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.dark-8-transparent {
+    background-color: rgba(0, 0, 0, 0.08);
 }
 
 .light-transparent {
-  background-color: rgba(255, 255, 255, .1);
+    background-color: rgba(255, 255, 255, 0.1);
 }
 
 .font-smaller {
-  font-size: 1.1rem;
+    font-size: 1.1rem;
 }
 
 .font-smallest {
-  font-size: 1rem;
+    font-size: 1rem;
 }
 
 // ion-header {
@@ -106,7 +113,7 @@ body {
 .fa-spinner-loading {
     height: 5em;
     width: 100%;
-    background: url('../assets/images/loader_img.gif') no-repeat;
+    background: url("../assets/images/loader_img.gif") no-repeat;
     background-size: 15rem 15rem;
     /*background-position-y: -1em;*/
     background-position-x: 0.9em;
@@ -120,438 +127,473 @@ body {
 }
 
 .platform-ios {
-  ion-header {
-    padding-top: $cordova-ios-statusbar-padding;
+    ion-header {
+        // padding-top: $cordova-ios-statusbar-padding;
 
-    >ion-navbar.toolbar.statusbar-padding {
-      margin-top: -$cordova-ios-statusbar-padding;
-    }
+        // >ion-navbar.toolbar.statusbar-padding {
+        //   margin-top: -$cordova-ios-statusbar-padding;
+        // }
 
-    .header-with-bg {
-      margin-top: -$cordova-ios-statusbar-padding;
-      padding-top: $cordova-ios-statusbar-padding;
+        .header-with-bg {
+            // margin-top: -$cordova-ios-statusbar-padding;
+            // padding-top: $cordova-ios-statusbar-padding;
+            &.bg-color-dark-alpha {
+                background-color: color($colors, "alpha-dark");
+            }
+        }
     }
-  }
 }
 
-.platform-android {
-  ion-header {
-    padding-top: $cordova-md-statusbar-padding;
+// .platform-android {
+//   ion-header {
+//     padding-top: $cordova-md-statusbar-padding;
 
-    .header-with-bg {
-      margin-top: -$cordova-md-statusbar-padding;
+//     .header-with-bg {
+//       margin-top: -$cordova-md-statusbar-padding;
 
-      padding-top: $cordova-md-statusbar-padding;
+//       padding-top: $cordova-md-statusbar-padding;
+//     }
+//   }
+// }
+
+// .platform-windowsphone {
+//   ion-header {
+//     padding-top: $cordova-wp-statusbar-padding;
+
+//     .header-with-bg {
+//       margin-top: -$cordova-wp-statusbar-padding;
+
+//       padding-top: $cordova-wp-statusbar-padding;
+//     }
+//   }
+// }
+
+.header-ios,
+.footer-ios {
+    .toolbar-background-ios {
+        border-style: none;
     }
-  }
 }
+.content-ios {
+    padding-bottom:constant(safe-area-inset-bottom)!important;
 
-.platform-windowsphone {
-  ion-header {
-    padding-top: $cordova-wp-statusbar-padding;
-
-    .header-with-bg {
-      margin-top: -$cordova-wp-statusbar-padding;
-
-      padding-top: $cordova-wp-statusbar-padding;
-    }
-  }
+    padding-bottom:env(safe-area-inset-bottom)!important;
 }
-
-.header-ios, .footer-ios {
-  .toolbar-background-ios {
-    border-style: none;
-  }
-}
-
 .toolbar-background-md {
-  border-style: none;
+    border-style: none;
 }
 
-.toolbar-title{
-  text-align: center;
+.toolbar-title {
+    text-align: center;
 }
 
-ion-title.title-md{
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 9rem;
-  right: 9rem;
-  padding-bottom: 0.1rem;
-  -webkit-transform: translateZ(0);
-  transform: translateZ(0);
+ion-title.title-md {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 9rem;
+    right: 9rem;
+    padding-bottom: 0.1rem;
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
 }
 
 .bar-button.back-button {
-  padding-left: 1.6rem;
+    padding-left: 1.6rem;
 }
 
 .header-md::after {
-  background-image: none;
+    background-image: none;
 }
 
 ion-navbar {
-  > ion-buttons[padding-horizontal] {
-    button:last-child {
-      padding-right: 0;
-      margin-right: 0;
+    > ion-buttons[padding-horizontal] {
+        button:last-child {
+            padding-right: 0;
+            margin-right: 0;
+        }
     }
-  }
 }
 
 .label-ios[stacked][large] {
-  font-size: 1.5rem;
+    font-size: 1.5rem;
 }
 
 .font-fix {
-  font-size: 100%;
+    font-size: 100%;
 }
 
 .input-container {
-  width: 70%;
-  margin-left: auto; 
-  margin-right: auto; 
+    width: 70%;
+    margin-left: auto;
+    margin-right: auto;
 
-  .item-inner {
-    border-bottom-color: transparent !important;
-    box-shadow: none !important;
-  }
+    .item-inner {
+        border-bottom-color: transparent !important;
+        box-shadow: none !important;
+    }
 }
 
-$ext-icons: 'optional' 'quotations' 'infos' 'mine';
-@each $icon-name in $ext-icons{
-  @include icons($icon-name);
+$ext-icons: "optional" "quotations" "infos" "mine";
+@each $icon-name in $ext-icons {
+    @include icons($icon-name);
 }
 
-$g-icons: 'about' 'transfer' 'card' 'doc' 'hand' 'help' 'person' 'trend'
-   'clock' 'phone' 'wechat' 'link' 'rule' 'agree' 'amount'
-   'price' 'comment' 'review' 'news' 'announce';
-@each $icon-name in $g-icons{
-  @include gicon($icon-name);
+$g-icons: "about" "transfer" "card" "doc" "hand" "help" "person" "trend" "clock"
+    "phone" "wechat" "link" "rule" "agree" "amount" "price" "comment" "review"
+    "news" "announce";
+@each $icon-name in $g-icons {
+    @include gicon($icon-name);
+}
+
+$tabs-icons: "交易" "资讯" "我的" "持仓" "行情";
+@each $icon-name in $tabs-icons {
+    @include tabicon($icon-name);
+}
+ion-icon[name="arrow-forward"] {
+    display: flex;
+    align-items: center;
+    &::before {
+        display: block;
+        height: 1rem;
+        width: 1rem;
+        content: "";
+        background-image: url("../assets/icon/forward.png");
+        background-size: contain;
+        background-repeat: no-repeat;
+    }
 }
 
 .large-icon {
-  font-size: 2rem;
+    font-size: 2rem;
 }
 
 .tab-button-icon.alert {
-  position: relative;
-  &:after {
-    content: '';
-    background-color: red;
-    width: 0.8rem;
-    height: 0.8rem;
-    border-radius: 50%;
-    position: absolute;
-    top: 0.4rem;
-    right: 0.4rem;
-  }
+    position: relative;
+    &:after {
+        content: "";
+        background-color: red;
+        width: 0.8rem;
+        height: 0.8rem;
+        border-radius: 50%;
+        position: absolute;
+        top: 0.4rem;
+        right: 0.4rem;
+    }
 }
 
 .round-text-input {
-  .text-input {
-    background: rgba(255, 255, 255, .3);
-    padding: 1.5rem 1rem 1.5rem 4rem;
-    border-radius: 2.5rem;
-  }
+    .text-input {
+        background: rgba(255, 255, 255, 0.3);
+        padding: 1.5rem 1rem 1.5rem 4rem;
+        border-radius: 2.5rem;
+    }
 
-  .text-input-ios, .text-input-md {
-    width: 100%;
-    margin-left: 0;
-    margin-right: 0;
-  }
+    .text-input-ios,
+    .text-input-md {
+        width: 100%;
+        margin-left: 0;
+        margin-right: 0;
+    }
 }
 
 .list-md .item-input:last-child {
-  border: none;
+    border: none;
 }
 
 .relative-container {
-  position: relative;
+    position: relative;
 }
 
-$input-icons: 'phone' 'password' 'code';
-@each $icon-name in $input-icons{
-  @include inputicon($icon-name);
+$input-icons: "phone" "password" "code";
+@each $icon-name in $input-icons {
+    @include inputicon($icon-name);
 }
 
 .vertical-align-center > * {
-  display: flex!important;
-  align-content: center!important;
-  align-items: center!important;
+    display: flex !important;
+    align-content: center !important;
+    align-items: center !important;
 }
 
 .vertical-center {
-  vertical-align: middle;
+    vertical-align: middle;
 }
 
 .item-center-center {
-  display: flex!important;
-  justify-content:center;
-  align-items: center;
+    display: flex !important;
+    justify-content: center;
+    align-items: center;
 }
 
 .vertical-bottom {
-  display: flex;
-  justify-content: flex-end;
-  flex-direction: column;
+    display: flex;
+    justify-content: flex-end;
+    flex-direction: column;
 }
 
 %absolute-full-size {
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: 0;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
 }
 
 .absolute-full-size {
-  @extend %absolute-full-size;
+    @extend %absolute-full-size;
 }
 
 .check-row {
-  clear: both;
-  div.check-box {
-    width: 4.6rem;
-    float: left;
-  }
+    clear: both;
+    div.check-box {
+        width: 4.6rem;
+        float: left;
+    }
 
-  .check-title {
-    overflow: hidden;
-    height: 5.2rem;
-    font-size: 1.3rem;
-    line-height: 2.2rem;
-    display: -webkit-flex;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-align-items: center;
-    -ms-flex-align: center;
-    align-items: center;
-  }
+    .check-title {
+        overflow: hidden;
+        height: 5.2rem;
+        font-size: 1.3rem;
+        line-height: 2.2rem;
+        display: -webkit-flex;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-align-items: center;
+        -ms-flex-align: center;
+        align-items: center;
+    }
 }
 
 .full-height-grid {
-  height: 100%;
-  justify-content: center;
+    height: 100%;
+    justify-content: center;
 }
 
 [no-margin-bottom] {
-  margin-bottom: 0;
+    margin-bottom: 0;
 }
 
 .grid[no-padding] {
-  > .row {
-    > .col {
-      h4, h5, h6 {
-        margin: 0;
-      }
+    > .row {
+        > .col {
+            h4,
+            h5,
+            h6 {
+                margin: 0;
+            }
 
-      &[padding] {
-        padding: 1rem 0;
-      }
-      
+            &[padding] {
+                padding: 1rem 0;
+            }
+        }
     }
-  }
 }
 
 .small-padding {
-  padding: 0.7rem;
+    padding: 0.7rem;
 }
 
 .small-padding-top {
-  padding-top: 0.7rem;
+    padding-top: 0.7rem;
 }
 
 .small-padding-tb {
-  padding-top: 0.7rem;
-  padding-bottom: 0.7rem;
+    padding-top: 0.7rem;
+    padding-bottom: 0.7rem;
 }
 
-.col-center-center ion-col, ion-col.col-center-center {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+.col-center-center ion-col,
+ion-col.col-center-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .small-row {
-  font-size: 1.2rem;
-  line-height: 1.6rem;
-
-  input, textarea, select, button, ion-label {
     font-size: 1.2rem;
-  }
-
-  span.small-font {
-    font-size: 1.2rem;
-  }
-
-  .item ion-checkbox.checkbox {
-    margin-right: 0.6rem;
-
-    .checkbox-icon {
-      width: 1.6rem;
-      height: 1.6rem;
-      border-radius: 30%;
-      border-width: 1px;
-
-      .checkbox-inner {
-        font-size: 1.2rem;
-        top: 0.2rem;
-        left: 0.5rem;
-      }
-    }
-  }
-
-  [item-right] ion-label {
-    text-align: right;
-  }
-
-  ion-icon {
-    font-size: 1.6rem;
     line-height: 1.6rem;
 
-    &:before {
-      vertical-align: middle;
+    input,
+    textarea,
+    select,
+    button,
+    ion-label {
+        font-size: 1.2rem;
     }
-  }
+
+    span.small-font {
+        font-size: 1.2rem;
+    }
+
+    .item ion-checkbox.checkbox {
+        margin-right: 0.6rem;
+
+        .checkbox-icon {
+            width: 1.6rem;
+            height: 1.6rem;
+            border-radius: 30%;
+            border-width: 1px;
+
+            .checkbox-inner {
+                font-size: 1.2rem;
+                top: 0.2rem;
+                left: 0.5rem;
+            }
+        }
+    }
+
+    [item-right] ion-label {
+        text-align: right;
+    }
+
+    ion-icon {
+        font-size: 1.6rem;
+        line-height: 1.6rem;
+
+        &:before {
+            vertical-align: middle;
+        }
+    }
 }
 
 .text-and-icon {
-  &, span {
-    vertical-align: middle;
-  }
+    &,
+    span {
+        vertical-align: middle;
+    }
 
-  .icon {
-    font-family: IonIcons;
-    font-size: 1.6rem;
-  }
+    .icon {
+        font-family: IonIcons;
+        font-size: 1.6rem;
+    }
 }
 
 [font-normal] {
-  font-weight: normal;
+    font-weight: normal;
 }
 
 ion-item {
-  &[tappable].no-activated-bg {
-    background-color: transparent;
-  }
+    &[tappable].no-activated-bg {
+        background-color: transparent;
+    }
 }
 
 .alert-title {
-  padding: 1rem 0 2rem;
+    padding: 1rem 0 2rem;
 }
 
 .dark-alert {
-  .alert-wrapper {
-    background-color: rgba(0, 0, 0, .75);
-    max-width: 90%;
+    .alert-wrapper {
+        background-color: rgba(0, 0, 0, 0.75);
+        max-width: 90%;
 
-    .alert-button {
-      border: none;
+        .alert-button {
+            border: none;
 
-      background-color: transparent;
+            background-color: transparent;
 
-      &:before {
-        font-size: 4rem;
+            &:before {
+                font-size: 4rem;
+                color: color($colors, primary);
+                font-family: Ionicons;
+                content: "\f2bf";
+            }
+        }
+
+        .button-inner {
+            display: none;
+        }
+
+        .alert-sub-title,
+        .alert-message {
+            text-align: left;
+            font-size: 1.4rem;
+            line-height: 2rem;
+            text-indent: 2em;
+
+            font-weight: normal;
+            color: color($colors, primary);
+        }
+    }
+
+    .alert-title {
+        font-size: 1.8rem;
         color: color($colors, primary);
-        font-family: Ionicons;
-        content: "\f2bf";
-      }
+        text-align: center;
     }
-
-    .button-inner {
-      display: none;
-    }
-
-    .alert-sub-title, .alert-message {
-      text-align: left;
-      font-size: 1.4rem;
-      line-height: 2rem;
-      text-indent: 2em;
-
-      font-weight: normal;
-      color: color($colors, primary);
-    }
-  }
-
-  .alert-title {
-    font-size: 1.8rem;
-    color: color($colors, primary);
-    text-align: center;
-  }
 }
 
 .modal-wrapper {
-  background-color: color($colors, primary);
+    background-color: color($colors, primary);
 }
 
 ion-label[pad] {
-  &:before {
-    content: '';
-    padding-right: 1em;
-  }
+    &:before {
+        content: "";
+        padding-right: 1em;
+    }
 
-  &[required]:before {
-    content: '*';
-    padding-right: 0.5em;
-    color: color($colors, important);
-  }
+    &[required]:before {
+        content: "*";
+        padding-right: 0.5em;
+        color: color($colors, important);
+    }
 }
 
 .tabs-ios {
-  .tab-button-icon {
-    margin-top: 0.4rem;
-  }
+    .tab-button-icon {
+        margin-top: 0.4rem;
+    }
 }
 
 .tabs-md .tab-button-icon {
-  margin-top: 0.4rem;
+    margin-top: 0.4rem;
 }
 
 .in-box-image {
-  max-width: 100%;
-  max-height: 100%;
+    max-width: 100%;
+    max-height: 100%;
 }
 
-.picker-wrapper{
-  background:#000!important;
+.picker-wrapper {
+    background: #000 !important;
 }
 
 .sim-landscape {
-  width: 100vh;
-  height: 100vw;
-  position: relative;
-  left: calc(50vw - 50vh);
-  top: calc(50vh - 50vw);
-  transform: rotate(0);
-  transition: all .4s;
-  opacity: 0;
-  z-index: -1;
+    width: 100vh;
+    height: 100vw;
+    position: relative;
+    left: calc(50vw - 50vh);
+    top: calc(50vh - 50vw);
+    transform: rotate(0);
+    transition: all 0.4s;
+    opacity: 0;
+    z-index: -1;
 
-  &.show {
-    transform: rotate(90deg);
-    opacity: 1;
-    z-index: 100;
-  }
+    &.show {
+        transform: rotate(90deg);
+        opacity: 1;
+        z-index: 100;
+    }
 }
 
-.toast-message{
-  text-align:center;
-  padding:3rem 1rem;
+.toast-message {
+    text-align: center;
+    padding: 3rem 1rem;
 }
 
-.stock{
-  .toast-wrapper{
-    width:66%;
-  }
+.stock {
+    .toast-wrapper {
+        width: 66%;
+    }
 }
 
 .active-underline {
     position: relative;
     z-index: 2;
 
-    &:before { 
+    &:before {
         content: "";
         position: absolute;
         z-index: 1;
@@ -566,7 +608,39 @@ ion-label[pad] {
 }
 
 .child-span-padding-left-1 {
-  span {
-    padding-left: 1em;
-  }
+    span {
+        padding-left: 1em;
+    }
+}
+.disable-scroll .ion-page {
+    pointer-events: all !important;
+    -ms-touch-action: all !important;
+    touch-action: all !important;
+}
+
+// list animate
+.list-fadeInRight-ani {
+    > .list-fadeInRight-ani-item {
+        animation: fadeInRight 800ms cubic-bezier(0.11, 0.99, 0.18, 1);
+        animation-fill-mode: both;
+    }
+}
+@keyframes fadeInRight {
+    0% {
+        opacity: 0;
+        transform: translateX(62vw);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+.follow-parent-ani {
+    animation-duration: inherit;
+    animation-timing-function: inherit;
+    animation-iteration-count: inherit;
+    animation-delay: inherit;
+    animation-fill-mode: inherit;
+    animation-play-state: inherit;
+    animation-direction: inherit;
 }

@@ -1,23 +1,26 @@
-import { Component } from '@angular/core';
+import { Component } from "@angular/core";
 
-import { ActionSheetController, ModalController, NavParams } from 'ionic-angular';
-import { ViewController } from 'ionic-angular';
+import {
+    ActionSheetController,
+    ModalController,
+    NavParams,
+} from "ionic-angular";
+import { ViewController } from "ionic-angular";
 
 // import { ImagePicker } from '@ionic-native/image-picker';
 
-import { CameraModal } from '../../modals/camera/camera';
-import { ImagePickerService } from '../../providers/image-picker-service';
+import { CameraModal } from "../../modals/camera/camera";
+import { ImagePickerService } from "../../providers/image-picker-service";
 
 @Component({
-    selector: 'image-taker',
-    templateUrl: 'image-taker.html',
+    selector: "image-taker",
+    templateUrl: "image-taker.html",
     providers: [
-         CameraModal,
-         // ImagePickerService,
+        CameraModal,
+        // ImagePickerService,
     ],
 })
 export class ImageTakerCmp {
-
     private _name: string;
     private _maxCount: number;
 
@@ -29,36 +32,62 @@ export class ImageTakerCmp {
         private modalCtrl: ModalController,
         params: NavParams,
     ) {
-        console.log('ImageTakerCmp params: ', params);
+        console.log("ImageTakerCmp params: ", params);
         this._name = params.data.name;
         this._maxCount = params.data.maxCount;
 
         this.takePicture(this._name, this._maxCount);
     }
 
-    ionViewDidLoad() {
+    ionViewDidLoad() {}
 
-    }
-
-    takePicture(name: string = 'take picture', maxCount: number = 1) {
+    takePicture(name: string = "take picture", maxCount: number = 1) {
         let actionSheet = this.actionsheetCtrl.create({
             // title: 'Albums',
             // cssClass: 'action-sheets-basic-page',
             buttons: [
                 {
-                    text: '从相册中选择',
+                    text:
+                        window["language"]["SELECT_FROM_ALBUM "] ||
+                        "从相册中选择",
                     handler: () => {
-                        this.imagePickerService.takePicture(maxCount)
-                            .then(result => {
+                        const inputEle = document.createElement("input");
+                        inputEle.type = "file";
+                        inputEle.accept = "image/*";
+                        var clickEvent = new MouseEvent("click", {
+                            view: window,
+                            bubbles: true,
+                            cancelable: true,
+                        });
+                        inputEle.dispatchEvent(clickEvent);
+
+                        inputEle.onchange = e => {
+                            if (inputEle.files && inputEle.files[0]) {
+                                //var reader = new FileReader();
+
+                                //reader.onload = e => {
+                                //this.dismiss({
+                                //name,
+                                //data: e.target['result']
+                                //});
+                                //};
+
+                                //reader.readAsDataURL(inputEle.files[0]);
+
                                 this.dismiss({
                                     name,
-                                    data: result,
+                                    data: URL.createObjectURL(
+                                        inputEle.files[0],
+                                    ),
                                 });
-                            })
-                    }
+                            } else {
+                                this.dismiss(null);
+                            }
+                        };
+                    },
                 },
                 {
-                    text: '马上拍一张',
+                    text: window["language"]["TAKE_PHOTO"] || "马上拍一张",
                     handler: () => {
                         let cameraModal = this.modalCtrl.create(CameraModal);
                         cameraModal.onDidDismiss((data, role) => {
@@ -69,16 +98,16 @@ export class ImageTakerCmp {
                         });
 
                         cameraModal.present();
-                    }
+                    },
                 },
                 {
-                    text: '取消',
-                    role: 'cancel',
-                }
-            ]
+                    text: window["language"]["CANCEL"] || "取消",
+                    role: "cancel",
+                },
+            ],
         });
 
-        actionSheet.present()
+        actionSheet.present();
     }
 
     dismiss(result: any): Promise<any> {

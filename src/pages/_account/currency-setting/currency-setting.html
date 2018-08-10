@@ -1,0 +1,23 @@
+<ion-header>
+    <ion-navbar>
+        <ion-title>涨跌颜色</ion-title>
+    </ion-navbar>
+</ion-header>
+<ion-content no-bounce class="account-contain">
+
+    <!-- 涨跌颜色 -->
+    <ion-row>
+        <ion-col padding class="vertical-center"  (click)="changeRiseAndFallColor()">
+            <span class="picasso-icon-k green"></span>
+            <ion-icon class="icon-currency" icon-right name="{{!appDataService.risefallColor?'checkmark':''}}"></ion-icon>
+        </ion-col>
+    </ion-row>
+    <ion-row>
+        <ion-col padding class="vertical-center"  (click)="changeRiseAndFallColor()">
+            <span class="picasso-icon-k red"></span>
+            <ion-icon class="icon-currency" icon-right name="{{!!appDataService.risefallColor?'checkmark':''}}"></ion-icon>
+        </ion-col>
+    </ion-row>
+
+
+</ion-content>

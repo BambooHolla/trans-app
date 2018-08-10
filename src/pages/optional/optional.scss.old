@@ -1,0 +1,119 @@
+page-optional {
+    .option-header {
+        background: url(../assets/images/option_header.jpg) center center/cover
+            no-repeat;
+        ion-navbar {
+            padding-bottom: 0;
+            padding-left: 0;
+            padding-right: 0;
+        }
+    }
+
+    .light-transparent {
+        background: color($colors, background);
+        display: inline-block;
+        .frozen {
+            color: color($colors, lightdark);
+            text-align: left;
+        }
+    }
+    .hold {
+        color: color($colors, lightdark);
+    }
+
+    .optional-header {
+        // ion-scroll{
+        //   height:3.6rem;
+
+        //   .list-header{
+        //     ion-col{
+        //       padding: 1rem 0;
+        //     }
+        //   }
+        // }
+    }
+
+    ion-content {
+        .scroll-content {
+            background-color: rgba(0, 0, 0, 0.4);
+
+            ion-grid {
+                position: relative;
+            }
+
+            h5 {
+                font-size: 1.7rem;
+            }
+
+            h6 {
+                font-size: 1.5rem;
+            }
+        }
+
+        .col1 {
+            text-align: left;
+            width: 100%;
+            padding-left: 2.4rem;
+            h5 {
+                color: color($colors, special);
+            }
+            .font-smaller {
+                color: color($colors, lightdark);
+                margin-right: 6px;
+            }
+        }
+    }
+}
+
+.optional-header {
+    // height: 225px;
+
+    h1 {
+        font-size: 3rem;
+    }
+
+    h5 {
+        font-size: 1.5rem;
+    }
+
+    h6 {
+        margin-top: 1.2rem;
+    }
+
+    .h7 {
+        font-size: 1.1rem;
+    }
+
+    .padding {
+        height: 1rem;
+    }
+
+    .title-col {
+        height: 12rem;
+    }
+
+    .info-row {
+        height: 6rem;
+
+        .split-line div {
+            margin-top: 0.6rem;
+            width: 100%;
+            height: 2.1rem;
+            border-left: 0.5px solid rgba(255, 255, 255, 0.3);
+            transform: translateX(50%);
+        }
+    }
+
+    .list-header {
+        color: color($colors, light);
+        .title {
+            color: color($colors, lightdark);
+            background: color($colors, background);
+        }
+    }
+}
+
+.echarts-test {
+    height: 30rem;
+    background-color: rgb(48, 166, 199);
+}

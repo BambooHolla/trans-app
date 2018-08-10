@@ -1,37 +1,55 @@
-import { Injectable } from '@angular/core';
-import { Platform } from 'ionic-angular';
+import { Injectable } from "@angular/core";
+import { Platform } from "ionic-angular";
 
-import { ImagePicker } from '@ionic-native/image-picker';
-import { AndroidPermissions } from '@ionic-native/android-permissions';
+import { ImagePicker } from "@ionic-native/image-picker";
+import { AndroidPermissions } from "@ionic-native/android-permissions";
 
 @Injectable()
 export class ImagePickerService {
-
     constructor(
         private imagePicker: ImagePicker,
         private androidPermissions: AndroidPermissions,
         private platform: Platform,
-    ) {
+    ) {}
 
-    }
-
-    checkPermission(): Promise<any>{
-        if (this.platform.is('android')){
-            return this.androidPermissions.checkPermission(this.androidPermissions.PERMISSION.READ_EXTERNAL_STORAGE)
-                .catch(err =>
-                    this.androidPermissions.requestPermissions(this.androidPermissions.PERMISSION.READ_EXTERNAL_STORAGE)
-                );
+    checkPermission(): Promise<any> {
+        if (this.platform.is("android")) {
+            // this.androidPermissions
+            //     .checkPermission(
+            //         this.androidPermissions.PERMISSION.READ_EXTERNAL_STORAGE
+            //     )
+            //     .then(a => {
+            //         alert('ok:' + JSON.stringify(a));
+            //     })
+            //     .catch(err => {
+            //         alert('er:' + JSON.stringify(err));
+            //     });
+            return this.androidPermissions
+                .checkPermission(
+                    this.androidPermissions.PERMISSION.READ_EXTERNAL_STORAGE,
+                )
+                .then(({ hasPermission }) => {
+                    if (!hasPermission) {
+                        throw false;
+                    }
+                })
+                .catch(err => {
+                    alert("申请权限");
+                    return this.androidPermissions.requestPermissions(
+                        this.androidPermissions.PERMISSION
+                            .READ_EXTERNAL_STORAGE,
+                    );
+                });
         }
 
         const imagePicker = this.imagePicker;
-        return imagePicker.hasReadPermission()
-            .then(result => result ?
-                true :
-                imagePicker.requestReadPermission()
+        return imagePicker
+            .hasReadPermission()
+            .then(
+                result => (result ? true : imagePicker.requestReadPermission()),
             )
-            .then(result => result ?
-                result :
-                Promise.reject('no permission')
+            .then(
+                result => (result ? result : Promise.reject("no permission")),
             );
     }
 
@@ -52,22 +70,21 @@ export class ImagePickerService {
             .then(result => imagePicker.getPictures(options))
             .then(results => {
                 (results as string[]).forEach(item => {
-                    console.log('Image URI: ' + item);
+                    console.log("Image URI: " + item);
                 });
 
-                return (results as string[]);
+                return results as string[];
             })
             .catch(err => {
-                if (typeof err === 'string'){
-                   console.log(err);
-               } else {
-                   for (let key in err){
-                       console.log(key + '\n' + err[key])
-                   }
-               }
+                if (typeof err === "string") {
+                    console.log(err);
+                } else {
+                    for (let key in err) {
+                        console.log(key + "\n" + err[key]);
+                    }
+                }
 
-               return null;
+                return null;
             });
-
     }
 }

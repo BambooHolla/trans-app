@@ -1,8 +1,8 @@
 page-information {
-    .informationHeader{
+    .informationHeader {
         font-size: 1.7rem;
 
-        ion-buttons{
+        ion-buttons {
             margin-top: 0.3rem;
         }
 
@@ -12,10 +12,10 @@ page-information {
         }
     }
 
-    ion-content{
-        ion-slides{
-            ion-slide{
-                .slide-zoom{
+    ion-content {
+        ion-slides {
+            ion-slide {
+                .slide-zoom {
                     height: 100% !important;
                 }
             }

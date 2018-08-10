@@ -1,0 +1,1248 @@
+page-trade-interface-v2 {
+    //reset grid padding
+    ion-header {
+        .button-space {
+            // padding-left: 6rem;
+            padding-left: 0;
+            font-weight: 400;
+            font-size: 1.8rem;
+        }
+        ion-navbar {
+            z-index: 80;
+        }
+    }
+
+    ion-header.header { 
+        background-color: #2A2B3F;
+        .item-select {
+            // background-color: rgba(36,36,53,0.8);
+            background-color: #2A2B3F;
+        }
+    }
+
+    .grid {
+        padding: 0;
+    }
+
+    #scroll-content-nonepadding {
+        .scroll-content {
+            padding-bottom: 0 !important;
+        }
+        // display: flex;
+        // flex-direction: column;
+    }
+
+    .flash-trade {
+        background-image: url("../assets/icon/flash.png");
+        background-size: contain;
+        margin-right: 1rem;
+        height: 2rem;
+        width: 2rem;
+    }
+    .trade-button-type-1 {
+        position: absolute;
+        background-image: url("../assets/icon/trade-type-1.png");
+        background-size: contain;
+        margin-right: 1.2rem;
+        height: 2rem;
+        width: 2rem;
+        right: 0rem;
+        background-repeat: no-repeat;
+        z-index: 99;
+        .bar-button-ios {
+            padding: 0 1rem;
+        }
+    }
+    .trade-button-type-2 {
+        z-index: 99;
+        position: absolute;
+        background-image: url("../assets/icon/trade-type-2.png");
+        background-size: contain;
+        margin-right: 1.2rem;
+        height: 2rem;
+        width: 2rem;
+        right: 0rem;
+        background-repeat: no-repeat;
+        .bar-button-ios {
+            padding: 0 1rem;
+        }
+    }
+    .chart-button {
+        background-image: url("../assets/icon/chart-button.png");
+        background-size: contain;
+        margin-right: 1.2rem;
+        height: 2rem;
+        width: 2rem;
+    }
+    .history-icon {
+        background-image: url("../assets/icon/history-list.png");
+        background-size: contain;
+        height: 1.4rem;
+        width: 1.3rem;
+    }
+    // //tofix:由于ionic代码bug导致不能传入类,后续改正,先用.popover-content设置样式
+    // .trader-list-pop{
+    // 	width: 100%;
+    // 	background-color: #2a2b3f
+    // }
+
+    .item-select {
+        .item-inner {
+            border-bottom: 0 !important;
+        }
+        .input-wrapper {
+            padding-right: 1.3rem;
+            justify-content: center;
+            margin-right: -6.6rem;
+            margin-left: -2rem;
+            .select-icon {
+                width: 1.8rem;
+            }
+        }
+    }
+    .item-background-color {
+        background-color: transparent;
+        padding-left: 0px!important;
+        .item-inner {
+            padding-right: 0px!important;
+        }
+    }
+    ion-range {
+        position: relative;
+        top: -1.2rem;
+        &.range-type-2 {
+            
+        }
+        .range-slider .range-bar:first-child {
+            border-radius: 2.5px;
+            border: 1px solid color($colors, special);
+            background: transparent;
+        }
+        &.issale .range-slider .range-bar:first-child {
+            border: 1px solid #fff;
+        }
+
+        &.issale .range-bar-active {
+            background: #fff;
+        }
+    }
+    .range-box {
+        z-index: 1;
+        bottom: 0.7rem !important;
+        padding-left: 24px!important;
+        .range-round {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background-color: white;
+            &.range-color {
+                background-color: color($colors,rise);
+            }
+            &.range-sale {
+                background-color: color($colors,fall);   
+            }
+        }
+    }
+    .trade-range {
+        margin-top: 2rem;
+        z-index: 50;
+        background-color: transparent;
+        &.trade-range-type-2 {
+            .range-ios {
+                padding: 0 16px 0 4px;
+            }
+        }
+        ion-range {
+            z-index: 1000;
+            .range-tick {
+                top: 15px; 
+                left: 10px;
+                visibility: hidden; 
+                border-radius: 50%;
+                background-color: white;
+                // position: relative;
+                transform: translateX(-6px);
+            }
+            .range-bar {
+                background-color: white;
+            }
+            .range-slider {
+                .range-tick:nth-child(1),  
+                .range-tick:nth-child(2),
+                .range-tick:nth-child(3),
+                .range-tick:nth-child(4),
+                .range-tick:nth-child(5){
+                    width: 16px;
+                    height: 16px; 
+                    visibility: visible;
+                }
+            }
+            .range-tick-active,
+            .range-bar-active {
+                background: color($colors, rise);
+                // border-radius: 2.5px;
+
+            }
+            .range-slider .range-bar:first-child { 
+                border: 1px solid color($colors, rise);
+                background: transparent;
+            }
+            .range-knob {
+                background: color($colors, rise); 
+                border: 2px solid white;
+            }
+            &.color-true {
+                .range-tick-active,
+                .range-bar-active {
+                    background: color($colors, rise-true)!important;
+                    // border-radius: 2.5px;
+    
+                }
+                .range-slider .range-bar:first-child { 
+                    border: 1px solid color($colors, rise-true);
+                    background: transparent;
+                }
+                .range-knob {
+                    background: color($colors, rise-true); 
+                    border: 2px solid white;
+                }
+            }
+        }
+        &.sale {
+            ion-range {
+                .range-tick-active,
+                .range-bar-active {
+                    background: color($colors, fall);
+                    // border-radius: 2.5px;
+
+                }
+                .range-bar-active {
+                    background: color($colors, fall); 
+                }
+                .range-slider .range-bar:first-child {
+                    border: 1px solid color($colors, fall);
+                }
+                .range-knob {
+                    background: color($colors, fall); 
+                }
+                &.color-true {
+                    .range-tick-active,
+                    .range-bar-active {
+                        background: color($colors, fall-true)!important;
+                        // border-radius: 2.5px;
+        
+                    }
+                    .range-bar-active {
+                        background: color($colors, fall-true); 
+                    }
+                    .range-slider .range-bar:first-child {
+                        border: 1px solid color($colors, fall-true);
+                    }
+                    .range-knob {
+                        background: color($colors, fall-true); 
+                    }
+                }
+            }
+        }
+    }
+    .content-block {
+        background-color: #2a2b3f;
+        padding: 2.2rem 0 1rem;
+        &.content-block-type-2 {
+            background-color: transparent;
+            padding: 1rem 0 0;
+        }
+    }
+
+    .bets {
+        // flex-grow: 0;
+        width: 10em;
+        float: right;
+        font-size: 1.125rem;
+        line-height: 2.2rem;
+        &-row {
+            white-space: nowrap;
+            height: 2.2rem;
+            &:nth-child(6) {
+                height: 4.4rem;
+            }
+            .sep {
+                display: block;
+                text-align: left;
+                padding-left: 2rem;
+                font-size: 2rem;
+                line-height: 2.2rem;
+            }
+            .buy {
+                color: color($colors, special);
+            }
+            .sale {
+                color: color($colors, eye-catching);
+            }
+            span {
+                display: inline-block;
+                box-sizing: content-box;
+                padding: 0x;
+                overflow: hidden;
+                text-align: right;
+                &.bets-title {
+                    width: 2em;
+                    text-align: left;
+                    padding-left: 0.5em;
+                    // color:color($colors,middark);
+                }
+                &.bets-amount {
+                    width: 3em;
+                    // color:color($colors,eye-catching);
+                }
+                &.bets-quantity {
+                    width: 3.5em;
+                    padding-right: 0.5em;
+                    color: color($colors, middark);
+                }
+            }
+        }
+    }
+
+    ion-content {
+        .item-input-padding {
+            padding-left: 0!important; 
+            .item-inner {
+                padding-right: 0!important;
+            }
+        }
+        ion-col div {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .price {
+            // font-size: 2.3rem;
+            font-size: 1.6rem;
+            padding-left: 1.2rem!important; 
+            overflow: hidden;
+        }
+
+        label {
+            color: color($colors, middark);
+            margin-right: 1.5rem;
+        }
+
+        .trtop {
+            // flex-grow: 1;
+            // flex-shrink: 0;
+            height: 13rem;
+
+            .liquid-container {
+                // height: 13rem;
+                padding-top: 0;
+                padding-bottom: 0;
+            }
+
+            ion-row {
+                ion-col {
+                    ion-grid {
+                        padding: 3rem 0 0 0;
+                        h1 {
+                            margin: 0;
+                            font-size: 4rem;
+                        }
+                        [col-4] {
+                            padding-top: 1.3rem;
+                            ion-icon {
+                                font-size: 1.6rem;
+                                padding: -0.3rem 0.3rem 0 0;
+                            }
+                        }
+                    }
+
+                    .echarts-placeholder {
+                        height: 12rem;
+                    }
+                }
+            }
+        }
+
+        .entrust-type {
+            background:#27283a;
+            color: #666666;
+            text-align: center;
+            vertical-align: middle;
+            height: 3.9rem;
+            // margin: 0 0 0.5rem;
+            ion-col {
+                line-height: 3.9rem;
+                font-size: 1.8rem; 
+                padding: 0;
+
+                // &.sale {
+                //     color: color($colors, eye-catching);
+                // }
+                // &.buy {
+                //     color: color($colors, special);
+                // }
+
+                &.enabled {
+                    background-color: #242435;
+                    &.buy {
+                       color: rgba(color($colors, fall), 1);
+                       border-bottom: 2px solid color($colors, fall);
+                       &.color-true {
+                        color: rgba(color($colors, fall-true), 1)!important;
+                        border-bottom: 2px solid color($colors, fall-true)!important; 
+                        &::before {
+                            border-color: color($colors, fall-true) transparent transparent  transparent!important; 
+                        }
+                       }
+                       &::before {
+                            display:block;
+                            content:'';
+                            border-width: 9px 9px 9px 9px;
+                            border-style: solid;
+                            border-color: color($colors, fall) transparent transparent  transparent;
+                            
+                            /* 定位 */
+                            position:absolute;
+                            left:50%;
+                            transform: translateX(-50%);
+                            bottom:-19.2px;
+                        }
+                    }
+                    &.sale {
+                        color: rgba(
+                            color($colors, rise),
+                            1 
+                        );
+                        border-bottom: 2px solid color($colors, rise); 
+                        &.color-true {
+                            color: rgba(color($colors, rise-true), 1)!important;
+                            border-bottom: 2px solid color($colors, rise-true)!important; 
+                            &::before {
+                                border-color: color($colors, rise-true) transparent transparent  transparent!important; 
+                            }
+                        }
+                        &::before {
+                            display:block;
+                            content:'';
+                            border-width: 9px 9px 9px 9px;
+                            border-style: solid;
+                            border-color: color($colors, rise) transparent transparent  transparent;
+                             
+                            /* 定位 */
+                            position:absolute;
+                            left:50%;
+                            transform: translateX(-50%);
+                            bottom:-19.2px;
+                        }
+                    }
+                    
+                }
+            }
+        }
+
+        .trinp {
+            // flex-grow: 1;
+            // flex-shrink: 0;
+            text-align: center;
+            // margin-top: 0.5rem;
+
+            .fee {
+                color: #6d6d6d;
+                height: 1.2rem;
+                font-size: 1.2rem;
+                line-height: 1.2rem;
+                margin-bottom: 0.4rem;
+
+                ion-icon {
+                    margin: 0 0.5rem 0 1.6rem;
+                }
+            }
+
+            .input-row {
+                width: 67%;
+                height: 4.2rem;
+                border-radius: 4.2rem;
+                background-color: #242435;
+                margin: 1.1rem auto 0;
+                &.input-row-type-2 {
+                    background-color: #2a2b3f;
+                    width: 92%;
+                    height: 3.6rem;
+                    .item-block {
+                        min-height: 3.6rem;
+                        input {
+                            font-size: 1.6rem!important;
+                        }
+                    }
+                    ion-col {
+                        font-size: 3rem;
+                    }
+                }
+            }
+
+            .range-component {
+                position: relative;
+                background-color: #262739;
+                .range-item {
+                    width: 95%;
+                    position: relative;
+                    left: 2.5%;
+                }
+            }
+
+            .range-item {
+                background-color: unset;
+                padding-left: 8px;
+            }
+
+            .range-mark {
+                z-index: 5;
+                position: relative; 
+                padding-left: 19px;
+                padding-right: 16px;
+                left: 0;
+                bottom: 2rem; 
+                width: 100%;
+                text-align: justify;
+                color: color($colors, middark);
+                display: flex;
+                justify-content: space-between;
+                font-size: 1.4rem; 
+            }
+            .trade-tip {
+                &.trade-tip-type-2 {
+                    margin-top: -1.6rem;
+                    .range-mark {
+                        font-size: 1.2rem;
+                        padding-left:10px;
+                        .unit {
+                            font-size: 1rem;
+                        }
+                    }
+                }
+                    
+                &.trade-tip-value-2  {
+                    .range-mark {
+                        font-size: 1.2rem;
+                        padding-left:10px!important;
+                        margin-top: 0.6rem;
+                        .unit {
+                            font-size: 1rem;
+                        }
+                    }
+                }
+                .range-mark {
+                    font-size: 1.4rem; 
+                    bottom: 0rem;
+                    .trade-value {
+                        color: white;
+                    } 
+                    .unit {
+                        font-size: 1.2rem; 
+                    }
+                } 
+            }
+            // ion-row{
+            // height: 3rem;
+
+            ion-col {
+                font-size: 3.6rem;
+                padding: 0;
+                font-weight:400;
+                ion-icon {
+                    margin-top: -0.3rem;
+                }
+                ion-input {
+                    margin-top: -0.2rem;
+                    input {
+                        margin: 0;
+                        text-align: center;
+                        font-size: 2rem;
+                        width: 100%;
+                        font-weight: 500;
+                        //placeholder设置
+                        &::-webkit-input-placeholder {
+                            /* WebKit browsers */
+                            font-size: 1.3rem;
+                        }
+                        &:-moz-placeholder {
+                            /* Mozilla Firefox 4 to 18 */
+                            font-size: 1.3rem;
+                        }
+                        &::-moz-placeholder {
+                            /* Mozilla Firefox 19+ */
+                            font-size: 1.3rem;
+                        }
+                        &:-ms-input-placeholder {
+                            /* Internet Explorer 10+ */
+                            font-size: 1.3rem;
+                        }
+                    }
+                }
+            }
+            // }
+        }
+        .trbtn {
+            height: 4.5rem;
+            padding: 1.2rem 0;
+            margin: 0 auto;
+            border-radius: 0.4rem;
+            text-align: center;
+            width: 90%;
+            font-size: 2rem; 
+            font-weight: 500;
+            color: color($colors, primary);
+            background: color($colors, fall);
+            font-family: Microsoft YaHei;
+            &.disabled {
+                background-color: #bec3c7 !important;
+            }
+            &.issale {
+                background: color($colors, rise);
+            }
+
+            &[disabled] {
+                background: #c9c9c9;
+            }
+            &.trbtn-type-2 {
+                height: 3.6rem;
+                padding: 0.8rem;
+            }
+            &.color-true {
+                background: color($colors, fall-true)!important;
+                &.issale {
+                    background: color($colors, rise-true)!important;
+                }
+            }
+        }
+
+        //快捷交易
+        .stsvg {
+            margin: 0 0 1px;
+            height: 16.7rem;
+            background-color: color($colors, background-darker);
+            ion-col {
+                // overflow: hidden;
+                // height: 12.6rem;
+                text-align: center;
+                .circle-svg {
+                    width: 14.9rem;
+                    height: 14.9rem;
+                    margin: 0 auto;
+                    &.disabled-svg path {
+                        stroke: #bec3c7 !important;
+                    }
+                    path {
+                        stroke: #ebeff4;
+                    }
+
+                    &.buy path {
+                        stroke: color($colors, special);
+                    }
+
+                    &.sale path {
+                        stroke: color($colors, eye-catching);
+                    }
+                }
+                .svgcont {
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                    bottom: 0;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                    .blank {
+                        height: 2rem;
+                        margin: 0;
+                    }
+                    div {
+                        margin-bottom: 1.2rem;
+                        font-size: 1.2rem;
+                    }
+                    p {
+                        margin: 0 0 1rem;
+                        font-size: 2.4rem;
+                        height: 2.4rem;
+                        line-height: 2.4rem;
+                    }
+                    span {
+                        margin-bottom: 0.4rem;
+                        font-size: 1.1rem;
+                    }
+                    label {
+                        font-size: 1.1rem;
+                        margin: 0;
+                        color: #fff;
+                    }
+                }
+            }
+        }
+        ion-slides {
+            height: unset;
+            ion-slide {
+                height: unset;
+            }
+        }
+        .stnum {
+            margin-bottom: 0.85rem;
+            background-color: color($colors, background-darker);
+            .stonums {
+                // background:rgba(255,255,255,0.1);
+                font-size: 1.5rem;
+                color: color($colors, middark);
+                text-align: center;
+                padding: 0.5rem 0.5rem 0 0.5rem;
+                height: 3.8rem;
+                .scroll-content {
+                    white-space: nowrap;
+                    height: 3.8rem;
+                    .scroll-zoom-wrapper {
+                        padding: 0 2.6rem;
+                        display: flex;
+                        justify-content: space-between;
+                    }
+                }
+                ion-card {
+                    background-color: color($colors, background-darker);
+                    width: unset !important;
+                    padding: 0 0.6em;
+                    display: inline-block;
+                    box-shadow: unset;
+                    margin: 0;
+                    position: relative;
+                    // &.wid{
+                    // 	width:72px!important;
+                    // }
+                    ion-card-content {
+                        font-size: 1.5rem;
+                        line-height: 0.8;
+                        padding-left: 0;
+                        padding-right: 0;
+                        text-align: center;
+                    }
+                }
+                .active {
+                    color: #fff;
+                    // font-size: 2.25rem;
+                    &:before {
+                        content: "";
+                        position: absolute;
+                        z-index: 1;
+                        bottom: 0.5rem;
+                        width: 100%;
+                        height: 0.3rem;
+                        border-radius: 0.3rem;
+                        background-color: color($colors, primary);
+                        box-shadow: 0 0 1.5rem 0 color($colors, primary);
+                        left: 0;
+                    }
+                }
+            }
+        }
+
+        .trbom {
+            display: flex;
+            flex-grow: 0;
+            flex-shrink: 0;
+            margin-top: 1rem;
+            height: 25.2rem;
+
+            .charts {
+                overflow: hidden;
+                flex-grow: 1;
+                position: relative;
+
+                .echarts-placeholder {
+                    // position: absolute;
+                    // top: 0;
+                    // bottom: 0;
+                    // left: 0;
+                    // right: 0;
+                    // height: 98%;
+                    height: 25rem;
+                    // position: relative;
+                    // top: 10%;
+                }
+            }
+        }
+        .load-more-btn {
+            margin: 1rem 0;
+            padding: 0 2rem;
+            height: 2.5rem;
+            background-color: transparent;
+            border: 1px solid color($colors, special);
+            border-radius: 0.5rem;
+            color: color($colors, special);
+            font-size: 1.25rem;
+        }
+    }
+
+    .entrusts {
+        background-color: color($colors, background-darker);
+        margin-top: 1rem;
+        padding-bottom: 1.6rem;
+        & > .header {
+            * {
+                line-height: 4rem;
+            }
+            height: 4rem;
+            padding: 0 2.4rem 0 1.8rem;
+            border-bottom: 1px dashed color($colors, middark);
+            .title {
+                font-weight: 600;
+                font-size: 1.6rem;
+                color: color($colors, special);
+                &.sub-title {
+                    padding-left: 3rem;
+                    color: color($colors, middark);
+                    font-weight: 600;
+                    font-size: 1.5rem;
+                }
+            }
+            .re-history {
+                height:100%;
+                color: color($colors, special);
+                float: right;
+                ion-icon {
+                    font-size: 2.4rem;
+                    font-weight: 200;
+                    vertical-align: middle;
+                    &.refresh-animation {
+                        animation: rotate-animation 1.8s;
+                    }
+                }
+            }
+        }
+        .no-entrust {
+            text-align: center;
+            height: 10rem;
+            line-height: 10rem;
+            font-size: 2rem;
+            color: color($colors, middark);
+        }
+        .entrust {
+            padding: 1.2rem 2.6rem 0 2.3rem;
+            &:last-child {
+                .params {
+                    border-bottom: 0;
+                }
+            }
+            .header {
+                * {
+                    display: inline-block;
+                }
+                .type {
+                    box-sizing: content-box;
+                    width: 3.2rem;
+                    height: 3.2rem;
+                    line-height: 3.2rem;
+                    // border: 1px solid color($colors, special);
+                    border-radius: 50%;
+                    font-size: 1.7rem;
+                    text-align: center;
+                    color: white;
+                    font-weight: 500;
+                    &.buy {
+                        border: 1px solid color($colors, fall);
+                        background-color: color($colors, fall);
+
+                    }
+                    &.sale {
+                        border: 1px solid color($colors, rise);
+                        background-color: color($colors, rise);
+                    }
+                    &.color-true {
+                        &.buy {
+                            border: 1px solid color($colors, fall-true);
+                            background-color: color($colors, fall-true);
+    
+                        }
+                        &.sale {
+                            border: 1px solid color($colors, rise-true);
+                            background-color: color($colors, rise-true);
+                        }
+                    }
+                }
+                .date {
+                    color: color($colors, middark);
+                    margin-left: 0.8rem;
+                    height: 0.9rem;
+                    font-size: 0.9rem;
+                    line-height: 0.9rem;
+                }
+                button {
+                    padding: 0;
+                    float: right;
+                    height: 2.5rem;
+                    width: 5.2rem;
+                    background-color: transparent;
+                    border: 1px solid color($colors, special);
+                    border-radius: 0.5rem;
+                    vertical-align: middle;
+                    color: color($colors, special);
+                    font-size: 1.25rem;
+                }
+            }
+            .params {
+                display: flex;
+                justify-content: space-between;
+                margin-top: 1.4rem;
+                padding-bottom: 0.6rem;
+                border-bottom: 0.5px solid color($colors, background);
+                &.buy {
+                    .value {
+                        color: color($colors, fall)!important; 
+                    }
+                }
+                &.sale {
+                    .value {
+                        color: color($colors, rise)!important; 
+                    }
+                }
+                &.color-true {
+                    &.buy {
+                        .value {
+                            color: color($colors, fall-true)!important; 
+                        }
+                    }
+                    &.sale {
+                        .value {
+                            color: color($colors, rise-true)!important; 
+                        }
+                    }
+                }
+                .col {
+                    padding: 0;
+                    .name {
+                        display: block;
+                        font-size: 1.2rem;
+                        color: color($colors, middark);
+                        padding-bottom: 0.4rem;
+                    }
+                    .kj-name{
+                        display: block;
+                        font-size: 1.4rem;
+                        color: color($colors, middark);
+                        padding-bottom: 0.4rem;
+                    }
+                    .value {
+                        font-size: 0.9rem;
+                        color: #BCBCBC;
+                        font-size: 400;
+                    }
+                    &:last-child {
+                        min-width: fit-content;
+                        flex-grow: 0;
+                    }
+                }
+            }
+        }
+    }
+
+    //横屏放大按钮
+    .sresize {
+        width: 2rem;
+        height: 2rem;
+        background: url(../assets/images/icons/sresize.png) no-repeat;
+        background-size: 2rem 2rem;
+    }
+
+    //横屏图表
+    .sim-landscape {
+        display: flex;
+        flex-direction: column;
+        background-color: color($colors, background);
+        .child-span-padding-left-1 {
+            span {
+                box-sizing: border-box;
+                display: inline-block;
+                max-width: 85%;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
+        }
+    }
+    .sft {
+        padding-top: 1em;
+        background: rgba(255, 255, 255, 0.1);
+
+        height: 6.6rem;
+        flex-grow: 0;
+        flex-shrink: 0;
+
+        ion-col {
+            text-align: center;
+            h1 {
+                font-size: 2.7rem;
+                margin: 0;
+            }
+            ion-icon {
+                font-size: 5rem;
+                margin-top: -1.1rem;
+            }
+            &:last-of-type {
+                text-align: right;
+                padding-right: 2.3em;
+            }
+        }
+    }
+
+    .position {
+        display: flex;
+        .label {
+            color: color($colors, middark);
+        }
+        .trader {
+            font-size: 1.1rem;
+            text-align: left;
+            padding-left: 1rem;
+            & > div {
+                height: 2rem;
+                line-height: 2rem;
+            }
+            .label {
+            }
+        }
+        & > div {
+            flex: 1;
+            text-align: center;
+            position: relative;
+        }
+        .visible {
+            position: absolute;
+            right: 2rem;
+            top: 50%;
+            transform: translateY(-50%);
+
+            background-size: contain;
+            height: 1.6rem;
+            width: 1.6rem;
+            background-repeat: no-repeat;
+
+            &.on {
+                background-image: url("../assets/icon/eye-open.png");
+            }
+            &.off {
+                background-image: url("../assets/icon/eye-close.png");
+            }
+        }
+    }
+
+    .market {
+        margin:  0 0 1rem 0;
+        &-head {
+            background-color: #242435;
+            display: flex;
+            box-shadow: 0px 6px 8px 0px rgba(0, 0, 0, 0.12);
+            height: 4rem;
+            align-items: center;
+            & > div {
+                flex: 1;
+                &:nth-child(1) {
+                    flex-grow: 2;
+                    font-size: 1.8rem;
+                    // text-align: center;
+                    overflow: hidden;
+                    white-space: nowrap;
+                    padding: 0;
+                    font-weight: 500;
+                    span {
+                        display: inline-block;
+                        font-size: 1.2rem;
+                        color: #fff;
+                        i {
+                            font-size: 1.2rem;
+                            font-weight: 600;
+                            color: #fff;
+                        }
+                        .unit {
+                            color: color($colors, middark);
+                        }
+                    }
+                }
+                padding: 0 0.4rem;
+            }
+            .market-label {
+                white-space: nowrap;
+                color: color($colors, middark);
+            }
+            .market-items {
+                &.right {
+                    text-align: right;
+                }
+                & + .market-items {
+                    margin-top: 2rem;
+                    padding-bottom: 0.4rem;
+                }
+            }
+        }
+        &-head-type-2 {
+            margin-top: 2.6rem;
+            box-shadow: none;
+            position: relative;
+            .left-or-right {
+                width: 2rem;
+                height: 2rem;
+                position: absolute;
+                right: 1rem;
+                top: 0.6rem;
+            }
+        }
+        &-body {
+            display: flex;
+            padding: 0 0 0.3rem 0;
+            position: relative;
+            .bet-bottom-shadow {
+                position: absolute;
+                top: 2.7rem;
+                height: 1px;
+                // background-color: transparent;
+                background-color: #242435;
+                width: 100%;
+                box-shadow:0px 2.2px 3px #000;
+                &.shadow-type-2 {
+                    top: 3.8rem;
+                }
+            }
+            .bets-group {
+                // background-color: color($colors, background-darker);
+                background-color: #242435;
+                flex: 1;
+                &.bets-group-type-2 {
+                    .bet {
+                        line-height: 3.6rem;
+                    }
+                    &.best-group-left {
+                        .bet {
+                            border-right: 1px solid color($colors, background);
+                        }
+                        .depth-title-type-2 {
+                            border-right: 1px solid #242435;
+                            
+                        }
+                    }
+                    .depth-div {
+                        text-align: left!important;
+                    }
+                }
+                & + .bets-group {
+                    // margin-left: 1px;
+                    .bet {
+                        border-left: 1px solid color($colors, background);
+                    }
+                }
+                .bet {
+                    display: flex;
+                    align-items: center;
+                    padding: 0 0.8rem;
+                    font-size: 1.4rem;
+                    line-height: 2.84rem;
+                    font-weight: 500;
+                    &.trade-title-type-2 {
+                        padding: 0;
+                    }
+                    &.depth-title-type-2 {
+                        line-height: 3.9rem;
+                    }
+                    &.depth-type-2:nth-child(6) {
+                        border-bottom: 1px solid color($colors, background);
+                        // margin-bottom: 20px;
+                    }
+                    &.bet-left {
+                        border-left-color:#242435;
+                    }
+                    .size-1rem { 
+                        font-size: 1rem !important; 
+                    } 
+                    .sale {
+                        color: color($colors, rise)!important; 
+                        &.color-true {
+                            color: color($colors, rise-true)!important; 
+                        }
+                    }
+                    .buy {
+                        color: color($colors, fall)!important; 
+                        &.color-true {
+                            color: color($colors, fall-true)!important; 
+                        }
+                    }
+                    .tip {
+                        color: color($colors, middark)!important; 
+                        font-size: 1.2rem;
+                    }
+                    .bet-label {
+                        color: #BCBCBC;
+                    }
+                    .bet-price {
+                        flex: 4;
+                        // text-align: right;
+                        text-align: left;
+                        color: color($colors, middark);
+                    }
+                    .bet-amount {
+                        flex: 4;
+                        text-align: right;
+                        // color: color($colors, middark);
+                        color: #BCBCBC;
+                    }
+                }
+            }
+        }
+    }
+    @keyframes rotate-animation {
+        from {
+            transform: rotate(0deg)
+        }
+        to {
+            transform: rotate(1440deg)
+        }
+    }
+}
+// .popover-content{
+// 	// width: 100% !important;
+// 	background-color: #2a2b3f !important;
+// 	// left: 0 !important;
+// }
+ion-popover {
+    .item-ios {
+        padding-right: 18px; //因为左边有2padding 故这里是16+2=18px
+    }
+    .label {
+        margin-left: 52px !important;
+        text-align: center;
+    }
+}
+
+ion-popover .item.item-block .item-inner {
+    border-bottom: 0.5px solid rgba(193, 177, 127, 0.6);
+}
+.item.item-block.item-radio-checked .item-inner .radio-inner {
+    border-color: color($colors, special);
+}
+
+.item.item-block.item-radio-checked .item-inner .label {
+    color: color($colors, special);
+}
+
+.alert-message a {
+    color: unset;
+}
+.alert-wrapper .alert-checkbox-icon {
+    background-color: unset;
+    border-color: #2a2b3f !important;
+}
+.trade-alert-color {
+    .alert-sub-title {
+        color: initial !important;
+    }
+    .alert-title {
+        padding: 1rem 0 1.5rem !important;
+    }
+    .button-inner {
+        font-weight: 400;
+    }
+}

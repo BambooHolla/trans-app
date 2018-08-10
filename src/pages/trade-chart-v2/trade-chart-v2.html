@@ -1,0 +1,72 @@
+<ion-header>
+	<ion-navbar>
+		<ion-title>{{ product?.traderName || "--- / ---" }}</ion-title>
+	</ion-navbar>
+</ion-header>
+<ion-content no-bounce class="home-contain">
+    <div class="market">
+        <div class="market-head">
+            
+            <div class="price {{(_baseData$ | async)?.range | riseOrFall}}">
+                {{(_baseData$ | async)?.price | priceConversion:5 | numberFilter:true}}
+                <span><i class="picasso-icon-about"></i> {{(_baseData$ | async)?.price | changeCurrency | priceConversion:5 | numberFilter:true | changeCurrency:1}}</span>
+            </div>
+            <div>
+                <div class="market-items left">
+                    <span class="market-label" >{{'RANGE'|translate}}</span>
+                    <span class="{{(_baseData$ | async)?.range | riseOrFall}}">{{(_baseData$ | async)?.range | percent:'1.0-2' | positiveSign}}</span>
+                </div>
+                <div class="market-items left">
+                    <span class="market-label">{{'VOL'|translate}}</span>
+                    <span>{{(_baseData$ | async)?.todayAmount | quantityConversion | numberUnitFormat:true:true:6}}</span>
+                </div>
+            </div>
+            <div>
+                    <div class="market-items"> 
+                        <span class="market-label">{{'HIGH'|translate}}</span>
+                        <span>{{(_baseData$ | async)?.max | priceConversion:6 | numberFilter:true}}</span>
+                    </div>
+                    <div class="market-items">
+                        <span class="market-label">{{'LOW'|translate}}</span>
+                        <span>{{(_baseData$ | async)?.min | priceConversion:6 | numberFilter:true}}</span>
+                    </div>
+                </div>
+        </div>
+    </div>
+    <!-- <div class="charts-MA">
+        <p class="MA MA5">MA5: 123213.213</p>
+        <p class="MA MA10">MA10: 12332.123</p>
+        <p class="MA MA20">MA20: 1123.12</p>
+    </div> -->
+    <div class="sfull">
+        <div class="charts">
+            <kline-report 
+                #largeRealtimeChart
+                [echartsData]="_reportsData$ | async" 
+                [options]="realtimeOptions"
+                [timeType]="timeType"
+                [traderId]="traderId"
+                [price]="(_baseData$ | async)"
+                [quota]="quota" 
+                >
+			</kline-report>
+        </div>
+    </div>
+    <div class="time-interval">
+        <div class="time" *ngFor="let title of timeArray; let i = index;" (click)="changeTime(i)" [class.active]="activeIndex === i">{{title}}</div>
+        <div class="norm" (click)="onShowIndex()" [class.show-index]="showIndex">{{'INDEX'|translate}}<span></span></div>
+        <div class="norm-index" [class.show-index]="showIndex">
+            <span *ngFor="let time of quotaArr; let i = index;" (click)="activeQuota(i,time.title)" [class.active-quota]=" time.active">{{time.title}}</span>
+        </div>
+    </div>
+   
+    <div class="transaction-btn" >
+            <div class="sale" [class.disabled]="!productStatus" (click)="goExchangePage(0)">
+                    {{'SELL'|translate}}
+            </div>
+            <div class="buy" [class.disabled]="!productStatus" (click)="goExchangePage(1)">
+                    {{'BUY'|translate}}
+                
+            </div>
+    </div>
+</ion-content>

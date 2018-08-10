@@ -1,86 +1,185 @@
 page-optional {
-  // .title-col {
-  //   h1 {
-  //     &.color-rise{
-  //       text-shadow: rgb(255, 255, 255) 0 0 1px, rgba(255, 255, 255, .5) 0 0 6px;
-  //     }
-  //     &.color-fall{
-  //       text-shadow: rgb(255, 255, 255) 0 0 1px, rgba(0, 0, 0, .5) 0 0 6px;
-  //     }
-  //   }
-  // }
-
-  // ion-header{
-  //   padding-bottom: 3.6rem;
-  // }
-  
-  .optional-header{
-    ion-scroll{    
-      height:3.6rem;
-
-      .list-header{
-        ion-col{
-          padding: 1rem 0;
+    ion-header {
+        background: linear-gradient(to bottom, color($colors, gold), #2a2b3f);
+        ion-grid {
+            padding-bottom: 2.6rem!important;
+            padding-left: 1rem!important;
+            padding-right: 1rem!important;
         }
-      }
+        ion-col {
+            .text {
+                color: #666666;
+                font-size: 1.2rem;
+            }
+            .value {
+                line-height: 2.4rem;
+                font-weight: 500;
+            }
+        }
+        .total {
+            padding-left: 0.5rem;
+            text-align: center;
+            .value {
+                font-size: 2.4rem;
+            }
+            .text {
+                font-size: 1.4rem;
+                font-weight: 500;
+                padding-top: 1rem;
+                .visible {
+                    display: inline-block;
+                    background-size: contain;
+                    height: 1.6rem;
+                    width: 1.6rem;
+                    background-repeat: no-repeat;
+                    position: absolute;
+                    bottom: 2px;
+                    margin-left: 0.4rem;
+                    &.on {
+                        background-image: url("../assets/icon/eye-open.png");
+                    }
+                    &.off {
+                        background-image: url("../assets/icon/eye-close.png");
+                    } 
+                }
+            }
+        }
+        .profit {
+            div {
+                text-align: right;
+            }
+            .value {
+                font-size: 2.4rem;
+            }
+        }
+       
     }
-  }
-
-  ion-content{
-    .scroll-content {
-      background-color: rgba(0, 0, 0, .4);
-
-      ion-grid{
-        position: relative;
-      }
-
-      h5 {
-        font-size: 1.7rem;
-      }
-
-      h6 {
-        font-size: 1.5rem;
-      }
-
+    .bottom-hr {
+        margin-bottom: 2px;
+        
     }
-  }
+    .light-transparent {
+        background-color: #27283a;
+        display: flex;
+        justify-content: flex-start;
+        &.right {
+            justify-content: flex-end;
+        }
+        .frozen {
+            color: color($colors, lightdark);
+            text-align: left;
+        }
+    }
+    
+    .hold {
+        color: color($colors, lightdark);
+    }
 
+    
+
+    ion-content {
+        .scroll-content {
+            // background-color: rgba(0, 0, 0, 0.4);
+            ion-grid {
+                position: relative;
+              
+            }
+
+            h5 {
+                font-size: 2rem;
+                font-weight: 400;
+                line-height: 2rem;
+                margin-bottom: 0.8rem!important;
+                text-align: left;
+            }
+
+            h6 {
+                font-size: 1.3rem;
+                font-weight: 400;   
+                margin-top: 0.2rem!important;
+                .unit {
+                    color: #666666;
+                    font-size: 1rem;
+                }
+            }
+        }
+
+        .col1 {
+            text-align: left;
+            padding-left: 1rem;
+            padding-right: 1.2rem;
+            img {
+                width: auto!important;
+                height: 4rem!important;
+                margin: 0.6rem 0;
+            }
+            h5 {
+                color: color($colors, special);
+            }
+            .font-smaller {
+                color: color($colors, lightdark);
+                margin-right: 6px;
+            }
+        }
+        .col3 {
+            padding-right: 1rem;
+            text-align: right;
+            h5 {
+                text-align: right;
+            }
+        }
+    }
 }
 
 .optional-header {
-  // height: 225px;
+    // height: 225px;
 
-  h1 {
-    font-size: 3rem;
-  }
+    h1 {
+        font-size: 3rem;
+    }
 
-  h5 {
-    font-size: 1.5rem;
-  }
+    h5 {
+        font-size: 1.5rem;
+    }
 
-  h6 {
-    margin-top: 1.2rem;
-  }
+    h6 {
+        margin-top: 1.2rem;
+    }
 
-  .padding {
-    height: 1rem;
-  }
+    .h7 {
+        font-size: 1.1rem;
+    }
 
-  .title-col {
-    height: 12rem;
-  }
+    .padding {
+        height: 1rem;
+    }
 
-  .info-row {
-    height: 5rem;
-  }
+    .title-col {
+        height: 12rem;
+    }
 
-  .list-header {
-    color: color($colors, light);
-  }
+    .info-row {
+        height: 6rem;
 
+        .split-line div {
+            margin-top: 0.6rem;
+            width: 100%;
+            height: 2.1rem;
+            border-left: 0.5px solid rgba(255, 255, 255, 0.3);
+            transform: translateX(50%);
+        }
+    }
+
+    .list-header {
+        color: color($colors, light);
+        .title {
+            color: color($colors, lightdark);
+            background: color($colors, background);
+        }
+    }
 }
 
 .echarts-test {
-  height: 30rem;
-  background-color: rgb(48, 166, 199);
+    height: 30rem;
+    background-color: rgb(48, 166, 199);
 }
