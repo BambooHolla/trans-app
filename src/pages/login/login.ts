@@ -19,7 +19,7 @@ import { AppDataService } from "../../providers/app-data-service";
 import { AppSettings } from "../../providers/app-settings";
 import { CryptoService } from "../../providers/crypto-service";
 import { Storage } from "@ionic/storage";
-
+import { SwitchNetworkPage } from "../switch-network/switch-network";
 
 // import { TabsPage } from '../tabs/tabs';
 /**
@@ -253,5 +253,8 @@ export class LoginPage implements OnInit {
             // this.tabsPage.tabs.select(tabIndex);
             cb();
         }
+    }
+    goNetWork() {
+        this.navCtrl.push(SwitchNetworkPage);
     }
 }

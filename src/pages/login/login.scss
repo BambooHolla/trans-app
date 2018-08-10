@@ -27,6 +27,10 @@ page-login {
         left: 6vw; //12.5(form-padding)*2/3 - 1rem~
         padding: 1rem;
         font-size: 1.4rem;
+        &.right {
+            left: auto;
+            right: 6vw;
+        }
     }
     .login-warpper {
         display: flex;
