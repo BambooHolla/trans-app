@@ -22,6 +22,29 @@ page-asset-bill-detail {
             background-color: #27283a!important;
         }
     }
+    .no-record-item {
+        background-color: transparent!important;
+    }
+    .no-record {
+        text-align: center;
+        // height: 10rem;
+        line-height: 10rem;
+        font-size: 2rem;
+        color: color($colors, middark);
+        padding-top: 4rem;
+        .no-record-img {
+            background-image: url('../assets/icon/no-entrust.png');
+            width: 8rem;
+            height: 8.2rem;
+            background-size: 100% 100%;
+            background-repeat: no-repeat;
+            margin:  0 auto;
+        }
+        .no-record-txt {
+            line-height: 2.4rem;
+            font-size: 1.8rem;
+        }
+    }
     .unit {
         color: #666666;
         font-size: 1.2rem;

@@ -22,6 +22,8 @@ import { StockDataService } from "../../providers/stock-data-service";
 export class AssetBillDetailPage extends SecondLevelPage {
     public productInfo: any;
     public personalData: any;
+    product_list: any[];
+    showNoRecord: boolean = false;
     // 法币单位符号
     private unit = this.appDataService.CURRENCY_INFO.currencyTo || "--";
     
@@ -37,7 +39,7 @@ export class AssetBillDetailPage extends SecondLevelPage {
         this.personalData = this.navParams.get("personalData");
        
     }
-    product_list: any[];
+   
 
     @AssetBillDetailPage.willEnter
     @asyncCtrlGenerator.loading()
@@ -61,6 +63,8 @@ export class AssetBillDetailPage extends SecondLevelPage {
             }));
         }).catch(err => {
             this.product_list = [];
+        }).then( () => {
+            this.showNoRecord = true;
         })
     }
 

@@ -38,12 +38,20 @@
                 <span class="picasso-icon-asset-records ion-size"></span>
                 <span class="text">资产记录</span>
             </div>
-        </ion-item>
+        </ion-item> 
     </ion-list>
 </ion-header>
 
 <ion-content>
     <ion-list>
+        <ion-item class="no-record-item" *ngIf="showNoRecord && (!product_list || product_list.length == 0)">
+            <div class="no-record">
+                <div class="no-record-img">
+                    
+                </div>
+                <div class="no-record-txt">暂无记录</div>
+            </div>
+        </ion-item>
         <ion-item *ngFor="let product of product_list" class="record-group">
             <div class="group-left">
                 <ng-container [ngSwitch]="product.transType">
