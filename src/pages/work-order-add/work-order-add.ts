@@ -73,9 +73,9 @@ export class WorkOrderAddPage extends SecondLevelPage {
     }
 
     images = [
-        { name: "1", text: "", image: null, fid: "", uploading: false },
-        { name: "2", text: "", image: null, fid: "", uploading: false },
-        { name: "3", text: "", image: null, fid: "", uploading: false },
+        { name: "1", text: "", image: null, fid: "", uploading: false, show: true},
+        { name: "2", text: "", image: null, fid: "", uploading: false, show: false},
+        { name: "3", text: "", image: null, fid: "", uploading: false, show: false},
     ];
 
     category_list = [
@@ -130,6 +130,13 @@ export class WorkOrderAddPage extends SecondLevelPage {
         modal.present();
     }
 
+    deleteImg() {
+        let show_index;
+        let get_exist_img = this.files.value.split(" ");
+        if(!get_exist_img || !get_exist_img[0]) return ;
+        console.log(get_exist_img);
+        
+    }
     upload(name) {
         // const imageTaker = this.imageTakerCtrl.create(name);
         // const fid_promise = this.fs.getImageUploaderId(FileType.工单图片);
@@ -173,10 +180,23 @@ export class WorkOrderAddPage extends SecondLevelPage {
                 if (result.data) {
                     // 开始上传
                     await this.updateImage(fid_promise, image, result);
+                    if(result.name === "1") {
+                        const nextImage = this.images.find(
+                            item => item.name === "2",
+                        );
+                        nextImage.show = true;
+                    } else if(result.name === "2") {
+                        const nextImage = this.images.find(
+                            item => item.name === "3",
+                        );
+                        nextImage.show = true;
+                    } 
                     const fids = this.images
                         .map(img => img.fid)
                         .filter(fid => fid);
                     this.files.setValue(fids.join(" "));
+                    console.log(this.files
+                    )
                 }
                 // 隐藏没选图片的情况，这个图片提示用于图片上传失败
                 // else {

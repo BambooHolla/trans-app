@@ -61,9 +61,8 @@ account-center {
                     left: 1px;
                 }
                 &.toggle-checked {
-                    .toggle-inner {
-                        background-color: color($colors, background-darker);
-                        
+                    .toggle-icon {
+                        background-color: color($colors, special);
                     }
                 }
             }

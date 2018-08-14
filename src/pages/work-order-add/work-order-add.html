@@ -4,13 +4,16 @@
   See http://ionicframework.com/docs/components/#navigation for more info on
   Ionic pages and navigation.
 -->
-<ion-header>
+<ion-header class="animation-header">
     <ion-navbar>
         <ion-title>{{'WORK_ORDER'|translate}}</ion-title>
     </ion-navbar>
 </ion-header>
 <ion-content>
     <form [formGroup]="formData" class="form-container">
+        <!-- <div class="form-label">
+            456
+        </div>
         <div class="form-item with-bottom-division">
             <div class="label label-required">{{'NAME'|translate}}</div>
             <div class="input-container">
@@ -28,37 +31,58 @@
             <div class="input-container">
                 <input placeholder="{{'EITHER_TELEPHONE_OR_EMAIL'|translate}}" type="email" [formControl]="email" (input)="requiredTelOrEmail()" />
             </div>
+        </div> -->
+        <div class="form-label">
+            {{'CATEGORY'|translate}}
         </div>
         <div class="form-item with-bottom-division">
-            <div class="label label-required">{{'CATEGORY'|translate}}</div>
-            <div class="input-container">
+            <!-- <div class="label label-required">{{'CATEGORY'|translate}}</div> -->
+            <div class="input-container select-item">
                 <ion-select [formControl]="category" required interface="action-sheet" placeholder="{{'PLEASE_SELECT'|translate}}" multiple="false" cancelText="{{'CANCEL'|translate}}">
                     <ion-option *ngFor="let category of category_list" [value]="category.value">{{category.text}}</ion-option>
                 </ion-select>
             </div>
         </div>
+        <div class="form-label">
+                标题
+            </div>
+            <div class="form-item with-bottom-division">
+                <!-- <div class="label label-required">{{'NAME'|translate}}</div> -->
+                <div class="input-container">
+                    <input placeholder="请输入标题" [formControl]="realName" required/>
+                </div>
+            </div>
+        <div class="form-label">
+                {{'DESCRIPTION'|translate}}
+        </div>
         <div class="form-item with-bottom-division top-label">
-            <div class="label label-required">{{'DESCRIPTION'|translate}}</div>
-            <div class="input-container input-detail">
-                <ion-textarea placeholder="{{'PLEASE_INPUT_DETAILS_OF'|translate}}" [formControl]="detail" [(ngModel)]="detailContent"></ion-textarea>
+            <!-- <div class="label label-required">{{'DESCRIPTION'|translate}}</div> -->
+            <div class="input-container input-detail textarea">
+                <ion-textarea placeholder="请输入问题描述......." [formControl]="detail" [(ngModel)]="detailContent"></ion-textarea>
                 <p class="detail-length"><span class="{{ detailLength > 64 ? 'length-beyond' : ''}}">{{ detailLength }}</span> / 64</p>
             </div>
         </div>
+        <div class="form-label">
+                添加照片（最多三张）<span class="picasso-icon-dustbin" (click)="deleteImg()"></span>
+        </div>
         <div class="form-item file-picker-list top-label">
-            <div class="label">{{'ATTACHMENT'|translate}}</div>
+            <!-- <div class="label">{{'ATTACHMENT'|translate}}</div> -->
             <div class="input-container">
-                <div *ngFor="let imageData of images" class="img-picker" (click)="upload(imageData.name)">
-                    <!-- <input type="file"> -->
-                    <ng-container *ngIf="imageData.image">
-                        <img [src]="imageData.image" class="in-box-image" />
-                    </ng-container>
-                    <ng-container *ngIf="!imageData.image">
-                        <div class="in-box-add">
-                            <span class="add-icon">+</span>
-                            <div class="sub-title">{{imageData.text}}</div>
+                <ng-container  *ngFor="let imageData of images">
+                        <div  *ngIf="imageData.show" class="img-picker" (click)="upload(imageData.name)">
+                            <!-- <input type="file"> -->
+                            
+                            <ng-container *ngIf="imageData.image">
+                                <img [src]="imageData.image" class="in-box-image" />
+                            </ng-container>
+                            <ng-container *ngIf="!imageData.image">
+                                <div class="in-box-add">
+                                    <span class="add-icon">+</span>
+                                    <div class="sub-title">{{imageData.text}}</div>
+                                </div>
+                            </ng-container>
                         </div>
-                    </ng-container>
-                </div>
+                </ng-container>
             </div>
         </div>
         <div class="submit-container">

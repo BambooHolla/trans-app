@@ -1,5 +1,39 @@
 page-work-order-add {
+    ion-header {
+        background-color: #242435;
+    }
     .form-container {
+        background-color: #2A2B3F;
+        box-shadow: 0 0 transparent;
+        margin: 0;
+        .form-label {
+            padding: 0.5rem 1.5rem;
+            font-size: 1.5rem;
+            position: relative;
+            span {
+                display: inline-block;
+                position: absolute;
+                right: 1.5rem;
+                font-size: 1.7rem;
+                color: #666666;
+            }
+        }
+        .input-container {
+            background-color: #242435;
+            line-height: 3.5rem!important;
+            font-size: 1.5rem!important;
+            padding: 8px 1.5rem;
+            margin-top: 0!important;
+            &.select-item {
+                padding-right: 0rem;
+            }
+            ion-select {
+                padding: 0!important;
+            }
+            &.textarea {
+                padding-bottom: 2rem;
+            }
+        }
         .with-bottom-division {
             .label-required {
                 position: relative;
@@ -19,14 +53,15 @@ page-work-order-add {
                 position: relative;
                 .detail-length {
                     position: absolute;
-                    bottom: 0;
-                    right: 0;
+                    bottom: 0.7rem;
+                    right: 1rem;
                     line-height: 1;
                     margin: 0;
                     padding: 0;
-                    font-size: 1rem;
+                    font-size: 1.4rem;
+                    color: #6D6D6D;
                     .length-beyond {
-                        font-size: 1.2rem;
+                        font-size: 1.6rem;
                         color: red;
                         width: auto;
                         height: auto;
@@ -37,9 +72,12 @@ page-work-order-add {
         }
         .file-picker-list {
             .input-container {
+                margin-top: 0!important;
                 flex-direction: row !important;
                 justify-content: flex-start !important;
                 flex-wrap: wrap;
+                display: flex;
+                padding:  1.5rem;
                 .img-picker {
                     margin-right: 1.4rem;
                     width: 6rem;
@@ -48,7 +86,7 @@ page-work-order-add {
                     border: 1px dashed #fff;
                     position: relative;
                     overflow: hidden;
-                    margin-bottom: 1rem;
+                    margin-bottom: 0rem;
                     &:last-child {
                         margin-bottom: 0;
                     }
