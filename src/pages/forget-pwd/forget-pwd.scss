@@ -1,4 +1,17 @@
 page-forget-pwd {
+    ion-header {
+        background-color: #262739;
+    }
+    ion-content {
+        background-image: url("../assets/images/reset_password_bg.png");
+        background-size: 100% auto;
+        background-repeat: no-repeat;
+        background-attachment:fixed;
+        background-position:bottom;
+    }
+    ion-grid {
+        padding-top: 2rem !important;
+    }
     .paddingfix {
         padding-top: $cordova-ios-statusbar-padding;
     }
@@ -6,6 +19,16 @@ page-forget-pwd {
     .fixed-content,
     .scroll-content {
         margin-top: 90px;
+    }
+    .forgetPWD-form-container {
+        width: 80%;
+        margin-left: auto;
+        margin-right: auto;
+        .bottom-line {
+            border-radius: 0.6rem;
+            background-color: #222232;
+            margin-bottom: 1rem;
+        }
     }
     ion-navbar {
         .button-inner {
@@ -241,7 +264,8 @@ page-forget-pwd {
             .error-tip {
                 height: 16px;
                 line-height: 16px;
-                margin: 16px;
+                margin: 20px 8px 16px 0;
+              
                 display: inline-block;
                 color: red;
                 font-size: 1.2rem;
@@ -249,7 +273,8 @@ page-forget-pwd {
             }
         }
         .account-exit {
-            margin-top: 2rem;
+            margin-top: 6rem;
+            padding: 0;
             .exit-center {
                 text-align: center;
                 font-size: 1.4rem;
@@ -257,7 +282,7 @@ page-forget-pwd {
         }
     }
     .trbtn {
-        height: 4.5rem;
+        height: 4.2rem;
         padding: 1.2rem 0;
         margin: 0 auto;
         border-radius: 0.4rem;
@@ -265,7 +290,8 @@ page-forget-pwd {
         width: 90%;
         font-size: 1.3rem;
         color: #fff;
-        background: #c1b17f;
+        background: transparent;
+        border: 2px solid #c1b17f;
         font-family: Microsoft YaHei;
         font-size: 16px;
     }
