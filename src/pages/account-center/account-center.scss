@@ -40,7 +40,34 @@ account-center {
                 }
             }
         }
+        ion-item {
+            padding-left: 0;
+            font-size: 1.4rem;
+            background-color: transparent;
+            height: 100%;
+            .item-inner {
+                padding-right: 0!important;
+                ion-toggle {
+                    padding-right: 0; 
+                }
 
+            }
+            ion-toggle {
+                .toggle-icon {
+                    background-color: #fff;
+                }
+                .toggle-inner {
+                    background-color: #fff;
+                    left: 1px;
+                }
+                &.toggle-checked {
+                    .toggle-inner {
+                        background-color: color($colors, background-darker);
+                        
+                    }
+                }
+            }
+        }
         .account-exit {
             margin-top: 2rem;
             background-color: color($colors, background-darker);

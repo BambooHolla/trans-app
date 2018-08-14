@@ -586,5 +586,7 @@
     "GESTURE_HAVE_CHANCES_2":" more chances",
     "GESTURE_60S_AGAIN_1":"Please try again after ",
     "GESTURE_60S_AGAIN_2":"s",
-    "GESTURE_OLD_PASSWORD":"Please input previous gesture password"
+    "GESTURE_OLD_PASSWORD":"Please input previous gesture password",
+    "GESTURE_DRAW":"绘制解锁图案",
+    "GESTURE_DRAW_2":"再次绘制解锁图案"
 }

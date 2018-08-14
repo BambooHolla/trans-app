@@ -9,7 +9,10 @@ export class Point {
   y: number;
   index?: number;
 }
-
+export class TipSelectPoint {
+  value: Point;
+  select: boolean;
+}
 export class GestureLockObj {
   password: string;
   chooseType: number;
@@ -46,10 +49,11 @@ export class GestureLockPage {
   titleMes = "GESTURE_UNLOCK";
   titleMes_supplement = '';
   titleMes_number:any = '';
-  unSelectedColor = '#87888a';
-  selectedColor = '#1783CE';
-  successColor = '#7bd56c';
+  unSelectedColor = '#666159';
+  selectedColor = '#666159';
+  // successColor = '#C1B17F';
   errorColor = '#d54e20';
+  tipColor = "#999999";
   lockTimeUnit = 60; //尝试失败后锁定多少秒
   gestureLockObj: GestureLockObj = new GestureLockObj(); //密码本地缓存
   gestureAttemptObj: GestureAttemptObj = new GestureAttemptObj();  //尝试日期和次数本地缓存
@@ -60,6 +64,8 @@ export class GestureLockPage {
   private canTouch = false;
   private radius: number; //小圆点半径
 
+  private tipPoint: Array<TipSelectPoint> = [];
+
   private allPointArray: Point[] = [];
   private unSelectedPointArray: Point[] = [];
   private selectedPointArray: Point[] = [];
@@ -68,7 +74,7 @@ export class GestureLockPage {
   private lockTime = this.lockTimeUnit;
 
   @ViewChild('canvas') canvas: ElementRef;
-  textColor = this.selectedColor;
+  textColor = this.tipColor;
 
   constructor(
     public navCtrl: NavController,
@@ -80,7 +86,6 @@ export class GestureLockPage {
     public platform: Platform,
     public alterCtrl: AlertController,
   ) {
-    
   }
 
   async ngOnInit() {
@@ -134,7 +139,7 @@ export class GestureLockPage {
       this.titleMes = "GESTURE_UNLOCK";
     }
     if (this.gestureLockObj.step === 0) {
-      this.titleMes = "GESTURE_PLEASE_SET_PASSWORD";
+      this.titleMes = "GESTURE_DRAW";
     }
   }
   ionViewDidEnter() {
@@ -155,9 +160,10 @@ export class GestureLockPage {
 
     if (this.gestureLockObj.step === 2) {   /** 进入解锁 **/
       if (this.checkPassword(selectedArray, this.gestureLockObj.password)) {  // 解锁成功
-        this.textColor = this.successColor;
+        // this.textColor = this.successColor;
         this.titleMes = 'GESTURE_UNLOCK_SUCCESS';
-        this.drawAll(this.successColor);
+        // this.drawAll(this.successColor);
+        this.drawAll(this.selectedColor);
         this.storage.remove('gestureAttemptObj')
         this.unregisterBackButton();
         this.unregisterBackButton = undefined;
@@ -173,10 +179,6 @@ export class GestureLockPage {
         this.titleMes = 'GESTURE_SET_PASSWORD_SUCCESS';
 
         this.storage.set('gestureLockObj', this.gestureLockObj).then( data => {
-          const _Fn = this.navParams.get('backFn');
-            if(_Fn) {
-              _Fn();
-            }
           setTimeout( () => { 
             this.navCtrl.pop({
               animate: true,
@@ -185,7 +187,7 @@ export class GestureLockPage {
             })
           },500)
         });
-        this.drawAll(this.successColor);
+        this.drawAll(this.selectedColor);
         
       } else {  //设置密码失败
         this.textColor = this.errorColor;
@@ -200,15 +202,15 @@ export class GestureLockPage {
       }
       this.gestureLockObj.step = 1;
       this.firstPassword = this.parsePassword(selectedArray);
-      this.textColor = this.selectedColor;
-      this.titleMes = 'GESTURE_AGAIN';
+      this.textColor = this.tipColor;
+      this.titleMes = 'GESTURE_DRAW_2';
     } else if (this.gestureLockObj.step === 3) {//重置密码输入旧秘密
       if (this.checkPassword(selectedArray, this.gestureLockObj.password)) {  // 旧密码成功
         this.gestureLockObj.step = 0;
-        this.textColor = this.successColor;
+        // this.textColor = this.selectedColor;
         this.titleMes = 'GESTURE_NEW_PASSWORD';
         this.showDelete =this.hasGestureLock
-        this.drawAll(this.successColor);
+        this.drawAll(this.selectedColor);
       } else {   //旧密码失败
         this.lockFaile();
       }
@@ -281,10 +283,6 @@ export class GestureLockPage {
               this.titleMes_number = '';
               this.titleMes_supplement = '';
               this.reset();
-              const _Fn = this.navParams.get('backFn');
-              if(_Fn) {
-                _Fn();
-              }
               this.hasGestureLock = false;
               setTimeout( () => {
                 this.navCtrl.pop({
@@ -312,6 +310,7 @@ export class GestureLockPage {
     this.selectedPointArray = [];
     this.allPointArray = [];
     this.unSelectedPointArray = [];
+    this.tipPoint = [];
     for (let i = 0; i < n; i++) {
       for (let j = 0; j < n; j++) {
         const obj = {
@@ -321,6 +320,10 @@ export class GestureLockPage {
         };
         this.allPointArray.push(obj);
         this.unSelectedPointArray.push(obj);
+        this.tipPoint.push({
+          value: obj,
+          select: false
+        });
       }
     }
   }
@@ -385,10 +388,10 @@ export class GestureLockPage {
   //绘制滑动屏幕后的点
   private drawAll(color, nowPoint = null) {
     this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
+    this.drawLine(this.selectedPointArray, color, nowPoint);
     this.drawCircles(this.allPointArray);
     this.drawCircles(this.selectedPointArray, color);
     this.drawPoints(this.selectedPointArray, color);
-    this.drawLine(this.selectedPointArray, color, nowPoint);
   }
 
   //滑动点的时候处理是否划中点
@@ -400,6 +403,13 @@ export class GestureLockPage {
         }
         this.drawPoint(pointArry[i]);
         this.selectedPointArray.push(pointArry[i]);
+        // 顶部提示
+        for(let j = 0; j < this.tipPoint.length; j++) {
+          if( this.tipPoint[j].value.index == pointArry[i].index ) {
+            this.tipPoint[j].select = true;
+            break;
+          }
+        }
         this.unSelectedPointArray.splice(i, 1);
         break;
       }
@@ -420,7 +430,7 @@ export class GestureLockPage {
 
   //画圈
   private drawCircle(point: Point, style = this.unSelectedColor) {
-    this.ctx.strokeStyle = style;
+    this.ctx.strokeStyle = style; 
     this.ctx.lineWidth = 2;
     this.ctx.beginPath();
     this.ctx.arc(point.x, point.y, this.radius, 0, Math.PI * 2, true);
@@ -432,7 +442,12 @@ export class GestureLockPage {
   private drawPoint(point: Point, style = this.selectedColor) {
     this.ctx.fillStyle = style;
     this.ctx.beginPath();
-    this.ctx.arc(point.x, point.y, this.radius / 2.5, 0, Math.PI * 2, true);
+    this.ctx.arc(point.x, point.y, this.radius / 1.35, 0, Math.PI * 2, true);
+    this.ctx.closePath();
+    this.ctx.fill();
+    this.ctx.fillStyle = '#C1B17F';
+    this.ctx.beginPath();
+    this.ctx.arc(point.x, point.y, this.radius / 3.2, 0, Math.PI * 2, true);
     this.ctx.closePath();
     this.ctx.fill();
   }
@@ -441,8 +456,8 @@ export class GestureLockPage {
   private drawLine(pointArray: Point[], style, nowPoint: Point = null) {
     this.ctx.beginPath();
     this.ctx.strokeStyle = style;
-    this.ctx.lineWidth = 3;
-
+    this.ctx.lineWidth = 10;
+ 
     this.ctx.moveTo(pointArray[0].x, pointArray[0].y);
     for (let i = 1; i < pointArray.length; i++) {
       this.ctx.lineTo(pointArray[i].x, pointArray[i].y);
@@ -463,7 +478,13 @@ export class GestureLockPage {
         this.storage.remove('gestureAttemptObj');
         this.viewCtrl.dismiss();
       },
-  )
+    )
+  }
+  ionViewWillUnload() {
+    const _Fn = this.navParams.get('backFn');
+    if(_Fn) {
+      _Fn();
+    }
   }
 }
 

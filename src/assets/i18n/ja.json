@@ -523,5 +523,7 @@
     "GESTURE_HAVE_CHANCES_2":"回入力可能",
     "GESTURE_60S_AGAIN_1":"",
     "GESTURE_60S_AGAIN_2":"秒後にリトライして下さい",
-    "GESTURE_OLD_PASSWORD":"古いパターンロックを入力して下さい"
+    "GESTURE_OLD_PASSWORD":"古いパターンロックを入力して下さい",
+    "GESTURE_DRAW":"绘制解锁图案",
+    "GESTURE_DRAW_2":"再次绘制解锁图案"
 }

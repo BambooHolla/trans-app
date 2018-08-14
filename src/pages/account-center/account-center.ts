@@ -1,4 +1,4 @@
-import { Component } from "@angular/core";
+import { Component, DoCheck  } from "@angular/core";
 import { Storage } from "@ionic/storage";
 import { NavController, NavParams, Events } from "ionic-angular";
 import { ChangeTradePassword } from "../change-trade-password/change-trade-password";
@@ -22,6 +22,7 @@ import { CurrencySettingPage } from "../_account/currency-setting/currency-setti
 export class AccountCenterPage extends SecondLevelPage {
     private login_status: boolean;
     private hasGestureLock: boolean = false;
+    private hasGestureLockToggle: boolean = false;
     constructor(
         public navCtrl: NavController,
         public navParams: NavParams,
@@ -100,12 +101,15 @@ export class AccountCenterPage extends SecondLevelPage {
             })
             .catch();
     }
-    gestureLockObj() {
-        this.storage.get('gestureLockObj').then( data => {
+    async gestureLockObj() {
+        await this.storage.get('gestureLockObj').then( data => {
             if(data) {
                 this.hasGestureLock = true;
+                this.hasGestureLockToggle = true;
+                this._run_once = true;
             } else {
                 this.hasGestureLock = false;
+                this.hasGestureLockToggle = false;
             }
         })
     }
@@ -115,7 +119,42 @@ export class AccountCenterPage extends SecondLevelPage {
             backFn: this.gestureLockObj.bind(this)
         })
     }
-   
+    private _run_once: boolean = true;
+    gestureLockFunc() {
+        if(!this._run_once) {
+            this._run_once = true;
+            return ;
+        }
+        // 如果有设置，提示取消，如果没设置点击跳转
+        if(this.hasGestureLock) {
+            this.alertCtrl.create({
+                title: "手势密码",
+                message: "是否关闭手势密码？",
+                buttons:[
+                    {
+                        text:'取消',
+                        handler: () => {
+                            this.hasGestureLock = true;
+                            this.hasGestureLockToggle = true;
+                        }
+                    },{
+                        text: "确定",
+                        handler: () => {
+                            this.hasGestureLock = false;
+                            this.hasGestureLockToggle = false;
+                            this.storage.remove("gestureLockObj");
+                            this._run_once = true;
+                        }
+                    }
+                ]
+                
+            }).present();
+        } else  {
+            this.goGestureLock();
+        }
+        this._run_once = false;
+    }
+  
     goCurrencySettingPage() {
         this.navCtrl.push(CurrencySettingPage)
     }

@@ -49,8 +49,10 @@
     </ion-row>
     <ion-row class="bottom-line" >
       <ion-col padding class="vertical-center" (click)="goGestureLock()">
-        {{(hasGestureLock?"GESTURE_RESET_PASSWORD":"GESTURE_SET_PASSWORD") | translate}}
-        <span class="f-right"><span class="picasso-icon-right-arrow"></span> </span>
+          <ion-item (click)="gestureLock()">
+              <ion-label>{{"GESTURE" | translate}}</ion-label>
+              <ion-toggle [(ngModel)]="hasGestureLockToggle"  (ionChange)="gestureLockFunc()"></ion-toggle>
+          </ion-item>
       </ion-col>
     </ion-row>
     <ion-row class="bottom-line" >
