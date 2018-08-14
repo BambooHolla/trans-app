@@ -131,11 +131,20 @@ export class WorkOrderAddPage extends SecondLevelPage {
     }
 
     deleteImg() {
-        let show_index;
+        let show_index: number;
+        let img_ids: string;
         let get_exist_img = this.files.value.split(" ");
         if(!get_exist_img || !get_exist_img[0]) return ;
-        console.log(get_exist_img);
-        
+        show_index = get_exist_img.length - 1;
+        this.images[show_index].image = null;
+        this.images[show_index].fid = '';
+        // this.images[show_index].show = false;
+        if(this.images[show_index+1]) {
+            this.images[show_index+1].show = false;
+        }
+        get_exist_img.splice(show_index,1);
+        img_ids = get_exist_img[0] ? get_exist_img.join(" ") : "";
+        this.files.setValue(img_ids);
     }
     upload(name) {
         // const imageTaker = this.imageTakerCtrl.create(name);
@@ -168,7 +177,7 @@ export class WorkOrderAddPage extends SecondLevelPage {
 
         const imageTaker = this.promptCtrl.imageTakerCtrl(name);
         const fid_promise = this.fs.getImageUploaderId(FileType.工单图片);
-        imageTaker.onDidDismiss(async (result, role) => {
+        imageTaker.onDidDismiss(async (result, role) => { 
             console.log(result);
 
             if (role !== "cancel" && result) {
