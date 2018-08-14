@@ -13,6 +13,7 @@ import { DomSanitizer } from "@angular/platform-browser";
 import { ImageTakerController } from "../../components/image-taker-controller";
 import { PromptControlleService } from "../../providers/prompt-controlle-service";
 import { AppDataService } from "../../providers/app-data-service";
+import { PersonalDataService } from "../../providers/personal-data-service";
 @Component({
     selector: "page-work-order-add",
     templateUrl: "work-order-add.html",
@@ -29,13 +30,15 @@ export class WorkOrderAddPage extends SecondLevelPage {
         public promptCtrl: PromptControlleService,
         public actionsheetCtrl: ActionSheetController,
         public appDataService: AppDataService,
+        public personalDataService: PersonalDataService,
     ) {
         super(navCtrl, navParams);
         this.userLanguage = appDataService.LANGUAGE || "zh";
+    
     }
 
     formData = new FormGroup({
-        realName: new FormControl("", [Validators.required]),
+        // realName: new FormControl("", [Validators.required]),
         phoneNumber: new FormControl("", [
             Validators.pattern(/^1[34578]\d{9}$/),
         ]),
@@ -51,11 +54,14 @@ export class WorkOrderAddPage extends SecondLevelPage {
             this.getDetailLength.bind(this),
         ]),
         files: new FormControl("", []),
+        title: new FormControl("",[
+            Validators.required,
+           ]),
     });
 
-    get realName() {
-        return this.formData.get("realName");
-    }
+    // get realName() {
+    //     return this.formData.get("realName");
+    // }
     get phoneNumber() {
         return this.formData.get("phoneNumber");
     }
@@ -71,7 +77,9 @@ export class WorkOrderAddPage extends SecondLevelPage {
     get files() {
         return this.formData.get("files");
     }
-
+    get realTitle() {
+        return this.formData.get("title");
+    }
     images = [
         { name: "1", text: "", image: null, fid: "", uploading: false, show: true},
         { name: "2", text: "", image: null, fid: "", uploading: false, show: false},
@@ -314,11 +322,16 @@ export class WorkOrderAddPage extends SecondLevelPage {
     @asyncCtrlGenerator.error("@@SUBMIT_WORK_ORDER_FAIL") 
     @asyncCtrlGenerator.success("@@SUBMIT_WORK_ORDER_SUCCESSFULLY") 
     submitForm() {
-        if (this.telOrEmail) {
-            return Promise.reject(
-                window["EITHER_TELEPHONE_NUMBER_OR_EMAIL"] ||
-                    "电话和邮箱至少填写一个",
-            );
+        // if (this.telOrEmail) {
+        //     return Promise.reject(
+        //         window["EITHER_TELEPHONE_NUMBER_OR_EMAIL"] ||
+        //             "电话和邮箱至少填写一个",
+        //     );
+        // }
+        if(this.personalDataService.mobile) {
+            this.phoneNumber.setValue(this.personalDataService.mobile)
+        } else {
+            this.email.setValue(this.personalDataService.email)
         }
         if (this.detailLength > 64) {
             return Promise.reject(
@@ -328,7 +341,8 @@ export class WorkOrderAddPage extends SecondLevelPage {
         }
         return this.workOrderService
             .addWorkOrder({
-                name: this.realName.value,
+                // name: this.realName.value,
+                title: this.realTitle.value,
                 phone: this.phoneNumber.value,
                 email: this.email.value,
                 type: this.category.value,
@@ -358,5 +372,11 @@ export class WorkOrderAddPage extends SecondLevelPage {
             u8arr[n] = bstr.charCodeAt(n);
         }
         return new Blob([u8arr], { type: mime });
+    }
+    titleLength() {
+        let title = this.realTitle.value;
+        if(title.length > 32) {
+            this.realTitle.setValue(title.substring(0,32));
+        }
     }
 }

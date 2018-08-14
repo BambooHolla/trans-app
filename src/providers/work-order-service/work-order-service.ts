@@ -171,6 +171,7 @@ export type ContactModel = {
     feedbackContent: string;
     feedbackDateTime: string;
     confirmDateTime: string;
+    title: string;
 };
 
 export type ReplyModel = {

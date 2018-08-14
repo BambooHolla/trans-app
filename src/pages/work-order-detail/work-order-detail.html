@@ -44,7 +44,7 @@
         </div>
     </div>
 </ion-content>
-<ion-footer *ngIf="contact_list?.contact?.status != '010'">
+<ion-footer *ngIf="contact_list?.contact?.status != '010'" class="animation-header">
     <div class="chat-container">
         <div class="chat-input-container">
             <ion-textarea [(ngModel)]="chat_content"></ion-textarea>

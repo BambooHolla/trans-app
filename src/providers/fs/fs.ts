@@ -41,8 +41,8 @@ export class FsProvider {
         return this.fetch.get<any>(this.READ_FILE, {
             params: {
                 fid,
-            },
-        },undefined,true,true);
+            }, 
+        },undefined,true,false);
     }
     uploadImage(fid: string, file: any) {
         const formData = new FormData();

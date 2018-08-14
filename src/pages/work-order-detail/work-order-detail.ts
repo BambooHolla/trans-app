@@ -157,7 +157,7 @@ export class WorkOrderDetailPage extends SecondLevelPage
     getReadImage(fid:string):Promise<any>{
         return this.fsService.readImage(fid).then( img => {
             return this.sanitizer.bypassSecurityTrustResourceUrl(URL.createObjectURL(img));
-            
+             
         }).catch( err => {
             return ''
         })

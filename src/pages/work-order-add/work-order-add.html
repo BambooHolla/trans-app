@@ -49,7 +49,7 @@
             <div class="form-item with-bottom-division">
                 <!-- <div class="label label-required">{{'NAME'|translate}}</div> -->
                 <div class="input-container">
-                    <input placeholder="请输入标题" [formControl]="realName" required/>
+                    <input placeholder="请输入标题" [formControl]="realTitle" required (input)="titleLength()"/>
                 </div>
             </div>
         <div class="form-label">
