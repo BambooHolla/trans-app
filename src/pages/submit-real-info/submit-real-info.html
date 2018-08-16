@@ -8,99 +8,178 @@
     <ion-navbar>
         <ion-title>{{'REAL_NAME_VERIFICATION'|translate}}</ion-title>
     </ion-navbar>
+    
 </ion-header>
 <ion-content>
-    <!-- <ion-row>
-        <div class="schedule">
-            <div class="schedule-item">
-                <div class="img">img</div>
-                <div class="txt">完善信息</div>
-            </div>
-            <div class="schedule-spot">
-                <div style="text-align: center;">···········</div>
-                <div class="txt hide-txt">占</div>
-            </div>
-            <div class="schedule-item">
-                <div class="img">img</div>
-                <div class="txt">上传证件</div>
-            </div>
-            <div class="schedule-spot">
-                <div style="text-align: center;">···········</div>
-                <div class="txt hide-txt">占</div>
-            </div>
-            <div class="schedule-item">
-                <div class="img">img</div>
-                <div class="txt">等待审核</div>
-            </div>
-        </div>
-    </ion-row> -->
-    <form [formGroup]="formData" class="form-container">
-        <div class="form-item with-bottom-division">
-            <div class="label">{{'NAME'|translate}}</div>
-            <div class="input-container">
-                <input placeholder="{{'PLEASE_INPUT_YOUR_NAME'|translate}}" [formControl]="realName" required/>
-            </div>
-        </div>
-        <div class="form-item with-bottom-division">
-            <div class="label">{{'TYPE'|translate}}</div>
-            <div class="input-container">
-                <ion-select [formControl]="IDtype" (ionChange)="getIDtype()" required interface="action-sheet" placeholder="{{'PLEASE_SELECT'|translate}}" multiple="false" cancelText="{{'CANCEL'|translate}}">
-                    <ion-option *ngFor="let certificate_type of certificate_type_list" [value]="certificate_type.value">{{certificate_type.text}}</ion-option>
-                </ion-select>
-            </div>
-        </div>
-        <div class="form-item with-bottom-division">
-            <div class="label">{{'CREDENTIAL_NUMBER'|translate}}</div>
-            <div class="input-container">
-                <input type="text" #typeIDnumber placeholder="{{'PLEASE_INPUT_YOUR_CREDENTIAL_NUMBER'|translate}}" [formControl]="IDnumber" required />
-            </div>
-        </div>
-        <div class="form-item img-picker-list">
-            <div class="label">{{'CREDENTIAL_PHOTO'|translate}}</div>
-            <div class="input-container">
-                <!-- <div *ngFor="let imageData of images" class="img-picker" (click)="upload(imageData.name)">
-                    <ng-container *ngIf="imageData.image">
-                        <img [src]="imageData.image" class="in-box-image" />
-                    </ng-container>
-                    <ng-container *ngIf="!imageData.image">
-                        <div class="in-box-add">
-                            <span class="add-icon">+</span>
-                            <div class="sub-title">{{imageData.text}}</div>
+        <ion-slides #Slides> 
+            <ion-slide class="slide-content">
+                    <ion-content class="">
+                            <ion-row>
+                                <div class="schedule-list">
+                                    <div class="schedule-item current">
+                                        <div class="img"><span class="picasso-icon-dustbin-information"></span></div>
+                                        <div class="txt">完善信息</div>
+                                    </div>
+                                    <div class="schedule-spot current">
+                                        <div style="text-align: center;margin-bottom: 1.2rem;">··········</div>
+                                        <div class="txt hide-txt">占</div>
+                                    </div>
+                                    <div class="schedule-item">
+                                        <div class="img"><span class="picasso-icon-certificate"></span></div>
+                                        <div class="txt">上传证件</div>
+                                    </div>
+                                    <div class="schedule-spot">
+                                        <div style="text-align: center;margin-bottom: 1.2rem;">··········</div>
+                                        <div class="txt hide-txt">占</div>
+                                    </div>
+                                    <div class="schedule-item">
+                                        <div class="img"><span class="picasso-icon-wait"></span></div>
+                                        <div class="txt">等待审核</div>
+                                    </div>
+                                </div>
+                            </ion-row>
+                            <form [formGroup]="formData" class="form-container">
+                            <div class="form-item with-bottom-division">
+                                    <div class="label">{{'NAME'|translate}}</div>
+                                    <div class="input-container">
+                                        <input placeholder="{{'PLEASE_INPUT_YOUR_NAME'|translate}}" [formControl]="realName" required/>
+                                    </div>
+                                </div>
+                                <div class="form-item with-bottom-division">
+                                    <div class="label">{{'TYPE'|translate}}</div>
+                                    <div class="input-container">
+                                        <ion-select [formControl]="IDtype" (ionChange)="getIDtype()" required interface="action-sheet" placeholder="{{'PLEASE_SELECT'|translate}}" multiple="false" cancelText="{{'CANCEL'|translate}}">
+                                            <ion-option *ngFor="let certificate_type of certificate_type_list" [value]="certificate_type.value">{{certificate_type.text}}</ion-option>
+                                        </ion-select>
+                                    </div>
+                                </div>
+                                <div class="form-item with-bottom-division">
+                                    <div class="label">{{'CREDENTIAL_NUMBER'|translate}}</div>
+                                    <div class="input-container">
+                                        <input type="text" #typeIDnumber placeholder="{{'PLEASE_INPUT_YOUR_CREDENTIAL_NUMBER'|translate}}" [formControl]="IDnumber" required />
+                                    </div>
+                                </div>
+                                <div class="submit-container next-btn">
+                                    <button ion-button type="button" (click)="nextSlide(true)" [disabled]="formData.invalid">
+                                        下一步
+                                    </button>
+                                </div>
+                            </form>
+                    </ion-content>
+            </ion-slide>
+        
+            <ion-slide class="slide-content">
+                <ion-content>
+                        <ion-row>
+                            <div class="schedule-list">
+                                <div class="schedule-item current" (click)="nextSlide(false)">
+                                    <div class="img"><span class="picasso-icon-dustbin-information"></span></div>
+                                    <div class="txt">完善信息</div>
+                                </div>
+                                <div class="schedule-spot current">
+                                    <div style="text-align: center;margin-bottom: 1.2rem;">··········</div>
+                                    <div class="txt hide-txt">占</div>
+                                </div>
+                                <div class="schedule-item current">
+                                    <div class="img"><span class="picasso-icon-certificate"></span></div>
+                                    <div class="txt">上传证件</div>
+                                </div>
+                                <div class="schedule-spot current">
+                                    <div style="text-align: center;margin-bottom: 1.2rem;">··········</div>
+                                    <div class="txt hide-txt">占</div>
+                                </div>
+                                <div class="schedule-item">
+                                    <div class="img"><span class="picasso-icon-wait"></span></div>
+                                    <div class="txt">等待审核</div>
+                                </div>
+                            </div>
+                        </ion-row>
+                        <form [formGroup]="formData" class="form-container">
+                            <div class="form-item img-picker-list" *ngIf="false">
+                                    <div class="label">{{'CREDENTIAL_PHOTO'|translate}}</div>
+                                    <div class="input-container">
+                                        <!-- <div *ngFor="let imageData of images" class="img-picker" (click)="upload(imageData.name)">
+                                            <ng-container *ngIf="imageData.image">
+                                                <img [src]="imageData.image" class="in-box-image" />
+                                            </ng-container>
+                                            <ng-container *ngIf="!imageData.image">
+                                                <div class="in-box-add">
+                                                    <span class="add-icon">+</span>
+                                                    <div class="sub-title">{{imageData.text}}</div>
+                                                </div>
+                                            </ng-container>
+                                        </div> -->
+                                    </div>
+                                </div>
+                                <div class="form-item img-picker-list form-item-img">
+                                    <div class="input-container">
+                                        <div *ngFor="let imageData of images;let i = index" class="img-picker" (click)="upload(imageData.name)">
+                                            <ng-container *ngIf="imageData.image">
+                                                <img [src]="imageData.image" class="in-box-image" />
+                                            </ng-container>
+                                            <ng-container *ngIf="!imageData.image">
+                                                <div class="in-box-add">
+                                                    <span class="add-icon">{{imageData.text}}</span>
+                                                    <div class="sub-title" [class]='"img-"+i+" sub-title"'></div>
+                                                </div>
+                                            </ng-container>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-item img-picker-list form-item-img img-text">
+                                    <span class="picasso-icon-gantanhao"></span>&nbsp;身份证拍摄务必清晰不得模糊
+                                </div>
+                            <!-- <div *ngFor="let imageData of images" class="img-picker" (click)="upload(imageData.name)">
+                                    <ng-container *ngIf="imageData.image">
+                                        <img [src]="imageData.image" class="in-box-image" />
+                                    </ng-container>
+                                    <ng-container *ngIf="!imageData.image">
+                                        <div class="in-box-add">
+                                            <span class="add-icon">+</span>
+                                            <div class="sub-title">{{imageData.text}}</div>
+                                        </div>
+                                    </ng-container>
+                                </div> -->
+                                <div class="submit-container">
+                                    <button ion-button type="submit" (click)="submitForm()" [disabled]="formData.invalid">
+                                        {{'SUBMIT_VERIFICATION'|translate}}
+                                    </button>
+                                </div>
+                        </form>
+                </ion-content>
+            </ion-slide>
+            <ion-slide class="slide-content wait">
+                <ion-content>
+                        <ion-row>
+                            <div class="schedule-list">
+                                <div class="schedule-item current">
+                                    <div class="img"><span class="picasso-icon-dustbin-information"></span></div>
+                                    <div class="txt">完善信息</div>
+                                </div>
+                                <div class="schedule-spot current">
+                                    <div style="text-align: center;margin-bottom: 1.2rem;">··········</div>
+                                    <div class="txt hide-txt">占</div>
+                                </div>
+                                <div class="schedule-item current">
+                                    <div class="img"><span class="picasso-icon-certificate"></span></div>
+                                    <div class="txt">上传证件</div>
+                                </div>
+                                <div class="schedule-spot current">
+                                    <div style="text-align: center;margin-bottom: 1.2rem;">··········</div>
+                                    <div class="txt hide-txt">占</div>
+                                </div>
+                                <div class="schedule-item current">
+                                    <div class="img"><span class="picasso-icon-wait"></span></div>
+                                    <div class="txt">等待审核</div>
+                                </div>
+                            </div>
+                        </ion-row>
+                        <div class="wait-content">
+                            <div class="wait-img"><img src="./assets/images/wait_img.png" alt=""></div>
+                            <div class="wait-title">请等待管理员审核！</div>
+                            <div class="wait-msg">预计在3个工作日内审核完毕，审核结果将会以短信形式通知您，请注意查收！</div>
                         </div>
-                    </ng-container>
-                </div> -->
-            </div>
-        </div>
-        <div class="form-item img-picker-list form-item-img">
-            <div class="input-container">
-                <div *ngFor="let imageData of images" class="img-picker" (click)="upload(imageData.name)">
-                    <ng-container *ngIf="imageData.image">
-                        <img [src]="imageData.image" class="in-box-image" />
-                    </ng-container>
-                    <ng-container *ngIf="!imageData.image">
-                        <div class="in-box-add">
-                            <span class="add-icon">+</span>
-                            <div class="sub-title" [class]='userLanguage =="zh"?"":"title-en"'>{{imageData.text}}</div>
-                        </div>
-                    </ng-container>
-                </div>
-            </div>
-        </div>
-        <!-- <div *ngFor="let imageData of images" class="img-picker" (click)="upload(imageData.name)">
-                <ng-container *ngIf="imageData.image">
-                    <img [src]="imageData.image" class="in-box-image" />
-                </ng-container>
-                <ng-container *ngIf="!imageData.image">
-                    <div class="in-box-add">
-                        <span class="add-icon">+</span>
-                        <div class="sub-title">{{imageData.text}}</div>
-                    </div>
-                </ng-container>
-            </div> -->
-        <div class="submit-container">
-            <button ion-button type="submit" (click)="submitForm()" [disabled]="formData.invalid">
-                {{'SUBMIT_VERIFICATION'|translate}}
-            </button>
-        </div>
-    </form>
+                </ion-content>
+            </ion-slide>
+        </ion-slides>
 </ion-content>

@@ -7,6 +7,7 @@ import {
     ViewController,
     AlertController,
     TextInput,
+    Slides,
 } from "ionic-angular";
 import { SecondLevelPage } from "../../bnlc-framework/SecondLevelPage";
 import { asyncCtrlGenerator } from "../../bnlc-framework/Decorator";
@@ -26,6 +27,7 @@ import { AppSettingProvider } from "../../bnlc-framework/providers/app-setting/a
 import { PersonalDataService } from "../../providers/personal-data-service";
 import { PromptControlleService } from "../../providers/prompt-controlle-service";
 import { AppDataService } from "../../providers/app-data-service";
+
 @Component({
     selector: "page-submit-real-info",
     templateUrl: "submit-real-info.html",
@@ -33,6 +35,7 @@ import { AppDataService } from "../../providers/app-data-service";
 export class SubmitRealInfoPage extends SecondLevelPage {
     @ViewChild("selectIDtype") selectIDtype: ElementRef;
     @ViewChild("typeIDnumber") typeIDnumber: ElementRef;
+    @ViewChild("Slides") slides: Slides;
     private userLanguage: any = "zh";
     constructor(
         public navCtrl: NavController,
@@ -111,14 +114,21 @@ export class SubmitRealInfoPage extends SecondLevelPage {
     private images = [
         {
             name: "front",
-            text: window["language"]["FRONT_SIDE"] || "正 面",
+            text: "正 面",
             image: null,
             fid: "",
             uploading: false,
         },
         {
             name: "back",
-            text: window["language"]["REVERSE_SIDE"] || "反 面",
+            text: "反 面",
+            image: null,
+            fid: "",
+            uploading: false,
+        },
+        {
+            name: "hold",
+            text: "手 持",
             image: null,
             fid: "",
             uploading: false,
@@ -266,7 +276,7 @@ export class SubmitRealInfoPage extends SecondLevelPage {
             .then(d => {
                 //提交成功，改变状态
                 this.personalDataService.requestCertifiedStatus();
-                this.finishJob(true);
+                this.finishJob(true); 
                 return d;
             });
     }
@@ -335,4 +345,20 @@ export class SubmitRealInfoPage extends SecondLevelPage {
         }
         return new Blob([u8arr], { type: mime });
     }
+    nextSlide(next:boolean) {
+        this.slides.lockSwipes(false);
+        if(next) {
+            this.slides.slideNext();
+        } else {
+            this.slides.slidePrev();
+        }
+        this.slides.lockSwipes(true)
+    }
+    ionViewWillEnter() {
+        if(this.personalDataService.certifiedStatus == "1") {
+            this.slides.slideTo(2)
+        }
+        this.slides.lockSwipes(true)
+    }
 }
+

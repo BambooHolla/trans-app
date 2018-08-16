@@ -1,35 +1,57 @@
 page-submit-real-info {
     ion-header {
         background-color: #242435;
+        ion-row {
+            background: #2a2b3f;
+        }
     }
     ion-content {
         background: #2a2b3f;
     }
-    .schedule {
+    .schedule-list {
         display: flex;
         justify-content: space-around;
         align-items: center;
-        width: 100%;
+        // width: 100%;
+        margin-left: auto;
+        margin-right: auto;
+        min-width: 320px;
         height: 20vh;
-        padding: 1.2rem;
+        padding: 0.8rem;
+        color: #666666;
         .schedule-spot {
             font-size: 1.6rem;
+            margin: 0 0.4rem;
+            div:first-child {
+                font-size: 2.4rem;
+
+            }
         }
         .img {
             width: 5.6rem;
             height: 5.6rem;
             margin: auto;
-            line-height: 5.6rem;
+            line-height: 5.4rem;
             border-radius: 50%;
-            border: 2px solid  color($colors, "special");
+            // border: 2px solid  color($colors, "special");
+            border: 2.4px solid #666666;
             text-align: center;
-
+            margin-bottom: 1.2rem;
+            span {
+                font-size: 3.4rem;
+            }
         }
         .txt {
             text-align: center;
             font-size: 1.4rem;
             &.hide-txt {
                 color: transparent;
+            }
+        }
+        .current {
+            color: color($colors, "special");
+            .img {
+                border-color: color($colors, "special");
             }
         }
     }
@@ -47,11 +69,30 @@ page-submit-real-info {
             margin: 0 auto;
             .img-picker {
                 height: 14rem !important;
-                margin-bottom: 2rem !important;
+                margin-bottom: 1rem !important;
             }
             .in-box-add {
                 display: block !important;
+               
                 div {
+                   
+                    &.img {
+                        &-0 {
+                            background-image: url("../assets/images/zhengjian_1.png");
+                            background-repeat: no-repeat;
+                            background-size: 100% 100%;
+                        }
+                        &-1 {
+                            background-image: url("../assets/images/zhengjian_2.png");
+                            background-repeat: no-repeat;
+                            background-size: 100% 100%;
+                        }
+                        &-2 {
+                            background-image: url("../assets/images/zhengjian_3.png");
+                            background-repeat: no-repeat;
+                            background-size: 100% 100%;
+                        }
+                    }
                     position: absolute;
                     z-index: 666;
                     color: #444451;
@@ -65,16 +106,18 @@ page-submit-real-info {
                     z-index: 5;
                 }
                 span {
-                    font-size: 4rem !important;
+                    font-size: 1.4rem !important;
                     font-weight: 200;
                     text-align: center;
                     display: inline-block;
                     width: 100%;
-                    height: 100%;
+                    // height: 100%;
                     position: absolute;
-                    top: 0;
+                    bottom: 0;
                     left: 0;
-                    line-height: 14rem;
+                    // line-height: 14rem;
+                    line-height: 1;
+                    color: #999999;
                     z-index: 10;
                 }
                 .title-en {
@@ -84,6 +127,62 @@ page-submit-real-info {
         }
         .select-icon .select-icon-inner {
             color: #fff !important;
+        }
+    }
+    .slide-content {
+        &.swiper-slide {
+            font-size: smaller;
+        }
+        .slide-zoom {
+            height: 100%;
+            text-align: left;
+        }
+        .scroll-content {
+            .form-container {
+                background-color: transparent;
+                box-shadow: 0 0 transparent;
+                .with-bottom-division {
+                    background-color: #242435;
+                }
+                .next-btn {
+                    margin-top: 4rem;
+                }
+                .img-text {
+                    font-size: 1.3rem;
+                    color: #6D6D6D;
+                }
+            }
+        }
+        &.wait {
+            .scroll-content {
+                background-image: url("../assets/images/renzheng_bg.png");
+                background-repeat: no-repeat;
+                background-size: 100% 100%;
+            }
+        }
+        .wait-content {
+            position: relative;
+            top: 8rem;
+            .wait-img {
+                margin-bottom: 1.4rem;
+                img {
+                    height: 8rem;
+                    width: auto;
+                    display: block;
+                    margin:  0 auto;
+                }
+            }
+            .wait-title {
+                text-align: center;
+                font-size: 2.2rem;
+                font-weight: 500;
+                margin-bottom: 1rem;
+            }
+            .wait-msg {
+                width: 70%;
+                margin: 0 auto;
+                font-size: 1.4rem;
+            }
         }
     }
 }
