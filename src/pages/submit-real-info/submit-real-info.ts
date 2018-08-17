@@ -36,6 +36,7 @@ export class SubmitRealInfoPage extends SecondLevelPage {
     @ViewChild("selectIDtype") selectIDtype: ElementRef;
     @ViewChild("typeIDnumber") typeIDnumber: ElementRef;
     @ViewChild("Slides") slides: Slides;
+    private imglangth: number = 0; // 上传图片
     private userLanguage: any = "zh";
     constructor(
         public navCtrl: NavController,
@@ -212,6 +213,7 @@ export class SubmitRealInfoPage extends SecondLevelPage {
             image.image = this.san.bypassSecurityTrustUrl(blob_url);
             const upload_res = await this.fs.uploadImage(fid, blob);
             image.fid = fid;
+            this.imglangth = this.images.map(im => im.fid).filter(v => v).length;
         } catch (e) {
             //上传图片失败，展示失败图片
             console.log("图片上传失败", e);

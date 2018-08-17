@@ -141,7 +141,7 @@
                                     </ng-container>
                                 </div> -->
                                 <div class="submit-container">
-                                    <button ion-button type="submit" (click)="submitForm()" [disabled]="formData.invalid">
+                                    <button ion-button type="submit" (click)="submitForm()" [disabled]="formData.invalid || imglangth < 3">
                                         {{'SUBMIT_VERIFICATION'|translate}}
                                     </button>
                                 </div>

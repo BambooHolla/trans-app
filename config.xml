@@ -84,13 +84,11 @@
     <preference name="AutoHideSplashScreen" value="false" />
     <preference name="SplashScreenDelay" value="3000" />
     <preference name="loadUrlTimeoutValue" value="700000" />
-    <preference name="ShowSplashScreenSpinner" value="false"/>
+    <preference name="ShowSplashScreenSpinner" value="false" />
     <feature name="StatusBar">
         <param name="ios-package" onload="true" value="CDVStatusBar" />
     </feature>
     <allow-navigation href="http://192.168.16.207:8100" />
-    <engine name="android" spec="^6.3.0" />
-    <engine name="ios" spec="4.5.4" />
     <plugin name="com.synconset.imagepicker" spec="^2.1.10">
         <variable name="PHOTO_LIBRARY_USAGE_DESCRIPTION" value="pick image" />
     </plugin>
@@ -120,4 +118,6 @@
     <plugin name="cordova-sqlite-storage" spec="^2.3.0" />
     <plugin name="cordova.plugins.diagnostic" spec="^3.9.2" />
     <plugin name="ionic-plugin-keyboard" spec="^2.2.1" />
+    <engine name="android" spec="^6.3.0" />
+    <engine name="ios" spec="4.5.4" />
 </widget>

@@ -6,21 +6,25 @@ import {
     InfiniteScroll,
     AlertController,
     Events,
+    NavController,
 } from "ionic-angular";
 import { AppDataService } from "../../providers/app-data-service";
 import { PromptControlleService } from "../../providers/prompt-controlle-service";
+import { SecondLevelPage } from "../../bnlc-framework/SecondLevelPage";
+import { asyncCtrlGenerator } from "../../bnlc-framework/Decorator";
 // import * as echarts from 'echarts';
 // import { NavController } from 'ionic-angular';
-
 @Component({
     selector: "page-history-record",
     templateUrl: "history-record.html",
 })
-export class HistoryRecordPage {
+export class HistoryRecordPage extends SecondLevelPage{
     headerActive:number = 1;
     smoothlinedata: any;
     entrusts: any[];
-
+    historyStatus = '';
+    hasScrollTop: boolean = false;
+    disableSwatchStatus: boolean = false;
     page = 1;
     pageSize = 10;
     hasMore: boolean = true;
@@ -45,6 +49,7 @@ export class HistoryRecordPage {
         this.smoothlinedata = smoothlinedata;
 
         this.page = 1;
+        this.hasScrollTop = false;
         this.getTradeHistory() 
             .then(data => {
                 // const data_show = data.filter(item =>
@@ -69,8 +74,24 @@ export class HistoryRecordPage {
         }
         this.initData();
     }
+    
+    ngAfterContentScroll() {
+        const scrollEle = this.content.getScrollElement();
+        // const shouldScrollToBottom = () => {
+        //     return (
+        //         scrollEle.scrollHeight -
+        //             (scrollEle.scrollTop + scrollEle.clientHeight) <
+        //         scrollEle.clientHeight
+        //     );
+        // };
+        //     if (shouldScrollToBottom()) {
+        //         this.content.scrollToTop();
+        //     }
+        this.content.scrollToTop();
+    }
 
-    async getTradeHistory(status?) {
+    @asyncCtrlGenerator.loading()
+    async getTradeHistory() {
         const token = this.appDataService.token;
         const traderId = this.navParams.data
             ? this.navParams.data.traderId
@@ -95,7 +116,10 @@ export class HistoryRecordPage {
                 let a = res;
             });
         }
-
+        this.disableSwatchStatus = true;
+        if( this.hasScrollTop ) {
+            this.ngAfterContentScroll()
+        }
         // const traderId = this.navParams.data ? this.navParams.data.traderId : undefined;
         // const getInfoCb = this.navParams.data ? this.navParams.data.getInfoCb : undefined;
         return this.entrustServiceProvider
@@ -105,14 +129,16 @@ export class HistoryRecordPage {
                 priceProductHouseId,
                 this.page,
                 this.pageSize,
-                status
+                this.historyStatus,
             )
             .then(data => {
                 console.log("getTradeHistory data:", data);
+                this.disableSwatchStatus = false;
                 return data;
             })
             .catch(err => {
                 console.log("getTradeHistory err");
+                this.disableSwatchStatus = false; 
                 this.alertCtrl
                     .create({
                         title:
@@ -126,7 +152,7 @@ export class HistoryRecordPage {
     }
 
     constructor(
-        /*public navCtrl: NavController*/
+        public navCtrl: NavController,
         public navParams: NavParams,
         public alertCtrl: AlertController,
         public events: Events,
@@ -134,15 +160,18 @@ export class HistoryRecordPage {
         public entrustServiceProvider: EntrustServiceProvider,
         private promptCtrl: PromptControlleService,
     ) {
+        super(navCtrl, navParams);
+
         this.initData();
     }
 
     async loadMoreHistory(infiniteScroll: InfiniteScroll) {
         this.page += 1;
+        this.hasScrollTop = false;
         const tradeHistory = await this.getTradeHistory();
         this.hasMore = !(tradeHistory.length < this.pageSize);
         const tradeHistory_show = tradeHistory.filter(item =>
-            Number(item.completeTotalPrice),
+            item.completeTotalPrice
         );
         this.entrusts.push(...tradeHistory_show);
         // console.log('getDeliveryList entrusts:',this.entrusts)
@@ -150,8 +179,12 @@ export class HistoryRecordPage {
         infiniteScroll.enable(this.hasMore);
     }
     getHistoryStatus(status,active) {
+        if(this.disableSwatchStatus) return;
         this.headerActive = active;
-        this.getTradeHistory(status).then(data => {
+        this.hasScrollTop = true;
+        this.historyStatus = status;
+        this.page = 1;
+        this.getTradeHistory().then(data => {
             this.entrusts = data;
             this.hasMore = !(data.length < this.pageSize);
         })
