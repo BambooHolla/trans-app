@@ -4,9 +4,9 @@
   </ion-navbar>
   <ion-grid>
     <ion-row>
-      <ion-col class="total">
+      <ion-col class="total"  (click)="toggleVisible($event)">
         <div class="value">{{ appDataService.HIDE_ASSETS  || (personalAssets?.asset?.total | quantityConversion  | changeCurrency | numberUnitFormat:true:false:2)}}</div>
-        <div class="text">总资产 ({{unit}}) <span class="visible" [class.on]="!appDataService.HIDE_ASSETS " [class.off]="!!appDataService.HIDE_ASSETS " (click)="toggleVisible($event)"></span></div>
+        <div class="text">总资产 ({{unit}}) <span class="visible" [class.on]="!appDataService.HIDE_ASSETS " [class.off]="!!appDataService.HIDE_ASSETS "></span></div>
       </ion-col>
       <!-- <ion-col class="profit">
         <div class="value">{{dayTotal || "0" | quantityConversion | numberUnitFormat:true:true:4 }}</div>
