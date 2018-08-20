@@ -116,6 +116,7 @@ export class AppDataService {
         exchangeType: 1,
         hiddentext:'',
         risefallColor: false,
+        kLine: false,
         trade_type:false,
         left_or_right: false,
         CURRENCY_INFO:null,
@@ -137,6 +138,7 @@ export class AppDataService {
     public exchangeType;
     public hiddentext;
     public risefallColor;
+    public kLine;
     public trade_type;
     public left_or_right;
 

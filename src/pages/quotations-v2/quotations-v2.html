@@ -94,7 +94,7 @@
                             <ion-slide class="slide-content">
                                     <ion-content class="child-content">
                                         <div class="fixedElement-margin-top">
-                                            <div *ngFor="let trader of traderList" tappable class="trader-item " [hidden]="trader.hidden"  (click)="(trader?.productStatus == '002') &&saveLastTrader(trader)">
+                                            <div *ngFor="let trader of traderList" tappable class="trader-item " [hidden]="trader.hidden"  (click)="(trader?.productStatus == '002') && hasKLine(trader)">
                                                 <ng-container *ngIf="item.productName == 'ALL' || item.productName == trader.priceName">
                                                         <div class="header">
                                                                 <div class="name">

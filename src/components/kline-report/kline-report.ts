@@ -11,7 +11,8 @@ import { LoadingController } from "ionic-angular";
 export class KlineReportComponent extends KlineEchartsBaseComponent {
     @Input() riseOrFall: any = "";
     @Output() tooltipEmitted: any = new EventEmitter();
-
+    private riseColor: string =  this.appDataService.risefallColor ? "#c34935" : "#2b8a5e";
+    private fallColor: string =  !this.appDataService.risefallColor ? "#c34935" : "#2b8a5e";
     // 记录报表的最后一个时间，用于判断推送的数据，是旧数据还是新数据，如果没有，就取现在的时间，注：时间格式要对应
     private _LAST_TIME: any;
     // 保存的报表数据
@@ -425,10 +426,10 @@ export class KlineReportComponent extends KlineEchartsBaseComponent {
                     // data: aData,
                     itemStyle: {
                         normal: {
-                            color: "#c1b17f", // 阳线填充颜色
-                            color0: "#ef5454", // 阴线填充颜色
-                            borderColor: "#c1b17f",
-                            borderColor0: "#ef5454",
+                            color: this.riseColor, // 阳线填充颜色
+                            color0: this.fallColor, // 阴线填充颜色
+                            borderColor: this.riseColor,
+                            borderColor0: this.fallColor,
                         },
                     },
                     markPoint: {
@@ -521,15 +522,15 @@ export class KlineReportComponent extends KlineEchartsBaseComponent {
                     data: this.showKlineDates.vols,
                     itemStyle: {
                         normal: {
-                            color: function(params) {
+                            color: (params) => {
                                 const index = params.dataIndex;
                                 if (
                                     that.showKlineDates.datas[index][1] >
                                     that.showKlineDates.datas[index][0]
                                 ) {
-                                    return "#c1b17f";
+                                    return this.riseColor;
                                 } else {
-                                    return "#ef5454";
+                                    return this.fallColor;
                                 }
                             },
                         },
@@ -543,12 +544,12 @@ export class KlineReportComponent extends KlineEchartsBaseComponent {
                     data: this.showKlineDates.MACD,
                     itemStyle: {
                         normal: {
-                            color: function(params) {
+                            color: params => {
                                 let colorList;
                                 if (params.data >= 0) {
-                                    colorList = "#c1b17f";
+                                    colorList = this.riseColor;
                                 } else {
-                                    colorList = "#ef5454";
+                                    colorList = this.fallColor;
                                 }
                                 return colorList;
                             },

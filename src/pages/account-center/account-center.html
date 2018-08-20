@@ -48,8 +48,16 @@
       </ion-col>
     </ion-row>
     <ion-row class="bottom-line" >
-      <ion-col padding class="vertical-center" (click)="goGestureLock()">
-          <ion-item (click)="gestureLock()">
+      <ion-col padding class="vertical-center">
+          <ion-item>
+              <ion-label>K线图</ion-label>
+              <ion-toggle [(ngModel)]="appDataService.kLine"></ion-toggle>
+          </ion-item>
+      </ion-col>
+    </ion-row>
+    <ion-row class="bottom-line" >
+      <ion-col padding class="vertical-center">
+          <ion-item>
               <ion-label>{{"GESTURE" | translate}}</ion-label>
               <ion-toggle [(ngModel)]="hasGestureLockToggle"  (ionChange)="gestureLockFunc()"></ion-toggle>
           </ion-item>

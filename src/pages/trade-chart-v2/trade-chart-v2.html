@@ -61,12 +61,13 @@
     </div>
    
     <div class="transaction-btn" >
-            <div class="sale" [class.disabled]="!productStatus" (click)="goExchangePage(0)">
-                    {{'SELL'|translate}}
-            </div>
-            <div class="buy" [class.disabled]="!productStatus" (click)="goExchangePage(1)">
+            
+            <div [class]="appDataService?.risefallColor ? 'buy' : 'buy buy-true'" [class.disabled]="!productStatus" (click)="goExchangePage(1)">
                     {{'BUY'|translate}}
                 
+            </div>
+            <div [class]="appDataService?.risefallColor ? 'sale' : 'sale sale-true'" [class.disabled]="!productStatus" (click)="goExchangePage(0)">
+                    {{'SELL'|translate}}
             </div>
     </div>
 </ion-content>

@@ -25,6 +25,7 @@ import * as echarts from "echarts";
     templateUrl: "trade-chart-v2.html",
 })
 export class TradeChartV2Page {
+    
     private product: any = "--- / ---";
     private traderId: any;
     public nowTimeArr: any = {};

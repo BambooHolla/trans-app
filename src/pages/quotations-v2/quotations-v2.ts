@@ -777,4 +777,11 @@ export class QuotationsPageV2 {
             this.navCtrl.push(SwitchNetworkPage);
         }
     }
+    hasKLine(trader: any) {
+        if(this.appDataService.kLine) {
+            this.gotoChart(trader)
+        } else {
+            this.saveLastTrader(trader);
+        }
+    }
 }
