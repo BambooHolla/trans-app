@@ -151,6 +151,65 @@ export class HistoryRecordPage extends SecondLevelPage{
             });
     }
 
+    async noLoadingGetTradeHistory() {
+        const token = this.appDataService.token;
+        const traderId = this.navParams.data
+            ? this.navParams.data.traderId
+            : undefined;
+        const productHouseId =
+            false && this.navParams.data
+                ? this.navParams.data.productHouseId
+                : undefined;
+        const priceProductHouseId =
+            false && this.navParams.data
+                ? this.navParams.data.priceProductHouseId
+                : undefined;
+
+        if (!token) {
+            return Promise.reject(
+                this.events.publish(
+                    "show login",
+                    "login",
+                    this.refreshData.bind(this),
+                ),
+            ).then(res => {
+                let a = res;
+            });
+        }
+        this.disableSwatchStatus = true;
+        if( this.hasScrollTop ) {
+            this.ngAfterContentScroll()
+        }
+        // const traderId = this.navParams.data ? this.navParams.data.traderId : undefined;
+        // const getInfoCb = this.navParams.data ? this.navParams.data.getInfoCb : undefined;
+        return this.entrustServiceProvider
+            .getDeliveryList(
+                traderId,
+                productHouseId,
+                priceProductHouseId,
+                this.page,
+                this.pageSize,
+                this.historyStatus,
+            )
+            .then(data => {
+                console.log("getTradeHistory data:", data);
+                this.disableSwatchStatus = false;
+                return data;
+            })
+            .catch(err => {
+                console.log("getTradeHistory err");
+                this.disableSwatchStatus = false; 
+                this.alertCtrl
+                    .create({
+                        title:
+                            window["language"]["GAIN_RECORDS_ERROR"] ||
+                            "获取记录出错",
+                        subTitle: err ? err.message || "" : err,
+                    })
+                    .present();
+                return [];
+            });
+    }
     constructor(
         public navCtrl: NavController,
         public navParams: NavParams,
@@ -168,7 +227,7 @@ export class HistoryRecordPage extends SecondLevelPage{
     async loadMoreHistory(infiniteScroll: InfiniteScroll) {
         this.page += 1;
         this.hasScrollTop = false;
-        const tradeHistory = await this.getTradeHistory();
+        const tradeHistory = await this.noLoadingGetTradeHistory();
         this.hasMore = !(tradeHistory.length < this.pageSize);
         const tradeHistory_show = tradeHistory.filter(item =>
             item.completeTotalPrice
