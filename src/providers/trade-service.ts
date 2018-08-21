@@ -305,6 +305,11 @@ export class TradeService {
                 data = data.filter( item => {
                     if(item.productName != 'ETH') return true;
                     return false;
+                });
+                data.sort( item => {
+                    if(item.productName == "IBT") return -1;
+                    if(item.productName == "USDT") return 1;
+                    return 0;
                 })
                 this.appDataService.mainproducts = [{productName:'ALL'}]
                 this.appDataService.mainproducts.push(...data)
