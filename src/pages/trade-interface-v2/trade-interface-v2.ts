@@ -1117,9 +1117,11 @@ export class TradeInterfaceV2Page {
     // 订阅实时数据。
     // 由于 DataSubscriber 装饰器的作用，
     // 会在 ionViewDidEnter() 事件处理函数中被自动调用。
+    private _hasGetPrice: boolean = false;
     async doSubscribe() {
         // window['temp_traderId'] = this.traderId
         const traderId = this.traderId;
+        this._hasGetPrice = false;
         console.log("trade-interface-v2:(doSubscribe) ", traderId);
         if (traderId) {
             const traderList = await this.appDataService.traderListPromise;
@@ -1228,7 +1230,10 @@ export class TradeInterfaceV2Page {
                         this.buy_depth = data.buy;
 
                         if (this._tradeType$.getValue() == 1) {
-                            this.price = "" + this.marketPrice;
+                            if(!this._hasGetPrice) {
+                                this._hasGetPrice = true;
+                                this.price = "" + this.marketPrice;
+                            }
                             if (this.buy_depth[0]) {
                                 this.buyTotalQuantity = this.price = this.numberFormatDelete0(
                                     this.buy_depth[0].price,
@@ -1268,7 +1273,10 @@ export class TradeInterfaceV2Page {
                         }
                         this.sale_depth = data.sale;
                         if (this._tradeType$.getValue() == 0) {
-                            this.price = "" + this.marketPrice;
+                            if(!this._hasGetPrice) {
+                                this._hasGetPrice = true;
+                                this.price = "" + this.marketPrice;
+                            }
                             if (this.sale_depth[0]) {
                                 this.saleTotalQuantity = this.price = this.numberFormatDelete0(
                                     this.sale_depth[0].price,
