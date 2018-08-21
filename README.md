@@ -27,7 +27,10 @@
     > 1. `ionic cordova platform add android`,
     > 1. `npm run ionic:build:android` 会
 
-### 长按保存图片
+### 长按保存图片（未实现） 依赖包安装步骤
 ionic cordova plugin add cordova-plugin-photo-library --variable PHOTO_LIBRARY_USAGE_DESCRIPTION="To choose photos"
 npm install --save @ionic-native/photo-library
 Add this plugin to your app's module
+
+### 检查网络状态（是否处于WiFi，未实现） 安装步骤
+cordova-plugin-network-information

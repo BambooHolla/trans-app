@@ -1,4 +1,4 @@
-import { Component, ViewChild } from "@angular/core";
+import { Component, ViewChild, ElementRef } from "@angular/core";
 // import * as echarts from 'echarts';
 import {
     NavParams,
@@ -10,7 +10,6 @@ import {
     Events,
     Refresher,
 } from "ionic-angular";
-
 import { Observable } from "rxjs/Observable";
 import { BehaviorSubject } from "rxjs/BehaviorSubject";
 
@@ -312,6 +311,7 @@ export class TradeInterfaceV2Page {
         private promptCtrl: PromptControlleService,
         private loginService: LoginService,
         private accountServiceProvider: AccountServiceProvider,
+        private el: ElementRef,
     ) {
         
         BigNumber.config({ EXPONENTIAL_AT: [-8, 20] });
@@ -2198,5 +2198,9 @@ export class TradeInterfaceV2Page {
     }
     changeLeftOrRight() {
         this.appDataService.left_or_right = this.appDataService.left_or_right ? false : true;
+    }
+    scrollFixInput() {
+        const position_y = this.el.nativeElement.querySelector('#scroll-dom').offsetTop;
+        this.content.scrollTo(0, position_y);
     }
 }

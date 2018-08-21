@@ -172,10 +172,10 @@
 									<span>{{(_baseData$ | async)?.min | priceConversion:8 | numberFilter:true}}</span>
 								</div>
 							</ion-col>	
-						</ion-row>
+						</ion-row> 
 					</ion-grid>
 					<!-- 限价交易 -->
-					<ion-grid [hidden]="appDataService.show_onestep_trade" [scroll-fix-keyboard]="content">
+					<ion-grid [hidden]="appDataService.show_onestep_trade" id="scroll-dom">
 						<ion-row class="entrust-type" (click)="chooseTradeType($event)">
 							<ion-col data-trade-type="1" class="buy" [class.enabled]="!!(tradeType$|async)" [class.color-true]="appDataService?.risefallColor">{{'BUY'|translate}}</ion-col>
 							<ion-col data-trade-type="0" class="sale" [class.enabled]="!(tradeType$|async)" [class.color-true]="appDataService?.risefallColor">{{'SELL'|translate}}</ion-col>
@@ -193,10 +193,11 @@
 								</ion-col> -->
 							<ion-col col-8>
 									<ion-item class="item-background-color">
-								<ion-input #priceInputer type="number" placeholder="委托价格{{inputProductName?'('+inputProductName+')':''}}"
-									[(ngModel)]="price"
-									(ngModelChange)="formatNumber('price',-8)"
-									></ion-input>
+										<ion-input #priceInputer type="number" placeholder="委托价格{{inputProductName?'('+inputProductName+')':''}}"
+										[(ngModel)]="price"
+										(ngModelChange)="formatNumber('price',-8)"
+										(focus)="scrollFixInput()"
+										></ion-input>
 								</ion-item>
 							</ion-col>
 							<ion-col col-2 tappable (click)="changeByStep('price','+')">+</ion-col>
@@ -207,7 +208,12 @@
 								<ion-icon name="ios-gamount" class="vertical-center"></ion-icon>
 							</ion-col> -->
 							<ion-col col-8>
-									<ion-item class="item-background-color"> <ion-input #amountInputer type="number" placeholder="委托数量{{inputProductName?'('+inputProductName+')':''}}" [(ngModel)]="amount" (ngModelChange)="formatNumber('amount')"></ion-input></ion-item>
+									<ion-item class="item-background-color"> 
+										<ion-input #amountInputer type="number" placeholder="委托数量{{inputProductName?'('+inputProductName+')':''}}"
+										 [(ngModel)]="amount" (ngModelChange)="formatNumber('amount')"
+										 (focus)="scrollFixInput()"
+										 ></ion-input>
+									</ion-item>
 							</ion-col>
 							<ion-col col-2 tappable (click)="changeByStep('amount','+')">+</ion-col>
 						</ion-row>
@@ -417,7 +423,7 @@
 					</div>
 				<div class="bets-group">
 					<div class="bet bet-left trade-title-type-2" tappable>
-						<ion-grid [hidden]="appDataService.show_onestep_trade" [scroll-fix-keyboard]="content">
+						<ion-grid [hidden]="appDataService.show_onestep_trade">
 							<ion-row class="entrust-type" (click)="chooseTradeType($event)">
 								<ion-col data-trade-type="1" class="buy" [class.enabled]="!!(tradeType$|async)" [class.color-true]="appDataService?.risefallColor">{{'BUY'|translate}}</ion-col>
 								<ion-col data-trade-type="0" class="sale" [class.enabled]="!(tradeType$|async)" [class.color-true]="appDataService?.risefallColor">{{'SELL'|translate}}</ion-col>
@@ -441,6 +447,7 @@
 									<ion-input #priceInputer2 type="number" placeholder="委托价格"
 										[(ngModel)]="price"
 										(ngModelChange)="formatNumber('price',-8)"
+										
 										></ion-input>
 									</ion-item>
 								</ion-col>
@@ -449,7 +456,12 @@
 							<ion-row class="input-row input-row-type-2" align-items-center>
 								<ion-col col-2 tappable (click)="changeByStep('amount','-')">-</ion-col>
 								<ion-col col-7>
-										<ion-item class="item-background-color item-input-padding"> <ion-input #amountInputer2 type="number" placeholder="委托数量" [(ngModel)]="amount" (ngModelChange)="formatNumber('amount')"></ion-input></ion-item>
+										<ion-item class="item-background-color item-input-padding"> 
+											<ion-input #amountInputer2 type="number" placeholder="委托数量" 
+											[(ngModel)]="amount" (ngModelChange)="formatNumber('amount')"
+											
+											></ion-input>
+										</ion-item>
 								</ion-col>
 								<ion-col col-2 tappable (click)="changeByStep('amount','+')">+</ion-col>
 							</ion-row>
