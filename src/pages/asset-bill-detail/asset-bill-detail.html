@@ -65,6 +65,11 @@
                             卖出 {{product?.transTargetProduct?.productName}}
                         </div>
                     </ng-container>
+                    <ng-container *ngSwitchCase="'003'">
+                        <div class="item-product">
+                            充值 {{product?.transTargetProduct?.productName}} (确认中)
+                        </div>
+                    </ng-container>
                     <ng-container *ngSwitchCase="'004'">
                         <div class="item-product">
                             充值 {{product?.transTargetProduct?.productName}}
