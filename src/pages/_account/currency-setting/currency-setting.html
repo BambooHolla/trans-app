@@ -7,13 +7,13 @@
 
     <!-- 涨跌颜色 -->
     <ion-row>
-        <ion-col padding class="vertical-center"  (click)="changeRiseAndFallColor('green')">
+        <ion-col padding class="vertical-center"  (click)="changeRiseAndFallColor(false)">
             <span class="picasso-icon-k green"></span> 绿涨红跌
             <ion-icon class="icon-currency" icon-right name="{{!appDataService.risefallColor?'checkmark':''}}"></ion-icon>
         </ion-col>
     </ion-row>
     <ion-row>
-        <ion-col padding class="vertical-center"  (click)="changeRiseAndFallColor('red')">
+        <ion-col padding class="vertical-center"  (click)="changeRiseAndFallColor(true)">
             <span class="picasso-icon-k red"></span> 红涨绿跌
             <ion-icon class="icon-currency" icon-right name="{{!!appDataService.risefallColor?'checkmark':''}}"></ion-icon>
         </ion-col>
