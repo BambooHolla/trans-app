@@ -8,7 +8,6 @@ import {
   Content,
   ViewController,
 } from "ionic-angular";
-import { asyncCtrlGenerator } from "../../bnqkl-framework/Decorator";
 import { LATEST_VERSION_INFO } from "./version.types";
 import {
   FileTransfer,
@@ -18,6 +17,7 @@ import {
 import { File } from "@ionic-native/file";
 import { FileOpener } from "@ionic-native/file-opener";
 import { FirstLevelPage } from "../../bnlc-framework/FirstLevelPage";
+import { asyncCtrlGenerator } from "../../bnlc-framework/Decorator";
 
 type buttonOptions = {
   text: string;
@@ -65,7 +65,7 @@ export class VersionUpdateDialogPage extends FirstLevelPage {
   initData() {
     this.version_info = this.navParams.get("version_info");
     if (!this.version_info) {
-      this.closeDialog();
+      // this.closeDialog();
     }
   }
   closeDialog() {

@@ -2,7 +2,7 @@
 <ion-content>
   <div class="dialog-wrapper">
     <button class="close-button" (click)="closeDialog()">
-      <ali-icon name="ifm-guanbi"></ali-icon>
+      <!-- <ali-icon name="ifm-guanbi"></ali-icon> -->
     </button>
     <div class="dialog-content">
       <div class="header">
@@ -18,7 +18,7 @@
         </div>
         <div class="item">
           <div class="label">{{'VERSION_SIZE'|translate}}：</div>
-          <div class="text">{{(isIOS?version_info?.plist_size :version_info?.apk_size)|bytes}}</div>
+          <div class="text">{{(isIOS?version_info?.plist_size :version_info?.apk_size)}}</div>
         </div>
         <div class="item changelogs">
           <div class="label">{{'CHANGELOGS'|translate}}：</div>

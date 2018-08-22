@@ -69,9 +69,8 @@ import { AddAddressPage } from "../pages/add-address/add-address";
 import { AppSettingProvider } from "../bnlc-framework/providers/app-setting/app-setting";
 import { AppFetchProvider } from "../bnlc-framework/providers/app-fetch/app-fetch";
 import { DirectivesModule as BNLC_DirectivesModule } from "../bnlc-framework/directives/directives.module";
-
 import { DirectivesModule } from "../directives/directives.module";
-
+import { FileTransfer } from "@ionic-native/file-transfer";
 /**- from BNLC framework*/
 
 // import { NewsContentModule } from '../pages/news-content/news-content.module';
@@ -185,7 +184,9 @@ import { CurrencyTypeListPage } from "../pages/currency-type-list/currency-type-
 import { AssetBillDetailPage } from "../pages/asset-bill-detail/asset-bill-detail";
 import { CurrencySettingPage } from "../pages/_account/currency-setting/currency-setting";
 import { Network } from '@ionic-native/network';
-
+import { VersionUpdateDialogPageModule } from "../pages/version-update-dialog/version-update-dialog.module";
+import { File } from "@ionic-native/file";
+import { FileOpener } from "@ionic-native/file-opener";
 // import { BankCode2NamePipe } from '..\pipes\bank-code2-name/bank-code2-name';
 // import { FileService } from '../providers/file.service';
 // import { IsLoadingDirective } from '../directives/is-loading/is-loading';
@@ -411,7 +412,7 @@ export function createTranslateLoader(http: HttpClient) {
         ListSharedModule,
         InformationModule,
         BaseSharedModule,
-
+        VersionUpdateDialogPageModule,
         SearchItemPageModule,
         ComponentsModule,
         BNLC_DirectivesModule,
@@ -517,6 +518,9 @@ export function createTranslateLoader(http: HttpClient) {
         HttpService,
         SocketioService,
         LoginService,
+        FileTransfer,
+        File,
+        FileOpener,
         RegisterService,
         AlertService,
         KeyboardService,

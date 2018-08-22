@@ -1,0 +1,128 @@
+page-custom-dialog {
+  > .content {
+    background: none;
+    > .scroll-content {
+      background: none;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      /* animation-name: aplha-dark-bg-in;
+      animation-duration: 300ms;
+      animation-delay: 400ms;
+      animation-fill-mode: forwards; */
+    }
+  }
+  /*   @keyframes aplha-dark-bg-in {
+    0% {
+      background-color: transparent;
+    }
+    100% {
+      background-color: rgba(0, 0, 0, 0.6);
+    }
+  } */
+  .dialog-wrapper {
+    position: relative;
+    top: -11vh;
+    > .close-button {
+      position: absolute;
+      width: 1.9rem;
+      height: 1.9rem;
+      padding: 0;
+      box-sizing: border-box;
+      font-size: 1.7rem;
+      color: #fff;
+      background-color: #929292;
+      border-radius: 50%;
+      right: -0.7rem;
+      top: -0.7rem;
+      text-align: center;
+      line-height: 1.8rem;
+      /* display: flex;
+      align-items: center;
+      justify-content: center; */
+    }
+    > .dialog-content {
+      width: 76vw;
+      min-height: 12.2rem;
+      background-color: #fff;
+      border-radius: 0.8rem;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+      > .icon {
+        flex: 1;
+        font-size: 5.6rem;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        &.error {
+          > ali-icon {
+            margin-top: auto;
+            .ifmicon::before {
+              color: transparent;
+              background: linear-gradient(bottom, #ff5a5a 0%, #fc9f7a 100%);
+              -webkit-background-clip: text !important;
+              background-clip: text !important;
+            }
+          }
+        }
+        &.warning {
+          > ali-icon {
+            margin-top: auto;
+            .ifmicon::before {
+              color: transparent;
+              background: linear-gradient(bottom, #ffcd4a 0%, #fba656 100%);
+              -webkit-background-clip: text !important;
+              background-clip: text !important;
+            }
+          }
+        }
+        &.success {
+          > ali-icon {
+            margin-top: auto;
+            .ifmicon::before {
+              color: transparent;
+              background: linear-gradient(bottom, #3de0da 0%, #c3d97b 100%);
+              -webkit-background-clip: text !important;
+              background-clip: text !important;
+            }
+          }
+        }
+      }
+      > .content {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        color: #787878;
+      }
+      > .buttons {
+        width: 100%;
+        background: linear-gradient(top, #e1e3e2 0%, #e1e3e2 100%);
+        background-size: 1px;
+        background-repeat: repeat-x;
+        height: 4rem;
+        display: flex;
+        flex-direction: row;
+        > button {
+          flex: 1;
+          height: 100%;
+          background-color: transparent;
+
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          font-size: 1.4rem;
+          &.ok {
+            background-color: #ff6769;
+            color: #fff;
+          }
+        }
+      }
+    }
+  }
+}

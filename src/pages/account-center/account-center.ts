@@ -1,6 +1,6 @@
 import { Component, DoCheck  } from "@angular/core";
 import { Storage } from "@ionic/storage";
-import { NavController, NavParams, Events } from "ionic-angular";
+import { NavController, NavParams, Events, ModalController } from "ionic-angular";
 import { ChangeTradePassword } from "../change-trade-password/change-trade-password";
 
 import { LoginService } from "../../providers/login-service";
@@ -15,6 +15,8 @@ import { asyncCtrlGenerator } from "../../bnlc-framework/Decorator";
 import { SwitchNetworkPage } from "../switch-network/switch-network";
 import { CurrencyTypeListPage } from "../currency-type-list/currency-type-list";
 import { CurrencySettingPage } from "../_account/currency-setting/currency-setting";
+import { VersionUpdateDialogPage } from "../version-update-dialog/version-update-dialog";
+
 @Component({
     selector: "account-center",
     templateUrl: "account-center.html",
@@ -32,6 +34,7 @@ export class AccountCenterPage extends SecondLevelPage {
         public accountService: AccountServiceProvider,
         public personalDataService: PersonalDataService,
         public storage: Storage,
+        public modalCtrl: ModalController,
     ) {
         super(navCtrl, navParams);
         this.loginService.status$.subscribe(status => {
@@ -160,8 +163,9 @@ export class AccountCenterPage extends SecondLevelPage {
     }
 
     checkUpdate() {
-        this.modalCtrl.create(
-            "version-update-dialog",
+        console.log(1233)
+        return this.modalCtrl.create(
+            VersionUpdateDialogPage,
             { version_info: {
                 version: "-aplha",
                 changelogs: [`没什么变动，真的`, `啊哈哈哈哈`],
@@ -177,8 +181,12 @@ export class AccountCenterPage extends SecondLevelPage {
                 "//": "……",
                 success: true,
                 }
-            }
+            },
+            {
+                enterAnimation: "custom-dialog-pop-in",
+                leaveAnimation: "custom-dialog-pop-out",
+              },
             
-        )
+        ).present()
     }
 }

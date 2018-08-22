@@ -1,0 +1,31 @@
+<ion-header></ion-header>
+<ion-content>
+  <div class="dialog-wrapper">
+    <button class="close-button" (click)="closeDialog()">
+      <ali-icon name="ifm-guanbi"></ali-icon>
+    </button>
+    <div class="dialog-content">
+      <ng-container [ngSwitch]="iconType">
+        <div class="icon warning" *ngSwitchCase="'warning'">
+          <ali-icon name="ifm-dialog-warning"></ali-icon>
+        </div>
+        <div class="icon error" *ngSwitchCase="'error'">
+          <ali-icon name="ifm-dialog-error"></ali-icon>
+        </div>
+        <div class="icon success" *ngSwitchCase="'success'">
+          <ali-icon name="ifm-dialog-success"></ali-icon>
+        </div>
+      </ng-container>
+      <div class="content">
+        <div>{{content_title}}</div>
+        <div>{{content_subTitle}}</div>
+        <div>{{content_message}}</div>
+      </div>
+      <div class="buttons" *ngIf="buttons?.length">
+        <button *ngFor="let button of buttons" [ngClass]="button.cssClass" (click)="runButtonHandler(button)">
+          {{button.text}}
+        </button>
+      </div>
+    </div>
+  </div>
+</ion-content>

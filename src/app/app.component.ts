@@ -42,7 +42,7 @@ import { AccountServiceProvider } from "../providers/account-service/account-ser
 import { ContactStatus } from "../providers/work-order-service/work-order-service";
 import { RegisterService } from "../providers/register-service";
 import { Network } from '@ionic-native/network';
-
+import { CustomDialogPopIn, CustomDialogPopOut } from "../pages/custom-dialog/custom-dialog.transform";
 @Component({
     templateUrl: "app.html",
 })
@@ -178,6 +178,8 @@ export class PicassoApp {
         }
 
         config.setTransition("common-transition", CommonTransition);
+        config.setTransition("custom-dialog-pop-in", CustomDialogPopIn);
+        config.setTransition("custom-dialog-pop-out", CustomDialogPopOut);
         this.appSettingProvider.clearUserInfo();
         this.screenOrientation
             .lock(this.screenOrientation.ORIENTATIONS.PORTRAIT)
