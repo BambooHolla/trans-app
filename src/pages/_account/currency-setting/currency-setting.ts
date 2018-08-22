@@ -18,7 +18,10 @@ export class CurrencySettingPage  {
     ) {
     }
   
-    changeRiseAndFallColor() {
+    private _risefallColor_type: string = this.appDataService.risefallColor ? "red" : "green";
+    changeRiseAndFallColor(type: string) {
+        if(this._risefallColor_type == type ) return void 0;
+        this._risefallColor_type = type;
         this.appDataService.risefallColor = this.appDataService.risefallColor ? false : true;
         this.back();
     }
