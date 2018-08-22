@@ -39,8 +39,12 @@ page-trade-chart-v2 {
                 font-size: 2.4rem !important;
                 span {
                     display: block;
-                    font-size: 1.2rem;
+                    font-size: 1rem;
                     color: color($colors, middark); 
+                }
+                .unit {
+                    display: inline-block;
+                    font-size: 0.8rem;
                 }
             }
         }

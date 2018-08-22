@@ -41,7 +41,7 @@ import { Storage } from "@ionic/storage";
 import { AccountServiceProvider } from "../providers/account-service/account-service";
 import { ContactStatus } from "../providers/work-order-service/work-order-service";
 import { RegisterService } from "../providers/register-service";
-
+import { Network } from '@ionic-native/network';
 
 @Component({
     templateUrl: "app.html",
@@ -101,21 +101,10 @@ export class PicassoApp {
         public toast: Toast,
         public actionSheetCtrl: ActionSheetController,
         public registerService: RegisterService,
+        private network: Network,
         
     ) {
-        // let title:string = '';
-        // let message: string ='';
-        // let type:boolean = false;
-        // if(/www/.test(AppSettingProvider.SERVER_URL)) {
-        //   title = '当前使用正式网络'
-        //   message = "是否重启切换到测试网络"
-        //   type = true;
-        // } else {
-        //   title = '当前使用测试网络'
-        //   message = "是否重启切换到正式网络"
-        //   type = false;
-        // }
-        // this.alertService.show(title,message,type)
+       
         if (
             this.appDataService.APP_VERSION !=
             this.appDataService.version
@@ -180,8 +169,6 @@ export class PicassoApp {
         } else {
             tradeService.getCurrencyInof(appDataService.LANGUAGE);
         }
-        
-         
         tradeService.getCurrencys();
         if (!navigator["clipboard"]) {
             navigator["clipboard"] = {
@@ -289,7 +276,9 @@ export class PicassoApp {
         });
     }
 
-    ionViewDidLoad() {}
+    ionViewDidLoad() {
+        
+    }
 
     async initTranslate() {
         // Set the default language for translation strings, and the current language.

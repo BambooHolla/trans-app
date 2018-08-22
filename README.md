@@ -32,5 +32,9 @@ ionic cordova plugin add cordova-plugin-photo-library --variable PHOTO_LIBRARY_U
 npm install --save @ionic-native/photo-library
 Add this plugin to your app's module
 
-### 检查网络状态（是否处于WiFi，未实现） 安装步骤
-cordova-plugin-network-information
+### 检查网络状态 安装步骤
+文档(https://ionicframework.com/docs/native/network/)
+1. Install the Cordova and Ionic Native plugins:
+> $ ionic cordova plugin add cordova-plugin-network-information
+> $ npm install --save @ionic-native/network
+2. Add this plugin to your app's module

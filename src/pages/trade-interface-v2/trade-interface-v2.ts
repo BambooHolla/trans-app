@@ -1146,7 +1146,7 @@ export class TradeInterfaceV2Page {
                     this.sellRate = data.sellRate;
                     this._tradeType$.next(this._tradeType$.getValue());
                    
-                    this._currencyPrice = new BigNumber(data.price);
+                    this._currencyPrice = new BigNumber(data.instPrice);
                     this.currencyPrice = !this.appDataService.CURRENCY_INFO.exchange?'--':this._currencyPrice.times(this.appDataService.CURRENCY_INFO.exchange).toString();
                    
                 });
