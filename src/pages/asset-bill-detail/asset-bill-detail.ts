@@ -1,5 +1,5 @@
 import { Component } from "@angular/core";
-import { IonicPage, NavController, NavParams } from "ionic-angular";
+import { IonicPage, NavController, NavParams, Refresher } from "ionic-angular";
 import { SecondLevelPage } from "../../bnlc-framework/SecondLevelPage";
 import { asyncCtrlGenerator } from "../../bnlc-framework/Decorator";
 import {
@@ -24,6 +24,7 @@ export class AssetBillDetailPage extends SecondLevelPage {
     public personalData: any;
     product_list: any[];
     showNoRecord: boolean = false;
+    static _hide_loading:boolean = false;
     // 法币单位符号
     private unit = this.appDataService.CURRENCY_INFO.currencyTo || "--";
     
@@ -39,7 +40,12 @@ export class AssetBillDetailPage extends SecondLevelPage {
         this.personalData = this.navParams.get("personalData");
        
     }
-   
+
+
+    refreshPersonalData(refresher?: Refresher) {
+        refresher&&refresher.complete()
+        return this.getBillList();
+    }
 
     @AssetBillDetailPage.willEnter
     @asyncCtrlGenerator.loading()

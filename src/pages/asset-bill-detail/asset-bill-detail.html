@@ -43,6 +43,11 @@
 </ion-header>
 
 <ion-content>
+    	<!--下拉刷新-->
+	<ion-refresher (ionRefresh)="refreshPersonalData($event)">
+        <ion-refresher-content>
+        </ion-refresher-content>
+    </ion-refresher>
     <ion-list>
         <ion-item class="no-record-item" *ngIf="showNoRecord && (!product_list || product_list.length == 0)">
             <div class="no-record">
