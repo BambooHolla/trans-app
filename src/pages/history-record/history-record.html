@@ -24,9 +24,11 @@
 					<ion-col>{{'HISTORY_PRICE'|translate}}</ion-col>
 					<ion-col>{{'HISTORY_VOLUME'|translate}}</ion-col>
 					<ion-col>{{'HISTORY_AMOUNT'|translate}}</ion-col> -->
-					<ion-col  (click)="getHistoryStatus('',1)"     [class.active]='headerActive == 1'>全部订单</ion-col>
-					<ion-col  (click)="getHistoryStatus('001',2)"  [class.active]='headerActive == 2'>委托买入</ion-col>
-					<ion-col  (click)="getHistoryStatus('002',3)"  [class.active]='headerActive == 3'>委托卖出</ion-col>
+					<ion-col *ngFor='let item of entrusts_type' 
+						(click)="getHistoryStatus(item.active)"  
+						[class.active]='headerActive == item.active'>
+						{{item.type}}
+					</ion-col>
 				</ion-row>
 			</div>
 	</div>
@@ -37,106 +39,83 @@
 	<!-- <div class="spanfixed"></div> -->
 	<!-- <loop-slides-beta></loop-slides-beta> -->
 	<!-- <div class="footer-data">03/12</div> -->
-
-	<ion-spinner name="ios" *ngIf="initing"></ion-spinner>
 	<!--下拉刷新-->
-	<ion-refresher (ionRefresh)="initData($event)">
+	<ion-refresher (ionRefresh)="initData($event)" *ngIf="refresherEnabled">
 		<ion-refresher-content refreshingText="{{'UPDATING'|translate}}...">
 		</ion-refresher-content>
 	</ion-refresher>
-
-	<div class="no-entrust" *ngIf="!entrusts || entrusts.length == 0">
-		<div class="no-entrust-logo">
-			<img src="assets/icon/no-entrust.png" alt="">
-		</div>
-		<div  class="no-entrust-text">
-			暂无委托
-		</div>
-	</div>
-	<!-- <ion-row *ngFor="let item of entrusts" align-items-center class="list-item">
-		<ion-col>
-			<div class="name">{{item.productHouseId ? (item.productHouseId | productId2name | async):'--'}}{{item.priceProductHouseId? '/' + (item.priceProductHouseId | productId2name | async):'--'}}</div>
-			<span>{{item.updatedTime | date:'yyyy-MM-dd HH:mm:ss'}}</span>
-		</ion-col>
-		<ion-col>
-			{{item.completePrice | number:'1.0-5'}}
-		</ion-col>
-		<ion-col>
-			{{item.completeAmount |quantityConversion}}
-		</ion-col>
-		<ion-col>
-			<div class="type" 
-				[class.buy]="item.operationType == '001'" 
-				[class.sale]="item.operationType == '002'"
-			>
-				{{
-					(item.operationType == '001'? 'BUY': 
-					item.operationType == '002'? 'SELL':'')
-					| translate
-				}}
-			</div>
-			{{item.completeTotalPrice |quantityConversion}}
-		</ion-col>
-	</ion-row> -->
-	<div *ngFor="let item of entrusts">
-		<div class="entrust">
-			<div class="header">
-				<div class="type" [class.color-true]="appDataService?.risefallColor" [class.buy]="item.operationType == '001'" [class.sale]="item.operationType == '002'">
-					{{(item.operationType == '001'? 'BUY': item.operationType == '002'? 'SELL':'' )|translate}}
+	<ion-slides #Slides (ionSlideDrag)="slideDrag($event)" (ionSlideDidChange)="slideDidChange($event)">
+		<ion-slide  *ngFor="let type_item of entrusts_type">
+			<ion-scroll>
+				<div class="no-entrust" *ngIf="!type_item.entrust || type_item.entrust.length == 0">
+					<div class="no-entrust-logo">
+						<img src="assets/icon/no-entrust.png" alt="">
+					</div>
+					<div  class="no-entrust-text">
+						暂无委托
+					</div>
 				</div>
-				<div class="date-box">
-					<div class="title">
-						<div class="productName">
-							{{item.productHouseId ? (item.productHouseId | productId2name | async) +  ' / ' :'--'}}
+				<div *ngFor="let item of type_item.entrust">
+					<div class="entrust">
+						<div class="header">
+							<div class="type" [class.color-true]="appDataService?.risefallColor" [class.buy]="item.operationType == '001'" [class.sale]="item.operationType == '002'">
+								{{(item.operationType == '001'? 'BUY': item.operationType == '002'? 'SELL':'' )|translate}}
+							</div>
+							<div class="date-box">
+								<div class="title">
+									<div class="productName">
+										{{item.productHouseId ? (item.productHouseId | productId2name | async) +  ' / ' :'--'}}
+									</div>
+									<div class="priceName">
+										{{item.priceProductHouseId?(item.priceProductHouseId | productId2name | async):'--'}}
+									</div>
+								</div>
+								<div class="date">{{item.updatedTime | date:'yyyy-MM-dd HH:mm:ss'}}</div>
+							</div>
+							<button (click)="confirmCancel(item.id,item.updatedTime,item.operationType)" *ngIf='item.entrustStatus == "001" || item.entrustStatus == "002"'>{{'REVOKE'|translate}}</button>
+							<button class="no-btn" *ngIf='item.entrustStatus == "003"'>已成交</button>
+							<button class="no-btn" *ngIf='item.entrustStatus == "004"'>已撤单</button>
 						</div>
-						<div class="priceName">
-							{{item.priceProductHouseId?(item.priceProductHouseId | productId2name | async):'--'}}
+						<div class="params" >
+							<div class="col">
+								<div *ngIf="!item?.isMarketOrder">
+									<span class="value">{{item.completePrice}}</span>
+									<span class="name">{{'DELEGATED_PRICE'|translate}}</span>
+								</div>
+								<div *ngIf="item?.isMarketOrder">
+									<span class="kj-name">{{'QUICK_TRANSACTION'|translate}}</span>
+								</div>
+							</div>
+							<div class="col">
+								<div *ngIf="!item?.isMarketOrder">
+									<span class="value">{{item.completeAmount |quantityConversion}}</span>
+									<span class="name">{{'DELEGATED_QUANTITY'|translate}}</span>
+								</div>
+								<div *ngIf="item?.isMarketOrder">
+									<span class="value">{{(item.operationType == '001'? item.entrustTotalPrice: item.operationType == '002'? item.entrustAmount:'' )|quantityConversion}}</span>
+									<span class="name">{{(item.operationType == '001'? '委托金额': item.operationType == '002'? '委托数量':'' )|translate}}</span>
+								</div>
+							</div>
+							<div class="col">
+								<div *ngIf="!item?.isMarketOrder">
+									<span class="value">{{item.surplusAmount |quantityConversion}}</span>
+									<span class="name">{{'BALANCE_QUANTITY'|translate}}</span>
+								</div>
+								<div *ngIf="item?.isMarketOrder">
+									<!-- TODO：快捷买卖剩余的字段使用了同一个，之后分开 -->
+									<span class="value">{{(item.operationType == '001'? item.surplusTotalPrice: item.operationType == '002'? item.surplusTotalPrice:'' ) |quantityConversion}}</span>
+									<span class="name">{{(item.operationType == '001'? '剩余金额': item.operationType == '002'? '剩余数量':'' )|translate}}</span>
+								</div>
+							</div>
 						</div>
-					</div>
-					<div class="date">{{item.updatedTime | date:'yyyy-MM-dd HH:mm:ss'}}</div>
+					</div> 
 				</div>
-				<button (click)="confirmCancel(item.id,item.updatedTime,item.operationType)" *ngIf='item.entrustStatus == "001" || item.entrustStatus == "002"'>{{'REVOKE'|translate}}</button>
-				<button class="no-btn" *ngIf='item.entrustStatus == "003"'>已成交</button>
-				<button class="no-btn" *ngIf='item.entrustStatus == "004"'>已撤单</button>
-			</div>
-			<div class="params" >
-				<div class="col">
-					<div *ngIf="!item?.isMarketOrder">
-						<span class="value">{{item.completePrice}}</span>
-						<span class="name">{{'DELEGATED_PRICE'|translate}}</span>
-					</div>
-					<div *ngIf="item?.isMarketOrder">
-						<span class="kj-name">{{'QUICK_TRANSACTION'|translate}}</span>
-					</div>
-				</div>
-				<div class="col">
-					<div *ngIf="!item?.isMarketOrder">
-						<span class="value">{{item.completeAmount |quantityConversion}}</span>
-						<span class="name">{{'DELEGATED_QUANTITY'|translate}}</span>
-					</div>
-					<div *ngIf="item?.isMarketOrder">
-						<span class="value">{{(item.operationType == '001'? item.entrustTotalPrice: item.operationType == '002'? item.entrustAmount:'' )|quantityConversion}}</span>
-						<span class="name">{{(item.operationType == '001'? '委托金额': item.operationType == '002'? '委托数量':'' )|translate}}</span>
-					</div>
-				</div>
-				<div class="col">
-					<div *ngIf="!item?.isMarketOrder">
-						<span class="value">{{item.surplusAmount |quantityConversion}}</span>
-						<span class="name">{{'BALANCE_QUANTITY'|translate}}</span>
-					</div>
-					<div *ngIf="item?.isMarketOrder">
-						<!-- TODO：快捷买卖剩余的字段使用了同一个，之后分开 -->
-						<span class="value">{{(item.operationType == '001'? item.surplusTotalPrice: item.operationType == '002'? item.surplusTotalPrice:'' ) |quantityConversion}}</span>
-						<span class="name">{{(item.operationType == '001'? '剩余金额': item.operationType == '002'? '剩余数量':'' )|translate}}</span>
-					</div>
-				</div>
-			</div>
-		</div> 
-	</div>
+			</ion-scroll>
+		</ion-slide>
+	</ion-slides>
 	<!--加载更多-->
 	<ion-infinite-scroll [enabled]="hasMore" (ionInfinite)="loadMoreHistory($event)">
 		<ion-infinite-scroll-content loadingText="{{'LOADING'|translate}}...">
 		</ion-infinite-scroll-content>
 	</ion-infinite-scroll>
-
 </ion-content>

@@ -1,4 +1,4 @@
-import { Component } from "@angular/core";
+import { Component, ViewChild } from "@angular/core";
 import { EntrustServiceProvider } from "../../providers/entrust-service";
 import {
     NavParams,
@@ -7,6 +7,7 @@ import {
     AlertController,
     Events,
     NavController,
+    Slides,
 } from "ionic-angular";
 import { AppDataService } from "../../providers/app-data-service";
 import { PromptControlleService } from "../../providers/prompt-controlle-service";
@@ -19,18 +20,91 @@ import { asyncCtrlGenerator } from "../../bnlc-framework/Decorator";
     templateUrl: "history-record.html",
 })
 export class HistoryRecordPage extends SecondLevelPage{
-    headerActive:number = 1;
+    headerActive:number = 0;
     smoothlinedata: any;
     entrusts: any[];
-    historyStatus = '';
-    hasScrollTop: boolean = false;
+    entrustsAll: any[];
+    entrustsBuy: any[];
+    entrustsSale: any[];
     disableSwatchStatus: boolean = false;
     page = 1;
     pageSize = 10;
     hasMore: boolean = true;
 
+    entrusts_type: any[] = [
+        {
+            type: '全部订单',
+            status: '',
+            active: 0,
+            page: 1,
+            entrust: [],
+        },{
+            type: '委托买入',
+            status: '001',
+            active: 1,
+            page: 1,
+            entrust: [],
+        },{
+            type: '委托卖出',
+            status: '002',
+            active: 2,
+            page: 1,
+            entrust: [],
+        }
+    ]
+
+    @asyncCtrlGenerator.loading()
+    initAllData() {
+        const tasks = [];
+        for(let i = 0; i < this.entrusts_type.length; i++) {
+            tasks.push(this.getTypeTradeHistory(this.entrusts_type[i]))
+        }
+        return Promise.all(tasks)
+        .then( data => {
+            data.forEach((item,index) => {
+                this.entrusts_type[index].entrust = item;
+            })
+            this.hasMore = !(this.entrusts_type[0].entrust.length < this.pageSize);
+
+            return data
+        })
+        .catch( err => {
+            this.alertCtrl
+                .create({
+                    title:
+                        window["language"]["GAIN_RECORDS_ERROR"] ||
+                        "获取记录出错",
+                    subTitle: err ? err.message || "" : err,
+                })
+                .present();
+           this.hasMore = false;
+           return [];
+        })
+    }
     // 因为语言结构有很多不同的顺序，现在分开单独处理，以后看能不能弄更优化的办法
     private userLanguage: any = "zh";
+
+
+    @ViewChild('Slides') slides: Slides;
+    slideDidChange($event?) {
+        if(this.slides.getActiveIndex() >= this.entrusts_type.length) return ;
+        const entrust = this.entrusts_type[this.slides.getActiveIndex()];
+        this.headerActive = entrust.active;
+        this.hasMore = !(this.entrusts_type[this.slides.getActiveIndex()].entrust.length < this.pageSize)
+    }
+    //用于控制 是否启用下拉刷新
+    refresherEnabled: boolean = true;
+    refresherSwitch: any;
+    slideDrag($event) {
+        clearTimeout(this.refresherSwitch);
+        this.refresherEnabled = false;
+        if ($event) {
+            this.refresherSwitch = setTimeout(() => {
+                this.refresherEnabled = true;
+            }, 100);
+        }
+    }
+
     initData(refresher?: Refresher) {
         const smoothlinedata = [];
         const N_POINT = 30;
@@ -47,15 +121,14 @@ export class HistoryRecordPage extends SecondLevelPage{
             return 0.5 * ((k -= 2) * k * ((s + 1) * k + s) + 2);
         }
         this.smoothlinedata = smoothlinedata;
+        this.entrusts_type[this.headerActive].page = 1;
 
-        this.page = 1;
-        this.hasScrollTop = false;
         this.getTradeHistory() 
             .then(data => {
                 // const data_show = data.filter(item =>
                 //     Number(item.completeTotalPrice),
                 // );
-                this.entrusts = data;
+                this.entrusts_type[this.headerActive].entrust = data;
                 if (refresher) refresher.complete();
                 this.hasMore = !(data.length < this.pageSize);
             })
@@ -63,6 +136,7 @@ export class HistoryRecordPage extends SecondLevelPage{
                 if (refresher) refresher.complete();
                 this.hasMore = false;
             });
+
     }
 
     refreshData() {
@@ -72,24 +146,43 @@ export class HistoryRecordPage extends SecondLevelPage{
         if (getInfoCb) {
             getInfoCb();
         }
-        this.initData();
+        this.initAllData();
     }
     
-    ngAfterContentScroll() {
-        const scrollEle = this.content.getScrollElement();
-        // const shouldScrollToBottom = () => {
-        //     return (
-        //         scrollEle.scrollHeight -
-        //             (scrollEle.scrollTop + scrollEle.clientHeight) <
-        //         scrollEle.clientHeight
-        //     );
-        // };
-        //     if (shouldScrollToBottom()) {
-        //         this.content.scrollToTop();
-        //     }
-        this.content.scrollToTop();
+    async getTypeTradeHistory(typeItem) {
+        const token = this.appDataService.token;
+        const traderId = this.navParams.data
+            ? this.navParams.data.traderId
+            : undefined;
+        const productHouseId =
+            false && this.navParams.data
+                ? this.navParams.data.productHouseId
+                : undefined;
+        const priceProductHouseId =
+            false && this.navParams.data
+                ? this.navParams.data.priceProductHouseId
+                : undefined;
+        if (!token) {
+            return Promise.reject(
+                this.events.publish(
+                    "show login",
+                    "login",
+                    this.refreshData.bind(this),
+                ),
+            ).then(res => {
+                let a = res;
+            });
+        }
+        return this.entrustServiceProvider
+            .getDeliveryList(
+                traderId,
+                productHouseId,
+                priceProductHouseId,
+                typeItem.page,
+                this.pageSize,
+                typeItem.status,
+            )
     }
-
     @asyncCtrlGenerator.loading()
     async getTradeHistory() {
         const token = this.appDataService.token;
@@ -117,9 +210,6 @@ export class HistoryRecordPage extends SecondLevelPage{
             });
         }
         this.disableSwatchStatus = true;
-        if( this.hasScrollTop ) {
-            this.ngAfterContentScroll()
-        }
         // const traderId = this.navParams.data ? this.navParams.data.traderId : undefined;
         // const getInfoCb = this.navParams.data ? this.navParams.data.getInfoCb : undefined;
         return this.entrustServiceProvider
@@ -127,9 +217,9 @@ export class HistoryRecordPage extends SecondLevelPage{
                 traderId,
                 productHouseId,
                 priceProductHouseId,
-                this.page,
+                this.entrusts_type[this.headerActive].page,
                 this.pageSize,
-                this.historyStatus,
+                this.entrusts_type[this.headerActive].status,
             )
             .then(data => {
                 console.log("getTradeHistory data:", data);
@@ -151,65 +241,8 @@ export class HistoryRecordPage extends SecondLevelPage{
             });
     }
 
-    async noLoadingGetTradeHistory() {
-        const token = this.appDataService.token;
-        const traderId = this.navParams.data
-            ? this.navParams.data.traderId
-            : undefined;
-        const productHouseId =
-            false && this.navParams.data
-                ? this.navParams.data.productHouseId
-                : undefined;
-        const priceProductHouseId =
-            false && this.navParams.data
-                ? this.navParams.data.priceProductHouseId
-                : undefined;
-
-        if (!token) {
-            return Promise.reject(
-                this.events.publish(
-                    "show login",
-                    "login",
-                    this.refreshData.bind(this),
-                ),
-            ).then(res => {
-                let a = res;
-            });
-        }
-        this.disableSwatchStatus = true;
-        if( this.hasScrollTop ) {
-            this.ngAfterContentScroll()
-        }
-        // const traderId = this.navParams.data ? this.navParams.data.traderId : undefined;
-        // const getInfoCb = this.navParams.data ? this.navParams.data.getInfoCb : undefined;
-        return this.entrustServiceProvider
-            .getDeliveryList(
-                traderId,
-                productHouseId,
-                priceProductHouseId,
-                this.page,
-                this.pageSize,
-                this.historyStatus,
-            )
-            .then(data => {
-                console.log("getTradeHistory data:", data);
-                this.disableSwatchStatus = false;
-                return data;
-            })
-            .catch(err => {
-                console.log("getTradeHistory err");
-                this.disableSwatchStatus = false; 
-                this.alertCtrl
-                    .create({
-                        title:
-                            window["language"]["GAIN_RECORDS_ERROR"] ||
-                            "获取记录出错",
-                        subTitle: err ? err.message || "" : err,
-                    })
-                    .present();
-                return [];
-            });
-    }
+    
+    
     constructor(
         public navCtrl: NavController,
         public navParams: NavParams,
@@ -221,13 +254,13 @@ export class HistoryRecordPage extends SecondLevelPage{
     ) {
         super(navCtrl, navParams);
 
-        this.initData();
+        // this.initData();
+        this.initAllData()
     }
 
     async loadMoreHistory(infiniteScroll: InfiniteScroll) {
-        this.page += 1;
-        this.hasScrollTop = false;
-        const tradeHistory = await this.noLoadingGetTradeHistory();
+        this.entrusts_type[this.headerActive].page += 1;
+        const tradeHistory = await this.getTradeHistory();
         this.hasMore = !(tradeHistory.length < this.pageSize);
         const tradeHistory_show = tradeHistory.filter(item =>
             item.completeTotalPrice
@@ -237,19 +270,10 @@ export class HistoryRecordPage extends SecondLevelPage{
         infiniteScroll.complete();
         infiniteScroll.enable(this.hasMore);
     }
-    getHistoryStatus(status,active) {
+    getHistoryStatus(active) {
         if(this.disableSwatchStatus) return;
-        this.headerActive = active;
-        this.hasScrollTop = true;
-        this.historyStatus = status;
-        this.page = 1;
-        this.getTradeHistory().then(data => {
-            this.entrusts = data;
-            this.hasMore = !(data.length < this.pageSize);
-        })
-        .catch(() => {
-            this.hasMore = false;
-        });
+        this.slides.slideTo(active);
+        this.slideDidChange()
     }
     confirmCancel(entrustId, entrustTime, entrustCategory) {
         entrustCategory =
