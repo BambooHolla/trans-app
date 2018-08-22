@@ -4,10 +4,9 @@
 	</ion-navbar>
 </ion-header>
 <ion-content no-bounce class="home-contain">
-    <div class="market">
+    <div class="market"> 
         <div class="market-head">
-            
-            <div class="price {{(_baseData$ | async)?.range | riseOrFall}}">
+            <div class="price {{(_baseData$ | async)?.range | riseOrFall}}{{!appDataService?.risefallColor?'-true':''}}">
                 {{(_baseData$ | async)?.price | priceConversion:5 | numberFilter:true}}
                 <span><i class="picasso-icon-about"></i> 
                     {{(_baseData$ | async)?.instPrice | changeCurrency | priceConversion:5 | numberFilter:true}}
@@ -17,7 +16,7 @@
             <div>
                 <div class="market-items left">
                     <span class="market-label" >{{'RANGE'|translate}}</span>
-                    <span class="{{(_baseData$ | async)?.range | riseOrFall}}">{{(_baseData$ | async)?.range | percent:'1.0-2' | positiveSign}}</span>
+                    <span class="{{(_baseData$ | async)?.range | riseOrFall}}{{!appDataService?.risefallColor?'-true':''}}">{{(_baseData$ | async)?.range | percent:'1.0-2' | positiveSign}}</span>
                 </div>
                 <div class="market-items left">
                     <span class="market-label">{{'VOL'|translate}}</span>
