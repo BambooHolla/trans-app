@@ -1,0 +1,176 @@
+page-version-update-dialog {
+  > .content {
+    background: none;
+    > .scroll-content {
+      background: none;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      /* animation-name: aplha-dark-bg-in;
+      animation-duration: 300ms;
+      animation-delay: 400ms;
+      animation-fill-mode: forwards; */
+    }
+  }
+  /*   @keyframes aplha-dark-bg-in {
+    0% {
+      background-color: transparent;
+    }
+    100% {
+      background-color: rgba(0, 0, 0, 0.6);
+    }
+  } */
+  .dialog-wrapper {
+    position: relative;
+    top: -11vh;
+    > .close-button {
+      position: absolute;
+      width: 2.2rem;
+      height: 2.2rem;
+      font-size: 1.7rem;
+      color: #fff;
+      background-color: #929292;
+      border-radius: 50%;
+      right: -0.7rem;
+      top: -0.7rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    > .dialog-content {
+      width: 76vw;
+      min-height: 12.2rem;
+      background-color: #fff;
+      border-radius: 0.8rem;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+      > .header {
+        color: #a0b9cf;
+        width: 100%;
+        display: flex;
+        padding: 1rem;
+        box-sizing: border-box;
+        align-items: flex-start;
+        justify-content: center;
+        padding-top: 1.6rem;
+        background-image: url("../assets/imgs/version-update-dialog/bg.png");
+        background-size: 170vw;
+        background-repeat: no-repeat;
+        height: 9rem;
+        background-position: center bottom;
+        > .icon {
+          width: 4rem;
+        }
+        > .title {
+          font-size: 1.5rem;
+          padding: 0.5rem;
+          font-weight: bold;
+        }
+      }
+      > .content {
+        width: 100%;
+        padding: 0.6rem 1.2rem;
+        flex: 1;
+        max-height: 50vh;
+        overflow-y: auto;
+        color: #787878;
+        > .item {
+          width: 100%;
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          &.changelogs {
+            align-items: flex-start;
+            flex-direction: column;
+            > .detail {
+              margin: 0;
+              padding-left: 2rem;
+            }
+          }
+          font-size: 1.35rem;
+          color: #7c7c7c;
+          > .label {
+            font-weight: bold;
+          }
+        }
+      }
+      > .buttons {
+        width: 100%;
+        background: linear-gradient(top, #e1e3e2 0%, #e1e3e2 100%);
+        background-size: 1px;
+        background-repeat: repeat-x;
+        height: 4rem;
+        display: flex;
+        flex-direction: row;
+        > button {
+          flex: 1;
+          height: 100%;
+          background-color: transparent;
+
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          font-size: 1.4rem;
+          &.ok {
+            color: #fff;
+            background-color: #ff6769;
+          }
+          &.downloading {
+            color: #fff;
+            background-color: rgba(#ff6769, 0.6);
+            position: relative;
+            border-radius: 0 0 0.8rem 0;
+            overflow: hidden;
+            z-index: 1;
+            --progress: 0%;
+            &::before {
+              box-shadow: inset 0.1rem 0.1rem 0.6rem rgba(0, 0, 0, 0.5);
+              content: " ";
+              position: absolute;
+              width: 100%;
+              height: 100%;
+              left: 0;
+              top: 0;
+              z-index: -2;
+              background: linear-gradient(
+                135deg,
+                rgba(255, 255, 255, 0.2) 25%,
+                transparent 25%,
+                transparent 50%,
+                rgba(255, 255, 255, 0.2) 50%,
+                rgba(255, 255, 255, 0.2) 75%,
+                transparent 75%
+              );
+              background-size: 40px 100%;
+              animation: move 2s linear infinite;
+            }
+            &::after {
+              content: " ";
+              position: absolute;
+              width: var(--progress);
+              height: 100%;
+              left: 0;
+              top: 0;
+              z-index: -1;
+              background-color: #ff6769;
+              box-shadow: 0.1rem 0 0.6rem rgba(0, 0, 0, 0.5);
+              transition-duration: 250ms;
+            }
+          }
+          @keyframes move {
+            0% {
+              background-position: 0 0;
+            }
+            100% {
+              background-position: 40px 0;
+            }
+          }
+        }
+      }
+    }
+  }
+}

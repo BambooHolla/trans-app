@@ -158,6 +158,7 @@ export class WithdrawDetailPage extends SecondLevelPage {
         });
         selector.onDidDismiss(returnData => {
             this.selected_withdraw_address = returnData ? returnData : null;
+            this.formData.selected_withdraw_address_id = returnData.id
             this.accountService
                 .getWithdrawAddress(this.productInfo.productId)
                 .then(data => {

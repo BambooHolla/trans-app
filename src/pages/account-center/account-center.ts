@@ -158,4 +158,27 @@ export class AccountCenterPage extends SecondLevelPage {
     goCurrencySettingPage() {
         this.navCtrl.push(CurrencySettingPage)
     }
+
+    checkUpdate() {
+        this.modalCtrl.create(
+            "version-update-dialog",
+            { version_info: {
+                version: "-aplha",
+                changelogs: [`没什么变动，真的`, `啊哈哈哈哈`],
+                hotreload_version: "",
+                download_link_android:
+                    "https://www.ifmchain.com/files/ibt-android-v2.1.3.apk",
+                download_link_ios_plist:
+                    "itms-services://?action=download-manifest&url=https://www.ifmchain.com/download.plist",
+                download_link_web: "https://www.ifmchain.com/downloadv2.0.html",
+                create_time: 50000,
+                apk_size: 66666,
+                plist_size: 13145,
+                "//": "……",
+                success: true,
+                }
+            }
+            
+        )
+    }
 }

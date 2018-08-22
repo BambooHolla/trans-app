@@ -1,0 +1,48 @@
+<ion-header></ion-header>
+<ion-content>
+  <div class="dialog-wrapper">
+    <button class="close-button" (click)="closeDialog()">
+      <ali-icon name="ifm-guanbi"></ali-icon>
+    </button>
+    <div class="dialog-content">
+      <div class="header">
+        <img class="icon" src="../assets/imgs/version-update-dialog/header-icon.png"/>
+        <div class="title">
+          {{'VERSION_UPDATE'|translate}}
+        </div>
+      </div>
+      <div class="content">
+        <div class="item">
+          <div class="label">{{'NEWEST_VERSION'|translate}}：</div>
+          <div class="text">V{{version_info?.version}}</div>
+        </div>
+        <div class="item">
+          <div class="label">{{'VERSION_SIZE'|translate}}：</div>
+          <div class="text">{{(isIOS?version_info?.plist_size :version_info?.apk_size)|bytes}}</div>
+        </div>
+        <div class="item changelogs">
+          <div class="label">{{'CHANGELOGS'|translate}}：</div>
+          <ol class="detail">
+            <li class="line" *ngFor="let line of changelogs">
+              {{line}}
+            </li>
+          </ol>
+        </div>
+      </div>
+      <div class="buttons">
+        <button class="button cancel" (click)="closeDialog()">
+          {{'CANCEL'|translate}}
+        </button>
+        <button *ngIf="isAndroid && !isDownloading" class="button ok" (click)="androidUpadate()">
+          {{'NOW_DOWNLOAD'|translate}}
+        </button>
+        <button *ngIf="isDownloading" class="button downloading" [attr.style]="download_progress" (click)="backgroundDownload()">
+          {{'BACKGROUND_DOWNLOAD'|translate}}
+        </button>
+        <button *ngIf="isIOS" class="button ok" (click)="iosUpdatge()">
+          {{'GO_DOWNLOAD'|translate}}
+        </button>
+      </div>
+    </div>
+  </div>
+</ion-content>
