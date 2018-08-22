@@ -139,29 +139,30 @@ export class RechargeDetailPage extends SecondLevelPage {
             .getLimitedQuota(this.productInfo.productHouseId, "001")
             .then(data => {
                 this.minRechargeText = "";
-                if (data[0] && (this.productInfo.productDetail||this.productInfo.productName)) {
-                    if (data[0].min && data[0].max) {
-                        this.minRechargeText = `${
-                            window["language"]["RECHARGE_MINI"]
-                        }${data[0].min}${this.productInfo.productDetail||this.productInfo.productName}, ${
-                            window["language"]["RECHARGE_MAX"]
-                        }${data[0].max}${this.productInfo.productDetail||this.productInfo.productName}, ${
-                            window["language"]["RECHARGE_ERR_MINI_MAX"]
-                        }`;
-                    } else if (data[0].min) {
-                        this.minRechargeText = `${
-                            window["language"]["RECHARGE_MINI"]
-                        }${data[0].min}${this.productInfo.productDetail||this.productInfo.productName}, ${
-                            window["language"]["RECHARGE_ERR_MINI"]
-                        }`;
-                    } else if (data[0].max) {
-                        this.minRechargeText = `${
-                            window["language"]["RECHARGE_MAX"]
-                        }${data[0].max}${this.productInfo.productDetail||this.productInfo.productName}, ${
-                            window["language"]["RECHATGE_ERR_MAX"]
-                        }`;
-                    }
-                }
+                this.minRechargeText  = data[0] && data[0].min ? `最小\充值金额是：${data[0].min}。`: '';
+                // if (data[0] && (this.productInfo.productDetail||this.productInfo.productName)) {
+                //     if (data[0].min && data[0].max) {
+                //         this.minRechargeText = `${
+                //             window["language"]["RECHARGE_MINI"]
+                //         }${data[0].min}${this.productInfo.productDetail||this.productInfo.productName}, ${
+                //             window["language"]["RECHARGE_MAX"]
+                //         }${data[0].max}${this.productInfo.productDetail||this.productInfo.productName}, ${
+                //             window["language"]["RECHARGE_ERR_MINI_MAX"]
+                //         }`;
+                //     } else if (data[0].min) {
+                //         this.minRechargeText = `${
+                //             window["language"]["RECHARGE_MINI"]
+                //         }${data[0].min}${this.productInfo.productDetail||this.productInfo.productName}, ${
+                //             window["language"]["RECHARGE_ERR_MINI"]
+                //         }`;
+                //     } else if (data[0].max) {
+                //         this.minRechargeText = `${
+                //             window["language"]["RECHARGE_MAX"]
+                //         }${data[0].max}${this.productInfo.productDetail||this.productInfo.productName}, ${
+                //             window["language"]["RECHATGE_ERR_MAX"]
+                //         }`;
+                //     }
+                // }
                 return data;
             });
     }
