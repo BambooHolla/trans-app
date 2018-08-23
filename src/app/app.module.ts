@@ -187,6 +187,7 @@ import { Network } from '@ionic-native/network';
 import { VersionUpdateDialogPageModule } from "../pages/version-update-dialog/version-update-dialog.module";
 import { File } from "@ionic-native/file";
 import { FileOpener } from "@ionic-native/file-opener";
+import { CustomDialogPage } from "../pages/custom-dialog/custom-dialog";
 // import { BankCode2NamePipe } from '..\pipes\bank-code2-name/bank-code2-name';
 // import { FileService } from '../providers/file.service';
 // import { IsLoadingDirective } from '../directives/is-loading/is-loading';
@@ -245,6 +246,7 @@ export function createTranslateLoader(http: HttpClient) {
         SetPayPwdPage,
         WithdrawAddressListPage,
         WorkOrderListPage,
+        CustomDialogPage,
         WorkOrderAddPage,
         WorkOrderDetailPage,
         HomePage,
@@ -429,7 +431,7 @@ export function createTranslateLoader(http: HttpClient) {
         WorkOrderListPage,
         WorkOrderAddPage,
         WorkOrderDetailPage,
-
+        CustomDialogPage,
         RechargeGatewayPage,
         RechargeDetailPage,
         AssetBillDetailPage,

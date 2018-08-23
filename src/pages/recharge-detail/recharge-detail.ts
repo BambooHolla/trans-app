@@ -139,7 +139,8 @@ export class RechargeDetailPage extends SecondLevelPage {
             .getLimitedQuota(this.productInfo.productHouseId, "001")
             .then(data => {
                 this.minRechargeText = "";
-                this.minRechargeText  = data[0] && data[0].min ? `最小\充值金额是：${data[0].min}。`: '';
+                this.minRechargeText  += data[0] && data[0].min ? `最小充值金额是：${data[0].min}。`: '';
+                this.minRechargeText  += data[0] && data[0].max ? `最大充值金额是：${data[0].min}。`: '';
                 // if (data[0] && (this.productInfo.productDetail||this.productInfo.productName)) {
                 //     if (data[0].min && data[0].max) {
                 //         this.minRechargeText = `${

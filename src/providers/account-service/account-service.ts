@@ -76,7 +76,7 @@ export class AccountServiceProvider {
         "product/strategy/rate/product/:productId",
     );
     readonly GET_PRODUCT_LIMITEQUOTA = this.appSetting.APP_URL(
-        "product/strategy/limitedQuota/:limitedQuotaId",
+        "product/strategy/limitedQuotaByProduct",
     );
     readonly GET_DELIVERY_TYPE = this.appSetting.APP_URL(
         "transaction/delivery/type",
@@ -496,10 +496,13 @@ export class AccountServiceProvider {
             params: { productId },
         });
     }
-    getLimitedQuota(limitedQuotaId, limitedQuotaType) {
+
+    getLimitedQuota(productId, limitedQuotaType) {
         return this.fetch.get(this.GET_PRODUCT_LIMITEQUOTA, {
-            params: { limitedQuotaId },
-            search: { limitedQuotaType },
+            search: {
+                productId,
+                limitedQuotaType,
+            },
         });
     }
 
