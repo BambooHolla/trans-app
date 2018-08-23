@@ -26,7 +26,7 @@ export class AppDataService {
         serial: "",
     };
     //版本校验
-    public APP_VERSION = "v1.1.3";
+    public APP_VERSION = "v1.1.4";
     // 经纬度
     public GEOLOCATION: any = {
         latitude: "",
