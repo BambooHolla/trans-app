@@ -715,10 +715,9 @@ export class QuotationsPageV2 {
         }
     }
     saveLastTrader(trader: any) {
-        this.appDataService.LAST_TRADER.next(trader);
         setTimeout(() => {
             this.navCtrl.parent.select(1);            
-        }, 200);
+        }, 100);
         // this.gotoChart(trader);
     }
     gotoChart(trader) {
@@ -778,6 +777,7 @@ export class QuotationsPageV2 {
         }
     }
     hasKLine(trader: any) {
+        this.appDataService.LAST_TRADER.next(trader);
         if(this.appDataService.kLine) {
             this.gotoChart(trader)
         } else {
