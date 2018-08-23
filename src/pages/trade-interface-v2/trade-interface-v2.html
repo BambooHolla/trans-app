@@ -62,7 +62,7 @@
 									<span>{{(_baseData$ | async)?.min | priceConversion:6 | numberFilter:true}}</span>
 								</div>
 							</div> -->
-							<div class="price {{(_baseData$ | async)?.range | riseOrFall}}{{!appDataService?.risefallColor?'-true':''}}">
+							<div class="price {{(_baseData$ | async)?.range | riseOrFall}}{{!appDataService?.risefallColor?'-true':''}}" (click)="setPrice(marketPrice)">
 								{{(_baseData$ | async)?.price | priceConversion:5 | numberFilter:false}}
 								<span><i class="picasso-icon-about"></i> {{currencyPrice| priceConversion:5 | numberFilter:false}} <span class="unit">{{appDataService.CURRENCY_INFO?.currencyTo}}</span></span>
 							</div>
@@ -431,7 +431,7 @@
 						</ion-grid>	
 					</div>
 					<div class="market-head market-head-type-2">
-						<div class="price {{(_baseData$ | async)?.range | riseOrFall}}{{!appDataService?.risefallColor?'-true':''}}">
+						<div class="price {{(_baseData$ | async)?.range | riseOrFall}}{{!appDataService?.risefallColor?'-true':''}}"  (click)="setPrice(marketPrice)">
 							{{(_baseData$ | async)?.price | priceConversion:8 | numberFilter:false}}
 							<div>
 								<span><i class="picasso-icon-about"></i> {{currencyPrice| priceConversion:8 | numberFilter:false}} <span class="unit">{{appDataService.CURRENCY_INFO?.currencyTo}}</span></span>
