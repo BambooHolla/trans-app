@@ -140,7 +140,7 @@ export class RechargeDetailPage extends SecondLevelPage {
             .then(data => {
                 this.minRechargeText = "";
                 this.minRechargeText  += data[0] && data[0].min ? `最小充值数额是：${data[0].min}。`: '';
-                this.minRechargeText  += data[0] && data[0].max ? `最大充值数额是：${data[0].min}。`: '';
+                this.minRechargeText  += data[0] && data[0].max ? `最大充值数额是：${data[0].max}。`: '';
                 // if (data[0] && (this.productInfo.productDetail||this.productInfo.productName)) {
                 //     if (data[0].min && data[0].max) {
                 //         this.minRechargeText = `${
