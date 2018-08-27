@@ -2105,9 +2105,9 @@ export class TradeInterfaceV2Page {
                 number[0].length > 10 ? number[0].substr(-10) : number[0];
             number[1] =
                 number[1].length > step ? number[1].substr(0, step) : number[1];
-            return number[0] + "." + number[1];
+            return number[0] + (number[1] ? "." + number[1]:"");
         } else if (number[1] == "") {
-            return number[0] + ".";
+            return number[0];
         } else {
             return number[0].length > 18 ? number[0].substr(-18) : number[0];
         }
@@ -2168,6 +2168,7 @@ export class TradeInterfaceV2Page {
         } else {
             this.rangeLeftRound = false;
         }
+        
         if(this._tradeType$.getValue()) {
             if(!this.price || parseFloat(this.price) == 0) return ;
             if(!this.trader_target.availableAmount) return ;
