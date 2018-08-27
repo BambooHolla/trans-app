@@ -773,12 +773,12 @@ export class QuotationsPageV2 {
     }
     goKLineOrTrader(trader: any) {
         this.appDataService.LAST_TRADER.next(trader);
-        // if(this.appDataService.kLine) {
-        //     this.gotoChart(trader)
-        // } else {
+        if(this.appDataService.kLine) {
+            this.gotoChart(trader)
+        } else {
             setTimeout(() => {
                 this.navCtrl.parent.select(1);            
             }, 100);
-        // }
+        }
     }
 }
