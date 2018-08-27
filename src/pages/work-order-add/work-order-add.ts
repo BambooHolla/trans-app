@@ -105,15 +105,15 @@ export class WorkOrderAddPage extends SecondLevelPage {
     getDetailLength() {
         let length = 0;
         let contentLength = this.detailContent ? this.detailContent.length : 0;
-        console.log(this.detailContent);
+        const exp = new RegExp(/[^\x00-\xff]/gi);
         for (let i = 0; i < contentLength; i++) {
-            if (new RegExp(/[^\x00-\xff]/gi).test(this.detailContent[i])) {
-                length += 2;
-            } else {
+            if (exp.test(this.detailContent[i])) {
                 length += 1;
+            } else {
+                length += 0.5;
             }
         }
-        this.detailLength = length;
+        this.detailLength = Math.floor(length);
     }
 
     public telOrEmail = true;
