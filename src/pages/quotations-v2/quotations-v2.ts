@@ -714,12 +714,7 @@ export class QuotationsPageV2 {
                 });
         }
     }
-    saveLastTrader(trader: any) {
-        setTimeout(() => {
-            this.navCtrl.parent.select(1);            
-        }, 100);
-        // this.gotoChart(trader);
-    }
+    
     gotoChart(trader) {
         this.navCtrl.push(TradeChartV2Page, {
             traderId: trader.traderId,
@@ -776,12 +771,14 @@ export class QuotationsPageV2 {
             this.navCtrl.push(SwitchNetworkPage);
         }
     }
-    hasKLine(trader: any) {
+    goKLineOrTrader(trader: any) {
         this.appDataService.LAST_TRADER.next(trader);
-        if(this.appDataService.kLine) {
-            this.gotoChart(trader)
-        } else {
-            this.saveLastTrader(trader);
-        }
+        // if(this.appDataService.kLine) {
+        //     this.gotoChart(trader)
+        // } else {
+            setTimeout(() => {
+                this.navCtrl.parent.select(1);            
+            }, 100);
+        // }
     }
 }

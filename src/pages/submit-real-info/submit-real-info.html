@@ -7,6 +7,7 @@
 <ion-header class="animation-header">
     <ion-navbar>
         <ion-title>{{'REAL_NAME_VERIFICATION'|translate}}</ion-title>
+        <div class="header-back-btn"  (click)="nextSlide(false)" *ngIf="showBackBtn"></div>
     </ion-navbar>
     
 </ion-header>
@@ -72,7 +73,7 @@
                 <ion-content>
                         <ion-row>
                             <div class="schedule-list">
-                                <div class="schedule-item current" (click)="nextSlide(false)">
+                                <div class="schedule-item current">
                                     <div class="img"><span class="picasso-icon-dustbin-information"></span></div>
                                     <div class="txt">完善信息</div>
                                 </div>

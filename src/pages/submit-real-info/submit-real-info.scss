@@ -4,6 +4,14 @@ page-submit-real-info {
         ion-row {
             background: #2a2b3f;
         }
+        .header-back-btn {
+            height: 5rem;
+            width: 3.7rem;
+            position: absolute;
+            left: 4px;
+            top: calc(20px + 0.4rem);
+            z-index: 1000;
+        }
     }
     ion-content {
         background: #2a2b3f;

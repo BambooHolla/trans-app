@@ -347,12 +347,19 @@ export class SubmitRealInfoPage extends SecondLevelPage {
         }
         return new Blob([u8arr], { type: mime });
     }
+
+    private showBackBtn:boolean = false;
     nextSlide(next:boolean) {
         this.slides.lockSwipes(false);
         if(next) {
             this.slides.slideNext();
         } else {
             this.slides.slidePrev();
+        }
+        if(this.slides.getActiveIndex() == 1) {
+            this.showBackBtn = true;
+        } else {
+            this.showBackBtn = false;
         }
         this.slides.lockSwipes(true)
     }
