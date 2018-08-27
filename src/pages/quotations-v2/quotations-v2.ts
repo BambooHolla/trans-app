@@ -188,9 +188,10 @@ export class QuotationsPageV2 {
     /**
      * 轮播图移动触发函数，用于用户停止操作时，重启自动轮播
      * @param  事件
+     * @param type 0:banner,1:公告,2:banner和公告
      */
     slideDrag($event,type) {
-        if(type) {
+        if(type === 0) {
             if(this._noticesSlide) {
                 clearTimeout(this._noticesSlide);
                 this._noticesSlide = null;
@@ -200,7 +201,7 @@ export class QuotationsPageV2 {
                 this.noticesSlide.startAutoplay()
                 this._noticesSlide = null;
             }, 2000);
-        } else {
+        } else if(type === 1) {
             if(this._bannersSlide) {
                 clearTimeout(this._bannersSlide);
                 this._bannersSlide = null;
@@ -209,7 +210,13 @@ export class QuotationsPageV2 {
                 // 顶部轮播图开始自动轮播
                 this.bannersSlide.startAutoplay()
                 this._bannersSlide = null;
-            }, 4000);
+            }, 2000);
+        } else if(type === 2) {
+            debugger
+            setTimeout(() => {
+                this.bannersSlide.startAutoplay()
+                this.noticesSlide.startAutoplay()
+            }, 200);
         }
     }
     private newsContentPage: any = NewsContent;
@@ -234,6 +241,7 @@ export class QuotationsPageV2 {
         }
         this.navCtrl.push(this.newsContentPage, {
             newInfo: type?this.noticeList[index]:this.bannerList[index],
+            backFn: this.slideDrag.bind(this),
         });
     }
 

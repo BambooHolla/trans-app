@@ -50,4 +50,10 @@ export class NewsContent implements OnInit {
         // );
         // console.log("获取新闻", this, this.news);
     }
+    ionViewWillLeave() {
+        const backFn = this.navParams.get("backFn");
+        if(backFn) {
+            backFn(null,2);
+        }
+    }
 }
