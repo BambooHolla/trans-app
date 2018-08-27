@@ -358,7 +358,7 @@ export class TradeInterfaceV2Page {
         if(precisionIdArr && precisionIdArr.length) {
             const tasks = [];
             await this.accountServiceProvider.getProductPrecision(trader.traderId).then( data => {
-                // 记录是否改变，如果没 需复制8位
+                // 记录是否改变，如果没 8位
                 let _amountP: boolean =  false;
                 let _priceP: boolean = false;
                 // 001数量 002价格
@@ -382,8 +382,9 @@ export class TradeInterfaceV2Page {
                     }
                 }
 
-                this.amountPrecision = _amountP ? this.amountPrecision : 8;
-                this.pricePrecision = _priceP ? this.pricePrecision : 8;
+                this.amountPrecision = _amountP ? this.amountPrecision >= 0? this.amountPrecision : 8 : 8;
+                this.pricePrecision = _priceP ? this.pricePrecision >= 0? this.pricePrecision : 8 : 8;
+                
             }).catch( err => {
                 this.amountPrecision = 8;
                 this.pricePrecision = 8;
