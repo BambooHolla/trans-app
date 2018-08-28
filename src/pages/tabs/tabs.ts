@@ -28,6 +28,7 @@ import { LoginService } from "../../providers/login-service";
 import { AppSettingProvider } from "../../bnlc-framework/providers/app-setting/app-setting";
 import { Keyboard } from "@ionic-native/keyboard";
 import { AppDataService } from "../../providers/app-data-service";
+import { TradeChartV2Page } from "../trade-chart-v2/trade-chart-v2";
 
 @Component({
     selector: "component-tabs",

@@ -1,0 +1,33 @@
+<!--
+  Generated template for the SelectTradesPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+  <!-- 交易页面，切换交易对 -->
+   <!-- 切换币种 -->
+   <ion-grid class="select-type-list">
+      <ion-row>
+        <ion-col col-3 no-padding class="select-type-item" *ngFor="let item of appDataService.mainproducts;let i = index">
+          <div class="select-type-name" [class.active]="i == filterProductIndex"  (click)='filterMainProduct(item.productName,i)'>
+            {{item.productName | translate}}
+          </div>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-header>
+  
+<ion-content padding>
+  <!-- 展示交易对 -->
+  <ion-grid class="trade-list">
+      <ion-row class="trade-item" *ngFor="let trader of show_traderList;let i = index">
+        <ion-col no-padding>
+          <div class="trade-name" [class.active]="traderId == trader?.traderId" (click)="checkTrade(trader)">
+              <span class="product-name">{{trader?.productName}} / </span><span class="price-name">{{trader?.priceName}}</span>
+              <span class="picasso-icon-tick right" *ngIf="traderId == trader?.traderId"></span>
+          </div>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+</ion-content>

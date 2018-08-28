@@ -31,6 +31,10 @@ export class AppSettingProvider {
             path 
         );
     }
+
+    // 是否模糊底部tab
+    public hasTabBlur: boolean = false;
+
     constructor(public http: Http, public appDataService: AppDataService) {
         AppSettingProvider.SERVER_URL = JSON.parse(
             localStorage.getItem("SERVER_URL_APP") ||

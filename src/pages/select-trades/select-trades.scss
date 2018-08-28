@@ -1,0 +1,68 @@
+page-select-trades {
+    position: relative;
+    ion-header {
+        background: rgba(44, 44, 65,0)!important;
+    }
+    ion-content {
+        background-color: transparent !important;
+        .scroll-content {
+            padding: 0 !important;
+            background: rgba(44, 44, 65,0)!important;
+        }
+    }
+    .select-type-list {
+        border-bottom: 1px solid color($colors,special);
+        .select-type-item {
+            > .select-type-name {
+                text-align: center;
+                line-height: 3.2rem;
+                font-size: 1.7rem;
+                &.active {
+                    color: color($colors, special);
+                    font-weight: 500 !important;
+                    font-size: 1.8rem;
+                    &::before {
+                        display:block;
+                        content:'';
+                        border-width: 6px 6px 6px 6px;
+                        border-style:solid;
+                        border-color:transparent transparent color($colors, special) transparent;
+                        /* 定位 */
+                        position:absolute;
+                        left:50%;
+                        transform: translateX(-50%);
+                        bottom:-0.5rem;
+                    }
+                }
+            }
+        }
+    }
+    .trade-list {
+        .trade-item {
+            border-bottom: 1px solid #656567;
+            line-height: 5rem;
+            font-size: 1.8rem;
+            ion-col {
+                padding:  0 32px 0 24px;
+            }
+        }
+        .trade-name {
+            position: relative;
+            width: 100%;
+            font-weight: 400;
+            .price-name {
+                font-size: 1.5rem;
+            }
+            .right {
+                position: absolute;
+                right: 0;
+                font-size: 1.8rem;
+                font-weight: 600;
+            }
+            &.active {
+                color: color($colors, special);
+                font-weight: 500;
+            }
+        }
+    }
+}

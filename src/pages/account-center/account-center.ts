@@ -185,7 +185,7 @@ export class AccountCenterPage extends SecondLevelPage {
             {
                 enterAnimation: "custom-dialog-pop-in",
                 leaveAnimation: "custom-dialog-pop-out",
-              },
+            },
             
         ).present()
     }

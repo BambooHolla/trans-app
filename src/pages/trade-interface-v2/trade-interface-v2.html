@@ -1,7 +1,9 @@
 <ion-header class="animation-header"> 
 	<ion-navbar>
 		<ion-item class="button-space">
-			<ion-select [(ngModel)]="traderId" (ngModelChange)='changeTrader($event)' placeholder="---/---" interface="popover" style="width:initial">
+			<ion-select [(ngModel)]="traderId" (ngModelChange)='changeTrader($event)' placeholder="---/---" interface="popover" style="width:initial"
+			(click)="showSelectTrades()"  [selectOptions]="{cssClass:'hidden-select'}"
+			>
 				<ion-option *ngFor="let trader of traderList" [value]="trader.traderId">
 					{{trader.traderName}}
 				</ion-option>
@@ -43,7 +45,7 @@
 	</div> -->
 </ion-header>
 
-<ion-content no-bounce class="home-contain" id="scroll-content-nonepadding">
+<ion-content no-bounce class="home-contain" id="scroll-content-nonepadding" [class.bg-blur]='!!selectTradesModal'>
 	<!--下拉刷新-->
 	<ion-refresher (ionRefresh)="refreshPersonalData($event)">
 		<ion-refresher-content refreshingText="{{'RENEWING'|translate}}...">
