@@ -2242,6 +2242,9 @@ export class TradeInterfaceV2Page {
         this.selectTradesModal.onDidDismiss( data => {
             this.selectTradesModal = null;
             this.appSetting.hasTabBlur = false;
+            this.rangeValue = 0;
+            this.tradeValue = '--';
+            this.amount = '';
         })
     }
 }
