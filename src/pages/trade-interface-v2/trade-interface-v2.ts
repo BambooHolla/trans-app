@@ -572,9 +572,6 @@ export class TradeInterfaceV2Page {
     }
     calculationAmount() {
         if(this._tradeType$.getValue()) {
-            if(!this.price) {
-                this.tradeValue = '--';
-            } 
             this.tradeValue = this.price && this.amount ? this.numberFormat((new BigNumber(this.amount)).times(this.price).toString()) : '--';
         } else {
             this.tradeValue = this.amount ? this.amount : '--';
