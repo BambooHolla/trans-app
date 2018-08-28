@@ -1321,6 +1321,9 @@ export class TradeInterfaceV2Page {
     }
 
     gotoChart($event) {
+        if(this.selectTradesModal) {
+            this.showSelectTrades();
+        }
         this.navCtrl.push(TradeChartV2Page, {
             traderId: this.traderId,
             changeTransaction: this.chooseTradeType.bind(this),
