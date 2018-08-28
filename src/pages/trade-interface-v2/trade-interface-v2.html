@@ -13,6 +13,10 @@
 			<button ion-button ion-only (click)='changeTradeType($event)' >
 			</button>
 		</ion-buttons>
+		<ion-buttons class="trade-button-chart" left *ngIf="appDataService.kLine">
+				<button ion-button ion-only (click)='gotoChart($event)' >
+				</button>
+			</ion-buttons>
 		<!-- <ion-buttons class="chart-button" right> -->
 			<!-- <button ion-button ion-only (click)="switchOrientation(false)">
 

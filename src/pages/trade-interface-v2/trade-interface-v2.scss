@@ -39,6 +39,20 @@ page-trade-interface-v2 {
         height: 2rem;
         width: 2rem;
     }
+    .trade-button-chart {
+        position: absolute;
+        background-image: url("../assets/icon/chart-button.png");
+        background-size: contain;
+        margin-right: 1.2rem;
+        height: 2rem;
+        width: 2rem;
+        left: 16px;
+        background-repeat: no-repeat;
+        z-index: 99;
+        .bar-button-ios {
+            padding: 0 1rem;
+        }
+    }
     .trade-button-type-1 {
         position: absolute;
         background-image: url("../assets/icon/trade-type-1.png");
