@@ -1261,3 +1261,13 @@ ion-popover .item.item-block .item-inner {
         font-weight: 400;
     }
 }
+.select-trades-page {
+    margin-top: 90px;
+    height: calc(100% - 90px);
+    ion-backdrop {
+        background: rgba(0,0,0,0.5);
+    }
+}
+.hidden-select {
+    display: none;
+}

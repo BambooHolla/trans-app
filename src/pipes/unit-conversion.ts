@@ -26,13 +26,17 @@ export class unitConversionPipe implements PipeTransform {
         let number = new BigNumber("" + value || "0").toString();
         // 小数，整数分开
         let numberArr = number.split(".");
+        let integer: string = '';
+        let decimal: string = '';
         let length = numberArr[0].length;
-        if (length < 3 || !numberArr[0]) return value;
+        if (length <= 4 || !numberArr[0]) return value;
         for (let i = 0; length > 4; i++) {
-            numberArr[0] = numberArr[0].substring(0, length - 3);
+            integer = numberArr[0].substring(0, length - 3);
+            decimal = numberArr[0].substring(length - 3);
+            numberArr[0] = integer;
             length = numberArr[0].length;
             unit = unitArr[i];
         }
-        return numberArr[0] + unit;
+        return integer + (decimal? '.' + decimal : "") + unit;
     }
 }

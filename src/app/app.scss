@@ -644,3 +644,9 @@ ion-label[pad] {
     animation-play-state: inherit;
     animation-direction: inherit;
 }
+.bg-blur {
+    &.home-contain,
+    .tabbar {
+        filter: blur(4px);
+    }
+}

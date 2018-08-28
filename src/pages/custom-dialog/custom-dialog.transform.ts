@@ -42,6 +42,7 @@ export class CustomDialogPopIn extends Transition {
 export class CustomDialogPopOut extends Transition {
   init() {
     const ele = this.leavingView.pageRef().nativeElement;
+    const header = new Animation(this.plt, ele.querySelector("ion-header"));
     const backdrop = new Animation(this.plt, ele.querySelector("ion-backdrop"));
     const content = new Animation(
       this.plt,
@@ -52,6 +53,7 @@ export class CustomDialogPopOut extends Transition {
       ele.querySelector(".dialog-wrapper"),
     );
 
+    header.fromTo("opacity",0.99,0);
     content.fromTo("opacity", 0.99, 0);
     dialog_wrapper.fromTo("scale", 1, 0.6);
     backdrop.fromTo("opacity", 0.5, 0);
@@ -60,6 +62,7 @@ export class CustomDialogPopOut extends Transition {
       .duration(200)
       .add(backdrop)
       .add(dialog_wrapper)
-      .add(content);
+      .add(content)
+      .add(header);
   }
 }

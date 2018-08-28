@@ -18,7 +18,7 @@
   </ion-content>
 </ion-menu> -->
 
-<ion-tabs #maintabs>
+<ion-tabs #maintabs  tabsHighlight="true" [class.bg-blur]='!!appSetting?.hasTabBlur'>
 <!-- <ion-tabs #maintabs class="bg-in bg-light"> -->
   <ion-tab #quotationsTab tabUrlPath="quotations" root="quotations" tabTitle=" {{'MARKETS'|translate}}" tabIcon="行情"></ion-tab>
   <ion-tab #exchangeTab tabUrlPath="exchange" root="exchange" tabTitle=" {{'EXCHANGE'|translate}}" tabIcon="交易"></ion-tab>

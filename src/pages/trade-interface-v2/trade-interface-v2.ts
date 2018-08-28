@@ -9,6 +9,8 @@ import {
     Content,
     Events,
     Refresher,
+    ModalController,
+    Modal,
 } from "ionic-angular";
 import { Observable } from "rxjs/Observable";
 import { BehaviorSubject } from "rxjs/BehaviorSubject";
@@ -32,6 +34,7 @@ import { BigNumber } from "bignumber.js";
 
 import { TradeChartV2Page } from "../trade-chart-v2/trade-chart-v2";
 import { AccountServiceProvider } from "../../providers/account-service/account-service";
+import { SelectTradesPage } from "../select-trades/select-trades";
 @Component({
     selector: "page-trade-interface-v2",
     templateUrl: "trade-interface-v2.html",
@@ -312,6 +315,7 @@ export class TradeInterfaceV2Page {
         private loginService: LoginService,
         private accountServiceProvider: AccountServiceProvider,
         private el: ElementRef,
+        private modalCtrl: ModalController,
     ) {
         
         BigNumber.config({ EXPONENTIAL_AT: [-8, 20] });
@@ -568,9 +572,6 @@ export class TradeInterfaceV2Page {
     }
     calculationAmount() {
         if(this._tradeType$.getValue()) {
-            if(!this.price) {
-                this.tradeValue = '--';
-            } 
             this.tradeValue = this.price && this.amount ? this.numberFormat((new BigNumber(this.amount)).times(this.price).toString()) : '--';
         } else {
             this.tradeValue = this.amount ? this.amount : '--';
@@ -1057,7 +1058,9 @@ export class TradeInterfaceV2Page {
     }
     ionViewWillLeave() {}
 
-    ionViewDidLeave() {}
+    ionViewDidLeave() {
+        this.selectTradesModal && this.showSelectTrades();
+    }
     async ionViewDidEnter() {
         // window["confirmChangeTradingMode"] = this.confirmChangeTradingMode
         this.viewDidLeave.next(false);
@@ -1465,7 +1468,7 @@ export class TradeInterfaceV2Page {
             });
     }
 
-    changeTrader($event) {
+    changeTrader($event?) {
         console.log("traderChanged", this.traderId, this.traderList);
         this.rangeValue = 0;
         this.tradeValue = '--';
@@ -2212,5 +2215,33 @@ export class TradeInterfaceV2Page {
     scrollFixInput() {
         const position_y = this.el.nativeElement.querySelector('#scroll-dom').offsetTop;
         this.content.scrollTo(0, position_y);
+    }
+
+    public selectTradesModal: Modal;
+    showSelectTrades() {
+        if(this.selectTradesModal) {
+            this.selectTradesModal.dismiss();
+            this.selectTradesModal = null;
+            this.appSetting.hasTabBlur = false;
+            return ;
+        }
+        this.selectTradesModal =  this.modalCtrl.create(
+            "select-trades",
+            {
+                traderList: this.traderList,
+                traderId: this.traderId,
+            },
+            {
+                enterAnimation: "custom-dialog-pop-in",
+                leaveAnimation: "custom-dialog-pop-out",
+                cssClass: "select-trades-page",
+            },
+        );
+        this.appSetting.hasTabBlur = true;
+        this.selectTradesModal.present();
+        this.selectTradesModal.onDidDismiss( data => {
+            this.selectTradesModal = null;
+            this.appSetting.hasTabBlur = false;
+        })
     }
 }
