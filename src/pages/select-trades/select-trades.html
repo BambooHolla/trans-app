@@ -18,7 +18,7 @@
     </ion-grid>
   </ion-header>
   
-<ion-content padding>
+<ion-content padding (click)='dismiss()'>
   <!-- 展示交易对 -->
   <ion-grid class="trade-list">
       <ion-row class="trade-item" *ngFor="let trader of show_traderList;let i = index">

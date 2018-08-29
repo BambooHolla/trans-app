@@ -1276,12 +1276,12 @@ ion-popover .item.item-block .item-inner {
     }
 }
 .select-trades-page {
-    margin-top: 90px;
-    height: calc(100% - 90px);
+    margin-top: calc(90px - 20px);
+    height: calc(100% - 90px + 20px);
     ion-backdrop {
         background: rgba(0,0,0,0.5);
     }
 }
 .hidden-select {
-    display: none;
+    visibility: hidden;
 }

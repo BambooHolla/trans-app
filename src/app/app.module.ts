@@ -189,6 +189,7 @@ import { File } from "@ionic-native/file";
 import { FileOpener } from "@ionic-native/file-opener";
 import { CustomDialogPage } from "../pages/custom-dialog/custom-dialog";
 import { SelectTradesPage } from "../pages/select-trades/select-trades";
+import { SelectTradesPageModule } from "../pages/select-trades/select-trades.module";
 // import { BankCode2NamePipe } from '..\pipes\bank-code2-name/bank-code2-name';
 // import { FileService } from '../providers/file.service';
 // import { IsLoadingDirective } from '../directives/is-loading/is-loading';
@@ -249,7 +250,6 @@ export function createTranslateLoader(http: HttpClient) {
         WorkOrderListPage,
         CustomDialogPage,
         WorkOrderAddPage,
-        SelectTradesPage,
         WorkOrderDetailPage,
         HomePage,
         GestureLockPage,
@@ -387,7 +387,10 @@ export function createTranslateLoader(http: HttpClient) {
                         component: WorkOrderDetailPage,
                         name: "work-order-detail",
                     },
-                    { component: SelectTradesPage, name: "select-trades" },
+                    { 
+                        component: SelectTradesPage, 
+                        name: "select-trades",
+                    },
                     //- from BNLC framwork
 
                     { component: LoginPage, name: "login" },
@@ -402,6 +405,7 @@ export function createTranslateLoader(http: HttpClient) {
         LoginPageModule,
         RegisterPageModule,
         AboutPageModule,
+        SelectTradesPageModule,
         ForgetPwdPageModule,
         ModifyPwdPageModule,
         BrowserModule,

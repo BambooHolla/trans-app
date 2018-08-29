@@ -202,7 +202,7 @@ export class PicassoApp {
                 this.modalController.create(LoginPage, { cb }).present();
             } else {
                 this.loginModal.present();
-            }
+            } 
             // console.log('events.subscribe:',page)
             // this.rootNav.push(page)
         });

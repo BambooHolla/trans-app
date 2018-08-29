@@ -2218,6 +2218,7 @@ export class TradeInterfaceV2Page {
     }
 
     public selectTradesModal: Modal;
+    @ViewChild("selectTrader")  selectTrader;
     showSelectTrades() {
         if(this.selectTradesModal) {
             this.selectTradesModal.dismiss();
@@ -2226,7 +2227,7 @@ export class TradeInterfaceV2Page {
             return ;
         }
         this.selectTradesModal =  this.modalCtrl.create(
-            "select-trades",
+            SelectTradesPage,
             {
                 traderList: this.traderList,
                 traderId: this.traderId,
@@ -2234,17 +2235,18 @@ export class TradeInterfaceV2Page {
             {
                 enterAnimation: "custom-dialog-pop-in",
                 leaveAnimation: "custom-dialog-pop-out",
-                cssClass: "select-trades-page",
+                cssClass: "select-trades-page show-page",
             },
         );
         this.appSetting.hasTabBlur = true;
-        this.selectTradesModal.present();
-        this.selectTradesModal.onDidDismiss( data => {
+        this.selectTradesModal.onWillDismiss( () => {
             this.selectTradesModal = null;
             this.appSetting.hasTabBlur = false;
             this.rangeValue = 0;
             this.tradeValue = '--';
             this.amount = '';
+            this.selectTrader && this.selectTrader.close();
         })
+        this.selectTradesModal.present();
     }
 }
