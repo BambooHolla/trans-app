@@ -1367,15 +1367,13 @@ export class TradeInterfaceV2Page {
         let message: string = "";
         switch (this.userLanguage) { 
             case "zh":
-                message = `确定要撤回${entrustTime}的${entrustCategory}委托单?`;
+                message = `确定要撤回当前委托？`;
                 break;
             case "en":
-                message = `Are you sure to withdraw your ${window["language"][
-                    entrustCategory
-                ] || ""}order?`;
+                message = `确定要撤回当前委托？`;
                 break;
             default:
-                message = `确定要撤回${entrustTime}的${entrustCategory}委托单?`;
+                message = `确定要撤回当前委托？`;
         }
         let alert = this.alertCtrl.create({
             title: window["language"]["REVOKE_DELEGATION"] || "撤回委托",
