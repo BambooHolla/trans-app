@@ -40,13 +40,13 @@
 	<!-- <loop-slides-beta></loop-slides-beta> -->
 	<!-- <div class="footer-data">03/12</div> -->
 	<!--下拉刷新-->
-	<ion-refresher (ionRefresh)="initData($event)" *ngIf="refresherEnabled">
+	<!-- <ion-refresher (ionRefresh)="initData($event)" *ngIf="refresherEnabled">
 		<ion-refresher-content refreshingText="{{'UPDATING'|translate}}...">
 		</ion-refresher-content>
-	</ion-refresher>
+	</ion-refresher> -->
 	<ion-slides #Slides (ionSlideDrag)="slideDrag($event)" (ionSlideDidChange)="slideDidChange($event)">
 		<ion-slide  *ngFor="let type_item of entrusts_type">
-			<ion-scroll>
+			<ion-content>
 				<div class="no-entrust" *ngIf="!type_item.entrust || type_item.entrust.length == 0">
 					<div class="no-entrust-logo">
 						<img src="assets/icon/no-entrust.png" alt="">
@@ -110,12 +110,17 @@
 						</div>
 					</div> 
 				</div>
-			</ion-scroll>
+				<div>
+					<div class="entrust no-more" *ngIf=" type_item.entrust && type_item.entrust.length > 0 && !type_item.has_more">
+						<div class="entrust-no-more"> <span></span> 无更多委托订单 <span></span> </div>
+					</div> 
+				</div>
+				<!--加载更多-->
+				<ion-infinite-scroll [enabled]="type_item.has_more" (ionInfinite)="loadMoreHistory($event)">
+					<ion-infinite-scroll-content>
+					</ion-infinite-scroll-content>
+				</ion-infinite-scroll>
+			</ion-content>
 		</ion-slide>
 	</ion-slides>
-	<!--加载更多-->
-	<ion-infinite-scroll [enabled]="hasMore" (ionInfinite)="loadMoreHistory($event)">
-		<ion-infinite-scroll-content loadingText="{{'LOADING'|translate}}...">
-		</ion-infinite-scroll-content>
-	</ion-infinite-scroll>
 </ion-content>

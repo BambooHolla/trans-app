@@ -249,6 +249,23 @@ page-history-record {
                     }
                 }
             }
+            &.no-more {
+                padding-bottom: 1.2rem;
+            }
+            .entrust-no-more {
+                text-align: center;
+                width: 100%;
+                color: #505050;
+                font-size: 1.4rem;
+                span {
+                    display: inline-block;
+                    width: 20%;
+                    border-bottom: 1px solid #505050;
+                    line-height: 1.4rem;
+                    position: relative;
+                    top: -5px;
+                }
+            }
         }
         .list-item {
             height: 5.8rem;
@@ -300,6 +317,12 @@ page-history-record {
             height: 100%;
             ion-scroll {
                 height: 100%;
+            }
+        }
+        ion-infinite-scroll-content {
+            min-height: 54px;
+            .infinite-loading {
+                margin: 0;
             }
         }
     }
