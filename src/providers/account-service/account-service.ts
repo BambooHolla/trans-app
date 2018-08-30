@@ -518,12 +518,18 @@ export class AccountServiceProvider {
             },
         );
     }
-    getBillDetailList(productHouseId: string) {
+    getBillDetailList(
+        productHouseId: string,
+        page: number = 1,
+        pageSize: number = 10,
+    ) {
         return this.fetch.get<BillDetailModel[]>(
             this.GET_PRODUCT_DETAIL, {
                 search: { 
                     productHouseId,
-                    accountType: "003"
+                    accountType: "003",
+                    page,
+                    pageSize,
                  },
             }
             
