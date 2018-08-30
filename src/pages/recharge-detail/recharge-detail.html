@@ -104,6 +104,11 @@
                 </div>
             </div>
         </div>
+        <div class="recharge-log" *ngIf=" transaction_logs && transaction_logs.length > 0 && !recharge_logs_page_info.has_more">
+            <div class="base-info">
+                <div class="record-no-more"> <span></span> 无更多充值记录 <span></span> </div>
+            </div>
+        </div>
     </div>
     <!--加载更多-->
     <ion-infinite-scroll [enabled]="has_more_recharge_logs" (ionInfinite)="loadMoreRechargeLogs($event)">

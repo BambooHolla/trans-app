@@ -115,7 +115,7 @@
             </div>
         </ion-item>
         <ion-item class="record-group last-record-group" *ngIf=" product_list && product_list.length > 0 && !bill_logs_page_info?.has_more">
-           <div class="record-no-more"> <span></span> 无更多数据 <span></span> </div>
+           <div class="record-no-more"> <span></span> 无更多资产记录 <span></span> </div>
         </ion-item>
     </ion-list>
     <ion-infinite-scroll [enabled]="bill_logs_page_info?.has_more" (ionInfinite)="loadMoreBills($event)">
