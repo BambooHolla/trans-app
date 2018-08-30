@@ -298,6 +298,20 @@ page-withdraw-detail {
                         font-size: 1.5rem !important;
                     }
                 }
+                .record-no-more {
+                    text-align: center;
+                    width: 100%;
+                    color: #505050;
+                    font-size: 1.4rem;
+                    span {
+                        display: inline-block;
+                        width: 20%;
+                        border-bottom: 1px solid #505050;
+                        line-height: 1.4rem;
+                        position: relative;
+                        top: -5px;
+                    }
+                }
             }
             .detail-info {
                 display: flex;
@@ -380,6 +394,7 @@ page-withdraw-detail {
                     // border-right: 1px solid #222333;
                 }
             }
+
         }
     }
 }

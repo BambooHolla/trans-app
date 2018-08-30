@@ -168,6 +168,11 @@
                 </div>
             </div>
         </div>
+        <div class="withdraw-log" *ngIf="transaction_logs && transaction_logs.length > 0 && !withdraw_logs_page_info?.has_more">
+            <div class="base-info">
+                <div class="record-no-more"> <span></span> 无更多数据 <span></span> </div>
+            </div>
+        </div>
     </div>
     <!--加载更多-->
 	<ion-infinite-scroll [enabled]="withdraw_logs_page_info?.has_more" (ionInfinite)="loadMoreWithdrawLogs($event)">
