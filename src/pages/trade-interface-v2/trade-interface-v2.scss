@@ -966,6 +966,23 @@ page-trade-interface-v2 {
                     }
                 }
             }
+            &.no-more {
+                
+            }
+            .entrust-no-more {
+                text-align: center;
+                width: 100%;
+                color: #505050;
+                font-size: 1.4rem;
+                span {
+                    display: inline-block;
+                    width: 20%;
+                    border-bottom: 1px solid #505050;
+                    line-height: 1.4rem;
+                    position: relative;
+                    top: -5px;
+                }
+            }
         }
     }
 

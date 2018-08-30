@@ -605,6 +605,11 @@
 				</div>
 			</div> 
 		</div>
+		<div>
+			<div class="entrust no-more" *ngIf="entrusts && entrusts.length > 0 && !hasMore">
+				<div class="entrust-no-more"> <span></span> 无更多委托订单 <span></span> </div>
+			</div> 
+		</div>
 	</div>
 	<!--加载更多-->
 	<!-- <ion-infinite-scroll [enabled]="hasMore" (ionInfinite)="loadMoreHistory($event)">
