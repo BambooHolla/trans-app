@@ -181,7 +181,7 @@ export class EntrustServiceProvider {
                             priceId: item.priceId,
                             priceProductHouseId: item.priceProductHouseId,
                             productHouseId: item.productHouseId,
-                            // entrustTime: item.entrustAt,
+                            createdTime: item.createdAt,
                             updatedTime: item.entrustAt,
                             // commitPrice: item.entrustPrice,
                             // commitAmount: item.entrustAmount,
