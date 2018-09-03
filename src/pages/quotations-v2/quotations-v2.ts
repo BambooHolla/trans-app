@@ -216,7 +216,7 @@ export class QuotationsPageV2 {
             setTimeout(() => {
                 this.bannersSlide.startAutoplay()
                 this.noticesSlide.startAutoplay()
-            }, 200);
+            }, 0);
         }
     }
     private newsContentPage: any = NewsContent;
@@ -241,7 +241,6 @@ export class QuotationsPageV2 {
         }
         this.navCtrl.push(this.newsContentPage, {
             newInfo: type?this.noticeList[index]:this.bannerList[index],
-            backFn: this.slideDrag.bind(this),
         });
     }
 
@@ -310,7 +309,10 @@ export class QuotationsPageV2 {
             this._thisPageActive = true;
             this.appDataService.getAppCoords();
         }, 200);
+        this.noticeList.length && this.noticesSlide && this.noticesSlide.startAutoplay();
+        this.bannerList && this.bannersSlide && this.bannersSlide.startAutoplay();
     }
+    
     
     ionViewWillLeave() {
         // 将要离开当前页时，设置 _thisPageActive 为 false ，
@@ -333,6 +335,9 @@ export class QuotationsPageV2 {
         setTimeout(() => {
             this.destoryCharts();
         }, 1e3);
+
+        this.noticeList.length && this.noticesSlide.stopAutoplay();
+        this.bannerList && this.bannersSlide.stopAutoplay();
     }
 
     ionViewDidLeave() {
