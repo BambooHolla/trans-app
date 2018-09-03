@@ -374,6 +374,26 @@
 
 .picasso-icon-tick:before { content: "\e632"; }
 
+/* 向上箭头 2个叠加 */
+
+@font-face {font-family: "picasso-icon-two-up-arrow";
+  src: url('iconfont.eot?t=1535966252860'); /* IE9*/
+  src: url('iconfont.eot?t=1535966252860#iefix') format('embedded-opentype'), /* IE6-IE8 */
+  url('data:application/x-font-woff;charset=utf-8;base64,d09GRgABAAAAAAP8AAsAAAAABkAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAABHU1VCAAABCAAAADMAAABCsP6z7U9TLzIAAAE8AAAARAAAAFY8fUf5Y21hcAAAAYAAAABLAAABcOcvtb9nbHlmAAABzAAAAEgAAABI0jiizGhlYWQAAAIUAAAALwAAADYShX5WaGhlYQAAAkQAAAAcAAAAJAfeA4NobXR4AAACYAAAAAgAAAAICAAAAGxvY2EAAAJoAAAABgAAAAYAJAAAbWF4cAAAAnAAAAAeAAAAIAEOABluYW1lAAACkAAAAUUAAAJtPlT+fXBvc3QAAAPYAAAAIQAAADLf6deleJxjYGRgYOBikGPQYWB0cfMJYeBgYGGAAJAMY05meiJQDMoDyrGAaQ4gZoOIAgCKIwNPAHicY2BkYWCcwMDKwMHUyXSGgYGhH0IzvmYwYuRgYGBiYGVmwAoC0lxTGByesT9jZ27438AQw9zA0AAUZgTJAQDePQvxeJxjYGBgZWBgYAZiHSBmYWBgDGFgZAABP6AoI1icmYELLM7CoARWwwISf8b+/z+MBPJZwCQDIxvDKOABkzJQHjisIJiBEQA6CAmFAAACAAD/2QPhAygABgAMAAAJARcJATcBBTcJARcBAeT+PRwBwwHEHP4gAcQc/h/+IRwBwwG5/jwcAcT+PBwB4KkcAd/+IBwBxHicY2BkYGAA4p5LNxXi+W2+MnCzMIDA9c2yOgj6/00WBmYNIJeDgQkkCgAnNwm/AHicY2BkYGBu+N/AEMPCAAJAkpEBFTABAEcIAmsEAAAABAAAAAAAAAAAJAAAeJxjYGRgYGBi4AViBjCLgYELCBkY/oP5DAAJ8wEoAAB4nGWPTU7DMBCFX/oHpBKqqGCH5AViASj9EatuWFRq911036ZOmyqJI8et1ANwHo7ACTgC3IA78EgnmzaWx9+8eWNPANzgBx6O3y33kT1cMjtyDRe4F65TfxBukF+Em2jjVbhF/U3YxzOmwm10YXmD17hi9oR3YQ8dfAjXcI1P4Tr1L+EG+Vu4iTv8CrfQ8erCPuZeV7iNRy/2x1YvnF6p5UHFockikzm/gple75KFrdLqnGtbxCZTg6BfSVOdaVvdU+zXQ+ciFVmTqgmrOkmMyq3Z6tAFG+fyUa8XiR6EJuVYY/62xgKOcQWFJQ6MMUIYZIjK6Og7VWb0r7FDwl57Vj3N53RbFNT/c4UBAvTPXFO6stJ5Ok+BPV8bUnV0K27LnpQ0kV7NSRKyQl7WtlRC6gE2ZVeOEXpc0Yk/KGdI/wAJWm7IAAAAeJxjYGKAAC4G7ICJkYmRmYEjKzMxryS/VJeBAQAYKANFAAAA') format('woff'),
+  url('iconfont.ttf?t=1535966252860') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+*/
+  url('iconfont.svg?t=1535966252860#iconfont') format('svg'); /* iOS 4.1- */
+}
+
+.picasso-icon-two-up-arrow {
+  font-family:"picasso-icon-two-up-arrow" !important;
+  font-size:1.3rem;
+  font-style:normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.picasso-icon-two-up-arrow:before { content: "\e607"; }
+
 
 
 

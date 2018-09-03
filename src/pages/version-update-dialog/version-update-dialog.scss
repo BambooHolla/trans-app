@@ -24,21 +24,29 @@ page-version-update-dialog {
   .dialog-wrapper {
     position: relative;
     // top: -11vh;
+    border-top-left-radius: 0.8rem;
+    border-top-right-radius: 0.8rem;
+    background-color: #fff;
+
     > .close-button {
       position: absolute;
-      width: 2.2rem;
-      height: 2.2rem;
+      width: 1.4rem;
+      height: 1.4rem;
       font-size: 1.7rem;
       color: #fff;
-      background-color: #929292;
+      background-color: transparent;
       border-radius: 50%;
-      right: -0.7rem;
+      right: 0.4rem;
       top: 0rem;  
       display: flex;
       align-items: center;
       justify-content: center;
+      background-image: url("../assets/images/update_exit_bottom.png");
     }
     > .dialog-content {
+      background-image: url("../../assets/images/update_bg.png");
+      background-size: 100% auto;
+      background-repeat: no-repeat;
       box-shadow: 0px 0px 50px color($colors, "special");
       width: 76vw;
       min-height: 12.2rem;
@@ -51,7 +59,7 @@ page-version-update-dialog {
       justify-content: space-between;
       align-items: center;
       > .header {
-        color: #a0b9cf;
+        color: #fff;
         width: 100%;
         // display: flex;
         padding: 1rem;
@@ -62,27 +70,42 @@ page-version-update-dialog {
         background-image: url("../assets/imgs/version-update-dialog/bg.png");
         background-size: 170vw;
         background-repeat: no-repeat;
-        height: 9rem;
+        height: 11rem;
         background-position: center bottom;
         > .icon {
           width: 4rem;
         }
         > .title {
-          font-size: 1.5rem;
+          font-size: 1.8rem;
           padding: 0.5rem;
           font-weight: bold;
           display: flex;
           box-sizing: border-box;
           align-items: flex-start;
-          justify-content: center;
-          padding-top: 1.6rem;
+          justify-content: left;
+          padding-top: 1rem;
           span {
             font-weight: 300;
             font-size: 1rem;
+            margin-left: 0.6rem;
+            > span {
+              position: relative;
+              font-size: 0.8rem;
+              animation: nextPage 1.5s infinite;
+
+            }
           }
         }
         > .content {
-
+          padding: 0.5rem;
+          display: inline-block;
+          background-color: #fff;
+          color:  color($colors, gold);
+          border-radius: 10px;
+          font-size: 1.4rem;
+          padding: 0.2rem 0.5rem;
+          margin-left: 0.5rem;
+         
         }
       }
       > .content {
@@ -103,6 +126,7 @@ page-version-update-dialog {
             > .detail {
               margin: 0;
               padding-left: 2rem;
+              font-size: 1.4rem;
             }
           }
           font-size: 1.35rem;
@@ -124,20 +148,19 @@ page-version-update-dialog {
           flex: 1;
           height: 100%;
           background-color: transparent;
-
           display: flex;
           justify-content: center;
           align-items: center;
-          font-size: 1.4rem;
+          font-size: 1.6rem;
           &.ok {
             color: #fff;
-            background-color: #ff6769;
+            background-color: color($colors, gold);
           }
           &.downloading {
             color: #fff;
             background-color: rgba(#ff6769, 0.6);
             position: relative;
-            border-radius: 0 0 0.8rem 0;
+            // border-radius: 0 0 0.8rem 0;
             overflow: hidden;
             z-index: 1;
             --progress: 0%;
@@ -185,6 +208,54 @@ page-version-update-dialog {
           }
         }
       }
+    }
+  }
+  @keyframes nextPage {
+    0% {
+        bottom: 7px;
+        opacity: 1;
+    }
+    17% {
+        bottom: 3px;
+        opacity: 0.85;
+    }
+    33% {
+        bottom: 0px;
+        opacity: 0.65;
+    }
+    51% {
+        bottom: -2px;
+        opacity: 0.45;
+    }
+    68% {
+        bottom: 0px;
+        opacity: 0.65;
+    }
+    83% {
+        bottom: 3px;
+        opacity: 0.85;
+    }
+    100% {
+        bottom: 7px;
+        opacity: 1;
+    }
+  }
+  .progress-bar {
+    width: 100%;
+    --progress: 10%;
+    // background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    padding: 0.4rem 1.2rem;
+    justify-content: space-between;
+    align-items: center;
+    .bar {
+      height: 0.7rem;
+      width: 85%;
+      border-radius: 0.6rem; 
+      background-color: #ff6769;
+    }
+    .bar-txt {
+      color: #000;
     }
   }
 }

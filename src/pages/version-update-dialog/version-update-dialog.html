@@ -7,23 +7,23 @@
     <div class="dialog-content">
       <div class="header">
         <div class="title">
-          <div>发现新版本</div> <span>NEW +</span>
+          <div>发现新版本</div> <span>NEW<span class="picasso-icon-two-up-arrow"></span></span>
         </div>
         <div class="content">
           V 2.0.2
         </div>
       </div>
       <div class="content">
-        <div class="item">
+        <!-- <div class="item">
           <div class="label">{{'NEWEST_VERSION'|translate}}：</div>
           <div class="text">V{{version_info?.version}}</div>
         </div>
         <div class="item">
           <div class="label">{{'VERSION_SIZE'|translate}}：</div>
           <div class="text">{{(isIOS?version_info?.plist_size :version_info?.apk_size)}}</div>
-        </div>
+        </div> -->
         <div class="item changelogs">
-          <div class="label">{{'CHANGELOGS'|translate}}：</div>
+          <!-- <div class="label">更新内容：</div> -->
           <ol class="detail">
             <li class="line" *ngFor="let line of changelogs">
               {{line}}
@@ -31,15 +31,18 @@
           </ol>
         </div>
       </div>
+      <div class="progress-bar">
+        <div class="bar"></div><div class="bar-txt">100%</div>
+      </div>
       <div class="buttons">
         <!-- <button class="button cancel" (click)="closeDialog()">
           {{'CANCEL'|translate}}
         </button> -->
-        <button *ngIf="isAndroid && !isDownloading" class="button ok" (click)="androidUpadate()">
-          {{'NOW_DOWNLOAD'|translate}}
+        <button *ngIf="!isDownloading" class="button ok" (click)="androidUpadate()">
+          立即更新
         </button>
         <button *ngIf="isDownloading" class="button downloading" [attr.style]="download_progress" (click)="backgroundDownload()">
-          {{'BACKGROUND_DOWNLOAD'|translate}}
+          正在更新 ··· ···
         </button>
         <!-- <button *ngIf="isIOS" class="button ok" (click)="iosUpdatge()">
           {{'GO_DOWNLOAD'|translate}}
