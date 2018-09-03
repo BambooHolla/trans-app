@@ -6,9 +6,11 @@
     </button>
     <div class="dialog-content">
       <div class="header">
-        <img class="icon" src="../assets/imgs/version-update-dialog/header-icon.png"/>
         <div class="title">
-          {{'VERSION_UPDATE'|translate}}
+          <div>发现新版本</div> <span>NEW +</span>
+        </div>
+        <div class="content">
+          V 2.0.2
         </div>
       </div>
       <div class="content">
@@ -30,18 +32,18 @@
         </div>
       </div>
       <div class="buttons">
-        <button class="button cancel" (click)="closeDialog()">
+        <!-- <button class="button cancel" (click)="closeDialog()">
           {{'CANCEL'|translate}}
-        </button>
+        </button> -->
         <button *ngIf="isAndroid && !isDownloading" class="button ok" (click)="androidUpadate()">
           {{'NOW_DOWNLOAD'|translate}}
         </button>
         <button *ngIf="isDownloading" class="button downloading" [attr.style]="download_progress" (click)="backgroundDownload()">
           {{'BACKGROUND_DOWNLOAD'|translate}}
         </button>
-        <button *ngIf="isIOS" class="button ok" (click)="iosUpdatge()">
+        <!-- <button *ngIf="isIOS" class="button ok" (click)="iosUpdatge()">
           {{'GO_DOWNLOAD'|translate}}
-        </button>
+        </button> -->
       </div>
     </div>
   </div>

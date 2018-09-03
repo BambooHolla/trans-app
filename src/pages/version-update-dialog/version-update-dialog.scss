@@ -23,7 +23,7 @@ page-version-update-dialog {
   } */
   .dialog-wrapper {
     position: relative;
-    top: -11vh;
+    // top: -11vh;
     > .close-button {
       position: absolute;
       width: 2.2rem;
@@ -33,16 +33,18 @@ page-version-update-dialog {
       background-color: #929292;
       border-radius: 50%;
       right: -0.7rem;
-      top: -1.7rem;  
+      top: 0rem;  
       display: flex;
       align-items: center;
       justify-content: center;
     }
     > .dialog-content {
+      box-shadow: 0px 0px 50px color($colors, "special");
       width: 76vw;
       min-height: 12.2rem;
       background-color: #fff;
-      border-radius: 0.8rem;
+      border-top-left-radius: 0.8rem;
+      border-top-right-radius: 0.8rem;
       overflow: hidden;
       display: flex;
       flex-direction: column;
@@ -51,7 +53,7 @@ page-version-update-dialog {
       > .header {
         color: #a0b9cf;
         width: 100%;
-        display: flex;
+        // display: flex;
         padding: 1rem;
         box-sizing: border-box;
         align-items: flex-start;
@@ -69,13 +71,25 @@ page-version-update-dialog {
           font-size: 1.5rem;
           padding: 0.5rem;
           font-weight: bold;
+          display: flex;
+          box-sizing: border-box;
+          align-items: flex-start;
+          justify-content: center;
+          padding-top: 1.6rem;
+          span {
+            font-weight: 300;
+            font-size: 1rem;
+          }
+        }
+        > .content {
+
         }
       }
       > .content {
         width: 100%;
         padding: 0.6rem 1.2rem;
         flex: 1;
-        max-height: 50vh;
+        max-height: 40vh;
         overflow-y: auto;
         color: #787878;
         > .item {
