@@ -104,16 +104,18 @@ export class WorkOrderAddPage extends SecondLevelPage {
     //详情内容长度,ionic FormGroup自定义校验 bug不能在这使用this.detail.value去获取内容
     getDetailLength() {
         let length = 0;
-        let contentLength = this.detailContent ? this.detailContent.length : 0;
-        const exp = new RegExp(/[^\x00-\xff]/gi);
-        for (let i = 0; i < contentLength; i++) {
-            if (exp.test(this.detailContent[i])) {
-                length += 1;
-            } else {
-                length += 0.5;
-            }
-        }
-        this.detailLength = Math.floor(length);
+        // let contentLength = this.detailContent ? this.detailContent.length : 0;
+        // const exp = new RegExp(/[^\x00-\xff]/gi);
+        // for (let i = 0; i < contentLength; i++) {
+        //     if (exp.test(this.detailContent[i])) {
+        //         length += 1;
+        //     } else {
+        //         length += 0.5;
+        //     }
+        // }
+        // this.detailLength = Math.floor(length);
+        length = this.detailContent && this.detailContent.replace ? this.detailContent.replace(/[\u0391-\uFFE5]/g,"aa").length : 0;
+        this.detailLength = Math.floor(length / 2);
     }
 
     public telOrEmail = true;
