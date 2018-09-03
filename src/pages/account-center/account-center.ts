@@ -169,7 +169,7 @@ export class AccountCenterPage extends SecondLevelPage {
             VersionUpdateDialogPage,
             { version_info: {
                 version: "-aplha",
-                changelogs: [`没什么变动，真的`, `啊哈哈哈哈`],
+                changelogs: [`没什么变动，真的`, `啊哈哈哈哈`, `啊哈哈哈哈`, `啊哈哈哈哈`, `啊哈哈哈哈`, `啊哈哈哈哈`, `啊哈哈哈哈`, `啊哈哈哈哈`, `啊哈哈哈哈`, `啊哈哈哈哈`, `啊哈哈哈哈`, `啊哈哈哈哈`, `啊哈哈哈哈`, `啊哈哈哈哈`, `啊哈哈哈哈啊哈哈哈哈啊哈哈哈哈啊哈哈哈哈啊哈哈哈哈啊哈哈哈哈啊哈哈哈哈啊哈哈哈哈啊哈哈哈哈啊哈哈哈哈啊哈哈哈哈啊哈哈哈哈啊哈哈哈哈啊哈哈哈哈啊哈哈哈哈啊哈哈哈哈`, `啊哈哈哈哈`, `啊哈哈哈哈`, `啊哈哈哈哈`, `啊哈哈哈哈`, `啊哈哈哈哈`, `啊哈哈哈哈`, `啊哈哈哈哈`, `啊哈哈哈哈`, `啊哈哈哈哈`],
                 hotreload_version: "",
                 download_link_android:
                     "https://www.ifmchain.com/files/ibt-android-v2.1.3.apk",
