@@ -27,9 +27,8 @@ export class HistoryRecordPage extends SecondLevelPage{
     entrustsBuy: any[];
     entrustsSale: any[];
     disableSwatchStatus: boolean = false;
-    page = 1;
+    // page = 1;
     pageSize = 10;
-    hasMore: boolean = true;
 
     entrusts_type: any[] = [
         {
@@ -38,34 +37,33 @@ export class HistoryRecordPage extends SecondLevelPage{
             active: 0,
             page: 1,
             entrust: [],
+            has_more: true,
         },{
             type: '委托买入',
             status: '001',
             active: 1,
             page: 1,
             entrust: [],
+            has_more: true,
         },{
             type: '委托卖出',
             status: '002',
             active: 2,
             page: 1,
             entrust: [],
+            has_more: true,
         }
     ]
-
+    
+    @HistoryRecordPage.didEnter
     @asyncCtrlGenerator.loading()
-    initAllData() {
-        const tasks = [];
-        for(let i = 0; i < this.entrusts_type.length; i++) {
-            tasks.push(this.getTypeTradeHistory(this.entrusts_type[i]))
-        }
-        return Promise.all(tasks)
+    initData() {
+        const index = this.headerActive;
+        return this.getTypeTradeHistory(this.entrusts_type[index])
         .then( data => {
-            data.forEach((item,index) => {
-                this.entrusts_type[index].entrust = item;
-            })
-            this.hasMore = !(this.entrusts_type[0].entrust.length < this.pageSize);
 
+            this.entrusts_type[index].entrust = data;
+            this.entrusts_type[index].has_more = !(this.entrusts_type[index].entrust.length < this.pageSize);
             return data
         })
         .catch( err => {
@@ -77,7 +75,7 @@ export class HistoryRecordPage extends SecondLevelPage{
                     subTitle: err ? err.message || "" : err,
                 })
                 .present();
-           this.hasMore = false;
+           this.entrusts_type[index].has_more = false;
            return [];
         })
     }
@@ -90,7 +88,9 @@ export class HistoryRecordPage extends SecondLevelPage{
         if(this.slides.getActiveIndex() >= this.entrusts_type.length) return ;
         const entrust = this.entrusts_type[this.slides.getActiveIndex()];
         this.headerActive = entrust.active;
-        this.hasMore = !(this.entrusts_type[this.slides.getActiveIndex()].entrust.length < this.pageSize)
+        if(entrust.entrust.length === 0) {
+            this.initData();
+        }
     }
     //用于控制 是否启用下拉刷新
     refresherEnabled: boolean = true;
@@ -105,39 +105,39 @@ export class HistoryRecordPage extends SecondLevelPage{
         }
     }
 
-    initData(refresher?: Refresher) {
-        const smoothlinedata = [];
-        const N_POINT = 30;
-        for (let i = 0; i <= N_POINT; i++) {
-            const x = i / N_POINT;
-            const y = backInOut(x);
-            smoothlinedata.push([x, y]);
-        }
-        function backInOut(k) {
-            var s = 1.70158 * 1.525;
-            if ((k *= 2) < 1) {
-                return 0.5 * (k * k * ((s + 1) * k - s));
-            }
-            return 0.5 * ((k -= 2) * k * ((s + 1) * k + s) + 2);
-        }
-        this.smoothlinedata = smoothlinedata;
-        this.entrusts_type[this.headerActive].page = 1;
+    // initData(refresher?: Refresher) {
+    //     const smoothlinedata = [];
+    //     const N_POINT = 30;
+    //     for (let i = 0; i <= N_POINT; i++) {
+    //         const x = i / N_POINT;
+    //         const y = backInOut(x);
+    //         smoothlinedata.push([x, y]);
+    //     }
+    //     function backInOut(k) {
+    //         var s = 1.70158 * 1.525;
+    //         if ((k *= 2) < 1) {
+    //             return 0.5 * (k * k * ((s + 1) * k - s));
+    //         }
+    //         return 0.5 * ((k -= 2) * k * ((s + 1) * k + s) + 2);
+    //     }
+    //     this.smoothlinedata = smoothlinedata;
+    //     this.entrusts_type[this.headerActive].page = 1;
 
-        this.getTradeHistory() 
-            .then(data => {
-                // const data_show = data.filter(item =>
-                //     Number(item.completeTotalPrice),
-                // );
-                this.entrusts_type[this.headerActive].entrust = data;
-                if (refresher) refresher.complete();
-                this.hasMore = !(data.length < this.pageSize);
-            })
-            .catch(() => {
-                if (refresher) refresher.complete();
-                this.hasMore = false;
-            });
+    //     this.getTradeHistory() 
+    //         .then(data => {
+    //             // const data_show = data.filter(item =>
+    //             //     Number(item.completeTotalPrice),
+    //             // );
+    //             this.entrusts_type[this.headerActive].entrust = data;
+    //             if (refresher) refresher.complete();
+    //             this.hasMore = !(data.length < this.pageSize);
+    //         })
+    //         .catch(() => {
+    //             if (refresher) refresher.complete();
+    //             this.hasMore = false;
+    //         });
 
-    }
+    // }
 
     refreshData() {
         const getInfoCb = this.navParams.data
@@ -146,7 +146,7 @@ export class HistoryRecordPage extends SecondLevelPage{
         if (getInfoCb) {
             getInfoCb();
         }
-        this.initAllData();
+        this.initData();
     }
     
     async getTypeTradeHistory(typeItem) {
@@ -183,7 +183,7 @@ export class HistoryRecordPage extends SecondLevelPage{
                 typeItem.status,
             )
     }
-    @asyncCtrlGenerator.loading()
+    // @asyncCtrlGenerator.loading()
     async getTradeHistory() {
         const token = this.appDataService.token;
         const traderId = this.navParams.data
@@ -253,27 +253,25 @@ export class HistoryRecordPage extends SecondLevelPage{
         private promptCtrl: PromptControlleService,
     ) {
         super(navCtrl, navParams);
-
-        // this.initData();
-        this.initAllData()
     }
 
     async loadMoreHistory(infiniteScroll: InfiniteScroll) {
-        this.entrusts_type[this.headerActive].page += 1;
+        const index = this.headerActive;
+        this.entrusts_type[index].page += 1;
         const tradeHistory = await this.getTradeHistory();
-        this.hasMore = !(tradeHistory.length < this.pageSize);
+
+        this.entrusts_type[index].has_more = !(tradeHistory.length < this.pageSize);
         const tradeHistory_show = tradeHistory.filter(item =>
             item.completeTotalPrice
         );
-        this.entrusts.push(...tradeHistory_show);
+        this.entrusts_type[this,this.headerActive].entrust.push(...tradeHistory_show);
         // console.log('getDeliveryList entrusts:',this.entrusts)
         infiniteScroll.complete();
-        infiniteScroll.enable(this.hasMore);
+        infiniteScroll.enable(this.entrusts_type[index].has_more);
     }
     getHistoryStatus(active) {
         if(this.disableSwatchStatus) return;
         this.slides.slideTo(active);
-        this.slideDidChange()
     }
     confirmCancel(entrustId, entrustTime, entrustCategory) {
         entrustCategory =
@@ -289,15 +287,13 @@ export class HistoryRecordPage extends SecondLevelPage{
         let message: string = "";
         switch (this.userLanguage) { 
             case "zh":
-                message = `确定要撤回${entrustTime}的${entrustCategory}委托单?`;
+                message = `确定要撤回当前委托？`;
                 break;
             case "en":
-                message = `Are you sure to withdraw your ${window["language"][
-                    entrustCategory
-                ] || ""}order?`;
+                message = `确定要撤回当前委托？`;
                 break;
             default:
-                message = `确定要撤回${entrustTime}的${entrustCategory}委托单?`;
+                message = `确定要撤回当前委托？`;
         }
         let alert = this.alertCtrl.create({
             title: window["language"]["REVOKE_DELEGATION"] || "撤回委托",
@@ -322,12 +318,11 @@ export class HistoryRecordPage extends SecondLevelPage{
     }
 
     cancelEntrust(entrustId) {
+        const index = this.headerActive;
         this.entrustServiceProvider
             .cancelEntrust(entrustId)
             .then(data => {
                 console.log("cancelEntrust data", data);
-
-                this.page = 1;
                 if (data && data.status) {
                     this.promptCtrl
                         .toastCtrl({
@@ -345,10 +340,6 @@ export class HistoryRecordPage extends SecondLevelPage{
             })
             .catch(err => {
                 console.log("cancelEntrust err", err);
-
-                this.page = 1;
-                this.initData();
-
                 if (err && err.message) {
                     let toast = this.promptCtrl.toastCtrl({
                         message: `${err.message}`,
@@ -362,6 +353,7 @@ export class HistoryRecordPage extends SecondLevelPage{
             })
             .then( data => {
                 const getInfoCb = this.navParams.get('getInfoCb');
+                this.entrusts_type[index].page = 1;
                 this.initData();
                 if( getInfoCb ) {
                     getInfoCb();

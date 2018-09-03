@@ -58,7 +58,9 @@
         <div class="form-item with-bottom-division top-label">
             <!-- <div class="label label-required">{{'DESCRIPTION'|translate}}</div> -->
             <div class="input-container input-detail textarea">
-                <ion-textarea placeholder="请输入问题描述......." [formControl]="detail" [(ngModel)]="detailContent"></ion-textarea>
+                <ion-item>
+                    <ion-textarea placeholder="请输入问题描述......." [formControl]="detail" [(ngModel)]="detailContent"></ion-textarea>
+                </ion-item>
                 <p class="detail-length"><span class="{{ detailLength > 64 ? 'length-beyond' : ''}}">{{ detailLength }}</span> / 64</p>
             </div>
         </div>

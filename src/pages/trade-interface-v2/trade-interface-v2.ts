@@ -1367,15 +1367,13 @@ export class TradeInterfaceV2Page {
         let message: string = "";
         switch (this.userLanguage) { 
             case "zh":
-                message = `确定要撤回${entrustTime}的${entrustCategory}委托单?`;
+                message = `确定要撤回当前委托？`;
                 break;
             case "en":
-                message = `Are you sure to withdraw your ${window["language"][
-                    entrustCategory
-                ] || ""}order?`;
+                message = `确定要撤回当前委托？`;
                 break;
             default:
-                message = `确定要撤回${entrustTime}的${entrustCategory}委托单?`;
+                message = `确定要撤回当前委托？`;
         }
         let alert = this.alertCtrl.create({
             title: window["language"]["REVOKE_DELEGATION"] || "撤回委托",
@@ -2218,6 +2216,7 @@ export class TradeInterfaceV2Page {
     }
 
     public selectTradesModal: Modal;
+    @ViewChild("selectTrader")  selectTrader;
     showSelectTrades() {
         if(this.selectTradesModal) {
             this.selectTradesModal.dismiss();
@@ -2226,7 +2225,7 @@ export class TradeInterfaceV2Page {
             return ;
         }
         this.selectTradesModal =  this.modalCtrl.create(
-            "select-trades",
+            SelectTradesPage,
             {
                 traderList: this.traderList,
                 traderId: this.traderId,
@@ -2234,14 +2233,18 @@ export class TradeInterfaceV2Page {
             {
                 enterAnimation: "custom-dialog-pop-in",
                 leaveAnimation: "custom-dialog-pop-out",
-                cssClass: "select-trades-page",
+                cssClass: "select-trades-page show-page",
             },
         );
         this.appSetting.hasTabBlur = true;
-        this.selectTradesModal.present();
-        this.selectTradesModal.onDidDismiss( data => {
+        this.selectTradesModal.onWillDismiss( () => {
             this.selectTradesModal = null;
             this.appSetting.hasTabBlur = false;
+            this.rangeValue = 0;
+            this.tradeValue = '--';
+            this.amount = '';
+            this.selectTrader && this.selectTrader.close();
         })
+        this.selectTradesModal.present();
     }
 }

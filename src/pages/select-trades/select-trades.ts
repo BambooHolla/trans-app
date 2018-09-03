@@ -1,44 +1,37 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ViewController, Platform } from 'ionic-angular';
 import { AppDataService } from '../../providers/app-data-service';
-import { FirstLevelPage } from '../../bnlc-framework/FirstLevelPage';
 import { BehaviorSubject } from 'rxjs';
+import { SecondLevelPage } from '../../bnlc-framework/SecondLevelPage';
+
+
   /**
  * Generated class for the SelectTradesPage page.
  *
  * See https://ionicframework.com/docs/components/#navigation for more info on
  * Ionic pages and navigation.
  */
-
 @IonicPage()
 @Component({
   selector: 'page-select-trades',
   templateUrl: 'select-trades.html',
 })
-export class SelectTradesPage extends FirstLevelPage {
+export class SelectTradesPage extends SecondLevelPage {
   private filterProductIndex: number = 0;
   private traderList: any[] = [];
   private show_traderList: any[] = [];
   private mainFilter: BehaviorSubject<string> = new BehaviorSubject( "ALL" );
   private traderId: string = '';
+  private  _unRegisterBackButton: any;
   constructor(
     public navCtrl: NavController, 
     public navParams: NavParams,
     public appDataService: AppDataService,
     public viewCtrl: ViewController,
+    public platform: Platform,
 
   ) {
     super(navCtrl,navParams)
-  }
-
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad SelectTradesPage');
-  }
-  /**
-   * 页面离开，解除监听
-   */
-  ionViewDidLeave() {
-    this.mainFilter.unsubscribe();
   }
 
   /**
@@ -48,9 +41,16 @@ export class SelectTradesPage extends FirstLevelPage {
   initData() {
     this.traderList = this.navParams.get("traderList");
     this.traderId = this.navParams.get("traderId");
+
     this.mainFilter
             .distinctUntilChanged()
             .subscribe(str => this._filterProduct.call(this, str));
+
+    this._unRegisterBackButton = this.platform.registerBackButtonAction(
+      () => {
+          this.dismiss();
+      },
+    );
   }
 
   /**
@@ -91,11 +91,22 @@ export class SelectTradesPage extends FirstLevelPage {
   checkTrade(trade?) {
     this.traderId = trade.traderId || this.traderId;
     this.appDataService.LAST_TRADER.next(trade);
-    setTimeout(() => {
-      this.dismiss()
-    }, 500);
   }
+  
+  /**
+   * 页面离开
+   */
+  @SelectTradesPage.willLeave
+  leavePage() {
+    this._unRegisterBackButton && this._unRegisterBackButton();
+    this.mainFilter.unsubscribe();  
+    const _cb= this.navParams.get("cb");
+    _cb && _cb();
+  }
+
   dismiss(trade?) {
-    this.viewCtrl.dismiss();
+    setTimeout(() => {
+      this.viewCtrl.dismiss();
+    }, 180);
   }
 }

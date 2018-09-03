@@ -1,13 +1,13 @@
 page-select-trades {
     position: relative;
     ion-header {
-        background: rgba(44, 44, 65,0)!important;
+        background: rgba(44, 44, 65, 0.5)!important;
     }
     ion-content {
         background-color: transparent !important;
         .scroll-content {
             padding: 0 !important;
-            background: rgba(44, 44, 65,0)!important;
+            background: rgba(44, 44, 65, 0.5)!important;
         }
     }
     .select-type-list {

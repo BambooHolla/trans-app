@@ -1,5 +1,5 @@
-import { Component } from "@angular/core";
-import { IonicPage, NavController, NavParams, Refresher } from "ionic-angular";
+import { Component, ViewChild } from "@angular/core";
+import { IonicPage, NavController, NavParams, Refresher, InfiniteScroll } from "ionic-angular";
 import { SecondLevelPage } from "../../bnlc-framework/SecondLevelPage";
 import { asyncCtrlGenerator } from "../../bnlc-framework/Decorator";
 import {
@@ -9,6 +9,8 @@ import {
 import { PromptControlleService } from "../../providers/prompt-controlle-service";
 import { AppDataService } from "../../providers/app-data-service";
 import { StockDataService } from "../../providers/stock-data-service";
+import { TipSelectPoint } from "../gesture-lock/gesture-lock";
+import { defineLocale } from "moment";
 /**
  * Generated class for the RechargeGatewayPage page.
  *
@@ -24,7 +26,12 @@ export class AssetBillDetailPage extends SecondLevelPage {
     public personalData: any;
     product_list: any[];
     showNoRecord: boolean = false;
-    static _hide_loading:boolean = false;
+    public hasMore: boolean = false;
+    public bill_logs_page_info = {
+        has_more : true,
+        page: 1,
+        page_size: 10,
+    }
     // 法币单位符号
     private unit = this.appDataService.CURRENCY_INFO.currencyTo || "--";
     
@@ -43,16 +50,32 @@ export class AssetBillDetailPage extends SecondLevelPage {
 
 
     refreshPersonalData(refresher?: Refresher) {
-        refresher&&refresher.complete()
-        return this.getBillList();
+        refresher && refresher.complete()
+        const { bill_logs_page_info } = this;
+        bill_logs_page_info.page = 1;
+        return this.initDate();
     }
 
     @AssetBillDetailPage.willEnter
     @asyncCtrlGenerator.loading()
     @asyncCtrlGenerator.error("@@ERROR") 
+    initDate() {
+        return this.getBillList().then( (data) => {
+            const { bill_logs_page_info } = this;
+            console.log(data)
+            this.product_list = data;
+            this.showNoRecord = true;
+        });
+    }
+
     getBillList(){
-        return this.accountService.getBillDetailList(this.productInfo.productHouseId).then(async data => {
-            this.product_list = await Promise.all(data.map( async ({
+        const { bill_logs_page_info } = this;
+        return this.accountService.getBillDetailList(
+            this.productInfo.productHouseId,
+            bill_logs_page_info.page,
+            bill_logs_page_info.page_size,
+        ).then(async data => {
+            const _product_list = await Promise.all(data.map( async ({
                 productHouseId,
                 transAmount,
                 transDate,
@@ -67,11 +90,27 @@ export class AssetBillDetailPage extends SecondLevelPage {
                     transType,
                 }
             }));
+            bill_logs_page_info.has_more = data.length === bill_logs_page_info.page_size;
+            return _product_list;
         }).catch(err => {
-            this.product_list = [];
-        }).then( () => {
-            this.showNoRecord = true;
+            
+            return [];
         })
+    }
+
+    @ViewChild(InfiniteScroll) infiniteScroll: InfiniteScroll;
+    async loadMoreBills(scrollCtrl?: InfiniteScroll) {
+        const { bill_logs_page_info } = this;
+        try {
+            bill_logs_page_info.page += 1;
+            const _product_list = await this.getBillList();
+            this.product_list.push(..._product_list);
+        } catch(err) {
+            console.log('load more bills :',err)
+        } finally {
+            scrollCtrl.complete();
+        }
+
     }
 
     goPage(path: string) {

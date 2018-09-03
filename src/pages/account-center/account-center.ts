@@ -133,6 +133,7 @@ export class AccountCenterPage extends SecondLevelPage {
             this.alertCtrl.create({
                 title: "手势密码",
                 message: "是否关闭手势密码？",
+                enableBackdropDismiss: false,
                 buttons:[
                     {
                         text:'取消',

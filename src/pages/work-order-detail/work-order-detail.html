@@ -47,7 +47,9 @@
 <ion-footer *ngIf="contact_list?.contact?.status != '010'" class="animation-header">
     <div class="chat-container">
         <div class="chat-input-container">
-            <ion-textarea [(ngModel)]="chat_content"></ion-textarea>
+            <ion-item>
+                <ion-textarea [(ngModel)]="chat_content"></ion-textarea>
+            </ion-item>
         </div>
         <button ion-button class="send-btn" (click)="submitSend()">{{'SEND'|translate}}</button>
     </div>
