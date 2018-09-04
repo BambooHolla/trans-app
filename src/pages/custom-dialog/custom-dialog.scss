@@ -35,7 +35,7 @@ page-custom-dialog {
       background-color: #929292;
       border-radius: 50%;
       right: -0.7rem;
-      top: -0.7rem;
+      top: -1.6rem;
       text-align: center;
       line-height: 1.8rem;
       /* display: flex;
@@ -118,7 +118,7 @@ page-custom-dialog {
           align-items: center;
           font-size: 1.4rem;
           &.ok {
-            background-color: #ff6769;
+            background-color: color($colors,gold);
             color: #fff;
           }
         }

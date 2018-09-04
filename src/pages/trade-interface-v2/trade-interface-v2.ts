@@ -571,11 +571,12 @@ export class TradeInterfaceV2Page {
         this.calculationAmount();
     }
     calculationAmount() {
-        if(this._tradeType$.getValue()) {
-            this.tradeValue = this.price && this.amount ? this.numberFormat((new BigNumber(this.amount)).times(this.price).toString()) : '--';
-        } else {
-            this.tradeValue = this.amount ? this.amount : '--';
-        }
+        // if(this._tradeType$.getValue()) {
+        //     this.tradeValue = this.price && this.amount ? this.numberFormat((new BigNumber(this.amount)).times(this.price).toString()) : '--';
+        // } else {
+        //     this.tradeValue = this.amount ? this.amount : '--';
+        // }
+        this.tradeValue = this.price && this.amount ? this.numberFormat((new BigNumber(this.amount)).times(this.price).toString()) : '--';
     }
     setPrice(price = this.price) {
         if (!price) {

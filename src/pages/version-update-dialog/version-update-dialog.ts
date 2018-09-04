@@ -1,4 +1,4 @@
-import { Component, Optional, ViewChild, ElementRef } from "@angular/core";
+import { Component, Optional, ViewChild, ElementRef, ChangeDetectionStrategy, ChangeDetectorRef } from "@angular/core";
 import { DomSanitizer, SafeStyle } from "@angular/platform-browser";
 import {
   IonicPage,
@@ -18,7 +18,6 @@ import { File } from "@ionic-native/file";
 import { FileOpener } from "@ionic-native/file-opener";
 import { FirstLevelPage } from "../../bnlc-framework/FirstLevelPage";
 import { asyncCtrlGenerator } from "../../bnlc-framework/Decorator";
-
 type buttonOptions = {
   text: string;
   handler?: Function;
@@ -41,11 +40,11 @@ export function versionToNumber(version: string) {
   res += (parseInt(last_info[1]) || 0) * 0.0001;
   return res;
 }
-
-@IonicPage({ name: "version-update-dialog" })
+@IonicPage()
 @Component({
   selector: "page-version-update-dialog",
   templateUrl: "version-update-dialog.html",
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class VersionUpdateDialogPage extends FirstLevelPage {
   constructor(
@@ -56,14 +55,18 @@ export class VersionUpdateDialogPage extends FirstLevelPage {
     public file: File,
     public fileOpener: FileOpener,
     public sanitizer: DomSanitizer,
+    public changeDetectorRef: ChangeDetectorRef,
   ) {
     super(navCtrl, navParams);
     console.log('version')
   }
+
   version_info!: LATEST_VERSION_INFO;
   @VersionUpdateDialogPage.willEnter
   initData() {
     this.version_info = this.navParams.get("version_info");
+    this.changeDetectorRef.markForCheck();
+    this.changeDetectorRef.detectChanges();
     if (!this.version_info) {
       // this.closeDialog();
     }
@@ -71,7 +74,7 @@ export class VersionUpdateDialogPage extends FirstLevelPage {
   closeDialog() {
     if (this.isDownloading) {
       this.showConfirmDialog(
-        this.getTranslateSync("ENSURE_TO_CANCEL_UPDATE"),
+        "是否取消更新",
         () => {
           this.fileTransfer && this.fileTransfer.abort();
           this.viewCtrl.dismiss();
@@ -99,43 +102,52 @@ export class VersionUpdateDialogPage extends FirstLevelPage {
     return res;
   }
   fileTransfer?: FileTransferObject;
-  isDownloading = false;
-  download_progress: SafeStyle = "--progress:0%";
-  @asyncCtrlGenerator.error("@@UPDATE_APK_FAIL")
+  @VersionUpdateDialogPage.markForCheck isDownloading = false;
+  @VersionUpdateDialogPage.markForCheck download_progress: SafeStyle = "--progress:0%";
+  @VersionUpdateDialogPage.markForCheck download_bar_txt = 0;
+  @asyncCtrlGenerator.error("@@更新失败")
   async androidUpadate() {
-    // this.isDownloading = true;
-    // try {
-    //   this.fileTransfer = this.transfer.create();
-    //   const apk_url = this.version_info.download_link_android;
-    //   const filename = apk_url.split("/").pop();
-    //   // fileTransfer.
+    this.isDownloading = true;
+    try {
+      this.fileTransfer = this.transfer.create();
+      const apk_url = "http://cdn-blnc.gaubee.com/IBT3.2.11.apk";
+      const filename = apk_url.split("/").pop();
+      // fileTransfer.
 
-    //   this.download_progress = this.sanitizer.bypassSecurityTrustStyle(
-    //     "--progress:0%",
-    //   );
-    //   this.fileTransfer.onProgress(e => {
-    //     this.download_progress = this.sanitizer.bypassSecurityTrustStyle(
-    //       `--progress:${e.loaded / e.total * 100}%`,
-    //     );
-    //   });
-    //   const entry = await this.fileTransfer.download(
-    //     apk_url,
-    //     this.file.dataDirectory + filename,
-    //   );
-    //   this.fileTransfer = undefined;
-    //   this.isDownloading = false;
+      this.download_progress = this.sanitizer.bypassSecurityTrustStyle(
+        "--progress:0%",
+      );
+      this.download_bar_txt = 0;
+      
+      this.fileTransfer.onProgress(e => {
+        const _n = (e.loaded / e.total) * 100;
+        this.download_progress = this.sanitizer.bypassSecurityTrustStyle(
+          `--progress:${_n}%`,
+        );
+        this.download_bar_txt = Math.floor(_n > 99.8? 100 : _n);
+        this.changeDetectorRef.markForCheck();
+        this.changeDetectorRef.detectChanges();
+      });
+      const entry = await this.fileTransfer.download(
+        apk_url,
+        this.file.dataDirectory + filename,
+      );
+      this.fileTransfer = undefined;
+      this.isDownloading = false;
 
-    //   console.log("download complete: " + entry.toURL());
-    //   await this.fileOpener.open(
-    //     entry.toURL(),
-    //     "application/vnd.android.package-archive",
-    //   );
-    // } finally {
-    //   this.isDownloading = false;
-    // }
+      console.log("download complete: " + entry.toURL());
+      await this.fileOpener.open(
+        entry.toURL(),
+        "application/vnd.android.package-archive",
+      );
+    } finally {
+      this.isDownloading = false;
+      this.changeDetectorRef.markForCheck();
+      this.changeDetectorRef.detectChanges();
+    }
   }
   backgroundDownload() {
-    this.viewCtrl.dismiss();
+    // this.viewCtrl.dismiss();
   }
 
   iosUpdatge() {

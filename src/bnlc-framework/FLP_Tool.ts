@@ -63,7 +63,7 @@ export class FLP_Tool {
             },
           },
           {
-            text: await this.getTranslate("OK"),
+            text: await this.getTranslate("COFIRM"),
             cssClass: "ok",
             handler: () => {
               if (ok_handle instanceof Function) {

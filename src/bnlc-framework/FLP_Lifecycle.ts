@@ -141,6 +141,57 @@ import {
   
     @FLP_Tool.FromGlobal picassoApp!: any;
     cdRef?: ChangeDetectorRef;
+    markForCheck() {
+      if (this.cdRef) {
+        let one_lock;
+        this.markForCheck = () => {
+          if (one_lock) {
+            return;
+          }
+          /*microtask，把这个任务放到事件循环的最后面来做，避免重复工作*/
+          one_lock = Promise.resolve().then(() => {
+            one_lock = undefined;
+            this._before_markForCheck();
+            this.cdRef!.markForCheck();
+            this.cdRef!.detectChanges
+          });
+        };
+        this.markForCheck();
+        return;
+      }
+    }
+    // 钩子函数
+    _before_markForCheck() {}
+  
+    static markForCheck(
+      target: any,
+      name: string,
+      descriptor?: PropertyDescriptor,
+    ) {
+      if (!descriptor) {
+        let val;
+        descriptor = {
+          get() {
+            return val;
+          },
+          set(v) {
+            if (v !== val) {
+              val = v;
+              this.markForCheck();
+            }
+          },
+        };
+        Object.defineProperty(target, name, descriptor);
+      } else if (descriptor.set) {
+        const srouce_set = descriptor.set;
+        descriptor.set = function(v) {
+          srouce_set.call(this, v);
+          this.markForCheck();
+        };
+      }
+      // return descriptor;
+    }
+
     ionViewDidEnter() {
       this.PAGE_STATUS = PAGE_STATUS.DID_ENTER;
       if (this.cdRef instanceof ChangeDetectorRef) {

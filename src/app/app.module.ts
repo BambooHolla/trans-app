@@ -246,9 +246,9 @@ export function createTranslateLoader(http: HttpClient) {
         // RegisterPage,
         SubmitRealInfoPage,
         SetPayPwdPage,
+        CustomDialogPage,
         WithdrawAddressListPage,
         WorkOrderListPage,
-        CustomDialogPage,
         WorkOrderAddPage,
         WorkOrderDetailPage,
         HomePage,
@@ -391,8 +391,8 @@ export function createTranslateLoader(http: HttpClient) {
                         component: SelectTradesPage, 
                         name: "select-trades",
                     },
+                    {component: CustomDialogPage, name: "custom-dialog"},
                     //- from BNLC framwork
-
                     { component: LoginPage, name: "login" },
                     { component: ForgetPwdPage, name: "forget-pwd" },
                     { component: ModifyPwdPage, name: "modify-pwd" },

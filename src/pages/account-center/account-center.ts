@@ -164,7 +164,6 @@ export class AccountCenterPage extends SecondLevelPage {
     }
 
     checkUpdate() {
-        console.log(1233)
         return this.modalCtrl.create(
             VersionUpdateDialogPage,
             { version_info: {

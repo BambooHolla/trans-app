@@ -260,7 +260,7 @@
 								<div class="left" *ngIf="!(tradeType$|async)">
 									交易额：
 									<span class="trade-value">{{tradeValue||'--' | unitConversion}}</span>
-									<span class="unit">{{productName || '--'}}</span>
+									<span class="unit">{{priceName || '--'}}</span>
 								</div>
 								<div class="left" *ngIf="!!(tradeType$|async)">
 									交易额：
@@ -503,7 +503,7 @@
 									<div class="left" *ngIf="!(tradeType$|async)">
 										交易额：
 										<span class="trade-value">{{(tradeValue||'--') | unitConversion}}</span>
-										<span class="unit">{{productName || '--'}}</span>
+										<span class="unit">{{priceName || '--'}}</span>
 									</div>
 									<div class="left" *ngIf="!!(tradeType$|async)">
 										交易额：
