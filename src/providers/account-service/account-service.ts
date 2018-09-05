@@ -394,6 +394,8 @@ export class AccountServiceProvider {
             return window["language"]["CANCELLED"] || "已取消";
         if (status == TransactionStatus.InAudit)
             return window["language"]["VERIFYING"] || "审核中";
+        if (status == TransactionStatus.FailureAudit)
+            return "审核失败";
         if (status == TransactionStatus.Other)
             return window["language"]["OTHERS"] || "其他";
     }
@@ -604,6 +606,7 @@ export enum TransactionStatus {
     Confirmed = "003", // 已确认
     Cancel = "004", // 已取消
     InAudit = "005", // 审核中
+    FailureAudit = "006", // 审核失败
     Other = "999", // 其他
 }
 export enum DealResult {
