@@ -5,8 +5,7 @@ import { Http, Headers, RequestOptionsArgs, ResponseContentType } from "@angular
 import "rxjs/add/operator/map";
 import { AppSettingProvider } from "../app-setting/app-setting";
 import { AppDataService } from "../../../providers/app-data-service";
-
-// import { Events } from 'ionic-angular';
+import { Events } from "ionic-angular";
 
 /*
   Generated class for the AppFetchProvider provider.
@@ -56,7 +55,7 @@ export class AppFetchProvider {
 
     constructor(
         public http: Http,
-        // private events: Events,
+        private events: Events,
         public appSetting: AppSettingProvider,
         public storage: Storage,
         public appDataService: AppDataService,
@@ -94,7 +93,7 @@ export class AppFetchProvider {
             return data.data;
         } else {
             if (err.code === -1) {
-                // this.events.publish('show login', 'login');
+                this.events.publish('doLogout');
             }
             return Promise.reject(
                 ServerResError.parseErrorMessage(err.code, err.message),

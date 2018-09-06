@@ -1,5 +1,5 @@
-import { Component, Renderer2, Inject, OnInit } from "@angular/core";
-import { Platform, Events } from "ionic-angular";
+import { Component, Renderer2, Inject, OnInit, ViewChild } from "@angular/core";
+import { Platform, Events, NavController } from "ionic-angular";
 import { StatusBar } from "@ionic-native/status-bar";
 import { SplashScreen } from "@ionic-native/splash-screen";
 import { ScreenOrientation } from "@ionic-native/screen-orientation";
@@ -17,7 +17,6 @@ import {
     ActionSheetController,
     ModalController,
 } from "ionic-angular";
-
 import { TranslateService } from "@ngx-translate/core";
 
 // import { LoadingPage } from '../pages/loading/loading';
@@ -47,6 +46,7 @@ import { CustomDialogPopIn, CustomDialogPopOut } from "../pages/custom-dialog/cu
     templateUrl: "app.html",
 })
 export class PicassoApp {
+    @ViewChild('myNav') nav: NavController;
     static WINDOW_MAX_HEIGHT = 0;
     private rootPage = TabsPage;
     private loginModal = this.modalController.create(LoginPage);
@@ -207,6 +207,18 @@ export class PicassoApp {
             // this.rootNav.push(page)
         });
 
+        // // 注册账户登入状态异常事件 
+        this.events.subscribe("doLogout", () => {
+            this.toastCtrl.create({
+                message: "您的账户已在其他设备登陆",
+                duration: 1500,
+                position: "bottom",
+            }).present();
+            this.loginService.doLogout();
+            debugger
+            // this.nav.parent.select(0);
+            this.nav.goToRoot({})
+        });
         this.loginService.status$
             // 订阅 status$ 对象，在登录状态变化时，更改 app 的根页面。
             // 初始值（ undefined ）已经在 LoginService 中被过滤，
