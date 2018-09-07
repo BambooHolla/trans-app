@@ -261,13 +261,14 @@ export class PicassoApp {
 
         // // 注册账户登入状态异常事件 
         this.events.subscribe("doLogout", () => {
-            this.toastCtrl.create({
-                message: "您的账户已在其他设备登陆",
-                duration: 1500,
-                position: "bottom",
-            }).present();
-            this.loginService.doLogout();
-            debugger
+            if(appSettingProvider.getUserToken()) {
+                this.toastCtrl.create({
+                    message: "您的账户已在其他设备登陆",
+                    duration: 1500,
+                    position: "bottom",
+                }).present();
+                this.loginService.doLogout();
+            }
             // this.nav.parent.select(0);
             this.nav.goToRoot({})
         });
