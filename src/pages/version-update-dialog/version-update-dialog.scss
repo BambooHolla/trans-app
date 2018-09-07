@@ -92,7 +92,8 @@ page-version-update-dialog {
             > span {
               position: relative;
               font-size: 0.8rem;
-              animation: nextPage 1.5s infinite;
+              left: -3px;
+              animation: upgrade 1.5s infinite;
 
             }
           }
@@ -113,7 +114,8 @@ page-version-update-dialog {
         width: 100%;
         padding: 0.6rem 1.2rem;
         flex: 1;
-        max-height: 30vh;
+        max-height: 26vh;
+        min-height: 15vh;
         overflow-y: auto;
         color: #787878;
         > .item {
@@ -127,7 +129,11 @@ page-version-update-dialog {
             > .detail {
               margin: 0;
               padding-left: 2rem;
-              font-size: 1.4rem;
+              font-size: 1.6rem;
+              font-weight: bold;
+              .line {
+                margin-bottom: 6px;
+              }
             }
           }
           font-size: 1.35rem;
@@ -213,7 +219,7 @@ page-version-update-dialog {
       }
     }
   }
-  @keyframes nextPage {
+  @keyframes upgrade {
     0% {
         bottom: 7px;
         opacity: 1;

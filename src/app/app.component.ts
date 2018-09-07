@@ -42,6 +42,9 @@ import { ContactStatus } from "../providers/work-order-service/work-order-servic
 import { RegisterService } from "../providers/register-service";
 import { Network } from '@ionic-native/network';
 import { CustomDialogPopIn, CustomDialogPopOut } from "../pages/custom-dialog/custom-dialog.transform";
+import { AccountCenterPage } from "../pages/account-center/account-center";
+import { UpgradeServiceProvider } from "../providers/upgrade/upgrade-service";
+import { VersionUpdateDialogPage } from "../pages/version-update-dialog/version-update-dialog";
 @Component({
     templateUrl: "app.html",
 })
@@ -102,7 +105,7 @@ export class PicassoApp {
         public actionSheetCtrl: ActionSheetController,
         public registerService: RegisterService,
         private network: Network,
-        
+        public upService: UpgradeServiceProvider,
     ) {
        
         if (
@@ -180,7 +183,55 @@ export class PicassoApp {
         config.setTransition("common-transition", CommonTransition);
         config.setTransition("custom-dialog-pop-in", CustomDialogPopIn);
         config.setTransition("custom-dialog-pop-out", CustomDialogPopOut);
+        // 自动更新
+        (async ()=> {
+            if(platform.is('android')) {
+                const _version = await upService.checkVersion();
+                if(_version) {
+                    // 开启自动更新，且需要在wifi状态下
+                    if(appDataService.auto_upgrade && this.network.type === 'wifi') {
+                                let _fileTransfer = this.upService.fileTransfer;
+                                const _fileDataDirectory = this.upService.fileDataDirectory;
+                                const filename = "picasso.apk";
+                                _fileTransfer.download(
+                                    _version.url,
+                                    _fileDataDirectory + filename,
+                                ).then( entry => {
+                                    this.upService.openAPK(entry);
+                                })
+                    } else {
+                        this.modalController.create(
+                            VersionUpdateDialogPage,
+                            { version_info: {
+                                version: _version.version,
+                                changelogs: _version.log,
+                                // hotreload_version: "",
+                                download_link_android: _version.url,
+                                // download_link_ios_plist:
+                                //     "itms-services://?action=download-manifest&url=https://www.ifmchain.com/download.plist",
+                                // download_link_web: "https://www.ifmchain.com/downloadv2.0.html",
+                                // create_time: 50000,
+                                // apk_size: 66666,
+                                // plist_size: 13145,
+                                // "//": "……",
+                                // success: true,
+                                info: _version,
+                                }
+                            },
+                            {
+                                enterAnimation: "custom-dialog-pop-in",
+                                leaveAnimation: "custom-dialog-pop-out",
+                            },
+                            
+                        ).present()
+                    }
+                }
+        
+            }
+        })()
+        
         this.appSettingProvider.clearUserInfo();
+
         this.screenOrientation
             .lock(this.screenOrientation.ORIENTATIONS.PORTRAIT)
             .catch(err => {

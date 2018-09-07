@@ -190,6 +190,7 @@ import { FileOpener } from "@ionic-native/file-opener";
 import { CustomDialogPage } from "../pages/custom-dialog/custom-dialog";
 import { SelectTradesPage } from "../pages/select-trades/select-trades";
 import { SelectTradesPageModule } from "../pages/select-trades/select-trades.module";
+import { UpgradeServiceProvider } from "../providers/upgrade/upgrade-service";
 // import { BankCode2NamePipe } from '..\pipes\bank-code2-name/bank-code2-name';
 // import { FileService } from '../providers/file.service';
 // import { IsLoadingDirective } from '../directives/is-loading/is-loading';
@@ -560,6 +561,7 @@ export function createTranslateLoader(http: HttpClient) {
         WorkOrderServiceProvider,
         PromptControlleService,
         CryptoService,
+        UpgradeServiceProvider,
     ],
 })
 export class AppModule {}

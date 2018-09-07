@@ -119,7 +119,8 @@ export class AppDataService {
         kLine: false,
         trade_type:false,
         left_or_right: false,
-        CURRENCY_INFO:null,
+        CURRENCY_INFO: null,
+        auto_upgrade: false,
     };
     private _in_storage_keys = ["products", "traderList"];
 
@@ -141,6 +142,7 @@ export class AppDataService {
     public kLine;
     public trade_type;
     public left_or_right;
+    public auto_upgrade;
 
     // 国家、区号列表
     public COUNTRY_LIST:any = [

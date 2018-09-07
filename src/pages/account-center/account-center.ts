@@ -15,6 +15,9 @@ import { asyncCtrlGenerator } from "../../bnlc-framework/Decorator";
 import { SwitchNetworkPage } from "../switch-network/switch-network";
 import { CurrencyTypeListPage } from "../currency-type-list/currency-type-list";
 import { CurrencySettingPage } from "../_account/currency-setting/currency-setting";
+import { VERSION_INFO } from "../version-update-dialog/version.type";
+import { AppFetchProvider } from "../../bnlc-framework/providers/app-fetch/app-fetch";
+import { AppSettingProvider } from "../../bnlc-framework/providers/app-setting/app-setting";
 import { VersionUpdateDialogPage } from "../version-update-dialog/version-update-dialog";
 
 @Component({
@@ -35,6 +38,7 @@ export class AccountCenterPage extends SecondLevelPage {
         public personalDataService: PersonalDataService,
         public storage: Storage,
         public modalCtrl: ModalController,
+        public fetch: AppFetchProvider,
     ) {
         super(navCtrl, navParams);
         this.loginService.status$.subscribe(status => {
@@ -163,23 +167,50 @@ export class AccountCenterPage extends SecondLevelPage {
         this.navCtrl.push(CurrencySettingPage)
     }
 
-    checkUpdate() {
+    async checkUpdate(unTips?:boolean) {
+        const _url =  AppSettingProvider.SERVER_URL +
+        AppSettingProvider.SERVER_PREFIX + "/";
+        const _url_get_info = _url + "upgrade/versionInfo" ;
+        const _app_version_info = ( await this.fetch.get<
+            VERSION_INFO
+          >(_url, {
+            search: {
+              app: 1,
+            },
+          }))[0]
+        if(VersionUpdateDialogPage.versionToNumber(_app_version_info.version) <= VersionUpdateDialogPage.versionToNumber(this.appDataService.APP_VERSION)) {
+            if(unTips) return ;
+            return this.alertCtrl.create({
+                title: "检查更新",
+                message: "当前版本为最新版本",
+                enableBackdropDismiss: false,
+                buttons:[
+                    {
+                        text: "确定",
+                        handler: () => {
+                        }
+                    }
+                ]
+                
+            }).present();
+        }
         return this.modalCtrl.create(
             VersionUpdateDialogPage,
             { version_info: {
-                version: "-aplha",
-                changelogs: [`没什么变动，真的`, `啊哈哈哈哈`, `啊哈哈哈哈`, `啊哈哈哈哈`, `啊哈哈哈哈`, `啊哈哈哈哈`, `啊哈哈哈哈`, `啊哈哈哈哈`, `啊哈哈哈哈`, `啊哈哈哈哈`, `啊哈哈哈哈`, `啊哈哈哈哈`, `啊哈哈哈哈`, `啊哈哈哈哈`, `啊哈哈哈哈啊哈哈哈哈啊哈哈哈哈啊哈哈哈哈啊哈哈哈哈啊哈哈哈哈啊哈哈哈哈啊哈哈哈哈啊哈哈哈哈啊哈哈哈哈啊哈哈哈哈啊哈哈哈哈啊哈哈哈哈啊哈哈哈哈啊哈哈哈哈啊哈哈哈哈`, `啊哈哈哈哈`, `啊哈哈哈哈`, `啊哈哈哈哈`, `啊哈哈哈哈`, `啊哈哈哈哈`, `啊哈哈哈哈`, `啊哈哈哈哈`, `啊哈哈哈哈`, `啊哈哈哈哈`],
-                hotreload_version: "",
+                version: _app_version_info.version,
+                changelogs: _app_version_info.log,
+                // hotreload_version: "",
                 download_link_android:
-                    "https://www.ifmchain.com/files/ibt-android-v2.1.3.apk",
-                download_link_ios_plist:
-                    "itms-services://?action=download-manifest&url=https://www.ifmchain.com/download.plist",
-                download_link_web: "https://www.ifmchain.com/downloadv2.0.html",
-                create_time: 50000,
-                apk_size: 66666,
-                plist_size: 13145,
-                "//": "……",
-                success: true,
+                    _url + "file/read/" + _app_version_info.url ,
+                // download_link_ios_plist:
+                //     "itms-services://?action=download-manifest&url=https://www.ifmchain.com/download.plist",
+                // download_link_web: "https://www.ifmchain.com/downloadv2.0.html",
+                // create_time: 50000,
+                // apk_size: 66666,
+                // plist_size: 13145,
+                // "//": "……",
+                // success: true,
+                info: _app_version_info,
                 }
             },
             {

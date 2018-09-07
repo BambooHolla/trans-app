@@ -25,19 +25,16 @@ type buttonOptions = {
 };
 
 export function versionToNumber(version: string) {
-  const vcodes = version.split(".");
+  const vcodes = (''+version).replace(/^v/i,'').split(".");
   /* 一共分三位：
    * 大版本号：*100000
    * 中版本号：*1000
    * 小版本号：*1
-   * 小版本尾号(1.1.1-2中的2)：*0.0001
    */
   var res = 0;
   res += (parseInt(vcodes[0]) || 0) * 100000;
   res += (parseInt(vcodes[1]) || 0) * 1000;
-  const last_info = vcodes[1].split("-");
-  res += parseInt(last_info[0]) || 0;
-  res += (parseInt(last_info[1]) || 0) * 0.0001;
+  res += parseInt(vcodes[2]) || 0;
   return res;
 }
 @IonicPage()
@@ -58,7 +55,6 @@ export class VersionUpdateDialogPage extends FirstLevelPage {
     public changeDetectorRef: ChangeDetectorRef,
   ) {
     super(navCtrl, navParams);
-    console.log('version')
   }
 
   version_info!: LATEST_VERSION_INFO;
@@ -84,11 +80,28 @@ export class VersionUpdateDialogPage extends FirstLevelPage {
       this.viewCtrl.dismiss();
     }
   }
+  get version() {
+    if (!this.version_info) {
+      return undefined;
+    }
+    let res = this.version_info.version;
+    // if (this.isAndroid) {
+    //   if (this.version_info.android_version) {
+    //     res = this.version_info.android_version;
+    //   }
+    // }
+    // if (this.isIOS) {
+    //   if (this.version_info.ios_version) {
+    //     res = this.version_info.ios_version;
+    //   }
+    // }
+    return res;
+  }
   get changelogs() {
     if (!this.version_info) {
       return undefined;
     }
-    var res = this.version_info.changelogs;
+    let res = this.version_info.changelogs;
     if (this.isAndroid) {
       if (this.version_info.android_changelogs) {
         res = this.version_info.android_changelogs;
@@ -110,8 +123,9 @@ export class VersionUpdateDialogPage extends FirstLevelPage {
     this.isDownloading = true;
     try {
       this.fileTransfer = this.transfer.create();
-      const apk_url = "http://cdn-blnc.gaubee.com/IBT3.2.11.apk";
-      const filename = apk_url.split("/").pop();
+      const apk_url = this.version_info.download_link_android;
+      // const filename = apk_url.split("/").pop();
+      const filename = "picasso.apk";
       // fileTransfer.
 
       this.download_progress = this.sanitizer.bypassSecurityTrustStyle(
@@ -136,6 +150,7 @@ export class VersionUpdateDialogPage extends FirstLevelPage {
       this.isDownloading = false;
 
       console.log("download complete: " + entry.toURL());
+      console.log("download complete: " + this.file.dataDirectory,filename);
       await this.fileOpener.open(
         entry.toURL(),
         "application/vnd.android.package-archive",
