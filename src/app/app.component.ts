@@ -187,7 +187,7 @@ export class PicassoApp {
         (async ()=> {
             if(platform.is('android')) {
                 const _version = await upService.checkVersion();
-                if(_version) {
+                if(_version && _version.model != 3) {
                     // 开启自动更新，且需要在wifi状态下
                     if(appDataService.auto_upgrade && this.network.type === 'wifi') {
                                 let _fileTransfer = this.upService.fileTransfer;
@@ -215,6 +215,7 @@ export class PicassoApp {
                                 // plist_size: 13145,
                                 // "//": "……",
                                 // success: true,
+                                model: _version.model,
                                 info: _version,
                                 }
                             },

@@ -44,6 +44,7 @@ export function versionToNumber(version: string) {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class VersionUpdateDialogPage extends FirstLevelPage {
+  private unregisterBackButton;
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
@@ -61,6 +62,13 @@ export class VersionUpdateDialogPage extends FirstLevelPage {
   @VersionUpdateDialogPage.willEnter
   initData() {
     this.version_info = this.navParams.get("version_info");
+    if(this.version_info.model === 3) {
+      this.unregisterBackButton = this.platform.registerBackButtonAction(
+        () => {
+           
+        },
+      ); 
+    }
     this.changeDetectorRef.markForCheck();
     this.changeDetectorRef.detectChanges();
     if (!this.version_info) {
