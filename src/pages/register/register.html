@@ -15,7 +15,7 @@
 
 <ion-content no-bounce>
     <div class="register-warpper">
-        <div class="logo-container">
+        <div class="logo-container" (click)="a()">
             <img src="assets/images/picasso-logo.png" alt="PICASSO" class="logo">
         </div>
         <form class="register-form-container" [formGroup]="registerForm" (ngSubmit)="filterRegister()" novalidate>
@@ -33,16 +33,15 @@
                     </ion-row>
                 </ion-grid>
             </ion-item>
-            <div class="register-form-item country-box">
-                <ion-select formControlName="country" interface='popover'  (ionChange)="changeCountry($event)"  [selectOptions]="selectOptions">
-                    <ion-option *ngFor="let item of country_list" value="{{item.code}}">{{item.name}}</ion-option>
-                </ion-select>
-            </div>
+           
+            <ion-item class="select-country">
+                <ion-multi-picker  formControlName="country" [cancelText]="'取消'" [doneText]="'确定'" (ionChange)="changeCountry($event)"  item-content [multiPickerColumns]="countryColumns?.name" ></ion-multi-picker>
+            </ion-item>
             <ion-item class="register-form-item country-code-box">
                 <ion-thumbnail item-start style="z-index:9999;"  *ngIf="registerType === 1">
-                        <ion-select formControlName="country" interface='popover' (ionChange)="changeCountry($event)"  [selectOptions]="selectOptions">
-                            <ion-option *ngFor="let item of country_list" value="{{item.code}}">{{item.code}}</ion-option>
-                        </ion-select>
+                        <ion-item class="select-country">
+                            <ion-multi-picker formControlName="country" [cancelText]="'取消'" [doneText]="'确定'" (ionChange)="changeCountry($event)" item-content [multiPickerColumns]="countryColumns?.code" ></ion-multi-picker>
+                        </ion-item>
                 </ion-thumbnail>
                 <!-- (blur)='checkRegister()' -->
                 <ion-input formControlName="customerId" id="customerIdInput" class="account" placeholder="{{registerType === 1?'请输入手机号码':'请输入邮箱'}}" ></ion-input>

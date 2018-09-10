@@ -33,16 +33,27 @@ import { detachEmbeddedView } from "@angular/core/src/view";
     templateUrl: "register.html",
 })
 export class RegisterPage {
-    private  selectOptions = {
-        "cssClass": 'register-select'
-    };
+    private country_select;
+    private countryColumns = {
+        name: [
+            {
+                name: "country",
+                options: []
+            }
+        ],
+        code: [
+            {
+                name: "country",
+                options: []
+            }
+        ]
+    }
+   
     private registerType: number = 1;
-    private country_list: any;
     // 监听输入框，用于自动判断是否存在账户，不存在的才能发送验证码
     private inputStream: any;
     // 账户格式错误显示
     private wrongCustomerId:string;
-
     registerForm: FormGroup = new FormGroup({
         // myContry: new FormControl('1002'),
         country: new FormControl(),
@@ -134,6 +145,8 @@ export class RegisterPage {
         this.registerForm.setValue(rawVal);
     }
 
+   
+
     constructor(
         public navCtrl: NavController,
         public navParams: NavParams,
@@ -156,9 +169,15 @@ export class RegisterPage {
         //   rawVal.customerId = customerId;
         //   this.registerForm.setValue(rawVal);
         // }
+        const _country_list = this.appDataService.COUNTRY_LIST;
+        _country_list && _country_list.forEach( item => {
+            this.countryColumns.name[0].options.push({text:item.name,value:item.code});
+            this.countryColumns.code[0].options.push({text:item.code,value:item.code});
+        })
     }
+    
+
     ionViewWillEnter() {
-        this.country_list = this.appDataService.COUNTRY_LIST;
         const customerIdInput = this.elementRef.nativeElement.querySelector('#customerIdInput')
         this.inputStream = Observable.fromEvent(customerIdInput, 'input')
         .debounceTime(250)
@@ -422,10 +441,11 @@ export class RegisterPage {
         this.sending_vcode = false;
     }
     changeCountry($event) {
-        this.form_country.setValue($event)
-        this.inputStream.next(this.form_customerId.value)
-
+        const { country } = $event;
+        country && this.form_country.setValue(country.value);
+        country && this.inputStream.next(this.form_customerId.value);
     }
+
     goLogin() {
         this.navCtrl
         .pop({ animate: true })

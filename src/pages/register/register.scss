@@ -337,22 +337,59 @@ page-register {
             box-shadow: 0 0 0.2rem rgba(255, 255, 255, 0.2);
         }
     }
+    .select-country {
+        padding-left: 14px !important;
+        background-color: transparent !important;
+    }
+    ion-multi-picker {
+        padding-left: 0 !important;
+        padding-right: 20px !important;
+        font-size: 1.6rem !important;
+        position: relative;
+        overflow: auto;
+        &::after {
+            content: '';
+            position: absolute;
+            top: 18px;
+            right: 0px;
+            border-top: 5px solid #a0a0a0;
+            border-right: 5px solid transparent;
+            border-bottom: 5px solid transparent;
+            border-left: 5px solid transparent;
+        }
+    }
 }
 .alter-right-button {
     font-weight: 400 !important;
 }
-.register-select {
-    .popover-content {
-        width: auto!important;
-        left:6.25vw!important;
-        
+
+ion-picker-cmp {
+    .picker-toolbar-multi-picker-cancel {
+        text-align: left !important;
     }
-    .input-wrapper {
-        .label {
-            text-align: left!important;
-            margin-left: 0!important;
-            margin-right: 0!important;
-        }
+    .picker-button {
+        font-weight: inherit !important;
+        color: #007aff !important;
     }
+    .picker-opt {
+        color: #000 !important;
+    }
+    .picker-opt-selected {
+        font-size: 2.2rem !important;
+        color: #007aff !important;
+    }
+    .picker-toolbar,
+    .picker-col {
+        background-color: #fff !important;
+    }
+    .picker-above-highlight {
+        background: linear-gradient(to bottom, #fff 20%, rgba(255, 255, 255, 0) 100%)!important;
+        border-bottom: 0px !important;
+    }
+    .picker-below-highlight {
+        background: linear-gradient(to top, #fff 30%, rgba(255, 255, 255, 0) 100%)!important;
+        border-top: 0px !important;
+    }
+
 }
 

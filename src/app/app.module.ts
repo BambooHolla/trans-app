@@ -191,6 +191,7 @@ import { CustomDialogPage } from "../pages/custom-dialog/custom-dialog";
 import { SelectTradesPage } from "../pages/select-trades/select-trades";
 import { SelectTradesPageModule } from "../pages/select-trades/select-trades.module";
 import { UpgradeServiceProvider } from "../providers/upgrade/upgrade-service";
+import { MultiPickerModule } from 'ion-multi-picker';
 // import { BankCode2NamePipe } from '..\pipes\bank-code2-name/bank-code2-name';
 // import { FileService } from '../providers/file.service';
 // import { IsLoadingDirective } from '../directives/is-loading/is-loading';
@@ -427,7 +428,7 @@ export function createTranslateLoader(http: HttpClient) {
         ComponentsModule,
         BNLC_DirectivesModule,
         DirectivesModule,
-
+        MultiPickerModule,
         // InformationSlideModule,
         // RouterModule.forChild(appRoutes),
     ],
