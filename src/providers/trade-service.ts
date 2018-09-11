@@ -181,6 +181,8 @@ export class TradeService {
                                         productId,
                                         precisionId,
                                         productStatus,
+                                        numberPrecision,
+                                        pricePrecision,
                                     },
                                     index,
                                 ) => {
@@ -236,6 +238,8 @@ export class TradeService {
                                                   }`,
                                             reportRef: new Observable(), //用来存放报表中间管道
                                             reportArr: [],
+                                            numberPrecision,
+                                            pricePrecision,
                                             marketRef: new BehaviorSubject(
                                                 undefined,
                                             ), //用来存放交易中间管道

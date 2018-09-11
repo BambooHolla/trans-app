@@ -358,46 +358,9 @@ export class TradeInterfaceV2Page {
         //   return;
         // })
         const traderId = this.traderId;
-        const precisionIdArr = trader.precisionId;
-        if(precisionIdArr && precisionIdArr.length) {
-            const tasks = [];
-            await this.accountServiceProvider.getProductPrecision(trader.traderId).then( data => {
-                // 记录是否改变，如果没 8位
-                let _amountP: boolean =  false;
-                let _priceP: boolean = false;
-                // 001数量 002价格
-                if(data && data[0]) {
-                    if(data[0].precisionType == '001') {
-                        this.amountPrecision = data[0].digitalNumber;
-                        _amountP = true;
-                    } else if(data[0].precisionType == '002') {
-                        this.pricePrecision = data[0].digitalNumber
-                        _priceP = true;
-                    }
-                }
-
-                if(data && data[1]) {
-                    if(data[1].precisionType == '001') {
-                        this.amountPrecision = data[1].digitalNumber
-                        _amountP = true;
-                    } else if(data[1].precisionType == '002') {
-                        this.pricePrecision = data[1].digitalNumber
-                        _priceP  = true;
-                    }
-                }
-
-                this.amountPrecision = _amountP ? this.amountPrecision >= 0? this.amountPrecision : 8 : 8;
-                this.pricePrecision = _priceP ? this.pricePrecision >= 0? this.pricePrecision : 8 : 8;
-                
-            }).catch( err => {
-                this.amountPrecision = 8;
-                this.pricePrecision = 8;
-            })
-           
-        } else {
-            this.amountPrecision = 8;
-            this.pricePrecision = 8;
-        }
+        this.amountPrecision = trader.numberPrecision >= 0 ? trader.numberPrecision : 8;
+        this.pricePrecision = trader.pricePrecision >= 0 ? trader.pricePrecision : 8;
+        
         if (traderId) {
             console.log("trade-interface-v2:(constructor)", traderId);
            
@@ -2118,7 +2081,7 @@ export class TradeInterfaceV2Page {
             return number[0].length > 18 ? number[0].substr(-18) : number[0];
         }
     }
-
+    
     numberFormatDelete0(number: string | number) {
         let arrExp: any;
         let numberArr: Array<string>;

@@ -24,7 +24,6 @@ export class PriceConversionPipe implements PipeTransform {
         if (isNaN(value) || value == null) return "--";
         value = "" + value;
         let number: any = value;
-
         number = number.split(".");
         if (number[0].length > 1) {
             number[0] = number[0].replace(/\b(0+)/gi, "");

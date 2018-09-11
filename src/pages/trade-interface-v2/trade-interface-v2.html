@@ -69,7 +69,7 @@
 								</div>
 							</div> -->
 							<div class="price {{(_baseData$ | async)?.range | riseOrFall}}{{!appDataService?.risefallColor?'-true':''}}" (click)="setPrice(marketPrice)">
-								{{(_baseData$ | async)?.price | priceConversion:5 | numberFilter:false}}
+								{{(_baseData$ | async)?.price | numberFilter:false | priceConversion:8:pricePrecision}}
 								<span><i class="picasso-icon-about"></i> {{currencyPrice| priceConversion:5 | numberFilter:false}} <span class="unit">{{appDataService.CURRENCY_INFO?.currencyTo}}</span></span>
 							</div>
 							<!-- <div>
@@ -115,7 +115,7 @@
 									</div>
 								<div *ngFor="let item of buyer ; let i = index;" class="bet" tappable (click)="setPrice(buy_depth[i]?.price)"> 
 									<!-- <div class="bet-label " [class.size-1rem]="size_1rem">{{item}}</div> -->
-									<div class="bet-price buy depth-div" [class.color-true]="appDataService?.risefallColor" [class.size-1rem]="size_1rem">{{buy_depth[i]?.price || '--' | priceConversion:8 | numberUnitFormat:true:false:8}}</div>
+									<div class="bet-price buy depth-div" [class.color-true]="appDataService?.risefallColor" [class.size-1rem]="size_1rem">{{buy_depth[i]?.price || '--' | numberUnitFormat:true:false:8 | priceConversion:8:pricePrecision}}</div>
 									<div class="bet-amount" [class.size-1rem]="size_1rem">{{buy_depth[i]?.amount || '--' | quantityConversion:8 | numberUnitFormat:false:true:8:8 | unitConversion}}</div>
 								</div>
 							</div>
@@ -127,7 +127,7 @@
 								   </div>
 								<div *ngFor="let item of saler ; let i = index;" class="bet" tappable (click)="setPrice(sale_depth[i]?.price)">
 									<!-- <div class="bet-label " [class.size-1rem]="size_1rem">{{item}}</div> -->
-									<div class="bet-price sale depth-div" [class.color-true]="appDataService?.risefallColor" [class.size-1rem]="size_1rem">{{sale_depth[i]?.price || '--' | priceConversion:8 | numberUnitFormat:true:false:8}}</div>
+									<div class="bet-price sale depth-div" [class.color-true]="appDataService?.risefallColor" [class.size-1rem]="size_1rem">{{sale_depth[i]?.price || '--' | numberUnitFormat:true:false:8 | priceConversion:8:pricePrecision}}</div>
 									<div class="bet-amount" [class.size-1rem]="size_1rem">{{sale_depth[i]?.amount || '--' | quantityConversion | numberUnitFormat:false:true:8:8 | unitConversion }}</div>
 								</div>
 							</div>
@@ -418,12 +418,12 @@
 						</div>
 						<div *ngFor="let item of buyer_2 ; let i = index;" class="bet depth-type-2" tappable (click)="setPrice(buy_depth_2[i]?.price)"> 
 							<!-- <div class="bet-label " [class.size-1rem]="size_1rem">{{item}}</div> -->
-							<div class="bet-price buy depth-div" [class.color-true]="appDataService?.risefallColor" [class.size-1rem]="size_1rem">{{buy_depth_2[i]?.price || '--' | priceConversion:8 | numberUnitFormat:true:false:8}}</div>
+							<div class="bet-price buy depth-div" [class.color-true]="appDataService?.risefallColor" [class.size-1rem]="size_1rem">{{buy_depth_2[i]?.price || '--' | numberUnitFormat:true:false:8  | priceConversion:8:pricePrecision}}</div>
 							<div class="bet-amount" [class.size-1rem]="size_1rem">{{buy_depth_2[i]?.amount || '--' | quantityConversion:8 | numberUnitFormat:false:true:8:8 | unitConversion}}</div>
 						</div>
 						<div *ngFor="let item of saler ; let i = index;" class="bet" tappable (click)="setPrice(sale_depth[i]?.price)">
 							<!-- <div class="bet-label " [class.size-1rem]="size_1rem">{{item}}</div> -->
-							<div class="bet-price sale depth-div" [class.color-true]="appDataService?.risefallColor" [class.size-1rem]="size_1rem">{{sale_depth[i]?.price || '--' | priceConversion:8 | numberUnitFormat:true:false:8}}</div>
+							<div class="bet-price sale depth-div" [class.color-true]="appDataService?.risefallColor" [class.size-1rem]="size_1rem">{{sale_depth[i]?.price || '--' | numberUnitFormat:true:false:8 | priceConversion:8:pricePrecision}}</div>
 							<div class="bet-amount" [class.size-1rem]="size_1rem">{{sale_depth[i]?.amount || '--' | quantityConversion | numberUnitFormat:false:true:8:8 | unitConversion }}</div>
 						</div>
 					</div>
@@ -438,7 +438,7 @@
 					</div>
 					<div class="market-head market-head-type-2">
 						<div class="price {{(_baseData$ | async)?.range | riseOrFall}}{{!appDataService?.risefallColor?'-true':''}}"  (click)="setPrice(marketPrice)">
-							{{(_baseData$ | async)?.price | priceConversion:8 | numberFilter:false}}
+							{{(_baseData$ | async)?.price | numberFilter:false | priceConversion:8:pricePrecision}}
 							<div>
 								<span><i class="picasso-icon-about"></i> {{currencyPrice| priceConversion:8 | numberFilter:false}} <span class="unit">{{appDataService.CURRENCY_INFO?.currencyTo}}</span></span>
 							</div>
@@ -533,12 +533,12 @@
 					</div>
 					<div *ngFor="let item of buyer_2 ; let i = index;" class="bet depth-type-2" tappable (click)="setPrice(buy_depth_2[i]?.price)"> 
 						<!-- <div class="bet-label " [class.size-1rem]="size_1rem">{{item}}</div> -->
-						<div class="bet-price buy depth-div" [class.color-true]="appDataService?.risefallColor" [class.size-1rem]="size_1rem">{{buy_depth_2[i]?.price || '--' | priceConversion:8 | numberUnitFormat:true:false:8}}</div>
+						<div class="bet-price buy depth-div" [class.color-true]="appDataService?.risefallColor" [class.size-1rem]="size_1rem">{{buy_depth_2[i]?.price || '--' | numberUnitFormat:true:false:8 | priceConversion:8:pricePrecision}}</div>
 						<div class="bet-amount" [class.size-1rem]="size_1rem">{{buy_depth_2[i]?.amount || '--' | quantityConversion:8 | numberUnitFormat:false:true:8:8 | unitConversion}}</div>
 					</div>
 					<div *ngFor="let item of saler ; let i = index;" class="bet" tappable (click)="setPrice(sale_depth[i]?.price)">
 						<!-- <div class="bet-label " [class.size-1rem]="size_1rem">{{item}}</div> -->
-						<div class="bet-price sale depth-div" [class.color-true]="appDataService?.risefallColor" [class.size-1rem]="size_1rem">{{sale_depth[i]?.price || '--' | priceConversion:8 | numberUnitFormat:true:false:8}}</div>
+						<div class="bet-price sale depth-div" [class.color-true]="appDataService?.risefallColor" [class.size-1rem]="size_1rem">{{sale_depth[i]?.price || '--' | numberUnitFormat:true:false:8 | priceConversion:8:pricePrecision}}</div>
 						<div class="bet-amount" [class.size-1rem]="size_1rem">{{sale_depth[i]?.amount || '--' | quantityConversion | numberUnitFormat:false:true:8:8 | unitConversion }}</div>
 					</div>
 				</div>
@@ -575,7 +575,7 @@
 					<div class="col">
 						<div *ngIf="!item?.isMarketOrder">
 							<span class="name">{{'DELEGATED_PRICE'|translate}}</span>
-							<span class="value">{{item.commitPrice}}</span>
+							<span class="value">{{item.commitPrice | priceConversion:8:pricePrecision}}</span>
 						</div>
 						<div *ngIf="item?.isMarketOrder">
 							<span class="kj-name">{{'QUICK_TRANSACTION'|translate}}</span>
@@ -584,7 +584,7 @@
 					<div class="col">
 						<div *ngIf="!item?.isMarketOrder">
 							<span class="name">{{'DELEGATED_QUANTITY'|translate}}</span>
-							<span class="value">{{item.commitAmount |quantityConversion}}</span>
+							<span class="value">{{item.commitAmount | priceConversion:8:amountPrecision}}</span>
 						</div>
 						<div *ngIf="item?.isMarketOrder">
 							<span class="name">{{(item.operationType == '001'? '委托金额': item.operationType == '002'? '委托数量':'' )|translate}}</span>
@@ -594,7 +594,7 @@
 					<div class="col">
 						<div *ngIf="!item?.isMarketOrder">
 							<span class="name">{{'BALANCE_QUANTITY'|translate}}</span>
-							<span class="value">{{item.surplusAmount |quantityConversion}}</span>
+							<span class="value">{{item.surplusAmount | priceConversion:8:amountPrecision}}</span>
 						</div>
 						<div *ngIf="item?.isMarketOrder">
 							<span class="name">{{(item.operationType == '001'? '剩余金额': item.operationType == '002'? '剩余数量':'' )|translate}}</span>
