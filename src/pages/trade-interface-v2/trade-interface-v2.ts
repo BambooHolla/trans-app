@@ -225,7 +225,7 @@ export class TradeInterfaceV2Page {
     get price() {
         return this._price.getValue();
     }
-    amount: string = "0";
+    amount: string = this._numberFormatAdd0('0',false);
     maxAmount: string | number;
     holdAmount: string | number;
     range = 0;
@@ -343,7 +343,6 @@ export class TradeInterfaceV2Page {
     }
 
     async initTrader(trader) {
-        // debugger
         // window['TradeInterfacePage'] = this
         this.traderId = trader.traderId;
         this.productHouseId = trader.productHouseId || "";
@@ -363,7 +362,7 @@ export class TradeInterfaceV2Page {
         
         if (traderId) {
             console.log("trade-interface-v2:(constructor)", traderId);
-           
+            this.amount = this._numberFormatAdd0('0',false);
             this.productStatus = await this.stockDataService.getProductStatus(this.traderId);
             
             this._saleableQuantity$ = this.personalDataService.personalStockList$
@@ -582,7 +581,7 @@ export class TradeInterfaceV2Page {
             this.price = this._numberFormatAdd0(_price)
         }
         this.rangeValue = 0;
-        this.amount = '';
+        this.amount = this._numberFormatAdd0(0,false);
         this.tradeValue = '--';
         this.checkMax();
     }
@@ -963,7 +962,7 @@ export class TradeInterfaceV2Page {
                     });
                     toast.present();
                     //初始化数据
-                    this.amount = "0";
+                    this.amount = this._numberFormatAdd0(0,false);
                     this.tradeValue = "0";
                     this.rangeValue = 0;
                     //下单成功刷新委托单
@@ -1445,7 +1444,7 @@ export class TradeInterfaceV2Page {
         console.log("traderChanged", this.traderId, this.traderList);
         this.rangeValue = 0;
         this.tradeValue = '--';
-        this.amount = '';
+        this.amount = this._numberFormatAdd0(0,false);
         this.traderList.find(item => {
             if (item.traderId == this.traderId) {
                 this.appDataService.LAST_TRADER.next(item);
@@ -1740,7 +1739,6 @@ export class TradeInterfaceV2Page {
         //下面代码 已废弃
         // if (priceProduct) {
         //   //可买数量
-        //   debugger
         //   this.buyTotalAmount = '0';
         //   // priceid productid totalprice
         //   this.tradeService.getQuickTradeData('001', traders[1], traders[0], priceProduct.saleableQuantity * rate)
@@ -2089,17 +2087,20 @@ export class TradeInterfaceV2Page {
             return number[0].length > 18 ? number[0].substr(-18) : number[0];
         }
     }
-    _numberFormatAdd0( number: string | number) {
+    _numberFormatAdd0( number: string | number,isPrice: boolean = true) {
+        const precision = isPrice ? this.pricePrecision : this.amountPrecision;
+        if(!this.isPortrait) {
+        }
         let numberArr = ('' + number).split(".");
         let zero: string = "";
         if (numberArr.length > 1) {
-            for (let i = 0; i < this.pricePrecision - numberArr[1].length; i++) {
+            for (let i = 0; i < precision - numberArr[1].length; i++) {
                 zero += "0";
             }
             return number + zero;
         } else {
             zero = ".";
-            for (let i = 0; i < this.pricePrecision; i++) {
+            for (let i = 0; i < precision; i++) {
                 zero += "0";
             }
             return number + zero;
@@ -2164,10 +2165,10 @@ export class TradeInterfaceV2Page {
         if(this._tradeType$.getValue()) {
             if(!this.price || parseFloat(this.price) == 0) return ;
             if(!this.trader_target.availableAmount) return ;
-            this.amount = this.numberFormat((new BigNumber(this.trader_target.availableAmount||0)).div(this.price).times(value).toString(),false,true,this.amountPrecision)
+            this.amount = this._numberFormatAdd0( this.numberFormat((new BigNumber(this.trader_target.availableAmount||0)).div(this.price).times(value).toString(),false,true,this.amountPrecision),false)
         } else {
             if(!this.trader_product.availableAmount) return ;
-            this.amount = this.numberFormat((new BigNumber(this.trader_product.availableAmount||0)).times(value).toString(),false,true,this.amountPrecision)
+            this.amount = this._numberFormatAdd0(this.numberFormat((new BigNumber(this.trader_product.availableAmount||0)).times(value).toString(),false,true,this.amountPrecision),false)
         }
         this.calculationAmount();
     }
@@ -2232,7 +2233,7 @@ export class TradeInterfaceV2Page {
             this.appSetting.hasTabBlur = false;
             this.rangeValue = 0;
             this.tradeValue = '--';
-            this.amount = '';
+            this.amount = this._numberFormatAdd0(0,false);
             this.selectTrader && this.selectTrader.close();
         })
         this.selectTradesModal.present();
