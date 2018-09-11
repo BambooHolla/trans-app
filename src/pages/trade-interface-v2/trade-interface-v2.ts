@@ -545,7 +545,7 @@ export class TradeInterfaceV2Page {
         if (!price) {
             price = "0";
         }
-        this.price = this.numberFormatDelete0(price);
+        this.price = this._numberFormatAdd0(price);
         this.formatNumber("price");
     }
 
@@ -567,17 +567,19 @@ export class TradeInterfaceV2Page {
         this._tradeType$.next(dataset);
         this.appDataService.exchangeType = dataset;
         if (dataset) {
-            this.price = this.buy_depth[0]
+            const _price = this.buy_depth[0]
                 ? this.numberFormatDelete0(this.buy_depth[0].price)
                 : this.marketPrice
                     ? this.numberFormatDelete0(this.marketPrice)
                     : "0";
+            this.price = this._numberFormatAdd0(_price)
         } else {
-            this.price = this.sale_depth[0]
+            const _price = this.sale_depth[0]
                 ? this.numberFormatDelete0(this.sale_depth[0].price)
                 : this.marketPrice
                     ? this.numberFormatDelete0(this.marketPrice)
                     : "0";
+            this.price = this._numberFormatAdd0(_price)
         }
         this.rangeValue = 0;
         this.amount = '';
@@ -1106,9 +1108,11 @@ export class TradeInterfaceV2Page {
                     // console.log('doSubscribe do')
                     if (!data) return false;
                     if (!this.price) {
-                        this.price = new BigNumber(
+                        const _price = new BigNumber(
                             data.price ? data.price : "0",
-                        ).toString();}
+                        ).toString();
+                        this.price = this._numberFormatAdd0(_price);
+                    }
                     this.marketPrice = data.price;
                     this.buyRate = data.buyRate;
                     this.sellRate = data.sellRate;
@@ -1200,12 +1204,14 @@ export class TradeInterfaceV2Page {
                         if (this._tradeType$.getValue() == 1) {
                             if(!this._hasGetPrice) {
                                 this._hasGetPrice = true;
-                                this.price = "" + this.marketPrice;
+                                const _price = "" + this.marketPrice;
+                                this.price = this._numberFormatAdd0(_price);
                             }
                             if (this.buy_depth[0]) {
-                                this.buyTotalQuantity = this.price = this.numberFormatDelete0(
+                                const _price = this.buyTotalQuantity = this.numberFormatDelete0(
                                     this.buy_depth[0].price,
                                 );
+                                this.price = this._numberFormatAdd0(_price);
                             }
                         }
                         // 快捷交易 0 的时候
@@ -1243,12 +1249,14 @@ export class TradeInterfaceV2Page {
                         if (this._tradeType$.getValue() == 0) {
                             if(!this._hasGetPrice) {
                                 this._hasGetPrice = true;
-                                this.price = "" + this.marketPrice;
+                                const _price = "" + this.marketPrice;
+                                this.price = this._numberFormatAdd0(_price);
                             }
                             if (this.sale_depth[0]) {
-                                this.saleTotalQuantity = this.price = this.numberFormatDelete0(
+                                const _price = this.saleTotalQuantity = this.numberFormatDelete0(
                                     this.sale_depth[0].price,
                                 );
+                                this.price = this._numberFormatAdd0(_price);
                             }
                         }
                         // 快捷交易 0 的时候
@@ -2081,7 +2089,22 @@ export class TradeInterfaceV2Page {
             return number[0].length > 18 ? number[0].substr(-18) : number[0];
         }
     }
-    
+    _numberFormatAdd0( number: string | number) {
+        let numberArr = ('' + number).split(".");
+        let zero: string = "";
+        if (numberArr.length > 1) {
+            for (let i = 0; i < this.pricePrecision - numberArr[1].length; i++) {
+                zero += "0";
+            }
+            return number + zero;
+        } else {
+            zero = ".";
+            for (let i = 0; i < this.pricePrecision; i++) {
+                zero += "0";
+            }
+            return number + zero;
+        }
+    }
     numberFormatDelete0(number: string | number) {
         let arrExp: any;
         let numberArr: Array<string>;
