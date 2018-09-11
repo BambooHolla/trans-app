@@ -439,6 +439,7 @@ export class TradeInterfaceV2Page {
         }
         console.log(result,this.inputGroupPrecision[target])
         result = this.numberFormat(result,false,true,this[this.inputGroupPrecision[target]]); 
+        result = this._numberFormatAdd0(result,target === "price") 
         console.log(result)
         // if(typeof this[target] == "string" ){
         //   result = this[target].split('.');
