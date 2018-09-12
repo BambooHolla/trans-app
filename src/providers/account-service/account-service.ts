@@ -111,7 +111,7 @@ export class AccountServiceProvider {
         accountType?: AccountType;
         productHouseId?: string;
         customerId?: string;
-    }) {
+    }): Promise<any> {
         return this.fetch.get(this.GET_ACCOUNT_PRODUCT, {
             search,
         });

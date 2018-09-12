@@ -5,12 +5,14 @@ import { asyncCtrlGenerator } from "../../bnlc-framework/Decorator";
 import {
     AccountServiceProvider,
     ProductType,
+    AccountType,
 } from "../../providers/account-service/account-service";
 import { PromptControlleService } from "../../providers/prompt-controlle-service";
 import { AppDataService } from "../../providers/app-data-service";
 import { StockDataService } from "../../providers/stock-data-service";
 import { TipSelectPoint } from "../gesture-lock/gesture-lock";
 import { defineLocale } from "moment";
+import { BigNumber } from "bignumber.js";
 /**
  * Generated class for the RechargeGatewayPage page.
  *
@@ -60,6 +62,7 @@ export class AssetBillDetailPage extends SecondLevelPage {
     @asyncCtrlGenerator.loading()
     @asyncCtrlGenerator.error("@@ERROR") 
     initDate() {
+        this.getAccountProduct();
         return this.getBillList().then( (data) => {
             const { bill_logs_page_info } = this;
             console.log(data)
@@ -67,8 +70,20 @@ export class AssetBillDetailPage extends SecondLevelPage {
             this.showNoRecord = true;
         });
     }
-
-    getBillList(){
+    
+    getAccountProduct() {
+        return this.accountService.getAccountProduct({
+            productHouseId: this.productInfo.productHouseId,
+            accountType: AccountType.Product,
+        }).then(data => {
+            this.personalData.availableAmount =  data.balance;
+            this.personalData.freezeQuantity =  data.freezeBalance;
+            this.personalData.restQuantity = (new BigNumber(data.balance)).plus(data.freezeBalance).toString();
+            this.personalData.totalPrice = (new BigNumber(this.personalData.restQuantity)).times(this.personalData.currentPrice).toString();
+            
+        })
+    }
+    getBillList() { 
         const { bill_logs_page_info } = this;
         return this.accountService.getBillDetailList(
             this.productInfo.productHouseId,

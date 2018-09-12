@@ -94,7 +94,7 @@ export class SwitchNetworkPage {
                     handler: data => {
                       console.log(data);
                       this.swichNetwork({
-                        value:  data.network,
+                        value:  "//"+data.network,
                         name: "自定义网络",
                       })
                     }
