@@ -20,17 +20,17 @@ export class SwitchNetworkPage {
             value: "https://test.picaex.com",
             hidden: true,
         },
-        // {
-        //   name: '正式网络',
-        //   value: "https://www.picaex.com",
-        //   checked: false,
-        // },
+        {
+            name: 'release',
+            value: "http://192.168.17.110:40001",
+            hidden: true,
+        },
     ];
 
     constructor(
         public navCtrl: NavController,
         public appSettingProvider: AppSettingProvider,
-        public alterCtrl: AlertController,
+        public alertCtrl: AlertController,
     ) {
         this.commandData.find((item, index) => {
             if (item.value == AppSettingProvider.SERVER_URL) {
@@ -42,7 +42,7 @@ export class SwitchNetworkPage {
     }
     ionChange(data: any) {
         if (!data.hidden) return;
-        this.alterCtrl
+        this.alertCtrl
             .create({
                 title: "警告",
                 message: "非相关人员请勿进行切换网络操作",
@@ -62,8 +62,51 @@ export class SwitchNetworkPage {
             })
             .present();
     }
+
+    private clickCount: number = 0;
+    private _time: any;
+    inputNetwork() {
+        if(this._time) {
+            clearTimeout(this._time);
+        }
+        this._time = setTimeout(() => {
+            this.clickCount = 0;
+        }, 1000);
+        this.clickCount++;
+        if(this.clickCount > 6) {
+            const prompt = this.alertCtrl.create({
+                title: '网络配置',
+                cssClass: "network-page",
+                inputs: [
+                  {
+                    name: 'network',
+                    placeholder: '如：192.168.18.23：40001'
+                  },
+                ],
+                buttons: [
+                  {
+                    text: '取消',
+                    handler: data => {
+                    }
+                  },
+                  {
+                    text: '确定',
+                    handler: data => {
+                      console.log(data);
+                      this.swichNetwork({
+                        value:  data.network,
+                        name: "自定义网络",
+                      })
+                    }
+                  }
+                ]
+            });
+            prompt.present();
+        }
+        
+    }
     swichNetwork(data: any) {
-        this.alterCtrl
+        this.alertCtrl
             .create({
                 title: `警告`,
                 message: `是否重启切换到${data.name}`,
@@ -81,9 +124,8 @@ export class SwitchNetworkPage {
                                 JSON.stringify(data.value),
                             );
                             this.appSettingProvider.clearUserToken();
-                            this.navCtrl.parent.select(0).then(() => {
-                                location.reload();
-                            });
+                            this.navCtrl.parent.select(0);
+                            location.reload();
                         },
                     },
                 ],
