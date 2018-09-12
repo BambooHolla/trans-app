@@ -5,7 +5,7 @@
 在release的时候，运行`npm run fotmat:all`来格式化所有文件。
 
 ## git 
-
+#### （这里只是列举基本用法，具体分支的创建需观看项目技术文档内的gitflow文档）
 多人进行项目操作，使用`git checkout -b <name>`创建一个属于你的分支，操作完成需要合并到`develop`分支，后上传到`develop`分支。
 其中完整过程如：
 1. `git checkout -b <name>`, 创建并切换到你的分支
@@ -19,20 +19,20 @@
 9. `git push origin develop`，上传
 
 ## 打包
-
-`ionic cordova platform add android/ios`，添加对应依赖包，参考[](https://ionicframework.com/docs/cli/cordova/platform/)
+#### 依赖包添加一次就可以
+`ionic cordova platform add android/ios`，添加对应依赖包，参考[https://ionicframework.com/docs/cli/cordova/platform/](https://ionicframework.com/docs/cli/cordova/platform/)
 
 
 * android打包
-    > 1. `ionic cordova platform add android`,
-    > 1. `npm run ionic:build:android` 会
+    > 1. `ionic cordova platform add android`，添加依赖包
+    > 2. `npm run ionic:build:android` ，打包
 
-### 长按保存图片（未实现） 依赖包安装步骤
+### 长按保存图片（未实现，有说要用，之后又没用到，先放着） 依赖包安装步骤
 ionic cordova plugin add cordova-plugin-photo-library --variable PHOTO_LIBRARY_USAGE_DESCRIPTION="To choose photos"
 npm install --save @ionic-native/photo-library
 Add this plugin to your app's module
 
-### 检查网络状态 安装步骤
+### 检查网络状态 安装步骤 （已经实现）
 文档(https://ionicframework.com/docs/native/network/)
 1. Install the Cordova and Ionic Native plugins:
 > $ ionic cordova plugin add cordova-plugin-network-information

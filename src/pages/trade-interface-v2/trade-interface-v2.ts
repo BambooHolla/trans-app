@@ -437,10 +437,8 @@ export class TradeInterfaceV2Page {
                     ? "0"
                     : new BigNumber(this[target]).plus(step).toString();
         }
-        console.log(result,this.inputGroupPrecision[target])
         result = this.numberFormat(result,false,true,this[this.inputGroupPrecision[target]]); 
-        result = this._numberFormatAdd0(result,target === "price") 
-        console.log(result)
+        result = step == 0 && result || this._numberFormatAdd0(result,target === "price");
         // if(typeof this[target] == "string" ){
         //   result = this[target].split('.');
         //   if(result.length == 2){
