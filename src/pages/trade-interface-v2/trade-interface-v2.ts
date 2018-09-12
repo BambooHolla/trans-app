@@ -1297,6 +1297,7 @@ export class TradeInterfaceV2Page {
         this.navCtrl.push(TradeChartV2Page, {
             traderId: this.traderId,
             changeTransaction: this.chooseTradeType.bind(this),
+            pricePrecision: this.pricePrecision,
         });
     }
     async gotoHistoryLogin(goHistory: boolean = false) {
@@ -2088,8 +2089,6 @@ export class TradeInterfaceV2Page {
     }
     _numberFormatAdd0( number: string | number,isPrice: boolean = true) {
         const precision = isPrice ? this.pricePrecision : this.amountPrecision;
-        if(!this.isPortrait) {
-        }
         let numberArr = ('' + number).split(".");
         let zero: string = "";
         if (numberArr.length > 1) {

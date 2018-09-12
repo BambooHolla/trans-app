@@ -731,6 +731,7 @@ export class QuotationsPageV2 {
     gotoChart(trader) {
         this.navCtrl.push(TradeChartV2Page, {
             traderId: trader.traderId,
+            pricePrecision: trader.pricePrecision,
         });
     }
     async getInfoList() {

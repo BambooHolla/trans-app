@@ -30,6 +30,7 @@ export class KlineEchartsBaseComponent implements OnChanges, OnDestroy {
     @Input() traderId: any;
     @Input() price: any;
     @Input() quota: any;
+    @Input() pricePrecision: number;
 
     @ViewChild("echartsPlaceholder") chartElem;
 

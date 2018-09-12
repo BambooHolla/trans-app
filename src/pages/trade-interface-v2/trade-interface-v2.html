@@ -70,7 +70,7 @@
 							</div> -->
 							<div class="price {{(_baseData$ | async)?.range | riseOrFall}}{{!appDataService?.risefallColor?'-true':''}}" (click)="setPrice(marketPrice)">
 								{{(_baseData$ | async)?.price | numberFilter:false | priceConversion:8:pricePrecision}}
-								<span><i class="picasso-icon-about"></i> {{currencyPrice| priceConversion:5 | numberFilter:false}} <span class="unit">{{appDataService.CURRENCY_INFO?.currencyTo}}</span></span>
+								<span><i class="picasso-icon-about"></i> {{currencyPrice | numberFilter:false | priceConversion:2:2 }} <span class="unit">{{appDataService.CURRENCY_INFO?.currencyTo}}</span></span>
 							</div>
 							<!-- <div>
 								<div class="market-items right">
@@ -440,7 +440,7 @@
 						<div class="price {{(_baseData$ | async)?.range | riseOrFall}}{{!appDataService?.risefallColor?'-true':''}}"  (click)="setPrice(marketPrice)">
 							{{(_baseData$ | async)?.price | numberFilter:false | priceConversion:8:pricePrecision}}
 							<div>
-								<span><i class="picasso-icon-about"></i> {{currencyPrice| priceConversion:8 | numberFilter:false}} <span class="unit">{{appDataService.CURRENCY_INFO?.currencyTo}}</span></span>
+								<span><i class="picasso-icon-about"></i> {{currencyPrice| numberFilter:false | priceConversion:2:2 }} <span class="unit">{{appDataService.CURRENCY_INFO?.currencyTo}}</span></span>
 							</div>
 							<div class="left-or-right" (click)="changeLeftOrRight()"><img src="assets/icon/trade-{{appDataService?.left_or_right?'left':'right'}}.png" alt=""></div>
 						</div>

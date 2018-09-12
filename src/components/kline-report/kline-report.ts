@@ -91,8 +91,9 @@ export class KlineReportComponent extends KlineEchartsBaseComponent {
                     label: {
                         backgroundColor: "#262739",
                         color: "#cccccc",
-                        borderColor: "#cccccc",
+                        borderColor: "#00000",
                         borderWidth: "1",
+                        shadowBlur: "0", 
                     },
                 },
                 backgroundColor: "rgba(245, 245, 245, 0.8)",
@@ -108,28 +109,6 @@ export class KlineReportComponent extends KlineEchartsBaseComponent {
                     return obj;
                 },
                 formatter: function(datas) {
-                    function numberFormatDelete0(number: string | number) {
-                        let arrExp: any;
-                        if (typeof number == "number")
-                            number = number.toString();
-                        number = number
-                            .split("")
-                            .reverse()
-                            .join("");
-                        arrExp = /[1-9|\.]/gi.exec(number);
-                        if (arrExp) {
-                            if (arrExp[0] == ".") {
-                                number = number.substring(arrExp.index + 1);
-                            } else {
-                                number = number.substring(arrExp.index);
-                            }
-                            return number
-                                .split("")
-                                .reverse()
-                                .join("");
-                        }
-                        return number;
-                    }
                     console.log("echart data", datas);
                     if (!(datas.length > 0)) {
                         return;
@@ -160,16 +139,10 @@ export class KlineReportComponent extends KlineEchartsBaseComponent {
                             </tr>
                             <tr>
                             <td class="prompt-title">开</td>
-                            <td class="prompt-value">${numberFormatDelete0(
-                                datas[candlestick_index].data[1].toFixed(8),
-                            )}</td>
+                            <td class="prompt-value">${that._numberFormatAdd0(datas[candlestick_index].data[1]*1)}</td>
                             </tr>`;
-                    let val_max: any = numberFormatDelete0(
-                        datas[candlestick_index].data[4].toFixed(8),
-                    );
-                    let val_min: any = numberFormatDelete0(
-                        datas[candlestick_index].data[3].toFixed(8),
-                    );
+                    let val_max: any = that._numberFormatAdd0(datas[candlestick_index].data[4]*1);
+                    let val_min: any = that._numberFormatAdd0(datas[candlestick_index].data[3]*1);
                     // for(let i = 1, length = datas[candlestick_index].data.length - 1; i < length; i++) {
                     //     val_max = datas[candlestick_index].data[i] > datas[candlestick_index].data[i+1] ?
                     //         datas[candlestick_index].data[i] : datas[candlestick_index].data[i+1];
@@ -201,11 +174,10 @@ export class KlineReportComponent extends KlineEchartsBaseComponent {
                             </tr>
                             <tr>
                             <td class="prompt-title">收</td>
-                            <td class="prompt-value">${numberFormatDelete0(
-                                datas[candlestick_index].data[2].toFixed(8),
-                            )}</td>
+                            <td class="prompt-value">${that._numberFormatAdd0(datas[candlestick_index].data[2]*1)}</td>
                             </tr>
                         </table>`;
+                        console.log(that._numberFormatAdd0(datas[candlestick_index].data[2]*1),datas[candlestick_index].data[2],datas[candlestick_index].data[2]*1)
                     return res;
                 },
             },
@@ -819,10 +791,10 @@ export class KlineReportComponent extends KlineEchartsBaseComponent {
                 );
                 // 固定格式 [开，收，低，高]
                 this.klineDatas.datas.push([
-                    item.start * 1,
-                    item.end * 1,
-                    item.min * 1,
-                    item.max * 1,
+                    this._numberFormatAdd0(item.start * 1),
+                    this._numberFormatAdd0(item.end * 1),
+                    this._numberFormatAdd0(item.min * 1),
+                    this._numberFormatAdd0(item.max * 1),
                 ]);
                 this.klineDatas.vols.push(item.amount / 1);
             }
@@ -946,10 +918,10 @@ export class KlineReportComponent extends KlineEchartsBaseComponent {
         this.showKlineDates.datas[length - 1][1] =
             price * 1 || this.showKlineDates.datas[length - 1][1] * 1;
         if (this.showKlineDates.datas[length - 1][2] * 1 > price * 1) {
-            this.showKlineDates.datas[length - 1][2] = price * 1;
+            this.showKlineDates.datas[length - 1][2] = this._numberFormatAdd0(price * 1);
         }
         if (this.showKlineDates.datas[length - 1][3] * 1 < price * 1) {
-            this.showKlineDates.datas[length - 1][3] = price * 1;
+            this.showKlineDates.datas[length - 1][3] = this._numberFormatAdd0(price * 1);
         }
 
         // 数据量增加
@@ -1048,5 +1020,22 @@ export class KlineReportComponent extends KlineEchartsBaseComponent {
                 this.showKlineDates.DIF[i] - this.showKlineDates.DEA[i],
             );
         }
+    }
+    _numberFormatAdd0( number: string | number) {
+        const precision = isNaN(this.pricePrecision)? 8 : this.pricePrecision;
+        let numberArr = ('' + number).split(".");
+        let zero: string = "";
+        if (numberArr.length > 1) {
+            for (let i = 0; i < precision - numberArr[1].length; i++) {
+                zero += "0";
+            }
+            
+        } else {
+            zero = ".";
+            for (let i = 0; i < precision; i++) {
+                zero += "0";
+            }
+        }
+        return number + zero;
     }
 }

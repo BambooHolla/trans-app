@@ -28,6 +28,7 @@ export class TradeChartV2Page {
     
     private product: any = "--- / ---";
     private traderId: any;
+    private pricePrecision: number = 0;
     public nowTimeArr: any = {};
     public productStatus: boolean = false;
     public quotaArr: Array<object> = [
@@ -83,7 +84,7 @@ export class TradeChartV2Page {
         public stockDataService: StockDataService,
     ) {
         
-        this.init();
+        this.init(); 
         
     }
 
@@ -91,6 +92,7 @@ export class TradeChartV2Page {
         this.traderId = this.navParams.data
             ? this.navParams.data.traderId
             : undefined;
+        this.pricePrecision = this.navParams.data ? this.navParams.data.pricePrecision : 8;
         this.productStatus = await this.stockDataService.getProductStatus(this.traderId);
         this.product = this.appDataService.traderList.get(this.traderId);
         const traderId = this.traderId;
@@ -177,4 +179,5 @@ export class TradeChartV2Page {
         this.appDataService.exchangeType = index;
         this.navCtrl.parent.select(1);
     }
+    
 }
