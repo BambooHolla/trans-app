@@ -26,6 +26,7 @@ import { CryptoService } from "../../providers/crypto-service";
     templateUrl: "forget-pwd.html",
 })
 export class ForgetPwdPage {
+    private countryCode: string = 'CN';
     forgetPWDForm: FormGroup = new FormGroup({
         // myContry: new FormControl('1002'),
         customerId: new FormControl({ value: "", disabled: false }),
@@ -131,6 +132,8 @@ export class ForgetPwdPage {
                 customerId,
                 undefined, 
                 "1004",
+                undefined,
+                this.countryCode,
             );
             this.tickResendTimeClock(); // 开始倒计时重新发送短信的按钮
         } catch (err) {
@@ -219,6 +222,7 @@ export class ForgetPwdPage {
                 //账户存在
                 if (data.status == "ok") {
                     this.code_btn_switch = this.customerId_existence = true;
+                    this.countryCode = data.country || "CN";
                 }
             });
         } catch (err) {

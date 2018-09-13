@@ -254,11 +254,13 @@ export class RegisterPage {
                 );
             }
             const _customerId = (this.registerType ? this.form_country.value + " " : '') + this.form_customerId.value;
+            const _countryCode = this.form_country.value;
             await this.registerService.sendSMSCode(
                 _customerId,
                 undefined,
                 "1001",
-                this.registerType
+                this.registerType,
+                _countryCode 
             );
 
             this.tickResendTimeClock(); // 开始倒计时重新发送短信的按钮

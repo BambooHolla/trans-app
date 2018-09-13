@@ -11,6 +11,7 @@ import {
     Refresher,
     ModalController,
     Modal,
+    ActionSheetController,
 } from "ionic-angular";
 import { Observable } from "rxjs/Observable";
 import { BehaviorSubject } from "rxjs/BehaviorSubject";
@@ -317,6 +318,7 @@ export class TradeInterfaceV2Page {
         private accountServiceProvider: AccountServiceProvider,
         private el: ElementRef,
         private modalCtrl: ModalController,
+        private actionsheetCtrl: ActionSheetController,
     ) {
         
         BigNumber.config({ EXPONENTIAL_AT: [-8, 20] });
@@ -538,7 +540,8 @@ export class TradeInterfaceV2Page {
         // } else {
         //     this.tradeValue = this.amount ? this.amount : '--';
         // }
-        this.tradeValue = this.price && this.amount ? this.numberFormat((new BigNumber(this.amount)).times(this.price).toString()) : '--';
+        this.tradeValue = this.price && this.amount ? this.numberFormat((new BigNumber(this.amount)).times(this.price).toString()) : '';
+        // if(this.tradeValue) this.tradeValue = this.tradeValue + " " + this.priceName;
     }
     setPrice(price = this.price) {
         if (!price) {
@@ -582,7 +585,7 @@ export class TradeInterfaceV2Page {
         }
         this.rangeValue = 0;
         this.amount = this._numberFormatAdd0(0,false);
-        this.tradeValue = '--';
+        this.tradeValue = '';
         this.checkMax();
     }
 
@@ -963,7 +966,7 @@ export class TradeInterfaceV2Page {
                     toast.present();
                     //初始化数据
                     this.amount = this._numberFormatAdd0(0,false);
-                    this.tradeValue = "0";
+                    this.tradeValue = "";
                     this.rangeValue = 0;
                     //下单成功刷新委托单
                     this.page = 1;
@@ -1448,7 +1451,7 @@ export class TradeInterfaceV2Page {
     changeTrader($event?) {
         console.log("traderChanged", this.traderId, this.traderList);
         this.rangeValue = 0;
-        this.tradeValue = '--';
+        this.tradeValue = '';
         this.amount = this._numberFormatAdd0(0,false);
         this.traderList.find(item => {
             if (item.traderId == this.traderId) {
@@ -2204,6 +2207,18 @@ export class TradeInterfaceV2Page {
     changeLeftOrRight() {
         this.appDataService.left_or_right = this.appDataService.left_or_right ? false : true;
     }
+    changePriceType() {
+        this.actionsheetCtrl.create({
+            buttons: 
+            [
+                {
+                    text: "限价",
+                    handler: () => {
+                    },
+                },
+            ]
+        }).present();
+    }
     scrollFixInput() {
         const position_y = this.el.nativeElement.querySelector('#scroll-dom').offsetTop;
         this.content.scrollTo(0, position_y);
@@ -2235,7 +2250,7 @@ export class TradeInterfaceV2Page {
             this.selectTradesModal = null;
             this.appSetting.hasTabBlur = false;
             this.rangeValue = 0;
-            this.tradeValue = '--';
+            this.tradeValue = '';
             this.amount = this._numberFormatAdd0(0,false);
             this.selectTrader && this.selectTrader.close();
         })

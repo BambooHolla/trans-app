@@ -120,6 +120,9 @@ page-trade-interface-v2 {
         .item-inner {
             padding-right: 0px!important;
         }
+        .text-input[disabled] {
+            opacity: 1;
+        }
     }
     ion-range {
         position: relative;
@@ -259,9 +262,30 @@ page-trade-interface-v2 {
             }
         }
     }
+    .price-type {
+        padding: 1.2rem 1rem 0.3rem 1.2rem;
+        // line-height: 1rem;
+        .price-text {
+            display: inline-block;
+            font-size: 1.4rem;
+            color: color($colors,special);
+            padding-right: 1rem;
+            position: relative;
+            &::after {
+                content: '';
+                position: relative;
+                top: 12px;
+                left: 6px;
+                border-top: 5px solid color($colors,special);
+                border-right: 5px solid transparent;
+                border-bottom: 5px solid transparent;
+                border-left: 5px solid transparent;
+            }
+        }
+    }
     .content-block {
         background-color: #2a2b3f;
-        padding: 2.2rem 0 1rem;
+        // padding: 2.2rem 0 1rem;
         &.content-block-type-2 {
             background-color: transparent;
             padding: 1rem 0 0;
@@ -472,17 +496,23 @@ page-trade-interface-v2 {
                     margin: 0 0.5rem 0 1.6rem;
                 }
             }
-
+            .input-row:first-child {
+                margin-top: 0 !important;
+            }
             .input-row {
                 width: 67%;
                 height: 4.2rem;
                 border-radius: 4.2rem;
                 background-color: #242435;
                 margin: 1.1rem auto 0;
+                > .add-sub {
+                    color: #c0c0c0;
+                }
                 &.input-row-type-2 {
                     background-color: #2a2b3f;
                     width: 92%;
                     height: 3.6rem;
+                    margin-top: 2rem;
                     .item-block {
                         min-height: 3.6rem;
                         input {
@@ -1084,6 +1114,16 @@ page-trade-interface-v2 {
             box-shadow: 0px 6px 8px 0px rgba(0, 0, 0, 0.12);
             height: 4rem;
             align-items: center;
+            position: relative;
+            .range {
+                display: inline-block;
+                position: absolute;
+                right: 1.2rem;
+                span {
+                    color: #6b6b6b !important;
+                    font-size: 1.3rem;
+                }
+            }
             & > div {
                 flex: 1;
                 &:nth-child(1) {
@@ -1126,16 +1166,22 @@ page-trade-interface-v2 {
                 }
             }
         }
+        &-head-2 {
+            border-bottom: 1px solid #2a2b3f;
+        }
         &-head-type-2 {
-            margin-top: 2.6rem;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
             box-shadow: none;
             position: relative;
+            height: auto;
+            padding-left: 7%;
             .left-or-right {
-                width: 2rem;
+                width: 2.4rem;
                 height: 2rem;
                 position: absolute;
                 right: 1rem;
-                top: 0.6rem;
+                // top: 0.6rem;
             }
         }
         &-body {
@@ -1199,7 +1245,7 @@ page-trade-interface-v2 {
                         // margin-bottom: 20px;
                     }
                     &.bet-left {
-                        border-left-color:#242435;
+                        // border-left-color:#242435;
                     }
                     .size-1rem { 
                         font-size: 1rem !important; 
@@ -1209,11 +1255,17 @@ page-trade-interface-v2 {
                         &.color-true {
                             color: color($colors, rise-true)!important; 
                         }
+                        &.disabled {
+                            color: #666666 !important;
+                        }
                     }
                     .buy {
                         color: color($colors, fall)!important; 
                         &.color-true {
                             color: color($colors, fall-true)!important; 
+                        }
+                        &.disabled {
+                            color: #666666 !important;
                         }
                     }
                     .tip {

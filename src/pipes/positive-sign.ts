@@ -13,7 +13,8 @@ export class PositiveSignPipe implements PipeTransform {
     /**
      * Takes a value and makes it lowercase.
      */
-    transform(value: string): string {
+    transform(value: string,isPercent: boolean = true): string {
+        if(!isPercent) value = (+value * 100).toFixed(2);
         if (value && !value.startsWith("-") && /[^0.%]/.test(value)) {
             return "+" + value;
         } else {

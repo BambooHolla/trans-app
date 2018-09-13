@@ -71,6 +71,7 @@
 							<div class="price {{(_baseData$ | async)?.range | riseOrFall}}{{!appDataService?.risefallColor?'-true':''}}" (click)="setPrice(marketPrice)">
 								{{(_baseData$ | async)?.price | numberFilter:false | priceConversion:8:pricePrecision}}
 								<span><i class="picasso-icon-about"></i> {{currencyPrice | numberFilter:false | priceConversion:2:2 }} <span class="unit">{{appDataService.CURRENCY_INFO?.currencyTo}}</span></span>
+								<div class="range">{{(_baseData$ | async)?.range | positiveSign:false}} <span>%</span></div>
 							</div>
 							<!-- <div>
 								<div class="market-items right">
@@ -187,13 +188,20 @@
 							<ion-col data-trade-type="0" class="sale" [class.enabled]="!(tradeType$|async)" [class.color-true]="appDataService?.risefallColor">{{'SELL'|translate}}</ion-col>
 						</ion-row>
 					</ion-grid>	
+					<ion-grid class="price-type">
+						<ion-row>
+							<ion-col>
+								<div class="price-text" (click)="changePriceType()">限价</div>
+							</ion-col>
+						</ion-row>
+					</ion-grid>	
 					<ion-grid [hidden]="appDataService.show_onestep_trade" class="trinp  content-block">
 						<!-- <ion-row class="fee">
 							<ion-icon ios="ios-alert-outline" md="ios-alert-outline"></ion-icon>
 							{{'FEE_RATE_STANDARDS'|translate}}:{{fee}}
 						</ion-row> -->
 						<ion-row class="input-row">
-							<ion-col col-2 tappable (click)="changeByStep('price','-')">-</ion-col>
+							<ion-col col-2 tappable (click)="changeByStep('price','-')" class="add-sub">-</ion-col>
 								<!-- <ion-col col-1>
 									<ion-icon name="ios-gprice" class="vertical-center"></ion-icon>
 								</ion-col> -->
@@ -206,10 +214,10 @@
 										></ion-input>
 								</ion-item>
 							</ion-col>
-							<ion-col col-2 tappable (click)="changeByStep('price','+')">+</ion-col>
+							<ion-col col-2 tappable (click)="changeByStep('price','+')" class="add-sub">+</ion-col>
 						</ion-row>
 						<ion-row class="input-row" align-items-center>
-							<ion-col col-2 tappable (click)="changeByStep('amount','-')">-</ion-col>
+							<ion-col col-2 tappable (click)="changeByStep('amount','-')" class="add-sub">-</ion-col>
 							<!-- <ion-col col-1>
 								<ion-icon name="ios-gamount" class="vertical-center"></ion-icon>
 							</ion-col> -->
@@ -221,9 +229,19 @@
 										 ></ion-input>
 									</ion-item>
 							</ion-col>
-							<ion-col col-2 tappable (click)="changeByStep('amount','+')">+</ion-col>
+							<ion-col col-2 tappable (click)="changeByStep('amount','+')" class="add-sub">+</ion-col>
 						</ion-row>
-					
+						<ion-row class="input-row" align-items-center>
+							<ion-col>
+									<ion-item class="item-background-color"> 
+										<ion-input #amountInputer type="text" placeholder="交易额{{priceName?'('+priceName+')':''}}"
+											disabled
+											[(ngModel)]="tradeValue"
+										  (ngModelChange)="formatNumber('amount')"
+										 ></ion-input>
+									</ion-item>
+							</ion-col>
+						</ion-row>
 						<ion-row class="range">
 							<ion-item no-lines class="trade-range"  [class.sale]="!!(tradeType$|async)">
 								<ion-range min='0'step='25' max='100' snaps='true' pin="false"  [class.color-true]="appDataService?.risefallColor"
@@ -257,7 +275,7 @@
 						<ion-grid class="trbtn">  -->
 						<ion-row class="trade-tip">
 							<div class="range-mark">
-								<div class="left" *ngIf="!(tradeType$|async)">
+								<!-- <div class="left" *ngIf="!(tradeType$|async)">
 									交易额：
 									<span class="trade-value">{{tradeValue||'--' | unitConversion}}</span>
 									<span class="unit">{{priceName || '--'}}</span>
@@ -266,13 +284,13 @@
 									交易额：
 									<span class="trade-value">{{tradeValue||'--' | unitConversion}}</span>
 									<span class="unit">{{priceName || '--'}}</span>
-								</div>
-								<div class="right"  *ngIf="!(tradeType$|async)">
+								</div> -->
+								<div class="left"  *ngIf="!(tradeType$|async)">
 									{{'AVAILABLE'|translate}}：
 									<span class="trade-value">{{appDataService?.hiddentext || (trader_product?.availableAmount || '--' | quantityConversion  | numberUnitFormat:true:false:8 | unitConversion)}}</span>
 									<span class="unit">{{productName || '--'}}</span>
 								</div>
-								<div class="right"  *ngIf="!!(tradeType$|async)">
+								<div class="left"  *ngIf="!!(tradeType$|async)">
 									{{'AVAILABLE'|translate}}：
 									<span class="trade-value">{{appDataService?.hiddentext || (trader_target?.availableAmount || '--' | quantityConversion  | numberUnitFormat:true:false:8 | unitConversion)}}</span>
 									<span class="unit">{{priceName || '--'}}</span>
@@ -407,7 +425,33 @@
 	<div  [hidden]="appDataService?.trade_type">
 		
 		<div class="market">
-		
+			<div class="market-head market-head-2">
+				<!-- <div>
+					<div class="market-items">
+						<span class="market-label">{{'HIGH'|translate}}</span>
+						<span>{{(_baseData$ | async)?.max | priceConversion:6 | numberFilter:true}}</span>
+					</div>
+					<div class="market-items">
+						<span class="market-label">{{'LOW'|translate}}</span>
+						<span>{{(_baseData$ | async)?.min | priceConversion:6 | numberFilter:true}}</span>
+					</div>
+				</div> -->
+				<div class="price {{(_baseData$ | async)?.range | riseOrFall}}{{!appDataService?.risefallColor?'-true':''}}" (click)="setPrice(marketPrice)">
+					{{(_baseData$ | async)?.price | numberFilter:false | priceConversion:8:pricePrecision}}
+					<span><i class="picasso-icon-about"></i> {{currencyPrice | numberFilter:false | priceConversion:2:2 }} <span class="unit">{{appDataService.CURRENCY_INFO?.currencyTo}}</span></span>
+					<div class="range">{{(_baseData$ | async)?.range | positiveSign:false}} <span>%</span></div>
+				</div>
+				<!-- <div>
+					<div class="market-items right">
+						<span class="{{(_baseData$ | async)?.range | riseOrFall}}">{{(_baseData$ | async)?.range | percent:'1.0-2' | positiveSign}}</span>
+						<span class="market-label">{{'RANGE'|translate}}</span>
+					</div>
+					<div class="market-items right">
+						<span>{{(_baseData$ | async)?.todayAmount | quantityConversion | numberUnitFormat:true:true:6}}</span>
+						<span class="market-label">{{'VOL'|translate}}</span>
+					</div>
+				</div> -->
+			</div>
 			<div class="market-body">
 				<div class="bet-bottom-shadow shadow-type-2"></div>
 				<div class="bets-group  bets-group-type-2 best-group-left" [hidden]="!appDataService?.left_or_right">
@@ -421,6 +465,7 @@
 							<div class="bet-price sale depth-div" [class.color-true]="appDataService?.risefallColor" [class.size-1rem]="size_1rem">{{sale_depth_2[i]?.price || '--' | numberUnitFormat:true:false:8 | priceConversion:8:pricePrecision}}</div>
 							<div class="bet-amount" [class.size-1rem]="size_1rem">{{sale_depth_2[i]?.amount || '--' | quantityConversion | numberUnitFormat:false:true:8:8 | priceConversion:8:amountPrecision | unitConversion }}</div>
 						</div>
+						<div style="height: 1px;background-color:#2a2b3f;margin: 0.2rem 0;"></div>
 						<div *ngFor="let item of buyer_2 ; let i = index;" class="bet depth-type-2" tappable (click)="setPrice(buy_depth[i]?.price)"> 
 							<!-- <div class="bet-label " [class.size-1rem]="size_1rem">{{item}}</div> -->
 							<div class="bet-price buy depth-div" [class.color-true]="appDataService?.risefallColor" [class.size-1rem]="size_1rem">{{buy_depth[i]?.price || '--' | numberUnitFormat:true:false:8  | priceConversion:8:pricePrecision}}</div>
@@ -432,23 +477,20 @@
 					<div class="bet bet-left trade-title-type-2" tappable>
 						<ion-grid [hidden]="appDataService.show_onestep_trade">
 							<ion-row class="entrust-type" (click)="chooseTradeType($event)">
-								<ion-col data-trade-type="1" class="buy" [class.enabled]="!!(tradeType$|async)" [class.color-true]="appDataService?.risefallColor">{{'BUY'|translate}}</ion-col>
-								<ion-col data-trade-type="0" class="sale" [class.enabled]="!(tradeType$|async)" [class.color-true]="appDataService?.risefallColor">{{'SELL'|translate}}</ion-col>
+								<ion-col data-trade-type="1" class="buy" [class.enabled]="!!(tradeType$|async)" [class.disabled]="!(tradeType$|async)" [class.color-true]="appDataService?.risefallColor">{{'BUY'|translate}}</ion-col>
+								<ion-col data-trade-type="0" class="sale" [class.enabled]="!(tradeType$|async)" [class.disabled]="!!(tradeType$|async)" [class.color-true]="appDataService?.risefallColor">{{'SELL'|translate}}</ion-col>
 							</ion-row>
 						</ion-grid>	
 					</div>
 					<div class="market-head market-head-type-2">
-						<div class="price {{(_baseData$ | async)?.range | riseOrFall}}{{!appDataService?.risefallColor?'-true':''}}"  (click)="setPrice(marketPrice)">
-							{{(_baseData$ | async)?.price | numberFilter:false | priceConversion:8:pricePrecision}}
-							<div>
-								<span><i class="picasso-icon-about"></i> {{currencyPrice| numberFilter:false | priceConversion:2:2 }} <span class="unit">{{appDataService.CURRENCY_INFO?.currencyTo}}</span></span>
-							</div>
-							<div class="left-or-right" (click)="changeLeftOrRight()"><img src="assets/icon/trade-{{appDataService?.left_or_right?'left':'right'}}.png" alt=""></div>
-						</div>
+						<div class="price-type">
+							<div class="price-text" (click)="changePriceType()">限价</div>
+						</div>	
+						<div class="left-or-right" (click)="changeLeftOrRight()"><img src="assets/icon/trade-{{appDataService?.left_or_right?'left':'right'}}.png" alt=""></div>
 					</div>
 					<ion-grid [hidden]="appDataService.show_onestep_trade" class="trinp  content-block content-block-type-2">
 							<ion-row class="input-row input-row-type-2">
-								<ion-col col-2 tappable (click)="changeByStep('price','-')">-</ion-col>
+								<ion-col col-2 tappable (click)="changeByStep('price','-')" class="add-sub">-</ion-col>
 								<ion-col col-7>
 										<ion-item class="item-background-color item-input-padding">
 									<ion-input #priceInputer2 type="number" placeholder="委托价格"
@@ -458,10 +500,10 @@
 										></ion-input>
 									</ion-item>
 								</ion-col>
-								<ion-col col-2 tappable (click)="changeByStep('price','+')">+</ion-col>
+								<ion-col col-2 tappable (click)="changeByStep('price','+')" class="add-sub">+</ion-col>
 							</ion-row>
 							<ion-row class="input-row input-row-type-2" align-items-center>
-								<ion-col col-2 tappable (click)="changeByStep('amount','-')">-</ion-col>
+								<ion-col col-2 tappable (click)="changeByStep('amount','-')" class="add-sub">-</ion-col>
 								<ion-col col-7>
 										<ion-item class="item-background-color item-input-padding"> 
 											<ion-input #amountInputer2 type="number" placeholder="委托数量" 
@@ -470,9 +512,19 @@
 											></ion-input>
 										</ion-item>
 								</ion-col>
-								<ion-col col-2 tappable (click)="changeByStep('amount','+')">+</ion-col>
+								<ion-col col-2 tappable (click)="changeByStep('amount','+')" class="add-sub">+</ion-col>
 							</ion-row>
-						
+							<ion-row class="input-row input-row-type-2" align-items-center>
+								<ion-col>
+									<ion-item class="item-background-color item-input-padding"> 
+										<ion-input #amountInputer type="text" placeholder="交易额{{priceName?'('+priceName+')':''}}"
+											disabled
+											[(ngModel)]="tradeValue"
+											(ngModelChange)="formatNumber('amount')"
+										></ion-input>
+									</ion-item>
+								</ion-col>
+							</ion-row>
 							<ion-row class="range">
 								<ion-item no-lines class="trade-range  trade-range-type-2"  [class.sale]="!!(tradeType$|async)">
 									<ion-range class="range-type-2" min='0' step='25' max='100' snaps='true' pin="false"  [class.color-true]="appDataService?.risefallColor"
@@ -498,7 +550,7 @@
 									</div>
 								</div>
 							</ion-row>
-							<ion-row class="trade-tip trade-tip-value-2 ">
+							<!-- <ion-row class="trade-tip trade-tip-value-2 ">
 								<div class="range-mark">
 									
 									<div class="left" *ngIf="!(tradeType$|async)">
@@ -512,8 +564,8 @@
 										<span class="unit">{{priceName || '--'}}</span>
 									</div>
 								</div>
-							</ion-row>
-							<ion-row style="padding-top: 1rem;">
+							</ion-row> -->
+							<ion-row style="padding-top: 1.2rem;">
 								<button class="trbtn trbtn-type-2" [class.color-true]='appDataService?.risefallColor' [class.issale]="!(tradeType$|async)"  [class.disabled]="!productStatus"
 									block [disabled]="trading" (click)="productStatus && (!appSetting.getUserToken()? goLogin() : doTrade())">
 										{{(!appSetting.getUserToken()?
@@ -537,6 +589,7 @@
 						<div class="bet-price sale depth-div" [class.color-true]="appDataService?.risefallColor" [class.size-1rem]="size_1rem">{{sale_depth_2[i]?.price || '--' | numberUnitFormat:true:false:8 | priceConversion:8:pricePrecision}}</div>
 						<div class="bet-amount" [class.size-1rem]="size_1rem">{{sale_depth_2[i]?.amount || '--' | quantityConversion | numberUnitFormat:false:true:8:8 | priceConversion:8:amountPrecision | unitConversion }}</div>
 					</div>
+					<div style="height: 1px;background-color:#2a2b3f;margin: 0.2rem 0;"></div>
 					<div *ngFor="let item of buyer_2 ; let i = index;" class="bet depth-type-2" tappable (click)="setPrice(buy_depth[i]?.price)"> 
 						<!-- <div class="bet-label " [class.size-1rem]="size_1rem">{{item}}</div> -->
 						<div class="bet-price buy depth-div" [class.color-true]="appDataService?.risefallColor" [class.size-1rem]="size_1rem">{{buy_depth[i]?.price || '--' | numberUnitFormat:true:false:8 | priceConversion:8:pricePrecision}}</div>
