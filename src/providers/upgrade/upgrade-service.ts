@@ -52,6 +52,7 @@ export class UpgradeServiceProvider {
     }
     async checkVersion() {
         const _version: VERSION_INFO = await this.getVersionInfo();
+        this.appDataService.IS_UP = _version.up;
         return _version.up && _version;
     }
     

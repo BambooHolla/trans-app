@@ -39,6 +39,8 @@ export class AppDataService {
 
     //语言
     public LANGUAGE: any = "zh";
+    //是否更新
+    public IS_UP: boolean = false;
     //计价方式
     public CURRENCYS_TYPE: any ;
     public CURRENCY_INFO: any = {

@@ -28,7 +28,7 @@
     </ion-row>
     <ion-row class="bottom-line" >
       <ion-col padding class="vertical-center" (click)="isAndroid && checkUpdate()">
-        {{isAndroid?"检查更新":"当前版本"}}<span class="f-right">{{appDataService.APP_VERSION}} <span class="picasso-icon-right-arrow" *ngIf="isAndroid"></span></span>
+        {{isAndroid?"检查更新":"当前版本"}}<span class="f-right"><span class="picasso-icon-mark-bcolor icon" *ngIf="appDataService?.IS_UP"></span>{{appDataService.APP_VERSION}} <span class="picasso-icon-right-arrow" *ngIf="isAndroid"></span></span>
       </ion-col>
     </ion-row>
     <ion-row class="bottom-line" >
