@@ -23,7 +23,7 @@ export class unitConversionPipe implements PipeTransform {
         let unit: string = "";
         let unitArr: string[] = ["K", "M", "G", "T"];
         // 转化成string
-        let number = new BigNumber("" + value || "0").toString();
+        let number = "" + (value||0);
         // 小数，整数分开
         let numberArr = number.split(".");
         let integer: string = '';

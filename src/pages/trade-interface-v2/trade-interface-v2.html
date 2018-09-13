@@ -116,7 +116,7 @@
 								<div *ngFor="let item of buyer ; let i = index;" class="bet" tappable (click)="setPrice(buy_depth[i]?.price)"> 
 									<!-- <div class="bet-label " [class.size-1rem]="size_1rem">{{item}}</div> -->
 									<div class="bet-price buy depth-div" [class.color-true]="appDataService?.risefallColor" [class.size-1rem]="size_1rem">{{buy_depth[i]?.price || '--' | numberUnitFormat:true:false:8 | priceConversion:8:pricePrecision}}</div>
-									<div class="bet-amount" [class.size-1rem]="size_1rem">{{buy_depth[i]?.amount || '--' | quantityConversion:8 | numberUnitFormat:false:true:8:8 | unitConversion}}</div>
+									<div class="bet-amount" [class.size-1rem]="size_1rem">{{buy_depth[i]?.amount || '--' | quantityConversion:8 | numberUnitFormat:false:true:8:8 | priceConversion:8:amountPrecision | unitConversion}}</div>
 								</div>
 							</div>
 							<div class="bets-group">
@@ -128,7 +128,7 @@
 								<div *ngFor="let item of saler ; let i = index;" class="bet" tappable (click)="setPrice(sale_depth[i]?.price)">
 									<!-- <div class="bet-label " [class.size-1rem]="size_1rem">{{item}}</div> -->
 									<div class="bet-price sale depth-div" [class.color-true]="appDataService?.risefallColor" [class.size-1rem]="size_1rem">{{sale_depth[i]?.price || '--' | numberUnitFormat:true:false:8 | priceConversion:8:pricePrecision}}</div>
-									<div class="bet-amount" [class.size-1rem]="size_1rem">{{sale_depth[i]?.amount || '--' | quantityConversion | numberUnitFormat:false:true:8:8 | unitConversion }}</div>
+									<div class="bet-amount" [class.size-1rem]="size_1rem">{{sale_depth[i]?.amount || '--' | quantityConversion | numberUnitFormat:false:true:8:8 | priceConversion:8:amountPrecision | unitConversion }}</div>
 								</div>
 							</div>
 							
@@ -419,12 +419,12 @@
 						<div *ngFor="let item of buyer_2 ; let i = index;" class="bet depth-type-2" tappable (click)="setPrice(buy_depth_2[i]?.price)"> 
 							<!-- <div class="bet-label " [class.size-1rem]="size_1rem">{{item}}</div> -->
 							<div class="bet-price buy depth-div" [class.color-true]="appDataService?.risefallColor" [class.size-1rem]="size_1rem">{{buy_depth_2[i]?.price || '--' | numberUnitFormat:true:false:8  | priceConversion:8:pricePrecision}}</div>
-							<div class="bet-amount" [class.size-1rem]="size_1rem">{{buy_depth_2[i]?.amount || '--' | quantityConversion:8 | numberUnitFormat:false:true:8:8 | unitConversion}}</div>
+							<div class="bet-amount" [class.size-1rem]="size_1rem">{{buy_depth_2[i]?.amount || '--' | quantityConversion:8 | numberUnitFormat:false:true:8:8 | priceConversion:8:amountPrecision | unitConversion}}</div>
 						</div>
 						<div *ngFor="let item of saler ; let i = index;" class="bet" tappable (click)="setPrice(sale_depth[i]?.price)">
 							<!-- <div class="bet-label " [class.size-1rem]="size_1rem">{{item}}</div> -->
 							<div class="bet-price sale depth-div" [class.color-true]="appDataService?.risefallColor" [class.size-1rem]="size_1rem">{{sale_depth[i]?.price || '--' | numberUnitFormat:true:false:8 | priceConversion:8:pricePrecision}}</div>
-							<div class="bet-amount" [class.size-1rem]="size_1rem">{{sale_depth[i]?.amount || '--' | quantityConversion | numberUnitFormat:false:true:8:8 | unitConversion }}</div>
+							<div class="bet-amount" [class.size-1rem]="size_1rem">{{sale_depth[i]?.amount || '--' | quantityConversion | numberUnitFormat:false:true:8:8 | priceConversion:8:amountPrecision | unitConversion }}</div>
 						</div>
 					</div>
 				<div class="bets-group">
@@ -534,12 +534,12 @@
 					<div *ngFor="let item of buyer_2 ; let i = index;" class="bet depth-type-2" tappable (click)="setPrice(buy_depth_2[i]?.price)"> 
 						<!-- <div class="bet-label " [class.size-1rem]="size_1rem">{{item}}</div> -->
 						<div class="bet-price buy depth-div" [class.color-true]="appDataService?.risefallColor" [class.size-1rem]="size_1rem">{{buy_depth_2[i]?.price || '--' | numberUnitFormat:true:false:8 | priceConversion:8:pricePrecision}}</div>
-						<div class="bet-amount" [class.size-1rem]="size_1rem">{{buy_depth_2[i]?.amount || '--' | quantityConversion:8 | numberUnitFormat:false:true:8:8 | unitConversion}}</div>
+						<div class="bet-amount" [class.size-1rem]="size_1rem">{{buy_depth_2[i]?.amount || '--' | quantityConversion:8 | numberUnitFormat:false:true:8:8 | priceConversion:8:amountPrecision | unitConversion}}</div>
 					</div>
 					<div *ngFor="let item of saler ; let i = index;" class="bet" tappable (click)="setPrice(sale_depth[i]?.price)">
 						<!-- <div class="bet-label " [class.size-1rem]="size_1rem">{{item}}</div> -->
 						<div class="bet-price sale depth-div" [class.color-true]="appDataService?.risefallColor" [class.size-1rem]="size_1rem">{{sale_depth[i]?.price || '--' | numberUnitFormat:true:false:8 | priceConversion:8:pricePrecision}}</div>
-						<div class="bet-amount" [class.size-1rem]="size_1rem">{{sale_depth[i]?.amount || '--' | quantityConversion | numberUnitFormat:false:true:8:8 | unitConversion }}</div>
+						<div class="bet-amount" [class.size-1rem]="size_1rem">{{sale_depth[i]?.amount || '--' | quantityConversion | numberUnitFormat:false:true:8:8 | priceConversion:8:amountPrecision | unitConversion }}</div>
 					</div>
 				</div>
 				
