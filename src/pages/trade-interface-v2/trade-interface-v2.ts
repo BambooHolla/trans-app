@@ -157,6 +157,7 @@ export class TradeInterfaceV2Page {
     public buy_depth: AnyObject[] = [];
     public buy_depth_2: AnyObject[] = [];
     public sale_depth: AnyObject[] = [];
+    public sale_depth_2: AnyObject[] = [];
     public buyer = [
         window["language"]["BUY_1"] || "买1",
         window["language"]["BUY_2"] || "买2",
@@ -1218,7 +1219,7 @@ export class TradeInterfaceV2Page {
                             : "" + this.marketPrice;
                     }
                     if (data.sale) {
-                        
+                        this.sale_depth_2 = []
                         for (let i = 0; i < data.sale.length; i++) {
                             //剔除掉数量为0的数据
                             if (
@@ -1242,6 +1243,10 @@ export class TradeInterfaceV2Page {
                             //格式
                             if(data.sale[i].amount) data.sale[i].amount = this.numberFormat(data.sale[i].amount,false,true,this.amountPrecision);
                             if(data.sale[i].price) data.sale[i].price = this.numberFormat(data.sale[i].price,false,true,this.pricePrecision);
+                            // 竖版深度
+                            if(i < 5) {
+                                this.sale_depth_2[4-i] = data.sale[i];
+                            }
                         }
                         this.sale_depth = data.sale;
                         if (this._tradeType$.getValue() == 0) {
