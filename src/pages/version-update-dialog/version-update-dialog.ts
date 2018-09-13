@@ -62,7 +62,7 @@ export class VersionUpdateDialogPage extends FirstLevelPage {
   @VersionUpdateDialogPage.willEnter
   initData() {
     this.version_info = this.navParams.get("version_info");
-    if(this.version_info.model === 3) {
+    if(this.version_info.model === 1) {
       this.unregisterBackButton = this.platform.registerBackButtonAction(
         () => {
            
@@ -171,6 +171,11 @@ export class VersionUpdateDialogPage extends FirstLevelPage {
   }
   backgroundDownload() {
     // this.viewCtrl.dismiss();
+  }
+
+  @VersionUpdateDialogPage.didLeave
+  didLeave() {
+    this.unregisterBackButton && this.unregisterBackButton();
   }
 
   iosUpdatge() {

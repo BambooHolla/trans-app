@@ -185,9 +185,9 @@ export class PicassoApp {
         config.setTransition("custom-dialog-pop-out", CustomDialogPopOut);
         // 自动更新
         (async ()=> {
-            if(platform.is('android')) {
+            if(!platform.is('android')) {
                 const _version = await upService.checkVersion();
-                if(_version && _version.model != 3) {
+                if(_version && _version.model != 4) {
                     // 开启自动更新，且需要在wifi状态下
                     if(appDataService.auto_upgrade && this.network.type === 'wifi') {
                                 let _fileTransfer = this.upService.fileTransfer;

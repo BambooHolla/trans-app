@@ -173,7 +173,7 @@ export class AccountCenterPage extends SecondLevelPage {
         const _url_get_info = _url + "upgrade/versionInfo" ;
         const _app_version_info = ( await this.fetch.get<
             VERSION_INFO
-          >(_url, {
+          >(_url_get_info, {
             search: {
               app: 1,
             },

@@ -1,7 +1,7 @@
 <ion-header></ion-header>
 <ion-content>
   <div class="dialog-wrapper">
-    <button class="close-button" (click)="closeDialog()" *ngIf="version_info?.model != 3">
+    <button class="close-button" (click)="closeDialog()" *ngIf="version_info?.model != 1">
       <!-- <ali-icon name="ifm-guanbi"></ali-icon> -->
     </button>
     <div class="dialog-content">
@@ -24,11 +24,11 @@
         </div> -->
         <div class="item changelogs">
           <!-- <div class="label">更新内容：</div> -->
-          <ol class="detail">
+          <ul class="detail" style="list-style:none;">
             <li class="line" *ngFor="let line of changelogs">
               {{line}}
             </li>
-          </ol>
+          </ul>
         </div>
       </div>
       <div class="progress-bar" *ngIf="isDownloading">
