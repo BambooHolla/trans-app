@@ -271,16 +271,16 @@ page-trade-interface-v2 {
             color: color($colors,special);
             padding-right: 1rem;
             position: relative;
-            &::after {
-                content: '';
-                position: relative;
-                top: 12px;
-                left: 6px;
-                border-top: 5px solid color($colors,special);
-                border-right: 5px solid transparent;
-                border-bottom: 5px solid transparent;
-                border-left: 5px solid transparent;
-            }
+            // &::after {
+            //     content: '';
+            //     position: relative;
+            //     top: 12px;
+            //     left: 6px;
+            //     border-top: 5px solid color($colors,special);
+            //     border-right: 5px solid transparent;
+            //     border-bottom: 5px solid transparent;
+            //     border-left: 5px solid transparent;
+            // }
         }
     }
     .content-block {
@@ -507,6 +507,12 @@ page-trade-interface-v2 {
                 margin: 1.1rem auto 0;
                 > .add-sub {
                     color: #c0c0c0;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    > span {
+                        font-size: 1.6rem;
+                    }
                 }
                 &.input-row-type-2 {
                     background-color: #2a2b3f;
@@ -1177,10 +1183,10 @@ page-trade-interface-v2 {
             height: auto;
             padding-left: 7%;
             .left-or-right {
-                width: 2.4rem;
+                width: 2.6rem;
                 height: 2rem;
                 position: absolute;
-                right: 1rem;
+                right: 1.4rem;
                 // top: 0.6rem;
             }
         }

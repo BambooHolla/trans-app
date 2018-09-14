@@ -191,7 +191,7 @@
 					<ion-grid class="price-type">
 						<ion-row>
 							<ion-col>
-								<div class="price-text" (click)="changePriceType()">限价</div>
+								<div class="price-text">限价交易</div>
 							</ion-col>
 						</ion-row>
 					</ion-grid>	
@@ -201,7 +201,7 @@
 							{{'FEE_RATE_STANDARDS'|translate}}:{{fee}}
 						</ion-row> -->
 						<ion-row class="input-row">
-							<ion-col col-2 tappable (click)="changeByStep('price','-')" class="add-sub">-</ion-col>
+							<ion-col col-2 tappable (click)="changeByStep('price','-')" class="add-sub"><span class="picasso-icon-trade-sub"></span></ion-col>
 								<!-- <ion-col col-1>
 									<ion-icon name="ios-gprice" class="vertical-center"></ion-icon>
 								</ion-col> -->
@@ -214,10 +214,10 @@
 										></ion-input>
 								</ion-item>
 							</ion-col>
-							<ion-col col-2 tappable (click)="changeByStep('price','+')" class="add-sub">+</ion-col>
+							<ion-col col-2 tappable (click)="changeByStep('price','+')" class="add-sub"><span class="picasso-icon-trade-add"></span></ion-col>
 						</ion-row>
 						<ion-row class="input-row" align-items-center>
-							<ion-col col-2 tappable (click)="changeByStep('amount','-')" class="add-sub">-</ion-col>
+							<ion-col col-2 tappable (click)="changeByStep('amount','-')" class="add-sub"><span class="picasso-icon-trade-sub"></span></ion-col>
 							<!-- <ion-col col-1>
 								<ion-icon name="ios-gamount" class="vertical-center"></ion-icon>
 							</ion-col> -->
@@ -229,7 +229,7 @@
 										 ></ion-input>
 									</ion-item>
 							</ion-col>
-							<ion-col col-2 tappable (click)="changeByStep('amount','+')" class="add-sub">+</ion-col>
+							<ion-col col-2 tappable (click)="changeByStep('amount','+')" class="add-sub"><span class="picasso-icon-trade-add"></span></ion-col>
 						</ion-row>
 						<ion-row class="input-row" align-items-center>
 							<ion-col>
@@ -484,14 +484,14 @@
 					</div>
 					<div class="market-head market-head-type-2">
 						<div class="price-type">
-							<div class="price-text" (click)="changePriceType()">限价</div>
+							<div class="price-text">限价交易</div>
 						</div>	
 						<div class="left-or-right" (click)="changeLeftOrRight()"><img src="assets/icon/trade-{{appDataService?.left_or_right?'left':'right'}}.png" alt=""></div>
 					</div>
 					<ion-grid [hidden]="appDataService.show_onestep_trade" class="trinp  content-block content-block-type-2">
 							<ion-row class="input-row input-row-type-2">
-								<ion-col col-2 tappable (click)="changeByStep('price','-')" class="add-sub">-</ion-col>
-								<ion-col col-7>
+								<ion-col col-2 tappable (click)="changeByStep('price','-')" class="add-sub"><span class="picasso-icon-trade-sub"></span></ion-col>
+								<ion-col col-8>
 										<ion-item class="item-background-color item-input-padding">
 									<ion-input #priceInputer2 type="number" placeholder="委托价格"
 										[(ngModel)]="price"
@@ -500,11 +500,11 @@
 										></ion-input>
 									</ion-item>
 								</ion-col>
-								<ion-col col-2 tappable (click)="changeByStep('price','+')" class="add-sub">+</ion-col>
+								<ion-col col-2 tappable (click)="changeByStep('price','+')" class="add-sub"><span class="picasso-icon-trade-add"></span></ion-col>
 							</ion-row>
 							<ion-row class="input-row input-row-type-2" align-items-center>
-								<ion-col col-2 tappable (click)="changeByStep('amount','-')" class="add-sub">-</ion-col>
-								<ion-col col-7>
+								<ion-col col-2 tappable (click)="changeByStep('amount','-')" class="add-sub"><span class="picasso-icon-trade-sub"></span></ion-col>
+								<ion-col col-8>
 										<ion-item class="item-background-color item-input-padding"> 
 											<ion-input #amountInputer2 type="number" placeholder="委托数量" 
 											[(ngModel)]="amount" (ngModelChange)="formatNumber('amount')"
@@ -512,7 +512,7 @@
 											></ion-input>
 										</ion-item>
 								</ion-col>
-								<ion-col col-2 tappable (click)="changeByStep('amount','+')" class="add-sub">+</ion-col>
+								<ion-col col-2 tappable (click)="changeByStep('amount','+')" class="add-sub"><span class="picasso-icon-trade-add"></span></ion-col>
 							</ion-row>
 							<ion-row class="input-row input-row-type-2" align-items-center>
 								<ion-col>
