@@ -33,6 +33,7 @@ import { detachEmbeddedView } from "@angular/core/src/view";
     templateUrl: "register.html",
 })
 export class RegisterPage {
+    private country_list;
     private country_select;
     private countryColumns = {
         name: [
@@ -169,11 +170,11 @@ export class RegisterPage {
         //   rawVal.customerId = customerId;
         //   this.registerForm.setValue(rawVal);
         // }
-        const _country_list = this.appDataService.COUNTRY_LIST;
-        _country_list && _country_list.forEach( item => {
-            this.countryColumns.name[0].options.push({text:item.name,value:item.code});
-            this.countryColumns.code[0].options.push({text:item.code,value:item.code});
-        })
+        this.country_list = this.appDataService.COUNTRY_LIST;
+        this.country_list && this.country_list.forEach( item => {
+            this.countryColumns.name[0].options.push({text:item.name,value:item.ab});
+            this.countryColumns.code[0].options.push({text:item.code,value:item.ab});
+        });
     }
     
 
@@ -187,25 +188,27 @@ export class RegisterPage {
                 this.check_sending_vcode = true;
                 return this.wrongCustomerId = this.registerType ? "请输入手机号" : "请输入邮箱";
             }
-            let _country = '';
+            let _country = 'CN';
             if(this.registerType) {
                 _country = this.form_country.value;
             }  
             
-            
-            if(this.idNumberChecker.checkFormat(_country+data,this.registerType)) {
+            const _exp = this.country_list.find(item => {
+                return item.ab == _country;
+            }).phoneRegex;
+            if(this.idNumberChecker.checkFormat(data,this.registerType,_exp)) {
                 // this.checkRegister()
                 this.check_sending_vcode = false;
                 this.wrongCustomerId = '';
                 return ;
-            }
+            } 
             this.check_sending_vcode = true;
             this.wrongCustomerId = this.registerType ? "手机号格式错误" : "邮箱格式错误";
         });
         
     }
     ionViewDidLoad() {
-        this.form_country.setValue('+86')
+        this.form_country.setValue('CN')
     }
 
     registering = false;
@@ -253,7 +256,7 @@ export class RegisterPage {
                     ] || "请填写手机号/邮箱",
                 );
             }
-            const _customerId = (this.registerType ? this.form_country.value + " " : '') + this.form_customerId.value;
+            const _customerId = this.form_customerId.value;
             const _countryCode = this.form_country.value;
             await this.registerService.sendSMSCode(
                 _customerId,
@@ -414,7 +417,7 @@ export class RegisterPage {
         ) {
             try {
                 this.registerService.doCheckRegister(customerId).then(data => {
-                    //账户不存在
+                    //账户不存在 
                     if (data.status == "error") {
                         this.register_step1();
                     }

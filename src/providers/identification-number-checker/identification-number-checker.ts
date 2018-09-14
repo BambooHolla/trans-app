@@ -253,12 +253,18 @@ export class IdentificationNumberCheckerProvider {
         "zh-TW": /^(\+?886\-?|0)?9\d{8}$/,
     }];
 
-    checkFormat(iphone,type) {
+    checkFormat(iphone,type,exp?) {
         let validation = false;
         if (!iphone) return false;
-        for (let iphoneExp in this._PHONES_AND_EMAIL_EXP[type]) {
-            validation = this._PHONES_AND_EMAIL_EXP[type][iphoneExp].test(iphone);
-            if (validation) break;
+        debugger
+        if(exp) {
+            for (let iphoneExp in this._PHONES_AND_EMAIL_EXP[type]) {
+                validation = this._PHONES_AND_EMAIL_EXP[type][iphoneExp].test(iphone);
+                if (validation) break;
+            }
+        } else {
+
+            validation = (new RegExp(exp)).test(iphone);
         }
         return validation;
     }
