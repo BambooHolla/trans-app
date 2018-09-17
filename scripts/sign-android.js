@@ -47,7 +47,7 @@ function signAPK(file_path) {
 			"-digestalg",
 			"SHA1",
 			"-keystore",
-			"./picasso-release-key.jks",
+			"picasso-release-key.jks",
 			file_path,
 			"test",
 			// "-J-Dfile.encoding=UTF-8",
