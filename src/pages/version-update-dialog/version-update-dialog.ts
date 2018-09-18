@@ -150,15 +150,16 @@ export class VersionUpdateDialogPage extends FirstLevelPage {
         this.changeDetectorRef.markForCheck();
         this.changeDetectorRef.detectChanges();
       });
+      // this.file.dataDirectory
       const entry = await this.fileTransfer.download(
         apk_url,
-        this.file.dataDirectory + filename,
+        this.file.externalDataDirectory + filename,
       );
       this.fileTransfer = undefined;
       this.isDownloading = false;
 
       console.log("download complete: " + entry.toURL());
-      console.log("download complete: " + this.file.dataDirectory,filename);
+      console.log("download complete: " + this.file.externalDataDirectory,filename);
       await this.fileOpener.open(
         entry.toURL(),
         "application/vnd.android.package-archive",

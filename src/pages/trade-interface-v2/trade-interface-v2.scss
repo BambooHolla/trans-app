@@ -511,7 +511,7 @@ page-trade-interface-v2 {
                     justify-content: center;
                     align-items: center;
                     > span {
-                        font-size: 1.6rem;
+                        font-size: 1.4rem;
                     }
                 }
                 &.input-row-type-2 {
@@ -610,7 +610,7 @@ page-trade-interface-v2 {
                         text-align: center;
                         font-size: 2rem;
                         width: 100%;
-                        font-weight: 500;
+                        // font-weight: 500;
                         //placeholder设置
                         &::-webkit-input-placeholder {
                             /* WebKit browsers */
@@ -641,7 +641,7 @@ page-trade-interface-v2 {
             text-align: center;
             width: 90%;
             font-size: 2rem; 
-            font-weight: 500;
+            // font-weight: 500;
             color: color($colors, primary);
             background: color($colors, fall);
             font-family: Microsoft YaHei;
@@ -1239,7 +1239,7 @@ page-trade-interface-v2 {
                     padding: 0 0.8rem;
                     font-size: 1.4rem;
                     line-height: 2.84rem;
-                    font-weight: 500;
+                    // font-weight: 500;
                     &.trade-title-type-2 {
                         padding: 0;
                     }
