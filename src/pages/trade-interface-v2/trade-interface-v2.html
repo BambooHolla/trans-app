@@ -243,7 +243,7 @@
 							</ion-col>
 						</ion-row>
 						<ion-row class="range">
-							<ion-item no-lines class="trade-range"  [class.sale]="!!(tradeType$|async)">
+							<ion-item no-lines class="trade-range"  [class.sale]="!!(tradeType$|async)" style="margin-top: 0.8rem">
 								<ion-range min='0'step='25' max='100' snaps='true' pin="false"  [class.color-true]="appDataService?.risefallColor"
 								 [(ngModel)]='rangeValue' (ionChange)="tradeRangeChange($event)"
 								 ></ion-range>
@@ -253,7 +253,18 @@
 								<div class="right right-round range-round"></div>
 							</div> -->
 							<div class="range-mark">
-								<div class="left"></div>
+								<div class="left">
+									<div *ngIf="!(tradeType$|async)">
+										{{'AVAILABLE'|translate}}：
+										<span class="trade-value">{{appDataService?.hiddentext || (trader_product?.availableAmount || '--' | quantityConversion  | numberUnitFormat:true:false:8 | unitConversion)}}</span>
+										<span class="unit">{{productName || '--'}}</span>
+									</div>
+									<div  *ngIf="!!(tradeType$|async)">
+										{{'AVAILABLE'|translate}}：
+										<span class="trade-value">{{appDataService?.hiddentext || (trader_target?.availableAmount || '--' | quantityConversion  | numberUnitFormat:true:false:8 | unitConversion)}}</span>
+										<span class="unit">{{priceName || '--'}}</span>
+									</div>
+								</div>
 								<div class="right">{{rangeValue}}%</div>
 							</div>
 						</ion-row>
@@ -273,7 +284,7 @@
 						</ion-row> -->
 						<!-- </ion-grid>
 						<ion-grid class="trbtn">  -->
-						<ion-row class="trade-tip">
+						<ion-row class="trade-tip" *ngIf='false'>
 							<div class="range-mark">
 								<!-- <div class="left" *ngIf="!(tradeType$|async)">
 									交易额：
@@ -297,7 +308,7 @@
 								</div>
 							</div>
 						</ion-row>
-						<ion-row style="padding-top: 1rem;">
+						<ion-row style="padding-top: 0rem; position: relative; top: -1rem;">
 							<!-- <ion-col col-6>
 								<button block 
 								  [disabled]="+amount <= 0 || +price <= 0 || personalDataService.accountBalance < price * amount" 
