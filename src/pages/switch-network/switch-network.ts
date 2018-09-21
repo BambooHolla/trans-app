@@ -9,11 +9,11 @@ import { AppSettingProvider } from "../../bnlc-framework/providers/app-setting/a
 })
 export class SwitchNetworkPage {
     commandData: any[] = [
-        {
-            name: "本地网络",
-            value: "http://192.168.18.23:40001",
-            hidden: true,
-        },
+        // {
+        //     name: "本地网络",
+        //     value: "http://192.168.18.23:40001",
+        //     hidden: true,
+        // },
 
         {
             name: "测试网络",
