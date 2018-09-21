@@ -499,6 +499,9 @@ page-trade-interface-v2 {
             .input-row:first-child {
                 margin-top: 1.8rem !important;
             }
+            .input-row-type-2:first-child {
+                margin-top: 0rem !important;
+            }
             .input-row {
                 width: 67%;
                 height: 4.2rem;
@@ -558,6 +561,9 @@ page-trade-interface-v2 {
                 color: color($colors, middark);
                 display: flex;
                 justify-content: space-between;
+                > div {
+                    display: inline-block;
+                }
                 font-size: 1.4rem; 
                 > .range-bottom-txt {
                     width: 100%;
@@ -566,7 +572,7 @@ page-trade-interface-v2 {
             }
             .trade-tip {
                 &.trade-tip-type-2 {
-                    margin-top: -1rem;
+                    margin-top: -1.2rem;
                     .range-mark {
                         font-size: 1.2rem;
                         padding-left:10px;

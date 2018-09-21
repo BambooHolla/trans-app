@@ -567,6 +567,7 @@ export class TradeInterfaceV2Page {
         } else {
             dataset = index == undefined ? 1 : index;
         }
+        if(dataset == this._tradeType$.getValue()) return ;
         this._tradeType$.next(dataset);
         this.appDataService.exchangeType = dataset;
         if (dataset) {
@@ -585,7 +586,8 @@ export class TradeInterfaceV2Page {
             this.price = this._numberFormatAdd0(_price)
         }
         this.rangeValue = 0;
-        this.amount = this._numberFormatAdd0(0,false);
+        // this.amount = this._numberFormatAdd0(0,false);
+        this.amount = '';
         this.tradeValue = '';
         this.checkMax();
     }

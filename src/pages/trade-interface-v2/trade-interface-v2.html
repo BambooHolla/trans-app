@@ -253,28 +253,20 @@
 								<div class="right right-round range-round"></div>
 							</div> -->
 							<div class="range-mark">
-									<div *ngIf="!(tradeType$|async)" class="range-bottom-txt">
+									<div *ngIf="!(tradeType$|async)">
 										{{'AVAILABLE'|translate}}：
 										<span class="trade-value">{{appDataService?.hiddentext || (trader_product?.availableAmount || '--' | quantityConversion  | numberUnitFormat:true:false:8 | unitConversion)}}</span>
 										<span class="unit">{{productName || '--'}}</span>
-										<span style="position: absolute; right: 0;">
-											{{rangeValue}}%
-										</span>
 									</div>
-									<div  *ngIf="!!(tradeType$|async)"  class="range-bottom-txt">
+									<div  *ngIf="!!(tradeType$|async)">
 										{{'AVAILABLE'|translate}}：
 										<span class="trade-value">{{appDataService?.hiddentext || (trader_target?.availableAmount || '--' | quantityConversion  | numberUnitFormat:true:false:8 | unitConversion)}}</span>
 										<span class="unit">{{priceName || '--'}}</span>
-										<span style="position: absolute; right: 0;">
-											{{rangeValue}}%
-										</span>
 									</div>
 									
-								<!-- <div class="right">
-									<div style="height: 100%; line-height: 1.4rem;">
-										{{rangeValue}}%
-									</div>
-								</div> -->
+								<div style="position: absolute;right: 0; font-size: 1.5rem">
+									{{rangeValue}}%<span style="visibility: hidden; font-size: 1.4rem">的</span>
+								</div>
 							</div>
 						</ion-row>
 						<!-- 要求隐藏，ts相应代码也做隐藏处理 -->
