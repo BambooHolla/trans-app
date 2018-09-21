@@ -365,7 +365,8 @@ export class TradeInterfaceV2Page {
         
         if (traderId) {
             console.log("trade-interface-v2:(constructor)", traderId);
-            this.amount = this._numberFormatAdd0('0',false);
+            // this.amount = this._numberFormatAdd0('0',false);
+            this.amount = '';
             this.productStatus = await this.stockDataService.getProductStatus(this.traderId);
             
             this._saleableQuantity$ = this.personalDataService.personalStockList$
@@ -965,7 +966,8 @@ export class TradeInterfaceV2Page {
                     });
                     toast.present();
                     //初始化数据
-                    this.amount = this._numberFormatAdd0(0,false);
+                    // this.amount = this._numberFormatAdd0(0,false);
+                    this.amount = '';
                     this.tradeValue = "";
                     this.rangeValue = 0;
                     //下单成功刷新委托单
@@ -1452,7 +1454,8 @@ export class TradeInterfaceV2Page {
         console.log("traderChanged", this.traderId, this.traderList);
         this.rangeValue = 0;
         this.tradeValue = '';
-        this.amount = this._numberFormatAdd0(0,false);
+        // this.amount = this._numberFormatAdd0(0,false);
+        this.amount = '';
         this.traderList.find(item => {
             if (item.traderId == this.traderId) {
                 this.appDataService.LAST_TRADER.next(item);
@@ -2251,7 +2254,8 @@ export class TradeInterfaceV2Page {
             this.appSetting.hasTabBlur = false;
             this.rangeValue = 0;
             this.tradeValue = '';
-            this.amount = this._numberFormatAdd0(0,false);
+            // this.amount = this._numberFormatAdd0(0,false);
+            this.amount = '';
             this.selectTrader && this.selectTrader.close();
         })
         this.selectTradesModal.present();

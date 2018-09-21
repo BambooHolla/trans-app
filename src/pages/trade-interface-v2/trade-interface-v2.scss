@@ -497,7 +497,7 @@ page-trade-interface-v2 {
                 }
             }
             .input-row:first-child {
-                margin-top: 0 !important;
+                margin-top: 1.8rem !important;
             }
             .input-row {
                 width: 67%;
@@ -559,6 +559,10 @@ page-trade-interface-v2 {
                 display: flex;
                 justify-content: space-between;
                 font-size: 1.4rem; 
+                > .range-bottom-txt {
+                    width: 100%;
+                    position: relative;
+                }
             }
             .trade-tip {
                 &.trade-tip-type-2 {

@@ -188,13 +188,13 @@
 							<ion-col data-trade-type="0" class="sale" [class.enabled]="!(tradeType$|async)" [class.color-true]="appDataService?.risefallColor">{{'SELL'|translate}}</ion-col>
 						</ion-row>
 					</ion-grid>	
-					<ion-grid class="price-type">
+					<!-- <ion-grid class="price-type">
 						<ion-row>
 							<ion-col>
 								<div class="price-text">限价交易</div>
 							</ion-col>
 						</ion-row>
-					</ion-grid>	
+					</ion-grid>	 -->
 					<ion-grid [hidden]="appDataService.show_onestep_trade" class="trinp  content-block">
 						<!-- <ion-row class="fee">
 							<ion-icon ios="ios-alert-outline" md="ios-alert-outline"></ion-icon>
@@ -253,19 +253,28 @@
 								<div class="right right-round range-round"></div>
 							</div> -->
 							<div class="range-mark">
-								<div class="left">
-									<div *ngIf="!(tradeType$|async)">
+									<div *ngIf="!(tradeType$|async)" class="range-bottom-txt">
 										{{'AVAILABLE'|translate}}：
 										<span class="trade-value">{{appDataService?.hiddentext || (trader_product?.availableAmount || '--' | quantityConversion  | numberUnitFormat:true:false:8 | unitConversion)}}</span>
 										<span class="unit">{{productName || '--'}}</span>
+										<span style="position: absolute; right: 0;">
+											{{rangeValue}}%
+										</span>
 									</div>
-									<div  *ngIf="!!(tradeType$|async)">
+									<div  *ngIf="!!(tradeType$|async)"  class="range-bottom-txt">
 										{{'AVAILABLE'|translate}}：
 										<span class="trade-value">{{appDataService?.hiddentext || (trader_target?.availableAmount || '--' | quantityConversion  | numberUnitFormat:true:false:8 | unitConversion)}}</span>
 										<span class="unit">{{priceName || '--'}}</span>
+										<span style="position: absolute; right: 0;">
+											{{rangeValue}}%
+										</span>
 									</div>
-								</div>
-								<div class="right">{{rangeValue}}%</div>
+									
+								<!-- <div class="right">
+									<div style="height: 100%; line-height: 1.4rem;">
+										{{rangeValue}}%
+									</div>
+								</div> -->
 							</div>
 						</ion-row>
 						<!-- 要求隐藏，ts相应代码也做隐藏处理 -->
