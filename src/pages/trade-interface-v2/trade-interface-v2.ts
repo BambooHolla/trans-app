@@ -1033,24 +1033,27 @@ export class TradeInterfaceV2Page {
     ionViewDidLeave() {
         this.selectTradesModal && this.showSelectTrades();
     }
-    async ionViewDidEnter() {
-        // window["confirmChangeTradingMode"] = this.confirmChangeTradingMode
-        this.viewDidLeave.next(false);
-        
-        if(this.traderId) {
+    async ionViewWillEnter() {
+         // window["confirmChangeTradingMode"] = this.confirmChangeTradingMode
+         this.viewDidLeave.next(false);
+         
+         if (this.tradeType != this.appDataService.exchangeType) {
+             this.tradeType = this.appDataService.exchangeType;
+             this.chooseTradeType(
+                 undefined,
+                 this.appDataService.exchangeType
+                     ? 1
+                     : this.appDataService.exchangeType == 0
+                         ? 0
+                         : 1,
+             );
+         }
+         if(this.traderId) {
             this.productStatus = await this.stockDataService.getProductStatus(this.traderId);
         }
-        if (this.tradeType != this.appDataService.exchangeType) {
-            this.chooseTradeType(
-                undefined,
-                this.appDataService.exchangeType
-                    ? 1
-                    : this.appDataService.exchangeType == 0
-                        ? 0
-                        : 1,
-            );
-        }
-
+    }
+    ionViewDidEnter() {
+       
         // console.log('pricetarget', this.PriceInputer)
         // console.log('pricetarget', this.PriceInputer.getElementRef())
         // console.log('pricetarget', this.PriceInputer.getNativeElement())
