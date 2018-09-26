@@ -337,7 +337,7 @@ export class QuotationsPageV2 {
         }, 1e3);
 
         this.noticeList.length && this.noticesSlide.stopAutoplay();
-        this.bannerList && this.bannersSlide.stopAutoplay();
+        this.bannerList.length && this.bannersSlide.stopAutoplay();
     }
 
     ionViewDidLeave() {
