@@ -25,6 +25,11 @@ export class SwitchNetworkPage {
             value: "http://192.168.17.110:40001",
             hidden: true,
         },
+        {
+            name: '谷歌云新地址',
+            value: "https://35.194.252.161:40001",
+            hidden: true,
+        }
     ];
 
     constructor(
