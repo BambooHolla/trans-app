@@ -17,6 +17,7 @@ import {
 } from "../../providers/account-service/account-service";
 import { PromptControlleService } from "../../providers/prompt-controlle-service";
 import { CryptoService } from "../../providers/crypto-service";
+import { AppDataService } from "../../providers/app-data-service";
 @Component({
     selector: "page-set-pay-pwd",
     templateUrl: "set-pay-pwd.html",
@@ -28,6 +29,7 @@ export class SetPayPwdPage extends SecondLevelPage {
         public accountService: AccountServiceProvider,
         public promptCtrl: PromptControlleService,
         public cryptoService: CryptoService,
+        public appDataService: AppDataService,
     ) {
         super(navCtrl, navParams);
     }
@@ -107,9 +109,14 @@ export class SetPayPwdPage extends SecondLevelPage {
     @asyncCtrlGenerator.success("@@TRANSACTION_PASSWORD_SETTINGS_SUCCESS") 
     submitForm() {
         const { formData } = this;
+        let payPWD = formData.payPWD;
+        if (payPWD.indexOf(" ") >= 0) {
+            payPWD = payPWD.replace(/(\s*$)/g, "");
+        }
+        const _str = this.appDataService.customerId + AppDataService.SPECIAL_CHARACTER + payPWD;
         return this.accountService
             .setAccountPWD(
-                this.cryptoService.MD5(formData.payPWD),
+                this.cryptoService.MD5(_str),
                 this.cryptoService.MD5(formData.loginPWD),
                 formData.check_method.category,
                 formData.vcode,

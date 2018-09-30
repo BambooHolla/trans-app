@@ -8,6 +8,9 @@ import { BehaviorSubject, Observable } from "rxjs";
 import * as UUID from "uuid";
 @Injectable()
 export class AppDataService {
+    // 特殊字符，加密用
+    static readonly SPECIAL_CHARACTER: string = "!#%&(@$^*)~_+"
+
     //记录设备信息
     // cordova 获取在设备上运行的Cordova版本。
     // model device.model返回设备型号或产品的名称。该值由设备制造商设置，并可能在同一产品的不同版本中有所不同。

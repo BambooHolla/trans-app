@@ -131,10 +131,16 @@ export class ModifyPwdPage {
     modifying = false;
     async modify() {
         this.modifying = true;
+
+        let newPassword = this.newPassword.value;
+        if (newPassword.indexOf(" ") >= 0) {
+            newPassword = newPassword.replace(/(\s*$)/g, "");
+        }
+        const _str = this.appDataService.customerId + AppDataService.SPECIAL_CHARACTER + newPassword;
         try {
             await this.loginService.doModifyPWD(
                 this.cryptoService.MD5(this.oldPassword.value),
-                this.cryptoService.MD5(this.newPassword.value),
+                this.cryptoService.MD5(_str),
             );
 
             this.alertCtrl

@@ -154,14 +154,18 @@ export class ForgetPwdPage {
         try {
             const controls = this.forgetPWDForm.getRawValue();
 
-            const customerId = controls.customerId;
+            let customerId = controls.customerId;
+            if (customerId.indexOf(" ") >= 0) {
+                customerId = customerId.replace(/(\s*$)/g, "");
+            }
             const resetPwd = controls.password;
+            const _str = controls.customerId + AppDataService.SPECIAL_CHARACTER + controls.password;
             const vcode = controls.vcode;
 
             await this.loginService.doResetPWD(
                 customerId,
                 vcode,
-                this.cryptoService.MD5(resetPwd),
+                this.cryptoService.MD5(_str),
             );
 
             this.appDataService.password = ""; // 清空已经保存的密码，要求用户手动输入

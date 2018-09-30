@@ -332,8 +332,12 @@ export class RegisterPage {
         try {
             const controls = this.registerForm.getRawValue();
 
-            const customerId = controls.customerId;
-            const password = this.cryptoService.MD5(controls.password);
+            let customerId = controls.customerId;
+            if (customerId.indexOf(" ") >= 0) {
+                customerId = customerId.replace(/(\s*$)/g, "");
+            }
+            const _str = controls.customerId + AppDataService.SPECIAL_CHARACTER + controls.password;
+            const password = this.cryptoService.MD5(_str);
             const vcode = controls.vcode;
             const recommendCode = controls.recommendCode;
             const _countryCode = controls.country;
