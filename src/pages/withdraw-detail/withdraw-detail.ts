@@ -252,6 +252,11 @@ export class WithdrawDetailPage extends SecondLevelPage {
     @asyncCtrlGenerator.error("@@GAIN_DATA_ERROR")
     async getAccountsInfo() {
         
+        // this.accountService
+        //         .getProductPrecision(this.productInfo.productId,{precisionType: "001"})
+
+
+
         this.productInfo = this.navParams.get("productInfo");
         if (this.productInfo) {
             const tasks = [];
@@ -287,6 +292,7 @@ export class WithdrawDetailPage extends SecondLevelPage {
                 .then(data => (this.has_account_pwd = data));
             // 获取提现记录
             tasks[tasks.length] = this.getTransactionLogs();
+            
             // 获取手续费
             tasks[tasks.length] = this.accountService
                 .getProductRate(this.productInfo.productId, {

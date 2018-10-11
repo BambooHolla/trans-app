@@ -10,7 +10,8 @@ import * as UUID from "uuid";
 export class AppDataService {
     // 特殊字符，加密用
     static readonly SPECIAL_CHARACTER: string = "!#%&(@$^*)~_+"
-
+    // appId
+    static readonly APP_ID: string = "com.picaex.app";
     //记录设备信息
     // cordova 获取在设备上运行的Cordova版本。
     // model device.model返回设备型号或产品的名称。该值由设备制造商设置，并可能在同一产品的不同版本中有所不同。
@@ -220,7 +221,6 @@ export class AppDataService {
             } else {
                 this.DEVICE_DATA.uuid = _uuid
             }
-            onresize1('uuid', _uuid);
         } else {
             Object.keys(this.DEVICE_DATA).forEach( key => {
                 const value = this.device[key];
@@ -422,12 +422,12 @@ export class AppDataService {
         // });
     }
 }
-var resizeInfo = document.createElement("div");
-function onresize1(key, value) {
-    if (!resizeInfo.parentElement && document.body) {
-        resizeInfo.style.cssText =
-            "display:none;position:fixed;top:100px;left:100px;background:rgba(0,0,0,0.5);color:#FFF;opacity:0.3;pointer-events:none;";
-        document.body.appendChild(resizeInfo);
-    }
-    resizeInfo.innerHTML += `<p>${key} : ${value}</p>`;
-}
+// var resizeInfo = document.createElement("div");
+// function onresize1(key, value) {
+    // if (!resizeInfo.parentElement && document.body) {
+        // resizeInfo.style.cssText =
+            // "display:none;position:fixed;top:100px;left:100px;background:rgba(0,0,0,0.5);color:#FFF;opacity:0.3;pointer-events:none;";
+        // document.body.appendChild(resizeInfo);
+    // }
+    // resizeInfo.innerHTML += `<p>${key} : ${value}</p>`;
+// }

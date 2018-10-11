@@ -493,9 +493,14 @@ export class AccountServiceProvider {
     }
     getProductPrecision(
         productId,
+        search?: {
+
+            precisionType: string
+        }
     ) {
         return this.fetch.get<precisionModel[]>(this.GET_PRODUCT_PRECISION, {
             params: { productId },
+            search,
         });
     }
 

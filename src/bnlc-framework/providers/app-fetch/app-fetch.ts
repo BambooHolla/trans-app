@@ -193,6 +193,7 @@ export class AppFetchProvider {
         const headers = options.headers || (options.headers = new Headers());
         headers.append("x-bnqkl-platform", this.appSetting.Platform_Type);
         headers.append("X-DEVICE-UUID", this.appDataService.DEVICE_DATA.uuid||'');
+        headers.append("appId", AppDataService.APP_ID||'');
         if(url.indexOf('file/read') > -1) {
             options.responseType = ResponseContentType.Blob;
         }

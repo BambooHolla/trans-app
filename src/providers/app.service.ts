@@ -45,6 +45,7 @@ export class AppService {
                 "x-bnqkl-platform": this.appSettings.Platform_Type,
             });
         headers.append("X-DEVICE-UUID", this.appDataService.DEVICE_DATA.uuid||'');
+        headers.append("appId", AppDataService.APP_ID||'');
         if (withToken) {
             if (!token) {
                 // this.events.publish('show login', 'login');
