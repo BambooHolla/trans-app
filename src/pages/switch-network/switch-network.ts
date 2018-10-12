@@ -85,7 +85,7 @@ export class SwitchNetworkPage {
                 inputs: [
                   {
                     name: 'network',
-                    placeholder: '如：192.168.18.23：40001'
+                    placeholder: '如：http://192.168.18.23：40001'
                   },
                 ],
                 buttons: [
@@ -99,7 +99,7 @@ export class SwitchNetworkPage {
                     handler: data => {
                       console.log(data);
                       this.swichNetwork({
-                        value:  "//"+data.network,
+                        value: data.network,
                         name: "自定义网络",
                       })
                     }

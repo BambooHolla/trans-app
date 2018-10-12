@@ -50,6 +50,8 @@ export class WithdrawDetailPage extends SecondLevelPage {
     public maxQuotaSwitch: boolean = true; // 提币数额大于最大额度 (true)
     public productStatus: boolean = false;
 
+    private digitalNumber: number = 8;
+
 
 
     @ViewChild("amountInputer") AmountInputer: any;
@@ -252,11 +254,6 @@ export class WithdrawDetailPage extends SecondLevelPage {
     @asyncCtrlGenerator.error("@@GAIN_DATA_ERROR")
     async getAccountsInfo() {
         
-        // this.accountService
-        //         .getProductPrecision(this.productInfo.productId,{precisionType: "001"})
-
-
-
         this.productInfo = this.navParams.get("productInfo");
         if (this.productInfo) {
             const tasks = [];
@@ -381,6 +378,18 @@ export class WithdrawDetailPage extends SecondLevelPage {
                         this.promptLimit.title2 = "";
                     }
                 });
+                
+                // 获取提现精度
+                tasks[tasks.length] = this.accountService
+                .getProductPrecision(this.productInfo.productId,{precisionType: "001"})
+                .then( data => {
+                    const _precision = data && data[0];
+                    if(_precision) {
+                        this.digitalNumber = _precision.digitalNumber;
+                    }
+                })
+
+
             await Promise.all(tasks).then(() => {
                 setTimeout(() => {
                     this.validateIdentify();
@@ -599,7 +608,7 @@ export class WithdrawDetailPage extends SecondLevelPage {
             amount = amount.split(".");
             if (amount[1]) {
                 amount[1] =
-                    amount[1].length > 8 ? amount[1].substr(0, 8) : amount[1];
+                    amount[1].length > this.digitalNumber ? amount[1].substr(0, this.digitalNumber) : amount[1];
                 this.formData.amount = this.AmountInputer.value = amount =
                     amount[0] + "." + amount[1];
             }
