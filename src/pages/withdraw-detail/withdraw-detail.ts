@@ -31,6 +31,7 @@ import { PersonalDataService } from "../../providers/personal-data-service";
 
 import { BigNumber } from "bignumber.js";
 import { CryptoService } from "../../providers/crypto-service";
+import { AppDataService } from "../../providers/app-data-service";
 /**
  * Generated class for the WithdrawDetailPage page.
  *
@@ -66,6 +67,7 @@ export class WithdrawDetailPage extends SecondLevelPage {
         public promptCtrl: PromptControlleService,
         public personalDataService: PersonalDataService,
         public cryptoService: CryptoService,
+        public appDataService: AppDataService,
     ) {
         super(navCtrl, navParams);
         BigNumber.config({ EXPONENTIAL_AT: [-8, 20] });
@@ -421,6 +423,7 @@ export class WithdrawDetailPage extends SecondLevelPage {
                 ),
             );
         }
+        const password = this.appDataService.customerId + AppDataService.SPECIAL_CHARACTER + this.formData.password;
         return this.accountService
             .submitWithdrawAppply(
                 {
@@ -429,7 +432,7 @@ export class WithdrawDetailPage extends SecondLevelPage {
                     amount: (new BigNumber(this.formData.amount)).toString(),
                     paymentId: this.formData.selected_withdraw_address_id + "",
                 },
-                this.cryptoService.MD5(this.formData.password),
+                this.cryptoService.MD5(password),
             )
             .then((transaction: TransactionModel) => {
                 return this._formatWithdrawLogs([transaction])
