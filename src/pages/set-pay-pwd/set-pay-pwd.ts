@@ -110,14 +110,16 @@ export class SetPayPwdPage extends SecondLevelPage {
     submitForm() {
         const { formData } = this;
         let payPWD = formData.payPWD;
+        let loginPWD = formData.loginPWD
         if (payPWD.indexOf(" ") >= 0) {
             payPWD = payPWD.replace(/(\s*$)/g, "");
         }
-        const _str = this.appDataService.customerId + AppDataService.SPECIAL_CHARACTER + payPWD;
+        payPWD = this.appDataService.customerId + AppDataService.SPECIAL_CHARACTER + payPWD;
+        loginPWD = this.appDataService.customerId + AppDataService.SPECIAL_CHARACTER + loginPWD;
         return this.accountService
             .setAccountPWD(
-                this.cryptoService.MD5(_str),
-                this.cryptoService.MD5(formData.loginPWD),
+                this.cryptoService.MD5(payPWD),
+                this.cryptoService.MD5(loginPWD),
                 formData.check_method.category,
                 formData.vcode,
             )

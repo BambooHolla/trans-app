@@ -21,7 +21,7 @@
             <div item-right class="error-tip" *ngIf="(formData.payPWD && formData.confirmPayPWD && !pwdAgreementPass)">
                 {{'TWO_PASSWORDS_ARE_NOT_IDENTICAL'|translate}}
             </div>
-        </ion-item>
+        </ion-item> 
         <ion-item>
             <ion-label class="form-label with-left-baseline" color="primary">{{'SET_CONFIRM_PASSWORD'|translate}}</ion-label>
             <ion-input type="password" [(ngModel)]="formData.confirmPayPWD" set-input-status="confirmPayPWD" [watch-input-keys]="['payPWD']" placeholder="{{'PLEASE_INPUT_YOUR_TRANSACTION_PASSWORD_AGAIN'|translate}}" (input)="pwdAgreement()"></ion-input>

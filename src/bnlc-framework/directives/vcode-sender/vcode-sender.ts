@@ -32,7 +32,7 @@ export type DataSnapShot = {
 })
 export class VcodeSenderDirective implements OnInit, OnChanges {
     @Output("vcode-sender") sender = new EventEmitter();
-    @Input("auto-send") auto_send = false;
+    @Input("auto-send") auto_send = false; 
     @Input("free-tpl")
     free_template_text: string =
         window["language"]["GAIN_VERIFICATION_CODE"] || "获取验证码";
