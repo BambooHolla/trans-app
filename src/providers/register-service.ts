@@ -39,7 +39,7 @@ export class RegisterService {
             {},
         )
     }
-    sendSMSCode(telephone: string, type = "201", templateType = "2001", sendType?: number, country?: string) {
+    sendSMSCode(telephone: string, type = "201", templateType?: string, sendType?: number, country?: string) {
         // 如果是邮箱
         if (sendType === 0) {
             return this.appService.request(

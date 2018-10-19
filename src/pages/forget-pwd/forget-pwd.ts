@@ -131,7 +131,7 @@ export class ForgetPwdPage {
             await this.registerService.sendSMSCode(
                 customerId,
                 undefined, 
-                "1004",
+                "1007",
                 undefined,
                 this.countryCode,
             );
