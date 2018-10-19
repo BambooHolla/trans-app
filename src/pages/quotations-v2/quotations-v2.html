@@ -43,7 +43,9 @@
                 <ion-slides pager loop autoplay='4000' #bannersSlide (ionSlideDrag)="slideDrag($event,0)" class="news-slides"  (click)="viewNews(0)">
                     <ng-container *ngFor="let banner of bannerList;">
                         <ion-slide>
-                                <div class="banner-img" [style.backgroundImage]="'url('+serverUrl+banner?.cover+')'" alt="PICASSO"> </div>
+                                <div class="banner-img" > 
+                                    <img [src]="serverUrl+banner?.cover" alt="PICASSO">
+                                </div>
                         </ion-slide>
                     </ng-container>
                 </ion-slides>

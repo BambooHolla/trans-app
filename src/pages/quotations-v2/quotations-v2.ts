@@ -39,6 +39,7 @@ export class QuotationsPageV2 {
     @ViewChild("searchInputWrap", { read: ElementRef })
     // 图片url
     public serverUrl = this.appSettin.APP_URL("file/read/");
+   
     // 广告轮播
     private bannerList: any = [];
     // 公告轮播

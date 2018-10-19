@@ -116,6 +116,11 @@ page-quotations-v2 {
             .banner-img,.slide-zoom {
                 width: 100%!important;
                 height: 100%!important;
+                img {
+                    height: 100% !important;
+                    max-width: 100% !important;
+                    width: auto !important;
+                }
             }
             .banner-img {
                 background-repeat: no-repeat;
