@@ -40,3 +40,6 @@ Add this plugin to your app's module
 > $ ionic cordova plugin add cordova-plugin-network-information
 > $ npm install --save @ionic-native/network
 2. Add this plugin to your app's module
+
+### android8 热更新失败解决
+1. https://www.cnblogs.com/wupeng88/p/8567958.html(https://www.cnblogs.com/wupeng88/p/8567958.html)

@@ -133,7 +133,7 @@ export class VersionUpdateDialogPage extends FirstLevelPage {
       this.fileTransfer = this.transfer.create();
       const apk_url = this.version_info.download_link_android;
       // const filename = apk_url.split("/").pop();
-      const filename = "picasso.apk";
+      const filename = `picasso-${this.version_info.version}.apk`;
       // fileTransfer.
 
       this.download_progress = this.sanitizer.bypassSecurityTrustStyle(
@@ -154,7 +154,7 @@ export class VersionUpdateDialogPage extends FirstLevelPage {
       const entry = await this.fileTransfer.download(
         apk_url,
         this.file.externalDataDirectory + filename,
-      );
+      ).catch(err => Promise.reject("由于部分手机出现异常,请您进入手机设置-应用管理-Picasso-权限，将存储权限打开后再进行升级，由此给您带来的不便，敬请谅解"));
       this.fileTransfer = undefined;
       this.isDownloading = false;
 

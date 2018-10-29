@@ -47,8 +47,8 @@ export class UpgradeServiceProvider {
     get fileTransfer() {
         return this.transfer.create();
     }
-    get fileDataDirectory() {
-        return this.file.dataDirectory;
+    get fileDataexternalRootDirectory() {
+        return this.file.externalRootDirectory;
     }
     async checkVersion() {
         const _version: VERSION_INFO = await this.getVersionInfo();

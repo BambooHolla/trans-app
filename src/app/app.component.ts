@@ -184,52 +184,56 @@ export class PicassoApp {
         config.setTransition("custom-dialog-pop-in", CustomDialogPopIn);
         config.setTransition("custom-dialog-pop-out", CustomDialogPopOut);
         // 自动更新
-        (async ()=> {
-            if(platform.is('android')) {
-                const _version = await upService.checkVersion();
-                if(_version && _version.model != 4) {
-                    // 开启自动更新，且需要在wifi状态下
-                    if(appDataService.auto_upgrade && this.network.type === 'wifi') {
-                                let _fileTransfer = this.upService.fileTransfer;
-                                const _fileDataDirectory = this.upService.fileDataDirectory;
-                                const filename = "picasso.apk";
-                                _fileTransfer.download(
-                                    _version.url,
-                                    _fileDataDirectory + filename,
-                                ).then( entry => {
-                                    this.upService.openAPK(entry);
-                                })
-                    } else {
-                        this.modalController.create(
-                            VersionUpdateDialogPage,
-                            { version_info: {
-                                version: _version.version,
-                                changelogs: _version.log,
-                                // hotreload_version: "",
-                                download_link_android: _version.url,
-                                // download_link_ios_plist:
-                                //     "itms-services://?action=download-manifest&url=https://www.ifmchain.com/download.plist",
-                                // download_link_web: "https://www.ifmchain.com/downloadv2.0.html",
-                                // create_time: 50000,
-                                // apk_size: 66666,
-                                // plist_size: 13145,
-                                // "//": "……",
-                                // success: true,
-                                model: _version.model,
-                                info: _version,
-                                }
-                            },
-                            {
-                                enterAnimation: "custom-dialog-pop-in",
-                                leaveAnimation: "custom-dialog-pop-out",
-                            },
-                            
-                        ).present()
+        (time => {
+            setTimeout(async () => {
+                if(platform.is('android')) {
+                    const _version = await upService.checkVersion();
+                    if(_version && _version.model != 4) { 
+                        // 开启自动更新，且需要在wifi状态下
+                        debugger
+                        if(appDataService.auto_upgrade && this.network.type === 'wifi') {
+                            let _fileTransfer = this.upService.fileTransfer;
+                            const _fileDataDirectory = this.upService.fileDataexternalRootDirectory;
+                            const _filename = `picasso-${_version.version}.apk`; 
+                            _fileTransfer.download(
+                                _version.url,
+                                _fileDataDirectory + _filename,
+                            ).then( entry => { 
+                                this.upService.openAPK(entry);
+                            }).catch(err => Promise.reject("由于部分手机出现异常,请您进入手机设置-应用管理-Picasso-权限，将存储权限打开后再进行升级，由此给您带来的不便，敬请谅解"));
+                            this.toastCtrl.create({message:"发现新版本，下载中......",duration: 2000,}).present();
+                        } else {
+                            this.modalController.create(
+                                VersionUpdateDialogPage,
+                                { version_info: {
+                                    version: _version.version,
+                                    changelogs: _version.log,
+                                    // hotreload_version: "",
+                                    download_link_android: _version.url,
+                                    // download_link_ios_plist:
+                                    //     "itms-services://?action=download-manifest&url=https://www.ifmchain.com/download.plist",
+                                    // download_link_web: "https://www.ifmchain.com/downloadv2.0.html",
+                                    // create_time: 50000,
+                                    // apk_size: 66666,
+                                    // plist_size: 13145,
+                                    // "//": "……",
+                                    // success: true,
+                                    model: _version.model,
+                                    info: _version,
+                                    }
+                                },
+                                {
+                                    enterAnimation: "custom-dialog-pop-in",
+                                    leaveAnimation: "custom-dialog-pop-out",
+                                },
+                                
+                            ).present()
+                        }
                     }
+            
                 }
-        
-            }
-        })()
+            }, time);
+        })(3000)
         
         this.appSettingProvider.clearUserInfo();
 
