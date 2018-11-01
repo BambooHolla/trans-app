@@ -1,3 +1,4 @@
+/* TODO:由于初期没弄好，以后有时间统一弄 */
 /* > */
 @font-face {
     font-family: "picasso-icon-right-arrow";
@@ -455,6 +456,27 @@
 
 .picasso-icon-trade-sub:before { content: "\e691"; }
 
+
+
+@font-face {font-family: "picassoicon";
+    src: url('iconfont.eot?t=1541055405108'); /* IE9*/
+    src: url('iconfont.eot?t=1541055405108#iefix') format('embedded-opentype'), /* IE6-IE8 */
+    url('data:application/x-font-woff;charset=utf-8;base64,d09GRgABAAAAAARYAAsAAAAABrQAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAABHU1VCAAABCAAAADMAAABCsP6z7U9TLzIAAAE8AAAARAAAAFY8qEgkY21hcAAAAYAAAABLAAABcOdatkBnbHlmAAABzAAAAJYAAACwxvlTi2hlYWQAAAJkAAAALwAAADYTIM2YaGhlYQAAApQAAAAcAAAAJAfeA4NobXR4AAACsAAAAAgAAAAICAAAAGxvY2EAAAK4AAAABgAAAAYAWAAAbWF4cAAAAsAAAAAgAAAAIAEPAD5uYW1lAAAC4AAAAUUAAAJtPlT+fXBvc3QAAAQoAAAALQAAAD4iNhWweJxjYGRgYOBikGPQYWB0cfMJYeBgYGGAAJAMY05meiJQDMoDyrGAaQ4gZoOIAgCKIwNPAHicY2BkYWCcwMDKwMHUyXSGgYGhH0IzvmYwYuRgYGBiYGVmwAoC0lxTGByeGT0zYm7438AQw9zA0AAUZgTJAQDk9QxHeJxjYGBgZWBgYAZiHSBmYWBgDGFgZAABP6AoI1icmYELLM7CoARWwwISf2b0/z+MBPJZwCQDIxvDKOABkzJQHjisIJiBEQCjLgoxAHicY2BmYPh/kPkOcwMDL4M8gyEDA6OYkR2jqZqKOhsLu4gYox6jOh+juBiLuJmKuYkakM2MIcIoVvD7fjXrv6+nT//7ylrLGDf7laUAHyMrI/fp04zcrII8lq9mYwoxPpO2SLGLr2JirouyS/mXwOhjJ6glFlXHzFQVL6YqZufDyMboayuqJhoNEkoAMmx9GRgABisoggAAeJxjYGRgYABimZwIqXh+m68M3CwMIHCD4chaBP3/IAsDcwOQy8HABBIFAAAXCY4AeJxjYGRgYG7438AQw8IAAkCSkQEVMAEARwgCawQAAAAEAAAAAAAAAABYAAAAAQAAAAIAMgADAAAAAAACAAAACgAKAAAA/wAAAAAAAHicZY9NTsMwEIVf+gekEqqoYIfkBWIBKP0Rq25YVGr3XXTfpk6bKokjx63UA3AejsAJOALcgDvwSCebNpbH37x5Y08A3OAHHo7fLfeRPVwyO3INF7gXrlN/EG6QX4SbaONVuEX9TdjHM6bCbXRheYPXuGL2hHdhDx18CNdwjU/hOvUv4Qb5W7iJO/wKt9Dx6sI+5l5XuI1HL/bHVi+cXqnlQcWhySKTOb+CmV7vkoWt0uqca1vEJlODoF9JU51pW91T7NdD5yIVWZOqCas6SYzKrdnq0AUb5/JRrxeJHoQm5Vhj/rbGAo5xBYUlDowxQhhkiMro6DtVZvSvsUPCXntWPc3ndFsU1P9zhQEC9M9cU7qy0nk6T4E9XxtSdXQrbsuelDSRXs1JErJCXta2VELqATZlV44RelzRiT8oZ0j/AAlabsgAAAB4nGNgYoAALgbsgImRiZGZQaQgMzmxuDhfNzEnR7c8syQjpSixnIEBAGgSCBkAAAA=') format('woff'),
+    url('iconfont.ttf?t=1541055405108') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+*/
+    url('iconfont.svg?t=1541055405108#iconfont') format('svg'); /* iOS 4.1- */
+  }
+  
+  .picassoicon {
+    font-family:"picassoicon" !important;
+    font-size:16px;
+    font-style:normal;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  
+  .icon-picasso-all-withdraw:before { content: "\e632"; }
+  
+  
 
 
 

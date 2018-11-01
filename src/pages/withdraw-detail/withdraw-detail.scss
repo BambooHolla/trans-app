@@ -67,6 +67,13 @@ page-withdraw-detail {
             input {
                 text-align: left!important;
             }
+            .all-withdraw-btn {
+                background-color: transparent !important;
+                color: color($colors, "special");
+                .picassoicon {
+                    font-size: 1.26rem;
+                }
+            }
         }
         .fee-item {
             .label-ios {

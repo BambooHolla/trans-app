@@ -86,6 +86,12 @@
                 <ion-item>
                     <!-- <ion-label color="primary">{{'DEPOSIT_AMOUNT'|translate}}</ion-label> -->
                     <ion-input #amountInputer class="rtl" [(ngModel)]="formData.amount" set-input-status="amount" placeholder="请填写提币数额" min=0 [max]="access_info?.balance" type="number" (ngModelChange)='numberFormat()'></ion-input>
+
+                    <button item-end ion-button color="special" class="all-withdraw-btn" (click)="allWithdraw()">
+                        <span class="picassoicon icon-picasso-all-withdraw"></span>
+                        &nbsp;
+                        全部提现
+                    </button>
                 </ion-item>
             </div>
         <div class="err-box" >
@@ -107,7 +113,7 @@
         <!-- <ion-item-divider class="left-link" (click)="describeModal()">
             <ion-icon name="￥✏"></ion-icon>
             {{'EXPLANATION_OF_AMOUNT_LIMIT'|translate}}
-        </ion-item-divider> -->
+        </ion-item-divider> --> 
         <ion-item class="fee-item">
             手续费
             <span item-end class="transfer-expenses"><span class="value">{{(rate_info?.rateNumber)}}</span> {{productInfo?.productName}}{{productInfo?.cryptoCurrencyCode}}</span>

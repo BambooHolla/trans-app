@@ -606,6 +606,7 @@ export class WithdrawDetailPage extends SecondLevelPage {
  
 
     numberFormat() {
+        debugger
         let amount: any = this.formData.amount;
         if (amount) {
             amount = amount.split(".");
@@ -625,5 +626,10 @@ export class WithdrawDetailPage extends SecondLevelPage {
         this.maxQuotaSwitch = this.promptAmount.max*1 == 0 ? false : 
             (new BigNumber((''+amount)||0)).comparedTo((''+this.promptAmount.max||0)) == 1;
             console.log(this.formData,Object.keys(this.formData).every(k => !!this.formData[k]))
+    }
+
+    allWithdraw() {
+        this.formData.amount = this.access_info.balance;
+        this.numberFormat();
     }
 }
