@@ -11,8 +11,8 @@ import { LoadingController } from "ionic-angular";
 export class KlineReportComponent extends KlineEchartsBaseComponent {
     @Input() riseOrFall: any = "";
     @Output() tooltipEmitted: any = new EventEmitter();
-    private riseColor: string =  this.appDataService.risefallColor ? "#c34935" : "#2b8a5e";
-    private fallColor: string =  !this.appDataService.risefallColor ? "#c34935" : "#2b8a5e";
+    private riseColor: string =  this.appDataService.risefallColor ? "#d9564f" : "#549e5c";
+    private fallColor: string =  !this.appDataService.risefallColor ? "#d9564f" : "#549e5c";
     // 记录报表的最后一个时间，用于判断推送的数据，是旧数据还是新数据，如果没有，就取现在的时间，注：时间格式要对应
     private _LAST_TIME: any;
     // 保存的报表数据
