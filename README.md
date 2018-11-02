@@ -1,7 +1,7 @@
 ## 加密用的特殊字符
 # !#%&(@$^*)~_+
 
-
+## 一键生成启动图  ionic cordova resources --splash
 ## git 
 #### （这里只是列举基本用法，具体分支的创建需观看项目技术文档内的gitflow文档）
 多人进行项目操作，使用`git checkout -b <name>`创建一个属于你的分支，操作完成需要合并到`develop`分支，后上传到`develop`分支。
