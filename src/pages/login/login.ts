@@ -19,6 +19,11 @@ import { AppDataService } from "../../providers/app-data-service";
 import { AppSettings } from "../../providers/app-settings";
 import { CryptoService } from "../../providers/crypto-service";
 import { Storage } from "@ionic/storage";
+import { FLP_Tool } from "../../bnlc-framework/FLP_Tool";
+import { PicassoApp } from "../../app/app.component";
+import { GestureLockPage } from "../gesture-lock/gesture-lock";
+import { TabsPage } from "../tabs/tabs";
+import { SwitchNetworkPage } from "../switch-network/switch-network";
 
 // import { TabsPage } from '../tabs/tabs';
 /**
@@ -33,6 +38,9 @@ import { Storage } from "@ionic/storage";
     templateUrl: "login.html",
 })
 export class LoginPage implements OnInit {
+
+    @FLP_Tool.FromGlobal picassoApp!: PicassoApp;
+
     private verticalCenter: boolean = true;
     private gridPaddingTop: string = "0";
 
@@ -170,7 +178,14 @@ export class LoginPage implements OnInit {
                 codeHeader,
             )) === true
         ) {
-            this.successFn()
+            // this.successFn() ;
+            this.unregisterBackButton();
+            const _is_gesture_lock = await  this.storage.get("gestureLockObj")
+                if(_is_gesture_lock) {
+                    return await this.picassoApp.openPage(TabsPage, undefined, null /*主页*/)
+                } else {
+                    return await this.picassoApp.openPage(GestureLockPage, undefined, null /*手势密码*/);
+                }
         } else {
             this.showCode = true;
             this.getLoginCode();
@@ -216,17 +231,18 @@ export class LoginPage implements OnInit {
         });
     }
     dismiss() {
-        this.unregisterBackButton();
+        this.navCtrl.push(SwitchNetworkPage);
+        // this.unregisterBackButton();
 
-        this.events.subscribe("show login", (status, cb?) => {
-            this.events.unsubscribe("show login");
-            const modal = cb
-                ? this.modalController.create(LoginPage, { cb })
-                : this.modalController.create(LoginPage);
-            modal.present();
-            // this.rootNav.push(page)
-        });
-        this.viewCtrl.dismiss();
+        // this.events.subscribe("show login", (status, cb?) => {
+        //     this.events.unsubscribe("show login");
+        //     const modal = cb
+        //         ? this.modalController.create(LoginPage, { cb })
+        //         : this.modalController.create(LoginPage);
+        //     modal.present();
+        //     // this.rootNav.push(page)
+        // });
+        // this.viewCtrl.dismiss();
     }
 
     codeSwitch: boolean = true;

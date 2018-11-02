@@ -11,6 +11,7 @@ import {
   ToastController,
   ModalController,
 } from "ionic-angular";
+import { PicassoApp } from "../app/app.component";
 const is_dev = (() => {
   const test_fun = function DEV_WITH_FULL_NAME() {};
   return test_fun.name === "DEV_WITH_FULL_NAME";
@@ -31,6 +32,8 @@ export class FLP_Tool {
   @FLP_Tool.FromGlobal platform!: Platform;
   @FLP_Tool.FromGlobal translate!: TranslateService;
   @FLP_Tool.FromGlobal clipboard!: Clipboard;
+
+  @FLP_Tool.FromGlobal picassoApp!: PicassoApp;
   _event?: EventEmitter;
   get event() {
     return this._event || (this._event = new EventEmitter());

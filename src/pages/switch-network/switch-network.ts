@@ -129,7 +129,11 @@ export class SwitchNetworkPage {
                                 JSON.stringify(data.value),
                             );
                             this.appSettingProvider.clearUserToken();
-                            this.navCtrl.parent.select(0);
+                            try {
+                                this.navCtrl.parent.select(0);
+                            } catch(e) {
+                                
+                            }
                             location.reload();
                         },
                     },

@@ -1,6 +1,9 @@
 import {Component, ElementRef, ViewChild, Renderer2} from '@angular/core';
 import {IonicPage, NavController, NavParams, ViewController, Events, Platform, AlertController} from 'ionic-angular';
 import {Storage} from "@ionic/storage";
+import { TabsPage } from '../tabs/tabs';
+import { PicassoApp } from '../../app/app.component';
+import { FLP_Tool } from '../../bnlc-framework/FLP_Tool';
 
 
 
@@ -42,6 +45,7 @@ export class GestureAttemptObj {
   templateUrl: 'gesture-lock.html',
 })
 export class GestureLockPage {
+    @FLP_Tool.FromGlobal picassoApp!: PicassoApp;
   height = Math.floor((window.innerHeight*0.7)) || 320;
   width = Math.floor((window.innerWidth)) || 320;
   chooseType = 3;
@@ -72,6 +76,8 @@ export class GestureLockPage {
   private ctx;
 
   private lockTime = this.lockTimeUnit;
+
+  _is_gesture_lock: boolean = false;
 
   @ViewChild('canvas') canvas: ElementRef;
   textColor = this.tipColor;
@@ -124,11 +130,12 @@ export class GestureLockPage {
       }
     });
     this.hasGestureLock = await this.navParams.get('hasGestureLock');
-    
+    // 新登入
+    this._is_gesture_lock = await  this.storage.get("gestureLockObj")
     if(this.hasGestureLock) {
       this.resetPasswordFun();
     }
-    if( this.hasGestureLock != false && this.hasGestureLock != true && !this.unregisterBackButton) {
+    if( this.hasGestureLock != false && this.hasGestureLock != true && !this.unregisterBackButton && !!this._is_gesture_lock) {
       // 打开app解锁，屏蔽
       this.unregisterBackButton = this.platform.registerBackButtonAction(
         () => {
@@ -165,9 +172,15 @@ export class GestureLockPage {
         // this.drawAll(this.successColor);
         this.drawAll(this.selectedColor);
         this.storage.remove('gestureAttemptObj')
-        this.unregisterBackButton();
+        this.unregisterBackButton && this.unregisterBackButton();
         this.unregisterBackButton = undefined;
-        this.viewCtrl.dismiss()
+        if(this.viewCtrl.isFirst()) {
+            this.picassoApp.openPage(TabsPage)
+        } else {
+            this.viewCtrl.dismiss()
+            
+        }
+       
       } else {   //解锁失败
         this.titleMes = 'GESTURE_UNLOCK_FAIL';
         this.lockFaile(); 
@@ -180,12 +193,18 @@ export class GestureLockPage {
 
         this.storage.set('gestureLockObj', this.gestureLockObj).then( data => {
           setTimeout( () => { 
-            this.navCtrl.pop({
-              animate: true,
-              direction: "back",
-              animation: "ios-transition",
-            })
+            if(this.viewCtrl.isFirst()) {
+                this.picassoApp.openPage(TabsPage)
+            } else {
+                this.navCtrl.pop({
+                    animate: true,
+                    direction: "back",
+                    animation: "ios-transition",
+                })
+                
+            }
           },500)
+
         });
         this.drawAll(this.selectedColor);
         
@@ -285,12 +304,17 @@ export class GestureLockPage {
               this.reset();
               this.hasGestureLock = false;
               setTimeout( () => {
-                this.navCtrl.pop({
-                  animate: true,
-                  direction: "back",
-                  animation: "ios-transition",
-                })
-              },300)
+                if(this.viewCtrl.isFirst()) {
+                    this.picassoApp.openPage(TabsPage)
+                } else {
+                    this.navCtrl.pop({
+                        animate: true,
+                        direction: "back",
+                        animation: "ios-transition",
+                    })
+                    
+                }
+                  },300)
             },
         },
     ],
@@ -469,6 +493,7 @@ export class GestureLockPage {
     this.ctx.closePath();
   }
   showLogin() {
+    this.storage.remove("gestureLockObj");
     this.unregisterBackButton();
     this.unregisterBackButton = undefined;
     this.events.publish(
@@ -476,7 +501,9 @@ export class GestureLockPage {
       "login",
       () => {
         this.storage.remove('gestureAttemptObj');
-        this.viewCtrl.dismiss();
+        // 新登入
+        // this.viewCtrl.dismiss();
+        this.picassoApp.openPage(TabsPage, undefined, null /*主页*/)
       },
     )
   }

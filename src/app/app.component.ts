@@ -1,5 +1,5 @@
 import { Component, Renderer2, Inject, OnInit, ViewChild } from "@angular/core";
-import { Platform, Events, NavController } from "ionic-angular";
+import { Platform, Events, NavController, LoadingOptions } from "ionic-angular";
 import { StatusBar } from "@ionic-native/status-bar";
 import { SplashScreen } from "@ionic-native/splash-screen";
 import { ScreenOrientation } from "@ionic-native/screen-orientation";
@@ -16,6 +16,7 @@ import {
     ToastController,
     ActionSheetController,
     ModalController,
+    Nav,
 } from "ionic-angular";
 import { TranslateService } from "@ngx-translate/core";
 
@@ -45,13 +46,18 @@ import { CustomDialogPopIn, CustomDialogPopOut } from "../pages/custom-dialog/cu
 import { AccountCenterPage } from "../pages/account-center/account-center";
 import { UpgradeServiceProvider } from "../providers/upgrade/upgrade-service";
 import { VersionUpdateDialogPage } from "../pages/version-update-dialog/version-update-dialog";
+
 @Component({
     templateUrl: "app.html",
 })
 export class PicassoApp {
-    @ViewChild('myNav') nav: NavController;
     static WINDOW_MAX_HEIGHT = 0;
+    
+    // @ViewChild('myNav') nav: NavController;
     private rootPage = TabsPage;
+    @ViewChild('myNav') nav: Nav;
+
+
     private loginModal = this.modalController.create(LoginPage);
     private unregisterBackButton:any;
     private loader: Loading;
@@ -122,16 +128,28 @@ export class PicassoApp {
                 this.appDataService.customerId = customerId;
             });
         }
-        if(!!appSettingProvider.getUserToken()) {
-            this.storage.get('gestureLockObj').then( data => {
-                if(data) {
-                    let gesturePage = this.modalController.create(GestureLockPage,{
-                        hasGestureLock: undefined,
-                    });
-                    gesturePage.present();
-                }
-            })
-        }
+        // 新的登录 START
+        // 初始化页面
+        const initPage = (async () => {
+            if(this.appSettingProvider.getUserToken() && await this.storage.get('gestureLockObj')){
+            return GestureLockPage;
+            }
+            return LoginPage;
+        })().catch( error => {
+            console.error("get init page error:", error);
+            return LoginPage;
+        });
+        // 顶的登入 EDN
+        // if(!!appSettingProvider.getUserToken()) {
+        //     this.storage.get('gestureLockObj').then( data => {
+        //         if(data) {
+        //             let gesturePage = this.modalController.create(GestureLockPage,{
+        //                 hasGestureLock: undefined,
+        //             });
+        //             gesturePage.present();
+        //         }
+        //     })
+        // }
         // this.storage.remove('COUNTRY_LIST')
         this.storage.get('COUNTRY_LIST').then( data => {
             if(data) {
@@ -152,7 +170,7 @@ export class PicassoApp {
             }
         })
         
-        window["ac"] = this;
+        window["picassoApp"] = this;
         window["clipboard"] = clipboard;
         window["translate"] = translate;
         window["platform"] = platform; 
@@ -246,10 +264,19 @@ export class PicassoApp {
         this.overlaysWebView();
         statusBar.hide();
         platform.ready().then(() => {
+            // 新登入 START
+            initPage.then(page => {
+                return this.openPage(page)
+              }).catch(error => {
+                console.warn("INIT PAGE ERRROR", error);
+                return this.openPage(LoginPage);
+              })
+            // 新登入 END
             statusBar.show();
             this.overlaysWebView();
             this.afterPlatformReady();
             this.overlaysWebView();
+
         });
 
         this.events.subscribe("show login", (status, cb?) => {
@@ -490,6 +517,64 @@ export class PicassoApp {
     //   this.renderer2.removeClass(rootElem, oldClassName);
     //   this.renderer2.addClass(rootElem, className);
     // }
+
+    currentPage: any;
+  _currentOpeningPage: any; // 前置对象 锁
+  tryInPage: any;
+  async openPage(page: any, force = false, loading_content?: string | null) {
+    this.tryInPage = page;
+    // if (!force) {
+    //   if (
+    //     this.currentPage == FirstRunPage ||
+    //     this.currentPage == ScanPeersPage
+    //   ) {
+    //     return;
+    //   }
+    // }
+    return this._openPage(page, loading_content);
+  }
+  private async _openPage(page: any, loading_content?: string | null) {
+    // if (this.currentPage === page || this._currentOpeningPage === page) {
+    //   return;
+    // }
+    try {
+      this._currentOpeningPage = page;
+      console.log(
+        `%c Open Page:[${page}] and set as root`,
+        "font-size:1.2rem;color:green;",
+      );
+      // if (page === MainPage) {
+      //   if (!(await this.showFAIO(FAIO_CHECK.Login))) {
+      //     return;
+      //   }
+      //   if (loading_content) {
+      //     loading_content = loading_content;
+      //   }
+      // }
+
+      this.currentPage = page;
+      const loading_opts: LoadingOptions = { cssClass: "logo-loading" };
+      const loadinger = loading_content
+        ? this.loadingCtrl.create({
+            content: loading_content || "",
+            ...loading_opts,
+          })
+        : this.loadingCtrl.create(loading_opts);
+      await (loadinger && loadinger.present());
+      try {
+        if (this.nav) {
+          await this.nav.setRoot(page);
+        } else {
+          return this.nav && this.nav.setRoot(page);
+        }
+      } finally {
+        await (loadinger && loadinger.dismiss());
+      }
+    } finally {
+      // 还原临时对象
+      this._currentOpeningPage = this.currentPage;
+    }
+  }
 }
 /*获取window正确的最大高度，可能对于分屏支持有问题*/
 var resizeInfo = document.createElement("div");
