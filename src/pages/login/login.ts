@@ -47,7 +47,7 @@ export class LoginPage implements OnInit {
     private logining: boolean = false;
     private pwd: any = "";
     private custId: any = "";
-    public unregisterBackButton: any;
+    // public unregisterBackButton: any;
     public showCode: boolean = this.appDataService.show_login_code || false;
     public codeSrc: string = "assets/images/code_bg.jpg";
     public codeId: string = "";
@@ -114,11 +114,11 @@ export class LoginPage implements OnInit {
         // this.gridPaddingTop = span + 'px';
     }
     ionViewDidEnter() {
-        this.unregisterBackButton = this.platform.registerBackButtonAction(
-            () => {
-                this.dismiss();
-            },
-        );
+        // this.unregisterBackButton = this.platform.registerBackButtonAction(
+        //     () => {
+        //         this.dismiss();
+        //     },
+        // );
     }
     showPassword(ele: TextInput) {
         ele.type = "text";
@@ -179,7 +179,7 @@ export class LoginPage implements OnInit {
             )) === true
         ) {
             // this.successFn() ;
-            this.unregisterBackButton();
+            // this.unregisterBackButton();
             const _is_gesture_lock = await  this.storage.get("gestureLockObj")
                 if(_is_gesture_lock) {
                     return await this.picassoApp.openPage(TabsPage, undefined, null /*主页*/)
@@ -217,14 +217,14 @@ export class LoginPage implements OnInit {
         return this.navCtrl.push(path, params, opts, done);
     }
     goToRegister() {
-        this.unregisterBackButton();
+        // this.unregisterBackButton();
         this.routeTo("register", {
             raw: this.loginForm.getRawValue(),
             dismissFn: this.dismiss.bind(this),
         });
     }
     goForgetPwd() {
-        this.unregisterBackButton();
+        // this.unregisterBackButton();
         this.navCtrl.push("forget-pwd", {
             customerId: this.customerId.value,
             loginCb: this.init.bind(this),
