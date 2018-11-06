@@ -1,6 +1,10 @@
 ## 加密用的特殊字符
 # !#%&(@$^*)~_+
 
+# 对于需要启动loading动画,cordova目前无有效插件可供使用，找到修改原生框架生成文件，用原生方法进行修改
+> 注：（适用于android，IOS暂无发现）,连接[http://students.ceid.upatras.gr/~besarat/JB/Blog/Entries/2015/3/13_cordova_how_to_create_animated_splashscreen_android.html]
+> 最后一步的修改.java文件，需要到./platforms/android/src/com/picaex/app/MainActivity.java修改
+
 ## 一键生成启动图  ionic cordova resources --splash
 ## git 
 #### （这里只是列举基本用法，具体分支的创建需观看项目技术文档内的gitflow文档）
